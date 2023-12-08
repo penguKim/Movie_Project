@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- HikariCP 라이브러리 사용을 위한 설정(커넥션풀 설정) -->
+	<!-- 1. HikariCP 를 활용한 DB 접속 정보 설정 위해 HikariConfig 객체 설정(JDBC 기본 설정) -->
+	<!-- com.zaxxer.hikari 패키지의 HikariConfig 클래스 지정 및 속성 설정 -->
+	<!-- 객체명은 id 속성으로 지정 -->
+<!-- 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> -->
+			<!-- com.zaxxer.hikari.HikariConfig 클래스를 만들고 리소스 정보를 저장 -->
+<!-- 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property> -->
+<!-- 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/study_spring5"></property> -->
+<!-- 		<property name="username" value="root"></property> -->
+<!-- 		<property name="password" value="1234"></property> -->
+<!-- 	</bean>	 -->
+	
+	<!-- 로그 사용에 필요한 추가 설정 필요 -->
+	<!-- 	driverClassName 은 log4jdbc 드라이버로 교체(내부적으로 MySQL Connector 드라이버와 연결됨) -->
+	<!-- 	jdbcUrl 은 기존 URL 에서 jdbc 와 mysql 사이에 log4j dbc 추가 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- com.zaxxer.hikari.HikariConfig 클래스를 만들고 리소스 정보를 저장 -->
+		<!-- valeu 수정 -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<!-- jdbc:mysql 사이에 log4jdbc: 추가 -->
+		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://itwillbs.com:3306/c5d2308t1"></property>
+		<property name="username" value="c5d2308t1"></property>
+		<property name="password" value="1234"></property>
+	</bean>	
+	
+	<!-- 2. HikariCP 를 통해 커넥션을 관리하는 DataSource 객체(HikariDataSource) 설정 -->
+	<!-- 생성자 파라미터(<constructor-arg ref="">)로 1번에서 생성한 HikariConfig 객체 전달 -->
+	<!-- 커넥션풀을 실제로 실행하는 단계이므로 1단계에서 입력한 정보가 일치하지 않을 경우 -->
+	<!-- 서버 실행 시점에 현재 단계에서 예외 발생 -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="hikariConfig"></constructor-arg>
+	</bean>
+		
+	<!-- 3. Connection 객체 생성, 쿼리 전달 및 결과 리턴 등의 작업을 수행할 SQLSessionFactory 객체 설정 -->
+	<!-- MyBatis - Spring 연결을 담당하며, 내부적으로 SQLSession 객체를 통해 작업 수행 -->
+	<!-- 
+	주의!
+	1. 이전에 이미 DataSource 객체 설정이 완료되어 있어야 함
+	2. <bean> 태그의 id 값, class 값은 고정(id값은 시스템에서 sqlSessionFactory 고정)
+	3. <property> 태그의 name 속성의 dataSource, configLocation, mapperLocations 이름 고정 
+	4. dataSource 속성의 ref 속성값은 2번에서 설정한 id 속성값 사용
+	5. configLocation, mapperLocations 속성(항목)에 지정된 각각의 파일(xml)이 실제 위치에 생성되어 있어야 함
+	   (설정 항목 중 classpath 가 가리키는 기본 위치 : src/main/resources 패키지)
+	   클래스가 사용하는 자원들을 관리하는 패키지이며 value값으로 지정한 파일을 생성해야한다.
+	-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 설정파일(mybatis-config.xml) 지정 -->
+		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+		<!-- 매퍼(이름은 XXXMapper.xml 로 지정해서 만능문자 * 사용) -->
+		<property name="mapperLocations" value="classpath:/com/itwillbs/c5d2308t1/mapper/*Mapper.xml"></property>
+	</bean>
+	
+	<!-- 4. MyBatis 연동에 사용될 객체(클래스)들의 패키지 위치 지정(기본 루트 패키지 지정) -->
+	<mybatis-spring:scan base-package="com.itwillbs.c5d2308t1"/>
+		
+</beans>
