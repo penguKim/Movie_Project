@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- 1차 수정 -->
 <title>영화관</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="resources/css/default.css" rel="stylesheet" type="text/css">
