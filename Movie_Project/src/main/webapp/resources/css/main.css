@@ -1,0 +1,258 @@
+@charset "UTF-8";
+
+/* ============= 이미지 슬라이드에 적용할 css ============== */
+
+.img_slide {
+	width: 100%;
+	height: 550px;
+	background-color: black;	
+}
+
+body {font-family: Verdana, sans-serif; margin:0}
+
+.mySlides {
+	display: none;
+	text-align: center;	
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  max-height: 480px;
+  position: relative;
+  padding: 50px;
+  margin: 0 auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  margin-left: -31px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+
+
+/* =============== 본문 ==================== */
+
+
+#content {
+	position: relative;
+}
+
+
+/* 버튼 메뉴 설정 */
+
+#content ul {
+	text-align: center;
+}
+
+#Sort {
+	text-align: center;
+	margin-left: -40px;
+}
+
+#Sort li {
+	display: inline-block;
+	width: 160px;
+	height: 50px;
+	text-align: center;
+	line-height: 30px;
+	margin: 10px;
+}
+
+#Sort input {
+	border: none;
+	border-bottom: 3px solid #e50914;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #ffffff;
+	cursor: pointer; /* 커서 변경 */
+}
+
+#Sort input:hover {
+	background-color: #eeeeee;
+	border-bottom: 3px solid #000000;
+}
+
+
+#boxoffice {
+	position: relative;
+	left: 60px;
+	text-align: center;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 auto; /* 상하 0px 좌우 자동 정렬*/
+	margin-bottom: 100px;
+	/*
+	flex-wrap 속성은
+	나열된 (정렬된)  요소들의 총 넓이가 부모 넓이보다 클때, 이 요소들을 다음 줄에 이어서 나열 해 주는 기능
+	display: flex;와 함께 기재 해야함!
+	
+	만약 이 속성 사용하지 않으면 기본값으로 flex-wrap:nowrap;이 적용됨
+	이 정렬된 (나열된) 요소들의 넓이는 부모 넓이에 맞게 모두 자동 축소또는 확장됨!
+	
+	쉽게 말해서 이거 없애면 아래 포스터들 크기 다 지맘대로 되는것 같음!!!!
+	*/
+}
+#boxoffice div{ /* 영화 포스터 크기와 정렬에 관한 설정*/
+/* 	position: relative; 현재위치 기준 정렬 */
+    top: 40px; /* 위에서 아래로 40px*/
+    left: 10px;
+     /* 왼쪽에서 오른쪽으로 10% 움직임*/
+    /*임의로 크기를 정했고, 그리고 API에서 포스터 따오면 수정될 영역임으로
+      원하는데로 크기나 위치 조정해도 됨 */     
+}
+#boxoffice img {
+    width: 180px; 
+    height: 260px; /*포스터 가로 세로 크기설정 (200px, 300px)*/
+    padding: 10px; /* 상하좌우 10px씩 밀어냄*/
+}
+
+#boxoffice input {/* 좋아요 버튼에 대한 설정 */
+	background-color: transparent; /* 배경 투명하게*/
+	color: #000;  /* 무색 */
+	border: none;  /* 테두리 없음 */
+	font-size: 20px; /* 글자 크기 */
+	cursor: pointer; /* 마우스 올리면 클릭모양으로 커서 바뀜*/
+}
+
+#boxoffice input:hover {
+	color: red; /* 좋아요 글자에 마우스 가까이 가져가면 빨간색으로 변함*/
+}
+
+
+#main_store {
+	text-align: center; /* 각 카테고리별 중앙 정렬 */
+	margin: 80px auto; /* 각 카테고리내 메뉴 사이 간격 */
+}
+
+#main_page {
+	padding-bottom: 100px;
+}
+
+
+.container {
+    max-width: 1024px;
+    margin: 80px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.event-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ------- 그리드 스타일 목록 -------  */
+.event-section {
+    padding: 20px;
+}
+
+.event-grid {
+    display: grid; /* 그리드 방식 정렬 */
+    grid-template-columns: repeat(4, 1fr); /* 한줄에 4개씩 반복 */
+    grid-gap: 20px; /* 그리드 간격 */
+}
+
+/* 이벤트 항목 */
+.event {
+	border: 1px solid;
+	width: 200px;
+	height: 300px;
+    background-color: #fff;
+/*     padding: 20px; */
+    border-radius: 5px; /* 모서리 라운드 처리 */
+    text-align: center; /* 가운데 정렬 */
+    overflow: hidden;
+    display: table; /* 테이블형식 */
+}
+
+.event a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 색상 제거 */
+	
+}
+
+/* 이벤트 항목의 썸네일 */
+.event-image {
+    width: 100%;
+    height: 100%;
+    display: table-cell; /* 테이블의 셀 형식 */
+    vertical-align:middle; /* 수직 가운데 정렬 */
+}
+
+.event-image img {
+	width: 220px;
+	height: 240px;
+}
+
+/* 이벤트 항목의 제목 */
+.event-title {
+    color: inherit; /* 링크의 색상 제거 */
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0 auto;
+}
+
+/* 이벤트 항목의 날짜 */
+.event-date {
+    color: #999;
+    font-size: 14px;
+}
+

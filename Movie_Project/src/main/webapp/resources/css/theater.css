@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+
+
+#img_div {
+	text-align: center;
+	width:1024px;
+	height:430px;
+	margin: 0 atuo;
+}
+
+#img_div img {
+	width:986px;
+	height:430px;
+	max-width:986px;
+	max-height:430px;
+}
+
+
+.menu{
+	text-align: center; /*  nav 영역 글자 센터 */
+	margin: 20px auto;
+} 
+
+nav li {
+	background-color:#FF3636;
+	display: inline-block /* 메뉴들을 나란히 */;
+	width: 150px; height: 30px; /* 가로 세로 크기 */
+	border-radius:0 0 0 0 ; /* 둥글이? */
+	text-align: center;  /* 글자를 가운데로 */
+	line-height: 30px /* 행간=영역의 높이값
+수직정렬 가운데 */; }
+
+nav li:hover {
+	background-color:#0a0;
+	transition:1.2s;} /* 마우스 오버시 색깔 변화 */
+
+
+ .theater1 ,.theater2,.theater3,.theater4,.theater5{ 
+	margin-top: 5px; /* 영화관끼리 위에랑 사이 띄움*/
+}
+
+.theater1>input,.theater2>input,.theater3>input,.theater4>input,.theater5>input {
+	background-color:#FF3636; /* 메뉴바 색깔 변경 */
+	color : white; /* 글자색을 흰색으로 */
+	width: 150px; height: 30px; /* 가로 세로 크기 */ 
+	border-radius:10px 10px 10px 10px ; /* 둥글이? */
+	text-align: center;  /* 글자를 가운데로 */
+	line-height: 30px /* 행간=영역의 높이값
+	수직정렬 가운데 */;
+	margin-right: 15px;
+}
+
+ 
+td>a{
+	text-decoration-line: none; /* 공지사항에 a 태그 밑줄 없앰 */
+	color: black;} /* 공지사항 a태그 글자색 변경*/
+
+th>a{
+	color: blue;
+} /* 공지사항 옆 더보기 글자색*/
+
+ul>li>a{
+	text-decoration-line: none;
+	color: white;
+}  /* nav - li - a태그 글자색 변경*/
+
+
+.price_table{
+	vertical-align: top;
+	display: inline-block;
+	position: relative;
+	width: 550px;
+}
+
+#price_table {
+	width: 550px;
+	height: 500px;
+	margin-bottom: 100px;
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+	border-top: 1px solid #b2b2b2;
+	border-bottom: 1px solid #b2b2b2;
+}
+
+
+#price_table th, #price_table tr:nth-of-type(6) {
+	border-bottom: 1px solid #b2b2b2;
+	
+}
+
+.theater_right {
+	vertical-align: top;
+	display: inline-block;
+	width: 450px;
+	
+}
+ 
+.notice{
+	width: 450px;
+	height: 180px;
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+	border-top: 1px solid #b2b2b2;
+	border-bottom: 1px solid #b2b2b2;
+	 /* 공지사항 위치 조정 */
+}
+
+.notice a {
+/* 	text-decoration: none; */
+	color: #000;
+}
+
+.notice th {
+	border-bottom: 1px solid #b2b2b2;
+	height: 49px;
+}
+
+#map {
+	margin: 20px 20px 20px 30px;
+} /* 지도 위치 */
+

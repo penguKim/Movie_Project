@@ -1,0 +1,220 @@
+@charset "UTF-8";
+
+#seat_select {
+	margin: 0 auto;	
+	width: 1024px;
+}
+
+#select_info {
+	width: 100%;
+	margin-top: -100px;
+	padding-bottom: 100px;
+}
+
+/* ================= 영화선택 css ===================== */
+
+button { /* 좌석예매 버튼 */
+    padding: 5px 10px;
+    background-color: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 3px; /* 모서리 곡률 */
+    cursor: pointer;
+}
+
+button:hover { /* 버튼 가까이 갔을때 어둡 */
+    background-color: #c70711;
+}
+
+
+#reserve_parameter{ /*화면 가운데로 정렬 하는 코드*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin: 20px;
+}
+
+#reserve_parameter>div{ /* 데이터 입력받는 버튼 크기 조절*/
+	border: 1px solid;
+	width:310px;
+	height:400px;
+/* 	float:left;  왜있는지 모르는 코드 이상 없으면 지울꺼임 */ 
+}
+
+
+.overflow{ /* 데이터가 영역 밖으로 넘어가면 자동으로 스크롤 바 생성*/
+	overflow: auto;
+	display: inline-block;
+}
+
+.overflow b{ /* 제목에 대한 디자인 설정 (영화, 극장, 날짜, 시간)*/
+	background-color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	color: #fff;
+	font-size: 20px;
+	
+}
+
+
+.movie input,.theater input{ /* 버튼을 영역에 대한 크기 설정(영화, 극장)*/
+	width: 285px;
+	height: 50px;
+	border: none;
+}
+
+.date{ /* 날짜 버튼 영역크기 설정(일부러 조금 작게 함)*/
+	width:160px !important;
+}
+
+.date input{
+	width: 140px;
+	height: 50px;
+	border: none;
+	
+}
+
+.time input{
+	width: 60px;
+	height: 20px;
+	margin: 10px;
+}
+
+.selected {
+	background-color: darkgray; /*클릭되면 빨간색으로 seat배경색 바뀜*/
+}
+
+#seat_num {
+	margin: 40px auto;
+}
+
+
+
+
+#end_param{
+	width:auto;
+	text-align: center;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	border:3px solid;
+	background-color: #1D1D1C;
+	color:#fff;
+	height: 100px;
+	margin-bottom: 100px;
+}
+
+
+#end_param td{
+	text-align: center;
+	width: 200px;
+	border-right: 2px solid;
+	height: 50px;
+}
+
+.btnsubmit{
+	width:80px;
+	height: 80px;
+	border-radius: 10px;
+}
+
+/* ================= 좌석선택 css ===================== */
+.seat { /* 좌석에 대한 디자인 */
+    width: 30px;
+    height: 30px;
+    background-color: #ccc; 
+    margin: 5px; 
+    display: inline-block;
+    cursor: pointer; /* 커서를 가져다 대면 클릭할 수 있는 표시로 바뀜 */
+	align-items: center;
+	line-height: 30px;
+}
+
+.seat:nth-of-type(4), .seat:nth-of-type(12) {
+	margin-right: 60px/*좌석의 4번째열과 12번째 열 옆으로 통로만드는 css*/
+}
+
+.NumOfPeo{ /*인원 선택 영역에 대한 배경과 크기 텍스트 위치 설*/
+	background: #ccc;
+	width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px; /* 텍스트 상하 정렬*/
+}
+
+.center{
+	text-align: center;
+}
+
+#end_param{
+	width:auto;
+	text-align: center;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	border:3px solid;
+	background-color: #1D1D1C;
+	color:#fff;
+	height: 100px;
+}
+
+#end_param td{
+	text-align: center;
+	width: 200px;
+	border-right: 2px solid;
+	height: 50px;
+}
+
+#header_box {
+	margin-left: 100px;
+}
+
+/* 상하 테이블 설정에 대한 */
+table.header_box/* , th, td, */ td { 
+/* 	border: 2px solid orange;  영역에대한 수정사항이 있을때 살릴수도 있을 영역 일단 삭제 하지마세요!*/
+	width: 800px; 
+/* 	margin: 0 auto; */
+	text-align: center;
+	margin: 0 auto;
+}
+
+table.hbt td {
+    width: 35px;
+	font-size: 12px;
+}
+
+table.hbt td:nth-of-type(1) {
+    width: 50px;
+}
+
+#height50{
+	height: 70px;
+}
+
+.header_box_Runtime{
+	width: 45%;
+	text-align: left;
+}
+
+table { border-collapse: collapse; }
+
+.text_left{
+	text-align: left;
+}
+
+.header_box_Runtime b{
+	font-size: 20px;
+}
+
+.button{
+	width:80px;
+	height: 80px;
+	border-radius: 10px;
+}
+
+.button_area{
+	width: 80px;
+}

@@ -10,5 +10,7 @@ import com.itwillbs.c5d2308t1.vo.MoviesVO;
 public interface MoviesMapper {
 
 	List<MoviesVO> selectMoviesList();
+
+	int insertMovie(MoviesVO movie);
 	
 }

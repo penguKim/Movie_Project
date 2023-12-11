@@ -1,0 +1,338 @@
+@charset "UTF-8";
+
+/* ---------------- 현재상영작, 상영예정작 ----------------  */
+
+/* 현재상영작, 상영예정작 분류 목록 */
+.movie-menu {
+	text-align: center;
+	
+}
+.movie-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/* 분류 항목 설정 */
+.movie-menu ul li {
+    display: inline-block;
+	margin-bottom: 20px;
+    text-decoration: none; /* 링크의 밑줄 제거 */
+}
+
+.movie-menu input {
+	border: none;
+	border-bottom: 3px solid #e50914;
+	height: 50px;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #ffffff;
+	cursor: pointer; /* 커서 변경 */
+}
+
+.movie-menu input:hover {
+	background-color: #eeeeee;
+	border-bottom: 3px solid #000000;
+}
+
+.movie-menu a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 색상 제거 */
+}
+/* 현재 선택한 항목 굵기 조절 */
+/* .movie-menu ul li.active a { */
+/*     font-weight: bold; 선택된 항목을 굵게 표시 */
+/*     background: #f32; 선택된 항목을 색상 지정 */
+/* } */
+/* ------- 그리드 스타일 목록 -------  */
+.container {
+    max-width: 1200px; /* 그리드 전체 넓이 */
+    margin: 0 auto; /* 가운데 맞춤 */
+}
+
+.movie-section {
+    padding: 20px;
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.movie-grid {
+    display: grid; /* 목록의 그리드 방식 정렬 */
+    grid-template-columns: repeat(4, 1fr); /* 한줄에 5개씩 동일 비율로 반복 */
+    grid-gap: 40px; /* 그리드 간격 */
+}
+
+/* 그리드 1칸의 영화 항목 */
+.movie {
+	width: 200px;
+	height: 420px;
+    background-color: #fff; /* 그리드 한 칸의 배경색 */
+    text-align: center; /* 가운데 정렬 */
+    overflow: hidden; /* 영역 밖은 표시 안함 */
+    display: table; /* 포스터 정렬을 위한 테이블 형식 지정 */
+}
+
+.movie a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 색상 제거 */
+	
+}
+
+/* 상영작 항목의 테두리 */
+.movie-poster {
+	border: 1px solid;
+	height: 350px;
+	border-radius: 5px; /* 모서리 라운드 처리 */
+	overflow:hidden; /* 영역 밖으로 제목 나가지 않게 처리 */
+	text-overflow: ellipsis; /* 영역 밖의 글자는 ... 처리 */
+}
+
+/* 상영작 항목의 포스터 */
+.poster {
+    width: 50%;
+    height: 50%;
+    display: table-cell; /* .movie를 부모로하는 테이블의 셀 형식 */
+    vertical-align:middle; /* 수직 가운데 정렬 */
+}
+/* 부모 div 대비 포스터의 크기 지정 */
+.poster img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 상영작 항목의 제목 */
+.movie title {
+    color: inherit; /* 링크의 색상 제거 */
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+/* 상영작 예매버튼 */
+.reserve_area input {
+	border: 1px solid;
+	background-color: #e50914; /* 버튼 색상 */
+	color: #fff; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	text-decoration: none; /* 링크의 밑줄 제거 */
+	border-radius: 5px; /* 모서리 라운드처리 */
+	cursor: pointer; /* 커서 변경 */
+}
+
+.reserve_area input:hover {
+	background-color: #ce0912;
+}
+
+
+/* ---------------- 상세페이지 ----------------  */
+/* 자식의 상대영역을 위한 포지션지정 */
+.detail_container {
+    max-width: 1200px; /* 표시항목 넓이 지정 */
+    padding: 20px;
+    margin: 0 auto;  /* 가운데 맞춤 */
+	text-align: center;  /* 가운데 정렬 */
+	position: relative;
+}
+/* float으로 띄운 아래의 항목 처리 */
+.clear {
+	clear: both
+	/* float의 영향으로 밀고 올라온
+	다음요소를 제자리로 위치시킨다. */;
+	margin-top:2em;
+}
+
+.detail_info {
+	margin: 10px auto;
+	height: 300px;
+	position: relative;
+	padding-bottom: 20px;
+}
+
+/* 포스터의 위치 지정 */
+.detail_poster {
+	position: absolute;
+	left: 100px;
+	padding: 10px;
+	width: 200px;
+	height: 280px;
+	display: inline-block;
+}
+/* 제목과 기본 정보 */
+.info_title {
+	text-align: justify; /* 양쪽 정렬 */
+	position: relative;
+	left: 70px;
+	width: 500px;
+	height: 300px;
+	display: inline-block;
+}
+/* 제목 크기 지정 */
+.detail_title {
+	font-size: 50px;
+	font-weight: 800;
+	margin-left: 20px;
+}
+/* 영화 정보 위치 지정 */
+.info_title ul {
+	margin-top: 20px;
+	position: absolute;
+	left: 0px;
+	
+}
+
+.info_title li {
+	list-style: none;
+}
+
+.detail_reserve_clear {
+	position: relative;
+	top: 100px;
+	width: 100px;
+}
+
+
+/* 예매 버튼 */
+.detail_reserve_clear input {
+	border: 1px solid;
+	background-color: #e50914; /* 버튼 색상 */
+	color: #fff; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	text-decoration: none; /* 링크의 밑줄 제거 */
+	border-radius: 5px; /* 모서리 라운드처리 */
+	cursor: pointer; /* 커서 변경 */
+	position: absolute;
+	left: 30px; top:70px;
+}
+
+.reserve_area input:hover {
+	background-color: #ce0912;
+}
+
+/* 예매버튼의 텍스트 조절 */
+.detail_reserve a{
+	text-decoration: none;
+	color: #fff;
+	font-weight: 500;
+}
+
+/* 숏컷 버튼 */
+.click_link {
+	margin: 40px auto;
+}
+.click_link a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.click_link li {
+	display: inline-block;
+	width: 150px;
+	height: 50px;
+	text-align: center;
+	line-height: 30px;
+}
+
+.click_link input {
+	border: none;
+	border-bottom: 3px solid #e50914;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #ffffff;
+	cursor: pointer; /* 커서 변경 */
+}
+
+.click_link input:hover {
+	background-color: #eeeeee;
+	border-bottom: 3px solid #000000;
+}
+
+/* 줄거리 */
+.movie_story {
+	width: 600px;
+	height: 400px;
+	text-align: center;
+	margin: 20px auto;
+	padding: 10px;
+}
+
+/* 트레일러 */
+.movie_trailer {
+	width: 600px;
+	height: 400px;
+	text-align: center;
+	margin: 20px auto;
+	padding: 10px;
+}
+
+/* 스틸컷 */
+.movie_cut {
+	width: 800px;
+	height: 400px;
+	text-align: center;
+	margin: 20px auto;
+	padding: 10px;
+}
+
+/* 리뷰 */
+.review {
+	width: 600px;
+	height: 300px;
+	text-align: center;
+	margin: 20px auto;
+	padding: 10px;
+}
+
+.review>table {
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+	border-top: 2px solid #9d9d9d; /* 표상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 표하단줄 */ 
+	width: 600px;
+	margin: 0 auto;
+}
+
+.review>table th {
+	color: #000000;
+	background-color: #f2f2f2; /* 제목 배경색 지정 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border-bottom: 2px solid #9d9d9d; /* 하단줄 */
+}
+
+.review>table td {
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border: none;
+	border-bottom: 2px solid #9d9d9d; /* 하단줄 */
+}
+
+.review input[type="text"] {
+	margin: 10px; /* 여백 */
+	height: 30px; /* 높이지정 */
+	width: 150px; /* 넓이지정 */
+}
+
+.review input[type="button"] { /* 모든 버튼에 */
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #e50914; /* 배경색 빨간색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+}
+
+.review input[type="button"]:hover {  /* 모든 버튼에 마우스오버 시 */
+	background-color: #ce0912;
+}
+
+#movie_story, #movie_trailer, #movie_cut {
+	padding-top: 50px;
+	z-index: -1;
+	position: relative;
+}
+
+#review {
+	padding-top: 50px;
+	z-index: -1;
+	position: relative;
+	margin-bottom: 100px;
+}

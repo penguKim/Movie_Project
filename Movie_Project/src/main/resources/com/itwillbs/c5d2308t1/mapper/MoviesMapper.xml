@@ -8,5 +8,15 @@
 		SELECT *
 		FROM movies
 	</select>
-
+	
+	<insert id="insertMovie">
+		INSERT INTO movies(movie_id, movie_title, movie_release_date, movie_audience)
+		VALUES(
+			#{movie_id},
+			#{movie_title},
+			#{movie_release_date},
+			#{movie_audience}
+		);
+	</insert>
+	
 </mapper>

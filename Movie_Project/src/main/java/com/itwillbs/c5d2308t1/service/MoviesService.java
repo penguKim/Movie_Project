@@ -19,4 +19,9 @@ public class MoviesService {
 		return mapper.selectMoviesList();
 	}
 
+	public int insertMovie(MoviesVO movie) {
+		System.out.println("insertMovie");
+		return mapper.insertMovie(movie);
+	}
+
 }

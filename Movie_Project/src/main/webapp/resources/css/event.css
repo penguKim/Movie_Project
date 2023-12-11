@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+/* ---------------- 이벤트 페이지 ----------------  */
+
+/* 분류 목록 */
+.event-menu {
+	text-align: center;
+}
+
+.event-menu a {
+/*     color: #fff; */
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 색상 제거 */
+}
+
+/* 분류 항목 설정 */
+
+.event-menu li {
+	display: inline-block;
+	width: 150px;
+	height: 50px;
+	text-align: center;
+	line-height: 30px;
+}
+
+.event-menu input {
+	border: none;
+	border-bottom: 3px solid #e50914;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #ffffff;
+	cursor: pointer; /* 커서 변경 */
+}
+
+.event-menu input:hover {
+	background-color: #eeeeee;
+	border-bottom: 3px solid #000000;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+.event-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ------- 그리드 스타일 목록 -------  */
+.event-section {
+    padding: 20px;
+}
+
+.event-grid {
+    display: grid; /* 그리드 방식 정렬 */
+    grid-template-columns: repeat(4, 2fr); /* 한줄에 4개씩 반복 */
+    grid-gap: 20px; /* 그리드 간격 */
+}
+
+/* 이벤트 항목 */
+.event {
+	border: 1px solid;
+	width: 200px;
+	height: 300px;
+    background-color: #fff;
+/*     padding: 20px; */
+    border-radius: 5px; /* 모서리 라운드 처리 */
+    text-align: center; /* 가운데 정렬 */
+    overflow: hidden;
+    display: table; /* 테이블형식 */
+}
+
+.event a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 색상 제거 */
+	
+}
+
+/* 이벤트 항목의 썸네일 */
+.event-image {
+    width: 100%;
+    height: 100%;
+    display: table-cell; /* 테이블의 셀 형식 */
+    vertical-align:middle; /* 수직 가운데 정렬 */
+}
+
+.event-image img {
+	width: 220px;
+	height: 240px;
+}
+
+/* 이벤트 항목의 제목 */
+.event-title {
+    color: inherit; /* 링크의 색상 제거 */
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0 auto;
+}
+
+/* 이벤트 항목의 날짜 */
+.event-date {
+    color: #999;
+    font-size: 14px;
+}
+
+
+/* ---------------- 이벤트 상세 페이지 ----------------  */
+
+.detail_tit h1 {
+	font-size: 30px;
+}
+
+.detail_date p {
+	font-size: 20px;
+}
+
+.detail_img {
+	margin: 0 auto;
+	height: 1300px;
+	text-align: center;
+}
+
+.detail_img img {
+	margin: 10px auto;
+	width: 900px;
+	height: 1200px;
+	padding: 10px;
+}
+

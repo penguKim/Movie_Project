@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+
+/* ======== 전체 영역에 적용할 css ======== */
+
+html {
+	height: 100%;
+	scroll-behavior: smooth;
+}
+
+body {
+	height: 100%;
+	position: relative;	
+	margin: 0;
+}
+
+#wrapper {
+	min-height: 100%;
+	position: relative;
+	width: 100%;
+}
+
+
+#content {
+	width: 1024px;
+	margin: 0 auto;	
+	padding-bottom: 100px;
+}
+
+#main_page {
+	width: 1024px;
+	margin: 0 auto;	
+}
+
+#h01{
+	font-size: 35px; /* 폰트 크기 조정  */
+	text-align: center; /* 스토어 제목 중앙 정렬  */
+}
+
+
+
+#top_area {
+	background-color: #ffffff;
+	padding-top: 15px;
+}
+
+
+#member_area input[type="button"] { /* 로그인, 회원가입 버튼에 */
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #e50914; /* 배경색 빨간색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+}
+
+#member_area input[type="button"]:hover { /* 로그인, 회원가입 버튼에 마우스오버 시 */
+	background-color: #ce0912;
+}
+
+
+
+/* 아이티윌홈으로 ---로그인 회원가입 정렬*/
+#member_area{
+	display: inline-block;
+}
+
+#logo {
+	position: absolute;
+	left: 5px; top: 5px;
+}
+
+#member {
+	position: absolute;
+	right: 5px; top: 5px;
+}
+
+/* 메뉴영역<div id="menu_nav"> 배경색과 글자 정렬*/
+#menu_nav {
+	background-color: #e50914;
+	text-align: center;
+	margin-top: 50px;
+}
+
+/*메뉴<nav> 영역 안의 태그<a>에 대한 정렬 */
+#menu_nav nav {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center; /* 양 끝을 기준으로 정렬 */
+}
+
+
+/*메뉴(nav)영역 안의 <a>태그 글자에 대한 색 설정 밑 글자 크기 설정*/
+#menu_nav a {
+	color: #fff;
+	text-decoration: none; /* 밑줄 없애는 설정 */
+	font-size: 17px;
+	padding: 20px 60px;
+}
+
+/* 메뉴(nav) 영역 마우스 후버시 색상 변경 */
+#menu_nav a:hover {
+	background-color: #ce0912;
+}
+
+#main_p {
+	text-align: center;
+}
+
+/* 메뉴(nav) 영역 아래 수평선 색상 지정 */
+#top_hr {
+	border: 1px solid #e50914;
+}
+
+
+#toplink {
+	padding: 10px;
+	text-decoration: none;
+	border: 1px solid black;
+	border-radius: 50%;
+	position: fixed;
+	right: 0; bottom: 10px;
+	text-align: center;
+	width: 28px;
+    height: 28px;
+    box-shadow: 1px 3px 6px 0 rgba(0, 0, 0, 0.3);
+}
+
+#menu_nav {
+	position: sticky;
+	top: -1px;
+	width: 100%;
+	z-index: 9999;
+}
+
+
+
+/* ================ footer에 적용할 css =============== */
+
+footer {
+	position: absolute;
+	left: 0; bottom: 0;
+	width: 100%;
+	padding-top: 10px;
+}
+
+
+/* =========================================== 관리자페이지 상단 버튼 영역 설정 ======================================== */
+/* 관리자페이지 상단 영역 색상 별도 지정 */
+#top_area_admin {
+	background-color: #ffffff;
+	padding-top: 15px;
+}
+
+#member_area_admin input[type="button"] { /* 관리자 페이지 로그인, 회원가입 버튼에 */
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #505050; /* 배경색 진한 회색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+}
+
+#member_area_admin input[type="button"]:hover { /* 관리자 페이지 로그인, 회원가입 버튼에 마우스오버 시 */
+	background-color: #141414;
+}
+
+#member_area_admin {
+	display: inline-block;
+}
+
+/* ========================================= 관리자 페이지 메뉴(nav) 영역 설정 ============================================================ */
+
+/* 관리자 페이지 메뉴영역<div id="menu_nav_admin"> 배경색과 글자 정렬*/
+#menu_nav_admin {
+	background-color: #505050;
+	text-align: center;
+	margin-top: 50px;
+}
+
+/* 관리자 페이지 메뉴<nav> 영역 안의 태그<a>에 대한 정렬 */
+#menu_nav_admin nav {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center; /* 양 끝을 기준으로 정렬 */
+}
+
+/* 관리자 페이지 메뉴(nav)영역 안의 <a>태그 글자에 대한 색 설정 밑 글자 크기 설정*/
+#menu_nav_admin a {
+	color: #fff;
+	text-decoration: none; /* 밑줄 없애는 설정 */
+	font-size: 17px;
+	padding: 20px 60px;
+}
+
+
+/* 관리자페이지 메뉴(nav) 영역 마우스 후버시 색상 변경 */
+#menu_nav_admin a:hover {
+	background-color: #141414;
+}
+
+#menu_nav_admin {
+	position: sticky;
+	top: -1px;
+	width: 100%;
+	z-index: 9999;
+}
+
+/* 관리자 페이지 메뉴(nav) 영역 아래 수평선 색상 지정 */
+#top_hr_admin {
+	border: 1px solid #505050;
+}
+/* ================================================================================================================================== */

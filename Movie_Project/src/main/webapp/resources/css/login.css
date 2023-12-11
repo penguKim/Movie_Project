@@ -1,0 +1,372 @@
+@charset "UTF-8";
+
+/* ================================================= */
+
+#content {
+	text-align: center;
+}
+
+#mypage_nav {
+	display: inline-block;
+	top: 170px;
+	width: 160px;
+	margin: 10px;
+	vertical-align: top;
+}
+
+
+#my_list, #buy_list, #refund_list {
+	width: 800px;
+	margin: 10px auto;
+	padding-bottom: 30px;
+	position: relative;
+}
+
+
+h1:not(#popup1_wrapper>h1) { /* 제목영역 */
+	margin-top: 20px; /* 위 띄우기 */
+	margin-bottom: 20px; /* 아래 띄우기 */
+	text-align: center; /* 가운데정렬 */
+	position: relative; /* 포지션 기준 잡기 */
+}
+
+h2 {
+	margin-top: 20px; /* 위 띄우기 */
+	margin-bottom: 20px; /* 아래 띄우기 */
+	text-align: left; /* 가운데정렬 */
+}
+
+form:not(#popup1_form) { /* 정보 입력창 */
+	vertical-align: top;
+	display: inline-block;
+	width: 800px; /* 너비 800지정 */
+	margin: 10px auto;
+}
+
+table:not(#popup1_table) {
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+	border-top: 2px solid #9d9d9d; /* 표상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 표하단줄 */ 
+	width: 800px;
+	margin: 0 auto;
+}
+
+
+input[type="button"], input[type="submit"] { /* 모든 버튼에 */
+	padding: 5px 15px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover {
+	background-color: #c90711;
+}
+
+input[type="submit"] { /* 등록 버튼에 */
+	text-align: center;
+}
+
+table {
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+	border-top: 2px solid #9d9d9d; /* 표상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 표하단줄 */ 
+	width: 900px;
+	margin: 0 auto;
+}
+
+th {
+	border-bottom: 2px solid #9d9d9d; /* 제목하단줄 */	
+}
+
+#my_table1 {
+	table-layout: fixed;
+	width: 800px;
+}
+
+#my_table1 tr:nth-child(odd) { /* 홀수줄에만 */
+	background-color: #eeeeee; /* 배경색 넣기 */
+}
+
+#my_table1 th { /* 자주묻는질문, 공지사항 테이블 제목에 */
+	color: #000000;
+	background-color: #f2f2f2; /* 제목 배경색 지정 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+}
+
+#my_table1 td { /* 자주묻는질문, 공지사항 테이블 내용에 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border: none;
+	text-align: center;
+}
+
+/* -----------------login.jsp css 시작---------------- */
+
+.login_center { /* 입력창부분 */
+	text-align: center; /* 가운데정렬 */
+	width: 350px;
+	margin: 0 auto;
+}
+
+#login_top { /* 회원가입 진행사항 표시부분 */
+	margin: 30px 0; /* 위아래 띄우기 */
+	text-align: center;	/* 가운데정렬 */
+}
+
+#login_button { /* 모든 버튼 */
+	margin: 30px; /* 주변 띄우고 */
+	text-align: center; /* 가운데정렬 */
+}
+
+.login_center>#id, .login_center>#passwd, .login_center>#passwd2, .login_center>#member_birth  { /* 비밀번호, 생일에 */
+	border: none; /* 테두리 없애기 */
+	border-bottom: 1.5px solid #AFAFB2; /* 밑줄 */
+	margin: 5px; /*여백*/
+	height: 50px; /* 높이지정 */
+	width: 320px; /* 넓이지정 */
+	font-size: 17px;
+}
+
+.login_center>#name, .login_center>#phone, .login_center>#email { /* 이름, 휴대폰번호, 이메일에 */
+	border: none; /* 테두리 없애기 */
+	border-bottom: 1.5px solid #AFAFB2; /* 밑줄 */
+	margin-bottom: 10px; /* 여백 */
+	height: 50px; /* 높이지정 */
+	width: 320px; /* 넓이지정 */	
+	font-size: 17px;
+}
+
+.login_center>#Certification { /* 이름, 휴대폰번호, 이메일에 */
+	border: none; /* 테두리 없애기 */
+	border-bottom: 1.5px solid #AFAFB2; /* 밑줄 */
+	margin-bottom: 30px; /* 여백 */
+	height: 50px; /* 높이지정 */
+	width: 200px; /* 넓이지정 */	
+	font-size: 17px;
+}
+
+#remember_id {
+	text-align: left;
+	margin-left: 20px;
+}
+
+#api { /* API 아이콘 */
+	text-align: center; /* 가운데정렬 */
+	margin: 10px; /* 주변 여백 */	
+}
+
+#api a {
+	display: inline-block;
+	margin: 5px;	
+}
+
+/* ----------------- login.jsp css 끝----------------------------- */
+
+/* ----------------- 사이드메뉴 시작------------------------------ */
+
+#my_menu>p>a {
+	text-decoration: none; /* 밑줄 없애기 */	
+	color: #ffffff; /* 글씨 색깔 변경 */	
+}
+
+#my_menu a { /* 하이퍼링크에 */
+	text-decoration: none; /* 밑줄 없애기 */	
+	color: #000000; /* 글씨 색깔 변경 */
+}
+
+#my_menu { /* 메뉴바 전체에 */
+	text-align: center; /* 가운데정렬 */
+	width: 160px; /* 넓이지정 */
+	height: 300px; /* 높이지정 */
+ 	border-radius: 3px; /* 모서리 둥글게 */
+ 	background-color: #ffffff; /* 배경색 */
+	border: 2px solid #9d9d9d; /* 테두리 */
+	position: absolute; /* 상대위치지정 */
+	left: 10%; /* 제목에서부터 왼쪽 10% */
+} 
+
+#my_menu p { /* 메뉴바 제목에 */
+	font-size: 23px; /* 글자크기 */
+	font-weight: bold; /* 글자두껍게 */
+	padding: 25px 0;  /* 안쪽여백 */
+	background-color: #e50914; /* 배경색 빨강 */
+	margin: 0;
+}
+
+#my_menu ul { /* 순서없는 목록 전체에 */
+	text-align: center; /* 가운데정렬 */
+	list-style: none; /* 앞 표시 없애기 */
+	font-size: 16px; /* 글자크기 */
+	padding-left: 5px; /* 왼쪽여백 */
+	margin: 0; /* 바깥여백 없애기 */
+}
+
+#my_menu li { /* 순서없는 목록 각 줄에 */
+	padding: 15px 15px; /* 안쪽여백 */
+	width: 130px; /* 너비지정 */
+	font-weight: bold; /* 글자 두껍게 */
+	position: relative;
+	left: -5px; top: 2px;
+	margin: 0px;
+}
+
+#my_menu li:hover { /* 순서없는 목록 각 줄에 마우스 올리면 */
+	background-color: #eeeeee; /* 배경색 회색 */
+}
+
+/* ----------------- 사이드메뉴 끝------------------------------ */
+
+/* ----------------- Mypage.jsp css 시작----------------------------- */
+
+
+#pageNum { /* 페이지번호 전체 영역 */
+	 text-align: center; /* 가운데정렬 */
+	 margin: 15px auto; /* 여백 */
+}
+
+#pageNum>input[type="button"] { /* 공지사항과 자주묻는 페이지번호 */
+	 width: 20px; /* 버튼 너비 지정 */
+	 padding: 5px 0;
+}
+
+#pageNum>a {
+	color: #000000;
+	text-decoration: none;
+	font-size: 18px;
+	margin: 5px 8px;
+}
+
+/* ----------------- Mypage.jsp css 끝----------------------------- */
+
+/* ----------------- login.jsp css 시작----------------------------- */
+
+#login_button1{
+	width: 330px;
+	height: 50px;
+	font-size: 20px;
+	margin: 10px;
+}
+
+#login_top { /* 회원가입 진행사항 표시부분 */
+	margin: 30px 0; /* 위아래 띄우기 */
+	text-align: center;	/* 가운데정렬 */
+}
+
+#move_menu a { /* 하이퍼링크에 */
+	text-decoration: none; /* 밑줄 없애기 */	
+	color: #000000; /* 글씨 색깔 변경 */
+	margin: 10px;
+}
+
+/* ----------------- login.jsp css 끝----------------------------- */
+
+/* ----------------- reservation.jsp css 시작----------------------------- */
+
+.cancle {
+	position: absolute;
+	margin-right: 10px;
+	padding: 0;
+	width: 120px;
+	left: 670px;
+}
+
+
+/* ----------------- popup.jsp css 시작----------------------------- */
+
+#popup1_table{
+	width: 500px;
+	margin: auto;
+}
+
+#popup1_table tr{
+	height: 50px;
+}
+
+#payX{
+	margin-left: 45%;
+}
+
+h1{
+	margin: auto;
+	text-align: center;
+}
+
+#popup1_wrapper{
+	margin:auto;
+	width: 500px;
+	height: 500px;
+}
+
+
+/* ----------------- popup.jsp css 끝----------------------------- */
+#edite{
+	float: right;
+}
+
+
+
+/* ------------------- 마이페이지 ----------------------------- */
+/* 페이지번호 */
+.pagination {
+	padding: 0px 0 0 250px;
+	text-align: center;
+}
+
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.pagination a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+
+/* ------------------- 아이디찾기 ----------------------------- */
+/* 현재상영작, 상영예정작 분류 목록 */
+.login_find {
+	text-align: center;
+	
+}
+.login_find ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/* 분류 항목 설정 */
+.login_find ul li {
+    display: inline-block;
+	margin-bottom: 20px;
+    text-decoration: none; /* 링크의 밑줄 제거 */
+}
+
+.login_find input {
+	border: none;
+	border-bottom: 3px solid #e50914;
+	height: 50px;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #ffffff;
+	cursor: pointer; /* 커서 변경 */
+}
+
+.login_find input:hover {
+	background-color: #eeeeee;
+	border-bottom: 3px solid #000000;
+}
+
+.login_find a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 색상 제거 */
+}

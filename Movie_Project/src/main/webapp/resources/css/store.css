@@ -1,0 +1,515 @@
+@charset "UTF-8";
+
+
+.store_subject { /* 스토어 테이블명 */
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+/* ------------------------스토어 메인 페이지--------------------------- */
+/* 각 카테고리별(베스트, 영화관람권, 스낵)중앙 정렬  */
+#div01 {
+	text-align: center; /* 각 카테고리별 중앙 정렬 */
+	margin: 0 auto; /* 각 카테고리내 메뉴 사이 간격 */
+	padding-top: 50px;
+	z-index: -1;
+	top: -50px;
+}
+
+#div02, #div03 {
+	position: relative;
+	padding-top: 50px;
+	text-align: center; /* 각 카테고리별 중앙 정렬 */
+}
+
+.snack_menu {
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 20px;
+} 
+
+#div01 img, #div02 img, #div03 img {
+/* 	border: 1px solid #000000; */
+/* 	box-shadow: 1px 1px 1px 1px; */
+	text-decoration: none;
+	color: #000000;
+}
+
+.div_store_01 {
+	position: relative;
+}
+
+
+/* 버튼 메뉴 설정 */
+.div_store_01 ul {
+	text-align: center;
+}
+
+.menubtn {
+	text-align: center;
+}
+
+.menubtn li {
+	display: inline-block;
+	width: 160px;
+	height: 50px;
+	text-align: center;
+	line-height: 30px;
+	margin: 10px;
+}
+
+.menubtn input {
+	border: none;
+	border-bottom: 3px solid #e50914;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #ffffff;
+	cursor: pointer; /* 커서 변경 */
+}
+
+.menubtn input:hover {
+	background-color: #eeeeee;
+	border-bottom: 3px solid #000000;
+}
+
+/* 영화관 고객센터 공지 */
+#store_notice {
+	text-align: center; /* 알림 중앙정렬 */
+	margin-bottom: 100px;
+}
+
+#snack_detail{
+	font-size: 13px;
+	color:gray;
+}
+
+#won{
+	font-size: 13px;
+}
+
+
+
+.snack_menu {
+	position: relative;
+}
+
+.snack_menu:hover .cart_btn,
+.snack_menu:hover .pay_btn {
+	opacity: 1;
+	margin-left: 30px;
+	margin-top: 30px;
+}
+
+.snack_menu:hover img {
+	opacity: 0.4;
+}
+
+.cart_btn {
+	position: absolute;
+	top: 60px; left: 35px;
+	opacity: 0;
+	padding: 10px;
+	border-radius: 30%;
+	background-color: #ececec;
+	
+	
+}
+
+.pay_btn {
+	position: absolute;
+	top: 60px; left: 140px;
+	opacity: 0;
+	padding: 10px;
+	border-radius: 30%;
+	background-color: #ececec;
+}
+
+
+/* ----------------------------------------스토어 상세 페이지 css  */
+
+#box_store_view {
+	margin: 20px auto;
+	text-align: center;
+	width: 800px;
+	padding: 50px;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+}
+
+#box_store_view .pay_quantity input {
+	width: 50px;
+}
+
+.left {
+	display: inline-block;
+	padding-left: 50px;
+	width: 230px;
+}
+
+
+.right {
+	vertical-align: top;
+	display: inline-block;
+	text-align: left;
+	padding-left: 90px;
+	padding-top: 30px;
+	width: 400px;
+}
+
+.pay_quantity {
+	text-align: right;
+}
+
+/* 상세페이지 상품 명 */
+#item_name {
+	text-align: center;
+	font-size: 40px;
+	margin-top: 30px;
+}
+
+#store_exap {
+	margin-left: 100px;;
+	margin-bottom: 30px;
+}
+
+#store_expl01 {
+	margin: 10px auto;
+	text-align: left;
+	padding-left: 50px;
+}
+
+#store_expl02 {
+	font-size: 12px; /* 세부내용 폰트 크기 조정 */
+	padding-left: 70px;
+	
+}
+
+#btn_buy {
+    text-align: right;
+}
+
+#btn_buy button {
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #e50914; /* 배경색 빨간색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+}
+
+#btn_buy button:hover { 
+	background-color: #ce0912;
+}
+
+#sum {
+	text-align: right;
+}
+
+/* -----------------------------스토어 결제 페이지--------------------------------- */
+
+/* 상단 진행도 상태창 조절 */
+.store_progress {
+	text-align: center;
+}
+
+.store_progress div {
+	font-size: 30px; 	/* 폰트사이즈 조정 */
+	color: #888; 		/* 폰트 색상 회색 */
+	font-weight: 500;   /* 폰트 굵기 조정 */
+	margin: 10px 10px 30px 10px;	/* 텍스트 사이 오른쪽으로 마진 설정 */
+	display: inline-block; /* 텍스트 정렬 */
+}
+
+.store_progress prog_img {
+	margin: 0px;	/* 텍스트 사이 오른쪽으로 마진 설정 */
+	display: inline-block; /* 텍스트 정렬 */
+}
+
+#prog_img img {
+	width: 50px;
+	height: 50px;
+}
+
+/* 상단 진행도 상태창 STEP 폰트 조절 */
+.store_progress div .step {
+	font-size: 15px; /* STEP 폰트 사이즈 조정 */
+}
+
+/* 상단 진행도 상태창 결제하기 */
+.store_progress #progress_red {
+	color: #dd0000; /* 폰트 색상 빨간색 */
+}
+
+/* 구매 상품 정보 테이블 윗 간격 */
+.store_basket, .store_pay {
+	margin-top: 20px; /* 상단 진행도 상태창과 테이블 사이 간격   */
+	width: 1000px;	/* 화면 가로 길이 조정 */
+	padding-bottom: 50px;
+}
+
+/* 구매상품 정보 */
+
+/* 테이블 위로 가로줄, 아래로 가로줄, 테이블 가로 길이, 약관과의 거리 */
+.store_pay_table {
+	border-top: 2px solid #9d9d9d; /* 표상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 표하단줄 */ 
+	width: 1000px;
+	margin: 0px auto 20px auto;
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+}
+
+/* 테이블내 td 모든 텍스트 중앙 고정 */
+.store_pay_table td { 
+	text-align: center; /* 중앙 고정 */
+}
+
+/* 상품명, 판매금액, 수량, 구매금액 칸 배경 색 및 높이 조정 */
+.store_table_box01{
+	background-color: #ccc; /* 테이블 1번 행 배경 회색 */
+	height: 40px; 			/* 테이블 1번 행 높이 조정 */
+}
+
+/* 상품명  */
+.store_table_box_td {
+	text-align: center; /* 중앙 고정 */
+	width: 250px; 		/* 상품명 가로 길이 조정 */
+}
+/* 상품 및 가격 칸 위치, 높이 조정 */
+.store_table_box02  {
+	text-align: center;  /* 테이블 2번 행 중앙 고정  */
+	height: 150px;		 /* 테이블 2번 행 높이 조정 */
+}
+
+.store_table_box02>td {
+	font-size: 20px;
+}
+
+/* 상품이미지와 상품명 사이 마진 */
+.store_table_box02 img {
+	margin: 10px; /* 마진 10픽셀  */
+	width: 100px;
+	height: 130px;
+}
+
+/* 총상품 금액, 할인금액, 총결제 예정금액 */
+.store_table_box03 {
+	background-color: #ccc; /* 백그라운드 컬러 색상 회색 */
+	height: 40px;  /* 테이블 3번 행 높이 조정 */
+}
+
+/* 테이블 4번행 총 상품금액 */
+.store_table_box04 {
+	height: 90px; /* 테이블 4번 행 높이 조정 */
+}
+
+/* 총 상품 금액의 가격 */
+.store_table_box04 td {
+	font-size: 40px; /* 총상품금액 가격 폰트 사이즈 조정 */
+	font-weight: 600; /* 총상품금액 가격 폰트 굵기 조정 */
+}
+
+/* 총 결제 예정금액 */
+.store_table_box04 .table_box_red {
+	color:#dd0000;	/* 총 결제 예정금액 폰트 색상 빨강 */
+}
+
+/* 주문자 정보확인 */
+
+/* 주문자 정보확인 섹션 라인 설정 */
+.store_member_info {
+	border-top: 2px solid #9d9d9d; /* 상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 하단줄 */ 
+	height: 50px; /* 섹션 높이 조정 */
+	text-align: center;
+	padding-top: 20px;
+}
+
+/* 주문자 정보 내용 */
+.store_member_info span {
+	padding: 30px;
+}
+
+.store_member_info b {
+	font-size: 20px;
+}
+
+.store_member_info input {
+	border: none; /* 테두리 없애기 */
+	border-bottom: 1.5px solid #9d9d9d; /* 밑줄 */
+	height: 25px; /* 높이지정 */
+	width: 150px; /* 넓이지정 */
+}
+
+/* 결제 수단 섹션 라인 설정 */
+.store_payment_line {
+	border-top: 2px solid #9d9d9d; /* 상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 하단줄 */ 
+	height: 60px; /* 섹션 높이 조정 */
+	text-align: center;
+	vertical-align: middle;
+	padding: 10px;
+}
+
+/* 이름 휴대 전화 번호, 결제 방법 text바 위치 조정 */
+.store_payment_line>section {
+	text-align: center; /* 내용 가운데 정렬 */
+	margin: 10px; /* 내용 위치 조절  */
+}
+
+.store_payment_line span {
+	margin: 30px;	
+	padding-top: 10px;
+	font-size: 20px;
+}
+
+.store_payment_line b {
+	font-size: 25px;
+}
+
+/* 주문자 정보 아래 안내 사항 */
+.store_member_info_ex {
+	color: #aaa; 	/* 안내사항 글자 색상 회색 */
+	font-size: 15px; /* 안내사항 글자 크기 조정 */
+	text-align: left; /* 안내사항 왼쪽 정렬 */
+}
+
+/* 결제 수단 */
+.store_payment {
+	margin-top: 30px; /* 결제수단과 주문자 정보사이 간격 조정 */
+}
+
+.store_pay_info_check {
+	height: 50px;
+	margin-top: 20px;
+}
+
+/* 서비스 약관 동의 내역 */
+.store_pay_info_group {
+	background-color: #ddd; /* 서비스 약관 동의 내역 배경 색 회색 */
+	margin-bottom: 20px; /* 서비스 약관 동의내역과 결제 버튼 사이 간격  */
+}
+
+/* 기프트콘 구매 동의 내역 */
+.store_pay_info_group .info01 {
+	border-bottom: 1px solid; /* 기프트콘 구매 동의 내역 아래 안내문 아래 라인 */
+	text-align: left; /* 기프트콘 구매 동의 내역 왼쪽 정렬 */
+	margin-left: 10px; /* 기프트콘 구매 동의 내역 왼쪽 간격 조정 */
+	margin-bottom: 10px; /* 기프트콘 구매 동의 내역 안내문 라인 아래 동의 내역 간격 */
+}
+
+/* 기프트콘 구매 동의 내역 안내문 */
+.store_pay_info_group .info01 .info01_01 {
+	font-size: 12px; /* 안내문 글자 크기 조정 */
+}
+
+/* 결제 대행 서비스 약관 내역 */
+.store_pay_info_group .info02 {
+	text-align: left; 	/* 결제 대행 서비스 약관 내역 왼쪽 정렬 */
+	margin-left: 10px; /* 결제 대행 서비스 약관 내역 왼쪽 간격 조정 */
+}
+
+.paybtn {
+	margin: 20px;
+	text-align: center;
+}
+
+.paybtn input {
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #e50914; /* 배경색 빨간색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+}
+
+.paybtn input:hover {
+	background-color: #ce0912;
+}
+
+
+/* -------------스토어 장바구니  */
+/* 장바구니 테이블에 */
+.store_basket_table, .store_sum_table {
+	border-top: 2px solid #9d9d9d; /* 표상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 표하단줄 */ 
+	width: 1000px;
+	margin: 10px auto;
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+}
+
+/* 상품명, 판매금액, 수량, 구매금액 칸 배경 색 및 높이 조정 */
+.store_basket_table th, .store_sum_table th {
+	text-align: center; /* 중앙 고정 */
+	background-color: #ccc; /* 테이블 1번 행 배경 회색 */
+	height: 40px; 			/* 테이블 1번 행 높이 조정 */
+	font-size: 20px;
+} 
+
+/* 상품 및 가격 칸 위치, 높이 조정 */
+.store_basket_table td {
+	text-align: center;  /* 테이블 2번 행 중앙 고정  */
+	height: 100px;		 /* 테이블 2번 행 높이 조정 */
+	border-top: 1px solid #000;
+	font-size: 20px;
+}
+
+.store_sum_table td {
+	text-align: center;  /* 테이블 2번 행 중앙 고정  */
+	height: 100px;		 /* 테이블 2번 행 높이 조정 */
+	border-top: 1px solid #000;
+	font-size: 40px;
+}
+
+/* 상품이미지와 상품명 사이 마진 */
+.store_basket_table img {
+	width: 70px;
+	height: 70px;
+	margin: 10px; /* 마진 10픽셀  */
+}
+
+.store_basket_table input[type="number"] {
+	width: 50px;
+	height: 25px;
+}
+
+/* 장바구니 30일 문구 */
+#msg {
+	float: left;
+	padding-left: 10px;
+}
+
+/* 삭제버튼 */
+#del_btn {
+	float: right;
+	padding-right: 10px;
+}
+
+/* 밀고 올라온 요소 정리 */
+#clear {
+	clear: both;
+}
+
+/* 결제하기 버튼 영역에 */
+#store_submit {
+	text-align: center;
+}
+
+/* 장바구니 모든 버튼에 */
+.store_basket input[type="button"], .store_basket input[type="submit"] {
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #e50914; /* 배경색 빨간색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+	height: 30px;
+}
+
+.store_basket input[type="button"], .store_basket input[type="submit"]:hover {
+	background-color: #ce0912;
+}
+a{
+ text-decoration-line: none;
+ font-weight: bold;
+ color: black;
+}
