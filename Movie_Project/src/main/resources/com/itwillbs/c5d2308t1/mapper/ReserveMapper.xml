@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.c5d2308t1.mapper.ReserveMapper">
+
+	<select id="selectMovietitle">
+		SELECT movie_title 
+		FROM movies
+	</select>
+	<select id="selectTheaterName">
+		SELECT theater_name 
+		FROM theaters
+	</select>
+	<select id="selectPlayDate_PlayTime">
+		SELECT play_date, play_start_time
+		FROM plays
+	</select>
+	
+	
+</mapper>

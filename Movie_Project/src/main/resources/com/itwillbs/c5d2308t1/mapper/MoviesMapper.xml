@@ -16,7 +16,7 @@
 			#{movie_title},
 			#{movie_release_date},
 			#{movie_audience}
-		);
+		)
 	</insert>
 	
 </mapper>

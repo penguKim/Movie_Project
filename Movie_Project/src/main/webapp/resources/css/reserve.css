@@ -11,6 +11,10 @@
 	padding-bottom: 100px;
 }
 
+#wrapper{
+	user-select: none;
+}
+
 /* ================= 영화선택 css ===================== */
 
 button { /* 좌석예매 버튼 */
