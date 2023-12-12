@@ -37,7 +37,7 @@
 				<form action="" class ="admin_board_notice">
 					<table border="1" id="admin_notice">
 						<tr>
-							<th width="60">번호</th>
+							<th width="30">번호</th>
 							<th width="100">유형</th>
 							<th width="370">제목</th>
 							<th width="100">작성자</th>
@@ -46,78 +46,78 @@
 						<tr>
 							<td>100</td>
 							<td>영화관이용</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>admin</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td>배형</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 공지사항 내용 팝업</a></td>
-							<td>아이유</td>
+							<td>관람권</td>
+							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 					</table>

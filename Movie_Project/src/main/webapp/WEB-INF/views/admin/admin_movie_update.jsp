@@ -8,15 +8,11 @@
 <title>영화 등록 팝업</title>
 <link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
 </head>
-<style>
-input[type="text"], input[type="date"]{
-font-size: 20px;}
-</style>
 <body>
-	<form action="" class="admin_movie_update">
-		<div id="divCtr">
+	<form action="">
+		<div id="grayDiv">
 			<select>
-				<option>아이유의 기묘한모험</option>
+				<option>A영화</option>
 				<option>B영화</option>
 				<option>C영화</option>
 				<option>D영화</option>
@@ -24,7 +20,7 @@ font-size: 20px;}
 				<option>F영화</option>
 			</select>
 			<input type="button" value="조회"><br><br>
-			<img src="iu2.jpg" width="250" height="400"><br>
+			<img src="Cobweb.jpg" width="250" height="400"><br>
 			<input type="file"><br><br>
 			<div id="grayBlock">
 				&nbsp;&nbsp;<sup>영화코드</sup><br>
@@ -32,7 +28,7 @@ font-size: 20px;}
 			</div>
 			<div id="grayBlock">
 				&nbsp;&nbsp;<sup>영화제목</sup><br>
-				&nbsp;&nbsp;<input type="text" value="아이유콘서트">
+				&nbsp;&nbsp;<input type="text" value="거미집">
 			</div>
 			<br><br>
 			<div id="grayBlock">
@@ -41,7 +37,7 @@ font-size: 20px;}
 			</div>
 			<div id="grayBlock">
 				&nbsp;&nbsp;<sup>출연진</sup><br>
-				&nbsp;&nbsp;<input type="text" value="아이유">
+				&nbsp;&nbsp;<input type="text" value="송강호">
 			</div>
 			<br><br>
 			<div id="grayBlock">
@@ -77,7 +73,7 @@ font-size: 20px;}
 			</div>
 			<div id="grayBlock">
 				&nbsp;&nbsp;<sup>장르</sup><br>
-				&nbsp;&nbsp;<input type="text" value="로맨스">
+				&nbsp;&nbsp;<input type="text" value="스릴러">
 			</div>
 			<br><br>
 			<div id="grayBlock">
