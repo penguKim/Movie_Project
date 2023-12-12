@@ -34,7 +34,7 @@
 					<div class="movie-grid">
 					<c:forEach var="movie" items="${movieList}">
 						<div class="movie">
-							<a href="detail">
+							<a href="detail?detailNum=${movie.detailNum}">
 							<div class="movie-poster">
 								<div class="poster">
 									<img alt="" src="${movie.poster}">

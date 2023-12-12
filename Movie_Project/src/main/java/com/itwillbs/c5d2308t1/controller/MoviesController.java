@@ -40,13 +40,131 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.c5d2308t1.service.MoviesService;
 import com.itwillbs.c5d2308t1.vo.KobisAPI;
-import com.itwillbs.c5d2308t1.vo.MovieVO;
+import com.itwillbs.c5d2308t1.vo.CrawlVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 
 @Controller
 public class MoviesController {
 	@Autowired
 	MoviesService movie;
+	
+	@GetMapping("release")
+	public ModelAndView release(Map<String, Object> map) {
+		// 현재 상영작
+		try {
+			// ft=0 => 무비차트, ft=1 => 현재 상영작
+			String url = "http://www.cgv.co.kr/movies/?lt=1&ft=1";
+			
+			Connection con = Jsoup.connect(url);
+			Document doc = con.get();
+			Elements titleElements = doc.select("div.box-contents strong.title"); // 제목
+			Elements posterElements = doc.select("div.box-image span.thumb-image img"); // 포스터 썸네일
+			Elements percentElements = doc.select("div.box-contents div.score strong.percent span"); // 예매율
+			Elements releaseElements = doc.select("div.box-contents span.txt-info strong"); // 개봉일
+			Elements detailElements = doc.select("div.sect-movie-chart div.box-image>a"); // 개봉일
+//			System.out.println(detailElements);
+			
+			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
+			
+			for(int i = 0; i < titleElements.size(); i++) {
+				CrawlVO movie = new CrawlVO();
+				movie.setTitle(titleElements.get(i).text());
+				movie.setPoster(posterElements.get(i).attr("src"));
+				movie.setPercent(percentElements.get(i).text());
+				movie.setRelease(releaseElements.get(i).text());
+				movie.setDetailNum(detailElements.get(i).attr("href").
+						substring(detailElements.get(i).attr("href").lastIndexOf("/")).replace("/?midx=", ""));
+				System.out.println(movie.getDetailNum());
+				movieList.add(movie);
+			}
+			
+			map.put("movieList", movieList);
+		} catch (IOException e) {
+			System.out.println("크롤링 실패");
+			e.printStackTrace();
+		}
+		
+		ModelAndView mav = new ModelAndView("movie/release", map);
+		
+		return mav;
+	}
+	
+	@GetMapping("comming")
+	// 상영 예정작
+	public ModelAndView comming(Map<String, Object> map) {
+		try {
+			
+			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
+			
+			Connection con = Jsoup.connect(url);
+			Document doc = con.get();
+			Elements titleElements = doc.select("div.box-contents strong.title");
+			Elements posterElements = doc.select("div.box-image span.thumb-image img");
+//			Elements detailElements = doc.select("div.box-image a");
+			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
+			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
+			
+			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
+			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
+			for(int i = 3; i < titleElements.size(); i++) {
+				CrawlVO movie = new CrawlVO();
+				movie.setTitle(titleElements.get(i).text());
+				movie.setPoster(posterElements.get(i).attr("src"));
+				movie.setPercent(percentElements.get(i).text());
+				movie.setRelease(releaseElements.get(i).text());
+				movieList.add(movie);
+			}
+			
+			map.put("movieList", movieList);
+		} catch (IOException e) {
+			System.out.println("크롤링 실패");
+			e.printStackTrace();
+		}
+		
+		ModelAndView mav = new ModelAndView("movie/comming", map);
+		
+		return mav;
+	}
+	
+	@GetMapping("detail")
+	public ModelAndView detail(String detailNum, Model model) {
+		System.out.println("영화 상세페이지");
+		
+		try {
+			String url = "http://www.cgv.co.kr/movies/detail-view/?midx=" + detailNum;
+			
+			Connection con = Jsoup.connect(url);
+			Document doc = con.get();
+			Elements titleElements = doc.select("div.box-contents div.title strong");
+			Elements posterElements = doc.select("div.box-image span.thumb-image img");
+			Elements plotElements = doc.select("div#menu.cols-content div.col-detail div.sect-story-movie");
+			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
+//			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
+			System.out.println(titleElements.text());
+			System.out.println(posterElements.attr("src"));
+			System.out.println(plotElements.toString());
+			System.out.println(percentElements.text());
+			
+				CrawlVO movie = new CrawlVO();
+				movie.setTitle(titleElements.text());
+				movie.setPoster(posterElements.attr("src"));
+				movie.setPlot(plotElements.toString());
+				movie.setPercent(percentElements.text());
+			
+			model.addAttribute("movie", movie);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		ModelAndView mav = new ModelAndView("movie/detail", map);
+		return mav;
+	}
 	
 	@GetMapping("Test2")
 	public String test2() {
@@ -88,7 +206,6 @@ public class MoviesController {
 		
 		return "";
 	}
-	
 	
 	
 	@GetMapping("Test")
@@ -222,89 +339,6 @@ public class MoviesController {
 	    }
 		
 		return "";
-	}
-	
-	@GetMapping("release")
-	public ModelAndView release(Map<String, Object> map) {
-		// 현재 상영작
-		try {
-			// ft=0 => 무비차트, ft=1 => 현재 상영작
-			String url = "http://www.cgv.co.kr/movies/?lt=1&ft=1";
-			
-			Connection con = Jsoup.connect(url);
-			Document doc = con.get();
-			Elements titleElements = doc.select("div.box-contents strong.title"); // 제목
-			Elements posterElements = doc.select("div.box-image span.thumb-image img"); // 포스터 썸네일
-			Elements percentElements = doc.select("div.box-contents div.score strong.percent span"); // 예매율
-			Elements releaseElements = doc.select("div.box-contents span.txt-info strong"); // 개봉일
-
-			List<MovieVO> movieList = new ArrayList<MovieVO>();
-			
-			for(int i = 0; i < titleElements.size(); i++) {
-				MovieVO movie = new MovieVO();
-				movie.setTitle(titleElements.get(i).text());
-				movie.setPoster(posterElements.get(i).attr("src"));
-				movie.setPercent(percentElements.get(i).text());
-				movie.setRelease(releaseElements.get(i).text());
-
-				movieList.add(movie);
-			}
-			
-			map.put("movieList", movieList);
-		} catch (IOException e) {
-			System.out.println("크롤링 실패");
-			e.printStackTrace();
-		}
-		
-		ModelAndView mav = new ModelAndView("movie/release", map);
-		
-		return mav;
-	}
-	@GetMapping("comming")
-	// 상영 예정작
-	public ModelAndView comming(Map<String, Object> map) {
-		try {
-			
-			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
-			
-			Connection con = Jsoup.connect(url);
-			Document doc = con.get();
-			Elements titleElements = doc.select("div.box-contents strong.title");
-			Elements posterElements = doc.select("div.box-image span.thumb-image img");
-//			Elements detailElements = doc.select("div.box-image a");
-			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
-			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
-			
-			List<MovieVO> movieList = new ArrayList<MovieVO>();
-			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
-			for(int i = 3; i < titleElements.size(); i++) {
-				MovieVO movie = new MovieVO();
-				movie.setTitle(titleElements.get(i).text());
-				movie.setPoster(posterElements.get(i).attr("src"));
-				movie.setPercent(percentElements.get(i).text());
-				movie.setRelease(releaseElements.get(i).text());
-				movieList.add(movie);
-			}
-			
-			map.put("movieList", movieList);
-		} catch (IOException e) {
-			System.out.println("크롤링 실패");
-			e.printStackTrace();
-		}
-		
-		ModelAndView mav = new ModelAndView("movie/comming", map);
-		
-		return mav;
-	}
-	
-	@GetMapping("detail")
-	public ModelAndView detail(Model model) {
-		
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		ModelAndView mav = new ModelAndView("movie/detail", map);
-		return mav;
 	}
 	
 	

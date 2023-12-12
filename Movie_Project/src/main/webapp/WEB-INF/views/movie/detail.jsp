@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>영화정보</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/css/movie.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
 </head>
 <body>
 	<div id="wrapper">
@@ -20,15 +20,16 @@
 		
 		<section id="content">
 			<h1 id="h01">영화정보</h1>
+			
 			<hr>
 			<section class="detail_container">
 				<!-- 포스터, 제목 영역 -->
 				<div class="detail_info">
 					<div class="detail_poster">
-						<img alt="" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87596/87596_1000.jpg" width="200" height="280">
+						<img alt="" src=${movie.poster } width="200" height="280">
 					</div>	
 					<div class="info_title">
-						<span class="detail_title">나폴레옹</span>
+						<span class="detail_title">${movie.title }</span>
 						<ul>
 							<li><span>기본 정보 : </span> 국가 | 상영시간 | 장르</li>
 							<li><span>개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;봉 : 	</span> 날짜 </li>
@@ -36,7 +37,7 @@
 							<li><span>등&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;급 : </span> 상영등급</li>
 						</ul>
 						<div class="detail_reserve_clear">
-							<a href="../reserve/movie_select1.jsp"">
+							<a href="movie_select">
 								<input type="button" value="예매하기"></a>
 						</div>
 					</div>
@@ -49,21 +50,22 @@
 					<li><a href="#review"><input type="button" value="리뷰"></a></li>	
 				</ul>
 			    <div class="movie_story" id="movie_story">
-			    	<h2>줄거리</h2>
-				    스스로 황제가 된 영웅!<br />
-					1793년 혁명의 불꽃이 프랑스 전역을 밝히기 시작한다.<br />
-					코르시카 출신의 장교 &#39;나폴레옹&#39;(호아킨 피닉스)은<br />
-					혼란스러운 상황 속 국가를 위해 맞서며 영웅으로 떠오른다.<br />
-					<br />
-					한편, 사교 파티에서 영웅 &lsquo;나폴레옹&rsquo;을 만난 &#39;조제핀&#39;(바네사 커비)은<br />
-					자신의 운명을 바꾸기 위해 &lsquo;나폴레옹&rsquo;을 선택하고<br />
-					&lsquo;나폴레옹&rsquo;은 마침내 스스로 황제의 자리에 오르게 된다.<br />
-					<br />
-					하지만, &lsquo;조제핀&rsquo;은 계속해서 &lsquo;나폴레옹&rsquo;을 흔들고,<br />
-					&lsquo;나폴레옹&rsquo;의 야망은 &lsquo;조제핀&rsquo;과 끝없이 충돌하는데&hellip;<br />
-					<br />
-					세상을 정복한 영웅 아무것도 갖지 못한 황제,<br />
-					&lsquo;나폴레옹&rsquo;의 대서사가 펼쳐진다!
+			    ${movie.plot }
+<!-- 			    	<h2>줄거리</h2> -->
+<!-- 				    스스로 황제가 된 영웅!<br /> -->
+<!-- 					1793년 혁명의 불꽃이 프랑스 전역을 밝히기 시작한다.<br /> -->
+<!-- 					코르시카 출신의 장교 &#39;나폴레옹&#39;(호아킨 피닉스)은<br /> -->
+<!-- 					혼란스러운 상황 속 국가를 위해 맞서며 영웅으로 떠오른다.<br /> -->
+<!-- 					<br /> -->
+<!-- 					한편, 사교 파티에서 영웅 &lsquo;나폴레옹&rsquo;을 만난 &#39;조제핀&#39;(바네사 커비)은<br /> -->
+<!-- 					자신의 운명을 바꾸기 위해 &lsquo;나폴레옹&rsquo;을 선택하고<br /> -->
+<!-- 					&lsquo;나폴레옹&rsquo;은 마침내 스스로 황제의 자리에 오르게 된다.<br /> -->
+<!-- 					<br /> -->
+<!-- 					하지만, &lsquo;조제핀&rsquo;은 계속해서 &lsquo;나폴레옹&rsquo;을 흔들고,<br /> -->
+<!-- 					&lsquo;나폴레옹&rsquo;의 야망은 &lsquo;조제핀&rsquo;과 끝없이 충돌하는데&hellip;<br /> -->
+<!-- 					<br /> -->
+<!-- 					세상을 정복한 영웅 아무것도 갖지 못한 황제,<br /> -->
+<!-- 					&lsquo;나폴레옹&rsquo;의 대서사가 펼쳐진다! -->
 			    </div>
 			    <div class="movie_trailer" id="movie_trailer">
 			    	<hr>

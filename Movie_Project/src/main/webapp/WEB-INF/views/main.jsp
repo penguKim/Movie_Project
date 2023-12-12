@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>영화관</title>
-<%-- MS commit test --%>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="resources/css/main.css" rel="stylesheet" type="text/css">
