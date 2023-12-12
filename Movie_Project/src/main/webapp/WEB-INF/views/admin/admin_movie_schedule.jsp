@@ -26,18 +26,18 @@
 			
 			<div id="admin_main">
 				<form action="" class="schedule">
-					<div id="schedule_serch">
+					<div id="schedule_search">
 						<select id="select">
 							<option>A지점</option>
 							<option>B지점</option>
 							<option>C지점</option>
 							<option>D지점</option>
 						</select>
-						<label id="lbl">상영날짜</label> <input type="date">
+						<label id="lbl">상영날짜</label><input type="date">
 						<input type="button" value="조회">&nbsp;&nbsp;&nbsp;
-						<label id="lbl">휴게시간(분)</label> <input type="text">
+						<label id="lbl">휴게시간(분)</label><input type="text">
 					</div>
-					<table border="1" width="1000" height="500" id="tblCtr">
+					<table border="1" width="1000" height="500">
 						<tr>
 							<th width="100">상영관명</th>
 							<th>1회차</th>
