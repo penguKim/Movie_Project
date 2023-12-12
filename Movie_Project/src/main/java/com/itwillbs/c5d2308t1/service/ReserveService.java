@@ -22,5 +22,8 @@ public class ReserveService {
 	public List<ReserveVO> getPlayList() {
 		return mapper.selectPlayDate_PlayTime();
 	}
+	public List<ReserveVO> getSeatList(ReserveVO reserveVO) {
+		return mapper.selectSeatName(reserveVO);
+	}
 
 }

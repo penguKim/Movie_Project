@@ -76,10 +76,10 @@
 	    tableCells[3].textContent = selectedValues.time || '';
 	    
 		// selectedValues의 각 속성을 각각의 hidden input 태그에 설정
-	    document.querySelector('input[name="movie"]').value = selectedValues.movie || '';
-	    document.querySelector('input[name="theater"]').value = selectedValues.theater || '';
-	    document.querySelector('input[name="date"]').value = selectedValues.date || '';
-	    document.querySelector('input[name="time"]').value = selectedValues.time || '';
+	    document.querySelector('input[name="movie_title"]').value = selectedValues.movie || '';
+	    document.querySelector('input[name="theater_name"]').value = selectedValues.theater || '';
+	    document.querySelector('input[name="play_date"]').value = selectedValues.date || '';
+	    document.querySelector('input[name="play_start_time"]').value = selectedValues.time || '';
 	}
 </script>
 </head>
@@ -110,54 +110,12 @@
 							<c:forEach var="playList" items="${playList}">
 								<input type ="button" value="${playList.play_date}" onclick="toggleDate(this)"><br>
 							</c:forEach>
-<%-- 							<c:forEach var="play_date" items="${playList}"> --%>
-<%-- 								<input type ="button" value="${playList.play_start_time}" onclick="toggleMovie(this)"><br> --%>
-<%-- 							</c:forEach> --%>
-<!-- 							2023<br>11<br> -->
-<!-- 							<input type="button" value="수 29" onclick="toggleDate(this)"><br> -->
-<!-- 							<input type="button" value="목 30" onclick="toggleDate(this)"><br> -->
-<!-- 							2023<br>12<br> -->
-<%-- 							<c:set var="Day_of_the_week" value="${fn:split('월,화,수,목,금,토,일', ',')}" /><!-- 요일을 결정지을 변수 선언 --> --%>
-<%-- 							<c:set var="startDay" value="4" /> <!--시작하는 요일은 금요일 --> --%>
-<%-- 							<c:forEach var="i" begin="1" end="31"><!-- 1일부터 31일까지 반복 --> --%>
-<%-- 								<c:set var="day" value="${(i + startDay - 1) % 7}" /><!-- 요일 판별하는 변수 --> --%>
-<%-- 								<c:set var="dayOfWeek" value="" /> --%>
-<%-- 								<c:set var="dayOfWeek" value="${Day_of_the_week[day]}" /> --%>
-<%-- 								<input type="button" value="${i}일 ${dayOfWeek}요일" onclick="toggleDate(this)"><br> --%>
-<%-- 							</c:forEach> --%>
 						</div> 
 						<div class="overflow time"><b>시간</b> 
 							1관 11층<br>
 							<c:forEach var="playList" items="${playList}">
 								<input type ="button" value="${playList.play_start_time}" onclick="toggleTime(this)">
 							</c:forEach>
-							<input type="button" value="10:00" onclick="toggleTime(this)">
-							<input type="button" value="12:00" onclick="toggleTime(this)">
-							<input type="button" value="14:00" onclick="toggleTime(this)"><br>
-							<input type="button" value="16:00" onclick="toggleTime(this)">
-							<input type="button" value="18:00" onclick="toggleTime(this)">
-							<input type="button" value="20:00" onclick="toggleTime(this)"><br>
-							2관 11층<br>
-							<input type="button" value="10:00" onclick="toggleTime(this)">
-							<input type="button" value="12:00" onclick="toggleTime(this)">
-							<input type="button" value="14:00" onclick="toggleTime(this)"><br>
-							<input type="button" value="16:00" onclick="toggleTime(this)">
-							<input type="button" value="18:00" onclick="toggleTime(this)">
-							<input type="button" value="20:00" onclick="toggleTime(this)"><br>
-							3관 11층<br>
-							<input type="button" value="10:00" onclick="toggleTime(this)">
-							<input type="button" value="12:00" onclick="toggleTime(this)">
-							<input type="button" value="14:00" onclick="toggleTime(this)"><br>
-							<input type="button" value="16:00" onclick="toggleTime(this)">
-							<input type="button" value="18:00" onclick="toggleTime(this)">
-							<input type="button" value="20:00" onclick="toggleTime(this)"><br>
-							4관 11층<br>
-							<input type="button" value="10:00" onclick="toggleTime(this)">
-							<input type="button" value="12:00" onclick="toggleTime(this)">
-							<input type="button" value="14:00" onclick="toggleTime(this)"><br>
-							<input type="button" value="16:00" onclick="toggleTime(this)">
-							<input type="button" value="18:00" onclick="toggleTime(this)">
-							<input type="button" value="20:00" onclick="toggleTime(this)"><br>
 						</div>
 				</div>
 			</article>
@@ -172,10 +130,10 @@
 						<td>시간선택</td>
 						<td>
 							<form action="seat_select" method="post">
-							    <input type="hidden" name="movie" value="">
-							    <input type="hidden" name="theater" value="">
-							    <input type="hidden" name="date" value="">
-							    <input type="hidden" name="time" value="">
+							    <input type="hidden" name="movie_title" value="">
+							    <input type="hidden" name="theater_name" value="">
+							    <input type="hidden" name="play_date" value="">
+							    <input type="hidden" name="play_start_time" value="">
 							    <input type="submit" class="btnsubmit" value="좌석선택">
 							</form>
 						</td>

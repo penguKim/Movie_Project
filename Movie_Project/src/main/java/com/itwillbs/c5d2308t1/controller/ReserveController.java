@@ -31,8 +31,12 @@ public class ReserveController {
 	}
 	
 	@PostMapping("seat_select")
-	public String seat_select() {
+	public String seat_select(ReserveVO reserveVO, Model model) {
 		System.out.println("seat_select");
+		System.out.println(reserveVO);
+//		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
+//		model.addAttribute("SeatList",SeatList);
+		
 		return "reserve/seat_select";
 	}
 }

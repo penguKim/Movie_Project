@@ -13,8 +13,17 @@
 		FROM theaters
 	</select>
 	<select id="selectPlayDate_PlayTime">
-		SELECT play_date, play_start_time
+<!-- 		SELECT DATE_FORMAT(play_start_time,"%H:%i") play_start_time, DATE_FORMAT(play_date,'%a %d') play_date  -->
+		SELECT play_start_time, play_date
 		FROM plays
+	</select>
+	<select id="selectSeatName">
+		SELECT seat_name
+		FROM seats 
+		WHERE play_id =(SELECT play_id
+						FROM plays 
+						WHERE play_date = #{play_date}
+						AND play_start_time = #{play_start_time});
 	</select>
 	
 	

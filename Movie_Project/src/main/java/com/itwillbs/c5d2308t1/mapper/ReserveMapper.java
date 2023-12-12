@@ -13,4 +13,5 @@ public interface ReserveMapper {
 	List<ReserveVO> selectMovietitle();
 	List<ReserveVO> selectTheaterName();
 	List<ReserveVO> selectPlayDate_PlayTime();
+	List<ReserveVO> selectSeatName(ReserveVO reserve);
 }
