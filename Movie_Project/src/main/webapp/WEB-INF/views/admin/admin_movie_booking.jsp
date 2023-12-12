@@ -24,9 +24,9 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			
-			<div id="admin_main">
-				<form action="" class ="admin_movie_booking">
-					<table border="1" id="admin_table">
+			<div id="admin_sub">
+				<form action="">
+					<table border="1">
 						<tr>
 							<th>결제번호</th>
 							<th>영화명</th>
@@ -44,9 +44,9 @@
 							<td>지점명A</td>
 							<td>2023-01-01</td>
 							<td>A3, B4</td>
-							<td>비정상인사람</td>
+							<td>다비치</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -57,7 +57,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -68,7 +68,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -79,7 +79,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -90,7 +90,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -101,7 +101,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -112,7 +112,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 					</table>
 					<div class="pagination">

@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>자주 묻는 질문</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/cs.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/cs.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -44,41 +45,25 @@
 					</ul>
 				</nav>
 				
-				<%-- FQA 질문 리스트 --%>
-				<div id="fqa_list">
-					<button class="accordion"><div id="topic">[예매]</div><div id="subject">홈페이지 및 모바일에서 예매 취소는 어떻게 하나요?</div></button>
-					<div class="panel">
-						<p id="writing">■ 홈페이지
-							  [로그인] → [마이] → [예매내역] → [해당 영화 클릭] → [결제취소]
-							
-							■ 모바일 앱
-							  [로그인] → [바로티켓] → 예매 번호 하단 [예매취소] 클릭
-							  [로그인] → [마이] → [결제내역] → 해당 영화 클릭 → [결제취소]
-						</p>
-					</div>
-					<button class="accordion"><div id="topic">[영화관이용]</div><div id="subject">홈페이지 및 모바일에서 예매 취소는 어떻게 하나요?</div></button>
-					<div class="panel">
-						<p id="writing">■ 홈페이지
-							  [로그인] → [마이] → [예매내역] → [해당 영화 클릭] → [결제취소]
-							
-							■ 모바일 앱
-							  [로그인] → [바로티켓] → 예매 번호 하단 [예매취소] 클릭
-							  [로그인] → [마이] → [결제내역] → 해당 영화 클릭 → [결제취소]
-						</p>
-					</div>
-					<button class="accordion"><div id="topic">[할인혜택]</div><div id="subject">홈페이지 및 모바일에서 예매 취소는 어떻게 하나요?</div></button>
-					<div class="panel">
-						<p id="writing">■ 홈페이지
-							  [로그인] → [마이] → [예매내역] → [해당 영화 클릭] → [결제취소]
-							
-							■ 모바일 앱
-							  [로그인] → [바로티켓] → 예매 번호 하단 [예매취소] 클릭
-							  [로그인] → [마이] → [결제내역] → 해당 영화 클릭 → [결제취소]
-						</p>
-					</div>
-				</div>
+				<c:choose>
+					<c:when test="${empty faqList}">
+						자주 묻는 질문 없음
+					</c:when>
+					<c:otherwise>
+						<%-- FQA 질문 리스트 List<CsVO> 객체(faqList) 활용하여 목록 출력 --%>
+						<c:forEach var="faq" items="${faqList}">
+							<div id="fqa_list">
+								<button class="accordion"><div id="topic">[ ${faq.cs_type_detail} ]</div><div id="subject">${faq.cs_subject}</div></button>
+								<div class="panel">
+									<p id="writing">
+										${faq.cs_reply}
+									</p>
+								</div>
+							</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 				
-
 				<script>
 					var acc = document.getElementsByClassName("accordion");
 					var i;

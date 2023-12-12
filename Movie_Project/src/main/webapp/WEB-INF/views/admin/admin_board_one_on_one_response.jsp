@@ -24,12 +24,12 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 
-			<div id="admin_main">
-				<form action="" class = "admin_member_Profile_form">
-					<table border="1" id="admin_member_Profile_table">
+			<div id="admin_sub">
+				<form action="">
+					<table border="1">
 						<tr>
-							<th width="100">번호</th>
-							<td width="500"></td>
+							<th>번호</th>
+							<td></td>
 						</tr>
 						<tr>
 							<th>문의 제목</th>
@@ -45,7 +45,7 @@
 						</tr>
 						<tr>
 							<th>사진 첨부</th>
-							<td style="text-align: left"><input type="file"></td>
+							<td><input type="file"></td>
 						</tr>
 						<tr>
 							<th>답변 제목</th>
