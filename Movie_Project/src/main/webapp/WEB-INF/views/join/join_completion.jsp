@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath }/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/join.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/join.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper"> 
@@ -33,8 +33,8 @@
 				로그인을 하시면 포인트 적립, 쿠폰 등 <br>
 				다양한 혜택을 누리실 수 있습니다. </p>
 				<section id="join_button">
-					<a href="../login/login.jsp"> <input type="button" value="로그인"></a>
-					<a href="../main.jsp"><input type="button" value="메인페이지"></a>
+					<a href="memberLogin"> <input type="button" value="로그인"></a>
+					<a href="main"><input type="button" value="메인페이지"></a>
 				</section>
 				<hr>
 			</form>
