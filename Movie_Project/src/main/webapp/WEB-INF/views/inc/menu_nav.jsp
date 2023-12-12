@@ -7,7 +7,7 @@
 		<a href="${pageContext.request.contextPath}/theater/theater.jsp">극장정보</a>
 		<a href="${pageContext.request.contextPath}/store/store_main.jsp">스토어</a>
 		<a href="${pageContext.request.contextPath}/event/event_movie.jsp">이벤트</a>
-		<a href="${pageContext.request.contextPath}/cs/cs_main.jsp">고객센터</a>
+		<a href="csMain">고객센터</a>
 	</nav>
 </div>
 <hr id="top_hr">

@@ -17,7 +17,6 @@ cs 테이블 정의
 분실일시(lost_datetime) - VARCHAR(20)
 문의답변(cs_reply) - VARCHAR(1000)			
 회원아이디(member_id) - VARCHAR(20), FK(members)
-문의지점(theater_id) - int, FK(theaters)
 -----------------------------------------
 create table cs (
 	cs_id INT PRIMARY key AUTO_INCREMENT,
@@ -33,8 +32,7 @@ create table cs (
 	cs_reply VARCHAR(1000),			
 	member_id VARCHAR(20),
 	theater_id int,
-	FOREIGN KEY(member_id) REFERENCES members(member_id),
-	FOREIGN KEY(theater_id) REFERENCES theaters(theater_id)
+	FOREIGN KEY(member_id) REFERENCES members(member_id)
 )
 */
 

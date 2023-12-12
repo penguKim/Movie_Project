@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<script type="text/javascript" src="js/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="resources/js/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(function() {
