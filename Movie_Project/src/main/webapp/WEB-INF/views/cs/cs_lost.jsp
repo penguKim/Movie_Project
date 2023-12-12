@@ -6,12 +6,22 @@
 <meta charset="UTF-8">
 <title>분실물 문의</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/cs.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-3.7.1.js"></script>
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/cs.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
+	<%-- 분실 일시는 오늘 날짜 이전만 선택할 수 있음 --%>
 	$(function() {
+		var now_utc = Date.now() // 지금 날짜를 밀리초로
+		// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+		var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+		// new Date(today-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
+		var today = new Date(now_utc-timeOff).toISOString().substring(0, 16);
 		
+		$("#lost_datetime").attr("max", today);
+	});
+	
+	$(function() {
 		// id 선택자 없는 경우 name 속성 지정하여 설정함. id 선택자 추가 가능(css 꼬일까봐 안했습니다) 
 		$("form").submit(function() {
 			// 개인정보 수집 동의 미 체크 시 
@@ -19,15 +29,15 @@
 				alert("개인정보 수집에 대한 동의를 선택해 주세요");
 				return false;
 				// 분실장소 미선택시 
-			} else if($("select[name=place]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+			} else if($("select[name=theater_id]").val() == "") { // id 선택자 값 없어서 name 속성 지정
 				alert("분실장소 선택은 필수입니다");
-				$("select[name=place]").focus();
+				$("select[name=theater_id]").focus();
 				return false;
 				// 분실물 일시 내용 없을 시 
 				// 시간 선택을 입력 없이 캘린더 선택만 하는건 어떤지?
-			} else if($("input[name=time]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+			} else if($("input[name=lost_datetime]").val() == "") { // id 선택자 값 없어서 name 속성 지정
 				alert("분실일시 선택은 필수입니다");
-				$("input[name=time]").focus();
+				$("input[name=lost_datetime]").focus();
 				return false;
 				// id 세션값으로 가져올 예정임
 				// 현재 세션 값이 없어서 하나 만들어둠
@@ -40,41 +50,14 @@
 				$("#title").focus();
 				return false;
 				// 분실물 주의 입력 내용 없을 시 
-			} else if($("textarea[name=content]").val() == "") {  // id 선택자 값 없어서 name 속성 지정
+			} else if($("textarea[name=cs_content]").val() == "") {  // id 선택자 값 없어서 name 속성 지정
 				alert("내용 입력은 필수입니다");
-				$("textarea[name=content]").focus();
+				$("textarea[name=cs_content]").focus();
 				return false;
 			}
 			return true;
 		});
 	});
-	
-// 	window.onload = function() {
- 		<%-- "등록" 클릭 시 
-    	모든 필수 항목이 입력되었을 경우에만 submit 동작이 수행되도록 처리 --%>
-// 		document.csForm.onsubmit = function() {
-// 			if(document.csForm.place.value == "") {
-// 				alert("분실장소 선택은 필수입니다");
-// 				document.csForm.place.focus();
-// 				return false; // submit 동작 취소
-// 			} else if(document.csForm.time.value == "") {
-// 				alert("분실일시 선택은 필수입니다");
-// 				document.csForm.time.focus();
-// 				return false; // submit 동작 취소
-// 			} else if(document.csForm.title.value == "") {
-// 				alert("제목 입력은 필수입니다");
-// 				document.csForm.title.focus();
-// 				return false; // submit 동작 취소
-// 			} else if(document.csForm.content.value == "") {
-// 				alert("내용은 필수입니다");
-// 				document.csForm.content.focus();
-// 				return false; // submit 동작 취소
-// 			}
-// 			return true; // submit 동작 수행(생략 가능)
-// 		};
-// 	}; // window.onload 이벤트 끝
-
-
 </script>
 </head>
 <body>
@@ -91,7 +74,7 @@
 			<div id="cs_nav"> <%-- 사이드 메뉴바 --%>
 				<jsp:include page="cs_menubar.jsp"></jsp:include>
 			</div>
-			<form action="cs_main.jsp" method=""  name="csForm">
+			<form action="csBoardPro" method="post"  name="csForm">
 				<p>분실물에 관련하여 문의가 있으시면 아래의 정보를 입력해주세요.
 				담당자 확인 후 신속히 답변을 드리겠습니다.</p>
 				<section id="agree_msg"> <%-- 개인정보 수집 동의 영역 --%>
@@ -119,32 +102,33 @@
 						<tr>
 							<th>분실장소<b>*</b></th>
 							<td>
-								<select name="place" >
-									<option value="">전체검색</option>
-									<option value="지점명">지점명A</option> <%-- 지점명 정해지면 수정 --%>
-									<option value="지점명">지점명B</option>
+								<select name="theater_id" >
+									<option value="0">전체검색</option>
+									<option value="1">지점명A</option> <%-- 지점명 정해지면 수정 --%>
+									<option value="2">지점명B</option>
 								</select>
 							</td>
 							<th>분실일시<b>*</b></th>
 							<td>
-								<input type="datetime-local" name="time">
+								<input type="datetime-local" id="lost_datetime" name="lost_datetime">
 							</td>
 						</tr>
 						<tr>
 							<th>아이디<b>*</b></th>
-							<td colspan="3"><input type="text" id="id"></td> <%-- 세션아이디 받아오기 --%>
+							<td colspan="3"><input type="text" id="id" name="member_id" value="aassdd" readonly></td> <%-- 세션아이디 받아오기 --%>
 						</tr>
 						<tr>
 							<th>제목<b>*</b></th>
-							<td colspan="3"><input type="text" id="title" name="title"></td>
+							<td colspan="3"><input type="text" id="title" name="cs_subject"></td>
 						</tr>
 						<tr>
 							<th>내용<b>*</b></th>
-							<td colspan="3"><textarea rows="15" cols="90" name="content"></textarea></td>
+							<td colspan="3"><textarea rows="15" cols="90" name="cs_content"></textarea></td>
 						</tr>
 						<tr>
 							<th>첨부파일</th>
-							<td colspan="3"><input type="file" id="file"></td>
+							<td colspan="3"><input type="file" id="file" name="cs_file" value="파일"></td>
+							<input type="hidden" name="cs_type" value="분실물문의">
 						</tr>
 					</table>
 					<div id="cs_button">
