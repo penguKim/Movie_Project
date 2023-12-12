@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.itwillbs.team_project.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.CsVO;
 
 @Mapper
 public interface CsMapper {

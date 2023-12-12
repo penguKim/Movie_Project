@@ -2,7 +2,7 @@ package com.itwillbs.c5d2308t1.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.itwillbs.team_project.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
 
 @Mapper
 public interface JoinMapper {

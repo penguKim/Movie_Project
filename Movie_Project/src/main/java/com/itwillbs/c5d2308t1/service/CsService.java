@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.team_project.mapper.CsMapper;
-import com.itwillbs.team_project.vo.CsVO;
+import com.itwillbs.c5d2308t1.mapper.CsMapper;
+import com.itwillbs.c5d2308t1.vo.CsVO;
 
 @Service
 public class CsService {

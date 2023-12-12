@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.itwillbs.team_project.service.JoinService;
-import com.itwillbs.team_project.vo.MemberVO;
+import com.itwillbs.c5d2308t1.service.JoinService;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
 
 @Controller
 public class JoinController {

@@ -3,8 +3,8 @@ package com.itwillbs.c5d2308t1.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.team_project.mapper.JoinMapper;
-import com.itwillbs.team_project.vo.MemberVO;
+import com.itwillbs.c5d2308t1.mapper.JoinMapper;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
 
 @Service
 public class JoinService {

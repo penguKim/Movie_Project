@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.itwillbs.team_project.service.CsService;
-import com.itwillbs.team_project.vo.CsVO;
+import com.itwillbs.c5d2308t1.service.CsService;
+import com.itwillbs.c5d2308t1.vo.CsVO;
 
 @Controller
 public class CsController {
