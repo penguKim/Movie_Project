@@ -92,19 +92,19 @@ public class CsController {
 	
 	
 	// 고객센터 공지사항 상세 페이지로 이동
-	@GetMapping("csNoticeDetail")
-	public String csNoticeDetail(CsVO cs, Model model) {
-		// CsService - getNoticeList() 메서드 호출하여 공지사항 출력
-		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeList)
-		List<CsVO> noticeList = service.getNoticeList();
-		System.out.println(noticeList);
-		
-		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
-		model.addAttribute("noticeList", noticeList);
-		
-		return "cs_notice_detail";
-	}
-	
+//	@GetMapping("csNoticeDetail")
+//	public String csNoticeDetail(CsVO cs, Model model) {
+//		// CsService - getNoticeList() 메서드 호출하여 공지사항 출력
+//		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeList)
+//		List<CsVO> noticeList = service.getNoticeList();
+//		System.out.println(noticeList);
+//		
+//		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
+//		model.addAttribute("noticeList", noticeList);
+//		
+//		return "cs_notice_detail";
+//	}
+//	
 	
 	
 	

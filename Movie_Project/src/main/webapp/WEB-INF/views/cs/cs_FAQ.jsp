@@ -9,6 +9,8 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/cs.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -37,11 +39,11 @@
 			
 				<nav id="fqa_button">
 					<ul>
-						<li><a href="#div01"><input type="button" value="전체"></a></li> <%-- 전체 질문 보기 --%>
-						<li><a href="#div02"><input type="button" value="예매"></a></li> <%-- 예매 관련 질문 모아보기 --%>
-						<li><a href="#div03"><input type="button" value="관람권"></a></li> <%-- 관람권 관련 질문 모아보기 --%>
-						<li><a href="#div03"><input type="button" value="할인혜택"></a></li> <%-- 할인 관련 질문 모아보기 --%>
-						<li><a href="#div03"><input type="button" value="영화관이용"></a></li> <%-- 영화관 관련 질문 모아보기 --%>
+						<li><a href="#div01"><input type="button" value="전체" id="all"></a></li> <%-- 전체 질문 보기 --%>
+						<li><a href="#div02"><input type="button" value="예매" id="reserve"></a></li> <%-- 예매 관련 질문 모아보기 --%>
+						<li><a href="#div03"><input type="button" value="관람권" id="ticket"></a></li> <%-- 관람권 관련 질문 모아보기 --%>
+						<li><a href="#div03"><input type="button" value="할인혜택" id="discount"></a></li> <%-- 할인 관련 질문 모아보기 --%>
+						<li><a href="#div03"><input type="button" value="영화관이용" id="theater"></a></li> <%-- 영화관 관련 질문 모아보기 --%>
 					</ul>
 				</nav>
 				
@@ -56,7 +58,7 @@
 								<button class="accordion"><div id="topic">[ ${faq.cs_type_detail} ]</div><div id="subject">${faq.cs_subject}</div></button>
 								<div class="panel">
 									<p id="writing">
-										${faq.cs_reply}
+										${faq.cs_content}
 									</p>
 								</div>
 							</div>

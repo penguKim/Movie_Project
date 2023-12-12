@@ -24,12 +24,12 @@ public class CsService {
 	}
 
 	public List<CsVO> getFqaList() {
-		// CsMapper - selectBoardList() 메서드 호출하여 자주묻는질문, 공지사항 목록 조회 요청
+		// CsMapper - selectFqaList() 메서드 호출하여 자주묻는질문 목록 조회 요청
 		return mapper.selectFqaList();
 	}
 	
 	public List<CsVO> getNoticeList() {
-		// CsMapper - selectBoardList() 메서드 호출하여 자주묻는질문, 공지사항 목록 조회 요청
+		// CsMapper - selectNoticeList() 메서드 호출하여 공지사항 목록 조회 요청
 		return mapper.selectNoticeList();
 	}
 	

@@ -20,6 +20,12 @@ public class JoinService {
 		// => 파라미터 : MemberVO 객체   리턴타입 : int
 		return mapper.insertMember(member);
 	}
-	
+
+	// 아이디 중복검사를 위해 DB에 접근
+//	public int idCheck(String member_id) throws Exception {
+//        
+//        return mapper.idCheck(member_id);
+//    }
+//	
 	
 }

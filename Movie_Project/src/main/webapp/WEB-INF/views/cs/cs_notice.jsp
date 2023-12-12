@@ -55,8 +55,8 @@
 								<c:forEach var="notice" items="${noticeList}">
 									<tr>
 										<td>${notice.cs_type_list_num}</td> <%-- 내용 넣기 --%>
-										<td>${notice.theater_id}</td>
-										<td><a href="cs_notice_detail.jsp" id="notice_tit">${notice.cs_subject}</a></td>
+										<td>지점명</td>
+										<td><a href="csNoticeDetail" id="notice_tit">${notice.cs_subject}</a></td>
 										<td><fmt:formatDate value="${notice.cs_date}" pattern="yyyy.MM.dd"/></td>
 									</tr>
 								</c:forEach>

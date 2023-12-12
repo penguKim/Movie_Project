@@ -21,6 +21,10 @@
 			, null
 		)		
 	</insert>
+	
+<!-- 	<select id="idCheck" resultType="com.itwillbs.c5d2308t1.vo.JoinVO"> -->
+<!-- 		SELECT COUNT(member_id) FROM members where member_id = #{member_id} -->
+<!-- 	</select> -->
 </mapper>
 
 

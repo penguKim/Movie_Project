@@ -10,4 +10,7 @@ public interface JoinMapper {
 	// 회원정보 등록 - 추상메서드 정의
 	int insertMember(MemberVO member);
 
+	// 아이디 중복검사 - 추상메서드 정의
+//	int idCheck(String member_id);
+
 }

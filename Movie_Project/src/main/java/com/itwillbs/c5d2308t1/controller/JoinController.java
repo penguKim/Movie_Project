@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.JoinService;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
@@ -52,6 +54,17 @@ public class JoinController {
 		
 		return "join/join_completion";
 	}
+	
+	// 아이디 중복검사를 위해 DB에 접근
+//	@PostMapping("idCheck")
+//	@ResponseBody
+//	public String idCheck(@RequestParam("member_id") String member_id) throws Exception {
+//		int idCheck = service.idCheck(member_id);   
+//		System.out.println(idCheck);
+//		
+//		return "join_form";
+//		
+//	}
 	
 	// 로그인 페이지로 이동
 	@GetMapping("memberLogin")
