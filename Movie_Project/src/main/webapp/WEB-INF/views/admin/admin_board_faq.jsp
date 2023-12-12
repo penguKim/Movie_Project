@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>자주 묻는 질문 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -25,7 +25,7 @@
 			</div>
 			
 			<div id="admin_main">
-				<nav id="fqa_button">
+				<nav id="faq_button">
 					<ul>
 						<li><a href="#div01"><input type="button" value="전체"></a></li> <%-- 전체 질문 보기 --%>
 						<li><a href="#div02"><input type="button" value="예매"></a></li> <%-- 예매 관련 질문 모아보기 --%>
@@ -34,8 +34,8 @@
 						<li><a href="#div03"><input type="button" value="영화관이용"></a></li> <%-- 영화관 관련 질문 모아보기 --%>
 					</ul>
 				</nav>
-				<form action="" class ="admin_board_notice">
-					<table border="1" id="admin_notice">
+				<form action="">
+					<table border="1">
 						<tr>
 							<th width="30">번호</th>
 							<th width="100">유형</th>
@@ -46,84 +46,83 @@
 						<tr>
 							<td>100</td>
 							<td>영화관이용</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>admin</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
 							<td>관람권</td>
-							<td class="post_name"><a href="admin_board_faq_modify.jsp">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
 							<td>관리자</td>
 							<td>2023-11-16</td>
 						</tr>
 					</table>
 					<div id="admin_writer">
-						<input type="button" value="글쓰기" 
-						onclick = "location.href='admin_board_faq_write.jsp'">
+						<a href="adminFaqWrt"><input type="button" value="글쓰기"></a>
 					</div>
 					<div class="pagination">
 						<a href="#">&laquo;</a>

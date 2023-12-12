@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>회원정보 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -26,7 +26,7 @@
 			
 			<div id="admin_main">
 				<form action="" class="admin_member">
-					<table border="1" width="1000" id="members">
+					<table border="1" width="1000">
 						<div id="member_Search">
 							<input type="text" placeholder="조회할 회원정보 입력">
 							<input type="button" value="조회">
@@ -43,16 +43,14 @@
 							<td>유형입니다</td>
 							<td>제목입니다</td>
 							<td>작성자입니다</td>
-							<td><input type="button" value="회원" id="admin_member" 
-							onclick="location.href='admin_member_modify.jsp'"></td>
+							<td><a href="adminMemberMod"><input type="button" value="회원" id="admin_member"></a></td>
 						</tr>
 						<tr>
 							<td>번호입니다</td>
 							<td>유형입니다</td>
 							<td>제목입니다</td>
 							<td>작성자입니다</td>
-							<td><input type="button" value="회원" id="admin_member" 
-							onclick="location.href='admin_member_modify.jsp'"></td>
+							<td><a href="adminMemberMod"><input type="button" value="회원" id="admin_member"></a></td>
 						</tr>
 						<tr>
 							<td>번호입니다</td>
@@ -75,8 +73,7 @@
 							<td>유형입니다</td>
 							<td>제목입니다</td>
 							<td>작성자입니다</td>
-							<td><input type="button" value="회원" id="admin_member" 
-							onclick="location.href='admin_member_modify.jsp'"></td>
+							<td><a href="adminMemberMod"><input type="button" value="회원" id="admin_member"></a></td>
 						</tr>
 						<tr>
 							<td>번호입니다</td>
@@ -90,24 +87,21 @@
 							<td>유형입니다</td>
 							<td>제목입니다</td>
 							<td>작성자입니다</td>
-							<td><input type="button" value="회원" id="admin_member"
-							onclick="location.href='admin_member_modify.jsp'"></td>
+							<td><a href="adminMemberMod"><input type="button" value="회원" id="admin_member"></a></td>
 						</tr>
 						<tr>
 							<td>번호입니다</td>
 							<td>유형입니다</td>
 							<td>제목입니다</td>
 							<td>작성자입니다</td>
-							<td><input type="button" value="회원" id="admin_member"
-							onclick="location.href='admin_member_modify.jsp'"></td>
+							<td><a href="adminMemberMod"><input type="button" value="회원" id="admin_member"></a></td>
 						</tr>
 						<tr>
 							<td>번호입니다</td>
 							<td>유형입니다</td>
 							<td>제목입니다</td>
 							<td>작성자입니다</td>
-							<td><input type="button" value="회원" id="admin_member"
-							onclick="location.href='admin_member_modify.jsp'"></td>
+							<td><a href="adminMemberMod"><input type="button" value="회원" id="admin_member"></a></td>
 						</tr>
 					</table>
 					<div class="pagination">

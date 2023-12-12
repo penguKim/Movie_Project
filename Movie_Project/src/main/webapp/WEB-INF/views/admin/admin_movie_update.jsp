@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>영화 등록 팝업</title>
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<form action="">
@@ -20,7 +20,7 @@
 				<option>F영화</option>
 			</select>
 			<input type="button" value="조회"><br><br>
-			<img src="Cobweb.jpg" width="250" height="400"><br>
+			<img src="${pageContext.request.contextPath}/resources/img/cobweb.jpg" width="250" height="400"><br>
 			<input type="file"><br><br>
 			<div id="grayBlock">
 				&nbsp;&nbsp;<sup>영화코드</sup><br>

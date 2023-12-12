@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>1 : 1 문의 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -25,7 +25,7 @@
 			</div>
 			
 			<div id="admin_main">
-				<form action="" class="admin_board_one_on_one">
+				<form action="">
 					<table border="1">
 						<tr>
 							<th width="60">번호</th>
@@ -41,7 +41,7 @@
 							<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_one_on_one_response.jsp'"></td>
+							<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -49,14 +49,14 @@
 							<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_one_on_one_response.jsp'"></td>
+							<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
 							<td>유형</td>
 							<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지></td>							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_one_on_one_response.jsp'"></td>
+							<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -64,7 +64,7 @@
 							<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_one_on_one_response.jsp'"></td>
+							<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -72,7 +72,7 @@
 							<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_one_on_one_response.jsp'"></td>
+							<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -80,7 +80,7 @@
 							<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_one_on_one_response.jsp'"></td>
+							<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -88,7 +88,7 @@
 							<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_one_on_one_response.jsp'"></td>
+							<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						
 					</table>

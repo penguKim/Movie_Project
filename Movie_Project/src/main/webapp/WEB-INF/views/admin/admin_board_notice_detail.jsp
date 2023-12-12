@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 상세</title>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -25,8 +25,8 @@
 			</div>
 
 			<div id="admin_main">
-				<form action="" class = "admin_member_Profile_form">
-					<table border="1" id="admin_member_Profile_table">
+				<form action="">
+					<table border="1">
 						<tr>
 							<th width=80>번호</th>
 							<td width=400>아이유</td>
@@ -45,7 +45,7 @@
 						</tr>
 						<tr>
 							<th>사진첨부</th>
-							<td style="text-align: left"><input type="file"></td>
+							<td><input type="file"></td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 

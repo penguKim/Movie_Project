@@ -245,21 +245,21 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 
 /* =============== 자주묻는질문 ==================== */
 
-#fqa_button {
+#faq_button {
 	position: relative;
 }
 
 
-#fqa_button ul {
+#faq_button ul {
 	text-align: center;
 	margin: 0;
 }
 
-#fqa_button {
+#faq_button {
 	text-align: center;
 }
 
-#fqa_button li {
+#faq_button li {
 	display: inline-block;
 	height: 50px;
 	text-align: center;
@@ -267,7 +267,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	margin: 10px;
 }
 
-#fqa_button input {
+#faq_button input {
 	border: none;
 	border-bottom: 3px solid #505050;
 	color: #000000; /* 글자 색상 */
@@ -277,7 +277,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	cursor: pointer; /* 커서 변경 */
 }
 
-#fqa_button input:hover {
+#faq_button input:hover {
 	background-color: #eeeeee;
 	border-bottom: 3px solid #000000;
 }

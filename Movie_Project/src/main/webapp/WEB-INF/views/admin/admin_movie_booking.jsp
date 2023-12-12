@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>영화 예매 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -46,7 +46,7 @@
 							<td>A3, B4</td>
 							<td>다비치</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -57,7 +57,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -68,7 +68,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -79,7 +79,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -90,7 +90,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -101,7 +101,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -112,7 +112,7 @@
 							<td>01:01</td>
 							<td>2023-06-06</td>
 							<td><input type="button" value="MORE" 
-							onclick = "window.open('admin_movie_booking_modify.jsp', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
 						</tr>
 					</table>
 					<div class="pagination">

@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>스토어 결제 상세</title>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -25,8 +25,8 @@
 			</div>
 
 			<div id="admin_main">
-				<form action="" class = "admin_member_Profile_form">
-					<table border="1" id="admin_member_Profile_table">
+				<form action="">
+					<table border="1">
 						<tr>
 							<th width="100">결제 번호</th>
 							<td></td>

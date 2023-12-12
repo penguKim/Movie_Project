@@ -8,30 +8,31 @@
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="admin_movie.jsp">영화관리</a>
-		<a href="admin_movie_schedule.jsp">상영일정관리</a>
-		<a href="admin_movie_booking.jsp">영화예매관리</a>
+		<a href="adminMovie">영화관리</a>
+		<a href="adminMovieSchedule">상영일정관리</a>
+		<a href="adminMovieBooking">영화예매관리</a>
 	</div>
 	<button class="dropdown-btn">STORE 
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="admin_payment.jsp">스토어결제관리</a>
+		<a href="adminPayment">스토어결제관리</a>
 	</div>
 	<button class="dropdown-btn">MEMBER 
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="admin_member.jsp">회원정보관리</a>
+		<a href="adminMember">회원정보관리</a>
 	</div>
 	<button class="dropdown-btn">BOARD 
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="admin_board_faq.jsp">자주묻는질문관리</a>
-		<a href="admin_board_notice.jsp">공지사항관리</a>
-		<a href="admin_board_one_on_one.jsp">1대1문의관리</a>
-		<a href="admin_board_lostnfound.jsp">분실물문의관리</a>
+		<a href="adminFaq">자주묻는질문관리</a>
+		<a href="adminNotice">공지사항관리</a>
+		<a href="adminOneOnOne">1대1문의관리</a>
+		<a href="adminLostNFound">분실물문의관리</a>
+		<a href="adminReview">리뷰관리</a><%-- 뷰 아직 X --%>
 	</div>
 </div>
 

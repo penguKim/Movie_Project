@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>영화 예매 상세 페이지</title>
-<link href="${pageContext.request.contextPath }/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<form action="">

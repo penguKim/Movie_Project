@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>스토어 결제 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -42,56 +42,49 @@
 						<td>member_id</td>
 						<td>payment_datetime</td>
 						<td>payment_status</td>
-						<td><input type="button" value="상세보기" 
-						onclick = "location.href='admin_payment_detail.jsp'"></td>
+						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
 						<td>member_id</td>
 						<td>payment_datetime</td>
 						<td>payment_status</td>
-						<td><input type="button" value="상세보기" 
-						onclick = "location.href='admin_payment_detail.jsp'"></td>
+						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
 						<td>member_id</td>
 						<td>payment_datetime</td>
 						<td>payment_status</td>
-						<td><input type="button" value="상세보기" 
-						onclick = "location.href='admin_payment_detail.jsp'"></td>
+						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
 						<td>member_id</td>
 						<td>payment_datetime</td>
 						<td>payment_status</td>
-						<td><input type="button" value="상세보기" 
-						onclick = "location.href='admin_payment_detail.jsp'"></td>
+						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
 						<td>member_id</td>
 						<td>payment_datetime</td>
 						<td>payment_status</td>
-						<td><input type="button" value="상세보기"
-						 onclick = "location.href='admin_payment_detail.jsp'"></td>
+						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
 						<td>member_id</td>
 						<td>payment_datetime</td>
 						<td>payment_status</td>
-						<td><input type="button" value="상세보기"
-						 onclick = "location.href='admin_payment_detail.jsp'"></td>
+						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
 						<td>A영화</td>
 						<td>coming</td>
 						<td>payment_status</td>
-						<td><input type="button" value="상세보기"
-						 onclick = "location.href='admin_payment_detail.jsp'"></td>
+						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
 					</tr>
 				</table>
 				<div class="pagination">

@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>분실물 문의 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -25,7 +25,7 @@
 			</div>
 			
 			<div id="admin_main">
-				<form action="" class="admin_board_lostnfound">
+				<form action="">
 					<table border="1">
 						<tr>
 							<th width="70">번호</th>
@@ -41,7 +41,7 @@
 							<td class="post_name">버튼클릭시 분실물문의상세로이동</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_lostnfound_response.jsp'"></td>
+							<td><a href="adminLostNFoundResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -49,7 +49,7 @@
 							<td class="post_name">버튼클릭시 분실물문의상세로이동</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_lostnfound_response.jsp'"></td>
+							<td><a href="adminLostNFoundResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -57,7 +57,7 @@
 							<td class="post_name">버튼클릭시 분실물문의상세로이동</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_lostnfound_response.jsp'"></td>
+							<td><a href="adminLostNFoundResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -65,7 +65,7 @@
 							<td class="post_name">버튼클릭시 분실물문의상세로이동</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_lostnfound_response.jsp'"></td>
+							<td><a href="adminLostNFoundResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -73,7 +73,7 @@
 							<td class="post_name">버튼클릭시 분실물문의상세로이동</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_lostnfound_response.jsp'"></td>
+							<td><a href="adminLostNFoundResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 						<tr>
 							<td>번호</td>
@@ -81,7 +81,7 @@
 							<td class="post_name">버튼클릭시 분실물문의상세로이동</td>
 							<td>작성자</td>
 							<td>등록일</td>
-							<td><input type="button" value="답변완료" id="ok" onclick = "location.href='admin_board_lostnfound_response.jsp'"></td>
+							<td><a href="adminLostNFoundResp"><input type="button" value="답변완료" id="ok"></a></td>
 						</tr>
 					</table>
 					<div class="pagination">

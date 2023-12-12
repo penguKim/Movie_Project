@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>공지사항 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/admin.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -25,8 +25,8 @@
 			</div>
 			
 			<div id="admin_main">
-				<form action="" class ="admin_board_notice">
-					<table border="1" id="admin_notice">
+				<form action="">
+					<table border="1">
 						<tr>
 							<th width="60">번호</th>
 							<th>제목</th>
@@ -35,74 +35,73 @@
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 						<tr>
 							<td>1</td>
-							<td class="post_name"><a href="admin_board_notice_detail.jsp">클릭시 공지사항 내용 팝업</a></td>
+							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
 							<td>아이유</td>
 							<td>2023-11-16</td>
 						</tr>
 					</table>
 					<div id="admin_writer">
-						<input type="button" value="글쓰기" 
-						onclick = "location.href='admin_board_faq_write.jsp'">
+						<a href="adminNoticeWrt"><input type="button" value="글쓰기"></a>
 					</div>
 					<div class="pagination">
 						<a href="#">&laquo;</a>
