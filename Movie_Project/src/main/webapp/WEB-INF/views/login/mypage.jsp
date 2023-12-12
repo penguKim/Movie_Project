@@ -54,6 +54,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 					<h2>나의 예매내역</h2>
 					<table id="my_table1">
 						<tr>
+<!-- 						테스트문자 -->
 							<th width="50px"><input type="checkbox" id="checkbox1"></th><th>No.</th>
 							<th>영화제목</th>
 							<th>영화극장 정보</th>
