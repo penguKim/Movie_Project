@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/cs.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/cs.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -38,30 +40,28 @@
 				<section>
 					<table id="cs_table1">
 						<tr>
-							<th>번호</th>
+							<th width="100">번호</th>
 							<th>지점</th>
 							<th>제목</th>
-							<th>등록일</th>
-						</tr>
-						<tr>
-							<td>번호-내용넣기</td> <%-- 내용 넣기 --%>
-							<td>지점-이름넣기</td>
-							<td><a href="cs_notice_detail.jsp" id="notice_tit">제목-내용넣기</a></td>
-							<td>등록일-내용넣기</td>
-						</tr>
-						<tr>
-							<td>번호-내용넣기</td> <%-- 내용 넣기 --%>
-							<td>지점-이름넣기</td>
-							<td><a href="cs_notice_detail.jsp" id="notice_tit">제목-내용넣기</a></td>
-							<td>등록일-내용넣기</td>
-						</tr>
-						<tr>
-							<td>번호-내용넣기</td> <%-- 내용 넣기 --%>
-							<td>지점-이름넣기</td>
-							<td><a href="cs_notice_detail.jsp" id="notice_tit">제목-내용넣기</a></td>
-							<td>등록일-내용넣기</td>
+							<th width="120">등록일</th>
 						</tr>
 						
+						<c:choose>
+							<c:when test="${empty noticeList}">
+								공지사항 없음
+							</c:when>
+							<c:otherwise>
+								<%-- 공지사항 리스트 List<CsVO> 객체(noticeList) 활용하여 목록 출력 --%>
+								<c:forEach var="notice" items="${noticeList}">
+									<tr>
+										<td>${notice.cs_type_list_num}</td> <%-- 내용 넣기 --%>
+										<td>${notice.theater_id}</td>
+										<td><a href="cs_notice_detail.jsp" id="notice_tit">${notice.cs_subject}</a></td>
+										<td><fmt:formatDate value="${notice.cs_date}" pattern="yyyy.MM.dd"/></td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</table>
 				</section>
 				

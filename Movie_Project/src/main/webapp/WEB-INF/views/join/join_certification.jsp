@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath }/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/join.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/join.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	window.onload = function() {
 		<%-- 인증번호를 확인한 후 다음 페이지로 넘어가기 --%>
@@ -39,12 +39,12 @@
 				<span>가입완료</span>		
 			</section>
 			
-			<form action="join_agree.jsp" method="post" name="joinCertification">
+			<form action="memberJoinAgree" method="post" name="joinCertification">
 				<hr>		
 				<h3 id="join_top">회원가입을 위해 본인 인증을 해주세요.</h3>
 				<section id="api">
-					<a href=""><img src="${pageContext.request.contextPath}/img/카카오버튼.png" width="140px" height="40px"></a>
-					<a href=""><img src="${pageContext.request.contextPath}/img/네이버버튼.png" width="140px" height="40px"></a>
+					<a href=""><img src="../resources/img/카카오버튼.png" width="140px" height="40px"></a>
+					<a href=""><img src="../resources/img/네이버버튼.png" width="140px" height="40px"></a>
 				</section>
 				<hr>
 					

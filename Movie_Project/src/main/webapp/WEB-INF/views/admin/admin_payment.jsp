@@ -29,7 +29,7 @@
 					<input type="text" placeholder="조회할 아이디 입력">
 					<input type="button" value="조회">
 				</div>
-				<table border="1" width="1100" id="admin_table">
+				<table border="1" width="1100">
 					<tr>
 						<th>결제번호</th>
 						<th>아이디</th>
@@ -39,49 +39,49 @@
 					</tr>
 					<tr>
 						<td>13251245</td>
-						<td>아이디다</td>
-						<td>결제일시다</td>
-						<td>결제다</td>
+						<td>member_id</td>
+						<td>payment_datetime</td>
+						<td>payment_status</td>
 						<td><input type="button" value="상세보기" 
 						onclick = "location.href='admin_payment_detail.jsp'"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
-						<td>아이디다</td>
-						<td>결제일시다</td>
-						<td>결제다</td>
+						<td>member_id</td>
+						<td>payment_datetime</td>
+						<td>payment_status</td>
 						<td><input type="button" value="상세보기" 
 						onclick = "location.href='admin_payment_detail.jsp'"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
-						<td>아이디다</td>
-						<td>결제일시다</td>
-						<td>결제다</td>
+						<td>member_id</td>
+						<td>payment_datetime</td>
+						<td>payment_status</td>
 						<td><input type="button" value="상세보기" 
 						onclick = "location.href='admin_payment_detail.jsp'"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
-						<td>아이디다</td>
-						<td>결제일시다</td>
-						<td>결제다</td>
+						<td>member_id</td>
+						<td>payment_datetime</td>
+						<td>payment_status</td>
 						<td><input type="button" value="상세보기" 
 						onclick = "location.href='admin_payment_detail.jsp'"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
-						<td>아이디다</td>
-						<td>결제일시다</td>
-						<td>결제다</td>
+						<td>member_id</td>
+						<td>payment_datetime</td>
+						<td>payment_status</td>
 						<td><input type="button" value="상세보기"
 						 onclick = "location.href='admin_payment_detail.jsp'"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
-						<td>아이디다</td>
-						<td>결제일시다</td>
-						<td>결제다</td>
+						<td>member_id</td>
+						<td>payment_datetime</td>
+						<td>payment_status</td>
 						<td><input type="button" value="상세보기"
 						 onclick = "location.href='admin_payment_detail.jsp'"></td>
 					</tr>
@@ -89,7 +89,7 @@
 						<td>13251245</td>
 						<td>A영화</td>
 						<td>coming</td>
-						<td>결제다결제다결제다결제다결제다결결제다</td>
+						<td>payment_status</td>
 						<td><input type="button" value="상세보기"
 						 onclick = "location.href='admin_payment_detail.jsp'"></td>
 					</tr>

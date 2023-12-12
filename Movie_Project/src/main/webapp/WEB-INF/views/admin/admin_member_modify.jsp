@@ -24,16 +24,16 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 
-			<div id="admin_main">
-				<form action="" class = "admin_member_Profile_form">
-					<table border="1" id="admin_member_Profile_table">
+			<div id="admin_sub">
+				<form action="">
+					<table border="1">
 						<tr>
-							<th width="100">이름</th>	
-							<td colspan="2" width="400">아이유</td>
+							<th>이름</th>	
+							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<th>계정</th>
-							<td colspan="2">아이유짱</td>
+							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<th>활동상태</th>
@@ -58,19 +58,19 @@
 <!-- 						</tr> -->
 						<tr>
 							<th>아이디</th>
-							<td colspan="2">iuzzang</td>
+							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<th>생년월일</th>
-							<td colspan="2">1993.05.16</td>
+							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<th>전화번호</th>
-							<td colspan="2">010-1169-4485</td>
+							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<th>이메일</th>
-							<td colspan="2">iuzzang@iuzzang.com</td>
+							<td colspan="2"></td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 
