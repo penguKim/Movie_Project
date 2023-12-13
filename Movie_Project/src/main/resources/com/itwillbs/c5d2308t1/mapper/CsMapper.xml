@@ -33,6 +33,7 @@
 		SELECT * FROM cs
 		WHERE cs_type = "공지사항";
 	</select>
+
 	
 </mapper>
 

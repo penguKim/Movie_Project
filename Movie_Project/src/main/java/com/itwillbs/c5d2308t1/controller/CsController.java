@@ -2,6 +2,8 @@ package com.itwillbs.c5d2308t1.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,7 +70,6 @@ public class CsController {
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqList)
 		List<CsVO> faqList = service.getFqaList();
-		System.out.println(faqList);
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
 		model.addAttribute("faqList", faqList);
@@ -79,10 +80,9 @@ public class CsController {
 	// 고객센터 공지사항 페이지로 이동
 	@GetMapping("csNotice")
 	public String csNotice(CsVO cs, Model model) {
-		// CsService - getNoticeList() 메서드 호출하여 공지사항 출력
+		// CsService - getNoticeList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeList)
 		List<CsVO> noticeList = service.getNoticeList();
-		System.out.println(noticeList);
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
 		model.addAttribute("noticeList", noticeList);

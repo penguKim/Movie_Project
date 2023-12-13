@@ -11,31 +11,30 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
 	<%-- AJAX 를 활용하여 아이디 중복 검사 작업 수행 --%>
-// 	$(function() {	
-// 		$("#id_check").on("click", function() {
-// 			let member_id = $("#member_id").val();
-// 			$.ajax({
-// 				url: "idCheck",
-// 				type: "post",
-// 				data: {
-// 					member_id: member_id
-// 				},
-// 				success: function(data) {
-// 					​​​​​​​​if (data > 0) { //돌려받은 결과가 0 이상이면​​​​​
-// 							$("#checkIdResult").text("이미 사용중인 아이디입니다").css("color", "red");
-// 							$("#id").focus();
-// 					} else if(data == 0) { // 돌려받은 결과가 0이면
-// 						$("#checkIdResult").text("사용 가능한 아이디입니다").css("color", "blue");
-// 						$("#passwd").focus();
-// 					}
-// 				},
-// 				error: function() {
-// 					alert("서버요청실패");
-// 				}
-// 			});
+	$(function() {	
+		$("#id_check").on("click", function() {
+			$.ajax({
+				url: "resources/join/check_id.jsp",
+				data: {
+					id: $("#id").val()
+				},
+				success: function(result) {
+					if($("#id").val().length >= 5 && $("#id").val().length <= 20) {
+						if(result.trim() == "true") {
+// 							trim()을 써서 문자열 공백을 제거하고 비교
+ 							$("#checkIdResult").text("이미 사용중인 아이디입니다").css("color", "red");
+ 							$("#id").focus();
+						} else if(result.trim() == "false") {
+							$("#checkIdResult").text("사용 가능한 아이디입니다").css("color", "blue");
+							$("#passwd").focus();
+						}
+						
+					}
+				}
+			});
 
-// 		});
-// 	});
+		});
+	});
 	
 	$(function() {
 		<%-- 비밀번호와 비밀번호 확인이 같은지 체크하기 --%>
@@ -170,10 +169,10 @@
 				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
 				$("#id").focus();
 				return false; // submit 동작 취소
-// 			} else if($("#checkIdResult").text() != "사용 가능한 아이디입니다"){
-// 				$("#checkIdResult").text("아이디 중복확인을 해주세요").css("color", "red");
-// 				$("#id_check").focus();
-// 				return false; // submit 동작 취소
+			} else if($("#checkIdResult").text() != "사용 가능한 아이디입니다"){
+				$("#checkIdResult").text("아이디 중복확인을 해주세요").css("color", "red");
+				$("#id_check").focus();
+				return false; // submit 동작 취소
 			} else if($("#passwd").val() == "")  {
 				$("#checkPasswdResult").text("비밀번호 입력은 필수입니다").css("color", "red");
 				$("#passwd").focus();

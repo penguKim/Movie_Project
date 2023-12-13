@@ -115,7 +115,7 @@
 						</tr>
 						<tr>
 							<th>아이디<b>*</b></th>
-							<td colspan="3"><input type="text" id="id" name="member_id" value="aassdd" readonly></td> <%-- 세션아이디 받아오기 --%>
+							<td colspan="3"><input type="text" id="id" name="member_id" value="hong11" readonly></td> <%-- 세션아이디 받아오기 --%>
 						</tr>
 						<tr>
 							<th>제목<b>*</b></th>

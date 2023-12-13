@@ -18,11 +18,16 @@ form {
 	margin: 10px;	
 }
 
+#notice_form {
+	padding-bottom: 100px;
+}
+
 #fqa_main {
 	vertical-align: top;
 	display: inline-block;
 	width: 800px; /* 너비 800지정 */
 	margin: 10px;	
+	padding-bottom: 100px;	
 }
 
 textarea { /* 텍스트박스 */
@@ -72,6 +77,11 @@ th {
 #cs_table1 td { /* 자주묻는질문, 공지사항 테이블 내용에 */
 	padding: 5px 10px; /* 안쪽 여백 지정 */
 	border: none;
+	text-align: center;
+}
+
+#cs_table1 #td_left {
+	text-align: left;
 }
 
 #cs_table2 th { /* 분실물문의, 1대1질문 테이블 제목에 */

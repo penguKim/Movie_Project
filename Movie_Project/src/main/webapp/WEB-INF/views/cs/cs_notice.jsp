@@ -12,6 +12,12 @@
 <link href="${pageContext.request.contextPath}/resources/css/cs.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1로 설정) --%>
+	<c:set var="pageNum" value="1"/>
+	<c:if test="${not empty param.pageNum}">
+		<c:set var="pageNum" value="${param.pageNum}"/>
+	</c:if>
+
 	<div id="wrapper">
 		<header>
 			<jsp:include page="../inc/top.jsp"></jsp:include>
@@ -26,7 +32,7 @@
 				<jsp:include page="cs_menubar.jsp"></jsp:include>
 			</div>
 			
-			<form action="" method="" name="">
+			<form action="" method="" name="" id="notice_form">
 				<section id="search">
 					<select>
 						<option value="">전체공지</option> <%-- 전체 지점 공지사항 보기 --%>
@@ -40,10 +46,10 @@
 				<section>
 					<table id="cs_table1">
 						<tr>
-							<th width="100">번호</th>
-							<th>지점</th>
+							<th width="40">번호</th>
+							<th width="120">지점</th>
 							<th>제목</th>
-							<th width="120">등록일</th>
+							<th width="100">등록일</th>
 						</tr>
 						
 						<c:choose>
@@ -56,7 +62,7 @@
 									<tr>
 										<td>${notice.cs_type_list_num}</td> <%-- 내용 넣기 --%>
 										<td>지점명</td>
-										<td><a href="csNoticeDetail" id="notice_tit">${notice.cs_subject}</a></td>
+										<td id="td_left"><a href="csNoticeDetail" id="notice_tit">${notice.cs_subject}</a></td>
 										<td><fmt:formatDate value="${notice.cs_date}" pattern="yyyy.MM.dd"/></td>
 									</tr>
 								</c:forEach>
