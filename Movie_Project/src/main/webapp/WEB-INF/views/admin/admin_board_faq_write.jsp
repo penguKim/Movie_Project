@@ -8,6 +8,15 @@
 <title>자주 묻는 질문 등록</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	function btnWrt() {
+		var result = confirm("자주 묻는 질문을 등록하시겠습니까?");
+		if(result) {
+			location.reload();
+		}
+	}
+		
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -26,39 +35,36 @@
 			
 			
 			<div id="admin_sub">
-				<form action="" class ="">
-					<table border="1" id="">
-						<tr>
-							<th>번호</th>
-							<td><input type="text"></td>
-						</tr>
-						<tr>
-							<th>유형</th>
-							<td><input type="text"></td>
-						</tr>
-						<tr>
-							<th>제목</th>
-							<td><input type="text"></td>
-						</tr>
-						<tr>
-							<th>작성자</th>
-							<td><input type="text"></td>
-						</tr>
-						<tr>
-							<th height="400">내용</th>
-							<td><textarea style=border:none;></textarea></td>
-						</tr>
-						<tr>
-							<th>사진첨부</th>
-							<td><input type="file"></td>
-						</tr>
-					</table>
-					<div id="admin_writer"> 
-						<input type="button" value="등록" onclick="confirm('등록하시겠습니까?')">
-						<input type="button" value="돌아가기" onclick="history.back()">
-						<input type="button" value="삭제" onclick="confirm('삭제하시겠습니까?')">
-					</div>
-				</form>
+				<table border="1" id="">
+					<tr>
+						<th>번호</th>
+						<td><input type="text"></td>
+					</tr>
+					<tr>
+						<th>유형</th>
+						<td><input type="text"></td>
+					</tr>
+					<tr>
+						<th>제목</th>
+						<td><input type="text"></td>
+					</tr>
+					<tr>
+						<th>작성자</th>
+						<td><input type="text"></td>
+					</tr>
+					<tr>
+						<th height="400">내용</th>
+						<td><textarea></textarea></td>
+					</tr>
+					<tr>
+						<th>사진첨부</th>
+						<td><input type="file"></td>
+					</tr>
+				</table>
+				<div id="admin_writer"> 
+					<input type="button" value="등록" onclick="btnWrt()">
+					<input type="button" value="돌아가기" onclick="history.back()">
+				</div>
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>

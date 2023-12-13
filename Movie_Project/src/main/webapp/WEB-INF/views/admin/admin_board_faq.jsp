@@ -34,106 +34,104 @@
 						<li><a href="#div03"><input type="button" value="영화관이용"></a></li> <%-- 영화관 관련 질문 모아보기 --%>
 					</ul>
 				</nav>
-				<form action="">
-					<table border="1">
-						<tr>
-							<th width="30">번호</th>
-							<th width="100">유형</th>
-							<th width="370">제목</th>
-							<th width="100">작성자</th>
-							<th width="120">등록일</th>
-						</tr>
-						<tr>
-							<td>100</td>
-							<td>영화관이용</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>admin</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>관람권</td>
-							<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
-							<td>관리자</td>
-							<td>2023-11-16</td>
-						</tr>
-					</table>
-					<div id="admin_writer">
-						<a href="adminFaqWrt"><input type="button" value="글쓰기"></a>
-					</div>
-					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1</a>
-						<a class="active" href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">&raquo;</a>
-					</div>
-				</form>
+				<table border="1">
+					<tr>
+						<th width="30">번호</th>
+						<th width="100">유형</th>
+						<th width="370">제목</th>
+						<th width="100">작성자</th>
+						<th width="120">등록일</th>
+					</tr>
+					<tr>
+						<td>100</td>
+						<td>영화관이용</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>admin</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>관람권</td>
+						<td class="post_name"><a href="adminFaqMod">클릭시 자주묻는질문 상세 조회/수정페이지로 이동</a></td>
+						<td>관리자</td>
+						<td>2023-11-16</td>
+					</tr>
+				</table>
+				<div id="admin_writer">
+					<a href="adminFaqWrt"><input type="button" value="글쓰기"></a>
+				</div>
+				<div class="pagination">
+					<a href="#">&laquo;</a>
+					<a href="#">1</a>
+					<a class="active" href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">&raquo;</a>
+				</div>
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>

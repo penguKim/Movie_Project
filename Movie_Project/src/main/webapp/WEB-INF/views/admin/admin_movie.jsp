@@ -8,6 +8,16 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	function popUpUdt() {
+		window.open("adminMovieUdt", "_blank", "width=800, height=800, left=550, top=100"); 
+		return false;
+	}
+	function popUpMod() {
+		window.open("adminMovieMod", "_blank", "width=800, height=800, left=550, top=100"); 
+		return false;
+	}
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -26,8 +36,8 @@
 			
 			<div id="admin_main">
 				<div id="movie_update">
-					<input type="button" value="상영예정작 등록하기" onclick = "window.open('adminMovieUdt', '_blank', 'width=800, height=800,left=550,top=100' ); return false;">		
-					<input type="button" value="최신영화 등록하기" onclick = "window.open('adminMovieUdt', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"><br>	
+					<input type="button" value="상영예정작 등록하기" onclick = "popUpUdt()">		
+					<input type="button" value="최신영화 등록하기" onclick = "popUpUdt()"><br>	
 				</div>
 			
 				<table border="1">
@@ -49,7 +59,7 @@
 						<td>01:01</td>
 						<td>2023-06-06</td>
 						<td>2023-44-44</td>
-						<td><input type="button" value="MORE" onclick = "window.open('adminMovieMod', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+						<td><input type="button" value="MORE" onclick = "popUpMod()"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
@@ -59,7 +69,7 @@
 						<td>01:01</td>
 						<td>2023-06-06</td>
 						<td>2023-44-44</td>
-						<td><input type="button" value="MORE" onclick = "window.open('adminMovieMod', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+						<td><input type="button" value="MORE" onclick = "popUpMod()"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
@@ -69,7 +79,7 @@
 						<td>01:01</td>
 						<td>2023-06-06</td>
 						<td>2023-44-44</td>
-						<td><input type="button" value="MORE" onclick = "window.open('adminMovieMod', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+						<td><input type="button" value="MORE" onclick = "popUpMod()"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
@@ -79,7 +89,7 @@
 						<td>01:01</td>
 						<td>2023-06-06</td>
 						<td>2023-44-44</td>
-						<td><input type="button" value="MORE" onclick = "window.open('adminMovieMod', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+						<td><input type="button" value="MORE" onclick = "popUpMod()"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
@@ -89,7 +99,7 @@
 						<td>01:01</td>
 						<td>2023-06-06</td>
 						<td>2023-44-44</td>
-						<td><input type="button" value="MORE" onclick = "window.open('adminMovieMod', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+						<td><input type="button" value="MORE" onclick = "popUpMod()"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
@@ -99,7 +109,7 @@
 						<td>01:01</td>
 						<td>2023-06-06</td>
 						<td>2023-44-44</td>
-						<td><input type="button" value="MORE" onclick = "window.open('adminMovieMod', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+						<td><input type="button" value="MORE" onclick = "popUpMod()"></td>
 					</tr>
 					<tr>
 						<td>13251245</td>
@@ -109,7 +119,7 @@
 						<td>01:01</td>
 						<td>2023-06-06</td>
 						<td>2023-44-44</td>
-						<td><input type="button" value="MORE" onclick = "window.open('adminMovieMod', '_blank', 'width=800, height=800,left=550,top=100' ); return false;"></td>
+						<td><input type="button" value="MORE" onclick = "popUpMod()"></td>
 					</tr>
 				</table>
 				<div class="pagination">

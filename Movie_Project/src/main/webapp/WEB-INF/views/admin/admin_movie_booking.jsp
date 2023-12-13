@@ -8,6 +8,12 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	function popUp() {
+		window.open("adminMovieBookingMod", "_blank", "width=579, height=500, left=550, top=100"); 
+		return false;
+	}
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -45,8 +51,7 @@
 							<td>2023-01-01</td>
 							<td>A3, B4</td>
 							<td>다비치</td>
-							<td><input type="button" value="MORE" 
-							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							<td><input type="button" value="MORE" onclick = "popUp()"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -56,8 +61,7 @@
 							<td>2023</td>
 							<td>01:01</td>
 							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" 
-							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							<td><input type="button" value="MORE" onclick = "popUp()"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -67,8 +71,7 @@
 							<td>2023</td>
 							<td>01:01</td>
 							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" 
-							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							<td><input type="button" value="MORE" onclick = "popUp()"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -78,8 +81,7 @@
 							<td>2023</td>
 							<td>01:01</td>
 							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" 
-							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							<td><input type="button" value="MORE" onclick = "popUp()"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -89,8 +91,7 @@
 							<td>2023</td>
 							<td>01:01</td>
 							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" 
-							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							<td><input type="button" value="MORE" onclick = "popUp()"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -100,8 +101,7 @@
 							<td>2023</td>
 							<td>01:01</td>
 							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" 
-							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							<td><input type="button" value="MORE" onclick = "popUp()"></td>
 						</tr>
 						<tr>
 							<td>13251245</td>
@@ -111,8 +111,7 @@
 							<td>2023</td>
 							<td>01:01</td>
 							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" 
-							onclick = "window.open('adminMovieBookingMod', '_blank', 'width=579, height=500,left=550,top=100' ); return false;"></td>
+							<td><input type="button" value="MORE" onclick = "popUp()"></td>
 						</tr>
 					</table>
 					<div class="pagination">

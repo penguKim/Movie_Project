@@ -25,94 +25,92 @@
 			</div>
 			
 			<div id="admin_main">
-				<form action="">
-					<table border="1">
-						<tr>
-							<th width="60">번호</th>
-							<th>제목</th>
-							<th width="100">작성자</th>
-							<th width="120">등록일</th>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
-							<td>아이유</td>
-							<td>2023-11-16</td>
-						</tr>
-					</table>
-					<div id="admin_writer">
-						<a href="adminNoticeWrt"><input type="button" value="글쓰기"></a>
-					</div>
-					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1</a>
-						<a class="active" href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">&raquo;</a>
-					</div>
-				</form>
+				<table border="1">
+					<tr>
+						<th width="60">번호</th>
+						<th>제목</th>
+						<th width="100">작성자</th>
+						<th width="120">등록일</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td class="post_name"><a href="adminNoticeDtl">클릭시 공지사항 상세페이지로 이동</a></td>
+						<td>아이유</td>
+						<td>2023-11-16</td>
+					</tr>
+				</table>
+				<div id="admin_writer">
+					<a href="adminNoticeWrt"><input type="button" value="글쓰기"></a>
+				</div>
+				<div class="pagination">
+					<a href="#">&laquo;</a>
+					<a href="#">1</a>
+					<a class="active" href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">&raquo;</a>
+				</div>
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>

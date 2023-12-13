@@ -128,7 +128,7 @@ public class AdminController {
 	// 관리자페이지 영화 리뷰 관리 페이지로 이동
 	@GetMapping("adminReview")
 	public String adminReview() {
-		return ""; // 뷰페이지 아직 X
+		return "admin/admin_review";
 	}
 	
 	
