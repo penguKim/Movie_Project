@@ -43,9 +43,6 @@ import com.itwillbs.c5d2308t1.vo.KobisAPI;
 import com.itwillbs.c5d2308t1.vo.CrawlVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 
-import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
-import kr.or.kobis.kobisopenapi.consumer.rest.exception.OpenAPIFault;
-
 @Controller
 public class MoviesController {
 	@Autowired
@@ -175,8 +172,8 @@ public class MoviesController {
 		try {
 			StringBuilder urlBuilder = new StringBuilder("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&nation=대한민국"); /*URL*/ 
 			urlBuilder.append("&" + URLEncoder.encode("ServiceKey","UTF-8") + "=08P2788CP12T24B2US8F"); /*Service Key*/ 
-			urlBuilder.append("&" + URLEncoder.encode("val001","UTF-8") + "=" + URLEncoder.encode("2018", "UTF-8")); /*상영년도*/ 
-			urlBuilder.append("&" + URLEncoder.encode("val002","UTF-8") + "=" + URLEncoder.encode("01", "UTF-8")); /*상영 월*/ 
+			urlBuilder.append("&" + URLEncoder.encode("title","UTF-8") + "=" + URLEncoder.encode("서울의", "UTF-8")); /*상영년도*/ 
+//			urlBuilder.append("&" + URLEncoder.encode("val002","UTF-8") + "=" + URLEncoder.encode("01", "UTF-8")); /*상영 월*/ 
 			URL url = new URL(urlBuilder.toString()); 
 			System.out.println(urlBuilder);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
