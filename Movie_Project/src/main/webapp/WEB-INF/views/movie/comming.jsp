@@ -35,7 +35,7 @@
 					<div class="movie-grid">
 					<c:forEach var="movie" items="${movieList}">
 						<div class="movie">
-							<a href="detail.jsp">
+							<a href="detail?detailNum=${movie.detailNum}">
 							<div class="movie-poster">
 								<div class="poster">
 									<img alt="" src="${movie.poster}">
@@ -47,7 +47,7 @@
 								<p class="date">${movie.release }</p>
 							</a>
 							<div class="reserve_area">
-								<a href="../reserve/movie_select1.jsp" class="rel_reservBtn">
+								<a href="movie_select" class="rel_reservBtn">
 									<input type="button" value="예매하기"></a>
 							</div>
 						</div>
