@@ -38,7 +38,7 @@
 			</div>
 			
 			<div id="admin_main">
-				<div id="review_Search"><!-- css 적용 안 됨 -->
+				<div id="review_Search">
 					<input type="text" placeholder="아이디 또는 영화명 입력">
 					<input type="button" value="조회" onclick="btnLookup()">
 				</div>
