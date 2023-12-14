@@ -43,9 +43,6 @@ import com.itwillbs.c5d2308t1.vo.KobisAPI;
 import com.itwillbs.c5d2308t1.vo.CrawlVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 
-import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
-import kr.or.kobis.kobisopenapi.consumer.rest.exception.OpenAPIFault;
-
 @Controller
 public class MoviesController {
 	@Autowired

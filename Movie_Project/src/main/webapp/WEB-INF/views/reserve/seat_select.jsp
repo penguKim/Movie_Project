@@ -7,24 +7,34 @@
 <head>
 <meta charset="UTF-8">
 <title>좌석 선택</title>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/reserve.css" rel="stylesheet" type="text/css">
-
 <style>
 	.seat {
     width: 30px;
     height: 30px;
-	    background-color: #ccc; 
-	    margin: 5px; 
+    background-color: #ccc; 
+    margin: 5px; 
     display: inline-block;
     cursor: pointer;
    }
+   .Reserved{
+    width: 30px;
+    height: 30px;
+    background-color: #000; 
+    margin: 5px; 
+    display: inline-block;
+    cursor: none;
+   }
+   
    .selected {
    	background-color: #de1010;
    }
 </style>
 <script>
+
    function toggleSeat(seat) {
        seat.classList.toggle("selected");
        displaySelectedSeats(); // 좌석 선택 시 선택된 좌석을 출력하는 함수 호출
@@ -45,6 +55,7 @@
        // 클릭된 요소에만 'selected' 클래스를 추가
        num.classList.add('selected');
        displaySelectedSeats(); // 인원 선택 시 선택된 인원을 출력하는 함수 호출
+              
    }
    
    function displaySelectedSeats() {
@@ -95,20 +106,24 @@
 										<td>
 											${type[j]}
 										</td>
-										<c:forEach var="i" begin="0" end="8">
-										<c:set var="NumOfpeople" value="${type[j]}${i}"/>
+									<c:forEach var="i" begin="0" end="8">
 										<td>
 											<div class="NumOfPeo" onclick="toggleNum(this)" value="${NumOfpeople}">${i}</div>
 										</td>
-										</c:forEach>
+									</c:forEach>
 									</tr>
 									</c:forEach>
 								</table>
 							</th>
 							<th colspan="3" class="header_box_Runtime">
-								극장 : ${param.theater} ex)3관 11층 ex)남은좌석 100/120<br>
-							 	<b>2023년 12월 ${param.date} ex)상영시간 10:39~13:10</b>
+								
+								극장 : ${reserveVO.theater_name} ex)3관 11층 ex)남은좌석 100/120<br>
+							 	<b>${reserveVO.play_date} 상영시간${reserveVO.play_start_time} </b>
 							 </th>
+						 	<c:forEach var="SeatList" items="${SeatList}">
+								<c:set var="Reserved_seat" value="${SeatList.seat_name}" />
+								${Reserved_seat} 예매됨
+							</c:forEach>
 						</tr>
 					</table>
 				</div>
@@ -116,11 +131,28 @@
 				<div id="seat_num">
 					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><!--행을결정지을 변수 x 선언-->
 				    <h1 class="center">Screen</h1>
+		<c:forEach var="SeatList" items="${SeatList}">
+		<c:set var="Reserved_seat" value="${SeatList.seat_name}"/>
+		</c:forEach><!-- 예매된 좌석 반복 종료 -->
+		<h1>${Reserved_seat}</h1>
+
+
+							    	<c:forEach var="SeatList" items="${SeatList}">
+									<c:set var="Reserved_seat" value="${SeatList.seat_name}"/>
+								    </c:forEach>
+				    
 					<c:forEach var="i" begin="0" end="${fn:length(x)-1}">		<!--행을 반복할 반복문 선언-->
 				    	<div class="center">
 					 	<c:forEach var="j" begin="1" end="16">
 					    	<c:set var="seat_type" value="${x[i]}${j}" />
-					    	<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
+						    	<c:choose>
+						    		<c:when test="${seat_type eq Reserved_seat}">
+						    			<div class="Reserved" value="${seat_type}">${seat_type}</div>
+						    		</c:when>
+						    		<c:otherwise>
+										<div class="seat ${seat_type}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>						    		
+						    		</c:otherwise>
+						    	</c:choose>
 						</c:forEach><!-- 열반복 종료 -->
 						</div>
 					</c:forEach><!-- 행반복 종료 -->
@@ -132,11 +164,11 @@
 			<table id="end_param">
 				<tr>
 					<td class="button_area"><input type="button" value="영화선택" onclick="back()" class="button"></td>
-					<td class="text_left">${param.movie}</td>
+					<td class="text_left">${reserveVO.movie_title}</td>
 					<td class="text_left">
-						극장 : ${param.theater}<br>
-						날짜 : ${param.date} <br>
-						시간 : ${param.time} <br>
+						극장 : ${reserveVO.theater_name}<br>
+						날짜 : ${reserveVO.play_date} <br>
+						시간 : ${reserveVO.play_start_time} <br>
 					</td>
 					<td class="text_left">
 						<h3 id="selected_seats">인원 좌석 선택</h3>

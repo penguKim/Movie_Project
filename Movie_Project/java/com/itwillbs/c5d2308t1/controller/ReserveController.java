@@ -34,8 +34,9 @@ public class ReserveController {
 	public String seat_select(ReserveVO reserveVO, Model model) {
 		System.out.println("seat_select");
 		System.out.println(reserveVO);
-//		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
-//		model.addAttribute("SeatList",SeatList);
+		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
+		model.addAttribute("SeatList",SeatList);
+		model.addAttribute("reserveVO",reserveVO);
 		
 		return "reserve/seat_select";
 	}
