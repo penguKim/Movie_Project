@@ -67,10 +67,10 @@ public class JoinController {
 //	}
 	
 	// 로그인 페이지로 이동
-	@GetMapping("memberLogin")
-	public String memberLogin() {
-		return "login/login";
-	}
+//	@GetMapping("memberLogin")
+//	public String memberLogin() {
+//		return "login/login";
+//	}
 	
 	// 메인 페이지로 이동
 	@GetMapping("main")

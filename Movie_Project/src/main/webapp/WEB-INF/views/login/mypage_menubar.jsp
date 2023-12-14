@@ -7,7 +7,7 @@
 		<li><a href="${pageContext.request.contextPath }/login/mypage.jsp">마이페이지</a></li>
 		<li><a href="${pageContext.request.contextPath }/login/editmember.jsp">나의정보수정</a></li>
 		<li><a href="${pageContext.request.contextPath }/login/refund.jsp">취소내역</a></li>
-		<li><a href="">나의 문의내역</a></li>
+		<li><a href="${pageContext.request.contextPath }/login/myboard.jsp">나의 게시글</a></li>
 	</ul>
 </div>
 <!-- --------- 사이드메뉴 끝 ---------- -->

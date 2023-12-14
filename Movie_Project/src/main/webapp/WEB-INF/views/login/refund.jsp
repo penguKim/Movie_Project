@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>환불내역</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/css/login.css" rel="stylesheet" type="text/css">
 <script src="../js/jquery-3.7.1.js"></script>
 <script type="text/javascript">

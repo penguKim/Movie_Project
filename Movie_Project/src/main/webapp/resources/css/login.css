@@ -40,7 +40,8 @@ form:not(#popup1_form) { /* 정보 입력창 */
 	vertical-align: top;
 	display: inline-block;
 	width: 800px; /* 너비 800지정 */
-	margin: 10px auto;
+	margin: 10px;
+	padding-bottom: 100px;
 }
 
 table:not(#popup1_table) {
@@ -182,7 +183,6 @@ th {
  	border-radius: 3px; /* 모서리 둥글게 */
  	background-color: #ffffff; /* 배경색 */
 	border: 2px solid #9d9d9d; /* 테두리 */
-	position: absolute; /* 상대위치지정 */
 	left: 10%; /* 제목에서부터 왼쪽 10% */
 } 
 
@@ -370,3 +370,72 @@ h1{
     text-decoration: none; /* 링크의 밑줄 제거 */
     color: inherit; /* 링크의 색상 제거 */
 }
+
+#login_button { /* 모든 버튼 */
+	margin: 30px; /* 주변 띄우고 */
+	text-align: center; /* 가운데정렬 */
+	padding: 10px;
+}
+
+/* =========== 분실물 게시판 ====================== */
+table {
+	border-collapse: collapse; /* 칸 사이 간격 없애기 */
+	border-top: 2px solid #9d9d9d; /* 표상단줄 */
+	border-bottom: 2px solid #9d9d9d; /* 표하단줄 */ 
+	width: 800px;
+	margin: 0 auto;
+}
+
+th {
+	border-bottom: 2px solid #9d9d9d; /* 제목하단줄 */	
+}
+
+
+#login_table2 th { /* 분실물문의, 1대1질문 테이블 제목에 */
+	background-color: #f2f2f2; /* 제목 배경색 지정 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border-bottom: 1px solid #9d9d9d;
+	text-align: center;
+}
+
+#login_table2 td { /* 분실물문의, 1대1질문 테이블에 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border-bottom: 1px solid #9d9d9d;
+	text-align: left;
+/* 	width: 36%; */
+}
+
+#login_table2  b { /* 제목 옆 필수항목 *표시 */
+	color: #ff0000; /* 글자 빨간색 */
+}
+
+
+#input_table { /* 문의 입력창 테이블 전체 */
+	margin-top: 20px; /* 상단여백 */
+	border: 0; /* 테두리 없음 */
+}
+
+#id { /* 아이디 입력창에 */
+	border: none; /* 테두리 없애기 */
+	border-bottom: 1.5px solid #9d9d9d; /* 밑줄 */
+	margin: 10px; /* 여백 */
+	height: 30px; /* 높이지정 */
+	width: 250px; /* 넓이지정 */
+}
+
+#title, #file { /* 제목, 파일등록창에 */
+	border: none; /* 테두리 없애기 */
+	border-bottom: 1.5px solid #9d9d9d; /* 밑줄 */
+	margin: 10px; /* 여백 */
+	height: 30px; /* 높이지정 */
+	width: 550px; /* 넓이지정 */
+}
+
+select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 */
+	border: none; /* 테두리 없애기 */
+	border-bottom: 1.5px solid #9d9d9d; /* 밑줄 */
+	margin: 10px; /* 여백 */
+	height: 30px; /* 높이지정 */
+	width: 250px; /* 넓이지정 */
+}	
+

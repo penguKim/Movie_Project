@@ -34,6 +34,11 @@
 					<td></td>
 				</tr>
 			</table>
+			<br>
+			<section id="payX">
+				<!-- 자바스크립트 사용해 사이즈 조정 후 팝업으로 만들 창이므로 버튼을 미리 가운데 정렬-->
+				<input type="button" value="결제취소" onclick="confirm('결제 취소하시겠습니까?')">
+			</section>			
 		</div>
 	</form>
 </body>
