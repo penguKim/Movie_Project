@@ -11,19 +11,6 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/reserve.css" rel="stylesheet" type="text/css">
 
-<style>
-	.seat {
-    width: 30px;
-    height: 30px;
-	    background-color: #ccc; 
-	    margin: 5px; 
-    display: inline-block;
-    cursor: pointer;
-   }
-   .selected {
-   	background-color: #de1010;
-   }
-</style>
 <script>
    function toggleSeat(seat) {
        seat.classList.toggle("selected");
@@ -112,6 +99,10 @@
 						</tr>
 					</table>
 				</div>
+				<c:forEach var="SeatList" items="${SeatList}">
+					<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
+				</c:forEach>
+				<h1>예매된 좌석 : ${seat_name}</h1>
 				
 				<div id="seat_num">
 					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><!--행을결정지을 변수 x 선언-->
@@ -120,7 +111,15 @@
 				    	<div class="center">
 					 	<c:forEach var="j" begin="1" end="16">
 					    	<c:set var="seat_type" value="${x[i]}${j}" />
-					    	<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
+					    	<c:set var="index" value="${fn:indexOf(seat_name, seat_type)}"/>
+					    	<c:choose>
+					    		<c:when test="${index != -1}">
+					    			<div class="reserved" value="${seat_type}">${seat_type}</div>
+					    		</c:when>
+					    		<c:otherwise>
+					    			<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
+					    		</c:otherwise>
+					    	</c:choose>
 						</c:forEach><!-- 열반복 종료 -->
 						</div>
 					</c:forEach><!-- 행반복 종료 -->

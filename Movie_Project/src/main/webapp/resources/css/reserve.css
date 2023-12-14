@@ -137,6 +137,17 @@ button:hover { /* 버튼 가까이 갔을때 어둡 */
 	line-height: 30px;
 }
 
+.reserved{
+	width: 30px;
+    height: 30px;
+    background-color: #000; 
+    margin: 5px; 
+    display: inline-block;
+	align-items: center;
+	line-height: 30px;
+}
+
+
 .seat:nth-of-type(4), .seat:nth-of-type(12) {
 	margin-right: 60px/*좌석의 4번째열과 12번째 열 옆으로 통로만드는 css*/
 }
