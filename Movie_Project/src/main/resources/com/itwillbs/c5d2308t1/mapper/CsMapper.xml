@@ -18,19 +18,33 @@
 			, #{cs_file}
 			, null
 			, 0
-			, #{lost_datetime}
 			, null
 			, #{member_id}
 		)		
 	</insert>
 	
-	<select id="selectFqaList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+	<select id="selectFaqList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
+		WHERE cs_type = "자주묻는질문";
+	</select>
+	
+	<select id="selectFaqDetail" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+		SELECT * FROM cs
+		WHERE cs_type = "자주묻는질문" AND cs_type_detail = #{cs_type_detail};
+	</select>
+	
+	<select id="selectFaqListCount" resultType="int">
+		SELECT COUNT(*) FROM cs
 		WHERE cs_type = "자주묻는질문";
 	</select>
 	
 	<select id="selectNoticeList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
+		WHERE cs_type = "공지사항";
+	</select>
+	
+	<select id="selectNoticeListCount" resultType="int">
+		SELECT COUNT(*) FROM cs
 		WHERE cs_type = "공지사항";
 	</select>
 

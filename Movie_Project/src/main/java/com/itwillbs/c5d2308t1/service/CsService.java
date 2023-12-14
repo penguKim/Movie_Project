@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.mapper.CsMapper;
 import com.itwillbs.c5d2308t1.vo.CsVO;
@@ -23,15 +24,42 @@ public class CsService {
 		return mapper.insertBoard(cs);
 	}
 
-	public List<CsVO> getFqaList() {
+	public List<CsVO> getFaqList() {
 		// CsMapper - selectFqaList() 메서드 호출하여 자주묻는질문 목록 조회 요청
-		return mapper.selectFqaList();
+		return mapper.selectFaqList();
+	}
+	
+	public List<CsVO> getFaqList(int startRow, int listLimit) {
+		// CsMapper - selectFqaList() 메서드 호출하여 자주묻는질문 목록 조회 요청
+		return mapper.selectFaqList(startRow, listLimit);
+	}
+	
+	public Integer getFaqListCount() {
+		// CsMapper - selectNoticeListCount() 메서드 호출하여 공지사항 목록 갯수 조회 요청
+		return mapper.selectFaqListCount();
 	}
 	
 	public List<CsVO> getNoticeList() {
 		// CsMapper - selectNoticeList() 메서드 호출하여 공지사항 목록 조회 요청
 		return mapper.selectNoticeList();
 	}
+	
+	
+	public List<CsVO> getNoticeList(int startRow, int listLimit) {
+		// CsMapper - selectNoticeList() 메서드 호출하여 공지사항 목록 조회 요청
+		return mapper.selectNoticeList(startRow, listLimit);
+	}
+
+	public Integer getNoticeListCount() {
+		// CsMapper - selectNoticeListCount() 메서드 호출하여 공지사항 목록 갯수 조회 요청
+		return mapper.selectNoticeListCount();
+	}
+
+	public List<CsVO> getFaqDetail(String cs_type_detail) {
+		return mapper.selectFaqDetail(cs_type_detail);
+	}
+
+
 
 	
 	

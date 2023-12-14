@@ -62,7 +62,8 @@
 									<tr>
 										<td>${notice.cs_type_list_num}</td> <%-- 내용 넣기 --%>
 										<td>지점명</td>
-										<td id="td_left"><a href="csNoticeDetail" id="notice_tit">${notice.cs_subject}</a></td>
+										<%-- 제목 클릭 시 해당 게시물로 이동 --%>
+										<td id="td_left"><a href="csNoticeDetail?cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}" id="notice_tit">${notice.cs_subject}</a></td>
 										<td><fmt:formatDate value="${notice.cs_date}" pattern="yyyy.MM.dd"/></td>
 									</tr>
 								</c:forEach>
@@ -70,15 +71,42 @@
 						</c:choose>
 					</table>
 				</section>
-				
 				<div class="pagination">
-					<a href="#">&laquo;</a>
-					<a href="#">1</a>
-					<a class="active" href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">&raquo;</a>
+					<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>
+					<%-- 다만, 페이지 번호가 1일 경우 비활성화 --%>		
+					<c:choose>
+						<c:when test="${pageNum eq 1}">
+							<a href="" >&laquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="csNotice?pageNum=${pageNum-1}" >&laquo;</a>
+						</c:otherwise>				
+					</c:choose>
+					<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
+					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						<%-- 각 페이지마다 하이퍼링크 설정(페이지번호를 pageNum 파라미터로 전달) --%>
+						<%-- 단, 현재 페이지는 하이퍼링크 제거하고 굵게 표시 --%>
+						<c:choose>
+							<%-- 현재 페이지번호와 표시될 페이지번호가 같을 경우 판별 --%>
+							<c:when test="${pageNum eq i}">
+								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+							</c:when>
+							<c:otherwise>
+								<a href="csNotice?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					
+					<%-- '>>' 버튼 클릭 시 현체 페이지보다 한 페이지 다음 페이지 요청 --%>
+					<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
+					<c:choose>
+						<c:when test="${pageNum eq pageInfo.maxPage}">
+							<a href="" >&raquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="csNotice?pageNum=${pageNum+1}" >&raquo;</a>
+						</c:otherwise>				
+					</c:choose>
 				</div>
 			</form>
 		</section>

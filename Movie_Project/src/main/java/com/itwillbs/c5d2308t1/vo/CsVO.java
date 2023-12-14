@@ -14,7 +14,6 @@ cs 테이블 정의
 첨부파일(cs_file) - VARCHAR(200)
 새첨부파일(cs_file_renew) - VARCHAR(200)		
 글번호(cs_type_list_num) - INT
-분실일시(lost_datetime) - VARCHAR(20)
 문의답변(cs_reply) - VARCHAR(1000)			
 회원아이디(member_id) - VARCHAR(20), FK(members)
 -----------------------------------------
@@ -28,7 +27,6 @@ create table cs (
 	cs_file VARCHAR(200),
 	cs_file_renew VARCHAR(200),		
 	cs_type_list_num INT,
-	lost_datetime VARCHAR(20),
 	cs_reply VARCHAR(1000),			
 	member_id VARCHAR(20),
 	theater_id int,
@@ -48,7 +46,6 @@ public class CsVO {
 	private String cs_file;
 	private String cs_file_renew;
 	private int cs_type_list_num;
-	private String lost_datetime;
 	private String cs_reply;
 	private String member_id;
 	
@@ -128,14 +125,6 @@ public class CsVO {
 		this.cs_file_renew = cs_file_renew;
 	}
 	
-	public String getLost_datetime() {
-		return lost_datetime;
-	}
-	
-	public void setLost_datetime(String lost_datetime) {
-		this.lost_datetime = lost_datetime;
-	}
-	
 	public String getCs_reply() {
 		return cs_reply;
 	}
@@ -154,13 +143,14 @@ public class CsVO {
 
 
 
+
 	// toString 정의
 	@Override
 	public String toString() {
 		return "CsVO [cs_id=" + cs_id + ", cs_subject=" + cs_subject + ", cs_content=" + cs_content + ", cs_date="
 				+ cs_date + ", cs_type=" + cs_type + ", cs_type_detail=" + cs_type_detail + ", cs_file=" + cs_file
-				+ ", cs_file_renew=" + cs_file_renew + ", cs_type_list_num=" + cs_type_list_num + ", lost_datetime="
-				+ lost_datetime + ", cs_reply=" + cs_reply + ", member_id=" + member_id + "]";
+				+ ", cs_file_renew=" + cs_file_renew + ", cs_type_list_num=" + cs_type_list_num + ", cs_reply="
+				+ cs_reply + ", member_id=" + member_id + "]";
 	}
 	
 	
