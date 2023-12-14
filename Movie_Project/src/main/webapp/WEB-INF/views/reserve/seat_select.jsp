@@ -10,7 +10,11 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/reserve.css" rel="stylesheet" type="text/css">
-
+<style>
+    .selected { 
+    	background-color: #de1010; 
+    } 
+</style>
 <script>
    function toggleSeat(seat) {
        seat.classList.toggle("selected");
@@ -76,7 +80,7 @@
 						<tr id="height50">
 							<th colspan="3">
 								<table class="hbt">
-									<c:set var="type" value="${fn:split('일반,청소년,경로,우대',',')}" /><!--행을결정지을 변수 x 선언-->
+									<c:set var="type" value="${fn:split('일반,청소년,경로,우대',',')}" /><%--행을결정지을 변수 x 선언--%>
 									<c:forEach var="j" begin="0" end="${fn:length(type)-1}">
 									<tr>
 										<td>
@@ -105,24 +109,50 @@
 				<h1>예매된 좌석 : ${seat_name}</h1>
 				
 				<div id="seat_num">
-					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><!--행을결정지을 변수 x 선언-->
+					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><%--행을결정지을 변수 x 선언--%>
 				    <h1 class="center">Screen</h1>
-					<c:forEach var="i" begin="0" end="${fn:length(x)-1}">		<!--행을 반복할 반복문 선언-->
+					<c:forEach var="i" begin="0" end="${fn:length(x)-1}">		<%--행을 반복할 반복문 선언--%>
 				    	<div class="center">
 					 	<c:forEach var="j" begin="1" end="16">
 					    	<c:set var="seat_type" value="${x[i]}${j}" />
 					    	<c:set var="index" value="${fn:indexOf(seat_name, seat_type)}"/>
 					    	<c:choose>
+					    		 <%--예매된 좌석이 있을경우를 처리하는 when--%>
 					    		<c:when test="${index != -1}">
-					    			<div class="reserved" value="${seat_type}">${seat_type}</div>
+					    			<c:choose>
+					    				<%-- 'A1' 좌석일 경우 A10좌석과 판별할때 오류가 발생하므로 해결하기 위한 판별문 when --%>
+										<c:when test="${j == 1}">
+											<%-- JSTL 1.1버전 이후에는 <c:break/> 기능을 지원하나 현재 버전에선 미 지원이므로
+											     return 처럼 사용할 변수 stopIteration 선언 --%>
+											<c:set var="stopIteration" value="false" />
+											<%-- 'A1'좌석의 예매여부를 확인하기 위해 예매된 좌석을 배열로 변수에 저장 --%>
+											<c:set var="seatArr" value="${fn:split(seat_name,',')}" /> 
+											<c:forEach var="sa" begin="0" end="${fn:length(seatArr)-1}" varStatus="status">
+												<%-- 만약 'A1'좌석이 예매되지 않았을 경우 --%>
+												<c:if test="${seatArr[sa] ne 'A1' && !stopIteration}">
+						    						<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
+						    						<c:set var="stopIteration" value="true" />
+												</c:if>
+												<%-- 만약 'A1'좌석이 예매되었을 경우 --%>
+												<c:if test="${seatArr[sa] eq 'A1' && !stopIteration}">
+													<div class="reserved seat" value="${seat_type}">${seat_type}</div>
+													<c:set var="stopIteration" value="true" />
+												</c:if>
+											</c:forEach>
+										</c:when>					    		
+										<c:otherwise>
+											<%-- 'A1'좌석이 아닌 다른 좌석이 예매되어 있을 경우 예매 reserved처리  --%>
+							    			<div class="reserved seat" value="${seat_type}">${seat_type}</div>
+										</c:otherwise>    		
+					    			</c:choose>
 					    		</c:when>
 					    		<c:otherwise>
 					    			<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
 					    		</c:otherwise>
 					    	</c:choose>
-						</c:forEach><!-- 열반복 종료 -->
+						</c:forEach><%-- 열반복 종료 --%>
 						</div>
-					</c:forEach><!-- 행반복 종료 -->
+					</c:forEach><%-- 행반복 종료 --%>
 				</div>
 			</article>
 		</section><%--CSS 요청으로 감싼 태그--%>
@@ -142,11 +172,11 @@
 					</td>
 					<td class="button_area">
 						<form action="../money.jsp" method="post" onsubmit="setSelectedSeatValue()">
-						    <input type="hidden" name="movie" value="${param.movie}">		    <!-- 선택된 값을 숨겨진 input 요소에 할당 -->
+						    <input type="hidden" name="movie" value="${param.movie}">		    <%-- 선택된 값을 숨겨진 input 요소에 할당 --%>
 						    <input type="hidden" name="Theater" value="${param.theater}">
 						    <input type="hidden" name="Date" value="${param.date}">
 						    <input type="hidden" name="Time" value="${param.time}">
-						    <input type="hidden" id="select_seat" name="select_seat" value="">			<!--  선택된 좌석 값 전달 -->	    
+						    <input type="hidden" id="select_seat" name="select_seat" value="">			<%--  선택된 좌석 값 전달 --%>	    
 						    <input type="submit" value="결제하기" class="button">
 						</form>
 					</td>

@@ -86,9 +86,8 @@ button:hover { /* 버튼 가까이 갔을때 어둡 */
 	height: 20px;
 	margin: 10px;
 }
-
 .selected {
-	background-color: darkgray; /*클릭되면 빨간색으로 seat배경색 바뀜*/
+	background-color: green; /*클릭되면 빨간색으로 seat배경색 바뀜*/
 }
 
 #seat_num {
