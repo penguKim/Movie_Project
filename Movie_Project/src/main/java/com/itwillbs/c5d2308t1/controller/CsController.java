@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.CsService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.PageInfo;
 
 @Controller
 public class CsController {
@@ -27,7 +29,7 @@ public class CsController {
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqList)
-		List<CsVO> faqList = service.getFqaList();
+		List<CsVO> faqList = service.getFaqList();
 		System.out.println(faqList);
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
@@ -66,10 +68,65 @@ public class CsController {
 	
 	// 고객센터 자주묻는질문 페이지로 이동
 	@GetMapping("csFaq")
-	public String csFaq(CsVO cs, Model model) {
+	public String csFaq(CsVO cs, Model model, HttpServletRequest request) {
+		// 페이징 처리를 위한 pageNum 변수 선언
+		// 파라미터로 전달받은 pageNum 값을 가져오기
+		// 파라미터가 없을 경우 기본값 1
+		int pageNum = 1;
+		if(request.getParameter("pageNum") != null) {
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		}
+		
+//		System.out.println("현재 페이지 : " + pageNum);
+		
+		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
+		int listLimit = 3;
+		
+		// 조회 시작 행번호
+		int startRow = (pageNum - 1) * listLimit;
+		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqList)
-		List<CsVO> faqList = service.getFqaList();
+		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(faqList)
+		List<CsVO> faqList = service.getFaqList(startRow, listLimit);
+//		System.out.println(faqList);
+		
+		
+		// ======================================================
+		// 글 목록 페이징 처리
+		// 1) 한 페이지에서 표시할 페이지 목록(번호) 계산
+		// CsService - getFaqListCount() 메서드를 호출하여
+		//     전체 게시물 수 조회(페이지 목록 계산에 활용)
+		// => 파라미터 : 없음   리턴타입 : Integer(listCount)
+		Integer listCount = service.getFaqListCount();
+//				System.out.println(listCount);
+		
+		// 2) 한 페이지에 표시할 페이지 목록 갯수 설정(테스트)
+		int pageListLimit = 2;
+		
+		// 3) 전체 페이지 목록 갯수 계산
+		// 페이지 목록 갯수 계산 후 나머지가 0보다 크면 페이지 갯수 +1 처리
+		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
+		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		
+		// 4) 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5) 끝 페이지 번호 계산
+		// 시작 페이지 번호화 한 페이지 당 페이지 번호 갯수를 더한 값 -1
+		int endPage = startPage + pageListLimit - 1;
+		
+		// 6) 만약, 끝 페이지 번호(endPage)가 전체(최대) 페이지 번호(maxPage) 보다 클 경우
+		//    끝 페이지 번호를 최대 페이지 번호로 교체
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
+		// ------------------------------------------------------
+		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
+		request.setAttribute("pageInfo", pageInfo);
+				
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
 		model.addAttribute("faqList", faqList);
@@ -77,12 +134,92 @@ public class CsController {
 		return "cs/cs_FAQ";
 	}
 	
+	// 자주묻는질문 카테고리별 모아보기 기능
+	@GetMapping("faqDetail")
+	public String faqDetail(Model model, String cs_type_detail) {
+		// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
+		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqDetail)
+		List<CsVO> faqDetail = service.getFaqDetail(cs_type_detail);
+		System.out.println(faqDetail);
+		
+		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
+		model.addAttribute("faqDetail", faqDetail);
+		
+		return "cs/cs_FAQ";
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 고객센터 공지사항 페이지로 이동
 	@GetMapping("csNotice")
-	public String csNotice(CsVO cs, Model model) {
+	public String csNotice(CsVO cs, Model model, HttpServletRequest request) {
+		// 페이징 처리를 위한 pageNum 변수 선언
+		// 파라미터로 전달받은 pageNum 값을 가져오기
+		// 파라미터가 없을 경우 기본값 1
+		int pageNum = 1;
+		if(request.getParameter("pageNum") != null) {
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		}
+		
+//		System.out.println("현재 페이지 : " + pageNum);
+		
+		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
+		int listLimit = 3;
+		
+		// 조회 시작 행번호
+		int startRow = (pageNum - 1) * listLimit;
+		
 		// CsService - getNoticeList() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeList)
-		List<CsVO> noticeList = service.getNoticeList();
+		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
+		List<CsVO> noticeList = service.getNoticeList(startRow, listLimit);
+//		System.out.println(noticeList);
+		
+		
+		// ======================================================
+		// 글 목록 페이징 처리
+		// 1) 한 페이지에서 표시할 페이지 목록(번호) 계산
+		// CsService - getNoticeListCount() 메서드를 호출하여
+		//     전체 게시물 수 조회(페이지 목록 계산에 활용)
+		// => 파라미터 : 없음   리턴타입 : Integer(listCount)
+		Integer listCount = service.getNoticeListCount();
+//		System.out.println(listCount);
+		
+		// 2) 한 페이지에 표시할 페이지 목록 갯수 설정(테스트)
+		int pageListLimit = 2;
+		
+		// 3) 전체 페이지 목록 갯수 계산
+		// 페이지 목록 갯수 계산 후 나머지가 0보다 크면 페이지 갯수 +1 처리
+		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
+		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		
+		// 4) 시작 페이지 번호 계산
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		
+		// 5) 끝 페이지 번호 계산
+		// 시작 페이지 번호화 한 페이지 당 페이지 번호 갯수를 더한 값 -1
+		int endPage = startPage + pageListLimit - 1;
+		
+		// 6) 만약, 끝 페이지 번호(endPage)가 전체(최대) 페이지 번호(maxPage) 보다 클 경우
+		//    끝 페이지 번호를 최대 페이지 번호로 교체
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
+		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
+		// ------------------------------------------------------
+		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
+		request.setAttribute("pageInfo", pageInfo);
+		
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
 		model.addAttribute("noticeList", noticeList);
