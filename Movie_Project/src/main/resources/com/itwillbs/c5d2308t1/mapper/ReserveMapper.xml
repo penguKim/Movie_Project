@@ -14,7 +14,7 @@
 	</select>
 	<select id="selectPlayDate_PlayTime">
 <!-- 		SELECT DATE_FORMAT(play_start_time,"%H:%i") play_start_time, DATE_FORMAT(play_date,'%a %d') play_date  -->
-		SELECT play_start_time, play_date
+		SELECT DISTINCT play_date, play_start_time
 		FROM plays
 	</select>
 	<select id="selectSeatName">
