@@ -31,6 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -169,40 +171,58 @@ public class MoviesController {
 	@GetMapping("Test2")
 	public String test2() {
 		System.out.println("kmdb 테스트");
-		try {
-			StringBuilder urlBuilder = new StringBuilder("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&nation=대한민국"); /*URL*/ 
-			urlBuilder.append("&" + URLEncoder.encode("ServiceKey","UTF-8") + "=08P2788CP12T24B2US8F"); /*Service Key*/ 
-			urlBuilder.append("&" + URLEncoder.encode("title","UTF-8") + "=" + URLEncoder.encode("서울의", "UTF-8")); /*상영년도*/ 
-//			urlBuilder.append("&" + URLEncoder.encode("val002","UTF-8") + "=" + URLEncoder.encode("01", "UTF-8")); /*상영 월*/ 
-			URL url = new URL(urlBuilder.toString()); 
-			System.out.println(urlBuilder);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
-			conn.setRequestMethod("GET"); 
-			conn.setRequestProperty("Content-type", "application/json"); 
-			System.out.println("Response code: " + conn.getResponseCode()); 
-			BufferedReader rd; 
-			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) { 
-				rd = new BufferedReader(new InputStreamReader(conn.getInputStream())); 
-			} else { 
-				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream())); 
-			} 
-			StringBuilder sb = new StringBuilder(); 
-			String line; 
-			while ((line = rd.readLine()) != null) { 
-				sb.append(line); 
-			} 
-			rd.close(); 
-			conn.disconnect(); 
-			System.out.println(sb.toString());
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (ProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+		String url = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2"; 
+		String ServiceKey = "08P2788CP12T24B2US8F";
+		 try {
+		    	
+	            URL urlObj = new URL(url);
+	            HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+	            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+	            String inputLine;
+	            StringBuffer content = new StringBuffer();
+	            while ((inputLine = br.readLine()) != null) {
+	                content.append(inputLine);
+	            }
+
+	            // close connections
+	            br.close();
+	            con.disconnect();
+		    	
+		    	JSONParser jsonParser = new JSONParser();
+		    	JSONObject jsonobject = (JSONObject)jsonParser.parse(content.toString());
+		    	JSONObject json =  (JSONObject) jsonobject.get("boxOfficeResult");
+		    	JSONArray array = (JSONArray)json.get("dailyBoxOfficeList");
+		    	
+		    	List<MoviesVO> movies = new ArrayList<MoviesVO>();
+		    	for(int i = 0 ; i < array.size(); i++){
+		    		MoviesVO movie = new MoviesVO();
+		    		JSONObject entity = (JSONObject)array.get(i);
+		    		movie.setMovie_id(Integer.parseInt((String)entity.get("movieCd"))); // 영화코드
+		    		movie.setMovie_title((String)entity.get("movieNm")); // 영화 이름
+		    		movie.setMovie_release_date((String)entity.get("openDt")); // 개봉일
+		    		movie.setMovie_audience(Integer.parseInt((String)entity.get("audiAcc"))); // 관객수
+		    		movies.add(movie);
+		    		
+		    	}
+		    	
+		    	// 코드, 이름, 개봉일, 관객수를 DB에 등록한다.
+//		    	for(MoviesVO movie : movies) {
+//		    		this.movie.insertMovie(movie);
+//		    	}
+		    	
+		    	
+//		    } catch (ParseException e) {
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+		    
+		return "";
+	}
+	
+	@ResponseBody
+	@GetMapping("movieRegistTest")
+	public String movieRegist(@RequestParam Map<String, String> map) {
+		System.out.println(map);
 		
 		return "";
 	}
