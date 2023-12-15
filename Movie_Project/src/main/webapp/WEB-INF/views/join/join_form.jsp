@@ -10,39 +10,113 @@
 <link href="${pageContext.request.contextPath}/resources/css/join.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
-	<%-- AJAX 를 활용하여 아이디 중복 검사 작업 수행 --%>
 	$(function() {	
-		$("#id_check").on("click", function() {
-			$.ajax({
-				url: "resources/join/check_id.jsp",
-				data: {
-					id: $("#id").val()
-				},
-				success: function(result) {
-					if($("#id").val().length >= 5 && $("#id").val().length <= 20) {
-						if(result.trim() == "true") {
-// 							trim()을 써서 문자열 공백을 제거하고 비교
+		let isDuplicateId = false; <%-- 아이디 중복 여부를 저장할 변수 선언 --%>
+		let isDuplicateEmail = false; <%-- 이메일 중복 여부를 저장할 변수 선언 --%>
+		let isDuplicatePhone = false; <%-- 휴대폰번호 중복 여부를 저장할 변수 선언 --%>
+		
+		let isSamePasswd = false; <%-- 패스워드 일치 여부를 저장할 변수 선언 --%>
+		let isSafePasswd = false; <%-- 패스워드 안전도를 저장하는 변수 --%>
+		
+		let iscorrectId = false; <%-- 아이디가 정규표현식에 적합한지를 저장할 변수 선언 --%>
+		let iscorrectPasswd = false; <%-- 비밀번호가 정규표현식에 적합한지를 저장할 변수 선언 --%>
+		let iscorrectName = false; <%-- 이름이 정규표현식에 적합한지를 저장할 변수 선언 --%>
+		let iscorrectPhone = false; <%-- 휴대폰번호가 정규표현식에 적합한지를 저장할 변수 선언 --%>
+		let iscorrectEmail = false; <%-- 이메일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
+		let iscorrectBirth = false; <%-- 생일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
+		
+		
+		$("#id").blur(function() {
+			let member_id = $("#id").val();
+			<%-- 아이디 길이, 문자 종류 확인 --%>
+			let regId = /^[A-Za-z0-9]{5,20}$/; <%-- 5~20자의 영문(대소문자), 숫자 --%>
+			if(!regId.exec(member_id)) {
+				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
+				iscorrectId = false;
+			} else {
+				<%-- AJAX를 통해 아이디 중복값 확인 --%>
+				$.ajax({
+					url: "checkDup",
+					data: {
+						member_id : member_id
+					},
+					dataType: "json",
+					success: function(checkDupId) {
+						console.log("결과 : " + checkDupId)
+						if(checkDupId) { // 중복
  							$("#checkIdResult").text("이미 사용중인 아이디입니다").css("color", "red");
- 							$("#id").focus();
-						} else if(result.trim() == "false") {
+ 							iscorrectId = false;
+ 							isDuplicateId = true;
+						} else { // 사용가능
 							$("#checkIdResult").text("사용 가능한 아이디입니다").css("color", "blue");
-							$("#passwd").focus();
+							iscorrectId = true;
+ 							isDuplicateId = false;
 						}
-						
+							
 					}
+				});
+			}
+		});	
+		
+		
+		<%-- 패스워드 확인 --%>
+		$("#passwd").blur(function() {	
+			let member_passwd = $("#passwd").val();
+			
+			<%-- 비밀번호 길이, 문자종류 검증 --%>
+			let regPw = /^[A-Za-z0-9!@#%^&*]{8,16}$/; <%-- 8~16자의 영문 대/소문자, 숫자, 특수문자(!@#%^&*) --%>
+			if(!regPw.exec(member_passwd)) { <%-- 비밀번호 길이, 문자종류 위반 --%>
+				$("#checkPasswdResult").text("8~16자의 영문 대/소문자, 숫자, 특수문자(!@#%^&*)만 사용 가능합니다").css("color", "red");
+				iscorrectPasswd = false;
+			} else { <%-- 통과했을 때 복잡도 검증 실행 --%>
+				let count = 0; <%-- 복잡도 점수를 저장할 변수 선언 --%>
+				
+				let regEngUpper = /[A-Z]/; <%-- 대문자 --%>
+				let regEngLower = /[a-z]/; <%-- 소문자 --%>
+				let regNum = /[0-9]/; <%-- 숫자 --%>
+				let regSpec = /[!@#%^&*]/; <%-- 특수문자(!@#%^&*) --%>
+			
+				if(regEngUpper.exec(member_passwd)) count++; <%-- 대문자가 있으면 +1점 --%>
+				if(regEngLower.exec(member_passwd)) count++; <%-- 소문자가 있으면 +1점 --%>
+				if(regNum.exec(member_passwd)) count++; <%-- 숫자가 있으면 +1점 --%>
+				if(regSpec.exec(member_passwd)) count++; <%-- 특수문자가 있으면 +1점 --%>
+				
+				switch (count) {
+					case 4: 
+						$("#checkPasswdResult").text("안전").css("color", "blue");
+						isSafePasswd = true;
+						iscorrectPasswd = true;
+						break;
+					case 3: 
+						$("#checkPasswdResult").text("보통").css("color", "yello");
+						isSafePasswd = true;
+						iscorrectPasswd = true;
+						break;
+					case 2: 
+						$("#checkPasswdResult").text("주의").css("color", "orange");
+						isSafePasswd = false;
+						iscorrectPasswd = false;
+						break;
+					case 1: 
+					case 0: 
+						$("#checkPasswdResult").text("위험").css("color", "red");
+						isSafePasswd = false;
+						iscorrectPasswd = false;
+						break;
 				}
-			});
-
+			
+			}
+			
 		});
-	});
-	
-	$(function() {
+
 		<%-- 비밀번호와 비밀번호 확인이 같은지 체크하기 --%>
 		$("#passwd").on("keyup", function() {	
 		    if($("#passwd").val() == $("#passwd2").val()) { // 일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치합니다").css("color", "blue");
+		    	isSamePasswd = true;
 		    } else { // 불일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치하지 않습니다").css("color", "red");		     	
+		    	isSamePasswd = false;
 		    }
 			
 		});
@@ -50,182 +124,173 @@
 		$("#passwd2").on("keyup", function() {	
 		    if($("#passwd").val() == $("#passwd2").val()) { // 일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치합니다").css("color", "blue");
+		    	isSamePasswd = true;
 		    } else { // 불일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치하지 않습니다").css("color", "red");		     	
+		    	isSamePasswd = false;
 		    }
 			
 		});
-	});
-	
-	<%-- 입력창에서 커서가 빠져나갈 때 올바른 형식인지 확인 --%>
-	$(function() {
-		<%-- 정규식 작성 --%>
-		let regId = /^[A-Za-z0-9]{5,20}$/; <%-- 5~20자의 영문(대소문자), 숫자 --%>
-		let regPw = /^[A-Za-z0-9!@#%^&*]{8,16}$/; <%-- 8~16자의 영문 대/소문자, 숫자, 특수문자(!@#%^&*) --%>
-		let regName = /^[가-힣]{2,5}$/; <%-- 한글 2~5글자 --%>
-		let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-		<%-- 대소문자숫자 @ 대소문자숫자 . 대소문자 형식 --%>
-		let regPhone = /^010-\d{4}-\d{4}$/; <%-- 010으로 시작하는 11자리 숫자 --%>
-		let regBirth = /^(19[0-9][0-9]|20[0-2][0-9]).(0[0-9]|1[0-2]).(0[1-9]|[1-2][0-9]|3[0-1])$/; <%-- 1920년~2029년까지/01월~12월까지/01일~31일까지의 8자리 숫자 --%>
 		
-		<%-- 아이디 확인 --%>
-		$("#id").on("blur", function() {
-			if(!regId.test($("#id").val())){
-				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
-			}
-		});	
-			
-		<%-- 패스워드 확인 --%>
-		$("#passwd").on("blur", function() {	
-			if(!regPw.test($("#passwd").val())){
-				$("#checkPasswdResult").text("8~16자의 영문 대/소문자, 숫자, 특수문자(!@#%^&*)만 사용 가능합니다").css("color", "red");
-			} else if(regPw.test($("#passwd").val())) {
-				$("#checkPasswdResult").text("적합한 비밀번호입니다").css("color", "blue");
-	        }
-		});		
-			
+		
 		<%-- 이름 확인 --%>
 		$("#name").on("blur", function() {		
+			let regName = /^[가-힣]{2,5}$/; <%-- 한글 2~5글자 --%>
 			if(!regName.test($("#name").val())){
-				$("#checkNameResult").text("2~5글자의 한글만 입력 가능합니다").css("color", "red");
+				$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
+				iscorrectName = false;
 			} else if(regName.test($("#name").val())){
 				$("#checkNameResult").text("사용 가능한 이름입니다").css("color", "blue");
+				iscorrectName = true;
 	        }
 		});		
-			
+		
+		
 		<%-- 이메일주소 확인 --%>
-		$("#email").on("blur", function() {			
-			if(!regEmail.test($("#email").val())){
-				$("#checkEmailResult").text("올바른 이메일 형식으로 입력해주세요").css("color", "red");
-			} else if(regEmail.test($("#email").val())){
-				$("#checkEmailResult").text("사용 가능한 이메일주소입니다").css("color", "blue");
+		$("#email").blur(function() {			
+			let member_email = $("#email").val();
+			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+			
+			if(!regEmail.exec(member_email)){
+				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
+				iscorrectEmail = false;
+			} else {
+				<%-- AJAX를 통해 이메일 중복값 확인 --%>
+				$.ajax({
+					url: "checkDup",
+					data: {
+						member_email : member_email
+					},
+					dataType: "json",
+					success: function(checkDupEmail) {
+						console.log("결과 : " + checkDupEmail)
+						if(checkDupEmail) { // 중복
+ 							$("#checkEmailResult").text("이미 사용중인 이메일입니다").css("color", "red");
+ 							iscorrectEmail = false;
+ 							isDuplicateEmail = true;
+						} else { // 사용가능
+							$("#checkEmailResult").text("사용 가능한 이메일입니다").css("color", "blue");
+							isDuplicateEmail = false;
+							iscorrectEmail = true;
+						}
+							
+					}
+				});
+	        }
+		});	
+		
+		<%-- 휴대폰번호 확인 --%>
+		$("#phone").on("blur", function() {	
+			let member_phone = $("#phone").val();
+			let regPhone = /^010-\d{4}-\d{4}$/; <%-- 010으로 시작하는 11자리 숫자 --%>
+			if(!regPhone.test(member_phone)){
+				$("#checkPhoneResult").text("휴대폰번호를 확인해주세요").css("color", "red");
+				iscorrectPhone = false;
+			} else {
+				<%-- AJAX를 통해 휴대폰번호 중복값 확인 --%>
+				$.ajax({
+					url: "checkDup",
+					data: {
+						member_phone : member_phone
+					},
+					dataType: "json",
+					success: function(checkDupPhone) {
+						console.log("결과 : " + checkDupPhone)
+						if(checkDupPhone) { // 중복
+ 							$("#checkPhoneResult").text("이미 사용중인 휴대폰번호입니다").css("color", "red");
+ 							iscorrectPhone = false;
+ 							isDuplicatePhone = true;
+						} else { // 사용가능
+							$("#checkPhoneResult").text("사용 가능한 휴대폰번호입니다").css("color", "blue");
+							iscorrectPhone = true;
+							isDuplicatePhone = false;
+						}
+							
+					}
+				});
 	        }
 		});			
 		
-		<%-- 휴대폰번호 확인 --%>
-		$("#phone").on("blur", function() {			
-			if(!regPhone.test($("#phone").val())){
-				$("#checkPhoneResult").text("올바른 휴대폰번호 형식으로 입력해주세요").css("color", "red");
-			} else if(regPhone.test($("#phone").val())){
-				$("#checkPhoneResult").text("사용 가능한 휴대폰번호입니다").css("color", "blue");
-	        }
-		});			
-			
-		<%-- 생년월일 확인 --%>
-		$("#birth").on("blur", function() {				
-			if(!regBirth.test($("#birth").val())){
-				$("#checkBirthResult").text("생년월일을 올바르게 입력해주세요").css("color", "red");
-			} else if(regBirth.test($("#birth").val())) {
-				$("#checkBirthResult").text("사용 가능한 생년월일입니다").css("color", "blue");
-	        }
-		});	
-			
-	});
-	
-	<%-- 전화번호에 자동 "-" 입력 --%>
-	$(function() {
+		<%-- 전화번호에 자동 "-" 입력 --%>
 		$("#phone").keyup(function(){
 			var val = $(this).val().replace(/[^0-9]/g, ''); // 숫자만 입력 가능
 			if(val.length > 3 && val.length < 6) {
 				$(this).val(val.substring(0,3) + "-" + val.substring(3));
-			}else if (val.length > 7) {
+			} else if (val.length > 7) {
 				$(this).val(val.substring(0,3) + "-" + val.substring(3, 7) + "-" + val.substring(7));
 					
 			}
 		});
-	});
-	
-	<%-- 생년월일에 자동 "." 입력 --%>
-	$(function() {
-		$("#birth").keyup(function(){
+		
+		
+		<%-- 생년월일 확인 --%>
+		let regBirth = /^(19[0-9][0-9]|20[0-2][0-9]).(0[0-9]|1[0-2]).(0[1-9]|[1-2][0-9]|3[0-1])$/; <%-- 1920년~2029년까지/01월~12월까지/01일~31일까지의 8자리 숫자 --%>
+		$("#birth").on("blur", function() {				
+			if(!regBirth.test($("#birth").val())) {
+				$("#checkBirthResult").text("생년월일을 확인해주세요").css("color", "red");
+				iscorrectBirth = false;
+			} else if(regBirth.test($("#birth").val())) {
+				$("#checkBirthResult").text("사용 가능한 생년월일입니다").css("color", "blue");
+				iscorrectBirth = true;
+	        }
+		});	
+		
+		<%-- 생년월일에 자동 "." 입력 --%>
+		$("#birth").keyup(function() {
 			var val = $(this).val().replace(/[^0-9]/g, ''); // 숫자만 입력 가능
 			if(val.length > 4 && val.length < 6) {
 				$(this).val(val.substring(0,4) + "." + val.substring(4));
 			}else if (val.length > 7) {
 				$(this).val(val.substring(0,4) + "." + val.substring(4, 6) + "." + val.substring(6));
-					
 			}
 		});
-	});
+
 	
-	
-	<%-- submit 동작을 수행할 때 값을 올바르게 입력했는지 확인 --%>
-	$(function() {
-		<%-- 정규식 작성 --%>
-		let regId = /^[A-Za-z0-9]{5,20}$/; <%-- 5~20자의 영문(대소문자), 숫자 --%>
-		let regPw = /^[A-Za-z0-9!@#%^&*]{8,16}$/; <%-- 8~16자의 영문 대/소문자, 숫자, 특수문자(!@#%^&*) --%>
-		let regName = /^[가-힣]{2,5}$/; <%-- 한글 2~5글자 --%>
-		let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-		<%-- 대소문자숫자 @ 대소문자숫자 . 대소문자 형식 --%>
-		let regPhone = /^010-\d{4}-\d{4}$/; <%-- 010으로 시작하는 11자리 숫자 --%>
-		let regBirth = /^(19[0-9][0-9]|20[0-2][0-9]).(0[0-9]|1[0-2]).(0[1-9]|[1-2][0-9]|3[0-1])$/; <%-- 1920년~2029년까지/01월~12월까지/01일~31일까지의 8자리 숫자 --%>
-		
+		<%-- submit 동작을 수행할 때 값을 올바르게 입력했는지 확인 --%>
 		$("form").on("submit", function() {
-			if($("#id").val() == "") {
-				$("#checkIdResult").text("아이디 입력은 필수입니다").css("color", "red");
-				$("#id").focus();
-				return false; // submit 동작 취소
-			} else if(!regId.test($("#id").val())){
+			if(!iscorrectId) { <%-- 아이디가 정규표현식에 적합하지 않을 경우(미입력 포함) --%>
 				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
 				$("#id").focus();
 				return false; // submit 동작 취소
-			} else if($("#checkIdResult").text() != "사용 가능한 아이디입니다"){
-				$("#checkIdResult").text("아이디 중복확인을 해주세요").css("color", "red");
-				$("#id_check").focus();
+			} else if(isDuplicateId) {  <%-- 아이디가 중복일 때 --%>
+				$("#id").focus();
 				return false; // submit 동작 취소
-			} else if($("#passwd").val() == "")  {
-				$("#checkPasswdResult").text("비밀번호 입력은 필수입니다").css("color", "red");
-				$("#passwd").focus();
-				return false; // submit 동작 취소
-			} else if(!regPw.test($("#passwd").val())) {
+			} else if(!iscorrectPasswd) { <%-- 비밀번호 미입력 시 --%>
 				$("#checkPasswdResult").text("8~16자의 영문 대/소문자, 숫자, 특수문자(!@#%^&*)만 사용 가능합니다").css("color", "red");
 				$("#passwd").focus();
 				return false; // submit 동작 취소
-			} else if($("#passwd2").val() == "") {
-				$("#checkPasswd2Result").text("비밀번호 일치 여부를 확인해주세요").css("color", "red");
+			} else if(!isSafePasswd) { <%-- 비밀번호가 안전하지 않을 때 --%>
+				$("#passwd").focus();
+				return false; // submit 동작 취소
+			} else if(!isSamePasswd) { <%-- 비밀번호 불일치 시 --%>
 				$("#passwd2").focus();
 				return false; // submit 동작 취소
-			} else if($("#passwd").val() != $("#passwd2").val()) {
-				$("#checkPasswdResult2").text("비밀번호가 일치하지 않습니다").css("color", "red");
-				$("#passwd2").focus();
-				return false; // submit 동작 취소
-			} else if($("#name").val() == "") {
-				$("#checkNameResult").text("이름 입력은 필수입니다").css("color", "red");
+			} else if(!iscorrectName) { <%-- 이름 미입력 시 --%>
+				$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
 				$("#name").focus();
 				return false; // submit 동작 취소
-			} else if(!regName.test($("#name").val())) {
-				$("#checkNameResult").text("2~5글자의 한글만 입력 가능합니다").css("color", "red");
-				$("#name").focus();
-				return false; // submit 동작 취소
-			} else if($("#phone").val() == "") {
-				$("#checkPhoneResult").text("휴대폰번호 입력은 필수입니다").css("color", "red");
+			} else if(!iscorrectPhone) {  <%-- 휴대폰번호 미입력 시 --%>
+				$("#checkPhoneResult").text("휴대폰번호를 확인해주세요").css("color", "red");
 				$("#phone").focus();
 				return false; // submit 동작 취소
-			} else if(!regPhone.test($("#phone").val())) {
-				$("#checkPhoneResult").text("올바른 휴대폰번호 형식으로 입력해주세요").css("color", "red");
+			} else if(isDuplicatePhone) {  <%-- 휴대폰번호 중복 시 --%>
 				$("#phone").focus();
 				return false; // submit 동작 취소
-			} else if($("#email").val() == "") {
-				$("#checkEmailResult").text("이메일주소 입력은 필수입니다").css("color", "red");
+			} else if(!iscorrectEmail) {  <%-- 이메일 주소 미입력 시 --%>
+				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
 				$("#email").focus();
 				return false; // submit 동작 취소
-			} else if(!regEmail.test($("#email").val())) {
-				$("#checkEmailResult").text("올바른 이메일 형식으로 입력해주세요").css("color", "red");
+			} else if(isDuplicateEmail) {  <%-- 이메일 주소 중복 시 --%>
 				$("#email").focus();
 				return false; // submit 동작 취소
-			} else if($("#birth").val() == "") {
-				$("#checkBirthResult").text("생년월일 입력은 필수입니다").css("color", "red");
-				$("#birth").focus();
-				return false; // submit 동작 취소
-			} else if(!regBirth.test($("#birth").val())) {
-				$("#checkBirthResult").text("생년월일을 올바르게 입력해주세요").css("color", "red");
+			} else if(!iscorrectBirth) {  <%-- 생년월일 미입력 시 --%>
+				$("#checkBirthResult").text("생년월일을 확인해주세요").css("color", "red");
 				$("#birth").focus();
 				return false; // submit 동작 취소
 			}
-			
 			return true; // submit 동작 수행(생략 가능)
 	
-		});	
+		});
 		
 	});
 	
@@ -252,26 +317,24 @@
 			<form action="memberJoinPro" method="post" name="joinForm">
 				<hr>
 				<h3 id="join_top">회원정보입력</h3> <%-- 소제목 --%>
-				<b id="warning">*은 필수</b> <br>
 				<section id="join_center">
-					<input type="text" id="id" name="member_id" placeholder="*아이디">
-					<input type="button" id="id_check" value="중복확인"> <br>
-					<span id="checkIdResult"></span> <br>
-					<input type="text" id="passwd" name="member_pass" placeholder="*비밀번호"> <br>
-					<span id="checkPasswdResult"></span> <br>
-					<input type="text" id="passwd2" name="passwd2" placeholder="*비밀번호확인"> <br>
-					<span id="checkPasswd2Result"></span> <br>
-					<input type="text" id="name" name="member_name" placeholder="*이름"> <br>
-					<span id="checkNameResult"></span> <br>
-					<input type="tel" id="phone" name="member_phone" placeholder="*휴대폰번호"  maxlength="13"> <br>
-					<span id="checkPhoneResult"></span> <br>
-					<input type="text" id="email" name="member_email" placeholder="*이메일주소"> <br>
-					<span id="checkEmailResult"></span> <br>
-					<input type="text" id="birth" name="member_birth" placeholder="*생년월일" maxlength="10"> <br>
-					<span id="checkBirthResult"></span> <br>
+					<input type="text" id="id" name="member_id" placeholder="아이디">
+					<div id="checkIdResult"></div> <br>
+					<input type="text" id="passwd" name="member_passwd" placeholder="비밀번호">
+					<div id="checkPasswdResult"></div> <br>
+					<input type="text" id="passwd2" name="passwd2" placeholder="비밀번호확인">
+					<div id="checkPasswd2Result"></div> <br>
+					<input type="text" id="name" name="member_name" placeholder="이름">
+					<div id="checkNameResult"></div> <br>
+					<input type="tel" id="phone" name="member_phone" placeholder="휴대폰번호"  maxlength="13">
+					<div id="checkPhoneResult"></div> <br>
+					<input type="text" id="email" name="member_email" placeholder="이메일주소">
+					<div id="checkEmailResult"></div> <br>
+					<input type="text" id="birth" name="member_birth" placeholder="생년월일" maxlength="10">
+					<div id="checkBirthResult"></div> <br>
 					<div class="joinbtn">
-						<a href="join_agree.jsp"><input type="button" value="이전"></a>
-						<a href="join_completion.jsp" ><input type="submit" value="가입완료"></a>
+						<a href=""><input type="button" value="이전"></a>
+						<input type="submit" value="가입완료">
 					</div>
 				</section>
 			</form>

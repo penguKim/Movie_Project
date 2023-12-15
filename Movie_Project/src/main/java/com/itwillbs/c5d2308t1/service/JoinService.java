@@ -21,11 +21,12 @@ public class JoinService {
 		return mapper.insertMember(member);
 	}
 
-	// 아이디 중복검사를 위해 DB에 접근
-//	public int idCheck(String member_id) throws Exception {
-//        
-//        return mapper.idCheck(member_id);
-//    }
-//	
+	public MemberVO getDup(MemberVO member) {
+		// JoinMapper - getMember() 메서드를 호출하여 회원정보 조회
+		// => 파라미터 : MemberVO 객체   리턴타입 : MemberVO
+		return mapper.selectDup(member);
+	}
+
+
 	
 }

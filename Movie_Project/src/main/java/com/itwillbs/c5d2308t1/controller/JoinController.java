@@ -55,16 +55,19 @@ public class JoinController {
 		return "join/join_completion";
 	}
 	
-	// 아이디 중복검사를 위해 DB에 접근
-//	@PostMapping("idCheck")
-//	@ResponseBody
-//	public String idCheck(@RequestParam("member_id") String member_id) throws Exception {
-//		int idCheck = service.idCheck(member_id);   
-//		System.out.println(idCheck);
-//		
-//		return "join_form";
-//		
-//	}
+	// 아이디, 이메일, 휴대폰번호 중복검사 실행
+	@ResponseBody
+	@GetMapping("checkDup")
+	public String checkDup(MemberVO member) {
+		MemberVO dbMember = service.getDup(member);
+		
+		if(dbMember == null) { // 중복된 아이디 없음 = 사용가능
+			return "false";
+		} else { // 아이디 중복
+			return "true";
+		}
+	}
+
 	
 	// 로그인 페이지로 이동
 //	@GetMapping("memberLogin")

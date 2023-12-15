@@ -16,11 +16,18 @@
 			, now()
 			, #{member_phone}
 			, 1
-			, #{member_pass}
+			, #{member_passwd}
 			, null
 			, null
 		)		
 	</insert>
+	
+	<select id="selectDup" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
+		SELECT * 
+		FROM members
+		WHERE member_id = #{member_id} OR member_email = #{member_email} OR member_phone = #{member_phone}
+	</select>
+	
 	
 <!-- 	<select id="idCheck" resultType="com.itwillbs.c5d2308t1.vo.JoinVO"> -->
 <!-- 		SELECT COUNT(member_id) FROM members where member_id = #{member_id} -->
