@@ -8,12 +8,6 @@
 <title>영화 등록 팝업</title>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-	function btnRgst() {
-		var result = confirm("영화 정보를 등록하시겠습니까?");
-		if(result) {
-			location.reload();
-		}
-	}
 	function btnLookup() {
 		location.reload();
 	}
