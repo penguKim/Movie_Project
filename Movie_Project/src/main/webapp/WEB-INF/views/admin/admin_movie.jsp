@@ -37,7 +37,7 @@
 			<div id="admin_main">
 				<div id="movie_update">
 					<input type="button" value="상영예정작 등록하기" onclick = "popUpUdt()">		
-					<input type="button" value="최신영화 등록하기" onclick = "popUpUdt()"><br>	
+					<input type="button" value="최신영화 등록하기" onclick = "popUpUdt()">
 				</div>
 			
 				<table border="1">
