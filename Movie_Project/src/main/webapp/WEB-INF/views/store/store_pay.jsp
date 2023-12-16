@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>결제하기</title>
+<title>iTicket 선물가게 - 구매는 언제나 옳다</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/store.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">

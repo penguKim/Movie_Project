@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>장바구니</title>
+<title>iTicket 선물가게 - 전부 담아담아</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/store.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -21,16 +21,16 @@
 		<section id="content">
 			<h1 id="h01">장바구니</h1>
 			<hr>
-			<form action="store_pay.jsp" method="post">
+			<form action="storePay" method="post">
 				<section id="content">
 					<!-- 상단 진행도 상태창 -->
 					<!-- 장바구니 페이지 에서는 STEP1 에 빨간색 처리  -->
 					<div class="store_progress">
-						<div id="prog_img"><img src="../img/cart2.png"></div><div id="progress_red"><span class="step">STEP 01</span><br>장바구니</div>
+						<div id="prog_img"><img src="${pageContext.request.contextPath }/resources/img/cart2.png"></div><div id="progress_red"><span class="step">STEP 01</span><br>장바구니</div>
 						<div> <span class="bracket"> > </span>  </div>
-						<div id="prog_img"><img src="../img/pay1.png"></div><div><span class="step">STEP 02</span><br>결제하기</div>
+						<div id="prog_img"><img src="${pageContext.request.contextPath }/resources/img/pay1.png"></div><div><span class="step">STEP 02</span><br>결제하기</div>
 						<div> <span class="bracket"> > </span> </div>
-						<div id="prog_img"><img src="../img/finish1.png"></div><div><span class="step">STEP 03</span><br>결제완료</div>
+						<div id="prog_img"><img src="${pageContext.request.contextPath }/resources/img/finish1.png"></div><div><span class="step">STEP 03</span><br>결제완료</div>
 					</div>
 					
 					<!-- 구매 상품 정보 테이블 -->		
@@ -62,7 +62,7 @@
 								<tr>
 									<td><input type="checkbox"></td>
 									<!-- 상품 이미지 및 내용(패키지는 구성) -->
-									<td><img src="../img/어니언팝콘.jpg">어니언팝콘</td>
+									<td><img src="${pageContext.request.contextPath }/resources/img/어니언팝콘.jpg">어니언팝콘</td>
 									<!-- 상품에 등록된 판매 금액 -->
 									<td>10,000원</td>
 									<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
@@ -106,11 +106,11 @@
 								<tr class="store_table_box04">
 									<!-- 선택된 모든 상품의 가격과 갯수의 합산된 금액 자동 입력-->
 									<td> 10,000원 </td>
-									<td><img src="../img/-.png" width="35px" height="35px"></img> </td>
+									<td><img src="${pageContext.request.contextPath }/resources/img/-.png" width="35px" height="35px"></img> </td>
 									<!-- 할인 기능 미구현 -->
 									<!-- 구현하게 된다면 할인 기능에 따라 할인 가격 책정 -->
 									<td> 0원 </td>
-									<td><img src="../img/=.png" width="35px" height="35px"></img></td>
+									<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 									<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
 									<td class="table_box_red"> 10,000원</td>
 								</tr>

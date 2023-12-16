@@ -28,9 +28,9 @@
 * HikariCP - 커넥션 풀을 관리
 * MyBatis - MyBatis 기본 라이브러리
 * MyBatis Spring - Spring 연동 라이브러리
-* log4jdbc - SQL 로그에 사용할 라이브러
+* log4jdbc - SQL 로그에 사용할 라이브러리
 * Project Lombok - VO 클래스 요소 자동 관리
-* Spring Security Web - 암호화를 위한 라이브러
+* Spring Security Web - 암호화를 위한 라이브러리
 * JSON.simple - JSON 파싱 라이브러리
 * Jsoup Java HTML Parser - 크롤링 라이브러리
 

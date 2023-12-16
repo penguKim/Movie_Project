@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품정보</title>
+<title>iTicket 선물가게 - 이것좀 보고가 </title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/store.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -29,7 +29,7 @@
 			<!-- 상품상세 이미지  -->
 			<div id="box_store_view">
 				<div class="left">
-					<p><img src="../img/스위트콤보.png" alt="스위트콤보"></p>
+					<p><img src="${pageContext.request.contextPath }/resources/img/snack/스위트콤보.png" alt="스위트콤보"></p>
 				</div>
 				<div class="right">
 					<div class="goods_info">
@@ -64,8 +64,8 @@
 					<br>
 					<div id="btn_buy">
 					<!-- 이미지로 교체 예정 -->
-	                	<a href="store_main.jsp"><button type="button">장바구니</button></a>
-	                	<a href=""><button type="button">구매</button></a>
+	                	<a href="storeCart"><button type="button">장바구니</button></a>
+	                	<a href="storePay"><button type="button">구매</button></a>
 	               	</div>
 				</div>	
 			</div>
