@@ -9,7 +9,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-	function btnWrt() {
+	function btnRgst() {
 		var result = confirm("공지사항을 등록하시겠습니까?");
 		if(result) {
 			location.reload();
@@ -57,7 +57,7 @@
 					</tr>
 				</table>
 				<div id="admin_writer"> 
-					<input type="button" value="등록" onclick="btnWrt()">
+					<input type="button" value="등록" onclick="btnRgst()">
 					<input type="button" value="돌아가기" onclick="history.back()">
 				</div>
 			</div>

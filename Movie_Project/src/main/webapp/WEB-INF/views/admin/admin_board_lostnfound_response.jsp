@@ -1,4 +1,4 @@
-<%-- admin_board_one_on_one_response.jsp --%>
+<%-- admin_board_lostnfound_response.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-	function btnWrt() {
+	function btnRgst() {
 		var result = confirm("분실물 문의 답변을 등록하시겠습니까?");
 		if(result) {
 			location.reload();
@@ -92,7 +92,7 @@
 				<div id="admin_writer"> 
 <!-- 						<input type="button" value="답변 수정" onclick="btnMod()" -->
 <!-- 						<input type="button" value="답변 삭제" onclick="btnDlt()"> -->
-					<input type="button" value="답변 등록" onclick="btnWrt()">
+					<input type="button" value="답변 등록" onclick="btnRgst()">
 					<input type="button" value="돌아가기" onclick="history.back()">
 				</div>
 			</div>
