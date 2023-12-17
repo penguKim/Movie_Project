@@ -23,26 +23,40 @@
 		)		
 	</insert>
 	
+	<!-- cs 메인에 자주묻는 질문 5개 출력, 전체 클릭 시 전체 내용 출력 -->
 	<select id="selectFaqList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
 		WHERE cs_type = "자주묻는질문";
 	</select>
 	
+	<!--  자주묻는질문 세부항목별로 모아보기 -->
 	<select id="selectFaqDetail" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
-		WHERE cs_type = "자주묻는질문" AND cs_type_detail = #{cs_type_detail};
+		WHERE cs_type = "자주묻는질문" AND cs_type_detail = #{buttonName};
 	</select>
 	
+	<!--  자주묻는질문 검색 -->
+	<select id="selectFaqSearch" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+		SELECT * FROM cs
+		WHERE cs_type = "자주묻는질문" 
+			AND (cs_subject LIKE "%"#{searchValue}"%"
+			OR cs_content LIKE "%"#{searchValue}"%"
+			OR cs_type_detail LIKE "%"#{searchValue}"%");
+	</select>
+	
+	<!-- 자주묻는질문 갯수 세기 -->
 	<select id="selectFaqListCount" resultType="int">
 		SELECT COUNT(*) FROM cs
 		WHERE cs_type = "자주묻는질문";
 	</select>
 	
+	<!-- cs 메인에 공지사항 5개 출력 -->
 	<select id="selectNoticeList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
 		WHERE cs_type = "공지사항";
 	</select>
 	
+	<!-- 공지사항 갯수 세기 -->
 	<select id="selectNoticeListCount" resultType="int">
 		SELECT COUNT(*) FROM cs
 		WHERE cs_type = "공지사항";

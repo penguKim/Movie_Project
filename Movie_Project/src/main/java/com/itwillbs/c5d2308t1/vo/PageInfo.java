@@ -1,6 +1,6 @@
 package com.itwillbs.c5d2308t1.vo;
 
-// 페이징 처리에 사용되는 정보를 저장할 PageInfo 클래스 정의(DTO 역할)
+//페이징 처리에 사용되는 정보를 저장할 PageInfo 클래스 정의(DTO 역할)
 public class PageInfo {
 	private int listCount; // 총 게시물 수
 	private int pageListLimit; // 페이지 당 표시할 페이지 번호 갯수

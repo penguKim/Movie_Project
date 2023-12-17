@@ -328,11 +328,6 @@ input[type="search"] {
 
 
 /* ======== FQA 질문 리스트에 적용할 css ============ */
-#fqa_list {
-  border-top: 2px solid #9d9d9d;
-  border-bottom: 2px solid #9d9d9d;
-}
-
 .accordion {
   background-color: #fff;
   color: #444;

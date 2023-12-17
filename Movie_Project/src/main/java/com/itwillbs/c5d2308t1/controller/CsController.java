@@ -3,16 +3,18 @@ package com.itwillbs.c5d2308t1.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.CsService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 
 @Controller
@@ -52,7 +54,18 @@ public class CsController {
 	
 	// 고객센터 1대1문의 페이지로 이동
 	@GetMapping("csOneOnOneForm")
-	public String csOneOnOneForm() {
+	public String csOneOnOneForm(MemberVO member, Model model, HttpSession session) {
+//		// 세션 아이디 가져와서 저장하기
+//		String id = (String)session.getAttribute("sId");
+//		
+//		// 세션 아이디가 존재하지 않을 경우(null)
+//		// 자바스크립트 사용하여 "잘못된 접근입니다!" 출력 후 메인페이지로 이동
+//		if(id == null) {
+////			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+////			return "fail_back";
+//		}
+		
+//		return "redirect:/cs/cs_OneOnOne";
 		return "cs/cs_OneOnOne";
 	}
 	
@@ -86,9 +99,9 @@ public class CsController {
 		int startRow = (pageNum - 1) * listLimit;
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(faqList)
+		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
 		List<CsVO> faqList = service.getFaqList(startRow, listLimit);
-//		System.out.println(faqList);
+//		System.out.println(noticeList);
 		
 		
 		// ======================================================
@@ -98,7 +111,7 @@ public class CsController {
 		//     전체 게시물 수 조회(페이지 목록 계산에 활용)
 		// => 파라미터 : 없음   리턴타입 : Integer(listCount)
 		Integer listCount = service.getFaqListCount();
-//				System.out.println(listCount);
+//		System.out.println(listCount);
 		
 		// 2) 한 페이지에 표시할 페이지 목록 갯수 설정(테스트)
 		int pageListLimit = 2;
@@ -122,38 +135,62 @@ public class CsController {
 		}
 		
 		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
-		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
+		PageInfo pageInfo = new PageInfo(listCount, maxPage, pageListLimit, startPage, endPage);
 		// ------------------------------------------------------
 		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
 		request.setAttribute("pageInfo", pageInfo);
-				
+		
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
 		model.addAttribute("faqList", faqList);
-		
+			
 		return "cs/cs_FAQ";
 	}
+	
 	
 	// 자주묻는질문 카테고리별 모아보기 기능
+	@ResponseBody
 	@GetMapping("faqDetail")
-	public String faqDetail(Model model, String cs_type_detail) {
+	public List<CsVO> faqDetail(Model model, String buttonName) {
+		if(buttonName.equals("전체")) {
+			// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
+			// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqList)
+			List<CsVO> faqList = service.getFaqList();
+			System.out.println(faqList);
+			
+			// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
+			model.addAttribute("faqList", faqList);
+			
+			return faqList;
+		} else {
+			// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
+			// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqDetail)
+			List<CsVO> faqDetail = service.getFaqDetail(buttonName);
+			System.out.println(faqDetail);
+			
+			// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
+			model.addAttribute("faqDetail", faqDetail);
+			
+			return faqDetail;			
+		}
+		
+	}
+	
+	// 자주묻는질문 검색 기능
+	@ResponseBody
+	@GetMapping("faqSearch")
+	public List<CsVO> faqSearch(Model model, String searchValue) {
 		// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqDetail)
-		List<CsVO> faqDetail = service.getFaqDetail(cs_type_detail);
-		System.out.println(faqDetail);
+		List<CsVO> faqSearch = service.getFaqSearch(searchValue);
+		System.out.println(faqSearch);
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
-		model.addAttribute("faqDetail", faqDetail);
+		model.addAttribute("faqSearch", faqSearch);
 		
-		return "cs/cs_FAQ";
-	}
+		return faqSearch;			
 
-	
-	
-	
-	
-	
-	
+	}
 	
 	
 	
@@ -215,7 +252,7 @@ public class CsController {
 		}
 		
 		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
-		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
+		PageInfo pageInfo = new PageInfo(listCount, maxPage, pageListLimit, startPage, endPage);
 		// ------------------------------------------------------
 		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
 		request.setAttribute("pageInfo", pageInfo);
@@ -248,7 +285,9 @@ public class CsController {
 	// 고객센터 1대1문의, 분실물문의 폼에 입력된 정보를 DB에 입력하고
 	// 고객센터 메인 페이지로 이동
 	@PostMapping("csBoardPro")
-	public String csBoardPro(CsVO cs, Model model) {
+	public String csBoardPro(CsVO cs, Model model, HttpServletRequest request, HttpSession session) {
+		
+		
 		// CsService - registMember() 메서드 호출하여 회원정보 등록 요청
 		// => 파라미터 : StudentVO 객체   리턴타입 : int(insertCount)
 		int insertCount = service.registBoard(cs);

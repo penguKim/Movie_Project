@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.mapper.CsMapper;
 import com.itwillbs.c5d2308t1.vo.CsVO;
@@ -30,13 +29,23 @@ public class CsService {
 	}
 	
 	public List<CsVO> getFaqList(int startRow, int listLimit) {
-		// CsMapper - selectFqaList() 메서드 호출하여 자주묻는질문 목록 조회 요청
+		// CsMapper - selectFaqList() 메서드 호출하여 자주묻는질문 목록 조회 요청
 		return mapper.selectFaqList(startRow, listLimit);
 	}
 	
 	public Integer getFaqListCount() {
-		// CsMapper - selectNoticeListCount() 메서드 호출하여 공지사항 목록 갯수 조회 요청
+		// CsMapper - selectNoticeListCount() 메서드 호출하여 자주묻는질문 목록 갯수 조회 요청
 		return mapper.selectFaqListCount();
+	}
+	
+	public List<CsVO> getFaqDetail(String buttonName) {
+		// faq 항목별로 모아보기 기능
+		return mapper.selectFaqDetail(buttonName);
+	}
+	
+	public List<CsVO> getFaqSearch(String searchValue) {
+		// faq 검색 기능
+		return mapper.selectFaqSearch(searchValue);
 	}
 	
 	public List<CsVO> getNoticeList() {
@@ -55,9 +64,6 @@ public class CsService {
 		return mapper.selectNoticeListCount();
 	}
 
-	public List<CsVO> getFaqDetail(String cs_type_detail) {
-		return mapper.selectFaqDetail(cs_type_detail);
-	}
 
 
 
