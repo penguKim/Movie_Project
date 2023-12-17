@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,17 +25,17 @@
 			<hr>
 			<!-- 상품정보 -->
 			<!-- 상품명 -->
-			<div id="item_name"><strong >스위트 콤보</strong></div> 
+			<div id="item_name"><strong >${store.product_name }</strong></div> 
 			
 			<!-- 상품상세 이미지  -->
 			<div id="box_store_view">
 				<div class="left">
-					<p><img src="${pageContext.request.contextPath }/resources/img/snack/스위트콤보.png" alt="스위트콤보"></p>
+					<p><img src="${pageContext.request.contextPath }/resources/img/snack/우리패키지.jpg" alt="스위트콤보"></p>
 				</div>
 				<div class="right">
 					<div class="goods_info">
 						<div class="line">
-							<b>상품구성</b> 오리지널L + 탄산음료M2
+							<b>상품구성</b> ${store.product_txt }
 						</div>
 						<br>
 						<div class="line">
@@ -55,12 +56,12 @@
 								<button type="button" class="btn_minus" title="수량감소">-</button>
 								<input type="text" title="수량입력" value="1" min="1" max="99" class="input-text">
 								<button type="button" class="btn_minus" title="수량증가">+</button>
-								<div class="money">10000원</div>
+								<div class="money">${store.product_price }원</div>
 							</div>
 						</div>
 					</div>	
 					<hr>
-					<div id="sum">총 금액 : <b>10000원</b></div>
+					<div id="sum">총 금액 : <b>${store.product_price }원</b></div>
 					<br>
 					<div id="btn_buy">
 					<!-- 이미지로 교체 예정 -->

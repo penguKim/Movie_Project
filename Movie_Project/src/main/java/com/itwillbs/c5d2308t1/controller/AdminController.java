@@ -47,6 +47,7 @@ public class AdminController {
 	// ****************** 1. 등록 ********************
 	@PostMapping("boardRgst")
 	public String boardRgst(@RequestParam("fileName") String fileName, Model model) {
+		System.out.println("확인 : " + fileName);
 		if("admin_movie_update".equals(fileName)) { // 1-1) 영화 등록 팝업 
 			model.addAttribute("msg", "영화 정보");
 			model.addAttribute("servlet", "movieRgst");

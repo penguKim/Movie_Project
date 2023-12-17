@@ -81,7 +81,7 @@
 	margin-bottom: 100px;
 }
 
-#snack_detail{
+.snack_detail{
 	font-size: 13px;
 	color:gray;
 }
@@ -115,7 +115,6 @@
 	border-radius: 30%;
 	background-color: #ececec;
 	
-	
 }
 
 .pay_btn {
@@ -125,6 +124,7 @@
 	padding: 10px;
 	border-radius: 30%;
 	background-color: #ececec;
+	
 }
 
 
