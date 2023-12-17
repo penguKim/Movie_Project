@@ -8,15 +8,6 @@
 <title>공지사항 등록</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-	function btnRgst() {
-		var result = confirm("공지사항을 등록하시겠습니까?");
-		if(result) {
-			location.reload();
-		}
-	}
-	
-</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -32,35 +23,37 @@
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
-
-			<div id="admin_sub">
-				<table border="1">
-					<tr>
-						<th>번호</th>
-						<td><input type="text"></td>
-					</tr>
-					<tr>
-						<th>제목</th>
-						<td><input type="text"></td>
-					</tr>
-					<tr>
-						<th>작성자</th>
-						<td><input type="text"></td>
-					</tr>
-					<tr>
-						<th>내용</th>
-						<td><textarea></textarea></td>
-					</tr>
-					<tr>
-						<th>사진첨부</th>
-						<td><input type="file"></td>
-					</tr>
-				</table>
-				<div id="admin_writer"> 
-					<input type="button" value="등록" onclick="btnRgst()">
-					<input type="button" value="돌아가기" onclick="history.back()">
+			<form action="boardRgst" method="post">
+				<div id="admin_sub">
+					<table border="1">
+						<tr>
+							<th>번호</th>
+							<td><input type="text"></td>
+						</tr>
+						<tr>
+							<th>제목</th>
+							<td><input type="text"></td>
+						</tr>
+						<tr>
+							<th>작성자</th>
+							<td><input type="text"></td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td><textarea></textarea></td>
+						</tr>
+						<tr>
+							<th>사진첨부</th>
+							<td><input type="file"></td>
+						</tr>
+					</table>
+					<div id="admin_writer"> 
+						<input type="hidden" name="fileName" value="admin_board_notice_write">	
+						<input type="submit" value="등록">
+						<input type="button" value="돌아가기" onclick="history.back()">
+					</div>
 				</div>
-			</div>
+			</form>			
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
 			</footer>

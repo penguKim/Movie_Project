@@ -1,3 +1,4 @@
+<%-- admin_board_one_on_one.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -53,7 +54,8 @@
 					<tr>
 						<td>번호</td>
 						<td>유형</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지></td>							<td>작성자</td>
+						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지></td>							
+						<td>작성자</td>
 						<td>등록일</td>
 						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
 					</tr>

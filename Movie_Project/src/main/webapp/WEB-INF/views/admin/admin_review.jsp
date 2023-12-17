@@ -1,3 +1,4 @@
+<%-- admin_review.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,14 +12,6 @@
 <script type="text/javascript">
 	function btnLookup() {
 		location.reload();
-	}
-	
-	function btnDlt() {
-		var result = confirm("리뷰를 삭제하시겠습니까?");
-		if(result) {
-			location.reload();
-		}
-		
 	}
 </script>
 </head>
@@ -42,73 +35,78 @@
 					<input type="text" placeholder="아이디 또는 영화명 입력">
 					<input type="button" value="조회" onclick="btnLookup()">
 				</div>
-				<table border="1" width="1100">
-					<tr>
-						<th>영화명</th>
-						<th>평점</th>
-						<th>아이디</th>
-						<th>내용</th>
-						<th>리뷰 삭제하기</th>
-					</tr>
-					<tr>
-						<td>movie_title</td>
-						<td>review_rating</td>
-						<td>member_id</td>
-						<td>review_content</td>
-						<td><input type="button" value="삭제" onclick="btnDlt()"></td>
-					</tr>
-					<tr>
-						<td>movie_title</td>
-						<td>review_rating</td>
-						<td>member_id</td>
-						<td>review_content</td>
-						<td><input type="button" value="삭제" onclick="btnDlt()"></td>
-					</tr>
-					<tr>
-						<td>movie_title</td>
-						<td>review_rating</td>
-						<td>member_id</td>
-						<td>review_content</td>
-						<td><input type="button" value="삭제" onclick="btnDlt()"></td>
-					</tr>
-					<tr>
-						<td>movie_title</td>
-						<td>review_rating</td>
-						<td>member_id</td>
-						<td>review_content</td>
-						<td><input type="button" value="삭제" onclick="btnDlt()"></td>
-					</tr>
-					<tr>
-						<td>movie_title</td>
-						<td>review_rating</td>
-						<td>member_id</td>
-						<td>review_content</td>
-						<td><input type="button" value="삭제" onclick="btnDlt()"></td>
-					</tr>
-					<tr>
-						<td>movie_title</td>
-						<td>review_rating</td>
-						<td>member_id</td>
-						<td>review_content</td>
-						<td><input type="button" value="삭제" onclick="btnDlt()"></td>
-					</tr>
-					<tr>
-						<td>movie_title</td>
-						<td>review_rating</td>
-						<td>member_id</td>
-						<td>review_content</td>
-						<td><input type="button" value="삭제" onclick="btnDlt()"></td>
-					</tr>
-				</table>
-				<div class="pagination">
-					<a href="#">&laquo;</a>
-					<a href="#">1</a>
-					<a class="active" href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">&raquo;</a>
-				</div>
+				<form action="boardDlt" method="post">
+					<table border="1" width="1100">
+						<tr>
+							<th>영화명</th>
+							<th>평점</th>
+							<th>아이디</th>
+							<th>내용</th>
+							<th>리뷰 삭제하기</th>
+						</tr>
+						<tr>
+							<td>movie_title</td>
+							<td>review_rating</td>
+							<td>member_id</td>
+							<td>review_content</td>
+							<td>
+							<input type="hidden" name="fileName" value="admin_review">	
+							<input type="submit" value="삭제">
+							</td>
+						</tr>
+						<tr>
+							<td>movie_title</td>
+							<td>review_rating</td>
+							<td>member_id</td>
+							<td>review_content</td>
+							<td><input type="submit" value="삭제"></td>
+						</tr>
+						<tr>
+							<td>movie_title</td>
+							<td>review_rating</td>
+							<td>member_id</td>
+							<td>review_content</td>
+							<td><input type="submit" value="삭제"></td>
+						</tr>
+						<tr>
+							<td>movie_title</td>
+							<td>review_rating</td>
+							<td>member_id</td>
+							<td>review_content</td>
+							<td><input type="submit" value="삭제"></td>
+						</tr>
+						<tr>
+							<td>movie_title</td>
+							<td>review_rating</td>
+							<td>member_id</td>
+							<td>review_content</td>
+							<td><input type="submit" value="삭제"></td>
+						</tr>
+						<tr>
+							<td>movie_title</td>
+							<td>review_rating</td>
+							<td>member_id</td>
+							<td>review_content</td>
+							<td><input type="submit" value="삭제"></td>
+						</tr>
+						<tr>
+							<td>movie_title</td>
+							<td>review_rating</td>
+							<td>member_id</td>
+							<td>review_content</td>
+							<td><input type="submit" value="삭제"></td>
+						</tr>
+					</table>
+					<div class="pagination">
+						<a href="#">&laquo;</a>
+						<a href="#">1</a>
+						<a class="active" href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">&raquo;</a>
+					</div>
+				</form>
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>

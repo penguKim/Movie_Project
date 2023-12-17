@@ -76,7 +76,7 @@
 					</tr>
 				</table>
 				<div id="admin_writer">
-					<input type="button" value="결제취소" onclick="btnCcl()">
+					<input type="submit" value="결제취소" onclick="btnCcl()">
 					<input type="button" value="뒤로가기" onclick="history.back()">
 				</div>
 			</div>

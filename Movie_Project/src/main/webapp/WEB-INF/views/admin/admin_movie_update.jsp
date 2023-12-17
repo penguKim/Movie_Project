@@ -126,7 +126,7 @@
 		<img src="" id="poster"><br>
 <!-- 		<img src="" width="250" height="400"><br> -->
 		<input type="file"><br><br>
-			<form action="movieTest" method="post">
+			<form action="boardRgst" method="post">
 			<div id="grayBlock">
 				&nbsp;&nbsp;<sup>영화코드</sup><br>
 				&nbsp;&nbsp;<input type="text" id="movieCd">
@@ -215,8 +215,8 @@
 				&nbsp;&nbsp;<input type="text" value="2002">
 			</div>
 			<br><br>
-			<br>	
-	<!-- 		<input type="button" value="등록" onclick="btnRgst()"> -->
+			<br>
+			<input type="hidden" name="fileName" value="admin_movie_update">	
 			<input type="submit" value="등록">
 			<input type="button" value="창닫기" onclick="window.close()">
 		</form>
