@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>예매 상세 페이지</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath }/css/login.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<form action="" id="popup1_form">

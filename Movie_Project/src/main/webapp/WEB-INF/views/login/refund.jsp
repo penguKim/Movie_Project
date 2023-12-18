@@ -7,7 +7,7 @@
 <title>환불내역</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/login.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="../js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
@@ -31,7 +31,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 			
 		<section id="content">
-			<h1 id="h01">환불내역</h1><%--XXX <-회원가입후 로그인된 이름 또는 아이디 출력(db데이터 가지고오기  --%>
+			<h1 id="h01">환불내역</h1>
 			<hr>
 			
 			<div id="mypage_nav"> <%-- 사이드 메뉴바 --%>

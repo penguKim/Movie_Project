@@ -9,40 +9,15 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="../js/jquery-3.7.1.js"></script>
-<script type="text/javascript"></script>
-</head>
-
-
-<body>
-  <script>
-	$(function() {
-		/* 클릭시 카카오 간편로그인, 네이버 간편로그인 */
-// 		$(".login-link").on("click", function() {
-// 			alert("간편로그인 할 예정입니다");
-// 		});
-		
-		
-		$("form").on("submit", function() {
-			/* 아이디 및 비밀번호 둘중에 하나라도 입력하지 않으면 아이디 비밀번호를 입력하세요 출력 */
-			if($("#id").val() == "" || $("#passwd").val() == "") {
-				alert("아이디와 비밀번호를 입력하세요");
-				return false;
-			}
-			/* 아이디 및 비밀번호 비교해서 로그인, 로그인 저장 버튼 활성화는 쿠키작업 처리 */
-			// 스프링에서 처리할 예정
-			/* 아이디 및 비밀번호 둘중에 하나라도 맞지 않으면 아이디 비밀번호가 다릅니다 출력 */
-		});	
-		
-	});
-  
-  
+<script type="text/javascript">
+$(function() {
 	Kakao.init('7f2cbaab42a6ec66232f961c71c7350f'); // 자바스크립트 키
 
 	function loginWithKakao() {
 		Kakao.Auth.login({
 			success: function(authObj) {
 				alert("로그인 성공"); // 왜 작동을 안하지?
-				window.location.href = "http://localhost:8080/First_Project/";
+				window.location.href = "http://localhost:8081/Movie_Project/";
 
 				Kakao.API.request({// 로그인한 사용자 정보 가져오기
 					url: '/v2/user/me',
@@ -63,7 +38,7 @@
 				console.log("로그인 실패", err);
 			},
 		});
-	} //loginWithKakao()끝
+	}; //loginWithKakao()끝
 
     document.addEventListener('DOMContentLoaded', function () { //웹 페이지의 HTML이 모두 로드되었을 때(DOMContentLoaded) 실행될 함수
 		document.getElementById('kakao-login-btn').addEventListener('click', function (a) { //카카오로그인 버튼클릭 시 실행되는 함수
@@ -71,7 +46,8 @@
 			loginWithKakao();
 		});
     });
-  </script>
+});
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -91,8 +67,8 @@
 	<%-- 			<a href="">비회원로그인</a> href 링크, 비회원로그인 부기능 --%>
 	<%-- 		</div> --%>
 				<div class="login_center">
-					<input type="text" placeholder="아이디입력" name="member_id" id="id" ><br>
-					<input type="password" placeholder="패스워드입력" name="member_passwd" id="passwd" ><br>
+					<input type="text" placeholder="아이디입력" name="member_id" id="id" required="required"><br>
+					<input type="password" placeholder="패스워드입력" name="member_passwd" id="passwd" required="required"><br>
 					
 					<input type="submit" value="로그인" id="login_button1">
 					<br>

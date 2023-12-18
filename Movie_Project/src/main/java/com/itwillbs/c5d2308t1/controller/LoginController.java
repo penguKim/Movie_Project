@@ -1,5 +1,7 @@
 package com.itwillbs.c5d2308t1.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.MoviesVO;
 @Controller
 public class LoginController {
 
@@ -21,24 +24,56 @@ public class LoginController {
 //		System.out.println("memberLogin");
 		return "login/login";
 	}
+	@GetMapping("mypage") //메인화면에서 버튼 클릭시 mypage이동
+	public String mypage() {
+		return "login/mypage";
+	}
 	
 	@PostMapping("MemberLoginPro") // 로그인 클릭 시 메인페이지로 이동
 	public String MemberLoginPro(MemberVO member, HttpSession session, Model model) {
 	    MemberVO dbMember = service.getMember(member);
 	    
 	    System.out.println(member.getMember_id());
-	    
-	    
-	    
 	    if(dbMember == null) {
 	    	System.out.println("로그인 실패");
-	    	return "main";
+	    	return "login/login";
 	    } else {
 	    	model.addAttribute("dbMember", dbMember);
+	    	session.setAttribute("sId", member.getMember_id());
 	    	System.out.println("로그인 성공: " + dbMember);
 	    	return "main";
 	    }
 	}
+	
+	@GetMapping("MemberLogout") //로그아웃
+	public String logout(HttpSession session) {
+		session.invalidate(); //세션값 초기화
+		return "redirect:/";
+	}
+	
+	@GetMapping("SideMypage") //마이페이지 이동
+	public String SideMypage() {
+		
+		return"login/mypage";
+	}
+	
+	@GetMapping("SideEditmember") //회원수정 페이지 이동
+	public String SideEditmember() {
+		return"login/editmember";
+	}
+	
+	@GetMapping("SideRefund") //취소내역 페이지 이동
+	public String SideRefund() {
+		return"login/refund";
+	}
+	
+	@GetMapping("SideMyboard") //나의 게시글 페이지 이동
+	public String SideMyboard() {
+		return"login/myboard";
+	}
+	
+	
+	
 	
 	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
 <title>마이페이지</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/css/login.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="../js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
@@ -26,7 +27,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 				document.checkform.checkbox2[i].checked = document.querySelector("#checkbox2").checked;
 			}
 		}
-	};
+	}; //window.onload 이벤트끝
 
 </script>
 </head>
@@ -39,7 +40,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content">	
-			<h1 id="h01">마이페이지</h1><%--XXX <-회원가입후 로그인된 이름 또는 아이디 출력(db데이터 가지고오기  --%>
+			<h1 id="h01">마이페이지</h1>
 			<hr>
 			
 			<div id="mypage_nav"> <%-- 사이드 메뉴바 --%>
@@ -49,7 +50,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 				
 			<!-- 바디부분 시작 -->
 			
-			<form action="" method="" name="checkform">
+			<form action="mypage" method="get" name="checkform">
 				<div id="my_list">
 					<h2>나의 예매내역</h2>
 					<table id="my_table1">
@@ -60,12 +61,25 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 							<th>상태</th>
 							<th>예매 내역 정보</th>
 						</tr>
+						
+<%-- 						<c:forEach var="MypageBoard" items="${MypageBoardList}"> --%>
+<!-- 							<tr> -->
+<%-- 								<td>${movie_id}</td> <!-- 예매순번 --> --%>
+<!-- 								<td id="MovieSubject"> -->
+<%-- 									<a href="mypage?movie_id=${movies.movie_id}$pageNum=${pageNum}">${movies.movie_title}</a> --%>
+<!-- 								</td> 영화제목 -->
+<!-- 								<td id="Room_name"> -->
+<!-- 								</td> 영화관 / 좌석번호 -->
+<!-- 							</tr> -->
+<%-- 						</c:forEach> --%>
+						
+						
 						<tr>
 							<td><input type="checkbox" name="checkbox1"></td><td>[예매순번]</td>
 							<td>[영화제목]</td>
 							<td>[영화관 / 좌석번호]</td>
 							<td>[예매완료]</td>
-							<td><input type="button" value="예매상세정보" onclick="window.open('popup1.jsp', '_blank', 'width=500, height=400');"></td>
+							<td><input type="button" value="예매상세정보" onclick="window.open('login/popup1.jsp', '_blank', 'width=500, height=400');"></td>
 						</tr>
 						
 						<tr>
