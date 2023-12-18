@@ -11,6 +11,7 @@
 <script src="../js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(function() {
+	
 	Kakao.init('7f2cbaab42a6ec66232f961c71c7350f'); // 자바스크립트 키
 
 	function loginWithKakao() {

@@ -9,6 +9,54 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+	$(function() {
+		let price = ${store.product_price};
+		let quantity = parseInt($("#quantity").val());
+		
+		/* - 클릭 시 상품 수량 감소 */
+		/* 1 이하로 수량 감소 불가 */
+		$("#minus").on("click", function() {
+			
+			if(quantity > 1) {
+				quantity -= 1;
+				$("#quantity").val(quantity);
+				/* 수량 감소시 함수 호출 */
+				updateTotalPrice();
+			} else {
+// 				alert("수량이 1보다 커야합니다");
+			}
+		});
+		
+		/* + 클릭 시 상품 수량 증가 */
+		/* 100 이상으로 증가 불가 */
+		$("#plus").on("click", function() {
+			
+			if(quantity < 99) {
+				quantity += 1;
+				$("#quantity").val(quantity);
+				/* 수량 증가시 함수 호출 */
+				updateTotalPrice();
+			} else {
+				alert("최대 수량입니다");
+			}
+		});
+		
+		/* 수량 변경시 totalPrice 액수 변경 */
+		function updateTotalPrice() {
+			let totalPrice = price * quantity;
+			$("#sum").html("총 금액 : <b>" + totalPrice + "원</b>");
+		} 
+		
+		<%-- 토탈 금액 및 금액에서 , 찍어야함 --%>
+		/* 수량 변경 없을 경우 현재 total 값 */
+		updateTotalPrice();
+		
+	});
+	
+
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -25,51 +73,58 @@
 			<hr>
 			<!-- 상품정보 -->
 			<!-- 상품명 -->
-			<div id="item_name"><strong >${store.product_name }</strong></div> 
-			
-			<!-- 상품상세 이미지  -->
-			<div id="box_store_view">
-				<div class="left">
-					<p><img src="${pageContext.request.contextPath }/resources/img/snack/우리패키지.jpg" alt="스위트콤보"></p>
-				</div>
-				<div class="right">
-					<div class="goods_info">
-						<div class="line">
-							<b>상품구성</b> ${store.product_txt }
-						</div>
-						<br>
-						<div class="line">
-							<b>상품제한</b> 제한없음
-						</div>	
-						<br>
-						<div class="line">
-							<b>유효기간</b> 구매일로부터 365일 이내 취소 가능하며,<br> 부분취소는 불가능합니다.
-						</div>	
-						<br>
+			<form action="storePay" method="POST">
+				<div id="item_name"><strong >${store.product_name }</strong></div> 
+				
+				<!-- 상품상세 이미지  -->
+				<div id="box_store_view">
+					<div class="left">
+							<%-- 상품 이미지 DB에서 직접 꺼내오는 방법 고민 --%>
+							<%-- 이미지 절대경로 설정하는 법 익히기 --%>
+						<p><img src="${store.product_img}" alt="우리패키지"></p>
 					</div>
-					<hr>
-					<!-- 상품/결제 -->
-					<div class="pay_quantity">
-						<div class="receipt">
-							<p class="title">수량/금액</p>
-							<div class="contents">
-								<button type="button" class="btn_minus" title="수량감소">-</button>
-								<input type="text" title="수량입력" value="1" min="1" max="99" class="input-text">
-								<button type="button" class="btn_minus" title="수량증가">+</button>
-								<div class="money">${store.product_price }원</div>
+					<div class="right">
+						<div class="goods_info">
+							<div class="line">
+								<b>상품구성</b> ${store.product_txt }
 							</div>
+							<br>
+							<div class="line">
+								<b>상품제한</b> 제한없음
+							</div>	
+							<br>
+							<div class="line">
+								<b>유효기간</b> 구매일로부터 365일 이내 취소 가능하며,<br> 부분취소는 불가능합니다.
+							</div>	
+							<br>
 						</div>
+						<hr>
+						<!-- 상품/결제 -->
+						<div class="pay_quantity">
+							<div class="receipt">
+								<p class="title">수량/금액</p>
+								<div class="contents">
+									<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
+									<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
+									<input type="text" title="수량입력" id="quantity" name="quantity" value="1" min="1" max="99" class="input-text" readonly>
+									<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
+									<div class="money">${store.product_price}원</div>
+								</div>
+							</div>
+						</div>	
+						<hr>
+						<%-- 총 상품 결제 금액 출력(상품 가격 + 상품 갯수) --%>
+						<div id="sum"> </div>
+						<br>
+						<div id="btn_buy">
+						<%-- 장바구니 이미지로 교체할지 말지 부기능으로 --%>
+						<%-- 구매 버튼 submit으로 교체 예정 --%>
+		                	<a href="storeCart"><button type="button">장바구니</button></a>
+		                	<a href="storePay"><button type="submit">구매</button></a>
+		               	</div>
 					</div>	
-					<hr>
-					<div id="sum">총 금액 : <b>${store.product_price }원</b></div>
-					<br>
-					<div id="btn_buy">
-					<!-- 이미지로 교체 예정 -->
-	                	<a href="storeCart"><button type="button">장바구니</button></a>
-	                	<a href="storePay"><button type="button">구매</button></a>
-	               	</div>
-				</div>	
-			</div>
+				</div>
+			</form>
 			<!-- 사용 방법 및 이용안내 -->
 			<div id="store_exap">
 				<div id="store_expl01"><strong>사용방법</strong> <br></div>
