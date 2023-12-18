@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClientException;
@@ -50,41 +51,61 @@ public class MoviesController {
 	@Autowired
 	MoviesService movie;
 	
+	
+	// cgv에서 크롤링하여 현재상영작 페이지에 뿌리기
+//	@GetMapping("release")
+//	public ModelAndView release(Map<String, Object> map) {
+//		// 현재 상영작
+//		try {
+//			// ft=0 => 무비차트, ft=1 => 현재 상영작
+//			String url = "http://www.cgv.co.kr/movies/?lt=1&ft=1";
+//			
+//			// Jsoup 라이브러리와 url 연결
+//			Connection con = Jsoup.connect(url);
+//			// url안의 html코드를 Document 타입으로 저장
+//			Document doc = con.get();
+//			// select() 메서드를 사용하여 태그 지정하여 Elements 타입으로 저장
+//			// 해당 요소가 여러개가 있을 경우가 있기에 Elements 타입으로 지정하고 단일일 경우 Element 타입으로 지정
+//			Elements titleElements = doc.select("div.box-contents strong.title"); // 제목
+//			Elements posterElements = doc.select("div.box-image span.thumb-image img"); // 포스터 썸네일
+//			Elements percentElements = doc.select("div.box-contents div.score strong.percent span"); // 예매율
+//			Elements releaseElements = doc.select("div.box-contents span.txt-info strong"); // 개봉일
+//			Elements detailElements = doc.select("div.sect-movie-chart div.box-image>a"); // CGV 영화 코드
+//			
+//			// 위의 정보들을 각각의 CrawlVO 객체에 담아서 List 로 관리한다.
+//			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
+//			
+//			for(int i = 0; i < titleElements.size(); i++) {
+//				CrawlVO movie = new CrawlVO();
+//				movie.setTitle(titleElements.get(i).text());
+//				movie.setPoster(posterElements.get(i).attr("src"));
+//				movie.setPercent(percentElements.get(i).text());
+//				movie.setRelease(releaseElements.get(i).text());
+//				// 필요한 부분만 잘라내서 저장한다.
+//				movie.setDetailNum(detailElements.get(i).attr("href").
+//						substring(detailElements.get(i).attr("href").lastIndexOf("/")).replace("/?midx=", ""));
+//				System.out.println(movie.getDetailNum());
+//				movieList.add(movie);
+//			}
+//			
+//			map.put("movieList", movieList);
+//		} catch (IOException e) {
+//			System.out.println("크롤링 실패");
+//			e.printStackTrace();
+//		}
+//		
+//		ModelAndView mav = new ModelAndView("movie/release", map);
+//		
+//		return mav;
+//	}
+	
+	// DB에 저장된 영화정보 가져와서 현재상영작에 뿌리기
 	@GetMapping("release")
 	public ModelAndView release(Map<String, Object> map) {
-		// 현재 상영작
-		try {
-			// ft=0 => 무비차트, ft=1 => 현재 상영작
-			String url = "http://www.cgv.co.kr/movies/?lt=1&ft=1";
-			
-			Connection con = Jsoup.connect(url);
-			Document doc = con.get();
-			Elements titleElements = doc.select("div.box-contents strong.title"); // 제목
-			Elements posterElements = doc.select("div.box-image span.thumb-image img"); // 포스터 썸네일
-			Elements percentElements = doc.select("div.box-contents div.score strong.percent span"); // 예매율
-			Elements releaseElements = doc.select("div.box-contents span.txt-info strong"); // 개봉일
-			Elements detailElements = doc.select("div.sect-movie-chart div.box-image>a"); // 개봉일
-//			System.out.println(detailElements);
-			
-			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
-			
-			for(int i = 0; i < titleElements.size(); i++) {
-				CrawlVO movie = new CrawlVO();
-				movie.setTitle(titleElements.get(i).text());
-				movie.setPoster(posterElements.get(i).attr("src"));
-				movie.setPercent(percentElements.get(i).text());
-				movie.setRelease(releaseElements.get(i).text());
-				movie.setDetailNum(detailElements.get(i).attr("href").
-						substring(detailElements.get(i).attr("href").lastIndexOf("/")).replace("/?midx=", ""));
-				System.out.println(movie.getDetailNum());
-				movieList.add(movie);
-			}
-			
-			map.put("movieList", movieList);
-		} catch (IOException e) {
-			System.out.println("크롤링 실패");
-			e.printStackTrace();
-		}
+		
+		// DB에 저장된 영화정보를 HashMap 객체의 List로 리턴
+		List<HashMap<String, String>> movieList = movie.getMovieList();
+		map.put("movieList", movieList);
 		
 		ModelAndView mav = new ModelAndView("movie/release", map);
 		
@@ -128,45 +149,72 @@ public class MoviesController {
 		return mav;
 	}
 	
+	
+	// cgv에서 크롤링하여 현재상영작의 영화ID를 사용하여 크롤링한 상세페이지 뿌리기
+//	@GetMapping("detail")
+//	public ModelAndView detail(String detailNum, Model model) {
+//		System.out.println("영화 상세페이지");
+//		
+//		try {
+//			String url = "http://www.cgv.co.kr/movies/detail-view/?midx=" + detailNum;
+//			
+//			Connection con = Jsoup.connect(url);
+//			Document doc = con.get();
+//			Elements titleElements = doc.select("div.box-contents div.title strong");
+//			Elements posterElements = doc.select("div.box-image span.thumb-image img");
+//			Elements plotElements = doc.select("div#menu.cols-content div.col-detail div.sect-story-movie");
+//			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
+////			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
+//			System.out.println(titleElements.text());
+//			System.out.println(posterElements.attr("src"));
+//			System.out.println(plotElements.toString());
+//			System.out.println(percentElements.text());
+//			
+//				CrawlVO movie = new CrawlVO();
+//				movie.setTitle(titleElements.text());
+//				movie.setPoster(posterElements.attr("src"));
+//				movie.setPlot(plotElements.toString());
+//				movie.setPercent(percentElements.text());
+//			
+//			model.addAttribute("movie", movie);
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		ModelAndView mav = new ModelAndView("movie/detail", map);
+//		return mav;
+//	}
+	
 	@GetMapping("detail")
-	public ModelAndView detail(String detailNum, Model model) {
-		System.out.println("영화 상세페이지");
+	public ModelAndView detail(String movie_id, Map<String, String> map) {
 		
-		try {
-			String url = "http://www.cgv.co.kr/movies/detail-view/?midx=" + detailNum;
-			
-			Connection con = Jsoup.connect(url);
-			Document doc = con.get();
-			Elements titleElements = doc.select("div.box-contents div.title strong");
-			Elements posterElements = doc.select("div.box-image span.thumb-image img");
-			Elements plotElements = doc.select("div#menu.cols-content div.col-detail div.sect-story-movie");
-			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
-//			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
-			System.out.println(titleElements.text());
-			System.out.println(posterElements.attr("src"));
-			System.out.println(plotElements.toString());
-			System.out.println(percentElements.text());
-			
-				CrawlVO movie = new CrawlVO();
-				movie.setTitle(titleElements.text());
-				movie.setPoster(posterElements.attr("src"));
-				movie.setPlot(plotElements.toString());
-				movie.setPercent(percentElements.text());
-			
-			model.addAttribute("movie", movie);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		Map<String, Object> map = new HashMap<String, Object>();
+		// 영화코드를 사용하여 영화 상세정보 가져오기
+		map = movie.getMovieDetail(movie_id);
 		
 		ModelAndView mav = new ModelAndView("movie/detail", map);
 		return mav;
 	}
+	
+	// 관리자 영화등록 페이지에서 DB로 등록
+	@PostMapping("movieTest")
+	public ModelAndView movieTest(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		int insterCount = movie.registMovie(map);
+		
+		ModelAndView mav = new ModelAndView("", map);
+		
+		return mav;
+	}
+	
+	
+	
+	
 	
 	@GetMapping("Test2")
 	public String test2() {
@@ -303,62 +351,62 @@ public class MoviesController {
 	}
 	
 	
-	@GetMapping("searchTest")
-	public String searchTest() {
-		
-	    try {
-	    	// DB에 저장된 영화정보 불러오기
-	    	List<MoviesVO> movieList = movie.getMovieList();
-	    	
-	    	//발급키
-	    	String key = "811a25b246549ad749b278bba8257502";
-	    	
-	    	//영화 ID
-	    	int movie_id = 0;
-	    	
-	    	// 기본 요청 URL
-	    	String url = "";
-	    	
-	    	for(MoviesVO movie : movieList) {
-	    		// 영화별 영화 코드 불러와 저장
-	    		movie_id = movie.getMovie_id();
-	    		
-	    		url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=" + key +  "&movieCd=" + movie_id;
-	    		System.out.println(url);
-	    	
-	            URL urlObj = new URL(url);
-	            HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
-	            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-	            String inputLine;
-	            StringBuffer content = new StringBuffer();
-	            while ((inputLine = br.readLine()) != null) {
-	                content.append(inputLine);
-	            }
-	
-	            // close connections
-	            br.close();
-	            con.disconnect();
-		    	
-		    	JSONParser jsonParser = new JSONParser();
-		    	JSONObject jsonobject = (JSONObject)jsonParser.parse(content.toString());
-		    	JSONObject movieInfoResult =  (JSONObject) jsonobject.get("movieInfoResult");
-		    	JSONObject movieInfo =  (JSONObject) movieInfoResult.get("movieInfo");
-		    	if(movieInfo.get("movieCd") != null) {
-		    		JSONArray nation = (JSONArray) movieInfo.get("nation");
-		    		
-		    	}
-		    	
-	//	    	JSONArray array = (JSONArray)json.get("dailyBoxOfficeList");
-		    
-	    	}
-	    	
-	    	
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    }
-		
-		return "";
-	}
+//	@GetMapping("searchTest")
+//	public String searchTest() {
+//		
+//	    try {
+//	    	// DB에 저장된 영화정보 불러오기
+//	    	List<MoviesVO> movieList = movie.getMovieList();
+//	    	
+//	    	//발급키
+//	    	String key = "811a25b246549ad749b278bba8257502";
+//	    	
+//	    	//영화 ID
+//	    	int movie_id = 0;
+//	    	
+//	    	// 기본 요청 URL
+//	    	String url = "";
+//	    	
+//	    	for(MoviesVO movie : movieList) {
+//	    		// 영화별 영화 코드 불러와 저장
+//	    		movie_id = movie.getMovie_id();
+//	    		
+//	    		url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=" + key +  "&movieCd=" + movie_id;
+//	    		System.out.println(url);
+//	    	
+//	            URL urlObj = new URL(url);
+//	            HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+//	            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+//	            String inputLine;
+//	            StringBuffer content = new StringBuffer();
+//	            while ((inputLine = br.readLine()) != null) {
+//	                content.append(inputLine);
+//	            }
+//	
+//	            // close connections
+//	            br.close();
+//	            con.disconnect();
+//		    	
+//		    	JSONParser jsonParser = new JSONParser();
+//		    	JSONObject jsonobject = (JSONObject)jsonParser.parse(content.toString());
+//		    	JSONObject movieInfoResult =  (JSONObject) jsonobject.get("movieInfoResult");
+//		    	JSONObject movieInfo =  (JSONObject) movieInfoResult.get("movieInfo");
+//		    	if(movieInfo.get("movieCd") != null) {
+//		    		JSONArray nation = (JSONArray) movieInfo.get("nation");
+//		    		
+//		    	}
+//		    	
+//	//	    	JSONArray array = (JSONArray)json.get("dailyBoxOfficeList");
+//		    
+//	    	}
+//	    	
+//	    	
+//	    } catch (Exception e) {
+//	    	e.printStackTrace();
+//	    }
+//		
+//		return "";
+//	}
 	
 	
 }

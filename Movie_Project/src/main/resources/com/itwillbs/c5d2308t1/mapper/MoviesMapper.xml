@@ -4,9 +4,18 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.MoviesMapper">
 
-	<select id="selectMoviesList" resultType="com.itwillbs.c5d2308t1.vo.MoviesVO">
+<!-- 	<select id="selectMoviesList" resultType="com.itwillbs.c5d2308t1.vo.MoviesVO"> -->
+	<select id="selectMoviesList" resultType="HashMap">
 		SELECT *
 		FROM movies
+		WHERE movie_release_date &lt;= now()
+		ORDER BY movie_release_date DESC
+	</select>
+	
+	<select id="selectMovieDetail" resultType="HashMap">
+		SELECT *
+		FROM movies
+		WHERE movie_id = #{movie_id}
 	</select>
 	
 	<insert id="insertMovie">
@@ -16,6 +25,31 @@
 			#{movie_title},
 			#{movie_release_date},
 			#{movie_audience}
+		)
+	</insert>
+	
+	<insert id="insertMovies">
+		INSERT INTO movies
+		VALUES(
+			#{movie_id}
+			, #{movie_title}
+			, #{movie_nation}
+			, #{movie_prdtYear}
+			, #{movie_director}
+			, #{movie_actor}
+			, #{movie_genre}
+			, #{movie_rating}
+			, #{movie_plot}
+			, #{movie_release_date}
+			, #{movie_close_date}
+			, #{movie_runtime}
+			, #{movie_poster}
+			, #{movie_still1}
+			, #{movie_still2}
+			, #{movie_still3}
+			, #{movie_trailer}
+			, #{movie_audience}
+			, #{movie_status}
 		)
 	</insert>
 	

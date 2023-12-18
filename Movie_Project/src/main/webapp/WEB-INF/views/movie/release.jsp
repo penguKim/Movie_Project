@@ -9,6 +9,18 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
+<style type="text/css">
+	/* video 태그의 영상 12-17 추가 */
+	/* div 영역 z-index 수정 필요 */
+.trailer {
+	position: absolute;
+	top: 130px;
+	left: 0;
+	z-index: 100;
+	width: 100%;
+	height: auto;
+}
+</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -34,16 +46,16 @@
 					<div class="movie-grid">
 					<c:forEach var="movie" items="${movieList}">
 						<div class="movie">
-							<a href="detail?detailNum=${movie.detailNum}">
+							<a href="detail?movie_id=${movie.movie_id}">
 							<div class="movie-poster">
 								<div class="poster">
-									<img alt="" src="${movie.poster}">
+									<img alt="" src="${movie.movie_poster }">
 								</div>
 								<div>
-									<p class="title">${movie.title }</p>
+									<p class="title">${movie.movie_title }</p>
 								</div>
 							</div>
-								<p class="date">${movie.release }</p>
+								<p class="date">${movie.movie_release_date }</p>
 							</a>
 							<div class="reserve_area">
 								<a href="movie_select" class="rel_reservBtn">

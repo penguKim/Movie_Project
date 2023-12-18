@@ -9,6 +9,12 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
+<style type="text/css">
+.trailer {
+	width: 600px;
+	text-align: center;
+}
+</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -26,10 +32,10 @@
 				<!-- 포스터, 제목 영역 -->
 				<div class="detail_info">
 					<div class="detail_poster">
-						<img alt="" src=${movie.poster } width="200" height="280">
+						<img alt="" src=${movie_poster } width="200" height="280">
 					</div>	
 					<div class="info_title">
-						<span class="detail_title">${movie.title }</span>
+						<span class="detail_title">${movie_title }</span>
 						<ul>
 							<li><span>기본 정보 : </span> 국가 | 상영시간 | 장르</li>
 							<li><span>개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;봉 : 	</span> 날짜 </li>
@@ -50,32 +56,25 @@
 					<li><a href="#review"><input type="button" value="리뷰"></a></li>	
 				</ul>
 			    <div class="movie_story" id="movie_story">
-			    ${movie.plot }
-<!-- 			    	<h2>줄거리</h2> -->
-<!-- 				    스스로 황제가 된 영웅!<br /> -->
-<!-- 					1793년 혁명의 불꽃이 프랑스 전역을 밝히기 시작한다.<br /> -->
-<!-- 					코르시카 출신의 장교 &#39;나폴레옹&#39;(호아킨 피닉스)은<br /> -->
-<!-- 					혼란스러운 상황 속 국가를 위해 맞서며 영웅으로 떠오른다.<br /> -->
-<!-- 					<br /> -->
-<!-- 					한편, 사교 파티에서 영웅 &lsquo;나폴레옹&rsquo;을 만난 &#39;조제핀&#39;(바네사 커비)은<br /> -->
-<!-- 					자신의 운명을 바꾸기 위해 &lsquo;나폴레옹&rsquo;을 선택하고<br /> -->
-<!-- 					&lsquo;나폴레옹&rsquo;은 마침내 스스로 황제의 자리에 오르게 된다.<br /> -->
-<!-- 					<br /> -->
-<!-- 					하지만, &lsquo;조제핀&rsquo;은 계속해서 &lsquo;나폴레옹&rsquo;을 흔들고,<br /> -->
-<!-- 					&lsquo;나폴레옹&rsquo;의 야망은 &lsquo;조제핀&rsquo;과 끝없이 충돌하는데&hellip;<br /> -->
-<!-- 					<br /> -->
-<!-- 					세상을 정복한 영웅 아무것도 갖지 못한 황제,<br /> -->
-<!-- 					&lsquo;나폴레옹&rsquo;의 대서사가 펼쳐진다! -->
+			    ${movie_plot }
 			    </div>
 			    <div class="movie_trailer" id="movie_trailer">
 			    	<hr>
 			    	<h2>트레일러</h2>
-				    <embed width="560" height="315" src="https://www.youtube.com/embed/ROl3dZE5rk4?si=Wl2kLOlS_0HFmtDM" title="YouTube video player"></embed>
+<%-- 				    <embed src="${movie_trailer }" title="YouTube video player"> --%>
+<!-- 						<iframe width="560" height="315" src="https://www.kmdb.or.kr/trailer/play/MK060265_P02.mp4"></iframe> -->
+<!-- 						<iframe width="560" height="315" src="https://www.kmdb.or.kr/trailer/play/MK060265_P02.mp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+<!-- 				    <video id="movie_trailer" src='https://www.kmdb.or.kr/trailer/play/MK060265_P02.mp4' width='880' height="560" controls autoplay muted="muted" controlsList="nodownload"></video> -->
+<!-- 				    <embed src=""> -->
+				    <video class="trailer" src="${movie_trailer }"  controls autoplay muted></video>
 			    </div>
 			    <div class="movie_cut" id="movie_cut">
 			    	<hr>
 			    	<h2>스틸컷</h2>
-			    	<img alt="" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000087/87596/87596220582_727.jpg" width="600px" height="350px">
+<!-- 			    	<img alt="" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000087/87596/87596220582_727.jpg" width="600px" height="350px"> -->
+						<c:if test="${not empty movie_still1 }"><img src="${movie_still1 }"></c:if>
+						<c:if test="${not empty movie_still2 }"><img src="${movie_still2 }"></c:if>
+						<c:if test="${not empty movie_still3 }"><img src="${movie_still3 }"></c:if>
 			    </div>
 			    <div class="review" id="review">
 			    	<hr>
