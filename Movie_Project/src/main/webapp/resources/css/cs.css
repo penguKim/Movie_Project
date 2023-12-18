@@ -18,7 +18,10 @@ form {
 	margin: 10px;	
 }
 
-#notice_form {
+#notice_main {
+	width: 800px;
+	display: inline-block;
+	margin: 10px;
 	padding-bottom: 100px;
 }
 
@@ -153,13 +156,24 @@ th {
 }
 
 /* ======== 고객센터 메인과 자주묻는 질문, 공지사항에 적용할 css ======== */
+#cs_main_div {
+	width: 800px; /* 너비 800지정 */
+	margin: 10px auto;
+	padding-bottom: 100px;
+	display: inline-block;
+}
+
+#cs_best {
+	text-align: center;
+}
+
 #notice_tit {
 	text-decoration: none;
 	color: #000;
 }
 
 #main_shortcuts { /* 바로가기 영역 */
-	margin: 30px 0; /* 상하단 여백 */
+	margin: 10px 0; /* 상하단 여백 */
 	text-align: center; /* 가운데정렬 */
 }
 
@@ -182,23 +196,25 @@ th {
 #main_faq { /* 자주묻는질문 미리보기 */
 	margin-top: 20px; /* 상단여백 */
 	margin-bottom: 50px;
-	float: left; /* 왼쪽에 배치 */
+	display: inline-block;
 	width: 46%; /* 45%차지 */
 	padding: 10px;
 	border-top: 2px solid #9d9d9d;
 	border-bottom: 2px solid #9d9d9d;
 	position: relative;	
+	text-align: left;
 }
 
 #main_notice { /* 공지사항 미리보기 */
 	margin-top: 20px; /* 상단여백 */
 	margin-bottom: 50px;
-	float: right; /* 오른쪽에 배치 */
+	display: inline-block;
 	width: 46%; /* 45%차지 */
 	padding: 10px;
 	border-top: 2px solid #9d9d9d;
 	border-bottom: 2px solid #9d9d9d;
 	position: relative;	
+	text-align: left;
 }
 
 #main_faq a, #main_notice a {

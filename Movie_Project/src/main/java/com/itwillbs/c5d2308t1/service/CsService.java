@@ -22,12 +22,12 @@ public class CsService {
 		// => 파라미터 : CsVO 객체   리턴타입 : int
 		return mapper.insertBoard(cs);
 	}
-
-	public List<CsVO> getFaqList() {
-		// CsMapper - selectFqaList() 메서드 호출하여 자주묻는질문 목록 조회 요청
-		return mapper.selectFaqList();
-	}
 	
+	public List<CsVO> getFaqMainList() {
+		// CsMapper - selectFaqList() 메서드 호출하여 자주묻는질문 목록 조회 요청
+		return mapper.selectFaqMainList();
+	}
+
 	public List<CsVO> getFaqList(int startRow, int listLimit) {
 		// CsMapper - selectFaqList() 메서드 호출하여 자주묻는질문 목록 조회 요청
 		return mapper.selectFaqList(startRow, listLimit);
@@ -48,9 +48,9 @@ public class CsService {
 		return mapper.selectFaqSearch(searchValue);
 	}
 	
-	public List<CsVO> getNoticeList() {
-		// CsMapper - selectNoticeList() 메서드 호출하여 공지사항 목록 조회 요청
-		return mapper.selectNoticeList();
+	public List<CsVO> getNoticeMainList() {
+		// CsMapper - selectNoticeMainList() 메서드 호출하여 공지사항 목록 조회 요청
+		return mapper.selectNoticeMainList();
 	}
 	
 	
@@ -63,6 +63,12 @@ public class CsService {
 		// CsMapper - selectNoticeListCount() 메서드 호출하여 공지사항 목록 갯수 조회 요청
 		return mapper.selectNoticeListCount();
 	}
+
+	public List<CsVO> getNoticeSearch(String theater_id, String searchValue) {
+		// 공지사항 검색기능
+		return mapper.selectNoticeSearch(theater_id, searchValue);
+	}
+
 
 
 

@@ -21,33 +21,18 @@
 				url: "faqDetail",
 				data: { buttonName: buttonName },
 				success: function(data) {
-					<%-- 전체를 눌렀을 때 --%>
-					if(data == "전체") {
-						$("#faq_list").empty();
-						for(let faq of data) {
-							$("#faq_list").append(
-								"<button class='accordion'><div id='topic'>[" + faq.cs_type_detail + "]</div><div id='subject'>" + faq.cs_subject + "</div></button>"
-								+ "<div class='panel'>"
-								+	"<p id='writing'>"
-								+ 		faq.cs_content
-								+	"</p>"
-								+"</div>"
-							);
-						}		
-					} else {
-						<%-- 세부항목을 눌렀을 때 --%>
-						$("#faq_list").empty();
-						for(let faq of data) {
-							$("#faq_list").append(
-								"<button class='accordion'><div id='topic'>[" + faq.cs_type_detail + "]</div><div id='subject'>" + faq.cs_subject + "</div></button>"
-								+ "<div class='panel'>"
-								+	"<p id='writing'>"
-								+ 		faq.cs_content
-								+	"</p>"
-								+"</div>"
-							);
-						}						
-					}
+					<%-- 세부항목을 눌렀을 때 --%>
+					$("#faq_list").empty();
+					for(let faq of data) {
+						$("#faq_list").append(
+							"<button class='accordion'><div id='topic'>[ " + faq.cs_type_detail + " ]</div><div id='subject'>" + faq.cs_subject + "</div></button>"
+							+ "<div class='panel'>"
+							+	"<p id='writing'>"
+							+ 		faq.cs_content
+							+	"</p>"
+							+"</div>"
+						);
+					}						
 					
 					<%-- ajax에 아코디언 효과가 적용되지 않아 아래에 다시 적음 --%>
 					var acc = document.getElementsByClassName("accordion");
@@ -86,15 +71,20 @@
 				success: function(data) {
 
 					$("#faq_list").empty();
-					for(let faq of data) {
-						$("#faq_list").append(
-							"<button class='accordion'><div id='topic'>[" + faq.cs_type_detail + "]</div><div id='subject'>" + faq.cs_subject + "</div></button>"
-							+ "<div class='panel'>"
-							+	"<p id='writing'>"
-							+ 		faq.cs_content
-							+	"</p>"
-							+"</div>"
-						);
+					
+					if(data != "") {
+						for(let faq of data) {
+							$("#faq_list").append(
+								"<button class='accordion'><div id='topic'>[ " + faq.cs_type_detail + " ]</div><div id='subject'>" + faq.cs_subject + "</div></button>"
+								+ "<div class='panel'>"
+								+	"<p id='writing'>"
+								+ 		faq.cs_content
+								+	"</p>"
+								+"</div>"
+							);
+						}
+					} else {
+						$("#faq_list").append("<h3>검색결과가 없습니다<h3>");
 					}
 				
 					<%-- ajax에 아코디언 효과가 적용되지 않아 아래에 다시 적음 --%>
@@ -142,6 +132,17 @@
 		    }
 		  });
 		}
+		
+		// 검색어 입력창에서 엔터 키 이벤트 처리
+		  $("#searchValue").keydown(function(event) {
+		    if (event.keyCode === 13) { // 엔터 키 코드
+		      event.preventDefault(); // 기본 동작(페이지 새로고침) 방지
+
+		      // 검색 버튼 클릭 이벤트 실행
+		      $("#faqSearch").click();
+		    }
+		  });
+		
 	});
 </script>		
 </head>
@@ -170,7 +171,7 @@
 			
 				<section id="search">
 					<b>빠른 검색</b>
-					<input type="search" placeholder="검색어를 입력해주세요" id="searchValue"> <%-- 검색어 입력창 --%>
+					<input type="search" placeholder="검색어를 입력해주세요" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
 					<input type="button" value="검색" id="faqSearch">
 				</section>
 			

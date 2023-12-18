@@ -1,6 +1,7 @@
 package com.itwillbs.c5d2308t1.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.CsService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
-import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 
 @Controller
@@ -29,23 +29,22 @@ public class CsController {
 	@GetMapping("csMain")
 	public String csMain(CsVO cs, Model model) {
 		
-		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
+		// CsService - getFaqMainList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqList)
-		List<CsVO> faqList = service.getFaqList();
-		System.out.println(faqList);
+		List<CsVO> faqMainist = service.getFaqMainList();
+		System.out.println(faqMainist);
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
-		model.addAttribute("faqList", faqList);
+		model.addAttribute("faqMainist", faqMainist);
 		
 		
-		// CsService - getNoticeList() 메서드 호출하여 공지사항 출력
+		// CsService - getNoticeMainList() 메서드 호출하여 공지사항 출력
 		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeList)
-		List<CsVO> noticeList = service.getNoticeList();
-		System.out.println(noticeList);
+		List<CsVO> noticeMainList = service.getNoticeMainList();
+		System.out.println(noticeMainList);
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
-		model.addAttribute("noticeList", noticeList);
-		
+		model.addAttribute("noticeMainList", noticeMainList);
 		
 		
 		return "cs/cs_main";
@@ -54,24 +53,37 @@ public class CsController {
 	
 	// 고객센터 1대1문의 페이지로 이동
 	@GetMapping("csOneOnOneForm")
-	public String csOneOnOneForm(MemberVO member, Model model, HttpSession session) {
-//		// 세션 아이디 가져와서 저장하기
-//		String id = (String)session.getAttribute("sId");
-//		
-//		// 세션 아이디가 존재하지 않을 경우(null)
-//		// 자바스크립트 사용하여 "잘못된 접근입니다!" 출력 후 메인페이지로 이동
-//		if(id == null) {
-////			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-////			return "fail_back";
-//		}
+	public String csOneOnOneForm(Model model, HttpSession session) {
+		// 세션 아이디 가져와서 저장하기
+		String sId = (String)session.getAttribute("sId");
 		
-//		return "redirect:/cs/cs_OneOnOne";
+		// 세션 아이디가 존재하지 않을 경우(null)
+		// 자바스크립트 사용하여 "잘못된 접근입니다!" 출력 후 메인페이지로 이동
+		if(sId == null) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+			return "fail_back";
+		}
+		
+		model.addAttribute("sId", sId);
+		
 		return "cs/cs_OneOnOne";
 	}
 	
 	// 고객센터 분실물문의 페이지로 이동
 	@GetMapping("csLostForm")
-	public String csLostForm() {
+	public String csLostForm(Model model, HttpSession session) {
+		// 세션 아이디 가져와서 저장하기
+		String sId = (String)session.getAttribute("sId");
+		
+		// 세션 아이디가 존재하지 않을 경우(null)
+		// 자바스크립트 사용하여 "잘못된 접근입니다!" 출력 후 메인페이지로 이동
+		if(sId == null) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+			return "fail_back";
+		}
+		
+		model.addAttribute("sId", sId);
+		
 		return "cs/cs_lost";
 	}
 	
@@ -93,7 +105,7 @@ public class CsController {
 //		System.out.println("현재 페이지 : " + pageNum);
 		
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 3;
+		int listLimit = 5;
 		
 		// 조회 시작 행번호
 		int startRow = (pageNum - 1) * listLimit;
@@ -114,7 +126,7 @@ public class CsController {
 //		System.out.println(listCount);
 		
 		// 2) 한 페이지에 표시할 페이지 목록 갯수 설정(테스트)
-		int pageListLimit = 2;
+		int pageListLimit = 5;
 		
 		// 3) 전체 페이지 목록 갯수 계산
 		// 페이지 목록 갯수 계산 후 나머지가 0보다 크면 페이지 갯수 +1 처리
@@ -152,27 +164,15 @@ public class CsController {
 	@ResponseBody
 	@GetMapping("faqDetail")
 	public List<CsVO> faqDetail(Model model, String buttonName) {
-		if(buttonName.equals("전체")) {
-			// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
-			// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqList)
-			List<CsVO> faqList = service.getFaqList();
-			System.out.println(faqList);
-			
-			// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
-			model.addAttribute("faqList", faqList);
-			
-			return faqList;
-		} else {
-			// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
-			// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqDetail)
-			List<CsVO> faqDetail = service.getFaqDetail(buttonName);
-			System.out.println(faqDetail);
-			
-			// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
-			model.addAttribute("faqDetail", faqDetail);
-			
-			return faqDetail;			
-		}
+		// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
+		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqDetail)
+		List<CsVO> faqDetail = service.getFaqDetail(buttonName);
+		System.out.println(faqDetail);
+		
+		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
+		model.addAttribute("faqDetail", faqDetail);
+		
+		return faqDetail;			
 		
 	}
 	
@@ -180,19 +180,17 @@ public class CsController {
 	@ResponseBody
 	@GetMapping("faqSearch")
 	public List<CsVO> faqSearch(Model model, String searchValue) {
-		// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqDetail)
+		// CsService - getFaqSearch() 메서드 호출하여 자주 묻는 질문 출력
+		// => 파라미터 : searchValue   리턴타입 : List<CsVO>(faqSearch)
 		List<CsVO> faqSearch = service.getFaqSearch(searchValue);
 		System.out.println(faqSearch);
 		
-		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
+		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqSearch")
 		model.addAttribute("faqSearch", faqSearch);
 		
 		return faqSearch;			
 
 	}
-	
-	
 	
 	
 	
@@ -210,7 +208,7 @@ public class CsController {
 //		System.out.println("현재 페이지 : " + pageNum);
 		
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 3;
+		int listLimit = 5;
 		
 		// 조회 시작 행번호
 		int startRow = (pageNum - 1) * listLimit;
@@ -231,7 +229,7 @@ public class CsController {
 //		System.out.println(listCount);
 		
 		// 2) 한 페이지에 표시할 페이지 목록 갯수 설정(테스트)
-		int pageListLimit = 2;
+		int pageListLimit = 5;
 		
 		// 3) 전체 페이지 목록 갯수 계산
 		// 페이지 목록 갯수 계산 후 나머지가 0보다 크면 페이지 갯수 +1 처리
@@ -262,6 +260,22 @@ public class CsController {
 		model.addAttribute("noticeList", noticeList);
 		
 		return "cs/cs_notice";
+	}
+	
+	// 공지사항 검색 기능
+	@ResponseBody
+	@GetMapping("noticeSearch")
+	public List<CsVO> noticeSearch(Model model, String theater_id, String searchValue) {
+		// CsService - getNoticeSearch() 메서드 호출하여 자주 묻는 질문 출력
+		// => 파라미터 : String searchValue, CsVO cs   리턴타입 : List<CsVO>(noticeSearch)
+		List<CsVO> noticeSearch = service.getNoticeSearch(theater_id, searchValue);
+		System.out.println(noticeSearch);
+		
+		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeSearch")
+		model.addAttribute("noticeSearch", noticeSearch);
+		
+		return noticeSearch;			
+		
 	}
 	
 	

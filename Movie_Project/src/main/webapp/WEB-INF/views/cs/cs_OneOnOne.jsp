@@ -121,7 +121,7 @@ $(function() {
 					<table id="cs_table2">
 						<tr>
 							<th>아이디<b>*</b></th>
-							<td><input type="text" id="id" name="member_id" value="hong11" readonly></td> <%-- 세션아이디 받아오기 --%>
+							<td><input type="text" id="id" name="member_id" value="${sId}" readonly></td> <%-- 세션아이디 받아오기 --%>
 							<th>문의유형<b>*</b></th>
 							<td>
 								<select name="cs_type_detail">

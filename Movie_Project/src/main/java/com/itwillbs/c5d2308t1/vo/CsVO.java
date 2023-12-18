@@ -16,6 +16,7 @@ cs 테이블 정의
 글번호(cs_type_list_num) - INT
 문의답변(cs_reply) - VARCHAR(1000)			
 회원아이디(member_id) - VARCHAR(20), FK(members)
+극장번호(theater_id) - int
 -----------------------------------------
 create table cs (
 	cs_id INT PRIMARY key AUTO_INCREMENT,
@@ -31,6 +32,7 @@ create table cs (
 	member_id VARCHAR(20),
 	theater_id int,
 	FOREIGN KEY(member_id) REFERENCES members(member_id)
+	FOREIGN KEY(theater_id) REFERENCES theater(theater_id)
 )
 */
 
@@ -48,6 +50,7 @@ public class CsVO {
 	private int cs_type_list_num;
 	private String cs_reply;
 	private String member_id;
+	private int theater_id;
 	
 	
 	// 기본 생성자 정의 - 생략 가능
@@ -141,18 +144,23 @@ public class CsVO {
 		this.member_id = member_id;
 	}
 
+	public int getTheater_id() {
+		return theater_id;
+	}
 
+	public void setTheater_id(int theater_id) {
+		this.theater_id = theater_id;
+	}
 
-
-	// toString 정의
+	
 	@Override
 	public String toString() {
 		return "CsVO [cs_id=" + cs_id + ", cs_subject=" + cs_subject + ", cs_content=" + cs_content + ", cs_date="
 				+ cs_date + ", cs_type=" + cs_type + ", cs_type_detail=" + cs_type_detail + ", cs_file=" + cs_file
 				+ ", cs_file_renew=" + cs_file_renew + ", cs_type_list_num=" + cs_type_list_num + ", cs_reply="
-				+ cs_reply + ", member_id=" + member_id + "]";
+				+ cs_reply + ", member_id=" + member_id + ", theater_id=" + theater_id + "]";
 	}
-	
+
 	
 	
 }

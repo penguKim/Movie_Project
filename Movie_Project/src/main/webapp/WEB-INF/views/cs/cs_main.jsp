@@ -26,14 +26,8 @@
 				<jsp:include page="cs_menubar.jsp"></jsp:include>
 			</div>
 			
-			<form action="" method="" name="">
-				<section id="search">
-					<b>빠른 검색</b>
-					<input type="search" placeholder="검색어를 입력해주세요"> <%-- 검색어 입력창 --%>
-					<a href="csFaq"><input type="button" value="검색"></a>
-				</section>
-				
-				<section id="main_shortcuts"><%-- 바로가기 --%>
+			<section id="cs_main_div">	
+				<div id="main_shortcuts"><%-- 바로가기 --%>
 					<a href="csOneOnOneForm">
 						<img src="${pageContext.request.contextPath}/resources/img/1to1.png" alt="1:1 이미지"> <br>
 						1 : 1 문의 <br>
@@ -46,44 +40,45 @@
 						<img src="${pageContext.request.contextPath}/resources/img/fqa.png" alt="FQA 이미지"> <br>
 						자주 묻는 질문 <br>
 					</a>
-				</section>
+				</div>
 				
 				<hr>
-			
-				<section id="main_faq"> <%-- 자주묻는질문 바로가기 --%>
-					<h3>자주 묻는 질문 BEST5</h3>
-					<a href="csFaq">더보기</a>
-					<ol>
-						<c:choose>
-							<c:when test="${empty faqList}">
-								자주묻는질문 없음
-							</c:when>
-							<c:otherwise>
-								<c:forEach begin="0" end="4" var="faq" items="${faqList}">
-									<li><a href="">${faq.cs_subject}</a></li> <%-- 자주묻는질문 상위 5개만 보여주기 --%>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-					</ol>
+				<section id="cs_best">
+					<div id="main_faq"> <%-- 자주묻는질문 바로가기 --%>
+						<h3>자주 묻는 질문 BEST5</h3>
+						<a href="csFaq">더보기</a>
+						<ol>
+							<c:choose>
+								<c:when test="${empty faqMainist}">
+									자주묻는질문 없음
+								</c:when>
+								<c:otherwise>
+									<c:forEach begin="0" end="4" var="faq" items="${faqMainist}">
+										<li><a href="">${faq.cs_subject}</a></li> <%-- 자주묻는질문 상위 5개만 보여주기 --%>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</ol>
+					</div>
+					
+					<div id="main_notice"> <%-- 공지사항 바로가기 --%>
+						<h3>공지사항</h3>
+						<a href="csNotice">더보기</a>
+						<ol>
+							<c:choose>
+								<c:when test="${empty noticeMainList}">
+									공지사항 없음
+								</c:when>
+								<c:otherwise>
+									<c:forEach begin="0" end="4" var="notice" items="${noticeMainList}">
+										<li><a href="">${notice.cs_subject}<a></li> <%-- 자주묻는질문 최신 5개만 보여주기 --%>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</ol>
+					</div>
 				</section>
-				
-				<section id="main_notice"> <%-- 공지사항 바로가기 --%>
-					<h3>공지사항</h3>
-					<a href="csNotice">더보기</a>
-					<ol>
-						<c:choose>
-							<c:when test="${empty noticeList}">
-								공지사항 없음
-							</c:when>
-							<c:otherwise>
-								<c:forEach begin="0" end="4" var="notice" items="${noticeList}">
-									<li><a href="">${notice.cs_subject}<a></li> <%-- 자주묻는질문 최신 5개만 보여주기 --%>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-					</ol>
-				</section>
-			</form>
+			</section>	
 		</section>
 		
 		<footer>
