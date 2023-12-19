@@ -9,11 +9,6 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-	function btnLookup() {
-		location.reload();
-	}
-</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -33,9 +28,9 @@
 			<div id="admin_main">
 				<div id="review_Search">
 					<input type="text" placeholder="아이디 또는 영화명 입력">
-					<input type="button" value="조회" onclick="btnLookup()">
+					<input type="button" value="조회">
 				</div>
-				<form action="boardDlt" method="post">
+				<form action="reviewDlt" method="post">
 					<table border="1" width="1100">
 						<tr>
 							<th>영화명</th>
@@ -50,7 +45,6 @@
 							<td>member_id</td>
 							<td>review_content</td>
 							<td>
-							<input type="hidden" name="fileName" value="admin_review">	
 							<input type="submit" value="삭제">
 							</td>
 						</tr>

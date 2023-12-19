@@ -7,11 +7,6 @@
 <meta charset="UTF-8">
 <title>영화 수정 팝업</title>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-	function btnLookup() {
-		location.reload();
-	}
-</script>
 </head>
 <body>
 	<div id="grayDiv">
@@ -23,8 +18,8 @@
 			<option>E영화</option>
 			<option>F영화</option>
 		</select>
-		<input type="button" value="조회" onclick="btnLookup()"><br><br>
-		<form action="boardMod" method="post">
+		<input type="button" value="조회"><br><br>
+		<form action="movieMod" method="post">
 			<img src="${pageContext.request.contextPath}/resources/img/cobweb.jpg" width="250" height="400"><br>
 			<input type="file"><br><br>
 			<div id="grayBlock">
@@ -73,7 +68,6 @@
 				&nbsp;&nbsp;<input type="text" value="상영중">
 			</div>
 			<br>
-			<input type="hidden" name="fileName" value="admin_movie_modify">	
 			<input type="submit" value="수정">
 			<input type="button" value="창닫기" onclick="window.close()">
 		</form>

@@ -24,7 +24,7 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_sub">
-				<form action="boardRgst" method="post">
+				<form action="boardFaqRgst" method="post">
 					<table border="1" id="">
 						<tr>
 							<th>번호</th>
@@ -43,7 +43,7 @@
 							<td><input type="text"></td>
 						</tr>
 						<tr>
-							<th height="400">내용</th>
+							<th>내용</th>
 							<td><textarea></textarea></td>
 						</tr>
 						<tr>
@@ -52,7 +52,6 @@
 						</tr>
 					</table>
 					<div id="admin_writer"> 
-						<input type="hidden" name="fileName" value="admin_board_faq_write">	
 						<input type="submit" value="등록">
 						<input type="button" value="돌아가기" onclick="history.back()">
 					</div>

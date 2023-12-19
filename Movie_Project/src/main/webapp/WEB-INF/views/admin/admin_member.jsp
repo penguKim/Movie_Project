@@ -26,7 +26,7 @@
 			</div>
 			
 			<div id="admin_main">
-				<form action="boardDlt" method="post">
+				<form action="memberDlt" method="post">
 					<table border="1" width="1000">
 						<div id="member_Search">
 							<input type="text" placeholder="조회할 회원정보 입력">
@@ -59,7 +59,6 @@
 							<td>제목입니다</td>
 							<td>작성자입니다</td>
 							<td>
-							<input type="hidden" name="fileName" value="admin_member">
 							<input type="submit" value="탈퇴" id="admin_Cmember">
 							</td>
 						</tr>

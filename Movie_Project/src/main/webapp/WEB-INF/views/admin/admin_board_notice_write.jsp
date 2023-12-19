@@ -23,8 +23,8 @@
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
-			<form action="boardRgst" method="post">
-				<div id="admin_sub">
+			<div id="admin_sub">
+				<form action="boardNoticeRgst" method="post">
 					<table border="1">
 						<tr>
 							<th>번호</th>
@@ -48,12 +48,11 @@
 						</tr>
 					</table>
 					<div id="admin_writer"> 
-						<input type="hidden" name="fileName" value="admin_board_notice_write">	
 						<input type="submit" value="등록">
 						<input type="button" value="돌아가기" onclick="history.back()">
 					</div>
-				</div>
-			</form>			
+				</form>			
+			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
 			</footer>

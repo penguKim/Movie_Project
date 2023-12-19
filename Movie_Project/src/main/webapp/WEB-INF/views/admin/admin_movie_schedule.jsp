@@ -8,11 +8,6 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-	function btnLookup() {
-		location.reload();
-	}	
-</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -39,17 +34,11 @@
 							<option>D지점</option>
 						</select>
 						<label id="lbl">상영날짜</label><input type="date">
-						<input type="button" value="조회" onclick="btnLookup()">&nbsp;&nbsp;&nbsp;
+						<input type="button" value="조회">&nbsp;&nbsp;&nbsp;
 						<label id="lbl">휴게시간(분)</label><input type="text">
 					</div>
 				</form>
-				<form action="boardRgst" method="post">
-				<%-- 판별식을 이용해 action 속성값 변경할 예정 --%>
-<!-- 				<form action="boardMod" method="post"> -->
-<!-- 				<form action="boardDlt" method="post"> -->
-				<!-- 서블릿 매핑 미완(등록 : boardRgst, 수정 : boardMod, 삭제 : boardDlt) -->
-				<!-- 폼태그 하나에 복수개의 submit 처리가 필요(등록, 수정, 삭제) -->
-				<!-- 임시로 action 속성은 boardRgst 로 지정(매핑 확인 용) -->
+				<form action="movieSchedule" method="post">
 					<table border="1" width="1000" height="500">
 						<tr>
 							<th width="100">상영관명</th>
@@ -118,7 +107,6 @@
 								A영화
 							</td>
 							<td>
-								<input type="hidden" name="fileName" value="admin_movie_schedule">	
 								<input type="submit" value="등록"><br><br><br>
 								<input type="submit" value="수정"><br><br><br>
 								<input type="submit" value="삭제">

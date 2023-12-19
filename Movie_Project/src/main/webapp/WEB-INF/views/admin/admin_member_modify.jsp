@@ -25,12 +25,7 @@
 			</div>
 
 			<div id="admin_sub">
-				<form action="boardMod" method="post">
-				<%-- 판별식을 이용해 action 속성값 변경할 예정 --%>
-<!-- 				<form action="boardDlt" method="post"> -->
-				<!-- 서블릿 매핑 미완(수정 : boardMod, 삭제 : boardDlt) -->
-				<!-- 폼태그 하나에 복수개의 submit 처리가 필요(수정, 삭제) -->
-				<!-- 임시로 action 속성은 boardMod 로 지정(매핑 확인 용) -->
+				<form action="memberModOrDlt" method="post">
 					<table border="1">
 						<tr>
 							<th>이름</th>	
@@ -79,7 +74,6 @@
 						</tr>
 					</table>
 					<div id="admin_writer"> 
-						<input type="hidden" name="fileName" value="admin_member_modify">	
 						<input type="submit" value="수정">
 						<input type="button" value="돌아가기" onclick="history.back()">
 						<input type="submit" value="삭제">
