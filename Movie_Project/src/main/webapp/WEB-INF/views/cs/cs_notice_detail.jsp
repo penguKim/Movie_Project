@@ -32,7 +32,13 @@
 					</tr>
 					<tr>
 						<td class="notice_info">영화관</td>
-						<td class="notice_info">${cs.theater_id}</td>
+						<c:choose>
+							<c:when test="${cs.theater_id eq 1}"><td class="notice_info">지점명1</td></c:when>
+							<c:when test="${cs.theater_id eq 2}"><td class="notice_info">지점명2</td></c:when>
+							<c:when test="${cs.theater_id eq 3}"><td class="notice_info">지점명3</td></c:when>
+							<c:when test="${cs.theater_id eq 4}"><td class="notice_info">지점명4</td></c:when>
+							<c:when test="${cs.theater_id eq 5}"><td class="notice_info">지점명5</td></c:when>
+						</c:choose>	
 						<td class="notice_info">등록일</td>
 						<td class="notice_info">${cs.cs_date}</td>
 					</tr>
@@ -43,10 +49,11 @@
 						<td>이전  ▲</td>
 						<c:choose>
 							<c:when test="${param.cs_type_list_num > 0}">
-								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num - 1}&pageNum=${param.pageNum}" id="notice_tit">링크</a></td>								
+								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num - 1}&pageNum=${param.pageNum}" id="notice_tit">
+									이전 공지사항 보기</a></td>								
 							</c:when>
 							<c:otherwise>
-								<td>링크</td>
+								<td>이전 공지사항이 없습니다</td>
 							</c:otherwise>
 						</c:choose>
 						
@@ -55,10 +62,11 @@
 						<td>다음  ▼</td>
 						<c:choose>
 							<c:when test="${param.cs_type_list_num < maxCount - 1}">
-								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num + 1}&pageNum=${param.pageNum}" id="notice_tit">링크</a></td>								
+								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num + 1}&pageNum=${param.pageNum}" id="notice_tit">
+									다음 공지사항 보기</a></td>								
 							</c:when>
 							<c:otherwise>
-								<td>링크</td>
+								<td>다음 공지사항이 없습니다</td>
 							</c:otherwise>
 						</c:choose>
 					</tr>

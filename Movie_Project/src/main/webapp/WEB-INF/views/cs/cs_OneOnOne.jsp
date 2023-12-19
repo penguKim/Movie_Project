@@ -138,12 +138,15 @@ $(function() {
 						<tr>
 							<th>문의지점<b>*</b></th>
 							<td colspan="3">
-								<label><input type="radio" name="ox" value="선택안함" checked> 선택안함</label> <%-- 체크 시 select창 비활성화, 기본값 선택안함 체크 --%>
+								<label><input type="radio" name="ox" value="0" checked> 선택안함</label> <%-- 체크 시 select창 비활성화, 기본값 선택안함 체크 --%>
 								<label><input type="radio" name="ox" value="선택함" > 선택함</label> <%-- 체크 시 지점명 필수선택 --%>
 								<select name="theater_id" disabled> <%-- 기본 값 비활성화 --%>
 									<option value="0">선택안함</option> <%-- option value 값 추가  --%>
-									<option value="1">지점명A</option> <%-- 지점명 정해지면 수정 --%>
-									<option value="2">지점명B</option>
+									<option value="1">지점명1</option> <%-- 지점명 정해지면 수정 --%>
+									<option value="2">지점명2</option>
+									<option value="3">지점명3</option>
+									<option value="4">지점명4</option>
+									<option value="5">지점명5</option>
 								</select>
 							</td>
 						</tr>

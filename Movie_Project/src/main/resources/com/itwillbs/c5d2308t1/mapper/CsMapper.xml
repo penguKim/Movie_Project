@@ -20,7 +20,14 @@
 			, #{cs_type_list_num}
 			, null
 			, #{member_id}
-			, #{theater_id}
+			<choose>
+				<when test="theater_id != 0">
+					, theater_id = #{theater_id}
+				</when>
+				<otherwise>
+					, theater_id = null		
+				</otherwise>
+			</choose>
 		)		
 	</insert>
 	

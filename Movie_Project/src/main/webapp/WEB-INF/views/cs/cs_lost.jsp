@@ -104,8 +104,11 @@
 							<td>
 								<select name="theater_id" >
 									<option value="0">전체검색</option>
-									<option value="1">지점명A</option> <%-- 지점명 정해지면 수정 --%>
-									<option value="2">지점명B</option>
+									<option value="1">지점명1</option> <%-- 지점명 정해지면 수정 --%>
+									<option value="2">지점명2</option>
+									<option value="3">지점명3</option>
+									<option value="4">지점명4</option>
+									<option value="5">지점명5</option>
 								</select>
 							</td>
 							<th>분실일시<b>*</b></th>

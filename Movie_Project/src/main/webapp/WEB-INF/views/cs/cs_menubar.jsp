@@ -10,5 +10,7 @@
 		<li><a href="csNotice">공지사항</a></li> <!-- 공지사항 페이지로 이동 -->
 		<li><a href="csOneOnOneForm">1 : 1 문의</a></li> <!-- 1대1 문의 페이지로 이동 -->
 		<li><a href="csLostForm">분실물 문의</a></li> <!-- 분실문 문의 페이지로 이동 -->
+		<br>
+		<b>iTicket 고객센터<br>10:00 ~ 18:00</b>
 	</ul>
 </div>

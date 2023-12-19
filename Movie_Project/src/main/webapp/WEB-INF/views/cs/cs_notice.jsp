@@ -31,19 +31,31 @@
 					
 					if(data != "") {
 						for(let notice of data) {
-							let LocalDate = new Date(notice.cs_date);
+							let date = new Date(notice.cs_date);
 							let year = date.getFullYear(); // 연도
 							let month = date.getMonth() + 1; // 월 (0부터 시작하므로 1을 더해줌)
 							let day = date.getDate(); // 일
 	
 							// 가공된 날짜 형식으로 출력
-							let formattedDate = year + "." + month + "." + day;
+							let formattedDate = year + "-" + month + "-" + day;
 							
+							let theater = notice.theater_id
+								if(theater = 1) {
+									theater = "지점명1"
+								} else if(theater = 2) {
+									theater = "지점명2"	
+								} else if(theater = 3) {
+									theater = "지점명3"	
+								} else if(theater = 4) {
+									theater = "지점명4"	
+								} else if(theater = 5) {
+									theater = "지점명5"	
+								}
 							
 							$("#cs_table1>tbody").append(
 								"<tr>"
 								+	"<td>" + notice.cs_type_list_num + "</td>" <%-- 내용 넣기 --%>
-								+	"<td>" + notice.theater_id + "</td>"
+								+	"<td>" + theater + "</td>"
 									<%-- 제목 클릭 시 해당 게시물로 이동 --%>
 								+	"<td id='td_left'><a href='csNoticeDetail?cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}' id='notice_tit'>" + notice.cs_subject + "</a></td>"
 								+	"<td>" + formattedDate + "</td>"
@@ -101,8 +113,11 @@
 				<section id="search">
 					<select id="theater_id">
 						<option value="0">전체공지</option> <%-- 전체 지점 공지사항 보기 --%>
-						<option value="1">지점명A</option> <%-- 지점명 정해지면 수정 --%>
-						<option value="2">지점명B</option> <%-- 개별 지점 공지사항 보기 --%>
+						<option value="1">지점명1</option> <%-- 지점명 정해지면 수정 --%>
+						<option value="2">지점명2</option> <%-- 개별 지점 공지사항 보기 --%>
+						<option value="3">지점명3</option> <%-- 개별 지점 공지사항 보기 --%>
+						<option value="4">지점명4</option> <%-- 개별 지점 공지사항 보기 --%>
+						<option value="5">지점명5</option> <%-- 개별 지점 공지사항 보기 --%>
 					</select>
 					<input type="search" placeholder="검색어를 입력해주세요" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
 					<input type="button" value="검색" id="noticeSearch">
@@ -129,10 +144,16 @@
 									<c:forEach var="notice" items="${noticeList}">
 										<tr>
 											<td>${notice.cs_type_list_num}</td> <%-- 내용 넣기 --%>
-											<td>${notice.theater_id}</td>
+											<c:choose>
+												<c:when test="${notice.theater_id eq 1}"><td>지점명1</td></c:when>										
+												<c:when test="${notice.theater_id eq 2}"><td>지점명2</td></c:when>										
+												<c:when test="${notice.theater_id eq 3}"><td>지점명3</td></c:when>										
+												<c:when test="${notice.theater_id eq 4}"><td>지점명4</td></c:when>										
+												<c:when test="${notice.theater_id eq 5}"><td>지점명5</td></c:when>										
+											</c:choose>
 											<%-- 제목 클릭 시 해당 게시물로 이동 --%>
 											<td id="td_left"><a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}" id="notice_tit">${notice.cs_subject}</a></td>
-											<td><fmt:formatDate value="${notice.cs_date}" pattern="yyyy.MM.dd"/></td>
+											<td><fmt:formatDate value="${notice.cs_date}" pattern="yyyy-MM-dd"/></td>
 										</tr>
 									</c:forEach>
 								</c:otherwise>
