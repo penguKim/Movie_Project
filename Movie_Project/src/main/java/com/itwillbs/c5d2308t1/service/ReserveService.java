@@ -19,11 +19,14 @@ public class ReserveService {
 	public List<ReserveVO> getTheaterList() {
 		return mapper.selectTheaterName();
 	}
-	public List<ReserveVO> getPlayList() {
-		return mapper.selectPlayDate_PlayTime();
+	public List<ReserveVO> getPlayDate() {
+		return mapper.selectPlayDate();
 	}
 	public List<ReserveVO> getSeatList(ReserveVO reserveVO) {
 		return mapper.selectSeatName(reserveVO);
+	}
+	public List<ReserveVO> getScheduleList(ReserveVO reserveVO) {
+		return mapper.selectSchedule(reserveVO);
 	}
 
 }

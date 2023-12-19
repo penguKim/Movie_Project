@@ -17,19 +17,33 @@
 
 /* ================= 영화선택 css ===================== */
 
-button { /* 좌석예매 버튼 */
-    padding: 5px 10px;
-    background-color: #e50914;
-    color: #fff;
-    border: none;
-    border-radius: 3px; /* 모서리 곡률 */
-    cursor: pointer;
+/* button { 좌석예매 버튼 */
+/*     padding: 5px 10px; */
+/*     background-color: #e50914; */
+/*     color: #fff; */
+/*     border: none; */
+/*     border-radius: 3px; 모서리 곡률 */
+/*     cursor: pointer; */
+/* } */
+
+/* button:hover { 버튼 가까이 갔을때 어둡 */
+/*     background-color: #c70711; */
+/* } */
+
+.selected { 
+  	background-color: #525252; 
+  	color: white;
+  	font-weight: bold;
+} 
+
+#reserve_nav{
+	display: flex;
+  	justify-content: flex-end;
 }
 
-button:hover { /* 버튼 가까이 갔을때 어둡 */
-    background-color: #c70711;
+.btnReset{
+	margin-left: auto;
 }
-
 
 #reserve_parameter{ /*화면 가운데로 정렬 하는 코드*/
 	display: flex;
@@ -42,14 +56,24 @@ button:hover { /* 버튼 가까이 갔을때 어둡 */
 #reserve_parameter>div{ /* 데이터 입력받는 버튼 크기 조절*/
 	border: 1px solid;
 	width:310px;
-	height:400px;
-/* 	float:left;  왜있는지 모르는 코드 이상 없으면 지울꺼임 */ 
+	height:600px;
 }
-
 
 .overflow{ /* 데이터가 영역 밖으로 넘어가면 자동으로 스크롤 바 생성*/
 	overflow: auto;
 	display: inline-block;
+}
+.overflow::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+  height: 20px;
+}
+.overflow::-webkit-scrollbar-thumb {
+  background-color: #82817b; /* 스크롤바 색상 */
+  border-radius: 10px; /* 스크롤바 모서리의 둥글기 */
+  height: 20px;
+}
+.overflow::-webkit-scrollbar-thumb:hover {
+  background-color: #de1010; /* 스크롤바에 마우스를 올렸을 때의 색상 */
 }
 
 .overflow b{ /* 제목에 대한 디자인 설정 (영화, 극장, 날짜, 시간)*/
@@ -70,28 +94,30 @@ button:hover { /* 버튼 가까이 갔을때 어둡 */
 	border: none;
 }
 
-.date{ /* 날짜 버튼 영역크기 설정(일부러 조금 작게 함)*/
-	width:160px !important;
+.date{ /* 날짜 버튼 영역크기 설정(일부러 조금 작게 함) */
+	width:140px !important;
 }
 
 .date input{
-	width: 140px;
+	width: 135px;
 	height: 50px;
 	border: none;
 	
 }
 
 .time input{
-	width: 60px;
 	height: 20px;
 	margin: 10px;
 }
-.selected {
-	background-color: green; /*클릭되면 빨간색으로 seat배경색 바뀜*/
+
+.room_name{
+	width: auto!important;
+	height: 50px!important;
+	border: none!important;
 }
 
 #seat_num {
-	margin: 40px auto;
+	margin-bottom: 50px;
 }
 
 
@@ -128,27 +154,41 @@ button:hover { /* 버튼 가까이 갔을때 어둡 */
 .seat { /* 좌석에 대한 디자인 */
     width: 30px;
     height: 30px;
-    background-color: #ccc; 
-    margin: 5px; 
+    background-color: #a6a6a6; 
+    margin: 1px; 
     display: inline-block;
     cursor: pointer; /* 커서를 가져다 대면 클릭할 수 있는 표시로 바뀜 */
 	align-items: center;
 	line-height: 30px;
+	color: white;
+	font-size: 0.8em;
 }
 
 .reserved{
 	width: 30px;
     height: 30px;
-    background-color: #000; 
-    margin: 5px; 
+    margin: 1px;
+    background-color: #d6d6d6; 
     display: inline-block;
 	align-items: center;
 	line-height: 30px;
+	font-size: 0.8em;
+	text-align: center;
+}
+
+#screenArea{
+	width: 650px;
+	height: 80px;
+	text-align: center;
+	margin: 20px auto;
+	line-height: 80px;
+	background: url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/step2/screen_bg.png) repeat-x left;
 }
 
 
+
 .seat:nth-of-type(4), .seat:nth-of-type(12) {
-	margin-right: 60px/*좌석의 4번째열과 12번째 열 옆으로 통로만드는 css*/
+	margin-right: 30px/*좌석의 4번째열과 12번째 열 옆으로 통로만드는 css*/
 }
 
 .NumOfPeo{ /*인원 선택 영역에 대한 배경과 크기 텍스트 위치 설*/
@@ -178,7 +218,7 @@ button:hover { /* 버튼 가까이 갔을때 어둡 */
 #end_param td{
 	text-align: center;
 	width: 200px;
-	border-right: 2px solid;
+	border-right: 1px solid #2f2f2d;
 	height: 50px;
 }
 

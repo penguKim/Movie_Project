@@ -15,7 +15,9 @@
     	background-color: #de1010; 
     } 
 </style>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
+
    function toggleSeat(seat) {
        seat.classList.toggle("selected");
        displaySelectedSeats(); // 좌석 선택 시 선택된 좌석을 출력하는 함수 호출
@@ -68,7 +70,25 @@
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content"><%--CSS 요청으로 감싼 태그--%>
-		
+<!-- ================================================================== -->
+	<c:set var="inputDate" value="${reserveVO.play_date}" />
+	
+	<c:set var="dateParts" value="${fn:split(inputDate, '-')}"/>
+	<c:set var="year" value="${dateParts[0]}"/>
+	<c:set var="month" value="${dateParts[1]}"/>
+	<c:set var="day" value="${dateParts[2]}"/>
+	
+	<c:set var="monthString" value=""/>
+	<c:forEach begin="1" end="12" varStatus="loop">
+	  <c:if test="${month == loop.index}">
+	    <c:set var="monthString" value="${loop.index}" />
+	  </c:if>
+	</c:forEach>
+	
+	<c:set var="outputDate" value="${year}년 ${monthString}월 ${day}일" />
+	
+<!-- ================================================================== -->
+
 			<h1 id="h01">좌석선택</h1>
 			<hr>
 			<article id="seat_select">
@@ -97,19 +117,20 @@
 								</table>
 							</th>
 							<th colspan="3" class="header_box_Runtime">
-								극장 : ${param.theater} ex)3관 11층 ex)남은좌석 100/120<br>
-							 	<b>2023년 12월 ${param.date} ex)상영시간 10:39~13:10</b>
+								${reserveVO.theater_name } ${reserveVO.room_name} 남은좌석 ${176-fn:length(SeatList)}/176<br>
+							 	<b>${outputDate} ex)상영시간 10:39~13:10</b>
 							 </th>
 						</tr>
 					</table>
 				</div>
 				<c:forEach var="SeatList" items="${SeatList}">
+<!-- 					예매된 좌석을 하나의 변수에 저장하는 반복문 -->
 					<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
 				</c:forEach>
-				<h1>예매된 좌석 : ${seat_name}</h1>
 				<div id="seat_num">
 					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><%--행을결정지을 변수 x 선언--%>
-				    <h1 class="center">Screen</h1>
+				   
+				    <h1 id="screenArea">Screen</h1>
 					<c:forEach var="i" begin="0" end="${fn:length(x)-1}">		<%--행을 반복할 반복문 선언--%>
 				    	<div class="center">
 					 	<c:forEach var="j" begin="1" end="16">
@@ -157,14 +178,14 @@
 		</section><%--CSS 요청으로 감싼 태그--%>
 		
 		<article id="select_info">				
-			<table id="end_param">
+			<table id="end_param" class="center">
 				<tr>
 					<td class="button_area"><input type="button" value="영화선택" onclick="back()" class="button"></td>
-					<td class="text_left">${param.movie}</td>
+					<td class="text_left">${reserveVO.movie_title}</td>
 					<td class="text_left">
-						극장 : ${param.theater}<br>
-						날짜 : ${param.date} <br>
-						시간 : ${param.time} <br>
+						극장 : ${reserveVO.theater_name}<br>
+						날짜 : ${reserveVO.play_date} <br>
+						시간 : ${reserveVO.play_start_time} <br>
 					</td>
 					<td class="text_left">
 						<h3 id="selected_seats">인원 좌석 선택</h3>

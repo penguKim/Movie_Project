@@ -4,20 +4,23 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.ReserveMapper">
 
-	<select id="selectMovietitle">
+	<select id="selectMovietitle" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT movie_title 
 		FROM movies
 	</select>
-	<select id="selectTheaterName">
+	
+	<select id="selectTheaterName" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT theater_name 
 		FROM theaters
 	</select>
-	<select id="selectPlayDate_PlayTime">
-<!-- 		SELECT DATE_FORMAT(play_start_time,"%H:%i") play_start_time, DATE_FORMAT(play_date,'%a %d') play_date  -->
-		SELECT DISTINCT play_date, play_start_time
+	
+	<select id="selectPlayDate" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
+		SELECT DISTINCT play_date
 		FROM plays
 	</select>
-	<select id="selectSeatName">
+	
+	
+	<select id="selectSeatName" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT seat_name
 		FROM seats 
 		WHERE play_id =(SELECT play_id
@@ -25,6 +28,13 @@
 						WHERE play_date = #{play_date}
 						AND play_start_time = #{play_start_time});
 	</select>
-	
+	<select id="selectSchedule" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
+		SELECT r.room_name, p.play_start_time, p.play_end_time 
+		FROM rooms r JOIN plays p 
+		ON r.room_id = p.room_id
+		WHERE p.play_date = #{play_date}
+		AND movie_id= (SELECT movie_id FROM movies m WHERE m.movie_title = #{movie_title})
+		AND r.room_id IN (SELECT room_id FROM rooms WHERE theater_id = (SELECT theater_id FROM theaters WHERE theater_name = #{theater_name}));
+	</select>
 	
 </mapper>

@@ -5,8 +5,23 @@ public class ReserveVO {
 	private String theater_name;
 	private String play_date;
 	private String play_start_time;
+	private String play_end_time; 
 	private String seat_name;
+	private String room_name;
 	
+	
+	public String getPlay_end_time() {
+		return play_end_time;
+	}
+	public void setPlay_end_time(String play_end_time) {
+		this.play_end_time = play_end_time;
+	}
+	public String getRoom_name() {
+		return room_name;
+	}
+	public void setRoom_name(String room_name) {
+		this.room_name = room_name;
+	}
 	public String getSeat_name() {
 		return seat_name;
 	}
@@ -40,7 +55,8 @@ public class ReserveVO {
 	@Override
 	public String toString() {
 		return "ReserveVO [movie_title=" + movie_title + ", theater_name=" + theater_name + ", play_date=" + play_date
-				+ ", play_start_time=" + play_start_time + ", seat_name=" + seat_name + "]";
+				+ ", play_start_time=" + play_start_time + ", play_end_time=" + play_end_time + ", seat_name="
+				+ seat_name + ", room_name=" + room_name + "]";
 	}
 	
 	
