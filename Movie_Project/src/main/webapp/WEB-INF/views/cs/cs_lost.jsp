@@ -21,6 +21,23 @@
 		$("#lost_datetime").attr("max", today);
 	});
 	
+	// 지점명 불러오기
+	$(function() {
+		$.ajax({
+			type: "GET",
+			url: "getTheater",
+			success: function(result) {
+				for(let theater of result) {
+				$("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("지점명 로딩 오류입니다.");
+			}
+			
+		});
+	});
+	
 	$(function() {
 		// id 선택자 없는 경우 name 속성 지정하여 설정함. id 선택자 추가 가능(css 꼬일까봐 안했습니다) 
 		$("form").submit(function() {
@@ -102,13 +119,9 @@
 						<tr>
 							<th>분실장소<b>*</b></th>
 							<td>
-								<select name="theater_id" >
-									<option value="0">전체검색</option>
-									<option value="1">지점명1</option> <%-- 지점명 정해지면 수정 --%>
-									<option value="2">지점명2</option>
-									<option value="3">지점명3</option>
-									<option value="4">지점명4</option>
-									<option value="5">지점명5</option>
+
+								<select name="theater_id" id="theater_id">
+									<option value="">지점을 선택하세요.</option>
 								</select>
 							</td>
 							<th>분실일시<b>*</b></th>

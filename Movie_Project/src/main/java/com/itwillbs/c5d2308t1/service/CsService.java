@@ -1,5 +1,6 @@
 package com.itwillbs.c5d2308t1.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,11 @@ public class CsService {
 	public CsVO csNoticeDetail(CsVO cs) {
 		// 공지사항 상세페이지
 		return mapper.selectNoticeDetail(cs);
+	}
+
+	public List<HashMap<String, Object>> getTheaterList() {
+		// 극장 정보를 조회하여 문의글의 지점명 출력
+		return mapper.selectTheaterList();
 	}
 
 

@@ -1,5 +1,6 @@
 package com.itwillbs.c5d2308t1.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -304,8 +305,13 @@ public class CsController {
 		return "cs/cs_notice_detail";
 	}
 	
-	
-	
+	// 분실물 상영관명 전송
+	@ResponseBody
+	@GetMapping("getTheater")
+	public List<HashMap<String, Object>> getTheater(Model model) {
+		List<HashMap<String, Object>> theaterList = service.getTheaterList();
+		return theaterList;
+	}
 	
 	// 고객센터 1대1문의, 분실물문의 폼에 입력된 정보를 DB에 입력하고
 	// 고객센터 메인 페이지로 이동
@@ -332,5 +338,6 @@ public class CsController {
 		return "cs/cs_main";
 	}
 	
+
 	
 }

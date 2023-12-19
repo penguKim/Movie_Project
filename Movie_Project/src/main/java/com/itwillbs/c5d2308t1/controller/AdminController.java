@@ -1,6 +1,8 @@
 package com.itwillbs.c5d2308t1.controller;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.AdminService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.PageCount;
+import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 
 @Controller
@@ -88,7 +92,7 @@ public class AdminController {
 	
 	// 분실물 문의 등록
 	@PostMapping("boardLostnfoundRgst") // 분실물문의 답변 등록 : admin_board_lostnfound_response.jsp
-	public String boardLostnfoundRgst(CsVO cs, HttpSession session, Model model) {
+	public String boardLostnfoundRgst(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
 		System.out.println("넘어온 정보" + cs);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
@@ -99,6 +103,7 @@ public class AdminController {
 		int updateCount = service.LostnfoundReply(cs);
 		
 		if(updateCount > 0) {
+			model.addAttribute("pageNum", pageNum);
 			return "redirect:/adminLostNFound";
 		} else {
 			model.addAttribute("msg", "등록에 실패했습니다!");
@@ -138,7 +143,7 @@ public class AdminController {
 	}
 	
 	// 분실물 문의 답변 삭제
-	@PostMapping("boardLostnfoundDlt") // 분실문 문의 답변완료 : admin_board_lostnfound.jsp
+	@PostMapping("boardLostnfoundDlt") // 분실문 문의 답변삭제 : admin_board_lostnfound.jsp
 	public String boardLostnfoundDlt(CsVO cs, HttpSession session, Model model) {
 		System.out.println("넘어온 정보" + cs);
 		String sId = (String)session.getAttribute("sId");
@@ -273,50 +278,31 @@ public class AdminController {
 	}
 
 	// 관리자페이지 분실물 문의 관리 페이지로 이동
+	// 파라미터로 pageNum을 넘겨주고 파라미터가 없을 경우 기본값으로 1을 넘겨줍니다.
 	@GetMapping("adminLostNFound")
 	public String adminLostNFound(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
-		// =============== 페이징 처리 ===============
-		// 한 페이지에서 표시할 글 목록 갯수 지정
-		int listLimit = 5;
-		// 조회 시작 행(레코드) 번호 계산
-		// => 0번부터 시작하여 페이지 당 목록 갯수씩 증가해야함
-		int startRow = (pageNum - 1) * listLimit; 
-		
-		// 한 페이지에서 표시할 페이지 목록(번호) 계산
-		int listCount = service.getlostnfoundListCount();
-		System.out.println("전체 게시물 수 : " + listCount);
-		// 2) 한 페이지에서 표시할 페이지 목록 갯수(페이지 번호 갯수) 설정
-		int pageListLimit = 3; // 임시로 목록갯수 지정
-		
-		// 3) 전체 페이지 목록 갯수 계산
-//		// 페이지 목록 갯수 계산 후 나머지가 0보다 크면 페이지 갯수 + 1 처리
-		// => 10개씩 나눈 나머지가 0보다 크면 + 1 처리 추가
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
-		// 4) 시작 페이지 번호 계산
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-//		System.out.println(startPage);
-		// 5) 끝 페이지 번호 계산
-		// 시작 페이지 번호와 한 페이지 당 페이지 번호 갯수를 더한 값 - 1
-		int endPage = startPage + pageListLimit - 1;
-		// 6) 만약, 끝 페이지 번호(endPage)가 전체(최대) 페이지 번호(maxPage) 보다 클 경우
-		//    끝 페이지 번호를 최대 페이지 번호로 교체
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
-		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
-		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 5);
+		// 전체 게시글 갯수 조회
+		int listCount = service.getlostnfoundListCount();
+		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		// page 객체를 파라미터로 글 목록 조회(극장명이 포함되어 HashMap 객체로 저장)
+		List<HashMap<String, Object>> lostnfoundList = service.getLostnfoundList(page);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		for(HashMap<String, Object> map : lostnfoundList) {
+			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+			LocalDateTime date = (LocalDateTime)map.get("cs_date");
+			map.put("cs_date", date.format(dtf));
+		}
 		
-		// 분실물 게시글 목록 조회
-		List<CsVO> lostnfoundList = service.getLostnfoundList();
-		// 목록을 뷰페이지로 전달하기 위해서 model 객체에 담는다.
+		// 모델 객체에 담아서 전송
 		model.addAttribute("lostnfoundList", lostnfoundList);
 		model.addAttribute("sId", sId);
 		model.addAttribute("pageInfo", pageInfo);
@@ -326,16 +312,20 @@ public class AdminController {
 
 	// 관리자페이지 분실물 문의 상세 조회 및 답변 등록 페이지로 이동
 	@GetMapping("adminLostNFoundResp")
-	public String adminLostNFoundResp(CsVO cs, HttpSession session, Model model) {
+	public String adminLostNFoundResp(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기
-		CsVO lostnfound = service.getlostnfound(cs);
-		
+		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
+		Map<String, Object> lostnfound = service.getlostnfound(cs);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+		LocalDateTime date = (LocalDateTime)lostnfound.get("cs_date");
+		lostnfound.put("cs_date", date.format(dtf));
 		model.addAttribute("lostnfound", lostnfound);
+		model.addAttribute("pageNum", pageNum);
 		
 		return "admin/admin_board_lostnfound_response";
 	}

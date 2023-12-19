@@ -1,20 +1,25 @@
 package com.itwillbs.c5d2308t1.mapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.PageDTO;
 
 @Mapper
 public interface AdminMapper {
 
 	// ================ 분실물 게시판 ================
 	// 분실물 문의 관리 게시판 조회 작업
-	List<CsVO> selectLostnfoundList();
+//	List<CsVO> selectLostnfoundList(@Param(value = "startRow") int startRow, @Param(value = "listLimit")int listLimit);
+	List<HashMap<String, Object>> selectLostnfoundList(PageDTO page);
 
 	// 분실문 문의 관리 게시판 상세 조회 작업
-	CsVO selectLostnfound(CsVO cs);
+	HashMap<String, Object> selectLostnfound(CsVO cs);
 
 	// 분실물 문의 답변 등록 작업
 	int updateLnfReply(CsVO cs);

@@ -6,14 +6,19 @@
 
 	<!-- 앨리어스로 com.itwillbs.c5d2308t1.vo.CsVO 등록 -->
 	<!-- 	분실문 문의 관리 게시판 조회 작업 -->
-	<select id="selectLostnfoundList" resultType="csvo">
+<!-- 			조회 레코드 갯수 제한(LIMIT 절 사용) -->
+<!-- 			정수 파라미터 2개(startRow, limit) : 시작행 번호부터 지정한 갯수만큼 조회 -->
+	<select id="selectLostnfoundList" resultType="hashmap">
 		SELECT *
-		FROM cs
+		FROM cs JOIN theaters
+		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = '분실물문의'
+		ORDER BY cs_id DESC
+		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
 <!-- 	분실문 문의 관리 게시판 상세 조회 작업 -->
-	<select id="selectLostnfound" resultType="csvo">
+	<select id="selectLostnfound" resultType="hashmap">
 		SELECT *
 		FROM cs
 		JOIN theaters

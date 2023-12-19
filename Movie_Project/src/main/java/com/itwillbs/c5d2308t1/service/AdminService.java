@@ -1,12 +1,15 @@
 package com.itwillbs.c5d2308t1.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.c5d2308t1.mapper.AdminMapper;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.PageDTO;
 
 @Service
 public class AdminService {
@@ -15,12 +18,12 @@ public class AdminService {
 	AdminMapper mapper;
 	
 	// 분실물 문의 관리 게시판 조회 작업 요청
-	public List<CsVO> getLostnfoundList() {
-		return mapper.selectLostnfoundList();
+	public List<HashMap<String, Object>> getLostnfoundList(PageDTO page) {
+		return mapper.selectLostnfoundList(page);
 	}
 
 	// 분실문 문의 관리 게시판 상세 조회 작업 요청
-	public CsVO getlostnfound(CsVO cs) {
+	public HashMap<String, Object> getlostnfound(CsVO cs) {
 		return mapper.selectLostnfound(cs);
 	}
 	

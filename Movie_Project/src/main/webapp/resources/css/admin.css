@@ -208,7 +208,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 }
 
 
-.pagination a {
+.pagination a b {
   color: black;
   float: left;
   padding: 8px 16px;

@@ -109,6 +109,11 @@
 			AND cs_type_list_num = #{cs_type_list_num} 
 	</select>
 	
+	<select id="selectTheaterList" resultType="hashmap">
+		SELECT theater_id, theater_name
+		FROM theaters
+	</select>
+	
 </mapper>
 
 

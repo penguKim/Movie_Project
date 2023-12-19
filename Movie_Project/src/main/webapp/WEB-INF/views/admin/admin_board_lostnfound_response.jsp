@@ -9,9 +9,15 @@
 <title>분실물 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	$("form").on("submit")
-
+	$(function() {
+		if($("#cs_reply").attr("placeholder") == "") {
+		$("#regist").val("답변 등록");
+		} else {
+		$("#regist").val("답변 수정");
+		}
+	});
 </script>
 
 </head>
@@ -46,7 +52,7 @@
 						</tr>
 						<tr>
 							<th>분실장소</th>
-							<td></td>
+							<td>${lostnfound.theater_name }</td>
 						</tr>
 						<tr>
 							<th>분실일시</th>
@@ -85,8 +91,9 @@
 					<div id="admin_writer"> 
 						<input type="hidden" name="fileName" value="admin_board_lostnfound_response">	
 						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
+						<input type="hidden" name="pageNum" value="${param.pageNum }">	
 						<!-- formaction 속성을 추가하여 버튼 클릭 시 해당 서블릿 주소를 요청한다. -->
-						<input type="submit" value="답변 등록" formaction="boardLostnfoundRgst" id="regist">
+						<input type="submit" value="" formaction="boardLostnfoundRgst" id="regist">
 						<c:if test="${not empty lostnfound.cs_reply }">
 <!-- 							<input type="submit" value="답변 수정" formaction="boardLostnfoundMod" id="modify">	 -->
 							<input type="submit" value="답변 삭제" formaction="boardLostnfoundDlt" id="delete">				

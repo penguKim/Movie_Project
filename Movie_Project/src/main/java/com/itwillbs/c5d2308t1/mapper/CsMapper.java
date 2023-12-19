@@ -1,5 +1,6 @@
 package com.itwillbs.c5d2308t1.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -39,6 +40,9 @@ public interface CsMapper {
 
 	// 공지사항 상세페이지
 	CsVO selectNoticeDetail(CsVO cs);
+
+	// 극장명 조회하여 지점명으로 출력
+	List<HashMap<String, Object>> selectTheaterList();
 
 
 
