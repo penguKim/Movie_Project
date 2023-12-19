@@ -1,6 +1,7 @@
 package com.itwillbs.c5d2308t1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,13 @@ public class JoinController {
 	// 회원가입 완료 페이지로 이동
 	@PostMapping("memberJoinPro")
 	public String memberJoinPro(MemberVO member, Model model) {
+		// 입력된 비밀번호 암호화
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String securePasswd = passwordEncoder.encode(member.getMember_passwd());
+		
+		// 암호화된 비밀번호를 member에 저장
+		member.setMember_passwd(securePasswd);
+		
 		// JoinService - registMember() 메서드 호출하여 회원정보 등록 요청
 		// => 파라미터 : StudentVO 객체   리턴타입 : int(insertCount)
 		int insertCount = service.registMember(member);
@@ -67,12 +75,6 @@ public class JoinController {
 		}
 	}
 
-	
-	// 로그인 페이지로 이동
-//	@GetMapping("memberLogin")
-//	public String memberLogin() {
-//		return "login/login";
-//	}
 	
 	// 메인 페이지로 이동
 	@GetMapping("main")

@@ -33,9 +33,9 @@ public class CsService {
 		return mapper.selectFaqList(startRow, listLimit);
 	}
 	
-	public Integer getFaqListCount() {
-		// CsMapper - selectNoticeListCount() 메서드 호출하여 자주묻는질문 목록 갯수 조회 요청
-		return mapper.selectFaqListCount();
+	public Integer getCsTypeListCount(CsVO cs) {
+		// CsMapper - selectNoticeListCount() 메서드 호출하여 항목별 목록 갯수 조회 요청
+		return mapper.selectCsTypeCount(cs);
 	}
 	
 	public List<CsVO> getFaqDetail(String buttonName) {
@@ -53,20 +53,19 @@ public class CsService {
 		return mapper.selectNoticeMainList();
 	}
 	
-	
 	public List<CsVO> getNoticeList(int startRow, int listLimit) {
 		// CsMapper - selectNoticeList() 메서드 호출하여 공지사항 목록 조회 요청
 		return mapper.selectNoticeList(startRow, listLimit);
 	}
 
-	public Integer getNoticeListCount() {
-		// CsMapper - selectNoticeListCount() 메서드 호출하여 공지사항 목록 갯수 조회 요청
-		return mapper.selectNoticeListCount();
-	}
-
 	public List<CsVO> getNoticeSearch(String theater_id, String searchValue) {
 		// 공지사항 검색기능
 		return mapper.selectNoticeSearch(theater_id, searchValue);
+	}
+
+	public CsVO csNoticeDetail(CsVO cs) {
+		// 공지사항 상세페이지
+		return mapper.selectNoticeDetail(cs);
 	}
 
 

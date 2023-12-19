@@ -31,7 +31,7 @@
 					
 					if(data != "") {
 						for(let notice of data) {
-							let date = new Date(notice.cs_date);
+							let LocalDate = new Date(notice.cs_date);
 							let year = date.getFullYear(); // 연도
 							let month = date.getMonth() + 1; // 월 (0부터 시작하므로 1을 더해줌)
 							let day = date.getDate(); // 일
@@ -131,7 +131,7 @@
 											<td>${notice.cs_type_list_num}</td> <%-- 내용 넣기 --%>
 											<td>${notice.theater_id}</td>
 											<%-- 제목 클릭 시 해당 게시물로 이동 --%>
-											<td id="td_left"><a href="csNoticeDetail?cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}" id="notice_tit">${notice.cs_subject}</a></td>
+											<td id="td_left"><a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}" id="notice_tit">${notice.cs_subject}</a></td>
 											<td><fmt:formatDate value="${notice.cs_date}" pattern="yyyy.MM.dd"/></td>
 										</tr>
 									</c:forEach>

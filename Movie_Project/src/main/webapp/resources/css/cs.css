@@ -319,14 +319,13 @@ input[type="search"] {
 
 /* Pagination links */
 .pagination {
-	padding:30px 0 0 250px;
+	padding:30px 0 0 0px;
 	text-align: center;
 }
 
 
 .pagination a {
   color: black;
-  float: left;
   padding: 8px 16px;
   text-decoration: none;
   transition: background-color .3s;

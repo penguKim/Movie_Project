@@ -61,7 +61,8 @@ public class CsController {
 		// 자바스크립트 사용하여 "잘못된 접근입니다!" 출력 후 메인페이지로 이동
 		if(sId == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		model.addAttribute("sId", sId);
@@ -79,7 +80,8 @@ public class CsController {
 		// 자바스크립트 사용하여 "잘못된 접근입니다!" 출력 후 메인페이지로 이동
 		if(sId == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		model.addAttribute("sId", sId);
@@ -94,6 +96,9 @@ public class CsController {
 	// 고객센터 자주묻는질문 페이지로 이동
 	@GetMapping("csFaq")
 	public String csFaq(CsVO cs, Model model, HttpServletRequest request) {
+		// 자주묻는질문 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
+		cs.setCs_type("자주묻는질문");
+		
 		// 페이징 처리를 위한 pageNum 변수 선언
 		// 파라미터로 전달받은 pageNum 값을 가져오기
 		// 파라미터가 없을 경우 기본값 1
@@ -119,10 +124,10 @@ public class CsController {
 		// ======================================================
 		// 글 목록 페이징 처리
 		// 1) 한 페이지에서 표시할 페이지 목록(번호) 계산
-		// CsService - getFaqListCount() 메서드를 호출하여
+		// CsService - getCsTypeListCount() 메서드를 호출하여
 		//     전체 게시물 수 조회(페이지 목록 계산에 활용)
-		// => 파라미터 : 없음   리턴타입 : Integer(listCount)
-		Integer listCount = service.getFaqListCount();
+		// => 파라미터 : CsVO cs   리턴타입 : Integer(listCount)
+		Integer listCount = service.getCsTypeListCount(cs);
 //		System.out.println(listCount);
 		
 		// 2) 한 페이지에 표시할 페이지 목록 갯수 설정(테스트)
@@ -197,6 +202,9 @@ public class CsController {
 	// 고객센터 공지사항 페이지로 이동
 	@GetMapping("csNotice")
 	public String csNotice(CsVO cs, Model model, HttpServletRequest request) {
+		// 공지사항 버튼을 눌렀을 때 cs_type을 공지사항으로 설정
+		cs.setCs_type("공지사항");
+		
 		// 페이징 처리를 위한 pageNum 변수 선언
 		// 파라미터로 전달받은 pageNum 값을 가져오기
 		// 파라미터가 없을 경우 기본값 1
@@ -217,15 +225,15 @@ public class CsController {
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
 		List<CsVO> noticeList = service.getNoticeList(startRow, listLimit);
 //		System.out.println(noticeList);
-		
+
 		
 		// ======================================================
 		// 글 목록 페이징 처리
 		// 1) 한 페이지에서 표시할 페이지 목록(번호) 계산
-		// CsService - getNoticeListCount() 메서드를 호출하여
+		// CsService - getCsTypeListCount() 메서드를 호출하여
 		//     전체 게시물 수 조회(페이지 목록 계산에 활용)
-		// => 파라미터 : 없음   리턴타입 : Integer(listCount)
-		Integer listCount = service.getNoticeListCount();
+		// => 파라미터 : CsVO cs   리턴타입 : Integer(listCount)
+		Integer listCount = service.getCsTypeListCount(cs);
 //		System.out.println(listCount);
 		
 		// 2) 한 페이지에 표시할 페이지 목록 갯수 설정(테스트)
@@ -280,19 +288,22 @@ public class CsController {
 	
 	
 	// 고객센터 공지사항 상세 페이지로 이동
-//	@GetMapping("csNoticeDetail")
-//	public String csNoticeDetail(CsVO cs, Model model) {
-//		// CsService - getNoticeList() 메서드 호출하여 공지사항 출력
-//		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeList)
-//		List<CsVO> noticeList = service.getNoticeList();
-//		System.out.println(noticeList);
-//		
-//		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
-//		model.addAttribute("noticeList", noticeList);
-//		
-//		return "cs_notice_detail";
-//	}
-//	
+	@GetMapping("csNoticeDetail")
+	public String csNoticeDetail(CsVO cs, Model model) {
+		System.out.println("종류 : " + cs.getCs_type());
+		System.out.println("글번호 : " + cs.getCs_type_list_num());
+		
+		
+		CsVO csNoticeDetail = service.csNoticeDetail(cs);
+		
+		model.addAttribute("cs", csNoticeDetail);
+		
+		Integer maxCount = service.getCsTypeListCount(cs);
+		model.addAttribute("maxCount", maxCount);
+		
+		return "cs/cs_notice_detail";
+	}
+	
 	
 	
 	
@@ -300,10 +311,14 @@ public class CsController {
 	// 고객센터 메인 페이지로 이동
 	@PostMapping("csBoardPro")
 	public String csBoardPro(CsVO cs, Model model, HttpServletRequest request, HttpSession session) {
+		// 글을 등록하면 cs_type별로 등록된 글의 갯수를 알아내어 +1 하기
+		Integer listCount = service.getCsTypeListCount(cs);
 		
+		// 새 글번호를 cs_type_list_num에 저장
+		cs.setCs_type_list_num(listCount + 1);
 		
-		// CsService - registMember() 메서드 호출하여 회원정보 등록 요청
-		// => 파라미터 : StudentVO 객체   리턴타입 : int(insertCount)
+		// CsService - registMember() 메서드 호출하여 문의글 등록 요청
+		// => 파라미터 : CsVO 객체   리턴타입 : int(insertCount)
 		int insertCount = service.registBoard(cs);
 		
 		// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)

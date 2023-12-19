@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,27 +28,42 @@
 			<div id="notice_content">
 				<table id="notice_table">
 					<tr>
-						<th colspan="4">[주제] 제목</th>
+						<th colspan="4">${cs.cs_subject}</th>
 					</tr>
 					<tr>
 						<td class="notice_info">영화관</td>
-						<td class="notice_info">전체</td>
+						<td class="notice_info">${cs.theater_id}</td>
 						<td class="notice_info">등록일</td>
-						<td class="notice_info">등록날짜</td>
+						<td class="notice_info">${cs.cs_date}</td>
 					</tr>
 					<tr>
-						<td colspan="4"  class="notice_content">내용<br><br><br><br><br><br><br></td>
+						<td colspan="4"  class="notice_content">${cs.cs_content}<br><br><br><br><br><br><br></td>
 					</tr>
 					<tr>
 						<td>이전  ▲</td>
-						<td colspan="3">링크</td>
+						<c:choose>
+							<c:when test="${param.cs_type_list_num > 0}">
+								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num - 1}&pageNum=${param.pageNum}" id="notice_tit">링크</a></td>								
+							</c:when>
+							<c:otherwise>
+								<td>링크</td>
+							</c:otherwise>
+						</c:choose>
+						
 					</tr>
 					<tr>
 						<td>다음  ▼</td>
-						<td colspan="3">링크</td>
+						<c:choose>
+							<c:when test="${param.cs_type_list_num < maxCount - 1}">
+								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num + 1}&pageNum=${param.pageNum}" id="notice_tit">링크</a></td>								
+							</c:when>
+							<c:otherwise>
+								<td>링크</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</table>
-				<div id="button"><a href="cs_notice.jsp"><input type="button" value="목록"></a></div>
+				<div id="button"><a href="csNotice?pageNum=${param.pageNum}"><input type="button" value="목록"></a></div>
 			</div>
 		</section>
 		
