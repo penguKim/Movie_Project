@@ -45,14 +45,18 @@
 						<!-- 단일 구매 인 경우 바로 결제 페이지에 데이터 입력 -->
 						<!-- 장바구니에서 넘어오는 경우 랑 단일인 경우 판별 -->
 						<!-- 장바구니에서 넘어오는 데이터 테이블화 시켜서 보여줄것 -->
-						<tr class="store_table_box02">
-							<td><img src="${store.product_img }" alt="스위트콤보"></td>
-							<td><span>${store.product_name }</span> <br> 
-								<span>${store.product_txt }</span></td>
-							<td>${store_product_price }원</td>
-							<td>1개</td>
-							<td>10,000원</td>
-						</tr>
+						<c:forEach var="store" items="${storeList }">
+							<tr class="store_table_box02">
+								<td><img src="${store.product_img }"></td>
+								<td><span>${store.product_name }</span> <br> 
+									<span>${store.product_txt }</span></td>
+								<td>${store.product_price }원</td>
+<!-- 						지금은 param 이지만, list의 경우로 변경 -->
+							<!--  -->
+								<td>1개</td>
+								<td>10,000원</td>
+							</tr>
+						</c:forEach>
 					</table>
 					<table class="store_pay_table">
 						<tr class="store_table_box03">

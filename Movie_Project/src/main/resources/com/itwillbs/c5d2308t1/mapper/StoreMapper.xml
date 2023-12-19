@@ -4,12 +4,14 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.StoreMapper">
 	
+	<!-- 상세 페이지 조회를 위한 SELECT -->
 	<select id="selectPro" resultType="com.itwillbs.c5d2308t1.vo.StoreVO">
 		SELECT *
 		FROM products
 		WHERE product_id = #{product_id}
 	</select>
 	
+	<!-- 장바구니 에 상품을 담기위한 INSERT  -->
 	<insert id="insertTest">
 		INSERT INTO carts VALUES(
 			null
@@ -21,15 +23,40 @@
 		)
 	</insert>
 	
-	<select id="selectTest1" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
-		SELECT *
-		FROM carts
-		WHERE member_id = #{member_id}
+	<!-- 장바구니에 담긴 상품을 조회 -->
+	<select id="selectCart" resultType="com.itwillbs.c5d2308t1.vo.StoreVO">
+<!-- 		SELECT * -->
+<!-- 		FROM carts -->
+<!-- 		WHERE member_id = #{member_id} -->
+		SELECT c.product_id, product_price, product_img, product_count, product_txt, product_name 
+		FROM carts c JOIN products p 
+		ON c.product_id = p.product_id
+		WHERE c.member_id = #{member_id};
 	</select>
 	
+	<!-- 장바구니에 담겨있는 상품의 갯수 변경 -->
 	<update id="updateTest">
 		UPDATE carts
 		SET product_count = #{product_count} + 1
 		WHERE cart_id = 1;
 	</update>
+	
+	<!-- 단일 결제를 위한 SELECT 조회 -->
+	<select id="selectStore" resultType="com.itwillbs.c5d2308t1.vo.StoreVO">
+		SELECT *
+		FROM products
+		WHERE product_id = #{product_id}
+	</select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+

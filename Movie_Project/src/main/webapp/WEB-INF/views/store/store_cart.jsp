@@ -93,44 +93,54 @@ $(function() {
 									<th>구매금액</th>
 									<th width="140px">선택</th>
 								</tr>
-								
-								<tr>
-									<!-- 상품을 어떻게 받아와야 할지? -->
-									<!-- 상품에 따른 상품명 및 구성 자동 입력 -->
-									<!-- 상품이 없을 경우 "장바구니에 상품이 없습니다" 화면에 출력 -->
-									<!-- 상품 정보 없음 -->
-									<td colspan="7" align="center">장바구니에 상품이 없습니다</td>
-									<!-- 상품이 여러가지 상품을 장바구니에 넣을 방법  -->
-									<!-- 상품이 추가될때마다 행 추가<tr> 추가 -->
-									<!-- c if 로 상품이 있는지 없는지 판별 후 forEach 사용해서 장바구니에 담은 상품 추가 -->
-									<!-- 상품의 총 가격 계산 -->
-								</tr>
-								<tr>
-									<td><input type="checkbox"></td>
-									<!-- 상품 이미지 및 내용(패키지는 구성) -->
-									<td><img src="${pageContext.request.contextPath }/resources/img/어니언팝콘.jpg">	</td>
-									<!-- 상품에 등록된 판매 금액 -->
-									<td>10,000원</td>
-									<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
-									<td class="product_quantity">
-<!-- 										<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
-									<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
-									<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
-									<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="1" min="1" max="99" class="input-text" readonly>
-									<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
-										<input type="button" value="변경">
-<!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->
-									</td>
-									<!-- 구매금액 -->
-									<!-- 판매 금액 + 선택된 수량 합산 금액 -->
-									<td>10,000원</td>
-									<!-- 선택 -->
-									<td>
-									<!-- 바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
-										<input type="button" value="바로구매">
-										<input type="button" value="x">
-									</td>
-								</tr>
+								<c:choose>
+									<c:when test="${cartList ne null}">
+										<c:forEach var="store" items="${cartList}">
+											<tr>
+												<td><input type="checkbox"></td>
+												<!-- 상품 이미지 및 내용(패키지는 구성) -->
+												<td>
+													<img src="${store.product_img}">
+													<span>${store.product_name }</span>
+												</td>
+												<!-- 상품에 등록된 판매 금액 -->
+												<td>${store.product_price }</td>
+												<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
+												<td class="product_quantity">
+			<!-- 										<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
+												<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
+												<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
+												<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="1" min="1" max="99" class="input-text" readonly>
+												<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
+													<input type="button" value="변경">
+			<!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->
+												</td>
+												<!-- 구매금액 -->
+												<!-- 판매 금액 + 선택된 수량 합산 금액 -->
+												<td>10,000원</td>
+												<!-- 선택 -->
+												<td>
+												<!-- 바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
+													<input type="button" value="바로구매">
+													<input type="button" value="x">
+												</td>
+											</tr>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<!-- 상품을 어떻게 받아와야 할지? -->
+											<!-- 상품에 따른 상품명 및 구성 자동 입력 -->
+											<!-- 상품이 없을 경우 "장바구니에 상품이 없습니다" 화면에 출력 -->
+											<!-- 상품 정보 없음 -->
+											<td colspan="7" align="center">장바구니에 상품이 없습니다</td>
+											<!-- 상품이 여러가지 상품을 장바구니에 넣을 방법  -->
+											<!-- 상품이 추가될때마다 행 추가<tr> 추가 -->
+											<!-- c if 로 상품이 있는지 없는지 판별 후 forEach 사용해서 장바구니에 담은 상품 추가 -->
+											<!-- 상품의 총 가격 계산 -->
+										</tr>
+									</c:otherwise>
+								</c:choose>
 							</table>
 							<div id="msg">
 								장바구니에 담긴 상품은 30일까지 보관됩니다.
@@ -161,7 +171,7 @@ $(function() {
 									<td> 0원 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 									<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-									<td class="table_box_red">원</td>
+									<td class="table_box_red">총 금액원</td>
 								</tr>
 							</table>
 						</div>

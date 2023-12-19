@@ -17,29 +17,38 @@ public class StoreService {
 	@Autowired
 	StoreMapper mapper;
 	
+	
 	public StoreVO selectTest(String product_id) {
 		
 		return mapper.selectPro(product_id);
 	}
-
+	
+	
 	public CartVO updateTest(CartVO cart) {
 		
 		return mapper.updateTest(cart);
 	}
 
+	// 장바구니 셀렉트 결과 
+	public List<StoreVO> selectCart(MemberVO member) {
+		
+		return mapper.selectCart(member);
+	}
+	
+	// 장바구니 판별 후 인설트
 	public int insertTest( MemberVO member) {
 		
 		return mapper.insertTest(member);
 	}
-
-	public List<CartVO> selectTest1(MemberVO member) {
-		
-		return mapper.selectTest1(member);
+	
+	// 장바구니 판별 후 업데이트
+	public int updateCart(MemberVO member) {
+		return 0;
 	}
 
-//	public int updateTest(MemberVO member) {
-//		
-//		return mapper.updateTest(member);
-//	}
+	public List<StoreVO> selectStore(StoreVO store) {
+		return mapper.selectStore(store);
+	}
+
 	
 }
