@@ -1,6 +1,7 @@
 <%-- admin_board_lostnfound_response.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,11 @@
 <title>분실물 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	$("form").on("submit")
+
+</script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -24,8 +30,10 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_sub">
-				<form action="boardRgst" method="post">
+			
+				<form action="" method="post">
 				<%-- 판별식을 이용해 action 속성값 변경할 예정 --%>
+<!-- 				<form action="boardRgst" method="post"> -->
 <!-- 				<form action="boardMod" method="post"> -->
 <!-- 				<form action="boardDlt" method="post"> -->
 				<!-- 서블릿 매핑 미완(등록 : boardRgst, 수정 : boardMod, 삭제 : boardDlt) -->
@@ -34,7 +42,7 @@
 					<table border="1">
 						<tr>
 							<th>번호</th>
-							<td></td>
+							<td>${lostnfound.cs_id }</td>
 						</tr>
 						<tr>
 							<th>분실장소</th>
@@ -42,19 +50,19 @@
 						</tr>
 						<tr>
 							<th>분실일시</th>
-							<td></td>
+							<td>${lostnfound.cs_date }</td>
 						</tr>
 						<tr>
 							<th>문의 제목</th>
-							<td></td>
+							<td>${lostnfound.cs_subject }</td>
 						</tr>
 						<tr>
 							<th>문의 작성자</th>
-							<td></td>
+							<td>${lostnfound.member_id }</td>
 						</tr>
 						<tr>
 							<th height="300">문의 내용</th>
-							<td></td>
+							<td>${lostnfound.cs_content }</td>
 						</tr>
 						<tr>
 							<th>사진 첨부</th>
@@ -62,22 +70,27 @@
 						</tr>
 						<tr>
 							<th>답변 제목</th>
-							<td></td>
+							<td><input type="text" placeholder="제목을 입력하세요." size="80"></td>
 						</tr>
 						<tr>
 							<th>답변 작성자</th>
-							<td></td>
+							<td>${sId }</td>
 						</tr>
 						<tr>
 							<th height="300">답변 내용</th>
-							<td></td>
+							<td><textarea name="cs_reply" id="cs_reply" rows="20" cols="80" placeholder="${lostnfound.cs_reply }"></textarea></td>
+					
 						</tr>
 					</table>
 					<div id="admin_writer"> 
 						<input type="hidden" name="fileName" value="admin_board_lostnfound_response">	
-	<!-- 						<input type="submit" value="답변 수정"> -->
-	<!-- 						<input type="submit" value="답변 삭제"> -->
-						<input type="submit" value="답변 등록">
+						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
+						<!-- formaction 속성을 추가하여 버튼 클릭 시 해당 서블릿 주소를 요청한다. -->
+						<input type="submit" value="답변 등록" formaction="boardLostnfoundRgst" id="regist">
+						<c:if test="${not empty lostnfound.cs_reply }">
+<!-- 							<input type="submit" value="답변 수정" formaction="boardLostnfoundMod" id="modify">	 -->
+							<input type="submit" value="답변 삭제" formaction="boardLostnfoundDlt" id="delete">				
+						</c:if>
 						<input type="button" value="돌아가기" onclick="history.back()">
 					</div>
 				</form>

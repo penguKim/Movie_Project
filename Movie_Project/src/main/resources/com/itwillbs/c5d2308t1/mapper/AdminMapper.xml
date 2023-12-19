@@ -4,4 +4,40 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.AdminMapper">
 
+	<!-- 앨리어스로 com.itwillbs.c5d2308t1.vo.CsVO 등록 -->
+	<!-- 	분실문 문의 관리 게시판 조회 작업 -->
+	<select id="selectLostnfoundList" resultType="csvo">
+		SELECT *
+		FROM cs
+		WHERE cs_type = '분실물문의'
+	</select>
+	
+<!-- 	분실문 문의 관리 게시판 상세 조회 작업 -->
+	<select id="selectLostnfound" resultType="csvo">
+		SELECT *
+		FROM cs
+		JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		WHERE cs_type = '분실물문의'
+		AND cs_id = #{cs_id}
+	</select>
+<!-- 	분실물 문의 관리 게시판 답변 작성 -->
+	<update id="updateLnfReply">
+		UPDATE cs
+		SET cs_reply = #{cs_reply}
+		WHERE cs_id = #{cs_id}
+	</update>
+	
+<!-- 	분실물 문의 관리 게시판 답변 삭제 -->
+	<update id="updateLnfDlt">
+		UPDATE cs
+		SET cs_reply = ''
+		WHERE cs_id = #{cs_id}
+	</update>
+	
+	<select id="selectLostnfoundListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM cs
+		WHERE cs_type = '분실물문의'
+	</select>
 </mapper>

@@ -48,6 +48,14 @@
 			return true;
 		});
 		
+		// 취소버튼 클릭 시
+		$("#cancel").on("click", function() {
+			let isCanceled = confirm("취소하시겠습니까?");
+			if(isCanceled) {
+				location.href = "";
+			}
+		});
+		
 		// 삭제버튼을 클릭
 		$("#delete").on("click",function() {
 			let confirmation = confirm("게시글을 삭제하시겠습니까?");
@@ -132,7 +140,7 @@
 					</tr>
 				</table>
 				<div id="login_button">
-					<input type="button" value="취소"> <%-- 취소하시겠습니까? 메세지 출력 후 마이페이지로 바로 이동 --%>
+					<input type="button" value="취소" id="cancel"> <%-- 취소하시겠습니까? 메세지 출력 후 마이페이지로 바로 이동 --%>
 					<input type="submit" value="등록"> <%-- 문의가 접수되고 마이페이지 페이지로 이동 --%>
 					<input type="button" value="삭제" id="delete"> <%-- 게시글 삭제되고 마이페이지로 이동 --%>
 				</div>
