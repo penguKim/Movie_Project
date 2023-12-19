@@ -31,6 +31,8 @@
 * log4jdbc - SQL 로그에 사용할 라이브러리
 * Project Lombok - VO 클래스 요소 자동 관리
 * Spring Security Web - 암호화를 위한 라이브러리
+* Apache Commons IO - 파일 및 입출력을 위한 라이브러리
+* Apache Commons FileUpload - 파일 업로드를 위한 라이브러리
 * JSON.simple - JSON 파싱 라이브러리
 * Jsoup Java HTML Parser - 크롤링 라이브러리
 

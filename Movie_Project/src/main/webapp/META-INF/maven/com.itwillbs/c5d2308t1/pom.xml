@@ -40,6 +40,7 @@
 				
 		<!-- 라이브러리 추가 위치 -->		
 		
+		<!-- MySQL - JDBC 연동에 필요한 라이브러리 추가 -->
 		<!-- 1. MySQL - JDBC 연결을 위한 커넥터(MySQL Connector) -->
 		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 		<dependency>
@@ -47,7 +48,7 @@
 		    <artifactId>mysql-connector-j</artifactId>
 		    <version>8.0.33</version>
 		</dependency>
-		<!-- MySQL - JDBC 연동에 필요한 라이브러리 추가 -->
+		
 		<!-- 2. 스프링에서 JDBC 연동에 필요한 기능을 제공하는 spring-jdbc 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
@@ -55,9 +56,10 @@
 		    <artifactId>spring-jdbc</artifactId>
 		    <version>${org.springframework-version}</version><!-- 스프링 버전 따라가기 -->
 		</dependency>
+				
 		<!-- 3. 커넥션 풀을 관리하는 HikariCP 라이브러리 추가(Tomcat DBCP 대용으로 사용 가능) -->
 		<!-- Tomcat DBCP 에 비해 가볍고, 빠르고, 안정적인 처리가 가능 -->
-		<!-- Java 11 이상일 때 5.0.1 버전 사용 -->
+		<!-- Java 11 이상일 때 5.0.1 버전 이상 사용 -->
 		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
 		<dependency>
 		    <groupId>com.zaxxer</groupId>
@@ -66,32 +68,32 @@
 		</dependency>
 		
 		<!-- 4. MyBatis 활용에 필요한 라이브러리 추가 -->
-		<!-- 4-1) MyBatis 기본 라이브러리 -->
+		<!-- 4-1) MyBatis 기본 라이브러리 -->			
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis</artifactId>
 		    <version>3.5.14</version>
 		</dependency>
-		
+				
 		<!-- 4-2) MyBatis - Spring 연동 라이브러리 -->
-		<!-- 주의! 3.x.x 버전 사용 시 JDK 11 에서 오류 발생함(JDK 16 부터 지원) -->		
+		<!-- 주의! 3.x.x 버전 사용 시 JDK 11 에서 오류 발생함(지원되지 않음) -->			
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis-spring</artifactId>
 		    <version>2.1.2</version>
 		</dependency>
-		
-		<!--  5) SQL 로그에 사용할 log4jdbc-log4j2 라이브러리 -->
+				
+		<!-- 5. SQL 로그에 사용할 log4jdbc-log4j2 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
 		<dependency>
 		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
 		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 		    <version>1.16</version>
-		</dependency>	
-			
-		<!-- 6) VO 클래스 요소 자동 관리를 위한 Lombok 라이브러리 -->
+		</dependency>
+		
+		<!-- 6. VO 클래스 요소 자동 관리를 위한 Lombok 라이브러리 -->
 		<!-- 이클립스 환경에서 사용 시 라이브러리 추가와 별개로 플러그인 설치 필요 -->
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
@@ -100,14 +102,37 @@
 		    <version>1.18.30</version>
 		    <scope>provided</scope>
 		</dependency>
-		
-		<!-- 암호화에 사용될 BCryptPasswordEncoder 클래스가 포함된 Spring-Security-Web 라이브러리 -->
+			
+		<!-- 7. 암호화에 사용될 BCryptPasswordEncoder 클래스가 포함된 Spring-Security-Web 라이브러리 -->
 		<!-- 주의! JDK 11(class file version 55) 기준 5.x.x 버전까지만 사용 가능 -->	
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-web</artifactId>
 		    <version>5.8.8</version>
+		</dependency>
+			
+		<!-- 8. 파일 처리(업로드 등) 라이브러리(commons-io, commons-fileupload) -->
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.15.1</version>
+		</dependency>
+					
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.5</version>
+		</dependency>
+
+		<!-- 9. 난수 생성 등의 다양한 작업을 제공하는 commons-lang3 라이브러리 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.14.0</version>
 		</dependency>
 		
 		<!-- json-simple - JSON 파싱 라이브러리 -->	
@@ -133,6 +158,7 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.15.3</version>
 		</dependency>
+		
 		
 		<!-- AspectJ -->
 		<dependency>
