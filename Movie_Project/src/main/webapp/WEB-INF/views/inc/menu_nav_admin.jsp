@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
 <div id="menu_nav_admin">
 	<nav>
-		<a href="${pageContext.request.contextPath}/reserve/movie_select.jsp">예매</a>
-		<a href="${pageContext.request.contextPath}/movie/release.jsp">영화</a>
-		<a href="${pageContext.request.contextPath}/theater/theater.jsp">극장정보</a>
-		<a href="${pageContext.request.contextPath}/store/store_main.jsp">스토어</a>
-		<a href="${pageContext.request.contextPath}/event/event_movie.jsp">이벤트</a>
+		<a href="movie_select">예매</a>
+		<a href="release">영화</a>
+		<a href="theater">극장정보</a>
+		<a href="store">스토어</a>
+		<a href="event">이벤트</a>
 		<a href="csMain">고객센터</a>
 	</nav>
 </div>
