@@ -14,15 +14,17 @@ import com.itwillbs.c5d2308t1.vo.MemberVO;
 @Controller
 public class TheaterController {
 	
-@GetMapping("theater")
-public String theater() {
+	// 위 메뉴바에서 극장 눌렀을때 극장페이지로 이동
+	@GetMapping("theater")
+	public String theater() {
+		return "theater/theater";
+	}
 	
-	return "theater/theater";
-}
-@GetMapping("theater_parking")
-public String theater_parking() {
+	// 극장페이지에서 위치/주차 눌렀을때 주차페이지로 이동
+	@GetMapping("theater_parking")
+	public String theater_parking() {
+		return "theater/theater_parking";
+	}
 	
-	return "theater/theater_parking";
-}
-
+	
 }

@@ -107,7 +107,6 @@
 					<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
 				</c:forEach>
 				<h1>예매된 좌석 : ${seat_name}</h1>
-				
 				<div id="seat_num">
 					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><%--행을결정지을 변수 x 선언--%>
 				    <h1 class="center">Screen</h1>

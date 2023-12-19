@@ -10,5 +10,26 @@
 		WHERE product_id = #{product_id}
 	</select>
 	
-
+	<insert id="insertTest">
+		INSERT INTO carts VALUES(
+			null
+			,'P005'
+			, #{member_id}
+			,10000
+			,1
+			,now()
+		)
+	</insert>
+	
+	<select id="selectTest1" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
+		SELECT *
+		FROM carts
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<update id="updateTest">
+		UPDATE carts
+		SET product_count = #{product_count} + 1
+		WHERE cart_id = 1;
+	</update>
 </mapper>

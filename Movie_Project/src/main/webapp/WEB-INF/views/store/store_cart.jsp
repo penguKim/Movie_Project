@@ -9,6 +9,7 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 	<div id="wrapper">
@@ -17,7 +18,52 @@
 		</header>
 		
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>				
+
+<script type="text/javascript">
+$(function() {
+// 	let price = ${store.product_price};
+	let quantity = parseInt($("#quantity").val());
+	
+	/* - 클릭 시 상품 수량 감소 */
+	/* 1 이하로 수량 감소 불가 */
+	$("#minus").on("click", function() {
 		
+		if(quantity > 1) {
+			quantity -= 1;
+			$("#quantity").val(quantity);
+			/* 수량 감소시 함수 호출 */
+			updateTotalPrice();
+		} else {
+//				alert("수량이 1보다 커야합니다");
+		}
+	});
+	
+	/* + 클릭 시 상품 수량 증가 */
+	/* 100 이상으로 증가 불가 */
+	$("#plus").on("click", function() {
+		
+		if(quantity < 99) {
+			quantity += 1;
+			$("#quantity").val(quantity);
+			/* 수량 증가시 함수 호출 */
+			updateTotalPrice();
+		} else {
+			alert("최대 수량입니다");
+		}
+	});
+	
+	/* 수량 변경시 totalPrice 액수 변경 */
+	function updateTotalPrice() {
+		let totalPrice = price * quantity;
+		$("#sum").html("총 금액 : <b>" + totalPrice + "원</b>");
+	} 
+	
+	<%-- 토탈 금액 및 금액에서 , 찍어야함 --%>
+	/* 수량 변경 없을 경우 현재 total 값 */
+// 	updateTotalPrice();
+	
+});
+</script>		
 		<section id="content">
 			<h1 id="h01">장바구니</h1>
 			<hr>
@@ -62,13 +108,16 @@
 								<tr>
 									<td><input type="checkbox"></td>
 									<!-- 상품 이미지 및 내용(패키지는 구성) -->
-									<td><img src="${pageContext.request.contextPath }/resources/img/어니언팝콘.jpg">어니언팝콘</td>
+									<td><img src="${pageContext.request.contextPath }/resources/img/어니언팝콘.jpg">	</td>
 									<!-- 상품에 등록된 판매 금액 -->
 									<td>10,000원</td>
 									<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 									<td class="product_quantity">
 <!-- 										<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
-										<input type="number" title="수량입력" value="1" min="1" max="99" class="input-text">
+									<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
+									<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
+									<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="1" min="1" max="99" class="input-text" readonly>
+									<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
 										<input type="button" value="변경">
 <!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->
 									</td>
@@ -112,7 +161,7 @@
 									<td> 0원 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 									<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-									<td class="table_box_red"> 10,000원</td>
+									<td class="table_box_red">원</td>
 								</tr>
 							</table>
 						</div>
