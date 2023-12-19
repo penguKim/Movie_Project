@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,8 +74,8 @@
 			<hr>
 			<!-- 상품정보 -->
 			<!-- 상품명 -->
-			<form action="storePay" method="POST">
-				<div id="item_name"><strong >${store.product_name }</strong></div> 
+			<form action="storePay" method="GET">
+				<div id="item_name"><strong>${store.product_name }</strong></div> 
 				
 				<!-- 상품상세 이미지  -->
 				<div id="box_store_view">
@@ -120,7 +121,7 @@
 						<%-- 장바구니 이미지로 교체할지 말지 부기능으로 --%>
 						<%-- 구매 버튼 submit으로 교체 예정 --%>
 		                	<a href="storeCart"><button type="button">장바구니</button></a>
-		                	<a href="storePay"><button type="submit">구매</button></a>
+		                	<a href="#none" onclick="location.href='storePay'"><button type="button">구매</button></a>
 		               	</div>
 					</div>	
 				</div>
@@ -130,7 +131,7 @@
 				<div id="store_expl01"><strong>사용방법</strong> <br></div>
 				<div id="store_expl02">
 				- 스토어 상품은 회원만 구매할 수 있습니다.<br>
-				- 일반관람권의 경우 2D 일반영화에 사용 가능합니다. (스페셜관 및 특수좌석 사용 불가)<br>
+				- 일반관람권의 경우 2D 일반영화에  사용 가능합니다. (스페셜관 및 특수좌석 사용 불가)<br>
 				- 영화관람권은 L.POINT 적립이 불가합니다.<br>
 				- 유효기간은 24개월로 관람일 기준입니다.<br>
 				- 구매한 영화관람권은 마이시네마 > 나의 쿠폰함에서 확인 후 롯데시네마 홈페이지, 모바일 웹/앱에서 사용 가능합니다.<br>

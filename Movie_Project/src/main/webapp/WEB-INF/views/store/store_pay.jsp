@@ -29,7 +29,7 @@
 				<div id="prog_img"><img src="../img/finish1.png"></div><div><span class="step">STEP 03</span><br>결제완료</div>
 			</div>
 			
-			<!-- 구매 상품 정보 테이블 -->		
+			<!-- 구매 상품 정보 테이블 -->
 			<div class="store_pay">
 				<div class="store_pay_box">
 					<div class="store_subject">구매상품 정보</div>
@@ -46,10 +46,10 @@
 						<!-- 장바구니에서 넘어오는 경우 랑 단일인 경우 판별 -->
 						<!-- 장바구니에서 넘어오는 데이터 테이블화 시켜서 보여줄것 -->
 						<tr class="store_table_box02">
-							<td><img src="../img/스위트콤보.png" alt="스위트콤보"></td>
-							<td><span>스위트 콤보</span> <br> 
-								<span>오리지날L + 탄산음료M2</span></td>
-							<td>10,000원</td>
+							<td><img src="${store.product_img }" alt="스위트콤보"></td>
+							<td><span>${store.product_name }</span> <br> 
+								<span>${store.product_txt }</span></td>
+							<td>${store_product_price }원</td>
 							<td>1개</td>
 							<td>10,000원</td>
 						</tr>

@@ -31,19 +31,19 @@ public class StoreController {
 	
 	@GetMapping("storeDetail")
 	public String storeDetail(HttpSession session, String product_id, Model model) {
-//		무조건 자바스크립트 처리해야하는지?
-//		String sId = (String)session.getAttribute("sId");
-//		
-//		if(sId == null) {
-//			
-//			return "login/login";
-//		}
+
+		String sId = (String)session.getAttribute("sId");
+			
+		if(sId == null) {
+			
+			return "login/login";
+		}
 		
 		System.out.println("상품명 : " + product_id);
 		
 		StoreVO store = service.selectTest(product_id); 
 		
-		System.out.println("출력값 : " + store);
+//		System.out.println("출력값 : " + store);
 		
 		model.addAttribute("store", store);
 		
@@ -56,8 +56,16 @@ public class StoreController {
 	}
 	
 	
-	@PostMapping("storePay")
-	public String storePay() {
+	@GetMapping("storePay")
+	public String storePay(HttpSession session, Model model, StoreVO store) {
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			
+			return "login/login";
+		}
+		
+		
 		return "store/store_pay";
 	}
 	
