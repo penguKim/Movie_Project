@@ -91,7 +91,7 @@
 			<div id="cs_nav"> <%-- 사이드 메뉴바 --%>
 				<jsp:include page="cs_menubar.jsp"></jsp:include>
 			</div>
-			<form action="csBoardPro" method="post"  name="csForm">
+			<form action="csBoardPro" method="post"  name="csForm" enctype="multipart/form-data">
 				<p>분실물에 관련하여 문의가 있으시면 아래의 정보를 입력해주세요.
 				담당자 확인 후 신속히 답변을 드리겠습니다.</p>
 				<section id="agree_msg"> <%-- 개인정보 수집 동의 영역 --%>
@@ -119,7 +119,6 @@
 						<tr>
 							<th>분실장소<b>*</b></th>
 							<td>
-
 								<select name="theater_id" id="theater_id">
 									<option value="">지점을 선택하세요.</option>
 								</select>
@@ -143,7 +142,7 @@
 						</tr>
 						<tr>
 							<th>첨부파일</th>
-							<td colspan="3"><input type="file" id="file" name="cs_file" value="파일"></td>
+							<td colspan="3"><input type="file" id="file" name="mFile"></td>
 							<input type="hidden" name="cs_type" value="분실물문의">
 						</tr>
 					</table>

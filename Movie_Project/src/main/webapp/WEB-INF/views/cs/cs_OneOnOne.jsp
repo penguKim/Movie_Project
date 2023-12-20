@@ -10,67 +10,84 @@
 <link href="${pageContext.request.contextPath}/resources/css/cs.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources//js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-
-$(function() {
 	
-	// 문의 지점 "선택안함" 선택 시 지점명 선택 비활성화
-	$("input[type=radio]").on("change", function() {
-		// "선택안함" 선택 시 비활성화
-		if($("input:radio[name=ox]").eq(0).prop("checked")) {
-			$("select[name=theater_id]").attr("disabled", true);
-		// "선택함" 선택 시 활성화
-		} else {
-			$("select[name=theater_id]").attr("disabled", false);
-		}
+	$(function() {
+		
+		// 문의 지점 "선택안함" 선택 시 지점명 선택 비활성화
+		$("input[type=radio]").on("change", function() {
+			// "선택안함" 선택 시 비활성화
+			if($("input:radio[name=ox]").eq(0).prop("checked")) {
+				$("select[name=theater_id]").attr("disabled", true);
+			// "선택함" 선택 시 활성화
+			} else {
+				$("select[name=theater_id]").attr("disabled", false);
+			}
+		});
+		
+		
+		// id 선택자 없는 경우 name 속성 지정하여 설정함. id 선택자 추가 가능(css 꼬일까봐 안했습니다) 
+		$("form").submit(function() {
+				//
+			if(!$("#checkbox").prop("checked")) {	// 단일 체크 박스여서 인덱스 설정 하지 않았고 checked 속성이 아닐 경우 이므로 not 사용!
+				alert("개인정보 수집에 대한 동의를 선택해 주세요");
+				return false;
+				
+				// id 세션값으로 가져올 예정임
+				// 현재 세션 값이 없어서 하나 만들어둠
+			} else if($("#id").val() == "") { 
+				alert("로그인을 해주세요");
+				return false;
+				
+				// 1:1 문의 유형 미선택시
+			} else if($("select[name=cs_type_detail]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+				alert("문의유형 선택은 필수입니다");
+				$("select[name=type]").focus();
+				return false;
+				
+				// 1:1 문의 지점 미선택시 메세지 출력
+			} else if($("input[type=radio]").eq(1).prop("checked")) { // id 선택자 값 없어서 타입 속성으로 지정
+					if($("select[name=theater_id]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+						alert("지점명 선택은 필수입니다");
+						$("select[name=theater_id]").focus();
+						return false;
+					}
+				
+				
+			} 
+			// 아래문장은 선택안함일때 작동이 되는데 선택함일 때만 작동이안됨
+			// 1:1 문의 제목 입력 내용 없을 시 메시지 출력	
+			if($("#title").val() == "") {  
+				alert("문의 제목 입력은 필수입니다");
+				$("#title").focus();
+				return false;
+				
+			}	
+			// 1:1 문의 입력 내용 없을 시 메시지 출력
+			if($("textarea[name=cs_content]").val() == "") {  // id 선택자 값 없어서 name 속성 지정
+				alert("문의 내용은 필수입니다");
+				$("textarea[name=cs_content]").focus();
+				return false;
+			}
+			return true;
+		});
 	});
 	
-	
-	// id 선택자 없는 경우 name 속성 지정하여 설정함. id 선택자 추가 가능(css 꼬일까봐 안했습니다) 
-	$("form").submit(function() {
-			//
-		if(!$("#checkbox").prop("checked")) {	// 단일 체크 박스여서 인덱스 설정 하지 않았고 checked 속성이 아닐 경우 이므로 not 사용!
-			alert("개인정보 수집에 대한 동의를 선택해 주세요");
-			return false;
-			
-			// id 세션값으로 가져올 예정임
-			// 현재 세션 값이 없어서 하나 만들어둠
-		} else if($("#id").val() == "") { 
-			alert("로그인을 해주세요");
-			return false;
-			
-			// 1:1 문의 유형 미선택시
-		} else if($("select[name=cs_type_detail]").val() == "") { // id 선택자 값 없어서 name 속성 지정
-			alert("문의유형 선택은 필수입니다");
-			$("select[name=type]").focus();
-			return false;
-			
-			// 1:1 문의 지점 미선택시 메세지 출력
-		} else if($("input[type=radio]").eq(1).prop("checked")) { // id 선택자 값 없어서 타입 속성으로 지정
-				if($("select[name=theater_id]").val() == "") { // id 선택자 값 없어서 name 속성 지정
-					alert("지점명 선택은 필수입니다");
-					$("select[name=theater_id]").focus();
-					return false;
+	// 지점명 불러오기
+	$(function() {
+		$.ajax({
+			type: "GET",
+			url: "getTheater",
+			success: function(result) {
+				for(let theater of result) {
+				$("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
 				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("지점명 로딩 오류입니다.");
+			}
 			
-			
-		} 
-		// 아래문장은 선택안함일때 작동이 되는데 선택함일 때만 작동이안됨
-		// 1:1 문의 제목 입력 내용 없을 시 메시지 출력	
-		if($("#title").val() == "") {  
-			alert("문의 제목 입력은 필수입니다");
-			$("#title").focus();
-			return false;
-			
-		}	
-		// 1:1 문의 입력 내용 없을 시 메시지 출력
-		if($("textarea[name=cs_content]").val() == "") {  // id 선택자 값 없어서 name 속성 지정
-			alert("문의 내용은 필수입니다");
-			$("textarea[name=cs_content]").focus();
-			return false;
-		}
-		return true;
+		});
 	});
-});
 
 </script>
 </head>
@@ -89,7 +106,7 @@ $(function() {
 				<jsp:include page="cs_menubar.jsp"></jsp:include>
 			</div>
 			
-			<form action="csBoardPro" method="Post"  name="csForm">
+			<form action="csBoardPro" method="Post"  name="csForm" enctype="multipart/form-data">
 				<p>고객님의 문의에 답변하는 직원은 고객 여러분의 가족 중 한 사람일 수 있습니다.<br>
 				고객의 언어폭력(비하, 욕설, 반말, 성희롱 등)으로부터 직원을 보호하기 위해<br> 
 				관련 법에 따라 수사기관에 필요한 조치를 요구할 수 있으며, 형법에 의해 처벌 대상이 될 수 있습니다.<br>
@@ -140,13 +157,8 @@ $(function() {
 							<td colspan="3">
 								<label><input type="radio" name="ox" value="0" checked> 선택안함</label> <%-- 체크 시 select창 비활성화, 기본값 선택안함 체크 --%>
 								<label><input type="radio" name="ox" value="선택함" > 선택함</label> <%-- 체크 시 지점명 필수선택 --%>
-								<select name="theater_id" disabled> <%-- 기본 값 비활성화 --%>
-									<option value="0">선택안함</option> <%-- option value 값 추가  --%>
-									<option value="1">지점명1</option> <%-- 지점명 정해지면 수정 --%>
-									<option value="2">지점명2</option>
-									<option value="3">지점명3</option>
-									<option value="4">지점명4</option>
-									<option value="5">지점명5</option>
+								<select name="theater_id" id="theater_id" disabled>
+									<option value="">지점을 선택하세요.</option>
 								</select>
 							</td>
 						</tr>
@@ -160,7 +172,7 @@ $(function() {
 						</tr>
 						<tr>
 							<th>첨부파일</th>
-							<td colspan="3"><input type="file" id="file" name="cs_file" value="파일"></td>
+							<td colspan="3"><input type="file" id="file" name="mFile"></td>
 							<input type="hidden" name="cs_type" value="1대1문의">
 						</tr>
 					</table>

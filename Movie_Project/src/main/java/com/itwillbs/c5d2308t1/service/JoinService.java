@@ -13,17 +13,13 @@ public class JoinService {
 	@Autowired
 	private JoinMapper mapper;
 
+	// 회원 정보 등록
 	public int registMember(MemberVO member) {
-		System.out.println("JoinService - registMember()");
-		
-		// JoinMapper - insertMember() 메서드를 호출하여 회원정보 등록 요청
-		// => 파라미터 : MemberVO 객체   리턴타입 : int
 		return mapper.insertMember(member);
 	}
 
+	// 회원 정보를 조회하여 중복값 비교
 	public MemberVO getDup(MemberVO member) {
-		// JoinMapper - getMember() 메서드를 호출하여 회원정보 조회
-		// => 파라미터 : MemberVO 객체   리턴타입 : MemberVO
 		return mapper.selectDup(member);
 	}
 

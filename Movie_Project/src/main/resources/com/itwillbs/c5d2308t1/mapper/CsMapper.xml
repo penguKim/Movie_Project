@@ -4,33 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.CsMapper">
-	<!-- 고객센터 문의글 등록 - INSERT -->
-	<!-- 구문 실행 후 자동으로 int 타입 결과값 리턴됨 -->
-	<insert id="insertBoard">
-		INSERT INTO cs
-		VALUES (
-			null
-			, #{cs_subject}
-			, #{cs_content}
-			, now()
-			, #{cs_type}
-			, #{cs_type_detail}
-			, #{cs_file}
-			, null
-			, #{cs_type_list_num}
-			, null
-			, #{member_id}
-			<choose>
-				<when test="theater_id != 0">
-					, theater_id = #{theater_id}
-				</when>
-				<otherwise>
-					, theater_id = null		
-				</otherwise>
-			</choose>
-		)		
-	</insert>
-	
+
 	<!-- 메인페이지에 자주묻는질문 출력 -->	
 	<select id="selectFaqMainList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
@@ -46,48 +20,57 @@
 		LIMIT 5
 	</select>
 	
-	
-	
-	<!-- 자주묻는질문 출력 -->	
-	<select id="selectFaqList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+	<!-- 자주묻는질문 공지사항 출력 및 페이지번호 출력 -->	
+	<select id="selectCsList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
-		WHERE cs_type = "자주묻는질문"
+		WHERE cs_type = #{cs.cs_type}
 		LIMIT #{startRow}, #{listLimit}
-	</select>
-	
-	<!--  자주묻는질문 세부항목별로 모아보기 -->
-	<select id="selectFaqDetail" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
-		SELECT * FROM cs
-		<choose>
-			<when test="buttonName.equals('전체')">
-				WHERE cs_type = "자주묻는질문"		
-			</when>
-			<otherwise>
-				WHERE cs_type = "자주묻는질문" AND cs_type_detail = #{buttonName}		
-			</otherwise>
-		</choose>
 	</select>
 	
 	<!-- 고객센터 항목별 목록 갯수 세기 -->
 	<select id="selectCsTypeCount" resultType="int">
-		SELECT COUNT(*) FROM cs
+		SELECT COUNT(*) 
+		FROM cs
 		WHERE cs_type = #{cs_type}
+	</select>	
+	
+	<!--  자주묻는질문 세부항목별로 모아보기 -->
+	<select id="selectFaqDetail" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+		SELECT * FROM cs
+		WHERE cs_type = #{cs.cs_type} AND
+		<choose>
+			<when test="buttonName.equals('전체')">
+				1=1	
+			</when>
+			<otherwise>
+				cs_type_detail = #{buttonName}		
+			</otherwise>
+		</choose>
+		LIMIT #{startRow}, #{listLimit}
 	</select>
+
+	<!-- 고객센터 세부항목별 목록 갯수 세기 -->
+	<select id="selectFaqDetailCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM cs
+		WHERE cs_type = #{cs.cs_type} AND
+		<choose>
+			<when test="buttonName.equals('전체')">
+				1=1		
+			</when>
+			<otherwise>
+				cs_type_detail = #{buttonName}		
+			</otherwise>
+		</choose>
+	</select>	
 	
 	<!--  자주묻는질문 검색 -->
 	<select id="selectFaqSearch" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT * FROM cs
 		WHERE cs_type = "자주묻는질문" 
-			AND (cs_subject LIKE "%"#{searchValue}"%"
-			OR cs_content LIKE "%"#{searchValue}"%"
-			OR cs_type_detail LIKE "%"#{searchValue}"%")
-	</select>
-	
-	<!-- 공지사항 출력 -->
-	<select id="selectNoticeList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
-		SELECT * FROM cs
-		WHERE cs_type = "공지사항"
-		LIMIT #{startRow}, #{listLimit}
+			AND (cs_subject LIKE '%${searchValue}%'
+			OR cs_content LIKE '%${searchValue}%'
+			OR cs_type_detail LIKE '%${searchValue}%')
 	</select>
 	
 	<!--  공지사항 검색 -->
@@ -97,9 +80,9 @@
 			<if test="theater_id != 0">
 				AND theater_id = #{theater_id}
 			</if>
-			AND (cs_subject LIKE "%"#{searchValue}"%"
-			OR cs_content LIKE "%"#{searchValue}"%"
-			OR cs_type_detail LIKE "%"#{searchValue}"%")
+			AND (cs_subject LIKE '%${searchValue}%'
+			OR cs_content LIKE '%${searchValue}%'
+			OR cs_type_detail LIKE '%${searchValue}%')
 	</select>
 	
 	<!-- 공지사항 상세페이지 보기 -->
@@ -109,10 +92,44 @@
 			AND cs_type_list_num = #{cs_type_list_num} 
 	</select>
 	
+	<!-- 영화관 이름 불러오기 -->
 	<select id="selectTheaterList" resultType="hashmap">
 		SELECT theater_id, theater_name
 		FROM theaters
 	</select>
+	
+	<!-- 고객센터 문의글 등록 - INSERT -->
+	<!-- 구문 실행 후 자동으로 int 타입 결과값 리턴됨 -->
+	<insert id="insertBoard">
+		<!-- cs_type_list_num 계산하여 넣기 -->
+		<selectKey keyProperty="cs_type_list_num" resultType="int" order="BEFORE">
+			SELECT MAX(cs_type_list_num)
+			FROM cs
+			WHERE cs_type = #{cs_type}
+		</selectKey>
+		INSERT INTO cs
+		VALUES (
+			null
+			, #{cs_subject}
+			, #{cs_content}
+			, now()
+			, #{cs_type}
+			, #{cs_type_detail}
+			, #{cs_file}
+			, null
+			, #{cs_type_list_num} + 1
+			, null
+			, #{member_id}
+			<choose>
+				<when test="theater_id != 0">
+					, theater_id = #{theater_id}
+				</when>
+				<otherwise>
+					, theater_id = null		
+				</otherwise>
+			</choose>
+		)		
+	</insert>
 	
 </mapper>
 

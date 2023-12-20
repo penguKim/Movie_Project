@@ -23,8 +23,9 @@
 				success: function(data) {
 					<%-- 세부항목을 눌렀을 때 --%>
 					$("#faq_list").empty();
+					
 					for(let faq of data) {
-						$("#faq_list").append(
+						$("#faq_list").append (
 							"<button class='accordion'><div id='topic'>[ " + faq.cs_type_detail + " ]</div><div id='subject'>" + faq.cs_subject + "</div></button>"
 							+ "<div class='panel'>"
 							+	"<p id='writing'>"
@@ -32,7 +33,13 @@
 							+	"</p>"
 							+"</div>"
 						);
-					}						
+					}		
+					
+					if(buttonName != "전체") {
+						$(".pagination").empty();
+						$(".pagination").append("&laquo; " +" "+ " <a class='active' href='''>" + 1 + "</a> " + " " + " &raquo;");						
+					}
+					
 					
 					<%-- ajax에 아코디언 효과가 적용되지 않아 아래에 다시 적음 --%>
 					var acc = document.getElementsByClassName("accordion");
@@ -83,10 +90,12 @@
 								+"</div>"
 							);
 						}
+						
 					} else {
 						$("#faq_list").append("<h3>검색결과가 없습니다<h3>");
 					}
 				
+					
 					<%-- ajax에 아코디언 효과가 적용되지 않아 아래에 다시 적음 --%>
 					var acc = document.getElementsByClassName("accordion");
 					var i;
@@ -112,10 +121,6 @@
 			});
 
 		});
-		
-		
-		
-
 	
 		<%-- 자주묻는질문을 클릭했을 때 펼쳐지면서 내용 보여주는 효과를 넣어줌 --%>
 		var acc = document.getElementsByClassName("accordion");
@@ -169,11 +174,11 @@
 			
 			<div id="fqa_main">
 			
-				<section id="search">
+				<form id="search">
 					<b>빠른 검색</b>
 					<input type="search" placeholder="검색어를 입력해주세요" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
 					<input type="button" value="검색" id="faqSearch">
-				</section>
+				</form>
 			
 				<nav id="fqa_button">
 					<ul>

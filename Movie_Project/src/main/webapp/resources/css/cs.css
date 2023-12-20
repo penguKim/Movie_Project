@@ -235,7 +235,7 @@ th {
 #main_faq a, #main_notice a {
 	color: #000000;
 	text-decoration: none;
-	font-size: 20px;
+	font-size: 15px;
 }
 
 #main_faq>h3, #main_notice>h3 { /* 미리보기 제목 */
@@ -248,13 +248,13 @@ th {
 #main_faq>a { /* 더보기 버튼 */
 /* 	text-align: right; 오른쪽에 배치 */
 	position: absolute;
-	right: 5%; top: 12%;
+	right: 5%; top: 13%;
 }
 
 #main_notice>a { /* 더보기 버튼 */
 /* 	text-align: right; 오른쪽에 배치 */
 	position: absolute;
-	right: 5%; top: 11%;
+	right: 5%; top: 12%;
 }
 
 #main_faq li, #main_notice li {

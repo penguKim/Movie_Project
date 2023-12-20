@@ -34,10 +34,8 @@ create table members (
 */
 
 // 회원 테이블(members)과 매핑되는 VO 클래스 정의
-/**
- * @author 사용자
- *
- */
+
+@Data
 public class MemberVO {
 	private String member_id;
 	private String member_name;
@@ -49,75 +47,6 @@ public class MemberVO {
 	private String member_passwd;
 	private String member_like_genre;
 	private int theater_id;
-	
-	public String getMember_id() {
-		return member_id;
-	}
-	public void setMember_id(String member_id) {
-		this.member_id = member_id;
-	}
-	public String getMember_name() {
-		return member_name;
-	}
-	public void setMember_name(String member_name) {
-		this.member_name = member_name;
-	}
-	public String getMember_email() {
-		return member_email;
-	}
-	public void setMember_email(String member_email) {
-		this.member_email = member_email;
-	}
-	public String getMember_birth() {
-		return member_birth;
-	}
-	public void setMember_birth(String member_birth) {
-		this.member_birth = member_birth;
-	}
-	public Date getMember_date() {
-		return member_date;
-	}
-	public void setMember_date(Date member_date) {
-		this.member_date = member_date;
-	}
-	public String getMember_phone() {
-		return member_phone;
-	}
-	public void setMember_phone(String member_phone) {
-		this.member_phone = member_phone;
-	}
-	public int getMember_status() {
-		return member_status;
-	}
-	public void setMember_status(int member_status) {
-		this.member_status = member_status;
-	}
-	public String getMember_passwd() {
-		return member_passwd;
-	}
-	public void setMember_passwd(String member_passwd) {
-		this.member_passwd = member_passwd;
-	}
-	public String getMember_like_genre() {
-		return member_like_genre;
-	}
-	public void setMember_like_genre(String member_like_genre) {
-		this.member_like_genre = member_like_genre;
-	}
-	public int getTheater_id() {
-		return theater_id;
-	}
-	public void setTheater_id(int theater_id) {
-		this.theater_id = theater_id;
-	}
-	
-	@Override
-	public String toString() {
-		return "MemberVO [member_id=" + member_id + ", member_name=" + member_name + ", member_email=" + member_email
-				+ ", member_birth=" + member_birth + ", member_date=" + member_date + ", member_phone=" + member_phone
-				+ ", member_status=" + member_status + ", member_passwd=" + member_passwd + ", member_like_genre="
-				+ member_like_genre + ", theater_id=" + theater_id + "]";
-	}
 
 	
 	

@@ -16,64 +16,60 @@ public class CsService {
 	@Autowired
 	private CsMapper mapper;
 
-	public int registBoard(CsVO cs) {
-		System.out.println("CsService - registBoard()");
-		
-		// CsMapper - insertBoard() 메서드를 호출하여 문의글 등록 요청
-		// => 파라미터 : CsVO 객체   리턴타입 : int
-		return mapper.insertBoard(cs);
-	}
-	
+	// cs 메인 페이지 자주묻는질문 목록 조회 요청
 	public List<CsVO> getFaqMainList() {
-		// CsMapper - selectFaqList() 메서드 호출하여 자주묻는질문 목록 조회 요청
 		return mapper.selectFaqMainList();
 	}
-
-	public List<CsVO> getFaqList(int startRow, int listLimit) {
-		// CsMapper - selectFaqList() 메서드 호출하여 자주묻는질문 목록 조회 요청
-		return mapper.selectFaqList(startRow, listLimit);
-	}
 	
-	public Integer getCsTypeListCount(CsVO cs) {
-		// CsMapper - selectNoticeListCount() 메서드 호출하여 항목별 목록 갯수 조회 요청
-		return mapper.selectCsTypeCount(cs);
-	}
-	
-	public List<CsVO> getFaqDetail(String buttonName) {
-		// faq 항목별로 모아보기 기능
-		return mapper.selectFaqDetail(buttonName);
-	}
-	
-	public List<CsVO> getFaqSearch(String searchValue) {
-		// faq 검색 기능
-		return mapper.selectFaqSearch(searchValue);
-	}
-	
+	// cs 메인 페이지 공지사항 목록 조회 요청
 	public List<CsVO> getNoticeMainList() {
-		// CsMapper - selectNoticeMainList() 메서드 호출하여 공지사항 목록 조회 요청
 		return mapper.selectNoticeMainList();
 	}
 	
-	public List<CsVO> getNoticeList(int startRow, int listLimit) {
-		// CsMapper - selectNoticeList() 메서드 호출하여 공지사항 목록 조회 요청
-		return mapper.selectNoticeList(startRow, listLimit);
+	// 자주묻는질문 공지사항 목록 조회 요청 및 페이징
+	public List<CsVO> getCsList(CsVO cs, int startRow, int listLimit) {
+		return mapper.selectCsList(cs, startRow, listLimit);
 	}
-
+	
+	// 고객센터 항목별 목록 갯수 조회 요청
+	public int getCsTypeListCount(CsVO cs) {
+		return mapper.selectCsTypeCount(cs);
+	}
+	
+	// 자주묻는질문 항목별로 모아보기 기능
+	public List<CsVO> getFaqDetail(CsVO cs, String buttonName, int startRow, int listLimit) {
+		return mapper.selectFaqDetail(cs, buttonName, startRow, listLimit);
+	}
+	
+	// 자주묻는질문 항목별로 목록 개수 조회 요청
+	public int getFaqDetailCount(CsVO cs, String buttonName) {
+		return mapper.selectFaqDetailCount(cs, buttonName);
+	}
+	
+	// 자주묻는질문 검색 기능
+	public List<CsVO> getFaqSearch(String searchValue) {
+		return mapper.selectFaqSearch(searchValue);
+	}
+	
+	// 공지사항 검색기능
 	public List<CsVO> getNoticeSearch(String theater_id, String searchValue) {
-		// 공지사항 검색기능
 		return mapper.selectNoticeSearch(theater_id, searchValue);
 	}
 
+	// 공지사항 상세페이지 보기
 	public CsVO csNoticeDetail(CsVO cs) {
-		// 공지사항 상세페이지
 		return mapper.selectNoticeDetail(cs);
 	}
 
+	// 극장 정보를 조회하여 문의글의 지점명 출력
 	public List<HashMap<String, Object>> getTheaterList() {
-		// 극장 정보를 조회하여 문의글의 지점명 출력
 		return mapper.selectTheaterList();
 	}
 
+	// 고객센터 문의글 등록
+	public int registBoard(CsVO cs) {
+		return mapper.insertBoard(cs);
+	}
 
 
 
