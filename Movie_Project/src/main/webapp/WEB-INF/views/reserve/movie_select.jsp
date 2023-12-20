@@ -18,6 +18,7 @@
 		$(".btnMovie").click(function(){
 			$('.btnMovie').removeClass('selected');
 			$(this).addClass('selected');
+		    $('#Result_M').text($('.btnMovie.selected').val());
 			param();
 			M=1;
 			if((M+T+D)==6){ajax();}
@@ -26,13 +27,16 @@
 		$(".btnTheater").click(function(){
 			$('.btnTheater').removeClass('selected');
 			$(this).addClass('selected');
+			theaterInfo();
 			param();
 			T=2;
 			if((M+T+D)==6){ajax();}
+			$("#endParamTd2").html("<td>극장<br>일시<br>상영관<br>인원<br></td>");
 		});
 		$(".btnDate").click(function(){
 			$('.btnDate').removeClass('selected');
 			$(this).addClass('selected');
+			theaterInfo();
 			param();
 			D=3;
 			if((M+T+D)==6){ajax();}
@@ -47,7 +51,6 @@
 				},
 				dataType: "json",
 			    success: function(data) {
-			    	alert("ajax연결 성공!")
 			    	console.log(data)
 			    	// 이전에 있던 데이터 제거
 			    	$(".overflow.time").html("<b>시간</b>");
@@ -79,6 +82,7 @@
 					$(".btnTime").click(function(){
 						$('.btnTime').removeClass('selected');
 						$(this).addClass('selected');
+						theaterInfo();
 						param();
 					});
 					
@@ -87,27 +91,69 @@
 			});//ajax end
 			
 		}//ajax function end
-		function param() {
-			let selectMovieValue = $('.btnMovie.selected').val();
-			let selectTheaterValue = $('.btnTheater.selected').val();
-			let selectDateValue = $('.btnDate.selected').val();
-			let selectRoomValue = $('.btnTime.selected').prop('id');
-			let selectTimeValue = $('.btnTime.selected').val();
+		
+		function theaterInfo(){
+			let $selectedTheater = $('.btnTheater.selected');
+			let selectTheaterValue;
+			if ($selectedTheater.length > 0) {
+				selectTheaterValue = $selectedTheater.val();
+			} else {
+				selectTheaterValue = "";
+			}
 			
-		    // 선택된 데이터를 표시
-		    var tableCells = $('#end_param td');
-		    tableCells[0].textContent = selectMovieValue;
-		    var CGVParamCells = $('#CGVParam td');
-		    CGVParamCells[0].textContent = selectTheaterValue;
-		    CGVParamCells[1].textContent = selectDateValue + selectTimeValue;
-		    CGVParamCells[2].textContent = selectRoomValue;
-		    
+			let $selectedDate = $('.btnDate.selected');
+			let selectDateValue;
+			if ($selectedDate.length > 0) {
+				selectDateValue = $selectedDate.val();
+			} else {
+				selectDateValue = "";
+			}
+			
+			let $selectedRoom = $('.btnTime.selected');
+			let selectRoomValue;
+			if ($selectedRoom.length > 0) {
+				selectRoomValue = $selectedRoom.prop('id');
+			} else {
+				selectRoomValue = "";
+			}
+			
+			let $selectedTime = $('.btnTime.selected');
+			let selectTimeValue;
+			if ($selectedTime.length > 0) {
+				selectTimeValue = $selectedTime.val();
+			} else {
+				selectTimeValue = "";
+			}
+			
+			
+			$('#Result_T').html(
+			    	"<table>"
+			    	+"<tr>"
+			    	+"<td class='widthSmall'>극장</td>"
+			    	+"<td>"+ selectTheaterValue +"</td>"
+			    	+"</tr>"
+			    	+"<tr>"
+			    	+"<td class='widthSmall'>일시</td>"
+			    	+"<td>"+selectDateValue+" "+selectTimeValue+"</td>"
+			    	+"</tr>"
+			    	+"<tr>"
+			    	+"<td class='widthSmall'>상영관</td>"
+			    	+"<td>"+selectRoomValue+"</td>"
+			    	+"</tr>"
+			    	+"<tr>"
+			    	+"<td class='widthSmall'>인원</td>"
+			    	+"<td></td>"
+			    	+"</tr>"
+			    	+"</table>"
+			    	);
+		}
+		function param() {
 			// selectedValues의 각 속성을 각각의 hidden input 태그에 설정
-			$("#movie_title").val(selectMovieValue); 
-			$("#theater_name").val(selectTheaterValue);
-			$("#play_date").val(selectDateValue);
-			$("#room_name").val(selectRoomValue);
-			$("#play_start_time").val(selectTimeValue);
+			$("#movie_title").val($('.btnMovie.selected').val()); 
+			$("#theater_name").val($('.btnTheater.selected').val());
+			$("#play_date").val($('.btnDate.selected').val());
+			$("#room_name").val($('.btnTime.selected').prop('id'));
+			$("#play_start_time").val($('.btnTime.selected').val());
 		}
 		
 		$('.btnReset').click(function() {
@@ -158,14 +204,9 @@
 			<div class="print_parameter">
 				<table id="end_param">
 					<tr>
-						<td>영화선택</td>
-						<td>
-								극장<br>
-								일시<br>
-								상영관<br>
-								인원<br>
-						</td>
-						<td><img src="${pageContext.request.contextPath }/resources/img/화살표2.png" width="25px" height="25px">좌석선택</td>
+						<td id="Result_M">영화선택</td>
+						<td id="Result_T">극장선택</td>
+						<td>좌석선택</td>
 						<td>결제</td>
 						<td>
 							<form action="seat_select" method="post">

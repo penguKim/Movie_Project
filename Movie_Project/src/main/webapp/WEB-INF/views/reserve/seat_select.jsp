@@ -174,6 +174,11 @@
 						</div>
 					</c:forEach><%-- 행반복 종료 --%>
 				</div>
+				<table id="seatCondition">
+					<tr>
+						<td><img src="${pageContext.request.contextPath }/resources/img/좌석상태표.png" width="70px" height="120px"></td>
+					</tr>
+				</table>
 			</article>
 		</section><%--CSS 요청으로 감싼 태그--%>
 		
