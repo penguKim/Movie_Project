@@ -10,6 +10,40 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 </head>
+<script>
+	// 선택된 라디오 버튼 이외의 다른 라디오 버튼을 선택 해제하는 함수
+	function check(checkedRadio) {
+	// name이 'radiocheck'인 모든 라디오 버튼을 가져옴
+	  var radio = document.getElementsByName('radiocheck');
+	// 반복문으로 라디오 버튼들 반복하면서 선택된 버튼 이외의 버튼을 선택 해제
+	  for (var i = 0; i < radio.length; i++) {
+	    if (radio[i] !== checkedRadio) {
+	      radio[i].checked = false;
+    }
+  }
+}
+	
+	function checkAll() {
+	  var Checkbox = document.querySelector('.store_pay_info_check input[type="checkbox"]');
+	  var Checkboxes = document.querySelectorAll('.store_pay_info_group input[type="checkbox"]');
+	  
+	  // 부모 체크박스의 상태에 따라 하위 체크박스들의 상태를 변경합니다.
+	  for (var i = 0; i < Checkboxes.length; i++) {
+	    Checkboxes[i].checked = Checkbox.checked;
+	  }
+	}
+
+	function checkAll2() {
+		  var parentCheckbox = document.querySelector('.info02 input[type="checkbox"]');
+		  var childCheckboxes = document.querySelectorAll('.info02 input[type="checkbox"]:not(:first-child)');
+		  
+		  // 부모 체크박스의 상태에 따라 하위 체크박스들의 상태를 변경합니다.
+		  for (var i = 0; i < childCheckboxes.length; i++) {
+		    childCheckboxes[i].checked = parentCheckbox.checked;
+		  }
+		}
+	
+</script>
 <body>
 	<div id="wrapper">
 		<header>
@@ -96,22 +130,22 @@
 					<div class="store_subject">결제 수단</div>
 					<div class="store_payment_line">
 						<section>
-							<span><input type="radio" value="신용카드" ><b>신용카드</b></span>
-							<span><input type="radio" value="kakaoPay">kakao<b>Pay</b></span>
+							<span><input type="radio" value="신용카드"  name=radiocheck onclick="check(this)"><b>신용카드</b></span>
+							<span><input type="radio" value="kakaoPay" name=radiocheck onclick="check(this)">kakao<b>Pay</b></span>
 						</section>
 					</div>	
 				</div>
 			
 				<div class="store_pay_info">
-					<div class="store_pay_info_check"><input type="checkbox">주문정보/결제 대행 서비스 약관 모두 동의</div>
+					<div class="store_pay_info_check"><input type="checkbox" onclick="checkAll()">주문정보/결제 대행 서비스 약관 모두 동의</div>
 					<div class="store_pay_info_group">
 						<div class="info01"><input type="checkbox">기프트콘 구매 동의
 							<br> <span class="info01_01">&nbsp;&nbsp;&nbsp;기프트콘 발송 및 CS 처리 등을 이해 수신자로부터 영화관에 수신자의 전화번호를 제공하는 것에 대한 적합한 동의를 받습니다.</span>
 						</div>
-						<div class="info02"><input type="checkbox">결제 대행 서비스 약관 모두 동의 <br>
-							<div>&nbsp;&nbsp;<input type="checkbox">전자금융거래 이용약관</div>
-							<div>&nbsp;&nbsp;<input type="checkbox">개인정보 수집 이용약관</div>
-							<div>&nbsp;&nbsp;<input type="checkbox">개인정보 제공 및 위탁안내</div>
+						<div class="info02"><input type="checkbox" onclick="checkAll2()">결제 대행 서비스 약관 모두 동의 
+							<br>&nbsp;&nbsp;<input type="checkbox">전자금융거래 이용약관
+							<br>&nbsp;&nbsp;<input type="checkbox">개인정보 수집 이용약관
+							<br>&nbsp;&nbsp;<input type="checkbox">개인정보 제공 및 위탁안내
 						</div>
 					</div>
 				</div>
