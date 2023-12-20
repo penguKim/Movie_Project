@@ -15,15 +15,15 @@
 	$(function() {
 		
 		let price = ${store.product_price};
-		let quantity = parseInt($("#quantity").val());
+		let product_count = parseInt($("#product_count").val());
 		
 		/* - 클릭 시 상품 수량 감소 */
 		/* 1 이하로 수량 감소 불가 */
 		$("#minus").on("click", function() {
 			
-			if(quantity > 1) {
-				quantity -= 1;
-				$("#quantity").val(quantity);
+			if(product_count > 1) {
+				product_count -= 1;
+				$("#product_count").val(product_count);
 				/* 수량 감소시 함수 호출 */
 				updateTotalPrice();
 			} else {
@@ -35,9 +35,9 @@
 		/* 100 이상으로 증가 불가 */
 		$("#plus").on("click", function() {
 			
-			if(quantity < 99) {
-				quantity += 1;
-				$("#quantity").val(quantity);
+			if(product_count < 99) {
+				product_count += 1;
+				$("#product_count").val(product_count);
 				/* 수량 증가시 함수 호출 */
 				updateTotalPrice();
 			} else {
@@ -47,7 +47,7 @@
 		
 		/* 수량 변경시 totalPrice 액수 변경 */
 		function updateTotalPrice() {
-			let totalPrice = price * quantity;
+			let totalPrice = price * product_count;
 			$("#sum").html("총 금액 : <b>" + totalPrice + "원</b>");
 		} 
 		
@@ -57,7 +57,15 @@
 		
 	});
 	
+	
+	function redirectToStorePay() {
+	    var productCount = document.getElementById("product_count").value; // 수량 입력 필드의 값 가져오기
+	    var productID = "${product_id}"; // 상품 ID 가져오기
 
+	    var url = "storePay?product_id=" + productID + "&product_count=" + productCount; // URL 생성
+	    location.href = url; // 다른 페이지로 이동
+	}
+	
 </script>
 </head>
 <body>
@@ -108,7 +116,7 @@
 								<div class="contents">
 									<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
 									<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
-									<input type="text" title="수량입력" id="quantity" name="quantity" value="1" min="1" max="99" class="input-text" readonly>
+									<input type="text" title="수량입력" id="product_count" name="product_count" value="1" min="1" max="99" class="input-text" readonly>
 									<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
 									<div class="money">${store.product_price}원</div>
 								</div>
@@ -122,7 +130,7 @@
 						<%-- 장바구니 이미지로 교체할지 말지 부기능으로 --%>
 						<%-- 구매 버튼 submit으로 교체 예정 --%>
 		                	<a href="storeCart"><button type="button">장바구니</button></a>
-		                	<a href="storePay?product_id=${product_id}&quantity=${quantity}"><button type="button">구매</button></a>
+		                <button type="button" onclick="redirectToStorePay()">구매</button>
 		               	</div>
 					</div>	
 				</div>

@@ -36,7 +36,7 @@ public class StoreController {
 	
 	// 스토어 상세페이지 매핑
 	@GetMapping("storeDetail")
-	public String storeDetail(HttpSession session, String product_id, Model model, String product_count) {
+	public String storeDetail(HttpSession session, String product_id, Model model, CartVO cart) {
 //		System.out.println("상품명 : " + product_id);
 		StoreVO store = service.selectTest(product_id); 
 //		System.out.println("출력값 : " + store);
@@ -44,11 +44,8 @@ public class StoreController {
 		model.addAttribute("store", store);
 		
 		
-		CartVO cart = service.selectCart1(product_count);
 		model.addAttribute("product_id", store.getProduct_id());
 		
-		model.addAttribute("product_count", cart.getProduct_count());
-		System.out.println("내프로덕트카운터 : " + product_count);
 		return "store/store_detail";
 	}
 	

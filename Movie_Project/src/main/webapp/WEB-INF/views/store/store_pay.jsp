@@ -51,11 +51,9 @@
 								<td><span>${store.product_name }</span> <br> 
 									<span>${store.product_txt }</span></td>
 								<td>${store.product_price }원</td>
-							<c:forEach var="cart" items="${cartList2 }">
-								<td>${cart.product_count}개</td>
+								<td> ${param.product_count }개</td>
 <!-- 						지금은 param 이지만, list의 경우로 변경 -->
-								<td>${store.product_price * cart.product_count} 원</td>
-							</c:forEach>
+								<td> 원</td>
 							</tr>
 						</c:forEach>
 					</table>
