@@ -45,7 +45,7 @@
 							<td>[문의 제목]</td>
 							<td>[문의 내용...]</td>
 							<td>[회원아이디]</td>
-							<td><a href="mypage_OneOnOne.jsp"><input type="button" value="나의글상세정보"></a></td>
+							<td><a href="myPageOneOnOneDtl"><input type="button" value="나의글상세정보"></a></td>
 						</tr>
 						
 						<tr>
@@ -53,7 +53,7 @@
 							<td>[문의 제목]</td>
 							<td>[문의 내용...]</td>
 							<td>[회원아이디]</td>
-							<td><a href="mypage_OneOnOne.jsp"><input type="button" value="나의글상세정보"></a></td>
+							<td><a href="myPageOneOnOneDtl"><input type="button" value="나의글상세정보"></a></td>
 						</tr>
 					</table><br>
 								

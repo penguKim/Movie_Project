@@ -129,7 +129,7 @@ $(function() {
 			<div id="mypage_nav"> <%-- 사이드 메뉴바 --%>
 				<jsp:include page="mypage_menubar.jsp"></jsp:include>
 			</div>
-			<form action="" method=""  name="loginForm">
+			<form action="" method="post">
 <!-- 				<p>고객님의 문의에 답변하는 직원은 고객 여러분의 가족 중 한 사람일 수 있습니다.<br> -->
 <!-- 				고객의 언어폭력(비하, 욕설, 반말, 성희롱 등)으로부터 직원을 보호하기 위해<br>  -->
 <!-- 				관련 법에 따라 수사기관에 필요한 조치를 요구할 수 있으며, 형법에 의해 처벌 대상이 될 수 있습니다.<br> -->
@@ -200,9 +200,9 @@ $(function() {
 					</tr>
 				</table>
 				<div id="login_button">
-					<input type="button" value="취소"> <%-- 취소하시겠습니까? 메세지 출력 후 마이페이지로 바로 이동 --%>
+					<input type="submit" value="취소"> <%-- 취소하시겠습니까? 메세지 출력 후 마이페이지로 바로 이동 --%>
 					<input type="submit" value="등록"> <%-- 문의가 접수되고 마이페이지 페이지로 이동 --%>
-					<input type="button" value="삭제" id="delete"> <%-- 게시글 삭제되고 마이페이지로 이동 --%>
+					<input type="submit" value="삭제" id="delete"> <%-- 게시글 삭제되고 마이페이지로 이동 --%>
 				</div>
 			</form>
 		</section>

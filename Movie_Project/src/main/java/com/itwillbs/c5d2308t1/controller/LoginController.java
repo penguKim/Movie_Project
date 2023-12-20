@@ -72,7 +72,10 @@ public class LoginController {
 		return"login/myboard";
 	}
 	
-	
+	@GetMapping("myPageOneOnOneDtl")
+	public String myPageOneOnOneDtl() { // 나의 게시글 1대1문의 상세페이지로 이동
+		return "login/mypage_OneOnOne";
+	}
 	
 	
 	
