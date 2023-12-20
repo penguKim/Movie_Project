@@ -48,15 +48,21 @@
 		WHERE product_id = #{product_id}
 	</select>
 	
+	<select id="selectCart2" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
+		SELECT product_count, cart_id, cart_total_price
+		FROM carts
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<select id="selectCart3" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
+		SELECT product_count
+		FROM carts
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<select id="selectCart1" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
+		SELECT product_count
+		FROM carts
+		WHERE product_count = #{product_count}
+	</select>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-

@@ -13,6 +13,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
+		
 		let price = ${store.product_price};
 		let quantity = parseInt($("#quantity").val());
 		
@@ -121,7 +122,7 @@
 						<%-- 장바구니 이미지로 교체할지 말지 부기능으로 --%>
 						<%-- 구매 버튼 submit으로 교체 예정 --%>
 		                	<a href="storeCart"><button type="button">장바구니</button></a>
-		                	<a href="#none" onclick="location.href='storePay'"><button type="button">구매</button></a>
+		                	<a href="storePay?product_id=${product_id}&quantity=${quantity}"><button type="button">구매</button></a>
 		               	</div>
 					</div>	
 				</div>

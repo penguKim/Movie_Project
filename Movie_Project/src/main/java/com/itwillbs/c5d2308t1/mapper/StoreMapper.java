@@ -24,5 +24,9 @@ public interface StoreMapper {
 	// 스토어 결재를 위한 SELECT 결과 조회
 	List<StoreVO> selectStore(StoreVO store);
 
+	List<CartVO> selectCart2(MemberVO member);
+
+	CartVO selectCart1(String product_count);
+
 	
 }

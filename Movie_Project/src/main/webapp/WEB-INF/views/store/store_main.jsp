@@ -22,28 +22,29 @@
 		<%-- 상품 아이디 지정 --%>
 		let pro = pro_id;
 		<%-- 스토어 메인 페이지의 경우 1이 아닌 경우가 없으므로 1 지정 --%>
-		let quantity = 1;
+		
+		let product_count = 1;
 		
 		<%-- 상세페이지로 이동--%>
 		if(move == 1 ) {
-			move_detail(pro_id, quantity);
+			move_detail(pro_id, product_count);
 			
 		<%-- 장바구니 페이지로 이동--%>
 		} else if(move == 2) {
-			move_cart(pro_id, quantity);
+			move_cart(pro_id, product_count);
 
 		<%-- 결제 페이지로 이동--%>
 		} else if(move == 3) {
-			move_pay(pro_id, quantity);
+			move_pay(pro_id, product_count);
 		}
 	}
 	
-	function move_detail(pro_id, quantity) {
+	function move_detail(pro_id, product_count) {
 		location.href="storeDetail?product_id=" + pro_id;
 	}
 	
-	function move_pay(pro_id, quantity) {
-		location.href="storePay?product_id=" + pro_id + "&quantity=" + quantity;
+	function move_pay(pro_id, product_count) {
+		location.href="storePay?product_id=" + pro_id + "&product_count=" + product_count;
 		
 	}
 	
@@ -109,14 +110,14 @@
 						<a href="#none" onclick="pageMove(3, 'P002')"><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
 					</div>
 					<div class="snack_menu">
-						<a href="storeDetail?product_id=P003">
+						<a href="#none" onclick="pageMove(1, 'P003')">
 							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/시네마패키지.jpg" width="310" height="250"><br>
 							<span>시네마패키지</span><br>
 							<span class="snack_detail">미니 시네마+팝콘L1개+콜라M2개</span><br><br>
 							<span>31,000<span id="won">원&nbsp;&nbsp;</span></span><span style="text-decoration: line-through;" class="snack_detail">36,000<span id="won">원</span></span>
 						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
+						<a href="#none" onclick="pageMove(2, 'P003')"><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
+						<a href="#none" onclick="pageMove(3, 'P003')"><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
 					</div>
 				</div>
 				<br>

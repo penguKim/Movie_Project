@@ -50,5 +50,17 @@ public class StoreService {
 		return mapper.selectStore(store);
 	}
 
+
+	public List<CartVO> selectCart2(MemberVO member) {
+		
+		return mapper.selectCart2(member);
+	}
+
+
+	public CartVO selectCart1(String product_count) {
+		
+		return mapper.selectCart1(product_count);
+	}
+
 	
 }
