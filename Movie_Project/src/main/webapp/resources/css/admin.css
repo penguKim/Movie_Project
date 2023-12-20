@@ -158,7 +158,7 @@ td {
 }
 
 /* ======== 전체 영역 입력상자에 적용할 css ======== */
-input[type="date"], input[type="text"], select {
+input[type="date"], input[type="text"], theater_num {
 	height: 25px;
 }
 

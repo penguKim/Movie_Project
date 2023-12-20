@@ -1,6 +1,7 @@
 <%-- admin_board_one_on_one_response.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,11 @@
 <title>1 : 1 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	btnMod() {
+		
+	}
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -25,45 +31,58 @@
 			</div>
 
 			<div id="admin_sub">
-				<form action="boardOneOnOneRsp" method="post"> <!-- 복수개의 서브밋 처리 필요 -->
+				<form action="" method="post"> <!-- 복수개의 서브밋 처리 필요 -->
 					<table border="1">
 						<tr>
 							<th>번호</th>
-							<td></td>
+							<td>${oneOnOne.cs_id}</td>
+						</tr>
+						<tr>
+							<th>문의 유형</th>
+							<td>${oneOnOne.cs_type_detail }</td>
 						</tr>
 						<tr>
 							<th>문의 제목</th>
-							<td>문의 제목입니다</td>
+							<td>${oneOnOne.cs_subject }</td>
 						</tr>
+<%-- 						<c:if test="${oneOnOne.theater_id eq '' }"> --%>
+<!-- 							<tr> -->
+<!-- 								<th>문의 지점</th> -->
+<%-- 								<td>${oneOnOne.theater_name }</td> --%>
+<!-- 							</tr> -->
+<%-- 						</c:if> --%>
+						
 						<tr>
 							<th>문의 작성자</th>
-							<td></td>
+							<td>${oneOnOne.member_id }</td>
 						</tr>
 						<tr>
 							<th height="300">문의 내용</th>
-							<td></td>
+							<td>${oneOnOne.cs_content }</td>
 						</tr>
 						<tr>
 							<th>사진 첨부</th>
 							<td><input type="file"></td>
 						</tr>
 						<tr>
-							<th>답변 제목</th>
-							<td></td>
-						</tr>
-						<tr>
-							<th>답변 작성자</th>
-							<td></td>
-						</tr>
-						<tr>
 							<th height="300">답변 내용</th>
-							<td></td>
+							<td>
+								<textarea rows="30" cols="80" name="cs_reply" placeholder="${oneOnOne.cs_reply }"></textarea>
+							</td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 
-<!-- 						<input type="submit" value="답변 수정"> -->
-<!-- 						<input type="submit" value="답변 삭제"> -->
-						<input type="submit" value="답변 등록">
+						<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">	
+						<input type="hidden" name="pageNum" value="${param.pageNum }">	
+						<c:choose>
+							<c:when test="${empty oneOnOne.cs_reply }">
+								<input type="submit" value="답변 등록" formaction="boardOneOnOneRsp">
+							</c:when>
+							<c:otherwise>
+								<input type="submit" value="답변 수정" formaction="">
+								<input type="submit" value="답변 삭제" formaction="">
+							</c:otherwise>
+						</c:choose>	
 						<input type="button" value="돌아가기" onclick="history.back()">
 					</div>
 				</form>

@@ -1,6 +1,8 @@
 <%-- admin_board_one_on_one.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +13,11 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1 로 저장) --%>
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
 	<div id="wrapper">
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
@@ -35,78 +42,59 @@
 						<th width="120">등록일</th>
 						<th width="95">답변상태</th>
 					</tr>
-					<tr>
-						<td>번호</td>
-						<td>칭찬/불만/제안</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
-						<td>작성자</td>
-						<td>등록일</td>
-						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
-					</tr>
-					<tr>
-						<td>번호</td>
-						<td>유형</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
-						<td>작성자</td>
-						<td>등록일</td>
-						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
-					</tr>
-					<tr>
-						<td>번호</td>
-						<td>유형</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지></td>							
-						<td>작성자</td>
-						<td>등록일</td>
-						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
-					</tr>
-					<tr>
-						<td>번호</td>
-						<td>유형</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
-						<td>작성자</td>
-						<td>등록일</td>
-						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
-					</tr>
-					<tr>
-						<td>번호</td>
-						<td>유형</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
-						<td>작성자</td>
-						<td>등록일</td>
-						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
-					</tr>
-					<tr>
-						<td>번호</td>
-						<td>유형</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
-						<td>작성자</td>
-						<td>등록일</td>
-						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
-					</tr>
-					<tr>
-						<td>번호</td>
-						<td>유형</td>
-						<td class="post_name">버튼 클릭시 1대1 문의 상세 페이지</td>
-						<td>작성자</td>
-						<td>등록일</td>
-						<td><a href="adminOneOnOneResp"><input type="button" value="답변완료" id="ok"></a></td>
-					</tr>
 					
+					<c:forEach var="oneOnOne" items="${oneOnOneList }">
+						<tr>
+							<td>${oneOnOne.cs_id }</td>
+							<td>${oneOnOne.cs_type_detail }</td>
+							<td class="post_name">${oneOnOne.cs_subject }</td>
+							<td>${oneOnOne.member_id }</td>
+							<td>${oneOnOne.cs_date }</td>
+							<c:choose>
+								<c:when test="${empty oneOnOne.cs_reply }">
+									<td><a href="adminOneOnOneResp?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변등록" id="ok"></a></td>
+								</c:when>
+								<c:otherwise>
+									<td><a href="adminOneOnOneResp?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변완료" id="ok"></a></td>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+					</c:forEach>
 				</table>
-				<div class="pagination">
-					<a href="#">&laquo;</a>
-					<a href="#">1</a>
-					<a class="active" href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">&raquo;</a>
-				</div>
+<!-- 				<div class="pagination"> -->
+<!-- 					<a href="#">&laquo;</a> -->
+<!-- 					<a href="#">1</a> -->
+<!-- 					<a class="active" href="#">2</a> -->
+<!-- 					<a href="#">3</a> -->
+<!-- 					<a href="#">4</a> -->
+<!-- 					<a href="#">5</a> -->
+<!-- 					<a href="#">&raquo;</a> -->
+<!-- 				</div> -->
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
 			</footer>
 		</section>
+		<section class="pagination">
+		<input type="button" value="이전" 
+			onclick="location.href='adminOneOnOne?pageNum=${pageNum - 1}'"
+			<c:if test="${pageNum <= 1 }">disabled</c:if>
+		>
+		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+			<c:choose>
+				<c:when test="${pageNum eq i }">
+					<b>${i }</b>
+				</c:when>
+				<c:otherwise>
+					<a href="adminOneOnOne?pageNum=${i }">${i }</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+		<input type="button" value="다음" 
+			onclick="location.href='adminOneOnOne?pageNum=${pageNum + 1}'"
+			<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if>
+		>
+	</section>		
 	</div>
 </body>
 </html>

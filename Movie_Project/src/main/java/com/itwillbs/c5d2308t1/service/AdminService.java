@@ -93,4 +93,28 @@ public class AdminService {
 		return mapper.updatememberModOrDlt(member, newPasswd);
 	}
 
+	// ****************** 1대1문의 게시판 *********************
+	// 1대1문의 관리 게시판 글 목록 조회 작업 요청
+	public List<CsVO> getOneOnOnePosts(PageDTO page) {
+		return mapper.selectOneOnOneList(page);
+	}
+
+	// 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업 요청
+	public int getOneOnOneListCount() {
+		return mapper.selectOneOnOneListCount();
+	}
+
+	// 1대1문의 관리 게시판 상세 조회 작업 요청
+	public CsVO getOneOnOnePostById(CsVO cs) {
+		return mapper.selectOneOnOne(cs);
+	}
+
+	// 1대1문의 답변 등록 작업 요청
+	public int writeOneOnOneReply(CsVO cs) {
+		return mapper.updateOneOnOneReply(cs);
+	}
+
+
+
+
 }

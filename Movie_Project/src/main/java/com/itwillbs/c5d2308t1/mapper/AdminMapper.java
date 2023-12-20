@@ -62,4 +62,26 @@ public interface AdminMapper {
 	// 회원 정보 수정 작업
 	int updatememberModOrDlt(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
 
+	
+	// =================== 1대1문의 게시판 ==========================
+	// 1대1 문의 관리 게시판 조회 작업
+	List<CsVO> selectOneOnOneList(PageDTO page);
+
+	// 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업
+	int selectOneOnOneListCount();
+
+	// 1대1문의 관리 게시판 상세 조회 작업
+	CsVO selectOneOnOne(CsVO cs);
+	
+	
+	// 1대1문의 답변 등록 작업
+	int updateOneOnOneReply(CsVO cs);
+
+
+
+
+
+	
+	
+
 }
