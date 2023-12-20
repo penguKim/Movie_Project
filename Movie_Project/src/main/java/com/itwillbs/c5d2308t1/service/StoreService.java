@@ -18,34 +18,37 @@ public class StoreService {
 	StoreMapper mapper;
 	
 	
-	public StoreVO selectTest(String product_id) {
+	public StoreVO selectStore(String product_id) {
 		
-		return mapper.selectPro(product_id);
+		return mapper.selectStorePro(product_id);
 	}
 	
-	
-	public CartVO updateTest(CartVO cart) {
+	//-----------------------------
+	// 장바구니 판별후 UPDATE
+	public int updateCart(String sId, String product_id) {
 		
-		return mapper.updateTest(cart);
+		return mapper.updateCart(sId, product_id);
 	}
+	// 장바구니 판별 후 INSERT
+	public int insertCart(String sId, String product_id ) {
+		
+		return mapper.insertCart(sId, product_id);
+	}
+	// --------------------------------
 
-	// 장바구니 셀렉트 결과 
-	public List<StoreVO> selectCart(MemberVO member) {
+	// 현재 나의 장바구니 조회 - SELECT
+	// 장바구니에 출력할 데이터 조회
+	public List<StoreVO> myCartList(String sId) {
 		
-		return mapper.selectCart(member);
+		return mapper.selectMyCartList(sId);
 	}
 	
-	// 장바구니 판별 후 인설트
-	public int insertTest( MemberVO member) {
-		
-		return mapper.insertTest(member);
+	// 판별된 장바구니에 담긴 값 조회
+	// store_cart 페이지 출력할 List 조회
+	public List<CartVO> resultCartList(String sId) {
+		return mapper.resultCartList(sId);
 	}
 	
-	// 장바구니 판별 후 업데이트
-	public int updateCart(MemberVO member) {
-		return 0;
-	}
-
 	public List<StoreVO> selectStore(StoreVO store) {
 		return mapper.selectStore(store);
 	}
@@ -61,6 +64,7 @@ public class StoreService {
 		
 		return mapper.selectCart1(product_count);
 	}
+
 
 	
 }

@@ -1,6 +1,7 @@
 package com.itwillbs.c5d2308t1.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +24,14 @@ public class StoreController {
 	@Autowired
 	private StoreService service;
 	
+	// 스토어 페이지 이동
 	@GetMapping("store")
 	public String store() {
 		
 		return "store/store_main";
 	}
 	
+	// 이벤트 페이지 이동
 	@GetMapping("event")
 	public String event() {
 		return "event/event_movie";
@@ -38,7 +41,7 @@ public class StoreController {
 	@GetMapping("storeDetail")
 	public String storeDetail(HttpSession session, String product_id, Model model, CartVO cart) {
 //		System.out.println("상품명 : " + product_id);
-		StoreVO store = service.selectTest(product_id); 
+		StoreVO store = service.selectStore(product_id); 
 //		System.out.println("출력값 : " + store);
 		
 		model.addAttribute("store", store);
@@ -50,7 +53,7 @@ public class StoreController {
 	
 	// 스토어 장바구니 매핑
 	@GetMapping("storeCart") 
-	public String storeCart(HttpSession session, Model model, MemberVO member, CartVO cart) {
+	public String storeCart(HttpSession session, Model model, MemberVO member, String product_id) {
 		String sId = (String)session.getAttribute("sId");
 		// 장바구니 담기를 위한 세션 아이디 판별
 		// 세션 아이디가 없을 경우
@@ -62,36 +65,64 @@ public class StoreController {
 		}
 		
 		// 멤버 VO 객체에 세션 아이디 저장
-		member.setMember_id(sId);
+		
 		
 		// 장바구니에 저장된 데이터
-		List<StoreVO> cartList = service.selectCart(member);
+		List<StoreVO> StoreList = service.myCartList(sId);
 		
-		System.out.println("");
+		System.out.println("카트리스트 : " + StoreList);
 		// 장바구니 비즈니스 로직(insert, update) 성공여부 확인을 위한 insertSuccess 변수 초기화
-		int cartDbSuccess = 0;
+		System.out.println("사이즈 : " + StoreList.size());
+		boolean isDuplicate = false;
 		
-		// 장바구니 판별 어떻게 해야할까???
-		if(cartList != null) {
-			cartDbSuccess = service.updateCart(member);
+//		if(StoreList.size() == 0) {
+//		System.out.println("테이블의 행이 없다 인설트를 하자");
+//		int cartDbSuccess = service.insertCart(sId, product_id);
+//		}
+		if(StoreList.size() > 0) {
+			for(StoreVO item : StoreList) {
+				if(item.getProduct_id().equals(product_id)){
+					isDuplicate = true;
+				} 
+			}
+		}
+		if(!isDuplicate) {
+			System.out.println("같은 값이 아니다 인설트를 하자");
+			int cartDbSuccess = service.insertCart(sId, product_id);
 		} else {
+			System.out.println("같은 값이다 업데이트를 하자");
 			// 장바구니 버튼 클릭 시 해당 상품 인설트 
-			cartDbSuccess = service.insertTest(member);
+			int cartDbSuccess = service.updateCart(sId, product_id);
 		}
+		// INSERT & UPDATE 처리 후 장바구니 내역 조회 후 입력
+		List<CartVO> cartList = service.resultCartList(sId);
 		
-//		System.out.println("내아이디 : " + member);
-		model.addAttribute("cartList", cartList);
+		// 나의 현재 장바구니 내역과, 상품 내역을 모두 담을 Map 객체 생성
+		Map<Object, Object> myCartList = new HashMap<Object, Object> ();
 		
-		if(cartDbSuccess > 0 ) {
-			return "store/store_cart";
-		} else {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			return "forward2";
-		}
+		// 나의 현재 장바구니 내역과, 상품 내역 저장
+		myCartList.put("myCartList1", cartList);
+		myCartList.put("myCartList2", StoreList);
+		
+		// 다시 저장된 Map 객체를 model 에 저장
+		model.addAttribute("cartList", myCartList);
+		
+		System.out.println("Map : " + myCartList);
+		System.out.println("Model : " + model);
+		
+		return "store/store_cart";
+//		if(cartDbSuccess > 0 ) {
+//			return "store/store_cart";
+//		} else {
+//			model.addAttribute("msg", "잘못된 접근입니다");
+//			return "forward2";
+//		}
+//		
 	}
+		
 	
 	@GetMapping("storeCart2")
-	public String storeCart2(MemberVO member, HttpSession session, Model model) {
+	public String storeCart2(HttpSession session, Model model) {
 		
 		String sId = (String)session.getAttribute("sId");
 		
@@ -104,14 +135,11 @@ public class StoreController {
 		
 		System.out.println("내 sId다 : " + sId);
 		
-		member.setMember_id(sId);
+		List<StoreVO> myCartList = service.myCartList(sId);
 		
-		System.out.println("다시 아이디 : " + member.getMember_id());
-		List<StoreVO> cartList = service.selectCart(member);
+		System.out.println("내정보다 : " + myCartList);
 		
-		System.out.println("내정보다 : " + cartList);
-		
-		model.addAttribute("cartList", cartList);
+		model.addAttribute("cartList", myCartList);
 		
 		return "store/store_cart";
 		

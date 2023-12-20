@@ -5,26 +5,45 @@
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.StoreMapper">
 	
 	<!-- 상세 페이지 조회를 위한 SELECT -->
-	<select id="selectPro" resultType="com.itwillbs.c5d2308t1.vo.StoreVO">
+	<select id="selectStorePro" resultType="store">
 		SELECT *
 		FROM products
 		WHERE product_id = #{product_id}
 	</select>
 	
-	<!-- 장바구니 에 상품을 담기위한 INSERT  -->
-	<insert id="insertTest">
+	<!-- 메인페이지 장바구니에 담긴 상품 판별 후 INSERT 처리  -->
+	<insert id="insertCart">
+		<selectKey keyProperty="product_price" resultType="int" order="BEFORE">
+			SELECT product_price
+			FROM products
+			WHERE product_id = #{product_id}
+		</selectKey>
+		
 		INSERT INTO carts VALUES(
 			null
-			,'P005'
-			, #{member_id}
-			,10000
-			,1
-			,now()
+			, #{product_id}
+			, #{sId}
+			, #{product_price}
+			, 1
 		)
 	</insert>
+	<!-- 메인 페이지 장바구니에 담겨있는 상품의 판별 후 UPDATE 처리 -->
+	<update id="updateCart">
+		UPDATE carts
+		SET product_count = product_count + 1
+		WHERE member_id = #{sId} 
+		AND product_id = #{product_id};
+	</update>
+	
+	<!-- 장바구니 판별 후 업데이트 된 CART테이블 조회 -->
+	<select id="resultCartList" resultType="cart">
+		SELECT *
+		FROM carts
+		WHERE member_id = #{sId}
+	</select>
 	
 	<!-- 장바구니에 담긴 상품을 조회 -->
-	<select id="selectCart" resultType="com.itwillbs.c5d2308t1.vo.StoreVO">
+	<select id="selectMyCartList" resultType="store">
 <!-- 		SELECT * -->
 <!-- 		FROM carts -->
 <!-- 		WHERE member_id = #{member_id} -->
@@ -34,33 +53,29 @@
 		WHERE c.member_id = #{member_id};
 	</select>
 	
-	<!-- 장바구니에 담겨있는 상품의 갯수 변경 -->
-	<update id="updateTest">
-		UPDATE carts
-		SET product_count = #{product_count} + 1
-		WHERE cart_id = 1;
-	</update>
 	
 	<!-- 단일 결제를 위한 SELECT 조회 -->
-	<select id="selectStore" resultType="com.itwillbs.c5d2308t1.vo.StoreVO">
+	<select id="selectStore" resultType="store">
 		SELECT *
 		FROM products
 		WHERE product_id = #{product_id}
 	</select>
 	
-	<select id="selectCart2" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
+	
+	
+	<select id="selectCart2" resultType="cart">
 		SELECT product_count, cart_id, cart_total_price
 		FROM carts
 		WHERE member_id = #{member_id}
 	</select>
 	
-	<select id="selectCart3" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
+	<select id="selectCart3" resultType="cart">
 		SELECT product_count
 		FROM carts
 		WHERE member_id = #{member_id}
 	</select>
 	
-	<select id="selectCart1" resultType="com.itwillbs.c5d2308t1.vo.CartVO">
+	<select id="selectCart1" resultType="cart">
 		SELECT product_count
 		FROM carts
 		WHERE product_count = #{product_count}

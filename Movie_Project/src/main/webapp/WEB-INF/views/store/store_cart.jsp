@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,6 @@
 
 <script type="text/javascript">
 $(function() {
-// 	let price = ${store.product_price};
 	let quantity = parseInt($("#quantity").val());
 	
 	/* - 클릭 시 상품 수량 감소 */
@@ -86,7 +86,7 @@ $(function() {
 							<table class="store_basket_table">
 								<tr>
 									<!-- 이미지와 상품정보 두칸 합치기 위해 상품명 colspan2 사용 -->
-									<th width="40px"><input type="checkbox"></th>
+									<th width="40px"><input type="checkbox" name="Allcheckbox" id="Allcheckbox"></th>
 									<th width="350px">상품명</th>
 									<th>판매금액</th>
 									<th>수량</th>
@@ -94,23 +94,23 @@ $(function() {
 									<th width="140px">선택</th>
 								</tr>
 								<c:choose>
-									<c:when test="${cartList ne null}">
-										<c:forEach var="store" items="${cartList}">
+									<c:when test="${not empty cartList }">
+										<c:forEach var="i" begin="1" end="${fn:length(cartList.myCartList1)}" >
 											<tr>
-												<td><input type="checkbox"></td>
+												<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
 												<!-- 상품 이미지 및 내용(패키지는 구성) -->
 												<td>
-													<img src="${store.product_img}">
-													<span>${store.product_name }</span>
+													<img src="${cartList.myCartList2[i-1].product_img}">
+													<span>${cartList.myCartList2[i-1].product_name }</span>
 												</td>
 												<!-- 상품에 등록된 판매 금액 -->
-												<td>${store.product_price }</td>
+												<td>${cartList.myCartList2[i-1].product_price }</td>
 												<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 												<td class="product_quantity">
-			<!-- 										<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
+			<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
 												<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
 												<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
-												<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="1" min="1" max="99" class="input-text" readonly>
+												<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="${cartList.myCartList1[i-1].product_count }" min="1" max="99" class="input-text" readonly>
 												<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
 													<input type="button" value="변경">
 			<!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->

@@ -6,5 +6,7 @@
 	<!-- 사용자 정의 패키지 앨리어스 지정 -->
 	<typeAliases>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.CsVO" alias="csvo"/>
+		<typeAlias type="com.itwillbs.c5d2308t1.vo.StoreVO" alias="store"/>
+		<typeAlias type="com.itwillbs.c5d2308t1.vo.CartVO" alias="cart"/>
 	</typeAliases>
 </configuration>
