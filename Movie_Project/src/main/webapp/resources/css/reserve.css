@@ -30,6 +30,14 @@
 /*     background-color: #c70711; */
 /* } */
 
+.RN{/*상영관 표시 할때 테두리 없게하는 설정*/
+	border: none;
+}
+
+#timeAreaNomalText{/*시간 영역에 ajax실행되기 전까지 표시될 내용의 높이 정렬*/
+	line-height: 300px;
+}
+
 .selected { 
   	background-color: #525252; 
   	color: white;
@@ -55,25 +63,20 @@
 
 #reserve_parameter>div{ /* 데이터 입력받는 버튼 크기 조절*/
 	border: 1px solid;
-	width:310px;
-	height:600px;
+	width:300px;
+	height:500px;
+	overflow-x:hidden; overflow-y:auto;
 }
 
-.overflow{ /* 데이터가 영역 밖으로 넘어가면 자동으로 스크롤 바 생성*/
-	overflow: auto;
-	display: inline-block;
+#reserve_parameter>div::-webkit-scrollbar { 
+	width: 7px; 
 }
-.overflow::-webkit-scrollbar {
-  width: 10px; /* 스크롤바의 너비 */
-  height: 20px;
+#reserve_parameter>div::-webkit-scrollbar-thumb {
+  background-color: #82817b; 
+  border-radius: 10px; 
 }
-.overflow::-webkit-scrollbar-thumb {
-  background-color: #82817b; /* 스크롤바 색상 */
-  border-radius: 10px; /* 스크롤바 모서리의 둥글기 */
-  height: 20px;
-}
-.overflow::-webkit-scrollbar-thumb:hover {
-  background-color: #de1010; /* 스크롤바에 마우스를 올렸을 때의 색상 */
+#reserve_parameter>div::-webkit-scrollbar-thumb:hover {
+  background-color: #de1010; 
 }
 
 .overflow b{ /* 제목에 대한 디자인 설정 (영화, 극장, 날짜, 시간)*/
@@ -84,33 +87,31 @@
 	height: 40px;
 	color: #fff;
 	font-size: 20px;
-	
 }
-
 
 .movie input,.theater input{ /* 버튼을 영역에 대한 크기 설정(영화, 극장)*/
 	width: 285px;
 	height: 50px;
 	border: none;
+	text-overflow: ellipsis;
 }
 
 .date{ /* 날짜 버튼 영역크기 설정(일부러 조금 작게 함) */
 	width:140px !important;
 }
 
-.date input{
+.date input{/*날짜버튼의 가로폭을 좁게*/
 	width: 135px;
 	height: 50px;
 	border: none;
-	
 }
 
-.time input{
+.time input{ /*상영시간 버튼을 작게 설정 한줄에 3개씩 들어올수 있게*/
 	height: 20px;
 	margin: 10px;
 }
 
-.room_name{
+.room_name{ /*상영관 테두리 없이 너비자동 설정*/
 	width: auto!important;
 	height: 50px!important;
 	border: none!important;
@@ -121,6 +122,14 @@
 }
 
 
+
+#end_param td{
+	text-align: center;
+	width: 150px;
+/* 	border-right: 1px solid #2f2f2d; */
+	border:2px solid #FF00FF;
+	height: 50px;
+}
 
 
 #end_param{
@@ -134,14 +143,15 @@
 	color:#fff;
 	height: 100px;
 	margin-bottom: 100px;
+	font-family: 'Tahoma','돋움',dotum,Nanum Gothic,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 
-#end_param td{
-	text-align: center;
-	width: 200px;
-	border-right: 2px solid;
-	height: 50px;
+
+#CGVParam tr{
+	height: 10px;
 }
 
 .btnsubmit{
@@ -203,24 +213,6 @@
 	text-align: center;
 }
 
-#end_param{
-	width:auto;
-	text-align: center;
-	align-items: center;
-	display: flex;
-	justify-content: center;
-	border:3px solid;
-	background-color: #1D1D1C;
-	color:#fff;
-	height: 100px;
-}
-
-#end_param td{
-	text-align: center;
-	width: 200px;
-	border-right: 1px solid #2f2f2d;
-	height: 50px;
-}
 
 #header_box {
 	margin-left: 100px;

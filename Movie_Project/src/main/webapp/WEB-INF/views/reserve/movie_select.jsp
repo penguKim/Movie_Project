@@ -13,28 +13,29 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
-		let ajaxCount=0;		
+		
+		let M,T,D = null;
 		$(".btnMovie").click(function(){
 			$('.btnMovie').removeClass('selected');
 			$(this).addClass('selected');
 			param();
-			ajaxCount++;
-			if(ajaxCount==3){ajax();}
+			M=1;
+			if((M+T+D)==6){ajax();}
 		});
 		
 		$(".btnTheater").click(function(){
 			$('.btnTheater').removeClass('selected');
 			$(this).addClass('selected');
 			param();
-			ajaxCount++;
-			if(ajaxCount==3){ajax();}
+			T=2;
+			if((M+T+D)==6){ajax();}
 		});
 		$(".btnDate").click(function(){
 			$('.btnDate').removeClass('selected');
 			$(this).addClass('selected');
 			param();
-			ajaxCount++;
-			if(ajaxCount==3){ajax();}
+			D=3;
+			if((M+T+D)==6){ajax();}
 		});
 		function ajax(){
 			$.ajax({
@@ -46,7 +47,10 @@
 				},
 				dataType: "json",
 			    success: function(data) {
+			    	alert("ajax연결 성공!")
 			    	console.log(data)
+			    	// 이전에 있던 데이터 제거
+			    	$(".overflow.time").html("<b>시간</b>");
 			    	let roomNameArr = [];
 			    	//선택한 영화, 극장, 날짜의 상영관 배열생
 			    	for(let rName of data){
@@ -55,7 +59,7 @@
 			    	//상영관이 동일한 스케줄의 중복 제거를 위한 Set객체 사용
 			    	let uniqueData = new Set(roomNameArr);
 					for(let rName of uniqueData){
-				    	$(".overflow.time").append("<input type ='button' value="+ rName +" class='room_name_"+rName+"'>"+"<div class='"+rName+"'></div>");
+				    	$(".overflow.time").append("<input type ='button' value="+ rName +" class='RN room_name_"+rName+"'>"+"<div class='"+rName+"'></div>");
 					}
 					for(let pTime of data){
 						if(pTime.room_name == 'IMAX관'){
@@ -76,7 +80,6 @@
 						$('.btnTime').removeClass('selected');
 						$(this).addClass('selected');
 						param();
-						ajaxCount++;
 					});
 					
 			    }//success end
@@ -94,10 +97,10 @@
 		    // 선택된 데이터를 표시
 		    var tableCells = $('#end_param td');
 		    tableCells[0].textContent = selectMovieValue;
-		    tableCells[1].textContent = selectTheaterValue;
-		    tableCells[2].textContent = selectDateValue;
-		    tableCells[3].textContent = selectRoomValue;
-		    tableCells[4].textContent = selectTimeValue;
+		    var CGVParamCells = $('#CGVParam td');
+		    CGVParamCells[0].textContent = selectTheaterValue;
+		    CGVParamCells[1].textContent = selectDateValue + selectTimeValue;
+		    CGVParamCells[2].textContent = selectRoomValue;
 		    
 			// selectedValues의 각 속성을 각각의 hidden input 태그에 설정
 			$("#movie_title").val(selectMovieValue); 
@@ -146,6 +149,7 @@
 							</c:forEach>
 						</div> 
 						<div class="overflow time"><b>시간</b> 
+							<p id ="timeAreaNomalText">영화, 극장, 날짜를 선택해주세요.</p>
 						</div>
 				</div>
 			</article>
@@ -155,10 +159,14 @@
 				<table id="end_param">
 					<tr>
 						<td>영화선택</td>
-						<td>극장선택</td>
-						<td>날짜선택</td>
-						<td>극장선택</td>
-						<td>시간선택</td>
+						<td>
+								극장<br>
+								일시<br>
+								상영관<br>
+								인원<br>
+						</td>
+						<td><img src="${pageContext.request.contextPath }/resources/img/화살표2.png" width="25px" height="25px">좌석선택</td>
+						<td>결제</td>
 						<td>
 							<form action="seat_select" method="post">
 							    <input type="hidden" name="movie_title" id="movie_title" value="">
