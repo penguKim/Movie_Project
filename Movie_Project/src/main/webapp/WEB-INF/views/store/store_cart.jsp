@@ -27,40 +27,25 @@ $(function() {
 	/* - 클릭 시 상품 수량 감소 */
 	/* 1 이하로 수량 감소 불가 */
 	$("#minus").on("click", function() {
-		
+// 		alert("마이너스");
 		if(quantity > 1) {
 			quantity -= 1;
 			$("#quantity").val(quantity);
-			/* 수량 감소시 함수 호출 */
-			updateTotalPrice();
-		} else {
-//				alert("수량이 1보다 커야합니다");
-		}
+		} 
 	});
 	
 	/* + 클릭 시 상품 수량 증가 */
 	/* 100 이상으로 증가 불가 */
 	$("#plus").on("click", function() {
-		
+// 		alert("플러스");
 		if(quantity < 99) {
 			quantity += 1;
 			$("#quantity").val(quantity);
-			/* 수량 증가시 함수 호출 */
-			updateTotalPrice();
 		} else {
 			alert("최대 수량입니다");
 		}
 	});
 	
-	/* 수량 변경시 totalPrice 액수 변경 */
-	function updateTotalPrice() {
-		let totalPrice = price * quantity;
-		$("#sum").html("총 금액 : <b>" + totalPrice + "원</b>");
-	} 
-	
-	<%-- 토탈 금액 및 금액에서 , 찍어야함 --%>
-	/* 수량 변경 없을 경우 현재 total 값 */
-// 	updateTotalPrice();
 	
 });
 </script>		
@@ -108,16 +93,16 @@ $(function() {
 												<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 												<td class="product_quantity">
 			<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
-												<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
+												<button type="button" id="minus-${i}" class="btn_minus" title="수량감소">-</button>
 												<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
 												<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="${cartList.myCartList1[i-1].product_count }" min="1" max="99" class="input-text" readonly>
-												<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
+												<button type="button" id="plus-${i}" class="btn_minus" title="수량증가">+</button>
 													<input type="button" value="변경">
 			<!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->
 												</td>
 												<!-- 구매금액 -->
 												<!-- 판매 금액 + 선택된 수량 합산 금액 -->
-												<td>10,000원</td>
+												<td>${cartList.myCartList1[i-1].cart_total_price }원</td>
 												<!-- 선택 -->
 												<td>
 												<!-- 바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->

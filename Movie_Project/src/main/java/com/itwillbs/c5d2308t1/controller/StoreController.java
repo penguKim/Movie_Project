@@ -67,18 +67,18 @@ public class StoreController {
 		// 멤버 VO 객체에 세션 아이디 저장
 		
 		
-		// 장바구니에 저장된 데이터
+		// 장바구니에 저장된 데이터 즉, 나의 현재 장바구니 내역
 		List<StoreVO> StoreList = service.myCartList(sId);
 		
 		System.out.println("카트리스트 : " + StoreList);
 		// 장바구니 비즈니스 로직(insert, update) 성공여부 확인을 위한 insertSuccess 변수 초기화
 		System.out.println("사이즈 : " + StoreList.size());
+		
+		// 장바구니 내역 유무 및 DB작업 판별을 위한 boolean 타입 변수 선언
 		boolean isDuplicate = false;
 		
-//		if(StoreList.size() == 0) {
-//		System.out.println("테이블의 행이 없다 인설트를 하자");
-//		int cartDbSuccess = service.insertCart(sId, product_id);
-//		}
+		// 장바구니의 행 갯수가 하나라도 있는 경우
+		// 장바구니안의 상품id 값을 비교 해서 isDuplicate = true
 		if(StoreList.size() > 0) {
 			for(StoreVO item : StoreList) {
 				if(item.getProduct_id().equals(product_id)){
@@ -86,6 +86,8 @@ public class StoreController {
 				} 
 			}
 		}
+		// isDuplicate = true 이면 해당하는 상품이 테이블에 존재하므로 UPDATE로 수량 증가
+		// isDuplicate = false 이면 해당하는 상품이 테이블에 존재하하지 않으므로 INSERT로 상품 추가
 		if(!isDuplicate) {
 			System.out.println("같은 값이 아니다 인설트를 하자");
 			int cartDbSuccess = service.insertCart(sId, product_id);
