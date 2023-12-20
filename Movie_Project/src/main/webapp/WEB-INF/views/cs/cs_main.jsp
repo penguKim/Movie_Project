@@ -70,7 +70,7 @@
 									자주묻는질문 없음
 								</c:when>
 								<c:otherwise>
-									<c:forEach begin="0" end="4" var="faq" items="${faqMainist}">
+									<c:forEach begin="0" end="4" var="faq" items="${faqMainList}">
 										<li><a href="csFaq?cs_type_list_num=${faq.cs_type_list_num}">${faq.cs_subject}</a></li> <%-- 자주묻는질문 상위 5개만 보여주기 --%>
 									</c:forEach>
 								</c:otherwise>

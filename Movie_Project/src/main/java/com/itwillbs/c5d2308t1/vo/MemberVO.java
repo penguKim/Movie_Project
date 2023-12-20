@@ -2,6 +2,7 @@ package com.itwillbs.c5d2308t1.vo;
 
 import java.sql.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /*
