@@ -43,7 +43,6 @@ public class StoreController {
 		
 		model.addAttribute("store", store);
 		
-		
 		model.addAttribute("product_id", store.getProduct_id());
 		
 		return "store/store_detail";
