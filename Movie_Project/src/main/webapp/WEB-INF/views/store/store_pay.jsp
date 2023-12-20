@@ -11,7 +11,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 </head>
 <script>
-	// 선택된 라디오 버튼 이외의 다른 라디오 버튼을 선택 해제하는 함수
+	// 선택된 라디오 버튼 이외의 다른 라디오 버튼을 선택 해제
 	function check(checkedRadio) {
 	// name이 'radiocheck'인 모든 라디오 버튼을 가져옴
 	  var radio = document.getElementsByName('radiocheck');
@@ -22,24 +22,22 @@
     }
   }
 }
-	
+	// 약관 동의 체크박스 부분 처리
 	function checkAll() {
 	  var Checkbox = document.querySelector('.store_pay_info_check input[type="checkbox"]');
 	  var Checkboxes = document.querySelectorAll('.store_pay_info_group input[type="checkbox"]');
 	  
-	  // 부모 체크박스의 상태에 따라 하위 체크박스들의 상태를 변경합니다.
 	  for (var i = 0; i < Checkboxes.length; i++) {
 	    Checkboxes[i].checked = Checkbox.checked;
 	  }
 	}
-
+	// 아래쪽 약관 동의 체크박스 부분 처리
 	function checkAll2() {
-		  var parentCheckbox = document.querySelector('.info02 input[type="checkbox"]');
-		  var childCheckboxes = document.querySelectorAll('.info02 input[type="checkbox"]:not(:first-child)');
+		  var Checkbox2 = document.querySelector('.info02 input[type="checkbox"]');
+		  var Checkboxes2 = document.querySelectorAll('.info02 input[type="checkbox"]:not(:first-child)');
 		  
-		  // 부모 체크박스의 상태에 따라 하위 체크박스들의 상태를 변경합니다.
-		  for (var i = 0; i < childCheckboxes.length; i++) {
-		    childCheckboxes[i].checked = parentCheckbox.checked;
+		  for (var i = 0; i < Checkboxes2.length; i++) {
+		    Checkboxes2[i].checked = Checkbox2.checked;
 		  }
 		}
 	
@@ -56,11 +54,11 @@
 			<h1 id="h01">결제하기</h1>
 			<hr>
 			<div class="store_progress">
-				<div id="prog_img"><img src="../img/cart1.png"></div><div><span class="step">STEP 01</span><br>장바구니</div>
+				<div id="prog_img"><img src="${pageContext.request.contextPath}/resources/img/cart1.png"></div><div><span class="step">STEP 01</span><br>장바구니</div>
 				<div> <span class="bracket"> > </span></div>
-				<div id="prog_img"><img src="../img/pay2.png"></div><div id="progress_red"><span class="step">STEP 02</span><br>결제하기</div>
+				<div id="prog_img"><img src="${pageContext.request.contextPath}/resources/img/pay2.png"></div><div id="progress_red"><span class="step">STEP 02</span><br>결제하기</div>
 				<div> <span class="bracket"> > </span> </div>
-				<div id="prog_img"><img src="../img/finish1.png"></div><div><span class="step">STEP 03</span><br>결제완료</div>
+				<div id="prog_img"><img src="${pageContext.request.contextPath}/resources/img/finish1.png"></div><div><span class="step">STEP 03</span><br>결제완료</div>
 			</div>
 			
 			<!-- 구매 상품 정보 테이블 -->
@@ -103,9 +101,9 @@
 						<c:forEach var="store" items="${storeList }">
 						<tr class="store_table_box04">
 							<td> ${store.product_price * param.product_count}원 </td>
-							<td><img src="../img/-.png" width="35px" height="35px"></img> </td>
+							<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
 							<td></td>
-							<td><img src="../img/=.png" width="35px" height="35px"></img></td>
+							<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
 							<td class="table_box_red"> ${store.product_price * param.product_count} 원</td>
 						</tr>
 						</c:forEach>
