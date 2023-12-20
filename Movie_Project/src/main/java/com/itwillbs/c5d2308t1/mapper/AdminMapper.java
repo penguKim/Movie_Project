@@ -8,14 +8,31 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 
 @Mapper
 public interface AdminMapper {
 
+	// ================ 영화 관리 게시판 ================
+	// 영화 DB 등록
+	int insertMovies(Map<String, Object> map);
+	
+	// 영화 DB 수정
+	int updateMovies(MoviesVO movie);
+	
+	// 하나의 영화 정보 조회
+	MoviesVO selectMovie(MoviesVO movie);
+	
+	// 페이징 처리를 위한 게시물 개수 조회 작업
+	int selectMovieListCount(String searchKeyword);
+	
+	// 한 페이지에 표시할 영화 목록 조회 작업
+	List<MoviesVO> selectMovieList(@Param("searchKeyword") String searchKeyword, @Param("page") PageDTO page);
+	
 	// ================ 분실물 게시판 ================
 	// 분실물 문의 관리 게시판 조회 작업
-//	List<CsVO> selectLostnfoundList(@Param(value = "startRow") int startRow, @Param(value = "listLimit")int listLimit);
 	List<HashMap<String, Object>> selectLostnfoundList(PageDTO page);
 
 	// 분실문 문의 관리 게시판 상세 조회 작업
@@ -29,5 +46,20 @@ public interface AdminMapper {
 
 	// 분실물 페이징 처리를 위한 게시물 개수 조회 작업
 	int selectLostnfoundListCount();
+	
+	// ================ 회원 관리 게시판 ================
+	
+	// 회원 관리 게시판 페이징 처리를 위한 게시물 개수 조회 작업
+	int selectMemberListCount(@Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
+
+	// 회원 관리 게시판 한 페이지에 표시할 회원 조회
+	List<MemberVO> selectMemberList(@Param("searchType") String searchType, 
+					@Param("searchKeyword") String searchKeyword, @Param("page") PageDTO page);
+
+	// 회원 한명의 정보 조회
+	MemberVO selectMember(MemberVO member);
+	
+	// 회원 정보 수정 작업
+	int updatememberModOrDlt(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
 
 }

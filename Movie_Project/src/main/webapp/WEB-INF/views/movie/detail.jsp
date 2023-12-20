@@ -37,15 +37,15 @@
 					<div class="info_title">
 						<span class="detail_title">${movie_title }</span>
 						<ul>
-							<li><span>기본 정보 : </span> 국가 | 상영시간 | 장르</li>
-							<li><span>개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;봉 : 	</span> 날짜 </li>
-							<li><span>감&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;독 : </span> 감독명</li>
-							<li><span>등&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;급 : </span> 상영등급</li>
+							<li><span>기본 정보 : </span> ${movie_nation } | ${movie_runtime}분 | ${movie_genre }</li>
+							<li><span>개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;봉 : 	</span> ${movie_release_date } </li>
+							<li><span>감&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;독 : </span> ${movie_director }</li>
+							<li><span>등&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;급 : </span> ${movie_rating }</li>
 						</ul>
-						<div class="detail_reserve_clear">
-							<a href="movie_select">
-								<input type="button" value="예매하기"></a>
-						</div>
+					</div>
+					<div class="detail_reserve_clear">
+						<a href="movie_select">
+							<input type="button" value="예매하기"></a>
 					</div>
 				</div>
 				<hr>

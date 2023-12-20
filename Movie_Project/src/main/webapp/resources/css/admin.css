@@ -178,18 +178,27 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 #admin_member{
 	color: black;
 	background-color: #FFCCCC; /* 회원일때 색깔 */
+	padding: 2px 3px;
+	border-radius: 2px;
+	font-size: 15px;
 }
 #admin_Bmember{
 	color: black;
 	background-color: #E0E0E0; /* 비회원일때 색깔 */
+	padding: 2px 3px;
+	border-radius: 2px;
+	font-size: 15px;
 }
 #admin_Cmember{
 	color: black;
 	background-color: #CCCCFF; /* 탈퇴 일때 색깔 */
+	padding: 2px 3px;
+	border-radius: 2px;
+	font-size: 15px;
 }
 
 
-#movie_update, #schedule_search, #pay_Search, #member_Search, #review_Search {
+#movie_update, #schedule_search, #pay_Search, #member_Search, #review_Search, #movie_Search {
 	text-align: right;
 	margin-bottom: 20px;
 }
@@ -204,6 +213,8 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 /* Pagination links */
 .pagination {
 	padding:20px 0 100px 250px;
+/* 	padding:50px 0; */
+/* 	margin-top: 50px; */
 	text-align: center;
 }
 

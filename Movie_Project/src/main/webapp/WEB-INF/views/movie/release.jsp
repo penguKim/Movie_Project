@@ -9,18 +9,6 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
-<style type="text/css">
-	/* video 태그의 영상 12-17 추가 */
-	/* div 영역 z-index 수정 필요 */
-.trailer {
-	position: absolute;
-	top: 130px;
-	left: 0;
-	z-index: 100;
-	width: 100%;
-	height: auto;
-}
-</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -47,6 +35,20 @@
 					<c:forEach var="movie" items="${movieList}">
 						<div class="movie">
 							<a href="detail?movie_id=${movie.movie_id}">
+							<c:choose>
+								<c:when test="${movie.movie_rating eq '12세' }">
+									<b class="movie-rating age12">12</b>
+								</c:when>
+								<c:when test="${movie.movie_rating eq '15세' }">
+									<b class="movie-rating age15">15</b>
+								</c:when>
+								<c:when test="${movie.movie_rating eq '18세' }">
+									<b class="movie-rating age18">18</b>
+								</c:when>
+								<c:when test="${movie.movie_rating eq '전체' }">
+									<b class="movie-rating ageAll">ALL</b>
+								</c:when>
+							</c:choose>
 							<div class="movie-poster">
 								<div class="poster">
 									<img alt="" src="${movie.movie_poster }">
@@ -55,7 +57,7 @@
 									<p class="title">${movie.movie_title }</p>
 								</div>
 							</div>
-								<p class="date">${movie.movie_release_date }</p>
+								<p class="date">${movie.movie_release_date } 개봉</p>
 							</a>
 							<div class="reserve_area">
 								<a href="movie_select" class="rel_reservBtn">

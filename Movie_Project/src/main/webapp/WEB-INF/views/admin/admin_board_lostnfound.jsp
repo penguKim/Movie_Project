@@ -11,6 +11,7 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
 		
@@ -56,10 +57,10 @@
 							<td>${lnf.cs_date }</td>
 							<c:choose>
 								<c:when test="${empty lnf.cs_reply }">
-									<td><a href="adminLostNFoundResp?cs_id=${lnf.cs_id }&pageNum=${pageNum}">답변등록</a></td>
+									<td><a href="adminLostNFoundResp?cs_id=${lnf.cs_id }&pageNum=${pageNum}" id="admin_member">답변등록</a></td>
 								</c:when>
 								<c:otherwise>
-									<td><a href="adminLostNFoundResp?cs_id=${lnf.cs_id }&pageNum=${pageNum}">등록완료</a></td>
+									<td><a href="adminLostNFoundResp?cs_id=${lnf.cs_id }&pageNum=${pageNum}"id="admin_Cmember">등록완료</a></td>
 								</c:otherwise>
 							</c:choose>
 						</tr>

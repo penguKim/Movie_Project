@@ -1,6 +1,8 @@
 package com.itwillbs.c5d2308t1.controller;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -12,7 +14,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.AdminService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
@@ -66,8 +72,10 @@ public class AdminController {
 
 	// =============================================================
 	@PostMapping("movieRgst") // 영화 등록 팝업 : admin_movie_update.jsp
-	public String movieRgst() {
-		return "";
+	public String movieRgst(@RequestParam Map<String, Object> map) {
+		int insterCount = service.registMovie(map);
+		
+		return "redirect:/adminMovie";
 	}
 	
 	@PostMapping("movieSchedule") // 상영일정 관리 메인 : admin_movie_schedule.jsp
@@ -93,13 +101,12 @@ public class AdminController {
 	// 분실물 문의 등록
 	@PostMapping("boardLostnfoundRgst") // 분실물문의 답변 등록 : admin_board_lostnfound_response.jsp
 	public String boardLostnfoundRgst(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
-		System.out.println("넘어온 정보" + cs);
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
+		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		
+		// 분실물 문의 답변 등록 작업
 		int updateCount = service.LostnfoundReply(cs);
 		
 		if(updateCount > 0) {
@@ -112,8 +119,22 @@ public class AdminController {
 	}
 	
 	@PostMapping("movieMod") // 영화 정보 수정 팝업 : admin_movie_modify.jsp
-	public String movieMod() {
-		return "";
+	public String movieMod(@RequestParam(defaultValue = "1") int pageNum, MoviesVO movie, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		// 영화 DB 수정
+		int updateCount = service.modifyMovie(movie);
+		
+		if(updateCount > 0) {
+			model.addAttribute("pageNum", pageNum);
+			return "redirect:/adminMovie";
+		} else {
+			model.addAttribute("msg", "수정에 실패했습니다!");
+			return "fail_back";
+		}
 	}
 	
 	@PostMapping("movieBooking") // 영화 예매 팝업(수정/삭제) : admin_movie_booking_modify.jsp
@@ -122,8 +143,31 @@ public class AdminController {
 	}
 	
 	@PostMapping("memberModOrDlt") // 회원정보 상세(회원) : admin_member_modify.jsp
-	public String memberModOrDlt() {
-		return "";
+	public String memberModOrDlt(@RequestParam(defaultValue = "1") int pageNum, MemberVO member, String newPasswd, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		if(sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals(""))) {
+			member.setMember_id(sId);
+		}
+		
+		// 새 비밀번호가 있을 경우 암호화 처리
+		BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
+		if(newPasswd != null && !newPasswd.equals("")) {
+			newPasswd = passwoedEncoder.encode(newPasswd);
+		}
+		// 회원 정보 수정 및 탈퇴 작업
+		int updateCount = service.memberModOrDlt(member, newPasswd);
+		
+		if(updateCount > 0) {
+			return "redirect:/adminMember?pageNum=" + pageNum;
+		} else {
+			model.addAttribute("msg", "수정에 실패했습니다!");
+			return "fail_back";
+		}
 	}
 	
 	@PostMapping("boardFaqModOrDlt") // 자주 묻는 질문 상세조회/수정 : admin_board_faq_modify.jsp
@@ -138,7 +182,10 @@ public class AdminController {
 	
 	
 	@PostMapping("memberDlt") // 회원 정보 관리 메인(탈퇴, 비회원) : admin_member.jsp
-	public String memberDlt() {
+	public String memberDlt(MemberVO member, HttpSession session, Model model) {
+		
+		
+		
 		return "";
 	}
 	
@@ -147,11 +194,11 @@ public class AdminController {
 	public String boardLostnfoundDlt(CsVO cs, HttpSession session, Model model) {
 		System.out.println("넘어온 정보" + cs);
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
+		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		
+		// 분실물 문의 답변 삭제 작업 요청
 		int updateCount = service.lostnfoundDlt(cs);
 		
 		if(updateCount > 0) {
@@ -171,20 +218,61 @@ public class AdminController {
 	// =============================== 단순 이동 서블릿 매핑 =================================
 	// 관리자페이지 영화 정보 관리 페이지로 이동
 	@GetMapping("adminMovie")
-	public String adminMovie() {
+	public String adminMovie(@RequestParam(defaultValue = "") String searchKeyword, 
+						     @RequestParam(defaultValue = "1") int pageNum, 
+						     MemberVO member, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 5);
+		// 전체 게시글 갯수 조회
+		int listCount = service.getMovieListCount(searchKeyword);
+		System.out.println(listCount);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		// 한 페이지에 불러올 영화 목록 조회
+		List<MoviesVO> movieList = service.getMovieList(searchKeyword, page);
+		
+		model.addAttribute("movieList", movieList);
+		model.addAttribute("pageInfo", pageInfo);
 		return "admin/admin_movie";
 	}
 
 	// 관리자페이지 영화 정보 등록 페이지로 이동
 	@GetMapping("adminMovieUdt")
-	public String adminMovieUdt() {
+	public String adminMovieUdt(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
 		return "admin/admin_movie_update";
 	}
 
 	// 관리자페이지 영화 정보 수정 페이지로 이동
 	@GetMapping("adminMovieMod")
-	public String adminMovieMod() {
-		return "admin/admin_movie_modify";
+	public String adminMovieMod(@RequestParam(defaultValue = "1") int pageNum, 
+							MoviesVO movie, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		MoviesVO dbMovie = service.getMovie(movie);
+		
+		if(dbMovie != null) {
+			model.addAttribute("movie", dbMovie);
+			model.addAttribute("pageNum", pageNum);
+			return "admin/admin_movie_modify";
+		} else {
+			model.addAttribute("msg", "수정에 실패했습니다!");
+			return "fail_back";
+		}
 	}
 	
 	// 관리자페이지 영화 상영 일정 관리 페이지로 이동
@@ -219,13 +307,50 @@ public class AdminController {
 	
 	// 관리자페이지 회원정보 관리 페이지로 이동
 	@GetMapping("adminMember")
-	public String adminMember() {
+	public String adminMember(@RequestParam(defaultValue = "") String searchType,
+							  @RequestParam(defaultValue = "") String searchKeyword, 
+							  @RequestParam(defaultValue = "1") int pageNum, 
+							  MemberVO member, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 5);
+		// 전체 게시글 갯수 조회
+		int listCount = service.getMemberListCount(searchType, searchKeyword);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		// 한 페이지에 표시할 회원 목록 조회
+		List<MemberVO> memberList = service.getMemberList(searchType, searchKeyword, page);
+		
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("pageInfo", pageInfo);
+		
 		return "admin/admin_member";
 	}
 	
 	// 관리자페이지 회원정보 상세 조회 및 수정/삭제 페이지로 이동
 	@GetMapping("adminMemberMod")
-	public String adminMemberMod() {
+	public String adminMemberMod(@RequestParam(defaultValue = "1") int pageNum, MemberVO member, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		if(!sId.equals("admin") || sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals(""))) {
+			member.setMember_id(sId);
+		}
+		
+		MemberVO dbMember = service.getMember(member); 
+		// input[type=date] 입력을 위한 처리
+		dbMember.setMember_birth(dbMember.getMember_birth().replace(".", "-"));
+		
+		model.addAttribute("member", dbMember);
+		
 		return "admin/admin_member_modify";
 	}
 	
@@ -281,9 +406,8 @@ public class AdminController {
 	// 파라미터로 pageNum을 넘겨주고 파라미터가 없을 경우 기본값으로 1을 넘겨줍니다.
 	@GetMapping("adminLostNFound")
 	public String adminLostNFound(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
-		
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
+		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
@@ -314,7 +438,7 @@ public class AdminController {
 	@GetMapping("adminLostNFoundResp")
 	public String adminLostNFoundResp(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
+		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}

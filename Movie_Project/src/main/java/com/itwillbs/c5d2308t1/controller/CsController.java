@@ -283,7 +283,7 @@ public class CsController {
 	// 고객센터 메인 페이지로 이동
 	@PostMapping("csBoardPro")
 	public String csBoardPro(CsVO cs, Model model, HttpServletRequest request, HttpSession session) {
-
+System.out.println(cs);
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg", "로그인이 필요합니다");
 			// targetURL 속성명으로 로그인 폼 페이지 서블릿 주소 저장
@@ -330,6 +330,7 @@ public class CsController {
 		// CsService - registMember() 메서드 호출하여 문의글 등록 요청
 		// => 파라미터 : CsVO 객체   리턴타입 : int(insertCount)
 		int insertCount = service.registBoard(cs);
+		System.out.println(cs.getTheater_id());
 		
 		// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)
 		// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장

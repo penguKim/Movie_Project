@@ -122,7 +122,7 @@
 			, #{member_id}
 			<choose>
 				<when test="theater_id != 0">
-					, theater_id = #{theater_id}
+					, #{theater_id}
 				</when>
 				<otherwise>
 					, theater_id = null		

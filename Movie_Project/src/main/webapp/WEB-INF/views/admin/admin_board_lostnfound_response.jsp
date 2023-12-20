@@ -12,11 +12,56 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
+		let msg="";
+		
 		if($("#cs_reply").attr("placeholder") == "") {
-		$("#regist").val("답변 등록");
+			$("#regist").val("답변 등록");
+			msg = "답변을 등록하시겠습니까?";
 		} else {
-		$("#regist").val("답변 수정");
+			$("#regist").val("답변 수정");
+			msg = "답변을 수정하시겠습니까?";
 		}
+		
+// 		$("#delete").on("submit", function() {
+// 			let result = confirm("답변을 삭제하시겠습니까?");
+// 			if(result) {
+// 				return true;
+// 			} else {
+// 				return false;
+// 			}
+// 		});
+// 		$("#regist").click(function(){
+
+// 	        if($("#cs_reply").val == '') {
+// 	        	alert("답변을 등록해주세요!");
+// 	        	$("#cs_reply").focus();
+// 	        } else if(!confirm(msg)){
+// 	            return false;
+// 		});
+		
+// 	    $('#delete').click(function(){
+// 	        if(!confirm("답변을 삭제하시겠습니까?")){
+// 	            return false;
+// 	        }
+// 	    });
+	    
+	    $("#regist").onclick = function() {
+	        // "cs_reply"의 내용이 비어 있다면
+	        if ($("#cs_reply").val() == "") {
+	            // 확인창을 띄웁니다.
+	            alert("답변 내용을 입력하세요.");
+	            // 'submit' 이벤트를 취소합니다.
+	            return false;
+	        } else {
+	            // "cs_reply"의 내용이 있다면 confirm 창을 띄웁니다.
+	            return confirm("정말로 등록하시겠습니까?");
+	        }
+	    }
+	    
+		
+// 		function delete() {
+			
+// 		}
 	});
 </script>
 
@@ -36,7 +81,6 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_sub">
-			
 				<form action="" method="post">
 				<%-- 판별식을 이용해 action 속성값 변경할 예정 --%>
 <!-- 				<form action="boardRgst" method="post"> -->
@@ -74,10 +118,10 @@
 							<th>사진 첨부</th>
 							<td><input type="file"></td>
 						</tr>
-						<tr>
-							<th>답변 제목</th>
-							<td><input type="text" placeholder="제목을 입력하세요." size="80"></td>
-						</tr>
+<!-- 						<tr> -->
+<!-- 							<th>답변 제목</th> -->
+<!-- 							<td><input type="text" placeholder="제목을 입력하세요." size="80"></td> -->
+<!-- 						</tr> -->
 						<tr>
 							<th>답변 작성자</th>
 							<td>${sId }</td>
@@ -89,7 +133,6 @@
 						</tr>
 					</table>
 					<div id="admin_writer"> 
-						<input type="hidden" name="fileName" value="admin_board_lostnfound_response">	
 						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
 						<!-- formaction 속성을 추가하여 버튼 클릭 시 해당 서블릿 주소를 요청한다. -->

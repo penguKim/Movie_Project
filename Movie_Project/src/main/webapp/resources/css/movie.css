@@ -100,6 +100,40 @@
     max-height: 100%;
 }
 
+/* 관람 등급 */
+.movie-rating {
+	position: relative;
+	top: 25px;
+	right: 80px;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #ffffff;
+}
+
+/* 12세 관람가 */
+.age12 {
+	padding: 2px 3px;
+	background-color: #E9B62F; /* 배경색 지정 */
+}
+/* 15세 관람가 */
+.age15 {
+	padding: 2px 3px;
+	background-color: #DD742F; /* 배경색 지정 */
+}
+/* 18세 관람가 */
+.age18 {
+	padding: 2px 3px;
+	background-color: #FF4357; /* 배경색 지정 */
+}
+/* 전체 관람가 */
+.ageAll {
+	font-size: 12px;
+	padding: 3px 1px;
+	background-color: #29A655; /* 배경색 지정 */
+}
+
+
+
 /* 상영작 항목의 제목 */
 .movie title {
     color: inherit; /* 링크의 색상 제거 */
@@ -162,8 +196,8 @@
 .info_title {
 	text-align: justify; /* 양쪽 정렬 */
 	position: relative;
-	left: 70px;
-	width: 500px;
+	left: 350px;
+	width: 800px;
 	height: 300px;
 	display: inline-block;
 }
@@ -187,7 +221,8 @@
 
 .detail_reserve_clear {
 	position: relative;
-	top: 100px;
+	bottom: 130px;
+	left: 450px;
 	width: 100px;
 }
 
@@ -275,6 +310,15 @@
 	margin: 20px auto;
 	padding: 10px;
 }
+/* 트레일러 */
+.trailer {
+	position: absolute;
+	top: 130px;
+	left: 0;
+/* 	z-index: 100; */
+	width: 100%;
+	height: auto;
+}
 
 /* 리뷰 */
 .review {
@@ -326,7 +370,7 @@
 
 #movie_story, #movie_trailer, #movie_cut {
 	padding-top: 50px;
-	z-index: -1;
+	z-index: 0;
 	position: relative;
 }
 

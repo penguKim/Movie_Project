@@ -105,6 +105,11 @@ public class MoviesController {
 		
 		// DB에 저장된 영화정보를 HashMap 객체의 List로 리턴
 		List<HashMap<String, String>> movieList = movie.getMovieList();
+		// 상영작 페이지의 관람등급 표시를 위해 문자열 추출
+		for(HashMap<String, String> movie : movieList) {
+			movie.put("movie_rating", movie.get("movie_rating")
+					.substring(0, movie.get("movie_rating").indexOf("관")));
+		}
 		map.put("movieList", movieList);
 		
 		ModelAndView mav = new ModelAndView("movie/release", map);
