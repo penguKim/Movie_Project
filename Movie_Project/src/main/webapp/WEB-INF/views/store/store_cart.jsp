@@ -42,7 +42,7 @@ function quan_change(index) {
 	$.ajax({
 		url: "cartQuanUpdate",
 		data: {
-			product_count: product_count
+			product_count: product_count,
 			product_id: product_id
 		},
 		success: function() {
@@ -103,6 +103,7 @@ $(function() {
 								<c:choose>
 									<c:when test="${not empty cartList }">
 										<c:forEach var="i" begin="0" end="${fn:length(cartList.myCartList1)-1}" >
+											<c:set var="cart_total_price" value="${cart_total_price + cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }"/>
 											<input type="hidden" id="product_id${i}" name="product_id" value="${cartList.myCartList2[i].product_id}">
 											<tr>
 												<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
@@ -125,7 +126,7 @@ $(function() {
 												</td>
 												<!-- 구매금액 -->
 												<!-- 판매 금액 + 선택된 수량 합산 금액 -->
-												<td>${cartList.myCartList1[i].cart_total_price }원</td>
+												<td>${cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }원</td>
 												<!-- 선택 -->
 												<td>
 												<!-- 바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
@@ -164,22 +165,24 @@ $(function() {
 							<div class="store_subject">결제금액</div>
 							<table class="store_sum_table">
 								<tr class="store_table_box03">
-									<th>총 상품 금액</th>
-									<th></th>
-									<th>할인금액</th>
-									<th></th>
-									<th>총 결제 예정금액</th>
+											<th>총 상품 금액</th>
+											<th></th>
+											<th>할인금액</th>
+											<th></th>
+											<th>총 결제 예정금액</th>
 								</tr>
 								<tr class="store_table_box04">
 									<!-- 선택된 모든 상품의 가격과 갯수의 합산된 금액 자동 입력-->
-									<td> 10,000원 </td>
+									<td>
+										${cart_total_price}원
+									 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/-.png" width="35px" height="35px"></img> </td>
 									<!-- 할인 기능 미구현 -->
 									<!-- 구현하게 된다면 할인 기능에 따라 할인 가격 책정 -->
 									<td> 0원 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 									<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-									<td class="table_box_red">총 금액원</td>
+									<td class="table_box_red">${cart_total_price}원</td>
 								</tr>
 							</table>
 						</div>
