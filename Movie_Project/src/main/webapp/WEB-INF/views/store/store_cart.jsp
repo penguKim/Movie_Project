@@ -23,7 +23,7 @@
 <script type="text/javascript">
 $(function() {
 	let quantity = parseInt($("#quantity").val());
-	
+	//1	
 	/* - 클릭 시 상품 수량 감소 */
 	/* 1 이하로 수량 감소 불가 */
 	$("#minus").on("click", function() {
