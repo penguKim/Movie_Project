@@ -22,7 +22,7 @@
 	      radio[i].checked = false;
     }
   }
-}//1
+}
 	// 약관 동의 체크박스 부분 처리
 	function checkAll() {
 	  var Checkbox = document.querySelector('.store_pay_info_check input[type="checkbox"]');
