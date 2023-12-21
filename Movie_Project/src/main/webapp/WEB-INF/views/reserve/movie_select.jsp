@@ -160,6 +160,8 @@
 		  location.reload();// 페이지를 새로고침합니다.
 		});
 		
+		
+		
 	});// document.ready END
 
 </script>
@@ -206,8 +208,8 @@
 					<tr>
 						<td id="Result_M">영화선택</td>
 						<td id="Result_T">극장선택</td>
-						<td>좌석선택</td>
-						<td>결제</td>
+						<td class="Result_S">좌석선택</td>
+						<td class="Result_P">결제</td>
 						<td>
 							<form action="seat_select" method="post">
 							    <input type="hidden" name="movie_title" id="movie_title" value="">

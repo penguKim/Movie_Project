@@ -3,6 +3,8 @@ package com.itwillbs.c5d2308t1.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +45,13 @@ public class ReserveController {
 	}
 	
 	@PostMapping("seat_select")
-	public String seat_select(ReserveVO reserveVO, Model model) {
+	public String seat_select(ReserveVO reserveVO, Model model, HttpSession session) {
+		if(session.getAttribute("sId") == null) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다. 로그인하시겠습니까?");
+			model.addAttribute("targetURL", "memberLogin");
+			return "reserve/reserve_fail_back";
+		}
+		
 		System.out.println("seat_select");
 		System.out.println(reserveVO);
 		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
@@ -51,5 +59,34 @@ public class ReserveController {
 		model.addAttribute("reserveVO",reserveVO);
 		return "reserve/seat_select";
 	}
+	@PostMapping("ReservationComplete")
+	public String ReservationComplete(@RequestParam Map<String, String> map, Model model){
+		
+		model.addAttribute("map", map);
+		return "reserve/ReservationComplete";
+		
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

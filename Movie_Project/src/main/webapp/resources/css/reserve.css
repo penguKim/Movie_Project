@@ -125,6 +125,7 @@
 
 #seat_num {
 	margin-bottom: 50px;
+	position: relative;
 }
 
 
@@ -145,7 +146,7 @@
 	justify-content: center;
 	border:3px solid;
 	background-color: #1D1D1C;
-	color:#fff; 임시로 레드 바꿈 
+	color:#fff; /* 임시로 레드 바꿈  */
 	height: 100px;
 	margin-bottom: 100px;
 	font-family: 'Tahoma','돋움',dotum,Nanum Gothic,sans-serif;
@@ -165,11 +166,16 @@
 }
 
 /* ================= 좌석선택 css ===================== */
+
+.seatSelectPage_Result_P, .seatSelectPage_Result_S{
+	width: 130px!important;
+}
+
+
 #seatCondition {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 10%;
+  position: absolute;
+  top: 22%;
+  right: 8%;
 }
 
 

@@ -14,50 +14,86 @@
     .selected { 
     	background-color: #de1010; 
     } 
+    .SelectPeople{
+    	background-color: #00ffff; 
+    }
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
+	var sum = 0; //인원수 선택에 사용할 변수 선언
+
+
 
    function toggleSeat(seat) {
        seat.classList.toggle("selected");
        displaySelectedSeats(); // 좌석 선택 시 선택된 좌석을 출력하는 함수 호출
    }
    
-   function toggleNum(num){
-       // 클릭된 요소가 속한 행을 찾음
-       var row = num.parentNode.parentNode;
+   function toggleNum(num) {
+	    // 클릭된 요소가 속한 행을 찾음
+	    var row = $(num).closest('tr');
+	    // 해당 행의 모든 .NumOfPeo 요소를 찾음
+	    var elements = row.find('.NumOfPeo');
+	    // 모든 .NumOfPeo 요소에서 'SelectPeople' 클래스를 제거
+	    elements.removeClass('SelectPeople');
+	    // 클릭된 요소에만 'selected' 클래스를 추가
+	    $(num).addClass('SelectPeople');
+	    
+	    var selectPeople = $(".SelectPeople");
+	    var selectPeopleArr = [];
+	    $.each(selectPeople, function(index, people) { // 반복문을 통해 선택된 좌석의 값을 배열에 저장
+	    	selectPeopleArr.push($(people).attr("value"));
+	    });
+	    $(".Result_NumOfPeople_Param").text(selectPeopleArr.join(","));
+	    console.log(selectPeopleArr);
+	    var countNum = $(".SelectPeople").text()
+	    console.log(countNum);
 
-       // 해당 행의 모든 .NumOfPeo 요소를 찾음
-       var elements = row.querySelectorAll('.NumOfPeo');
-
-       // 모든 .NumOfPeo 요소에서 'selected' 클래스를 제거
-       elements.forEach(function(element) {
-           element.classList.remove('selected');
-       });
-
-       // 클릭된 요소에만 'selected' 클래스를 추가
-       num.classList.add('selected');
-       displaySelectedSeats(); // 인원 선택 시 선택된 인원을 출력하는 함수 호출
-   }
+	    for (var i = 0; i < countNum.length; i++) {
+    	  var digit = parseInt(countNum[i]);
+    	  sum += digit;
+    	}
+	    if(sum>8){
+	    	alert("8명초과 예매 불가입니다!")
+	    	$(".SelectPeople").removeClass("SelectPeople");
+	    	$(".Result_NumOfPeople_Param").text("");
+	    	sum=0;
+	    }
+    	console.log(sum);
+	}   
+   // 공용 변수 
    
    function displaySelectedSeats() {
-       var selectedSeats = document.getElementsByClassName("selected");
-       var selectedSeatValues = [];
-       
-       for (var i = 0; i < selectedSeats.length; i++) {
-           selectedSeatValues.push(selectedSeats[i].getAttribute("value"));
-       }
-       
-       var selectedSeatsElement = document.getElementById("selected_seats");
-       selectedSeatsElement.textContent = selectedSeatValues.join(", ") + " 선택됨";
-       
+	   let selectedSeats = $(".selected"); // 선택된 좌석값의 위치
+	   let selectedSeatValues = []; // 여러개의 좌석값을 저장한 변수 선언
+	   
+	   $.each(selectedSeats, function(index, seat) { // 반복문을 통해 선택된 좌석의 값을 배열에 저장
+	     selectedSeatValues.push($(seat).attr("value"));
+	   });
+	   // 아래메뉴영역에 선택된 좌석 표시
+       $("#selected_seats").text(selectedSeatValues.join(", ") + " 선택됨");
        // 선택된 좌석 값을 숨겨진 input 요소에 할당
-       document.getElementById("select_seat").value = selectedSeatValues.join(",");
+       $("#hidden_select_seat").val(selectedSeatValues.join(","));
+       console.log(selectedSeatValues);
    }
    
    function back(){
    	history.back();
    }
+
+   $(function(){
+	   $("#subBtn").click(function(){
+			if(sum==0){
+				alert("인원선택 필수!")
+				return false;
+			}
+			if(!$('.seat').hasClass("selected")){
+				alert("좌석선택 필수!")
+				return false;
+			}
+	   });
+   });
+   
 </script>
 </head>
 <body>
@@ -106,7 +142,7 @@
 										<td>
 											${type[j]}
 										</td>
-										<c:forEach var="i" begin="0" end="8">
+										<c:forEach var="i" begin="1" end="8">
 										<c:set var="NumOfpeople" value="${type[j]}${i}"/>
 										<td>
 											<div class="NumOfPeo" onclick="toggleNum(this)" value="${NumOfpeople}">${i}</div>
@@ -173,12 +209,12 @@
 						</c:forEach><%-- 열반복 종료 --%>
 						</div>
 					</c:forEach><%-- 행반복 종료 --%>
+					<table id="seatCondition">
+						<tr>
+							<td><img src="${pageContext.request.contextPath }/resources/img/좌석상태표.png" width="90px" height="160px"></td>
+						</tr>
+					</table>
 				</div>
-				<table id="seatCondition">
-					<tr>
-						<td><img src="${pageContext.request.contextPath }/resources/img/좌석상태표.png" width="70px" height="120px"></td>
-					</tr>
-				</table>
 			</article>
 		</section><%--CSS 요청으로 감싼 태그--%>
 		
@@ -186,23 +222,42 @@
 			<table id="end_param" class="center">
 				<tr>
 					<td class="button_area"><input type="button" value="영화선택" onclick="back()" class="button"></td>
-					<td class="text_left">${reserveVO.movie_title}</td>
-					<td class="text_left">
-						극장 : ${reserveVO.theater_name}<br>
-						날짜 : ${reserveVO.play_date} <br>
-						시간 : ${reserveVO.play_start_time} <br>
+					<td class="seatSelectPage_Result_M">${reserveVO.movie_title}</td>
+					<td class="">
+						<table>
+							<tr>
+								<td class="widthSmall">극장</td>
+								<td>${reserveVO.theater_name}</td>
+							</tr>
+							<tr>
+								<td class="widthSmall">일시</td>
+								<td>${reserveVO.play_date} ${reserveVO.play_start_time}</td>
+							</tr>
+							<tr>
+								<td class="widthSmall">상영관</td>
+								<td>${reserveVO.room_name}</td>
+							</tr>
+							<tr>
+								<td class="widthSmall">인원</td>
+								<td class="Result_NumOfPeople_Param"></td>
+							</tr>
+						</table>
 					</td>
-					<td class="text_left">
-						<h3 id="selected_seats">인원 좌석 선택</h3>
+					<td class="seatSelectPage_Result_S">
+						<h3 id="selected_seats">좌석 선택</h3>
+					</td>
+					<td class="seatSelectPage_Result_P">
+						<h3 id="">결제</h3>
 					</td>
 					<td class="button_area">
-						<form action="../money.jsp" method="post" onsubmit="setSelectedSeatValue()">
-						    <input type="hidden" name="movie" value="${param.movie}">		    <%-- 선택된 값을 숨겨진 input 요소에 할당 --%>
-						    <input type="hidden" name="Theater" value="${param.theater}">
-						    <input type="hidden" name="Date" value="${param.date}">
-						    <input type="hidden" name="Time" value="${param.time}">
-						    <input type="hidden" id="select_seat" name="select_seat" value="">			<%--  선택된 좌석 값 전달 --%>	    
-						    <input type="submit" value="결제하기" class="button">
+						<form action="ReservationComplete" method="post" onsubmit="setSelectedSeatValue()">
+						    <input type="hidden" name="movie" value="${reserveVO.movie_title}">		    <%-- 선택된 값을 숨겨진 input 요소에 할당 --%>
+						    <input type="hidden" name="Theater" value="${reserveVO.theater_name}">
+						    <input type="hidden" name="Date" value="${reserveVO.play_date}">
+						    <input type="hidden" name="Time" value="${reserveVO.play_start_time}">
+						    <input type="hidden" name="Room" value="${reserveVO.room_name}">
+						    <input type="hidden" id="hidden_select_seat" name="select_seat" value="">			<%--  선택된 좌석 값 전달 --%>	    
+						    <input type="submit" value="결제하기" class="button" id="subBtn">
 						</form>
 					</td>
 				</tr>
