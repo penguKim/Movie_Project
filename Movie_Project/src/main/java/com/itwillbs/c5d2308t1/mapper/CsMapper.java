@@ -17,7 +17,7 @@ public interface CsMapper {
 	List<CsVO> selectNoticeMainList();
 	
 	// 고객센터 자주묻는질문 공지사항 조회 - 추상메서드 정의
-	List<CsVO> selectCsList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
+	List<HashMap<String, Object>> selectCsList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
 	
 	// 고객센터 항목별 목록 갯수 조회 - 추상메서드 정의
 	int selectCsTypeCount(CsVO cs);
@@ -32,10 +32,10 @@ public interface CsMapper {
 	List<CsVO> selectFaqSearch(@Param("searchValue") String searchValue);
 	
 	// 공지사항 검색
-	List<CsVO> selectNoticeSearch(@Param("theater_id") String theater_id, @Param("searchValue") String searchValue);
+	List<HashMap<String, Object>> selectNoticeSearch(@Param("theater_id") String theater_id, @Param("searchValue") String searchValue);
 
 	// 공지사항 상세페이지 보기
-	CsVO selectNoticeDetail(CsVO cs);
+	HashMap<String, Object> selectNoticeDetail(CsVO cs);
 
 	// 극장명 조회하여 지점명으로 출력
 	List<HashMap<String, Object>> selectTheaterList();
