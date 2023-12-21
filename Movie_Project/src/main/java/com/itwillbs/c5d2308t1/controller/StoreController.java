@@ -87,18 +87,6 @@ public class StoreController {
 				} 
 			}
 		}
-		// isDuplicate = true 이면 해당하는 상품이 테이블에 존재하므로 UPDATE로 수량 증가
-		// isDuplicate = false 이면 해당하는 상품이 테이블에 존재하하지 않으므로 INSERT로 상품 추가
-		// 백업용
-//		if(!isDuplicate) {
-//			System.out.println("같은 값이 아니다 인설트를 하자");
-//			int cartDbSuccess = service.insertCart(sId, product_id);
-//		} else {
-//			System.out.println("같은 값이다 업데이트를 하자");
-//			// 장바구니 버튼 클릭 시 해당 상품 인설트 
-//			int cartDbSuccess = service.updateCart(sId, product_id);
-//		}
-// =================================================================
 		if (!isDuplicate) {
 		    // 장바구니에 상품 추가
 		    int cartDbSuccess = service.insertCart(sId, product_id);
@@ -119,7 +107,7 @@ public class StoreController {
 		    }
 		}
 	}
-		
+	
 	// 나의 장바구니 리스트 페이지
 	@GetMapping("storeCart2")
 	public String storeCart2(HttpSession session, Model model) {
@@ -152,6 +140,22 @@ public class StoreController {
 		model.addAttribute("cartList", myCartList);
 		
 		return "store/store_cart";
+		
+	}
+	
+	// 장바구니 내부 수량 변경 시 업데이트 처리 
+	@GetMapping("cartQuanUpdate")
+	public String quanUpdate(HttpSession session, Model model, int product_count, String product_id) {
+		String sId = (String)session.getAttribute("sId");
+		
+		int resultUpdate = service.updateQuan(sId, product_count, product_id);
+		
+		if(resultUpdate > 0) {
+			return "redirect:/store/store_cart";
+		} else {
+			model.addAttribute("msg", "잘못된 접근입니다");
+	        return "forward";
+		}
 		
 	}
 	

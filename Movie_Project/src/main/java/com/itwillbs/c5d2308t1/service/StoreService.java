@@ -70,6 +70,9 @@ public class StoreService {
 		return mapper.selectMemberInfo(member);
 	}
 
-
+	// 장바구니에서 수량 변경 시 UPDATE 처리 
+	public int updateQuan(String sId, int product_count, String product_id) {
+		return mapper.updateQuan(sId, product_count, product_id);
+	}
 	
 }

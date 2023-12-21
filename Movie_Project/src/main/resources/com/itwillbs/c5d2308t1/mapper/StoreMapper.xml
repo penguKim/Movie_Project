@@ -44,15 +44,11 @@
 	
 	<!-- 장바구니에 담긴 상품을 조회 -->
 	<select id="selectMyCartList" resultType="store">
-<!-- 		SELECT * -->
-<!-- 		FROM carts -->
-<!-- 		WHERE member_id = #{member_id} -->
 		SELECT c.product_id, product_price, product_img, product_count, product_txt, product_name 
 		FROM carts c JOIN products p 
 		ON c.product_id = p.product_id
 		WHERE c.member_id = #{member_id};
 	</select>
-	
 	
 	<!-- 단일 결제를 위한 SELECT 조회 -->
 	<select id="selectStore" resultType="store">
@@ -61,7 +57,15 @@
 		WHERE product_id = #{product_id}
 	</select>
 	
-	<!-- 멤버이름 / 번호를 SELECT 조회 -->
+	<!-- 장바구니 페이지 수량 변경 시 UPDATE -->
+	<update id="updateQuan">
+		UPDATE carts
+		SET product_count = #{product_count}
+		WHERE member_id = #{sId} AND product_id = #{product_id}
+	</update>
+	
+		
+	<!--  결제 페이지 용 멤버이름 / 번호를 SELECT 조회 -->
 	<select id="selectMemberInfo" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
 		SELECT member_name, member_phone
 		FROM members
