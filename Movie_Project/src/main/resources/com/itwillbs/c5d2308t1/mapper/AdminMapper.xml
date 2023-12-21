@@ -124,18 +124,13 @@
 		WHERE cs_id = #{cs_id}
 	</update>
 	
-<<<<<<< Updated upstream
-	<!-- 분실물 문의 관리 게시판 글 갯수 조회 -->
-=======
 <!-- 	분실물 페이징 처리를 위한 게시물 개수 조회 -->	
->>>>>>> Stashed changes
 	<select id="selectLostnfoundListCount" resultType="int">
 		SELECT COUNT(*)
 		FROM cs
 		WHERE cs_type = '분실물문의'
 	</select>
 	
-<<<<<<< Updated upstream
 	<!-- ================ 회원 관리 페이지 ==================== -->
 	
 	<!-- 회원 관리 게시판 회원 수 조회 -->
@@ -197,7 +192,6 @@
 		member_id = #{member.member_id}
 	
 	</update>
-=======
 <!-- *************** 1대1문의 관리 게시판 작업 ************* -->
 <!-- 	1대1문의 관리 게시판 조회 -->
 <!-- 			조회 레코드 갯수 제한(LIMIT 절 사용) -->
@@ -231,5 +225,4 @@
 		SET cs_reply = #{cs_reply}
 		WHERE cs_id = #{cs_id}
 	</update>	
->>>>>>> Stashed changes
 </mapper>
