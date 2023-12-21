@@ -38,6 +38,8 @@ public class LoginController {
 	    
 //	    if(dbMember == null) {//로그인 실패시
 	    if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
+//	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // ~~~~~
+
 	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
 	    	return "fail_back";
 	    	
