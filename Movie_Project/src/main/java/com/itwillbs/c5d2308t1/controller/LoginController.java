@@ -33,8 +33,10 @@ public class LoginController {
 	public String MemberLoginPro(MemberVO member, HttpSession session, Model model) {
 	    MemberVO dbMember = service.getMember(member);
 	    
-	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();//테스트 주석
+//	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); 테스트
 	    
+//	    if(dbMember == null) {//로그인 실패시
 	    if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
 	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
 	    	return "fail_back";
