@@ -51,7 +51,8 @@ public class StoreController {
 		return "store/store_detail";
 	}
 	
-	// 스토어 장바구니 매핑
+	
+	// 스토어 장바구니 클릭시 장바구니 데이터 판별후 DB작업용 매핑
 	@GetMapping("storeCart") 
 	public String storeCart(HttpSession session, Model model, MemberVO member, String product_id) {
 		String sId = (String)session.getAttribute("sId");
@@ -88,41 +89,38 @@ public class StoreController {
 		}
 		// isDuplicate = true 이면 해당하는 상품이 테이블에 존재하므로 UPDATE로 수량 증가
 		// isDuplicate = false 이면 해당하는 상품이 테이블에 존재하하지 않으므로 INSERT로 상품 추가
-		if(!isDuplicate) {
-			System.out.println("같은 값이 아니다 인설트를 하자");
-			int cartDbSuccess = service.insertCart(sId, product_id);
-		} else {
-			System.out.println("같은 값이다 업데이트를 하자");
-			// 장바구니 버튼 클릭 시 해당 상품 인설트 
-			int cartDbSuccess = service.updateCart(sId, product_id);
-		}
-		// INSERT & UPDATE 처리 후 장바구니 내역 조회 후 입력
-		List<CartVO> cartList = service.resultCartList(sId);
-		
-		// 나의 현재 장바구니 내역과, 상품 내역을 모두 담을 Map 객체 생성
-		Map<Object, Object> myCartList = new HashMap<Object, Object> ();
-		
-		// 나의 현재 장바구니 내역과, 상품 내역 저장
-		myCartList.put("myCartList1", cartList);
-		myCartList.put("myCartList2", StoreList);
-		
-		// 다시 저장된 Map 객체를 model 에 저장
-		model.addAttribute("cartList", myCartList);
-		
-		System.out.println("Map : " + myCartList);
-		System.out.println("Model : " + model);
-		
-		return "store/store_cart";
-//		if(cartDbSuccess > 0 ) {
-//			return "store/store_cart";
+		// 백업용
+//		if(!isDuplicate) {
+//			System.out.println("같은 값이 아니다 인설트를 하자");
+//			int cartDbSuccess = service.insertCart(sId, product_id);
 //		} else {
-//			model.addAttribute("msg", "잘못된 접근입니다");
-//			return "forward2";
+//			System.out.println("같은 값이다 업데이트를 하자");
+//			// 장바구니 버튼 클릭 시 해당 상품 인설트 
+//			int cartDbSuccess = service.updateCart(sId, product_id);
 //		}
-//		
+// =================================================================
+		if (!isDuplicate) {
+		    // 장바구니에 상품 추가
+		    int cartDbSuccess = service.insertCart(sId, product_id);
+		    if (cartDbSuccess > 0) {
+		        return "redirect:/storeCart2";
+		    } else {
+		        model.addAttribute("msg", "잘못된 접근입니다");
+		        return "forward2";
+		    }
+		} else {
+		    // 장바구니 상품 업데이트
+		    int cartDbSuccess = service.updateCart(sId, product_id);
+		    if (cartDbSuccess > 0) {
+		        return "redirect:/storeCart2";
+		    } else {
+		        model.addAttribute("msg", "잘못된 접근입니다");
+		        return "forward2";
+		    }
+		}
 	}
 		
-	
+	// 나의 장바구니 리스트 페이지
 	@GetMapping("storeCart2")
 	public String storeCart2(HttpSession session, Model model) {
 		
@@ -137,7 +135,17 @@ public class StoreController {
 		
 		System.out.println("내 sId다 : " + sId);
 		
-		List<StoreVO> myCartList = service.myCartList(sId);
+		List<StoreVO> StoreList = service.myCartList(sId);
+		
+		// INSERT & UPDATE 처리 후 장바구니 내역 조회 후 입력
+		List<CartVO> cartList = service.resultCartList(sId);
+		
+		// 나의 현재 장바구니 내역과, 상품 내역을 모두 담을 Map 객체 생성
+		Map<Object, Object> myCartList = new HashMap<>();
+		
+		// 나의 현재 장바구니 내역과, 상품 내역 저장
+		myCartList.put("myCartList1", cartList);
+		myCartList.put("myCartList2", StoreList);
 		
 		System.out.println("내정보다 : " + myCartList);
 		
