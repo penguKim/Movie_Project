@@ -8,7 +8,7 @@
 	<select id="selectMember" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
 	    SELECT *
 	    FROM members
-	    WHERE member_id = #{member_id} AND member_passwd = #{member_passwd}
+	    WHERE member_id = #{member_id}
 	</select>
 </mapper>
 
