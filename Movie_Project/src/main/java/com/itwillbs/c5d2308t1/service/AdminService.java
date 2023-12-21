@@ -98,6 +98,44 @@ public class AdminService {
 	public int memberModOrDlt(MemberVO member, String newPasswd) {
 		return mapper.updatememberModOrDlt(member, newPasswd);
 	}
+	
+	
+	
+	
+	// ============ 자주묻는질문관리, 공지사항관리 게시판 =================
+	
+	// 자주묻는질문 공지사항 목록 조회 요청 및 페이징
+	public List<HashMap<String, Object>> getCsList(CsVO cs, int startRow, int listLimit) {
+		return mapper.selectCsList(cs, startRow, listLimit);
+	}
+	
+	// 관리자페이지 게시판 항목별 목록 갯수 조회 요청
+	public int getCsTypeListCount(CsVO cs) {
+		return mapper.selectCsTypeCount(cs);
+	}
+	
+	// 관리자페이지 자주묻는질문 상세페이지 보기
+	public HashMap<String, Object> csFaqDetailPage(CsVO cs) {
+		return mapper.selectFaqDetailPage(cs);
+	}
+	
+	// 관리자페이지 게시글 등록
+	public int registBoard(CsVO cs) {
+		return mapper.insertBoard(cs);
+	}
+	
+	// 관리자페이지 게시글 수정
+	public int updateBoard(CsVO cs) {
+		return mapper.updateBoard(cs);
+	}
+	
+	// 자주묻는질문 항목별로 목록 개수 조회 요청
+	public int getFaqDetailCount(CsVO cs, String buttonName) {
+		return mapper.selectFaqDetailCount(cs, buttonName);
+	}
+	
+	
+	
 
 	// ****************** 1대1문의 게시판 *********************
 	// 1대1문의 관리 게시판 글 목록 조회 작업 요청
@@ -130,5 +168,7 @@ public class AdminService {
 	public TheaterVO getMainScheduleInfo(TheaterVO theater) {
 		return mapper.selectMainScheduleInfo(theater);
 	}
+
+
 
 }

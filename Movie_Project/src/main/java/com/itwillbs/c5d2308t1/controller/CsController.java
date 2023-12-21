@@ -220,14 +220,11 @@ public class CsController {
 	// 고객센터 공지사항 상세 페이지로 이동
 	@GetMapping("csNoticeDetail")
 	public String csNoticeDetail(CsVO cs, Model model) {
-		System.out.println("종류 : " + cs.getCs_type());
-		System.out.println("글번호 : " + cs.getCs_type_list_num());
-		
 		HashMap<String, Object> csNoticeDetail = service.csNoticeDetail(cs);
 		
 		model.addAttribute("csNoticeDetail", csNoticeDetail);
 		
-		Integer maxCount = service.getCsTypeListCount(cs);
+		int maxCount = service.getCsTypeListCount(cs);
 		model.addAttribute("maxCount", maxCount);
 		
 		return "cs/cs_notice_detail";
@@ -283,7 +280,7 @@ public class CsController {
 	// 고객센터 메인 페이지로 이동
 	@PostMapping("csBoardPro")
 	public String csBoardPro(CsVO cs, Model model, HttpServletRequest request, HttpSession session) {
-System.out.println(cs);
+		
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg", "로그인이 필요합니다");
 			// targetURL 속성명으로 로그인 폼 페이지 서블릿 주소 저장
@@ -327,7 +324,7 @@ System.out.println(cs);
 		System.out.println("업로드 파일명 확인 : " + cs.getCs_file());
 		
 		
-		// CsService - registMember() 메서드 호출하여 문의글 등록 요청
+		// CsService - registBoard() 메서드 호출하여 문의글 등록 요청
 		// => 파라미터 : CsVO 객체   리턴타입 : int(insertCount)
 		int insertCount = service.registBoard(cs);
 		System.out.println(cs.getTheater_id());

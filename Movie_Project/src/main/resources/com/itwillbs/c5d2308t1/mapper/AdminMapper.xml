@@ -198,6 +198,80 @@
 		member_id = #{member.member_id}
 	
 	</update>
+	
+	
+	<!-- ============ 자주묻는질문관리, 공지사항관리 게시판 ================= -->
+	<!-- 자주묻는질문 공지사항 출력 및 페이지번호 출력 -->	
+	<select id="selectCsList" resultType="hashmap">
+		SELECT * 
+		FROM cs 
+		<if test="cs.cs_type == '공지사항'">
+		JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		</if>
+		WHERE cs_type = #{cs.cs_type}
+		<if test="cs.cs_type == '공지사항'">
+			ORDER BY cs_date DESC
+		</if>
+		LIMIT #{startRow}, #{listLimit}
+	</select>
+	
+	<!-- 관리자페이지 게시판별 목록 갯수 세기 -->
+	<select id="selectCsTypeCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM cs
+		WHERE cs_type = #{cs_type}
+	</select>	
+	
+	<!-- 관리자페이지 자주묻는질문 상세페이지 보기 -->
+	<select id="selectFaqDetailPage" resultType="hashmap">
+		SELECT *
+		FROM cs
+		WHERE cs_type = #{cs_type} 
+			AND cs_type_list_num = #{cs_type_list_num} 
+	</select>
+	
+	<insert id="insertBoard">
+<!-- 		cs_type_list_num 계산하여 넣기 -->
+		<selectKey keyProperty="cs_type_list_num" resultType="int" order="BEFORE">
+			SELECT MAX(cs_type_list_num)
+			FROM cs
+			WHERE cs_type = #{cs_type}
+		</selectKey>
+		INSERT INTO cs
+		VALUES (
+			null
+			, #{cs_subject}
+			, #{cs_content}
+			, now()
+			, #{cs_type}
+			, #{cs_type_detail}
+			, #{cs_file}
+			, null
+			, #{cs_type_list_num} + 1
+			, null
+			, #{member_id}
+			<choose>
+				<when test="theater_id != 0">
+					, #{theater_id}
+				</when>
+				<otherwise>
+					, theater_id = null		
+				</otherwise>
+			</choose>
+		)		
+	</insert>
+	
+	<update id="updateBoard">
+		UPDATE cs
+			SET
+				cs_subject = #{cs_subject}
+				, cs_content = #{cs_content}
+				, cs_type_detail = #{cs_type_detail}
+				, cs_file = #{cs_file}
+			WHERE cs_id = #{cs_id}
+	</update>
+	
 <!-- *************** 1대1문의 관리 게시판 작업 ************* -->
 <!-- 	1대1문의 관리 게시판 조회 -->
 <!-- 			조회 레코드 갯수 제한(LIMIT 절 사용) -->

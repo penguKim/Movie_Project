@@ -1,11 +1,12 @@
 <%-- admin_board_faq_write.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자주 묻는 질문 등록</title>
+<title>자주 묻는 질문 관리</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
@@ -18,37 +19,44 @@
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 		
 		<section id="content">
-			<h1 id="h01">자주 묻는 질문 글 등록</h1>
+			<h1 id="h01">자주 묻는 질문 관리</h1>
 			<hr>		
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_sub">
-				<form action="boardFaqRgst" method="post">
+				<form action="boardFaqWritePro" method="post" enctype="multipart/form-data">
 					<table border="1" id="">
 						<tr>
-							<th>번호</th>
-							<td><input type="text"></td>
-						</tr>
-						<tr>
 							<th>유형</th>
-							<td><input type="text"></td>
+							<td>
+							
+								<select name="cs_type_detail">
+									<option value="">유형선택</option>
+									<option value="예매" <c:if test="${csFaqDetail.cs_type_detail eq '예매'}">selected</c:if>>예매</option>
+									<option value="관람권" <c:if test="${csFaqDetail.cs_type_detail eq '관람권'}">selected</c:if>>관람권</option>
+									<option value="할인혜택" <c:if test="${csFaqDetail.cs_type_detail eq '할인혜택'}">selected</c:if>>할인혜택</option>
+									<option value="영화관이용"  <c:if test="${csFaqDetail.cs_type_detail eq '영화관이용'}">selected</c:if>>영화관이용</option>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<th>제목</th>
-							<td><input type="text"></td>
+							<td><input type="text" name="cs_subject" value="${csFaqDetail.cs_subject}"></td>
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td><input type="text"></td>
+							<td><input type="text" name="member_id" value="${sessionScope.sId}" readonly></td>
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea></textarea></td>
+							<td><textarea rows="15" cols="90" name="cs_content" value="${csFaqDetail.cs_content}"></textarea></td>
 						</tr>
 						<tr>
 							<th>사진첨부</th>
-							<td><input type="file"></td>
+							<td><input type="file" name="mFile"></td>
+							<input type="hidden" name="cs_type" value="자주묻는질문">
+							<input type="hidden" name="cs_id" value="${csFaqDetail.cs_id}">
 						</tr>
 					</table>
 					<div id="admin_writer"> 

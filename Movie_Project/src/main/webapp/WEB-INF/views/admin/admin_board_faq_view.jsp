@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자주 묻는 질문 수정</title>
+<title>자주 묻는 질문 관리</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
@@ -18,43 +18,39 @@
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 		
 		<section id="content">
-			<h1 id="h01">자주 묻는 질문 글 수정</h1>
+			<h1 id="h01">자주 묻는 질문 관리</h1>
 			<hr>		
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_sub">
-				<form action="boardFaqModOrDlt" method="post">
-					<table border="1" id="">
-						<tr>
-							<th>번호</th>
-							<td><input type="text"></td>
-						</tr>
+				<form action="boardFaqModifyForm?cs_type=${csFaqDetail.cs_type}&cs_type_list_num=${csFaqDetail.cs_type_list_num}&pageNum=${param.pageNum}" method="post">
+					<table border="1">
 						<tr>
 							<th>유형</th>
-							<td><input type="text"></td>
+							<td>${csFaqDetail.cs_type_detail}</td>
 						</tr>
 						<tr>
 							<th>제목</th>
-							<td><input type="text"></td>
+							<td>${csFaqDetail.cs_subject}</td>
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td><input type="text"></td>
+							<td>${csFaqDetail.member_id}</td>
 						</tr>
 						<tr>
 							<th height="400">내용</th>
-							<td><textarea></textarea></td>
+							<td>${csFaqDetail.cs_content}</td>
 						</tr>
 						<tr>
 							<th>사진첨부</th>
-							<td><input type="file"></td>
+							<td>${csFaqDetail.cs_file}</td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 
 						<input type="submit" value="수정">
 						<input type="button" value="돌아가기" onclick="history.back()">
-						<input type="submit" value="삭제">
+						<input type="button" value="삭제">
 					</div>
 				</form>
 			</div>

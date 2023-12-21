@@ -67,6 +67,29 @@ public interface AdminMapper {
 	int updatememberModOrDlt(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
 
 	
+	// ============= 자주묻는질문관리, 공지사항관리 게시판 ===============
+	// 관리자페이지 자주묻는질문 공지사항 조회 - 추상메서드 정의
+	List<HashMap<String, Object>> selectCsList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
+	
+	// 관리자페이지 게시판별 목록 갯수 조회 - 추상메서드 정의
+	int selectCsTypeCount(CsVO cs);
+	
+	// 관리자페이지 자주묻는질문 상세페이지 보기
+	HashMap<String, Object> selectFaqDetailPage(CsVO cs);
+	
+	// 관리자페이지 게시글 등록 - 추상메서드 정의
+	int insertBoard(CsVO cs);
+		
+	// 관리자페이지 게시글 수정 - 추상메서드 정의
+	int updateBoard(CsVO cs);
+	
+	// 고객센터 세부항목별 목록 갯수 조회 - 추상메서드 정의
+	int selectFaqDetailCount(@Param("cs") CsVO cs, @Param("buttonName") String buttonName);
+
+	
+	
+	
+	
 	// =================== 1대1문의 게시판 ==========================
 	// 1대1 문의 관리 게시판 조회 작업
 	List<CsVO> selectOneOnOneList(PageDTO page);
@@ -86,6 +109,8 @@ public interface AdminMapper {
 	// =================== 상영스케쥴 관리 게시판 ==========================
 	// 상영스케쥴 관리 메인 페이지 정보 조회
 	TheaterVO selectMainScheduleInfo(TheaterVO theater);
+
+
 
 
 

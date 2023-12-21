@@ -101,7 +101,7 @@
 					</tr>
 				</table>
 				<div id="admin_writer">
-					<a href="adminNoticeWrt"><input type="button" value="글쓰기"></a>
+					<a href="adminNoticeWriteForm"><input type="button" value="글쓰기"></a>
 				</div>
 				<div class="pagination">
 					<a href="#">&laquo;</a>
