@@ -20,7 +20,7 @@
 		/* - 클릭 시 상품 수량 감소 */
 		/* 1 이하로 수량 감소 불가 */
 		$("#minus").on("click", function() {
-			
+			//1
 			if(product_count > 1) {
 				product_count -= 1;
 				$("#product_count").val(product_count);

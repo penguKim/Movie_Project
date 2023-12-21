@@ -16,7 +16,7 @@
 	});
 	
 	function pageMove(move_num, pro_id) {
-		
+		//1
 		<%-- 페이지 이동용 번호 --%>
 		let move = move_num;
 		<%-- 상품 아이디 지정 --%>
