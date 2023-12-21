@@ -44,6 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.c5d2308t1.service.MoviesService;
 import com.itwillbs.c5d2308t1.vo.KobisAPI;
@@ -337,6 +338,52 @@ public class MoviesController {
 
 	    	
 
+	    
+		ModelAndView mav = new ModelAndView("", map);
+		
+		return mav;
+	}
+	
+	
+	@GetMapping("Test3")
+	public ModelAndView test3(Map<String, Object> map) {
+		System.out.println("kobis 영화 상세 검색");
+		// http 통신을 위한 클라이언트 RestTemplate 객체 생성
+		RestTemplate restTemplate = new RestTemplate();
+	    //발급키
+	    String key = "811a25b246549ad749b278bba8257502";
+		// 기본 요청 URL
+		String url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=" + key + "&movieCd=" + "서울의 봄";
+		System.out.println(url);
+		// ------------------------------------
+		// getForObject() 메서드를 호출하여 GET 방식으로 url 요청 후 String 타입으로 저장한다.
+		String result = restTemplate.getForObject(url, String.class);
+		
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			
+			map = mapper.readValue(url, Map.class);
+			
+			JsonNode root = mapper.readTree(result);
+			JsonNode data = root.path("Data");
+			
+			for (JsonNode node : data) {
+			    String title = node.path("title").asText();
+			    String director = node.path("director").asText();
+			    System.out.println("제목: " + title);
+			    System.out.println("감독: " + director);
+			}
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	    		
+//		Thread.sleep(5000);
+	    		
 	    
 		ModelAndView mav = new ModelAndView("", map);
 		

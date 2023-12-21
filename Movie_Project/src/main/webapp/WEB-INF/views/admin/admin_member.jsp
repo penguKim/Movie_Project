@@ -80,7 +80,7 @@
 								</c:choose>
 								</td>
 								<td>
-								<a href="adminMemberMod?member_id=${member.member_id}&pageNum=${pageNum }">
+								<a href="adminMemberMod?member_id=${member.member_id}&pageNum=${pageNum }" id="ok">
 									<input type="button" value="수정" id="ok">
 								</a>
 								</td>
