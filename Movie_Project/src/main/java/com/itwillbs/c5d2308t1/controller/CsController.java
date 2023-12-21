@@ -43,20 +43,20 @@ public class CsController {
 	public String csMain(CsVO cs, Model model) {
 		
 		// CsService - getFaqMainList() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqList)
-		List<CsVO> faqMainist = service.getFaqMainList();
-		System.out.println(faqMainist);
+		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqMainList)
+		List<CsVO> faqMainList = service.getFaqMainList();
+		System.out.println(faqMainList);
 		
-		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqList")
-		model.addAttribute("faqMainist", faqMainist);
+		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqMainList")
+		model.addAttribute("faqMainList", faqMainList);
 		
 		
 		// CsService - getNoticeMainList() 메서드 호출하여 공지사항 출력
-		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeList)
+		// => 파라미터 : 없음   리턴타입 : List<CsVO>(noticeMainList)
 		List<CsVO> noticeMainList = service.getNoticeMainList();
 		System.out.println(noticeMainList);
 		
-		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
+		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeMainList")
 		model.addAttribute("noticeMainList", noticeMainList);
 		
 		
@@ -78,7 +78,7 @@ public class CsController {
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
-		List<CsVO> faqList = service.getCsList(cs, startRow, listLimit);
+		List<HashMap<String, Object>> faqList = service.getCsList(cs, startRow, listLimit);
 	//	System.out.println(noticeList);
 		
 		// ======================================================
@@ -116,8 +116,8 @@ public class CsController {
 		int startRow = (pageNum - 1) * listLimit;
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
-		List<CsVO> noticeList = service.getCsList(cs, startRow, listLimit);
+		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<HashMap<String, Object>>(noticeList)
+		List<HashMap<String, Object>> noticeList = service.getCsList(cs, startRow, listLimit);
 	//	System.out.println(noticeList);
 		
 		// ======================================================
@@ -138,7 +138,7 @@ public class CsController {
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
 		model.addAttribute("noticeList", noticeList);
-		
+		System.out.println("noticeList : " +noticeList);
 		return "cs/cs_notice";
 	}
 	
@@ -204,10 +204,10 @@ public class CsController {
 	// 공지사항 검색 기능
 	@ResponseBody
 	@GetMapping("noticeSearch")
-	public List<CsVO> noticeSearch(Model model, String theater_id, String searchValue) {
-		// CsService - getNoticeSearch() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : String searchValue, CsVO cs   리턴타입 : List<CsVO>(noticeSearch)
-		List<CsVO> noticeSearch = service.getNoticeSearch(theater_id, searchValue);
+	public List<HashMap<String, Object>> noticeSearch(Model model, String theater_id, String searchValue) {
+		// CsService - getNoticeSearch() 메서드 호출하여 고객센터 검색하기
+		// => 파라미터 : theater_id, searchValue   리턴타입 : List<HashMap<String, Object>>(noticeSearch)
+		List<HashMap<String, Object>> noticeSearch = service.getNoticeSearch(theater_id, searchValue);
 		System.out.println(noticeSearch);
 		
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeSearch")
@@ -223,9 +223,9 @@ public class CsController {
 		System.out.println("종류 : " + cs.getCs_type());
 		System.out.println("글번호 : " + cs.getCs_type_list_num());
 		
-		CsVO csNoticeDetail = service.csNoticeDetail(cs);
+		HashMap<String, Object> csNoticeDetail = service.csNoticeDetail(cs);
 		
-		model.addAttribute("cs", csNoticeDetail);
+		model.addAttribute("csNoticeDetail", csNoticeDetail);
 		
 		Integer maxCount = service.getCsTypeListCount(cs);
 		model.addAttribute("maxCount", maxCount);

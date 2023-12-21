@@ -27,7 +27,7 @@ public class CsService {
 	}
 	
 	// 자주묻는질문 공지사항 목록 조회 요청 및 페이징
-	public List<CsVO> getCsList(CsVO cs, int startRow, int listLimit) {
+	public List<HashMap<String, Object>> getCsList(CsVO cs, int startRow, int listLimit) {
 		return mapper.selectCsList(cs, startRow, listLimit);
 	}
 	
@@ -52,12 +52,12 @@ public class CsService {
 	}
 	
 	// 공지사항 검색기능
-	public List<CsVO> getNoticeSearch(String theater_id, String searchValue) {
+	public List<HashMap<String, Object>> getNoticeSearch(String theater_id, String searchValue) {
 		return mapper.selectNoticeSearch(theater_id, searchValue);
 	}
 
 	// 공지사항 상세페이지 보기
-	public CsVO csNoticeDetail(CsVO cs) {
+	public HashMap<String, Object> csNoticeDetail(CsVO cs) {
 		return mapper.selectNoticeDetail(cs);
 	}
 

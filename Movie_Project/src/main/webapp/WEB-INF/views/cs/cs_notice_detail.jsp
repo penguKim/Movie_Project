@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,22 +29,19 @@
 			<div id="notice_content">
 				<table id="notice_table">
 					<tr>
-						<th colspan="4">${cs.cs_subject}</th>
+						<th colspan="4">${csNoticeDetail.cs_subject}</th>
 					</tr>
 					<tr>
 						<td class="notice_info">영화관</td>
-						<c:choose>
-							<c:when test="${cs.theater_id eq 1}"><td class="notice_info">지점명1</td></c:when>
-							<c:when test="${cs.theater_id eq 2}"><td class="notice_info">지점명2</td></c:when>
-							<c:when test="${cs.theater_id eq 3}"><td class="notice_info">지점명3</td></c:when>
-							<c:when test="${cs.theater_id eq 4}"><td class="notice_info">지점명4</td></c:when>
-							<c:when test="${cs.theater_id eq 5}"><td class="notice_info">지점명5</td></c:when>
-						</c:choose>	
+						<td>${csNoticeDetail.theater_name}</td>
 						<td class="notice_info">등록일</td>
-						<td class="notice_info">${cs.cs_date}</td>
+						<td class="notice_info">
+							<fmt:parseDate value='${csNoticeDetail.cs_date}' pattern="yyyy-MM-dd" var='cs_date'/>
+							<fmt:formatDate value="${cs_date}" pattern="yyyy-MM-dd"/>
+						</td>
 					</tr>
 					<tr>
-						<td colspan="4"  class="notice_content">${cs.cs_content}<br><br><br><br><br><br><br></td>
+						<td colspan="4"  class="notice_content">${csNoticeDetail.cs_content}<br><br><br><br><br><br><br></td>
 					</tr>
 					<tr>
 						<td>이전  ▲</td>

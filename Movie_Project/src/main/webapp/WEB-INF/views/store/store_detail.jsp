@@ -12,6 +12,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+/* 새로 갱신된 파일 */
 	$(function() {
 		
 		let price = ${store.product_price};

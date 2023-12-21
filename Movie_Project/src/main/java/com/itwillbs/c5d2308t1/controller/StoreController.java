@@ -87,18 +87,6 @@ public class StoreController {
 				} 
 			}
 		}
-		// isDuplicate = true 이면 해당하는 상품이 테이블에 존재하므로 UPDATE로 수량 증가
-		// isDuplicate = false 이면 해당하는 상품이 테이블에 존재하하지 않으므로 INSERT로 상품 추가
-		// 백업용
-//		if(!isDuplicate) {
-//			System.out.println("같은 값이 아니다 인설트를 하자");
-//			int cartDbSuccess = service.insertCart(sId, product_id);
-//		} else {
-//			System.out.println("같은 값이다 업데이트를 하자");
-//			// 장바구니 버튼 클릭 시 해당 상품 인설트 
-//			int cartDbSuccess = service.updateCart(sId, product_id);
-//		}
-// =================================================================
 		if (!isDuplicate) {
 		    // 장바구니에 상품 추가
 		    int cartDbSuccess = service.insertCart(sId, product_id);
@@ -119,7 +107,7 @@ public class StoreController {
 		    }
 		}
 	}
-		
+	
 	// 나의 장바구니 리스트 페이지
 	@GetMapping("storeCart2")
 	public String storeCart2(HttpSession session, Model model) {
@@ -155,6 +143,22 @@ public class StoreController {
 		
 	}
 	
+	// 장바구니 내부 수량 변경 시 업데이트 처리 
+	@GetMapping("cartQuanUpdate")
+	public String quanUpdate(HttpSession session, Model model, int product_count, String product_id) {
+		String sId = (String)session.getAttribute("sId");
+		
+		int resultUpdate = service.updateQuan(sId, product_count, product_id);
+		
+		if(resultUpdate > 0) {
+			return "redirect:/store/store_cart";
+		} else {
+			model.addAttribute("msg", "잘못된 접근입니다");
+	        return "forward";
+		}
+		
+	}
+	
 	@GetMapping("storePay")
 	public String storePay(HttpSession session, Model model, StoreVO store, String product_count, MemberVO member) {
 		String sId = (String)session.getAttribute("sId");
@@ -165,8 +169,21 @@ public class StoreController {
 			return "forward2";
 		}
 		
-		
 		member.setMember_id(sId);
+		
+		// Member name 과 phone 을 조회하기 위한 select 구문
+		MemberVO members = service.selectMemberInfo(member);
+		
+		// 로그인 되어있는 phone 번호를 변수에 저장
+		String phone = members.getMember_phone();
+		
+		// 휴대폰번호 가운데 "****" 처리
+		members.setMember_phone(phone.split("-")[0] + "-****-" + phone.split("-")[2]);
+		
+		// Member 객체에 조회한 name 과 phone 을 저장
+		model.addAttribute("members", members);
+		
+		System.out.println("나는 누구 인가? : " + members);
 //		System.out.println("스토어아이디: " + store);
 		List<StoreVO> storeList = service.selectStore(store);
 		// List<CartVO> storeList = service.selectStore(store);
@@ -174,11 +191,6 @@ public class StoreController {
 		List<CartVO> cartList2 = service.selectCart2(member);
 		
 		model.addAttribute("cartList2", cartList2);
-		
-		System.out.println("카트리스트 : " + cartList2);
-		
-		System.out.println("리스트 : " + storeList);
-		
 //		System.out.println(cartList2);
 		
 		// 결제 페이지에 상품수량(product_count) / 상품 금액을 조회해서 뿌려야댄다

@@ -39,6 +39,13 @@ public interface StoreMapper {
 
 	CartVO selectCart1(String product_count);
 
+	MemberVO selectMemberInfo(MemberVO member);
+
+	// 장바구니에서 수량 변경 시 UPDATE 처리 
+	int updateQuan(@Param("sId") String sId
+			, @Param("product_count") int product_count
+			, @Param("product_id") String product_id);
+
 
 
 	

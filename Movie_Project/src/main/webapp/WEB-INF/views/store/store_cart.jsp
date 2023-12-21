@@ -10,7 +10,58 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+/* 새로 갱신된 파일 */
+/* 각 상품의 수량 조절 버튼 함수 */
+/* forEach의 변수 i의 값을 파라미터 index 로 저장 */
+function decreaseQuantity(index) {
+	/* 해당 버튼 인덱스와 수정되는 인덱스를 동일하게 적용 시킴 */
+	/* 수량(quantity의 id 값에 동일하게 인덱스를 적용시키기위해 index와 함께 저장) */
+    var quantity = parseInt($("#quantity" + index).val());
 
+    if (quantity > 1) {
+        quantity -= 1;
+        $("#quantity" + index).val(quantity);
+    }
+}
+function increaseQuantity(index) {
+    var quantity = parseInt($("#quantity" + index).val());
+
+    if (quantity < 99) {
+        quantity += 1;
+        $("#quantity" + index).val(quantity);
+    }
+}
+
+
+function quan_change(index) {
+	let product_count = $("#quantity0").val();
+	let product_id = $("#product_id0").val();
+	
+	$.ajax({
+		url: "cartQuanUpdate",
+		data: {
+			product_count: product_count
+			product_id: product_id
+		},
+		success: function() {
+			alert("성공")		
+		},
+		error: function() {
+			
+		}
+	});
+}
+
+
+$(function() {
+	
+
+	
+});
+	
+</script>		
 </head>
 <body>
 	<div id="wrapper">
@@ -20,35 +71,6 @@
 		
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>				
 
-<script type="text/javascript">
-$(function() {
-	let quantity = parseInt($("#quantity").val());
-	
-	/* - 클릭 시 상품 수량 감소 */
-	/* 1 이하로 수량 감소 불가 */
-	$("#minus").on("click", function() {
-// 		alert("마이너스");
-		if(quantity > 1) {
-			quantity -= 1;
-			$("#quantity").val(quantity);
-		} 
-	});
-	
-	/* + 클릭 시 상품 수량 증가 */
-	/* 100 이상으로 증가 불가 */
-	$("#plus").on("click", function() {
-// 		alert("플러스");
-		if(quantity < 99) {
-			quantity += 1;
-			$("#quantity").val(quantity);
-		} else {
-			alert("최대 수량입니다");
-		}
-	});
-	
-	
-});
-</script>		
 		<section id="content">
 			<h1 id="h01">장바구니</h1>
 			<hr>
@@ -80,7 +102,8 @@ $(function() {
 								</tr>
 								<c:choose>
 									<c:when test="${not empty cartList }">
-										<c:forEach var="i" begin="0" end="${fn:length(cartList.myCartList1)}" >
+										<c:forEach var="i" begin="0" end="${fn:length(cartList.myCartList1)-1}" >
+											<input type="hidden" id="product_id${i}" name="product_id" value="${cartList.myCartList2[i].product_id}">
 											<tr>
 												<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
 												<!-- 상품 이미지 및 내용(패키지는 구성) -->
@@ -93,11 +116,11 @@ $(function() {
 												<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 												<td class="product_quantity">
 			<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
-												<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
+												<button type="button" id="minus${i}" class="btn_minus" title="수량감소" onclick="decreaseQuantity(${i})">-</button>
 												<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
-												<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="${cartList.myCartList1[i].product_count }" min="1" max="99" class="input-text" readonly>
-												<button type="button" id="plus-${i}" class="btn_minus" title="수량증가">+</button>
-													<input type="button" value="변경">
+												<input type="text" size="1" title="수량입력" id="quantity${i}" name="quantity" value="${cartList.myCartList1[i].product_count }" min="1" max="99" class="input-text" readonly>
+												<button type="button" id="plus${i}" class="btn_minus" title="수량증가" onclick="increaseQuantity(${i})">+</button>
+													<input type="button" value="변경" id="btn_quantity${i}" onclick="quan_chage(${i})">
 			<!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->
 												</td>
 												<!-- 구매금액 -->
@@ -168,6 +191,7 @@ $(function() {
 				</section>
 			</form>
 		</section>
+		
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>

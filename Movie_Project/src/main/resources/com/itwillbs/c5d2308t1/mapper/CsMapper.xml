@@ -21,9 +21,17 @@
 	</select>
 	
 	<!-- 자주묻는질문 공지사항 출력 및 페이지번호 출력 -->	
-	<select id="selectCsList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
-		SELECT * FROM cs
+	<select id="selectCsList" resultType="hashmap">
+		SELECT * 
+		FROM cs 
+		<if test="cs.cs_type == '공지사항'">
+		JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		</if>
 		WHERE cs_type = #{cs.cs_type}
+		<if test="cs.cs_type == '공지사항'">
+			ORDER BY cs_date DESC
+		</if>
 		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
@@ -74,20 +82,29 @@
 	</select>
 	
 	<!--  공지사항 검색 -->
-	<select id="selectNoticeSearch" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
-		SELECT * FROM cs
+	<select id="selectNoticeSearch" resultType="hashmap">
+		SELECT * 
+		FROM cs
+		<if test="theater_id != ''">
+		JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		</if>
 		WHERE cs_type = "공지사항" 
-			<if test="theater_id != 0">
-				AND theater_id = #{theater_id}
+			<if test="theater_id != ''">
+				AND cs.theater_id = #{theater_id}
 			</if>
 			AND (cs_subject LIKE '%${searchValue}%'
 			OR cs_content LIKE '%${searchValue}%'
 			OR cs_type_detail LIKE '%${searchValue}%')
+		ORDER BY cs_date DESC
 	</select>
 	
 	<!-- 공지사항 상세페이지 보기 -->
-	<select id="selectNoticeDetail" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
-		SELECT * FROM cs
+	<select id="selectNoticeDetail" resultType="hashmap">
+		SELECT cs_subject, theater_name, cs_date, cs_content
+		FROM cs
+		JOIN theaters
+		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = #{cs_type} 
 			AND cs_type_list_num = #{cs_type_list_num} 
 	</select>

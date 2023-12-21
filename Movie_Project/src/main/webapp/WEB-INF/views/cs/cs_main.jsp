@@ -66,12 +66,12 @@
 						<a href="csFaq">더보기</a>
 						<ol>
 							<c:choose>
-								<c:when test="${empty faqMainist}">
+								<c:when test="${empty faqMainList}">
 									자주묻는질문 없음
 								</c:when>
 								<c:otherwise>
 									<c:forEach begin="0" end="4" var="faq" items="${faqMainList}">
-										<li><a href="csFaq?cs_type_list_num=${faq.cs_type_list_num}">${faq.cs_subject}</a></li> <%-- 자주묻는질문 상위 5개만 보여주기 --%>
+										<li><a href="csFaq">${faq.cs_subject}</a></li> <%-- 자주묻는질문 상위 5개만 보여주기 --%>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>

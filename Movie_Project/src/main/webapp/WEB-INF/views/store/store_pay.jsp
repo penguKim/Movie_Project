@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,9 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 </head>
+
 <script>
+/* 새로 갱신된 파일 */	
 	// 선택된 라디오 버튼 이외의 다른 라디오 버튼을 선택 해제
 	function check(checkedRadio) {
 	// name이 'radiocheck'인 모든 라디오 버튼을 가져옴
@@ -40,7 +43,6 @@
 		    Checkboxes2[i].checked = Checkbox2.checked;
 		  }
 		}
-	
 </script>
 <body>
 	<div id="wrapper">
@@ -116,8 +118,8 @@
 						<!-- 이름과 휴대전화 번호는 자동 저장 -->
 						<!-- 이름 중간 *, 번호 중간 네자리 * 처리 -->
 						<section>
-							<span><b>이름</b> <input type="text"></span>
-							<span><b>휴대전화 번호</b> <input type="text"></span>
+							<span><b>이름</b> <input type="text" value="${members.member_name}" readonly="readonly"></span>
+							<span><b>휴대전화 번호</b> <input type="text" value="${members.member_phone}" readonly="readonly"></span>
 						</section>
 					</div>
 					<div class="store_member_info_ex">* 구매하신 기프티콘은 주문자 정보에 입력된 휴대전화 번호로
