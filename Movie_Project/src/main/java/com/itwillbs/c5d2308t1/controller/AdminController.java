@@ -23,6 +23,7 @@ import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
+import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Controller
 public class AdminController {
@@ -154,9 +155,26 @@ public class AdminController {
 	// ************************ 상영일정관리 페이지 *************
 	// 관리자페이지 영화 상영 일정 메인 페이지로 이동
 	@GetMapping("adminMovieSchedule")
-	public String adminMovieSchedule() {
-		return "admin/admin_movie_schedule";
+	public String adminMovieSchedule(HttpSession session, Model model, TheaterVO theater) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		TheaterVO mTheater = service.getMainScheduleInfo(theater);
+		System.out.println(mTheater);
+		
+		if(mTheater != null) {
+			model.addAttribute("mTheater", mTheater);
+			return "admin/admin_movie_schedule";
+		} else {
+			model.addAttribute("msg", "상영 일정 조회에 실패했습니다!");
+			return "fail_back";
+		}
 	}
+	
+	
 
 	@GetMapping("movieScheduleMod") // 상영일정 관리 페이지 : admin_movie_schedule_modify.jsp
 	public String movieScheduleMod() {
@@ -349,10 +367,7 @@ public class AdminController {
 	@GetMapping("adminOneOnOne")
 	public String adminOneOnOne(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
-//      if(sId == null || sId.equals("admin")) {
-			// => 현재는 작업의 편의성을 위해 세션 아이디만 판별
-			//    추후 관리자 아이디도 추가 판별할 예정
+		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
@@ -382,18 +397,20 @@ public class AdminController {
 	@GetMapping("adminOneOnOneResp")
 	public String adminOneOnOneResp(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
-//      if(sId == null || sId.equals("admin")) {
-			// => 현재는 작업의 편의성을 위해 세션 아이디만 판별
-			//    추후 관리자 아이디도 추가 판별할 예정
+		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
 		
-		// AdminService - getOneOnOnePostById() 메서드 호출해 글 목록 조회
-		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : CsVO 객체(oneOnOne)
-		CsVO oneOnOne = service.getOneOnOnePostById(cs);
-
+//		// AdminService - getOneOnOnePostById() 메서드 호출해 글 목록 조회
+//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : CsVO 객체(oneOnOne)
+//		CsVO oneOnOne = service.getOneOnOnePostById(cs);
+		
+		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
+		oneOnOne.put("cs_date", date.format(dtf));		
 		// Model 객체에 저장
 		model.addAttribute("oneOnOne", oneOnOne);
 		model.addAttribute("pageNum", pageNum);
@@ -406,10 +423,7 @@ public class AdminController {
 	public String boardOneOnOneRsp(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNum, CsVO cs) {
 		System.out.println(cs);
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null) {
-//      if(sId == null || sId.equals("admin")) {
-			// => 현재는 작업의 편의성을 위해 세션 아이디만 판별
-			//    추후 관리자 아이디도 추가 판별할 예정
+		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}

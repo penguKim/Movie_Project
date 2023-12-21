@@ -11,6 +11,7 @@ import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
+import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Mapper
 public interface AdminMapper {
@@ -70,12 +71,19 @@ public interface AdminMapper {
 	// 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업
 	int selectOneOnOneListCount();
 
-	// 1대1문의 관리 게시판 상세 조회 작업
-	CsVO selectOneOnOne(CsVO cs);
+//	// 1대1문의 관리 게시판 상세 조회 작업
+//	CsVO selectOneOnOne(CsVO cs);
+	HashMap<String, Object> selectOneOnOne(CsVO cs);
 	
 	
 	// 1대1문의 답변 등록 작업
 	int updateOneOnOneReply(CsVO cs);
+
+	
+	// =================== 상영스케쥴 관리 게시판 ==========================
+	// 상영스케쥴 관리 메인 페이지 정보 조회
+	TheaterVO selectMainScheduleInfo(TheaterVO theater);
+
 
 
 

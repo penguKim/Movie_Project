@@ -10,9 +10,16 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-	function btnLookup() {
-		location.reload();
-	}
+	$(function() {
+		$("#selectSchedule").("click", function(){
+			$.ajax({
+				
+				
+			});
+			
+		});
+		
+	});
 </script>
 </head>
 <body>
@@ -41,7 +48,7 @@
 						<option>부산 대연점</option>
 					</select>
 					<input type="date">
-					<input type="button" value="조회" onclick="">
+					<input type="button" value="조회" id="selectSchedule">
 				</div>
 				<table border="1" width="1100">
 					<tr>

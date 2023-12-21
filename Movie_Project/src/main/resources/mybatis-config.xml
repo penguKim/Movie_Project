@@ -5,12 +5,12 @@
 <configuration>
 	<!-- 사용자 정의 패키지 앨리어스 지정 -->
 	<typeAliases>
-		<typeAlias type="com.itwillbs.c5d2308t1.vo.AdminVO" alias="admin"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.CartVO" alias="cart"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.CsVO" alias="cs"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.MemberVO" alias="member"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.MoviesVO" alias="movies"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.ReserveVO" alias="reserve"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.StoreVO" alias="store"/>
+		<typeAlias type="com.itwillbs.c5d2308t1.vo.TheaterVO" alias="theater"/>
 	</typeAliases>
 </configuration>

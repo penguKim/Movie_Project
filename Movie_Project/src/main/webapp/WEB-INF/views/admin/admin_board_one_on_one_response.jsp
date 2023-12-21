@@ -45,7 +45,7 @@
 							<th>문의 제목</th>
 							<td>${oneOnOne.cs_subject }</td>
 						</tr>
-<%-- 						<c:if test="${oneOnOne.theater_id eq '' }"> --%>
+<%-- 						<c:if test="${oneOnOne.theater_id ne '' }"> --%>
 <!-- 							<tr> -->
 <!-- 								<th>문의 지점</th> -->
 <%-- 								<td>${oneOnOne.theater_name }</td> --%>

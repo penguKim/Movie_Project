@@ -212,9 +212,13 @@
 	</select>
 	
 <!-- 	1대1 문의 관리 게시판 상세 조회 -->
-	<select id="selectOneOnOne" resultType="cs">
+	<select id="selectOneOnOne" resultType="hashmap">
 		SELECT *
 		FROM cs
+<!-- 		<if test="1 = 1"> -->
+<!-- 			JOIN theaters -->
+<!-- 			ON cs.theater_id = theaters.theater_id -->
+<!-- 		</if> -->
 		WHERE cs_type = '1대1문의'
 		AND cs_id = #{cs_id}
 	</select>
@@ -225,4 +229,13 @@
 		SET cs_reply = #{cs_reply}
 		WHERE cs_id = #{cs_id}
 	</update>	
+
+<!-- *************** 상영스케쥴 관리페이지 작업 ************* -->
+<!-- 상영스케쥴 관리 메인 페이지 정보 조회-->
+	<select id="selectMainScheduleInfo" resultType="theater">
+		SELECT *
+		FROM theaters
+		WHERE theater_id = 1
+	</select>
+
 </mapper>

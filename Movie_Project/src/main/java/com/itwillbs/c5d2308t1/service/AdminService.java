@@ -12,6 +12,7 @@ import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
+import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Service
 public class AdminService {
@@ -104,14 +105,25 @@ public class AdminService {
 		return mapper.selectOneOnOneListCount();
 	}
 
-	// 1대1문의 관리 게시판 상세 조회 작업 요청
-	public CsVO getOneOnOnePostById(CsVO cs) {
-		return mapper.selectOneOnOne(cs);
-	}
+//	// 1대1문의 관리 게시판 상세 조회 작업 요청
+//	public CsVO getOneOnOnePostById(CsVO cs) {
+//		return mapper.selectOneOnOne(cs);
+//	}
 
 	// 1대1문의 답변 등록 작업 요청
 	public int writeOneOnOneReply(CsVO cs) {
 		return mapper.updateOneOnOneReply(cs);
+	}
+
+	public HashMap<String, Object> getOneOnOnePostById(CsVO cs) {
+		return mapper.selectOneOnOne(cs);
+	}
+
+	
+	// ****************** 1대1문의 게시판 *********************
+	// 상영스케쥴 관리 메인페이지 정보 조회 작업 요청
+	public TheaterVO getMainScheduleInfo(TheaterVO theater) {
+		return mapper.selectMainScheduleInfo(theater);
 	}
 
 
