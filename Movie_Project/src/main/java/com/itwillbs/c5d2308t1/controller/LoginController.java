@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
-import com.itwillbs.c5d2308t1.vo.MoviesVO;
 @Controller
 public class LoginController {
 
@@ -33,11 +33,13 @@ public class LoginController {
 	public String MemberLoginPro(MemberVO member, HttpSession session, Model model) {
 	    MemberVO dbMember = service.getMember(member);
 	    
-	    System.out.println(member.getMember_id());
-	    if(dbMember == null) {
-	    	System.out.println("로그인 실패");
-	    	return "login/login";
-	    } else {
+	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	    
+	    if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
+	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
+	    	return "fail_back";
+	    	
+	    } else { // 로그인 성공시
 	    	model.addAttribute("dbMember", dbMember);
 	    	session.setAttribute("sId", member.getMember_id());
 	    	System.out.println("로그인 성공: " + dbMember);
