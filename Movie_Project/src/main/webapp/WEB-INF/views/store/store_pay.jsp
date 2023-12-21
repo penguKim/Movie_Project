@@ -11,7 +11,9 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 </head>
+
 <script>
+/* 새로 갱신된 파일 */	
 	// 선택된 라디오 버튼 이외의 다른 라디오 버튼을 선택 해제
 	function check(checkedRadio) {
 	// name이 'radiocheck'인 모든 라디오 버튼을 가져옴
