@@ -46,6 +46,13 @@ public interface StoreMapper {
 			, @Param("product_count") int product_count
 			, @Param("product_id") String product_id);
 
+	int sumPrice(@Param("sId") String sId
+			, @Param("product_count") int product_count
+			, @Param("product_id") String product_id);
+	
+	// 업데이트 후 상품 수량및 가격 리턴을 위한 조회
+	List<CartVO> updateAfter(@Param("sId") String sId, @Param("product_id") String product_id);
+
 
 
 	

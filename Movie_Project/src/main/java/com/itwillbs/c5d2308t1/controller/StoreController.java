@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.StoreService;
 import com.itwillbs.c5d2308t1.vo.CartVO;
@@ -121,8 +122,6 @@ public class StoreController {
 			return "forward2";
 		}
 		
-		System.out.println("내 sId다 : " + sId);
-		
 		List<StoreVO> StoreList = service.myCartList(sId);
 		
 		// INSERT & UPDATE 처리 후 장바구니 내역 조회 후 입력
@@ -135,8 +134,6 @@ public class StoreController {
 		myCartList.put("myCartList1", cartList);
 		myCartList.put("myCartList2", StoreList);
 		
-		System.out.println("내정보다 : " + myCartList);
-		
 		model.addAttribute("cartList", myCartList);
 		
 		return "store/store_cart";
@@ -144,20 +141,27 @@ public class StoreController {
 	}
 	
 	// 장바구니 내부 수량 변경 시 업데이트 처리 
-	@GetMapping("cartQuanUpdate")
-	public String quanUpdate(HttpSession session, Model model, int product_count, String product_id) {
+	@PostMapping("cartQuanUpdate")
+	@ResponseBody
+	public List<CartVO> quanUpdate(HttpSession session, int product_count, String product_id) {
+		System.out.println(product_count + ", " + product_id);
+		
 		String sId = (String)session.getAttribute("sId");
 		
 		int resultUpdate = service.updateQuan(sId, product_count, product_id);
-		
-		if(resultUpdate > 0) {
-			return "redirect:/store/store_cart";
-		} else {
-			model.addAttribute("msg", "잘못된 접근입니다");
-	        return "forward";
-		}
-		
+		System.out.println("1");
+		 
+		int resultUpdate2 = service.totalPrice(sId, product_count, product_id);
+		System.out.println("22222222222222222222222222222222222");
+		System.out.println(sId);
+		List<CartVO> cartList = service.resultCartList(sId); 
+		System.out.println("3333333333333333333333333333333");
+				
+		System.out.println("리스트 : " + cartList);
+		return cartList;
 	}
+		
+
 	
 	@GetMapping("storePay")
 	public String storePay(HttpSession session, Model model, StoreVO store, String product_count, MemberVO member) {

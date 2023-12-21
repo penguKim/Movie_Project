@@ -34,22 +34,25 @@ function increaseQuantity(index) {
     }
 }
 
-
-function quan_change(index) {
-	let product_count = $("#quantity0").val();
-	let product_id = $("#product_id0").val();
+function quanChange(index) {
+	let product_count = $("#quantity"+index).val();
+	let product_id = $("#product_id"+index).val();
 	
 	$.ajax({
+		type: "post",
 		url: "cartQuanUpdate",
 		data: {
 			product_count: product_count,
 			product_id: product_id
 		},
-		success: function() {
-			alert("성공")		
+		dataType: "json",
+		success: function(data) {
+				alert("수량" + data[index].product_count + "개로 변경되었습니다!");
+				alert("총금액" + data[index].cart_total_price);
+				$("#totalPrice" + index).text(data[index].cart_total_price + "원");
 		},
 		error: function() {
-			
+			alert("수량 변경에 실패했습니다!");
 		}
 	});
 }
@@ -94,7 +97,7 @@ $(function() {
 								<tr>
 									<!-- 이미지와 상품정보 두칸 합치기 위해 상품명 colspan2 사용 -->
 									<th width="40px"><input type="checkbox" name="Allcheckbox" id="Allcheckbox"></th>
-									<th width="350px">상품명</th>
+									<th width="350px" colspan="2">상품명</th>
 									<th>판매금액</th>
 									<th>수량</th>
 									<th>구매금액</th>
@@ -103,30 +106,35 @@ $(function() {
 								<c:choose>
 									<c:when test="${not empty cartList }">
 										<c:forEach var="i" begin="0" end="${fn:length(cartList.myCartList1)-1}" >
-											<c:set var="cart_total_price" value="${cart_total_price + cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }"/>
+											<%-- 총금액 계산을 위한 All_tatal_price 변수 정의 --%>
+											<%-- 반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 --%>
+											<c:set var="All_total_price" value="${cart_total_price + cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }"/>
 											<input type="hidden" id="product_id${i}" name="product_id" value="${cartList.myCartList2[i].product_id}">
 											<tr>
 												<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
 												<!-- 상품 이미지 및 내용(패키지는 구성) -->
 												<td>
 													<img src="${cartList.myCartList2[i].product_img}">
-													<span>${cartList.myCartList2[i].product_name }</span>
+												</td>
+												<td>
+													<span>${cartList.myCartList2[i].product_name }</span><br>
+													<span>${cartList.myCartList2[i].product_txt }</span>
 												</td>
 												<!-- 상품에 등록된 판매 금액 -->
-												<td>${cartList.myCartList2[i].product_price }</td>
+												<td>${cartList.myCartList2[i].product_price }원</td>
 												<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 												<td class="product_quantity">
 			<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
-												<button type="button" id="minus${i}" class="btn_minus" title="수량감소" onclick="decreaseQuantity(${i})">-</button>
-												<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
-												<input type="text" size="1" title="수량입력" id="quantity${i}" name="quantity" value="${cartList.myCartList1[i].product_count }" min="1" max="99" class="input-text" readonly>
-												<button type="button" id="plus${i}" class="btn_minus" title="수량증가" onclick="increaseQuantity(${i})">+</button>
-													<input type="button" value="변경" id="btn_quantity${i}" onclick="quan_chage(${i})">
-			<!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->
+													<button type="button" id="minus${i}" class="btn_minus" title="수량감소" onclick="decreaseQuantity(${i})">-</button>
+													<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
+													<input type="text" size="1" title="수량입력" id="quantity${i}" name="quantity" value="${cartList.myCartList1[i].product_count }" min="1" max="99" class="input-text" readonly>
+													<button type="button" id="plus${i}" class="btn_minus" title="수량증가" onclick="increaseQuantity(${i})">+</button>
+													<input type="button" value="변경" id="btn_quantity${i}" onclick="quanChange(${i})">
 												</td>
 												<!-- 구매금액 -->
 												<!-- 판매 금액 + 선택된 수량 합산 금액 -->
-												<td>${cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }원</td>
+<%-- 												<td>${cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }원</td> --%>
+												<td id="totalPrice${i}">${cartList.myCartList1[i].product_count * cartList.myCartList2[i].product_price}원</td>
 												<!-- 선택 -->
 												<td>
 												<!-- 바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
@@ -174,7 +182,7 @@ $(function() {
 								<tr class="store_table_box04">
 									<!-- 선택된 모든 상품의 가격과 갯수의 합산된 금액 자동 입력-->
 									<td>
-										${cart_total_price}원
+										${All_total_price}원
 									 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/-.png" width="35px" height="35px"></img> </td>
 									<!-- 할인 기능 미구현 -->
@@ -182,7 +190,7 @@ $(function() {
 									<td> 0원 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 									<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-									<td class="table_box_red">${cart_total_price}원</td>
+									<td class="table_box_red">${All_total_price}원</td>
 								</tr>
 							</table>
 						</div>

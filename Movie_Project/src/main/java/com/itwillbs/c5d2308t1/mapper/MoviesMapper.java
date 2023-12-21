@@ -24,5 +24,11 @@ public interface MoviesMapper {
 
 	// detail 서블릿으로 영화 상세정보 요청 작업 수행
 	HashMap<String, String> selectMovieDetail(String movie_id);
+
+	// List 객체 전달과 ON DUPLICATE KEY UPDATE 테스트
+	int upsertMovieCd(List<MoviesVO> movies);
+
+	// 모든 영화 가져오기
+	List<MoviesVO> selectAllMovie();
 	
 }

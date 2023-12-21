@@ -33,6 +33,11 @@ public class AdminService {
 		return mapper.updateMovies(movie);
 	}
 	
+	// 영화 DB 삭제
+	public int deleteMovie(MoviesVO movie) {
+		return mapper.deleteMovies(movie);
+	}
+	
 	// 하나의 영화 정보 조회
 	public MoviesVO getMovie(MoviesVO movie) {
 		return mapper.selectMovie(movie);
@@ -125,8 +130,5 @@ public class AdminService {
 	public TheaterVO getMainScheduleInfo(TheaterVO theater) {
 		return mapper.selectMainScheduleInfo(theater);
 	}
-
-
-
 
 }

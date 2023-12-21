@@ -4,7 +4,32 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.MoviesMapper">
 
-<!-- 	<select id="selectMoviesList" resultType="com.itwillbs.c5d2308t1.vo.MoviesVO"> -->
+
+	<!-- 
+	List 타입을 파라미터로 지정시 parameterType를 지정하고
+	forEach의 collection="list" item="item" separator=","을 기본값으로 사용한다.
+	list 안의 객체를 item에 담아서 저장한뒤 ,로 구분한다.
+	INSERT 가 PK 중복으로 입력되지 않을 경우 ON DUPLICATE KEY UPDATE를 사용한다.
+	이때, 넣어주는 값은 #{}가 아닌 values(멤버변수명)으로 지정한다.
+	 -->
+	<insert id="upsertMovieCd" parameterType="java.util.List">
+		INSERT INTO movies(movie_id, movie_title, movie_release_date, movie_audience)
+		VALUES
+		    <foreach collection="list" item="item" separator=",">
+			(#{item.movie_id}
+			, #{item.movie_title}
+			, #{item.movie_release_date}
+			, #{item.movie_audience})
+	    </foreach>
+		ON DUPLICATE KEY UPDATE
+			movie_audience = values(movie_audience)
+	</insert>
+	
+	<select id="selectAllMovie" resultType="movies">
+		SELECT *
+		FROM movies
+	</select>
+
 	<select id="selectMoviesList" resultType="HashMap">
 		SELECT *
 		FROM movies

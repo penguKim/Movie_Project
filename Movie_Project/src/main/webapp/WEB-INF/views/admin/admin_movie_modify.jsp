@@ -31,7 +31,7 @@
 		<img src="${movie.movie_poster }" class="poster"><br>
 <!-- 		<img src="" width="250" height="400"><br> -->
 		<input type="file"><br><br>
-			<form action="movieRgst" method="post">
+			<form action="movieMod" method="post">
 			<div id="grayBlock">
 				&nbsp;&nbsp;<sup>영화코드</sup><br>
 				&nbsp;&nbsp;<input type="text" name="movie_id" value="${movie.movie_id }" id="movieCd">
@@ -116,7 +116,7 @@
 			<div id="grayBlockWide">
 				&nbsp;&nbsp;<sup>상영상태</sup><br>
 				<select name="movie_status" id="movie_status">
-					<option>상영 상태</option>
+					<option disabled>상영 상태</option>
 					<option value="0"<c:if test="${movie.movie_status eq 0 }">selected</c:if>>미개봉</option>
 					<option value="1" <c:if test="${movie.movie_status eq 1 }">selected</c:if>>개봉</option>
 				</select>
@@ -131,6 +131,7 @@
 <!-- 				&nbsp;&nbsp;<input type="text" value="2002"> -->
 <!-- 			</div> -->
 			<input type="submit" value="수정">
+			<input type="submit" value="삭제" formaction="adminMovieDlt">
 			<input type="button" value="창닫기" onclick="history.back();">
 		</form>
 	</div>

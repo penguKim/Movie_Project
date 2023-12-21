@@ -56,6 +56,12 @@
 			movie_id = #{movie_id}
 	</update>
 	
+	<!-- 영화 DB 삭제 -->
+	<delete id="deleteMovies">
+		DELETE FROM movies
+		WHERE movie_id = #{movie_id}
+	</delete>
+	
 	<!-- 하나의 영화 정보 조회 -->
 	<select id="selectMovie">
 		SELECT *

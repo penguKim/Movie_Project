@@ -23,6 +23,9 @@ public interface AdminMapper {
 	// 영화 DB 수정
 	int updateMovies(MoviesVO movie);
 	
+	// 영화 DB 삭제
+	int deleteMovies(MoviesVO movie);
+	
 	// 하나의 영화 정보 조회
 	MoviesVO selectMovie(MoviesVO movie);
 	
@@ -83,8 +86,6 @@ public interface AdminMapper {
 	// =================== 상영스케쥴 관리 게시판 ==========================
 	// 상영스케쥴 관리 메인 페이지 정보 조회
 	TheaterVO selectMainScheduleInfo(TheaterVO theater);
-
-
 
 
 

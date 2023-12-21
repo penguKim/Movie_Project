@@ -57,7 +57,7 @@
 									<p class="title">${movie.movie_title }</p>
 								</div>
 							</div>
-								<p class="date">${movie.movie_release_date } 개봉</p>
+								<p class="date">${movie.movie_release_date } <span class="release-type">개봉</span></p>
 							</a>
 							<div class="reserve_area">
 								<a href="movie_select" class="rel_reservBtn">

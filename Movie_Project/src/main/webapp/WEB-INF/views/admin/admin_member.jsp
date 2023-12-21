@@ -81,7 +81,7 @@
 								</td>
 								<td>
 								<a href="adminMemberMod?member_id=${member.member_id}&pageNum=${pageNum }">
-									${member.member_status}
+									<input type="button" value="수정" id="ok">
 								</a>
 								</td>
 							</tr>

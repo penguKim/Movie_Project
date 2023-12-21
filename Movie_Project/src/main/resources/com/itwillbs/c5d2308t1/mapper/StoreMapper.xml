@@ -42,7 +42,7 @@
 		WHERE member_id = #{sId}
 	</select>
 	
-	<!-- 장바구니에 담긴 상품을 조회 -->
+	<!-- 현재 장바구니에 담긴 상품을 조회 -->
 	<select id="selectMyCartList" resultType="store">
 		SELECT c.product_id, product_price, product_img, product_count, product_txt, product_name 
 		FROM carts c JOIN products p 
@@ -57,15 +57,31 @@
 		WHERE product_id = #{product_id}
 	</select>
 	
-	<!-- 장바구니 페이지 수량 변경 시 UPDATE -->
+	<!-- 장바구니 페이지 수량 변경 시 수량 UPDATE -->
 	<update id="updateQuan">
 		UPDATE carts
 		SET product_count = #{product_count}
 		WHERE member_id = #{sId} AND product_id = #{product_id}
 	</update>
 	
+	<!-- 장바구니 페이지 수량 변경 시 총금액 UPDATE -->
+	<update id="sumPrice">
+		UPDATE carts
+		SET cart_total_price  = (SELECT product_price 
+                                 FROM products
+                                 WHERE product_id  = #{product_id}) * #{product_count}
+		WHERE member_id = #{sId} AND product_id = #{product_id};
+	</update>	
 		
-	<!--  결제 페이지 용 멤버이름 / 번호를 SELECT 조회 -->
+	<!-- 장바구니 내에서 수량 변경 업데이트 이후 출력을 위한 조회 -->
+<!-- 	<select id="updateAfter" resultType="cart"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM carts -->
+<!-- 		WHERE member_id = #{sId} -->
+<!-- 		AND product_id = #{product_id} -->
+<!-- 	</select>	 -->
+	
+	<!--  결제 페이지용 멤버이름 / 번호를 SELECT 조회 -->
 	<select id="selectMemberInfo" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
 		SELECT member_name, member_phone
 		FROM members

@@ -102,10 +102,15 @@ public class AdminController {
 	}
 
 	@PostMapping("movieRgst") // 영화 등록 팝업 : admin_movie_update.jsp
-	public String movieRgst(@RequestParam Map<String, Object> map) {
+	public String movieRgst(@RequestParam Map<String, Object> map, Model model) {
 		int insterCount = service.registMovie(map);
 		
-		return "redirect:/adminMovie";
+		if(insterCount > 0) {
+			return "redirect:/adminMovie";
+		} else {
+			model.addAttribute("msg", "등록에 실패했습니다!");
+			return "fail_back";
+		}
 	}
 	
 	// 관리자페이지 영화 정보 수정 페이지로 이동
@@ -124,6 +129,27 @@ public class AdminController {
 			model.addAttribute("movie", dbMovie);
 			model.addAttribute("pageNum", pageNum);
 			return "admin/admin_movie_modify";
+		} else {
+			model.addAttribute("msg", "없는 영화입니다!");
+			return "fail_back";
+		}
+	}
+	
+	// 관리자페이지 영화 정보 삭제 
+	@PostMapping("adminMovieDlt")
+	public String adminMovieDlt(@RequestParam(defaultValue = "1") int pageNum, 
+							MoviesVO movie, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		int deleteCount = service.deleteMovie(movie);
+		
+		if(deleteCount > 0) {
+			model.addAttribute("pageNum", pageNum);
+			return "redirect:/adminMovie";
 		} else {
 			model.addAttribute("msg", "수정에 실패했습니다!");
 			return "fail_back";

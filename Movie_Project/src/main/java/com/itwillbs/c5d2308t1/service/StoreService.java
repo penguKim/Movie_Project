@@ -55,18 +55,15 @@ public class StoreService {
 
 
 	public List<CartVO> selectCart2(MemberVO member) {
-		
 		return mapper.selectCart2(member);
 	}
 
 
 	public CartVO selectCart1(String product_count) {
-		
 		return mapper.selectCart1(product_count);
 	}
 
 	public MemberVO selectMemberInfo(MemberVO member) {
-		
 		return mapper.selectMemberInfo(member);
 	}
 
@@ -74,5 +71,17 @@ public class StoreService {
 	public int updateQuan(String sId, int product_count, String product_id) {
 		return mapper.updateQuan(sId, product_count, product_id);
 	}
+	
+	// 장바구니 수량 변경 시 totalPrice 업데이트
+	public int totalPrice(String sId, int product_count, String product_id) {
+		return mapper.sumPrice(sId, product_count, product_id);
+	}
+
+	public List<CartVO> updateAfter(String sId, String product_id) {
+		
+		return mapper.updateAfter(sId, product_id);
+	}
+	
+	
 	
 }
