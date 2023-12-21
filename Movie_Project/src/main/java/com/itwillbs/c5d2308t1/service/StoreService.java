@@ -65,6 +65,11 @@ public class StoreService {
 		return mapper.selectCart1(product_count);
 	}
 
+	public MemberVO selectMemberInfo(MemberVO member) {
+		
+		return mapper.selectMemberInfo(member);
+	}
+
 
 	
 }

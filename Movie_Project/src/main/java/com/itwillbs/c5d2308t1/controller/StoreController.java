@@ -165,8 +165,21 @@ public class StoreController {
 			return "forward2";
 		}
 		
-		
 		member.setMember_id(sId);
+		
+		// Member name 과 phone 을 조회하기 위한 select 구문
+		MemberVO members = service.selectMemberInfo(member);
+		
+		// 로그인 되어있는 phone 번호를 변수에 저장
+		String phone = members.getMember_phone();
+		
+		// 휴대폰번호 가운데 "****" 처리
+		members.setMember_phone(phone.split("-")[0] + "-****-" + phone.split("-")[2]);
+		
+		// Member 객체에 조회한 name 과 phone 을 저장
+		model.addAttribute("members", members);
+		
+		System.out.println("나는 누구 인가? : " + members);
 //		System.out.println("스토어아이디: " + store);
 		List<StoreVO> storeList = service.selectStore(store);
 		// List<CartVO> storeList = service.selectStore(store);
@@ -174,11 +187,6 @@ public class StoreController {
 		List<CartVO> cartList2 = service.selectCart2(member);
 		
 		model.addAttribute("cartList2", cartList2);
-		
-		System.out.println("카트리스트 : " + cartList2);
-		
-		System.out.println("리스트 : " + storeList);
-		
 //		System.out.println(cartList2);
 		
 		// 결제 페이지에 상품수량(product_count) / 상품 금액을 조회해서 뿌려야댄다

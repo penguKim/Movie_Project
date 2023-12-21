@@ -39,6 +39,9 @@ public interface StoreMapper {
 
 	CartVO selectCart1(String product_count);
 
+	MemberVO selectMemberInfo(MemberVO member);
+
+
 
 
 	
