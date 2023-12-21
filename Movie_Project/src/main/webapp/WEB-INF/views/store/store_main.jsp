@@ -22,11 +22,11 @@
 		<%-- 상품 아이디 지정 --%>
 		let pro = pro_id;
 		<%-- 스토어 메인 페이지의 경우 1이 아닌 경우가 없으므로 1 지정 --%>
-		let quantity = 1;
+		let product_count = 1;
 		
 		<%-- 상세페이지로 이동--%>
 		if(move == 1 ) {
-			move_detail(pro_id, quantity);
+			move_detail(pro_id, product_count);
 			
 		<%-- 장바구니 페이지로 이동--%>
 		} else if(move == 2) {
@@ -34,20 +34,20 @@
 
 		<%-- 결제 페이지로 이동--%>
 		} else if(move == 3) {
-			move_pay(pro_id, quantity);
+			move_pay(pro_id, product_count);
 		}
-	}
+	}	
 	
 	function move_cart(pro_id) {
 		location.href="storeCart?product_id=" + pro_id;
 	}
 	
-	function move_detail(pro_id, quantity) {
+	function move_detail(pro_id, product_count) {
 		location.href="storeDetail?product_id=" + pro_id;
 	}
 	
-	function move_pay(pro_id, quantity) {
-		location.href="storePay?product_id=" + pro_id + "&quantity=" + quantity;
+	function move_pay(pro_id, product_count) {
+		location.href="storePay?product_id=" + pro_id + "&product_count=" + product_count;
 		
 	}
 	

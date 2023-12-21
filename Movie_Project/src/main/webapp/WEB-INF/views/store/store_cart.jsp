@@ -80,29 +80,29 @@ $(function() {
 								</tr>
 								<c:choose>
 									<c:when test="${not empty cartList }">
-										<c:forEach var="i" begin="1" end="${fn:length(cartList.myCartList1)}" >
+										<c:forEach var="i" begin="0" end="${fn:length(cartList.myCartList1)}" >
 											<tr>
 												<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
 												<!-- 상품 이미지 및 내용(패키지는 구성) -->
 												<td>
-													<img src="${cartList.myCartList2[i-1].product_img}">
-													<span>${cartList.myCartList2[i-1].product_name }</span>
+													<img src="${cartList.myCartList2[i].product_img}">
+													<span>${cartList.myCartList2[i].product_name }</span>
 												</td>
 												<!-- 상품에 등록된 판매 금액 -->
-												<td>${cartList.myCartList2[i-1].product_price }</td>
+												<td>${cartList.myCartList2[i].product_price }</td>
 												<!-- 상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 												<td class="product_quantity">
 			<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
-												<button type="button" id="minus-${i}" class="btn_minus" title="수량감소">-</button>
+												<button type="button" id="minus" class="btn_minus" title="수량감소">-</button>
 												<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
-												<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="${cartList.myCartList1[i-1].product_count }" min="1" max="99" class="input-text" readonly>
+												<input type="text" size="1" title="수량입력" id="quantity" name="quantity" value="${cartList.myCartList1[i].product_count }" min="1" max="99" class="input-text" readonly>
 												<button type="button" id="plus-${i}" class="btn_minus" title="수량증가">+</button>
 													<input type="button" value="변경">
 			<!-- 										<button type="button" class="btn_minus" title="수량증가" onclick="product_quantity()">+</button> -->
 												</td>
 												<!-- 구매금액 -->
 												<!-- 판매 금액 + 선택된 수량 합산 금액 -->
-												<td>${cartList.myCartList1[i-1].cart_total_price }원</td>
+												<td>${cartList.myCartList1[i].cart_total_price }원</td>
 												<!-- 선택 -->
 												<td>
 												<!-- 바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
