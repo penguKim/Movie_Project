@@ -112,7 +112,28 @@ public class AdminController {
 		}
 		return "admin/admin_movie_update";
 	}
-
+	//관리자페이지 영화검색 페이지로 이동
+	@GetMapping("adminMovieSearch")
+	public String adminMovieSearch(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		return "admin/admin_movie_search";
+	}
+	
+	//영화검색 페이지에서 검색버튼 누를시 데이터 조회
+	@PostMapping("adminMovieDetails")
+	public String adminMovieDetails(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";		
+		}
+		return "admin/admin_movie_search";
+	}	
+	
 	@PostMapping("movieRgst") // 영화 등록 팝업 : admin_movie_update.jsp
 	public String movieRgst(@RequestParam Map<String, Object> map, Model model) {
 		int insterCount = service.registMovie(map);

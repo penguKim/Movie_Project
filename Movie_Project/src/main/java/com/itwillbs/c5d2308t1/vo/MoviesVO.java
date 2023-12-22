@@ -44,6 +44,5 @@ public class MoviesVO {
 	// 개봉 상태
 	private int movie_status;
 	
-	
-	
 }
+

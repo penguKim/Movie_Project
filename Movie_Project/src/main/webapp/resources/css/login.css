@@ -43,6 +43,13 @@ form:not(#popup1_form) { /* 정보 입력창 */
 	margin: 10px;
 	padding-bottom: 100px;
 }
+.mapage_table { /* 정보 입력창 */
+	vertical-align: top;
+	display: inline-block;
+	width: 800px; /* 너비 800지정 */
+	margin: 10px;
+	padding-bottom: 100px;
+}
 
 table:not(#popup1_table) {
 	border-collapse: collapse; /* 칸 사이 간격 없애기 */
@@ -166,54 +173,130 @@ th {
 
 /* ----------------- 사이드메뉴 시작------------------------------ */
 
-#my_menu>p>a {
-	text-decoration: none; /* 밑줄 없애기 */	
-	color: #ffffff; /* 글씨 색깔 변경 */	
-}
+/* #my_menu>p>a { */
+/* 	text-decoration: none; 밑줄 없애기	 */
+/* 	color: #ffffff; 글씨 색깔 변경	 */
+/* } */
 
-#my_menu a { /* 하이퍼링크에 */
-	text-decoration: none; /* 밑줄 없애기 */	
-	color: #000000; /* 글씨 색깔 변경 */
-}
+/* #my_menu a { 하이퍼링크에 */
+/* 	text-decoration: none; 밑줄 없애기	 */
+/* 	color: #000000; 글씨 색깔 변경 */
+/* } */
 
-#my_menu { /* 메뉴바 전체에 */
-	text-align: center; /* 가운데정렬 */
+/* #my_menu { 메뉴바 전체에 */
+/* 	text-align: center; 가운데정렬 */
+/* 	width: 160px; 넓이지정 */
+/* 	height: 300px; 높이지정 */
+/*  	border-radius: 3px; 모서리 둥글게 */
+/*  	background-color: #ffffff; 배경색 */
+/* 	border: 2px solid #9d9d9d; 테두리 */
+/* 	left: 10%; 제목에서부터 왼쪽 10% */
+/* }  */
+
+/* #my_menu p { 메뉴바 제목에 */
+/* 	font-size: 23px; 글자크기 */
+/* 	font-weight: bold; 글자두껍게 */
+/* 	padding: 25px 0;  안쪽여백 */
+/* 	background-color: #e50914; 배경색 빨강 */
+/* 	margin: 0; */
+/* } */
+
+/* #my_menu ul { 순서없는 목록 전체에 */
+/* 	text-align: center; 가운데정렬 */
+/* 	list-style: none; 앞 표시 없애기 */
+/* 	font-size: 16px; 글자크기 */
+/* 	padding-left: 5px; 왼쪽여백 */
+/* 	margin: 0; 바깥여백 없애기 */
+/* } */
+
+/* #my_menu li { 순서없는 목록 각 줄에 */
+/* 	padding: 15px 15px; 안쪽여백 */
+/* 	width: 130px; 너비지정 */
+/* 	font-weight: bold; 글자 두껍게 */
+/* 	position: relative; */
+/* 	left: -5px; top: 2px; */
+/* 	margin: 0px; */
+/* } */
+
+/* #my_menu li:hover { 순서없는 목록 각 줄에 마우스 올리면 */
+/* 	background-color: #eeeeee; 배경색 회색 */
+/* } */
+
+/* Fixed sidenav, full height */
+.sidenav {
 	width: 160px; /* 넓이지정 */
-	height: 300px; /* 높이지정 */
- 	border-radius: 3px; /* 모서리 둥글게 */
- 	background-color: #ffffff; /* 배경색 */
-	border: 2px solid #9d9d9d; /* 테두리 */
-	left: 10%; /* 제목에서부터 왼쪽 10% */
-} 
+	border-radius: 3px; /* 모서리 둥글게 */
+ 	background-color: #e50914; /* 배경색 */
+ 	margin-bottom: 40px;
+ 	border: 2px solid #9d9d9d; /*테두리*/
+}
 
-#my_menu p { /* 메뉴바 제목에 */
-	font-size: 23px; /* 글자크기 */
-	font-weight: bold; /* 글자두껍게 */
-	padding: 25px 0;  /* 안쪽여백 */
-	background-color: #e50914; /* 배경색 빨강 */
+.sidenav #admin {
+	text-align: center;
+	font-size: 20px;
+	cursor: pointer;
+	padding: 10px;	
 	margin: 0;
 }
 
-#my_menu ul { /* 순서없는 목록 전체에 */
-	text-align: center; /* 가운데정렬 */
-	list-style: none; /* 앞 표시 없애기 */
-	font-size: 16px; /* 글자크기 */
-	padding-left: 5px; /* 왼쪽여백 */
-	margin: 0; /* 바깥여백 없애기 */
+#admin>a {
+	text-decoration: none;
+	color: #fff;
 }
 
-#my_menu li { /* 순서없는 목록 각 줄에 */
-	padding: 15px 15px; /* 안쪽여백 */
-	width: 130px; /* 너비지정 */
-	font-weight: bold; /* 글자 두껍게 */
-	position: relative;
-	left: -5px; top: 2px;
-	margin: 0px;
+/* Style the sidenav links and the dropdown button */
+.dropdown-btn {
+	font-size: 20px;
+	background-color: #e50914;
+	color: #000;
+	display: block;
+	border: none;
+	width: 160px;
+	text-align: center;
+	cursor: pointer;
+	outline: none;
+	padding: 10px;
 }
 
-#my_menu li:hover { /* 순서없는 목록 각 줄에 마우스 올리면 */
-	background-color: #eeeeee; /* 배경색 회색 */
+.dropdown-container>a {
+	background-color: #ffffff;
+	text-decoration: none;
+	font-size: 16px;
+	color: #000;
+	display: block;
+	border: none;
+	width: 160px;
+	text-align: center;
+	cursor: pointer;
+	outline: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: -8px;
 }
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+	color: #000000;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+	background-color: #f50000;
+	color: black;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+	display: none;
+	padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+	float: right;
+	padding-right: 8px;
+}
+
 
 /* ----------------- 사이드메뉴 끝------------------------------ */
 

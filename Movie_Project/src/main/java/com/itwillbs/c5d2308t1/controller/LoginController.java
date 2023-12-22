@@ -26,7 +26,7 @@ public class LoginController {
 	}
 	@GetMapping("mypage") //메인화면에서 버튼 클릭시 mypage이동
 	public String mypage() {
-		return "login/mypage";
+		return "login/Mypage";
 	}
 	
 	@PostMapping("MemberLoginPro") // 로그인 클릭 시 메인페이지로 이동
@@ -36,7 +36,8 @@ public class LoginController {
 //	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    
 	    if(dbMember == null) {//로그인 실패시
-//	    	if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
+//	    if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
+
 	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
 	    	return "fail_back";
 	    	
@@ -57,7 +58,7 @@ public class LoginController {
 	@GetMapping("SideMypage") //마이페이지 이동
 	public String SideMypage() {
 		
-		return"login/mypage";
+		return"login/Mypage";
 	}
 	
 	@GetMapping("SideEditmember") //회원수정 페이지 이동
@@ -65,21 +66,44 @@ public class LoginController {
 		return"login/editmember";
 	}
 	
-	@GetMapping("SideRefund") //취소내역 페이지 이동
-	public String SideRefund() {
-		return"login/refund";
+	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
+	public String Mypage_Refund_BoardList() {
+		return"login/Mypage_Refund_BoardList";
 	}
 	
-	@GetMapping("SideMyboard") //나의 게시글 페이지 이동
-	public String SideMyboard() {
-		return"login/myboard";
+	@GetMapping("Mypage_ReviewList")
+	public String Mypage_ReviewList() { // 1대1문의게시판으로 이동
+		return "login/Mypage_ReviewList";
 	}
 	
-	@GetMapping("myPageOneOnOneDtl")
-	public String myPageOneOnOneDtl() { // 나의 게시글 1대1문의 상세페이지로 이동
-		return "login/mypage_OneOnOne";
+	@GetMapping("Mypage_OneOnOne")
+	public String Mypage_OneOnOne() { //1대1문의 상세게시판으로 이동
+		return "login/Mypage_OneOnOne";
 	}
 	
+	@GetMapping("Mypage_OneOnOneList")
+	public String mypage_OneOnOne() { // 1대1문의게시판으로 이동
+		return "login/Mypage_OneOnOneList";
+	}
 	
+	@GetMapping("Mypage_LostBoard_List")
+	public String Mypage_LostBoard_List() { // 분실물 문의 게시판으로 이동
+		return "login/Mypage_LostBoard_List";
+	}
+	
+	@GetMapping("Mypage_LostBoad")
+	public String Mypage_LostBoad() { // 분실물 문의 상세게시판으로 이동
+		return "login/Mypage_LostBoad";
+	}
+	
+	@GetMapping("Mypage_Reserv_boardList")
+	public String Mypage_Reserv_boardList() { // 예매내역 게시판
+		return "login/Mypage_Reserv_boardList";
+	}
+	
+	@GetMapping("Mypage_Product_boardList")
+	public String Mypage_Product_boardList() { // 상품내역 게시판
+		return "login/Mypage_Product_boardList";
+	}
 	
 }

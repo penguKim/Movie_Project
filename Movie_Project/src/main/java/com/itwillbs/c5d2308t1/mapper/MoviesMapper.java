@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
+import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Mapper
 public interface MoviesMapper {
@@ -30,5 +32,7 @@ public interface MoviesMapper {
 
 	// 모든 영화 가져오기
 	List<MoviesVO> selectAllMovie();
+	int insertMovieReview(ReviewsVO review);
+
 	
 }

@@ -79,25 +79,30 @@
 			    <div class="review" id="review">
 			    	<hr>
 			    	<h2>리뷰</h2>
-			    	<input type="text" placeholder="리뷰 입력" size="50">
-			    	<input type="button" value="등록">
-			    	<br>
-			    	<table>
-			    		<tr>
-			    			<td rowspan="6" width="200">
-			    				평점이 들어간다면<br>
-			    				넣을 자리
-			    			</td>
-			    			<th>아이디</h>
-			    			<td>내용(한두줄 정도로 글자수 제한?)</td>
-			    		</tr>
-			    		<c:forEach begin="1" end="5">
-						   	<tr>
-				    			<th>xxxx</th>
-				    			<td>재밌어요~~~~~~~~~~~~~~</td>
+						<form action="reviewPro">
+					    	<input type="text" name="review_content" placeholder="리뷰 입력" size="50">
+					    	<input type=submit value="등록"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
+					    	<input type="hidden" name="movie_id" >
+						</form>
+				    	<br>
+			    			<table>
+			    			<tr>
+				    			<td rowspan="6" width="200">
+				    				평점이 들어간다면<br>
+				    				넣을 자리
+				    			</td>
+				    			<th>아이디</th>
+				    			<th>내용</th>
+				    			<th>작성일</th>
 				    		</tr>
-			    		</c:forEach>
-			    	</table>
+				    		<c:forEach begin="1" end="5">
+						   	<tr>
+				    			<th>${member_sId }</th> <!-- 세션에 저장된 id  -->
+				    			<td>${review_content }</td> <!-- insert로 생성된 내용 -->
+				    			<td>${review_date }</td> <!-- insert로 생성된 datetime -->
+				    		</tr>
+			    			</c:forEach>
+			    			</table>
 			    </div>
 			</section>
 		</section>	

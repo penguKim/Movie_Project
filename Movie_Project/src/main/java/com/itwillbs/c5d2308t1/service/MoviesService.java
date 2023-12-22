@@ -9,6 +9,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.itwillbs.c5d2308t1.mapper.MoviesMapper;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
+import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Service
 public class MoviesService {
@@ -43,6 +46,11 @@ public class MoviesService {
 	public int registMovie(Map<String, Object> map) {
 		return mapper.insertMovies(map);
 	}
+
+	public int review(ReviewsVO review) {
+		return mapper.insertMovieReview(review);
+	}
+
 	
 	
 	public void registMovieCd() {

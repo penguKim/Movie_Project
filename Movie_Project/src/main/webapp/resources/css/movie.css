@@ -388,7 +388,7 @@
 
 #review {
 	padding-top: 50px;
-	z-index: -1;
+	z-index: 0;
 	position: relative;
 	margin-bottom: 100px;
 }

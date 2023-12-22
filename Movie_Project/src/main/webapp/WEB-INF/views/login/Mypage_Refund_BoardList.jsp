@@ -45,19 +45,19 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 					<h2>예매 취소내역</h2>
 					<table id="my_table1">
 						<tr>
-							<th width="50px"><input type="checkbox" id="checkbox3"></th><th>No.</th>
+							<th>No.</th>
 							<th>영화 제목</th>
 							<th>내용</th>
 							<th>상태</th>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="checkbox3"></td><td>[예매취소순번]</td>
+							<td>[예매취소순번]</td>
 							<td>[영화제목]</td>
 							<td>[예매취소일]</td>
 							<td>[환불완료]</td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="checkbox3"></td><td>[예매취소순번]</td>
+							<td>[예매취소순번]</td>
 							<td>[영화제목]</td>
 							<td>[예매취소일]</td>
 							<td>[환불완료]</td>

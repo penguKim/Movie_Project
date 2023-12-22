@@ -44,6 +44,8 @@
 				<div id="movie_update">
 <!-- 					<input type="button" value="상영예정작 등록하기" onclick = "location.href='adminMovie'">		 -->
 					<input type="button" value="최신영화 등록하기" onclick = "location.href='adminMovieUdt'">
+					<input type="button" value="영화 검색" onclick = "location.href='adminMovieSearch'">
+					<input type="button" value="영화등록" onclick = "location.href='adminMovieUdt'">
 				</div>
 				<div id="movie_Search">
 					<%-- 검색 기능을 위한 폼 생성 --%>

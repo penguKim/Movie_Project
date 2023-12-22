@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -50,6 +52,7 @@ import com.itwillbs.c5d2308t1.service.MoviesService;
 import com.itwillbs.c5d2308t1.vo.KobisAPI;
 import com.itwillbs.c5d2308t1.vo.CrawlVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
+import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Controller
 public class MoviesController {
@@ -510,20 +513,34 @@ public class MoviesController {
 //		return "";
 //	}
 	
+	@GetMapping("reviewPro")
+	public String review(HttpSession session, ReviewsVO review, Model model) { 
+		int insertCount = service.review(review); 
+		System.out.println(insertCount);
+		
+		
+//		if(insertCount == 0) { // insertCount 개수가 추가안되었을때 '글생성실패' 페이지유지
+//			model.addAttribute("msg", "글 생성 실패");
+//			
+//			return "fail_back";
+//		}
+		return "detail";
+//		return "redirect:/detail?movie_id=" + movie_id;
+	}
 	
-}
+} //MoviesController 끝
 
 
-class BoxOfficeResult {
-    private List<KobisAPI> boxOfficeResult;
-
-	public List<KobisAPI> getBoxOfficeResult() {
-		return boxOfficeResult;
-	}
-
-	public void setBoxOfficeResult(List<KobisAPI> boxOfficeResult) {
-		this.boxOfficeResult = boxOfficeResult;
-	}
+//class BoxOfficeResult {
+//    private List<KobisAPI> boxOfficeResult;
+//
+//	public List<KobisAPI> getBoxOfficeResult() {
+//		return boxOfficeResult;
+//	}
+//
+//	public void setBoxOfficeResult(List<KobisAPI> boxOfficeResult) {
+//		this.boxOfficeResult = boxOfficeResult;
+//	}
     
     
-}
+//}

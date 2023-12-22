@@ -54,6 +54,7 @@
 	</insert>
 	
 	<insert id="insertMovies">
+	
 		INSERT INTO movies
 		VALUES(
 			#{movie_id}
@@ -75,6 +76,17 @@
 			, #{movie_trailer}
 			, #{movie_audience}
 			, #{movie_status}
+		)
+	</insert>
+	
+	<insert id="insertMovieReview"> <!--review_id(int타입 null값 허용X / rating null값 허용 / content문자열 / now() 데이터타임 생성  -->
+		INSERT INTO Reviews
+		VALUES(
+			'ddd'
+			,null
+			, #{review_content}
+			, now()
+			, null
 		)
 	</insert>
 	
