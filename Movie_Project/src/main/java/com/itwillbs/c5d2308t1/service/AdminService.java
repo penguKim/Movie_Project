@@ -116,7 +116,7 @@ public class AdminService {
 	}
 	
 	// 관리자페이지 자주묻는질문 상세페이지 보기
-	public HashMap<String, Object> csFaqDetailPage(CsVO cs) {
+	public HashMap<String, Object> boardfaqDetailPage(CsVO cs) {
 		return mapper.selectFaqDetailPage(cs);
 	}
 	
@@ -135,7 +135,14 @@ public class AdminService {
 		return mapper.selectFaqDetailCount(cs, buttonName);
 	}
 	
+	// 관리자페이지 공지사항 상세페이지 보기
+	public HashMap<String, Object> boardNoticeDetailPage(CsVO cs) {
+		return mapper.selectNoticeDetailPage(cs);
+	}
 	
+	public int removeBoard(HashMap<String, Object> board) {
+		return mapper.deleteBoard(board);
+	}
 	
 
 	// ****************** 1대1문의 게시판 *********************
@@ -178,6 +185,7 @@ public class AdminService {
 	public List<Map<String, Object>> getMainScheduleInfo() {
 		return mapper.selectMainScheduleInfo();
 	}
+
 
 	
 //	public PlayVO getMainScheduleInfo(PlayVO play) {

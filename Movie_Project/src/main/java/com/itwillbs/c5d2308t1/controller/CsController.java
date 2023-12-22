@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.c5d2308t1.service.CsService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 
 @Controller
@@ -279,7 +280,7 @@ public class CsController {
 	// 고객센터 1대1문의, 분실물문의 폼에 입력된 정보를 DB에 입력하고
 	// 고객센터 메인 페이지로 이동
 	@PostMapping("csBoardPro")
-	public String csBoardPro(CsVO cs, Model model, HttpServletRequest request, HttpSession session) {
+	public String csBoardPro(CsVO cs, Model model, HttpSession session) {
 		
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg", "로그인이 필요합니다");
@@ -344,7 +345,7 @@ public class CsController {
 				e.printStackTrace();
 			}
 			
-			return "redirect:/SideMyboard";
+			return "redirect:/Mypage";
 			
 		} else {			
 			model.addAttribute("msg", "문의글 등록 실패!");

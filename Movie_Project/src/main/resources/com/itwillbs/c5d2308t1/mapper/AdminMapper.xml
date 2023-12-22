@@ -231,8 +231,9 @@
 			AND cs_type_list_num = #{cs_type_list_num} 
 	</select>
 	
+	<!-- 관리자페이지 게시글 등록 -->
 	<insert id="insertBoard">
-<!-- 		cs_type_list_num 계산하여 넣기 -->
+		<!-- cs_type_list_num 계산하여 넣기 -->
 		<selectKey keyProperty="cs_type_list_num" resultType="int" order="BEFORE">
 			SELECT MAX(cs_type_list_num)
 			FROM cs
@@ -262,6 +263,7 @@
 		)		
 	</insert>
 	
+	<!-- 관리자페이지 게시글 수정 -->
 	<update id="updateBoard">
 		UPDATE cs
 			SET
@@ -269,8 +271,26 @@
 				, cs_content = #{cs_content}
 				, cs_type_detail = #{cs_type_detail}
 				, cs_file = #{cs_file}
-			WHERE cs_id = #{cs_id}
+			WHERE cs_type = #{cs_type}
+				AND cs_type_list_num = #{cs_type_list_num}
 	</update>
+	
+	<!-- 관리자페이지 공지사항 상세페이지 보기 -->
+	<select id="selectNoticeDetailPage" resultType="hashmap">
+		SELECT *
+		FROM cs
+		JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		WHERE cs_type = #{cs_type} 
+			AND cs_type_list_num = #{cs_type_list_num} 
+	</select>
+	
+	<delete id="deleteBoard">
+		DELETE FROM cs
+		WHERE cs_type = #{cs_type} 
+			AND cs_type_list_num = #{cs_type_list_num} 
+	</delete>
+	
 	
 <!-- *************** 1대1문의 관리 게시판 작업 ************* -->
 <!-- 	1대1문의 관리 게시판 조회 -->
@@ -303,36 +323,18 @@
 		AND cs_id = #{cs_id}
 	</select>
 	
-<!--  1대1문의 답변 등록 -->
-	<update id="updateOneOnOneNewReply">
-		UPDATE cs
-		SET cs_reply = #{cs_reply}
-		WHERE cs_id = #{cs_id}
-	</update>	
-<!-- 1대1문의 답변 수정 -->	
+<!--  1대1 문의 답변 등록 -->
 	<update id="updateOneOnOneReply">
 		UPDATE cs
 		SET cs_reply = #{cs_reply}
 		WHERE cs_id = #{cs_id}
-	</update>
+	</update>	
 
 <!-- *************** 상영스케쥴 관리페이지 작업 ************* -->
 <!-- 상영스케쥴 관리 메인 페이지 정보 조회-->
-<!-- 	<select id="selectMainScheduleInfo" resultType="theater"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM theaters -->
-<!-- 		WHERE theater_id = 1 -->
-<!-- 	</select> -->
-
-<!-- 	<select id="selectMainScheduleInfo" resultType="play"> -->
-<!-- 		SELECT room_id, movie_id, play_start_time -->
-<!-- 		FROM plays -->
-<!-- 		WHERE theater_id = 1 -->
-	<select id="selectMainScheduleInfo" resultType="hashmap">
+	<select id="selectMainScheduleInfo" resultType="theater">
 		SELECT *
-		FROM plays p
-		JOIN theaters t 
-		ON p.room_id = t.theater_id
+		FROM theaters
 		WHERE theater_id = 1
 	</select>
 

@@ -41,7 +41,11 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="4"  class="notice_content">${csNoticeDetail.cs_content}<br><br><br><br><br><br><br></td>
+						<td colspan="4"  class="notice_content">${csNoticeDetail.cs_content}</td>
+					</tr>
+					<tr>
+						<td class="notice_file">첨부파일</td>
+						<td colspan="3"  class="notice_file">${csNoticeDetail.cs_file}</td>
 					</tr>
 					<tr>
 						<td>이전  ▲</td>

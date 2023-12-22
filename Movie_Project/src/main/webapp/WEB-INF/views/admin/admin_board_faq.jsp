@@ -40,7 +40,6 @@
 							+	"<td>" + faq.cs_type_list_num + "</td>"
 							+	"<td>" + faq.cs_type_detail + "</td>"
 							+	"<td class='post_name'><a href='adminFaqView?cs_type=" + faq.cs_type + "&cs_type_list_num=" + faq.cs_type_list_num + "&pageNum=${pageNum}'>" + faq.cs_subject + "</a></td>"
-							+	"<td>" + faq.member_id + "</td>"
 							+	"<td>" + formattedDate + "</td>"
 							+"</tr>"
 						);
@@ -87,7 +86,6 @@
 							<th width="30">번호</th>
 							<th width="100">유형</th>
 							<th width="370">제목</th>
-							<th width="100">작성자</th>
 							<th width="120">등록일</th>
 						</tr>
 					</thead>					
@@ -103,7 +101,6 @@
 										<td>${faq.cs_type_list_num}</td>
 										<td>${faq.cs_type_detail}</td>
 										<td class="post_name"><a href="adminFaqView?cs_type=${faq.cs_type}&cs_type_list_num=${faq.cs_type_list_num}&pageNum=${pageNum}">${faq.cs_subject}</a></td>
-										<td>${faq.member_id}</td>
 										<td>
 											<fmt:parseDate value='${faq.cs_date}' pattern="yyyy-MM-dd" var='cs_date'/>
 											<fmt:formatDate value="${cs_date}" pattern="yyyy-MM-dd"/>

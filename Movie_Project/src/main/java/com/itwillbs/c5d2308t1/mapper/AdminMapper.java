@@ -68,6 +68,7 @@ public interface AdminMapper {
 	int updatememberModOrDlt(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
 
 	
+	
 	// ============= 자주묻는질문관리, 공지사항관리 게시판 ===============
 	// 관리자페이지 자주묻는질문 공지사항 조회 - 추상메서드 정의
 	List<HashMap<String, Object>> selectCsList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
@@ -87,9 +88,11 @@ public interface AdminMapper {
 	// 고객센터 세부항목별 목록 갯수 조회 - 추상메서드 정의
 	int selectFaqDetailCount(@Param("cs") CsVO cs, @Param("buttonName") String buttonName);
 
+	// 관리자페이지 공지사항 상세페이지 보기
+	HashMap<String, Object> selectNoticeDetailPage(CsVO cs);
 	
-	
-	
+	// 관리자페이지 게시글 삭제
+	int deleteBoard(HashMap<String, Object> board);
 	
 	// =================== 1대1문의 게시판 ==========================
 	// 1대1 문의 관리 게시판 조회 작업
@@ -117,6 +120,7 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectMainScheduleInfo();
 
 
+	
 
 
 

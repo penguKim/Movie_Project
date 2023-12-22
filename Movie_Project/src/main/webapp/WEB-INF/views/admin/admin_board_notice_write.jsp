@@ -5,9 +5,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 등록</title>
+<title>공지사항 관리</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources//js/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+	
+	$(function() {
+		
+		// 지점명 불러오기
+		$(function() {
+			$.ajax({
+				type: "GET",
+				url: "getTheater",
+				success: function(result) {
+					for(let theater of result) {
+					$("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
+					}
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					alert("지점명 로딩 오류입니다.");
+				}
+				
+			});
+		});
+	});
+		
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -18,33 +42,38 @@
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 		
 		<section id="content">
-			<h1 id="h01">공지사항 글 등록</h1>
+			<h1 id="h01">공지사항 관리</h1>
 			<hr>		
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_sub">
-				<form action="boardNoticeRgst" method="post">
+				<form action="adminNoticeWritePro" method="post" enctype="multipart/form-data">
 					<table border="1">
 						<tr>
-							<th>번호</th>
-							<td><input type="text"></td>
-						</tr>
-						<tr>
-							<th>제목</th>
-							<td><input type="text"></td>
+							<th>지점</th>
+							<td>
+								<select name="theater_id" id="theater_id">
+									<option value="">지점을 선택하세요</option>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td><input type="text"></td>
+							<td><input type="text" name="member_id" value="${sessionScope.sId}" readonly> </td>
+						</tr>
+						<tr>
+							<th>제목</th>
+							<td><input type="text" name="cs_subject"></td>
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea></textarea></td>
+							<td><textarea rows="15" cols="90" name="cs_content"></textarea></td>
 						</tr>
 						<tr>
-							<th>사진첨부</th>
-							<td><input type="file"></td>
+							<th>첨부파일</th>
+							<td><input type="file" name="mFile"></td>
+							<input type="hidden" name="cs_type" value="공지사항">
 						</tr>
 					</table>
 					<div id="admin_writer"> 

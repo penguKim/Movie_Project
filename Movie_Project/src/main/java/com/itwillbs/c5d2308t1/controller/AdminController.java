@@ -429,9 +429,297 @@ public class AdminController {
 	}
 
 	// 관리자페이지 자주묻는질문 글 등록하기
-	@PostMapping("boardFaqWritePro") // 자주묻는 질문 글쓰기 : admin_board_faq_write.jsp
-	public String boardFaqWritePro(CsVO cs, HttpSession session, Model model, 
-			@RequestParam(defaultValue = "0") int cs_id) {
+	@PostMapping("adminFaqWritePro") // 자주묻는 질문 글쓰기 : admin_board_faq_write.jsp
+	public String boardFaqWritePro(CsVO cs, HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		int insertCount = service.registBoard(cs);
+
+		// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)
+		// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
+		//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
+		if(insertCount > 0) {
+			
+			return "redirect:/adminFaq";
+			
+		} else {			
+			model.addAttribute("msg", "자주묻는질문 등록 실패!");
+			return "fail_back";
+		}
+				
+	}
+
+	
+	// 관리자페이지 자주묻는질문 상세 조회 페이지로 이동
+	@GetMapping("adminFaqView")
+	public String adminFaqView(CsVO cs, HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+
+		HashMap<String, Object> faqDetail = service.boardfaqDetailPage(cs);
+		System.out.println(faqDetail);
+		model.addAttribute("faqDetail", faqDetail);
+		
+		return "admin/admin_board_faq_view";
+	}
+	
+	@PostMapping("adminFaqModifyForm") // 자주 묻는 질문 수정 : admin_board_faq_write.jsp 재사용
+	public String adminFaqModifyForm(CsVO cs, HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// DB에 등록되어있는 값 가져오기
+		HashMap<String, Object> faqDetail = service.boardfaqDetailPage(cs);
+		System.out.println(faqDetail);
+		model.addAttribute("faqDetail", faqDetail);	
+		
+		return "admin/admin_board_faq_modify";
+	}
+	
+	// 관리자페이지 자주묻는질문 글 수정하기
+	@PostMapping("adminFaqModifyPro") // 자주묻는 질문 글쓰기 : admin_board_faq_write.jsp
+	public String boardFaqModifyPro(CsVO cs, HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// AdminService - registBoard() 메서드 호출하여 문의글 수정 요청
+		int updateCount = service.updateBoard(cs);
+		System.out.println("updateCount :" + updateCount);
+		
+		// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)
+		// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
+		//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
+		if(updateCount > 0) {
+			
+			return "redirect:/adminFaq";
+			
+		} else {			
+			model.addAttribute("msg", "자주묻는질문 수정 실패!");
+			return "fail_back";
+		}
+			
+	}
+	
+	
+	@GetMapping("adminFaqDelete")
+	public String adminFaqDelete(CsVO cs, @RequestParam(defaultValue = "1") int pageNum, Model model, HttpSession session) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		HashMap<String, Object> board = service.boardfaqDetailPage(cs);
+		
+		int deleteCount = service.removeBoard(board);
+		
+		if(deleteCount > 0) { // 삭제 성공
+			
+			return "redirect:/adminNotice?pageNum=" + pageNum;
+			
+		} else { // 삭제 실패
+			// "글 삭제 실패!" 메세지 처리
+			model.addAttribute("msg", "글 삭제 실패!");
+			return "fail_back";
+		}
+
+	}
+
+	// ===========================================================================================
+	// ********************** 공지사항 관리 페이지 *************
+	// 관리자페이지 공지사항 관리 페이지로 이동
+	@GetMapping("adminNotice")
+	public String adminNotice(CsVO cs, Model model, HttpServletRequest request,
+			@RequestParam(defaultValue = "1") int pageNum, HttpSession session) {
+		
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// 공지사항 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
+		cs.setCs_type("공지사항");
+		
+		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
+		int listLimit = 5;
+		
+		// 조회 시작 행번호
+		int startRow = (pageNum - 1) * listLimit;
+		
+		// CsService - getFaqList() 메서드 호출하여 공지사항 출력(재사용)
+		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
+		List<HashMap<String, Object>> NoticeList = service.getCsList(cs, startRow, listLimit);
+	//	System.out.println(noticeList);
+		
+		// ======================================================
+		int listCount = service.getCsTypeListCount(cs);
+		int pageListLimit = 5;
+		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		int endPage = startPage + pageListLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
+		PageInfo pageInfo = new PageInfo(listCount, maxPage, pageListLimit, startPage, endPage);
+		// ------------------------------------------------------
+		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("NoticeList", NoticeList);
+		model.addAttribute("pageNum", pageNum);
+		System.out.println(NoticeList);
+		
+		return "admin/admin_board_notice";
+	}
+
+	// 관리자페이지 공지사항 글등록 페이지로 이동
+	@GetMapping("adminNoticeWriteForm")
+	public String adminNoticeWriteForm(HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		return "admin/admin_board_notice_write";
+	}
+
+	@PostMapping("adminNoticeWritePro") // 공지사항 글쓰기 : admin_board_notice_write.jsp
+	public String adminNoticeWritePro(CsVO cs, HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// --------------------------------------------------------
+		// 파일업로드를 위한 준비
+		// resources 디렉토리 내에 upload 파일 생성
+		String uploadDir = "/resources/upload"; // 가상 디렉토리
+		String saveDir = session.getServletContext().getRealPath(uploadDir); // 실제 디렉토리
+		String subDir = "";
+//				
+		// 날짜별로 서브디렉토리 생성하기
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		subDir = now.format(dtf);
+		
+		saveDir += File.separator + subDir;
+		
+		// 해당 디렉토리가 존재하지 않을 때에만 자동생성
+		try {
+			Path path = Paths.get(saveDir); // 업로드 경로
+			Files.createDirectories(path); // Path 객체
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+//				// MultipartFile 타입 객체 꺼내기
+		MultipartFile mFile = cs.getMFile();
+		
+		// 파일명 중복을 방지하기 위해 난수 생성하기
+		cs.setCs_file("");
+		String fileName = UUID.randomUUID().toString() + "_" + mFile.getOriginalFilename();
+		
+		if(!mFile.getOriginalFilename().equals("")) {
+			cs.setCs_file(subDir + "/" + fileName);
+		}
+		
+		System.out.println("업로드 파일명 확인 : " + cs.getCs_file());
+		
+		
+		// CsService - registBoard() 메서드 호출하여 문의글 등록 요청
+		// => 파라미터 : CsVO 객체   리턴타입 : int(insertCount)
+		int insertCount = service.registBoard(cs);
+		
+		// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)
+		// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
+		//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
+		if(insertCount > 0) {
+			// 파일이 있을 경우에만 파일 생성
+			try {
+				if(!mFile.getOriginalFilename().equals("")) {
+					mFile.transferTo(new File(saveDir, fileName));
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+					
+			
+			return "redirect:/adminNotice";
+			
+		} else {			
+			model.addAttribute("msg", "공지사항 등록 실패!");
+			return "fail_back";
+		}
+			
+		
+	}
+
+	// 관리자페이지 공지사항 상세 조회 페이지로 이동
+	@GetMapping("adminNoticeView")
+	public String adminNoticeView(CsVO cs, HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+
+		HashMap<String, Object> noticeDetail = service.boardNoticeDetailPage(cs);
+		System.out.println(noticeDetail);
+		model.addAttribute("noticeDetail", noticeDetail);
+				
+
+		return "admin/admin_board_notice_view";
+	}
+	
+	// 공지사항 수정
+	@PostMapping("adminNoticeModifyForm")
+	public String adminNoticeModifyForm(CsVO cs, HttpSession session, Model model) {
+		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// DB에 등록되어있는 값 가져오기
+		HashMap<String, Object> noticeDetail = service.boardNoticeDetailPage(cs);
+		System.out.println(noticeDetail);
+		model.addAttribute("noticeDetail", noticeDetail);	
+		
+		return "admin/admin_board_notice_modify";
+	}
+	
+	
+	@PostMapping("adminNoticeModifyPro") // 공지사항 글쓰기 : admin_board_notice_write.jsp
+	public String adminNoticeModifyPro(CsVO cs, HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -474,87 +762,37 @@ public class AdminController {
 		
 		System.out.println("업로드 파일명 확인 : " + cs.getCs_file());
 		
-		
-		if(cs_id != 0) {
-			// AdminService - registBoard() 메서드 호출하여 문의글 수정 요청
-			cs.setCs_id(cs_id);
-			int updateCount = service.updateBoard(cs);
-			System.out.println("updateCount :" + updateCount);
-			
-			// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)
-			// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
-			//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
-			if(updateCount > 0) {
-				// 파일이 있을 경우에만 파일 생성
-				try {
-					if(!mFile.getOriginalFilename().equals("")) {
-						mFile.transferTo(new File(saveDir, fileName));
-					}
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				return "redirect:/adminFaq";
-				
-			} else {			
-				model.addAttribute("msg", "문의글 수정 실패!");
-				return "fail_back";
-			}
-			
-		} else {
-			// AdminService - registBoard() 메서드 호출하여 문의글 등록 요청
-			int insertCount = service.registBoard(cs);
-			System.out.println("insertCount :" +insertCount);
-			
-			// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)
-			// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
-			//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
-			if(insertCount > 0) {
-				// 파일이 있을 경우에만 파일 생성
-				try {
-					if(!mFile.getOriginalFilename().equals("")) {
-						mFile.transferTo(new File(saveDir, fileName));
-					}
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				return "redirect:/adminFaq";
-				
-			} else {			
-				model.addAttribute("msg", "문의글 등록 실패!");
-				return "fail_back";
-			}
-			
-		}
-		
-	}
 
-	
-	// 관리자페이지 자주묻는질문 상세 조회 페이지로 이동
-	@GetMapping("adminFaqView")
-	public String adminFaqView(CsVO cs, HttpSession session, Model model) {
-		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
-		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
+		int updateCount = service.updateBoard(cs);
+		System.out.println("updateCount :" + updateCount);
+		
+		// 등록 실패 시 fail_back.jsp 페이지로 포워딩(디스패치)
+		// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
+		//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
+		if(updateCount > 0) {
+			// 파일이 있을 경우에만 파일 생성
+			try {
+				if(!mFile.getOriginalFilename().equals("")) {
+					mFile.transferTo(new File(saveDir, fileName));
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return "redirect:/adminNotice";
+				
+		} else {			
+			model.addAttribute("msg", "공지사항 수정 실패!");
 			return "fail_back";
 		}
-
-		HashMap<String, Object> csFaqDetail = service.csFaqDetailPage(cs);
-		System.out.println(csFaqDetail);
-		model.addAttribute("csFaqDetail", csFaqDetail);
 		
-		return "admin/admin_board_faq_view";
 	}
 	
-	@PostMapping("boardFaqModifyForm") // 자주 묻는 질문 수정 : admin_board_faq_write.jsp 재사용
-	public String boardFaqModifyForm(CsVO cs, HttpSession session, Model model, 
-			String cs_type, int cs_type_list_num) {
+	
+	@GetMapping("adminNoticeDelete")
+	public String adminNoticeDelete(CsVO cs, @RequestParam(defaultValue = "1") int pageNum, Model model, HttpSession session) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -562,50 +800,38 @@ public class AdminController {
 			return "fail_back";
 		}
 		
-		// 파라미터로 가져온 게시글 종류와 게시글 번호 csVO에 저장하기
-		cs.setCs_type(cs_type);
-		cs.setCs_type_list_num(cs_type_list_num);
+		HashMap<String, Object> board = service.boardfaqDetailPage(cs);
 		
-		// DB에 등록되어있는 값 가져오기
-		HashMap<String, Object> csFaqDetail = service.csFaqDetailPage(cs);
-		System.out.println(csFaqDetail);
-		model.addAttribute("csFaqDetail", csFaqDetail);
+		int deleteCount = service.removeBoard(board);
 		
-		
-		return "admin/admin_board_faq_write";
-	}
-	
-	
+		if(deleteCount > 0) { // 삭제 성공
+			try {
+				// ------------------------------------------------------
+				// [ 서버에서 파일 삭제 ]
+				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
 
-	
-	// ===========================================================================================
-	// ********************** 공지사항 관리 페이지 *************
-	// 관리자페이지 공지사항 관리 페이지로 이동
-	@GetMapping("adminNotice")
-	public String adminNotice() {
-		return "admin/admin_board_notice";
-	}
+				if(!board.get("cs_file").equals("")) {
+					// Paths.get() 메서드 호출하여 파일 경로 관리 객체인 Path 객체 생성 후
+					// => 파라미터로 업로드 디렉토리명과 서브디렉토리를 포함한 파일명 결합하여 전달
+					// => Files.deleteIfExists() 메서드 호출하여 파일이 존재할 경우에만 파일 삭제
+					Path path = Paths.get(saveDir + "/" + board.get("cs_file"));
+					System.out.println(path);
+					Files.deleteIfExists(path);
+				}
+							
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return "redirect:/adminNotice?pageNum=" + pageNum;
+			
+		} else { // 삭제 실패
+			// "글 삭제 실패!" 메세지 처리
+			model.addAttribute("msg", "글 삭제 실패!");
+			return "fail_back";
+		}
 
-	// 관리자페이지 공지사항 글등록 페이지로 이동
-	@GetMapping("adminNoticeWriteForm")
-	public String adminNoticeWriteForm() {
-		return "admin/admin_board_notice_write";
-	}
-
-	@PostMapping("adminNoticeWritePro") // 공지사항 글쓰기 : admin_board_notice_write.jsp
-	public String adminNoticeWritePro() {
-		return "";
-	}
-
-	// 관리자페이지 공지사항 상세 조회 페이지로 이동
-	@GetMapping("adminNoticeDtl")
-	public String adminNoticeDtl() {
-		return "admin/admin_board_notice_detail";
-	}
-	
-	@PostMapping("boardNoticeModify") // 공지사항 수정 : admin_board_notice_write.jsp 재사용
-	public String boardNoticeModify() {
-		return "admin/admin_board_notice_write";
 	}
 	
 	// ===========================================================================================

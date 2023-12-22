@@ -422,8 +422,8 @@ input[type="search"] {
 
 }
 
-#notice_table tr:nth-of-type(4)>td:nth-of-type(1),
-#notice_table tr:nth-of-type(5)>td:nth-of-type(1) {
+#notice_table tr:nth-of-type(5)>td:nth-of-type(1),
+#notice_table tr:nth-of-type(6)>td:nth-of-type(1) {
 	width: 150px;
 	background-color: #dedede;
 }
@@ -437,6 +437,10 @@ input[type="search"] {
 #notice_content #button {
 	text-align: center;
 	padding: 20px;
+}
+
+.notice_content {
+	height: 200px;
 }
 
 
