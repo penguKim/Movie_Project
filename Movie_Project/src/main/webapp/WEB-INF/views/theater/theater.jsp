@@ -132,27 +132,7 @@
 				</table>
 			</div>
 			<div class="theater_right">
-				<table class="notice">
-					<tr>
-						<th>공지사항 <a href="https://www.daum.net" target = "_Blank">더보기</a></th>
-					</tr>
-					<tr>
-						<td><a href="공지사항.jsp" onclick="window.open(this.href, '_blank', 'width=800, height=800,left=700,top=100' ); return false;">&#9917; [GS&POINT] 시스템 정기 정검 안내(3/9)</a></td>
-					</tr>
-					<tr>
-						<td><a href="공지사항.jsp" onclick="window.open(this.href, '_blank', 'width=800, height=800,left=550,top=100' ); return false;">&#9917; 회원등급 조정 및 VIP쿠폰북 관련 안내</a></td>
-					</tr>
-					<tr>
-						<td><a href="공지사항.jsp" onclick="window.open(this.href, '_blank', 'width=800, height=800,left=550,top=100' ); return false;">&#9917; 동백씨네마 시스템 점검 안내(2/21)</a></td>
-					</tr>
-					<tr>
-						<td><a href="공지사항.jsp" onclick="window.open(this.href, '_blank', 'width=800, height=800,left=550,top=100' ); return false;">&#9917; [라이브뷰잉]아이유 콘서트 안내</a></td>
-					</tr>
-					<tr>
-						<td><a href="공지사항.jsp" onclick="window.open(this.href, '_blank', 'width=800, height=800,left=550,top=100' ); return false;">&#9917; SKT 휴대폰본인확인 서비스 일시 중단 발생 안내(2/9)</a></td>
-					</tr>
-				</table>
-				
+				<jsp:include page="../inc/theater_notice.jsp"></jsp:include>
 			<script>
 			function change12() {
 				
@@ -160,7 +140,7 @@
 			</script>
 					
 				<div id="map" style="width:400px;height:300px;">
-				<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9f6c3bc1e6871394d3b26ee55215784"></script>
+				<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7f2cbaab42a6ec66232f961c71c7350f"></script>
 					<script>
 						var container = document.getElementById('map');
 						var options = {
