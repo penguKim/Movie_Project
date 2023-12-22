@@ -223,7 +223,7 @@ $(function() {
 									<c:forEach var="i" begin="0" end="${fn:length(cartList)-1}" >
 <!-- 											총금액 계산을 위한 All_tatal_price 변수 정의 -->
 <!-- 											반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 -->
-<%-- 										<c:set var="All_total_price" value="${cart_total_price + cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }"/> --%>
+										<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>
 										<input type="hidden" id="product_id${i}" name="product_id" value="${storeList[i].product_id}">
 										<tr>
 											<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
@@ -295,25 +295,15 @@ $(function() {
 								</tr>
 								<tr class="store_table_box04">
 									<!-- 선택된 모든 상품의 가격과 갯수의 합산된 금액 자동 입력-->
-<<<<<<< HEAD
 									<td class="table_box_red">
 										${All_total_price }원
-=======
-									<td>
-<%-- 										${All_total_price}원 --%>
->>>>>>> branch 'master' of https://github.com/penguKim/Movie_Project.git
-									 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/-.png" width="35px" height="35px"></img> </td>
 									<!-- 할인 기능 미구현 -->
 									<!-- 구현하게 된다면 할인 기능에 따라 할인 가격 책정 -->
 									<td>원</td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 									<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-<<<<<<< HEAD
 									<td class="table_box_red">${All_total_price }원</td>
-=======
-									<td class="table_box_red">원</td>
->>>>>>> branch 'master' of https://github.com/penguKim/Movie_Project.git
 								</tr>
 							</table>
 						</div>
