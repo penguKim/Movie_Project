@@ -22,19 +22,16 @@
 	
 	<select id="selectSeatName" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT seat_name
-		FROM seats 
-		WHERE play_id =(SELECT play_id
-						FROM plays 
-						WHERE play_date = #{play_date}
-						AND play_start_time = #{play_start_time});
+		FROM res_seat 
+		WHERE play_date = #{play_date}
+		AND play_start_time = #{play_start_time}
 	</select>
 	<select id="selectSchedule" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
-		SELECT r.room_name, p.play_start_time, p.play_end_time 
-		FROM rooms r JOIN plays p 
-		ON r.room_id = p.room_id
-		WHERE p.play_date = #{play_date}
-		AND movie_id= (SELECT movie_id FROM movies m WHERE m.movie_title = #{movie_title})
-		AND r.room_id IN (SELECT room_id FROM rooms WHERE theater_id = (SELECT theater_id FROM theaters WHERE theater_name = #{theater_name}));
+		SELECT room_name, play_start_time, play_end_time
+		FROM MPRT
+		WHERE play_date = #{play_date}
+		AND movie_title =#{movie_title}
+		AND theater_name = #{theater_name}
 	</select>
 	
 </mapper>

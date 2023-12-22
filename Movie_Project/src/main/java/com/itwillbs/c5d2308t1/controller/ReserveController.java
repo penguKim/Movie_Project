@@ -47,14 +47,16 @@ public class ReserveController {
 	@PostMapping("seat_select")
 	public String seat_select(ReserveVO reserveVO, Model model, HttpSession session) {
 		if(session.getAttribute("sId") == null) {
-			model.addAttribute("msg", "로그인이 필요한 서비스입니다. 로그인하시겠습니까?");
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
 			model.addAttribute("targetURL", "memberLogin");
-			return "reserve/reserve_fail_back";
+			return "forward";
 		}
 		
 		System.out.println("seat_select");
 		System.out.println(reserveVO);
 		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
+		
+		
 		model.addAttribute("SeatList",SeatList);
 		model.addAttribute("reserveVO",reserveVO);
 		return "reserve/seat_select";

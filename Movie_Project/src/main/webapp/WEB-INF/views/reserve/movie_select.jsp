@@ -86,6 +86,14 @@
 						param();
 					});
 					
+					if(data==''){
+				    	if(confirm("상영일정이 없습니다. 다시 선택 하시겠습니까?")){
+				    		location.reload();
+				    	}else{
+				    		// 취소 시 선택한 데이터는 그대로
+				    	}
+					}
+					
 			    }//success end
 			    
 			});//ajax end
@@ -158,6 +166,40 @@
 		
 		$('.btnReset').click(function() {
 		  location.reload();// 페이지를 새로고침합니다.
+		});
+		
+		$('.btnsubmit').click(function(){
+// 			var sId = sessionStorage.getItem('sId');
+			var sId = '<%= session.getAttribute("sId") %>';
+			console.log("sId : " + sId);
+
+			if(sId == null){
+				if(confirm("로그인이 필요한서비스입니다. 로그인하시겠습니까?")){
+					location.href = "memberLogin";
+				}else{// 취소 버튼 클릭시 좌석 선택페이지로 넘어가지 않고 현재 페이지 그대로 유지}
+				return false;
+				}
+			}
+			console.log("영화제목 : " + $("#movie_title").val())
+			if($("#movie_title").val()==""){
+				alert("영화선택 필수!")
+				return false;
+			}
+			if($("#theater_name").val()==""){
+				alert("극장선택 필수!")
+				return false;
+			}
+			if($("#play_date").val()==""){
+				alert("날짜선택 필수!")
+				return false;
+			}
+			if($("#play_start_time").val()==""){
+				alert("시간선택 필수!")
+				return false;
+			}
+			
+			
+			return true;
 		});
 		
 		

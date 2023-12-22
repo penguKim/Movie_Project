@@ -20,15 +20,7 @@
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
-	var sum = 0; //인원수 선택에 사용할 변수 선언
-
-
-
-   function toggleSeat(seat) {
-       seat.classList.toggle("selected");
-       displaySelectedSeats(); // 좌석 선택 시 선택된 좌석을 출력하는 함수 호출
-   }
-   
+   let selectNumArr;//선택된 인원수 배열
    function toggleNum(num) {
 	    // 클릭된 요소가 속한 행을 찾음
 	    var row = $(num).closest('tr');
@@ -45,23 +37,81 @@
 	    	selectPeopleArr.push($(people).attr("value"));
 	    });
 	    $(".Result_NumOfPeople_Param").text(selectPeopleArr.join(","));
-	    console.log(selectPeopleArr);
-	    var countNum = $(".SelectPeople").text()
-	    console.log(countNum);
-
-	    for (var i = 0; i < countNum.length; i++) {
-    	  var digit = parseInt(countNum[i]);
-    	  sum += digit;
-    	}
-	    if(sum>8){
-	    	alert("8명초과 예매 불가입니다!")
+	    console.log("selectPeopleArr : " + selectPeopleArr);
+	    
+	    var selectNum = $(".SelectPeople");
+	    selectNumArr = []; 
+	    $.each(selectNum, function(index, Num) { // 반복문을 통해 선택된 좌석의 값을 배열에 저장
+	    	selectNumArr.push(parseInt($(Num).text()));
+	    });
+	    console.log("selectNumArr : " + selectNumArr);
+	   
+	    let Count2=0;
+	    let Count3=0;
+	    let Count4=0;
+	    let sumCountNum = selectNumArr.length
+	    if(sumCountNum == 2){
+		    for(let i = 0; i<sumCountNum; i++){
+		    	Count2 += selectNumArr[i];
+		    }
+		    console.log("Count2 : " + Count2);
+		    
+	    }else if(sumCountNum == 3){
+	    	 for(let i = 0; i<sumCountNum; i++){
+		    	Count3 += selectNumArr[i];
+		    }
+		    console.log("Count3 : " + Count3);
+		    
+	    }else if(sumCountNum == 4){
+	    	 for(let i = 0; i<sumCountNum; i++){
+			    	Count4 += selectNumArr[i];
+		    }
+			console.log("Count4 : " + Count4);
+		    }
+	
+    	if(Count2>8||Count3>8||Count4>8){
+    		alert("8명초과 예매 불가입니다!")
 	    	$(".SelectPeople").removeClass("SelectPeople");
 	    	$(".Result_NumOfPeople_Param").text("");
-	    	sum=0;
-	    }
-    	console.log(sum);
+	    	Count2=0;
+	    	Count3=0;
+	    	Count4=0;
+	    	selectNumArr = [];
+    	}
+	    
+
 	}   
-   // 공용 변수 
+   function toggleSeat(seat) {
+	   let countSeat = 0; //선택할 좌석 수 
+	   let selectSeat = 0; //선택된 좌석 수
+       seat.classList.toggle("selected");
+       selectSeat++;
+       /* 12/22 17:38 여기까지 진행함
+       진행상황
+       완료 
+       - 영화선택 페이지 미선택 항목 출력 후 돌려보내기
+       - 세션아이디 미인증시 접근 불가 페이지 둘다
+       - 인원수 선택 8명 이상 선택 불가 처리
+       미완료
+       - 인원수랑 좌석 선택 연동기능 진행중
+        (현재 좌석 선택후 인원선택은 원활 반대는 문제가 발생!)
+       - 1명 선택시 지정불가 좌석 처리
+       - 인설트 구문 작성 하여 직접 데이터 처리
+       - 예매 게시판 2개
+       */
+       console.log("좌석선택 시 selectNumArr : " + selectNumArr);
+       if(selectNumArr != null){
+	       for(let i=0; i<selectNumArr.length; i++){
+	    	   countSeat += selectNumArr[i];
+	       }
+	       console.log("선택할 좌석수 countSeat : " + countSeat);
+	       if(countSeat!=selectSeat){
+	    	   alert("선택된 인원수를 초과한 좌석 지정이 불가능합니다!")
+	    	   seat.classList.toggle("selected");
+	       }
+       }
+       displaySelectedSeats(); // 좌석 선택 시 선택된 좌석을 출력하는 함수 호출
+   }
    
    function displaySelectedSeats() {
 	   let selectedSeats = $(".selected"); // 선택된 좌석값의 위치
