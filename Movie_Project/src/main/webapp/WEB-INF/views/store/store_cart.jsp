@@ -35,6 +35,11 @@ function increaseQuantity(index) {
 }
 
 /* 수량 변경 버튼 클릭 시 처리되는 작업 */
+ 
+ 
+ 
+ var price = 0;
+ 
 function quanChange(index) {
 	let product_count = $("#quantity"+index).val();
 	let product_id = $("#product_id"+index).val();
@@ -44,13 +49,38 @@ function quanChange(index) {
 		url: "cartQuanUpdate",
 		data: {
 			product_count: product_count,
-			product_id: product_id
+			product_id: product_id,
 		},
 		dataType: "json",
 		success: function(data) {
-				alert("수량" + data[index].product_count + "개로 변경되었습니다!");
-				alert("총금액" + data[index].cart_total_price);
-				$("#totalPrice" + index).text(data[index].cart_total_price + "원");
+				 let previousCount = data[index].product_count; // 이전 수량 저장
+			      let newCount = parseInt(product_count); // 변경된 수량
+			      
+			      // 수량이 증가한 경우
+			      if (newCount > previousCount) {
+			        let quantityDifference = newCount - previousCount;
+			        let priceDifference = quantityDifference * data[index].product_price;
+			        data[index].cart_total_price += priceDifference;
+			      }
+			      // 수량이 감소한 경우
+			      else if (newCount < previousCount) {
+			        let quantityDifference = previousCount - newCount;
+			        let priceDifference = quantityDifference * data[index].product_price;
+			        data[index].cart_total_price -= priceDifference;
+			      }
+			      alert("수량 " + data[index].product_count + "개로 변경되었습니다!");
+			      alert("총금액 " + data[index].cart_total_price + "원");
+			      $("#totalPrice" + index).text(data[index].cart_total_price + "원");
+				
+			      var totalSum = 0; // 총합을 저장할 변수
+
+			      for (var i = 0; i < data.length; i++) {
+			        var value = data[i].cart_total_price; // 인덱스에 있는 각 상품의 총금액을 가져옴
+			        totalSum += value; // 총합에 더해줌
+			      }
+			      alert(totalSum);
+			      $(".table_box_red").text(totalSum+"원");
+				
 		},
 		error: function() {
 			alert("수량 변경에 실패했습니다!");
@@ -66,7 +96,7 @@ function choiceBuy(index) {
 }
 /* x 버튼 선택 시 해당 상품 삭제 처리 */
 function choiceDel(index) {
-	if(co("해당상품을 삭제하시겠습니까?")) {
+	if(confirm("해당상품을 삭제하시겠습니까?")) {
 		alert("삭제되었습니다!");
 		
 		let product_id = $("#product_id"+index).val();
@@ -134,7 +164,7 @@ function choiceDel(index) {
 										<c:forEach var="i" begin="0" end="${fn:length(cartList.myCartList1)-1}" >
 											<%-- 총금액 계산을 위한 All_tatal_price 변수 정의 --%>
 											<%-- 반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 --%>
-											<c:set var="All_total_price" value="${cart_total_price + cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }"/>
+											<c:set var="All_total_price" value="${All_total_price + cartList.myCartList1[i].cart_total_price }"/>
 											<input type="hidden" id="product_id${i}" name="product_id" value="${cartList.myCartList2[i].product_id}">
 											<tr>
 												<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
@@ -207,16 +237,16 @@ function choiceDel(index) {
 								</tr>
 								<tr class="store_table_box04">
 									<!-- 선택된 모든 상품의 가격과 갯수의 합산된 금액 자동 입력-->
-									<td>
-										${All_total_price}원
+									<td class="table_box_red">
+										${All_total_price }원
 									 </td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/-.png" width="35px" height="35px"></img> </td>
 									<!-- 할인 기능 미구현 -->
 									<!-- 구현하게 된다면 할인 기능에 따라 할인 가격 책정 -->
-									<td> 0원 </td>
+									<td>원</td>
 									<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 									<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-									<td class="table_box_red">${All_total_price}원</td>
+									<td class="table_box_red">${All_total_price }원</td>
 								</tr>
 							</table>
 						</div>

@@ -14,7 +14,7 @@
 						<thead>
 							<tr>
 								<th width="120">지점</th>
-								<th>제목</th>
+								<th width="150">제목</th>
 								<th width="100">등록일</th>
 							</tr>
 						</thead>
