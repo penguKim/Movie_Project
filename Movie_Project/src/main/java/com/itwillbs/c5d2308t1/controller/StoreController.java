@@ -92,7 +92,9 @@ public class StoreController {
 		    // 장바구니에 상품 추가
 		    int cartDbSuccess = service.insertCart(sId, product_id);
 		    if (cartDbSuccess > 0) {
-		        return "redirect:/storeCart2";
+		    	model.addAttribute("msg", "장바구니에 담았습니다 장바구니 페이지로 이동하시겠습니까?");
+		    	model.addAttribute("targetURL", "storeCart2");
+		        return "forward2";
 		    } else {
 		        model.addAttribute("msg", "잘못된 접근입니다");
 		        return "forward2";
@@ -100,10 +102,11 @@ public class StoreController {
 		} else {
 		    // 장바구니 상품 업데이트
 		    int cartDbSuccess = service.updateCart(sId, product_id);
-		    
 		    service.totalPrice(sId, product_id);
 		    if (cartDbSuccess > 0) {
-		        return "redirect:/storeCart2";
+		    	model.addAttribute("msg", "장바구니에 담았습니다 장바구니 페이지로 이동하시겠습니까?");
+		    	model.addAttribute("targetURL", "storeCart2");
+		        return "forward2";
 		    } else {
 		        model.addAttribute("msg", "잘못된 접근입니다");
 		        return "forward2";
@@ -123,23 +126,32 @@ public class StoreController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward2";
 		}
+		System.out.println("111111111111111111");
 		
-		List<StoreVO> storeLsit = service.myStoreList(sId);
+		List<StoreVO> storeList = service.myStoreList(sId);
 		
 		// INSERT & UPDATE 처리 후 장바구니 내역 조회 후 입력
 		List<CartVO> cartList = service.resultCartList(sId);
 		
 		// 나의 현재 장바구니 내역과, 상품 내역을 모두 담을 Map 객체 생성
-		Map<Object, Object> map = new HashMap<>();
-		
+//		Map<Object, Object> map = new HashMap<>();
+		System.out.println("222222222222222222222222");
 		// 나의 현재 장바구니 내역과, 상품 내역 저장
-		map.put("myCartList1", cartList);
-		map.put("myCartList2", storeLsit);
+//		map.put("myCartList1", cartList);
+//		map.put("myCartList2", storeLsit);
 		
-		model.addAttribute("cartList", map);
-		
-		return "store/store_cart";
-		
+		model.addAttribute("storeList", storeList);
+		model.addAttribute("cartList", cartList);
+		if(model.equals(null) ) {
+			System.out.println("널의 경우"); 
+			return "store/store_cart";
+		} else if(model.equals("")) {
+			System.out.println("널스트링의 경우");
+			return "store/store_cart";
+		} else {
+			System.out.println("그외의 경우");
+			return "store/store_cart";
+		}
 	}
 	
 	// 장바구니 내부 수량 변경 시 업데이트 처리 
@@ -155,25 +167,25 @@ public class StoreController {
 	}
 		
 	// 장바구니 내부 X 버튼 클릭 시 선택된 상품 삭제 처리
-//	@PostMapping("cartDelete")
-//	@ResponseBody
-//	public String cartDelete(Model model, HttpSession session, String product_id) {
-//		String sId = (String)session.getAttribute("sId");
-//		int successDelete = service.cartDelete(sId, product_id);
-////		int successDelete =  1;
-//		Map<Object, Object> map = new HashMap<Object, Object>();
-//		if(successDelete > 0) {
-//			List<CartVO> cartList = service.resultCartList(sId);
-//			List<StoreVO> storeLsit = service.myStoreList(sId);
-//			map.put("myCartList1", cartList);
-//			map.put("myCartList2", storeLsit);
-//			model.addAttribute("cartList", map);
-//			return "storeCart2"; 
-//		} else {
-//			model.addAttribute("msg", "잘못된 접근입니다");
-//	        return "forward2";
-//		}
-//	}
+	@PostMapping("cartDelete")
+	@ResponseBody
+	public Model cartDelete(Model model, HttpSession session, String product_id) {
+		String sId = (String)session.getAttribute("sId");
+		int successDelete = service.cartDelete(sId, product_id);
+//		int successDelete =  1;
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		System.out.println("딜리트 호출2");
+		System.out.println("딜리트 호출2");
+		if(successDelete > 0) {
+			List<CartVO> cartList = service.resultCartList(sId);
+			List<StoreVO> storeLsit = service.myStoreList(sId);
+			map.put("myCartList1", cartList);
+			map.put("myCartList2", storeLsit);
+			model.addAttribute("cartList", map);
+			System.out.println("딜리트 호출3");
+		} 
+		return model;
+	}
 	
 	
 	@GetMapping("storePay")
@@ -208,20 +220,12 @@ public class StoreController {
 		List<CartVO> cartList2 = service.selectCart2(member);
 		
 		model.addAttribute("cartList2", cartList2);
-//		System.out.println(cartList2);
+		System.out.println(cartList2);
 		
-		// 결제 페이지에 상품수량(product_count) / 상품 금액을 조회해서 뿌려야댄다
-		// 뭘 조회해서 뭘 뿌릴거임?
-		
-		// 1안
-		// List 객체에 CartVO 하나더 정의해서 model객체에 저장 후
-		// 두 List를 한번에 꺼내 쓰는건 어떨까???
 		
 		model.addAttribute("storeList", storeList);
 		
-		// 2안
-		// quantity 변수를 사용해서 강제적으로 사용
-//		model.addAttribute("storeList", quantity);
+		model.addAttribute("storeList", storeList);
 		
 		return "store/store_pay";
 	}

@@ -48,7 +48,6 @@
 	
 	function move_pay(pro_id, product_count) {
 		location.href="storePay?product_id=" + pro_id + "&product_count=" + product_count;
-		
 	}
 	
 </script>
