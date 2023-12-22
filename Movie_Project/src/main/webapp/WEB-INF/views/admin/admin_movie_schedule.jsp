@@ -1,6 +1,8 @@
 <%-- admin_payment.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +12,24 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
+	// 지점명 불러오기
+	$(function() {
+		$.ajax({
+			type: "GET",
+			url: "getTheater",
+			success: function(result) {
+				for(let theater of result) {
+				$("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("지점명 로딩 오류입니다.");
+			}
+			
+		});
+	});
+
+
 	$(function() {
 		$("#selectSchedule").("click", function(){
 			$.ajax({
@@ -40,12 +60,8 @@
 			<div id="admin_main">
 				<a href="movieScheduleMod"><input type="button" value="상영일정관리"></a>
 				<div id="schedule_search">
-					<select>
-						<option selected="selected">지점을 선택해주세요</option>
-						<option>부산 서면점</option>
-						<option>경남 김해점</option>
-						<option>서울 강남점</option>
-						<option>부산 대연점</option>
+					<select name="theater_id" id="theater_id">
+						<option value="">지점을 선택하세요.</option>
 					</select>
 					<input type="date">
 					<input type="button" value="조회" id="selectSchedule">
@@ -56,50 +72,53 @@
 						<th>영화명</th>
 						<th>상영시간</th>
 					</tr>
-					<tr>
-						<td rowspan="2">1관</td>
-						<td>영화1</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td>영화2</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td rowspan="3">2관</td>
-						<td>영화1</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td>영화2</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td>영화3</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td>3관</td>
-						<td>영화1</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td rowspan="4">4관</td>
-						<td>영화1</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td>영화2</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td>영화3</td>
-						<td>상영시간</td>
-					</tr>
-					<tr>
-						<td>영화4</td>
-						<td>상영시간</td>
-					</tr>
+					<c:forEach items="${playList }" var="play">
+						<tr>
+							<td>${play.room_id }</td>
+							<td>${play.movie_id }</td>
+							<td>${play.play_start_time }</td>
+						</tr>
+					
+					</c:forEach>
+<!-- 					<tr> -->
+<!-- 						<td>영화2</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td rowspan="3">2관</td> -->
+<!-- 						<td>영화1</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>영화2</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>영화3</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>3관</td> -->
+<!-- 						<td>영화1</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td rowspan="4">4관</td> -->
+<!-- 						<td>영화1</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>영화2</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>영화3</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td>영화4</td> -->
+<!-- 						<td>상영시간</td> -->
+<!-- 					</tr> -->
 				</table>
 				<div class="pagination">
 					<a href="#">&laquo;</a>
@@ -110,7 +129,6 @@
 					<a href="#">5</a>
 					<a href="#">&raquo;</a>
 				</div>
-			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
 			</footer>

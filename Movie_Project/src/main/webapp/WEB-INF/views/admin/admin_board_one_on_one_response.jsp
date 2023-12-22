@@ -24,7 +24,15 @@
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 		
 		<section id="content">
-			<h1 id="h01">1 : 1 문의 상세페이지</h1>
+<%-- 		<c:choose> --%>
+<%-- 			<c:when test=""> --%>
+				<h1 id="h01">1 : 1 문의 답변 등록 페이지</h1>
+<%-- 			</c:when> --%>
+<%-- 			<c:otherwise> --%>
+<!-- 				<h1 id="h01">1 : 1 문의 답변 수정/삭제 페이지</h1> -->
+<%-- 			</c:otherwise> --%>
+<%-- 		</c:choose>		 --%>
+		
 			<hr>		
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
@@ -40,6 +48,10 @@
 						<tr>
 							<th>문의 유형</th>
 							<td>${oneOnOne.cs_type_detail }</td>
+						</tr>
+						<tr>
+							<th>문의 작성일</th>
+							<td>${oneOnOne.cs_date }</td>
 						</tr>
 						<tr>
 							<th>문의 제목</th>
@@ -61,25 +73,26 @@
 							<td>${oneOnOne.cs_content }</td>
 						</tr>
 						<tr>
-							<th>사진 첨부</th>
-							<td><input type="file"></td>
+							<th>첨부 파일</th>
+							<td>******파일이름처리**********</td>
 						</tr>
 						<tr>
 							<th height="300">답변 내용</th>
 							<td>
-								<textarea rows="30" cols="80" name="cs_reply" placeholder="${oneOnOne.cs_reply }"></textarea>
+								<textarea rows="30" cols="80" name="cs_reply">${oneOnOne.cs_reply }</textarea>
 							</td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">	
+						<input type="hidden" name="cs_type_list_num" value="${oneOnOne.cs_type_list_num }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
 						<c:choose>
 							<c:when test="${empty oneOnOne.cs_reply }">
-								<input type="submit" value="답변 등록" formaction="boardOneOnOneRsp">
+								<input type="submit" value="답변 등록하기" formaction="OneOnOneResponse">
 							</c:when>
 							<c:otherwise>
-								<input type="submit" value="답변 수정" formaction="">
+								<input type="submit" value="답변 수정" formaction="OneOnOneModify">
 								<input type="submit" value="답변 삭제" formaction="">
 							</c:otherwise>
 						</c:choose>	

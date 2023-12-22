@@ -52,10 +52,10 @@
 							<td>${oneOnOne.cs_date }</td>
 							<c:choose>
 								<c:when test="${empty oneOnOne.cs_reply }">
-									<td><a href="adminOneOnOneResp?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변등록" id="ok"></a></td>
+									<td><a href="OneOnOneMoveToRegister?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변등록" id="ok"></a></td>
 								</c:when>
 								<c:otherwise>
-									<td><a href="adminOneOnOneResp?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변완료" id="ok"></a></td>
+									<td><a href="OneOnOneDetail?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변완료" id="ok"></a></td>
 								</c:otherwise>
 							</c:choose>
 						</tr>

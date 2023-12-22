@@ -35,6 +35,7 @@ import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
+import com.itwillbs.c5d2308t1.vo.PlayVO;
 import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Controller
@@ -214,23 +215,30 @@ public class AdminController {
 	// ************************ 상영일정관리 페이지 *************
 	// 관리자페이지 영화 상영 일정 메인 페이지로 이동
 	@GetMapping("adminMovieSchedule")
-	public String adminMovieSchedule(HttpSession session, Model model, TheaterVO theater) {
+	public String adminMovieSchedule(HttpSession session, Model model, PlayVO play) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
+		List<Map<String, Object>> playList = service.getMainScheduleInfo();
+		System.out.println(playList);
+		model.addAttribute("playList", playList);
 		
-		TheaterVO mTheater = service.getMainScheduleInfo(theater);
-		System.out.println(mTheater);
+//		TheaterVO mTheater = service.getMainScheduleInfo(theater);
+//		System.out.println(mTheater);
+//		
+//		if(mTheater != null) {
+//			model.addAttribute("mTheater", mTheater);
+//			return "admin/admin_movie_schedule";
+//		} else {
+//			model.addAttribute("msg", "상영 일정 조회에 실패했습니다!");
+//			return "fail_back";
+//		}
 		
-		if(mTheater != null) {
-			model.addAttribute("mTheater", mTheater);
-			return "admin/admin_movie_schedule";
-		} else {
-			model.addAttribute("msg", "상영 일정 조회에 실패했습니다!");
-			return "fail_back";
-		}
+//		PlayVO playList = service.getMainScheduleInfo(play);
+		
+		return "admin/admin_movie_schedule";
 	}
 	
 	
@@ -632,35 +640,55 @@ public class AdminController {
 		return "admin/admin_board_one_on_one";
 	}
 
-	// 관리자페이지 1대1문의 상세 조회, 답변 등록 및 수정 페이지로 이동
-	@GetMapping("adminOneOnOneResp")
-	public String adminOneOnOneResp(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
+	// 관리자페이지 1대1문의 상세 조회 페이지로 이동
+	@GetMapping("OneOnOneDetail")
+	public String OneOnOneDetail(CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
 		
-//		// AdminService - getOneOnOnePostById() 메서드 호출해 글 목록 조회
-//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : CsVO 객체(oneOnOne)
+//		// AdminService - getOneOnOnePostById() 메서드 호출해 해당 글 조회
+//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : Map<String, Object> (oneOnOne)
 //		CsVO oneOnOne = service.getOneOnOnePostById(cs);
-		
 		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
 		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
-		oneOnOne.put("cs_date", date.format(dtf));		
+		oneOnOne.put("cs_date", date.format(dtf));
 		// Model 객체에 저장
 		model.addAttribute("oneOnOne", oneOnOne);
-		model.addAttribute("pageNum", pageNum);
+		
+		return "admin/admin_board_one_on_one_detail";
+	}
+	
+	// 관리자페이지 1대1문의 등록 페이지로 이동
+	@GetMapping("OneOnOneMoveToRegister")
+	public String OneOnOneRsp(HttpSession session, Model model, CsVO cs) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+//		// AdminService - getOneOnOnePostById() 메서드 호출해 글 목록 조회
+		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
+		oneOnOne.put("cs_date", date.format(dtf));
+		// Model 객체에 저장
+		model.addAttribute("oneOnOne", oneOnOne);
 		
 		return "admin/admin_board_one_on_one_response";
 	}
 	
+	
+	
 	// 관리자 페이지 1대1문의 답변 등록
-	@PostMapping("boardOneOnOneRsp") 
-	public String boardOneOnOneRsp(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNum, CsVO cs) {
-		System.out.println(cs);
+	@PostMapping("OneOnOneResponse") 
+	public String OneOnOneResponse(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNum, CsVO cs) {
+//		System.out.println(cs);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -673,8 +701,8 @@ public class AdminController {
 		
 		if(updateCount > 0) { // 등록 성공
 			model.addAttribute("pageNum", pageNum);
-			// 1대1문의 관리페이지 메인으로 이동해 답변 상태 확인
-			return "redirect:/adminOneOnOne";
+			// 답변 등록 완료 후 해당 글이 속해있는 1대1문의 관리페이지로 이동해 버튼으로 답변 상태 확인
+			return "redirect:/adminOneOnOne?pageNum=" + pageNum;
 			
 		} else { // 등록 실패
 			model.addAttribute("msg", "1대1 답변 등록 실패!");
@@ -683,6 +711,62 @@ public class AdminController {
 		
 	}
 	
+	// 관리자페이지 1대1문의 기존 답변 수정페이지로 이동
+	@PostMapping("OneonOneMoveToModify")
+	public String OneonOneMoveToModify(HttpSession session, Model model, CsVO cs) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+//		// AdminService - getOneOnOnePostById() 메서드 호출해 해당 글 조회
+//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : Map<String, Object> (oneOnOne)
+		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
+		oneOnOne.put("cs_date", date.format(dtf));
+		// Model 객체에 저장
+		model.addAttribute("oneOnOne", oneOnOne);
+				
+		
+		return "admin/admin_board_one_on_one_response";
+	}
+	
+//	// 관리자 페이지 1대1문의 기존 답변 수정
+//	@PostMapping("OneOnOneModify")
+//	public String OneOnOneModify(HttpSession session, Model model, @RequestParam(defaultValue = "1") int cs_type_list_num, CsVO cs) {
+//		String sId = (String)session.getAttribute("sId");
+//		if(sId == null || !sId.equals("admin")) {
+//			model.addAttribute("msg", "잘못된 접근입니다!");
+//			return "fail_back";
+//		}
+//		
+//		// AdminService - getOneOnOnePostById() 메서드 호출해 해당 글 조회
+//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : Map<String, Object> (oneOnOne)
+//		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
+//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+//		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
+//		oneOnOne.put("cs_date", date.format(dtf));
+//		
+//		// AdminService - modifyOneOnOneReply() 메서드 호출해 등록된 답변 수정
+//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : int(updateCount)
+//		int updateCount = service.modifyOneOnOneReply(cs);
+//		
+//		if(updateCount == 0) { // 수정 실패 시
+//			model.addAttribute("msg", "1대1문의 답변 수정 실패!");
+//			return "fail_back";
+//		} else {
+//			// Model 객체에 저장
+//			model.addAttribute("oneOnOne", oneOnOne);
+//			model.addAttribute("cs_type_list_num", cs_type_list_num);
+//
+//			return "redirect:/OneOnOneDetail?cs_type_list_num=" + cs_type_list_num;
+//		}
+//		
+//	}
 	
 	// ===========================================================================================
 	// ********************* 분실물 문의 관리 페이지 *************
