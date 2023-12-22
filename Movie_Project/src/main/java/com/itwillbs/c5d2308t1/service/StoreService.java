@@ -38,9 +38,9 @@ public class StoreService {
 
 	// 현재 나의 장바구니 조회 - SELECT
 	// 장바구니에 출력할 데이터 조회
-	public List<StoreVO> myCartList(String sId) {
+	public List<StoreVO> myStoreList(String sId) {
 		
-		return mapper.selectMyCartList(sId);
+		return mapper.selectMyStoreList(sId);
 	}
 	
 	// 판별된 장바구니에 담긴 값 조회
@@ -73,13 +73,19 @@ public class StoreService {
 	}
 	
 	// 장바구니 수량 변경 시 totalPrice 업데이트
-	public int totalPrice(String sId, int product_count, String product_id) {
-		return mapper.sumPrice(sId, product_count, product_id);
+	public int totalPrice(String sId, String product_id) {
+		return mapper.sumPrice(sId,  product_id);
 	}
-
+	
+	// 업데이트 후 셀렉트 조회 // 나중에 selectKey 처리
 	public List<CartVO> updateAfter(String sId, String product_id) {
 		
 		return mapper.updateAfter(sId, product_id);
+	}
+	
+	// 장바구니 X버튼 클릭 시 해당하는 상품 내역 삭제
+	public int cartDelete(String sId, String product_id) {
+		return mapper.cartDelete(sId, product_id);
 	}
 	
 	

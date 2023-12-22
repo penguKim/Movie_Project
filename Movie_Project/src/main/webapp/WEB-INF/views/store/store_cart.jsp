@@ -34,6 +34,7 @@ function increaseQuantity(index) {
     }
 }
 
+/* 수량 변경 버튼 클릭 시 처리되는 작업 */
 function quanChange(index) {
 	let product_count = $("#quantity"+index).val();
 	let product_id = $("#product_id"+index).val();
@@ -57,12 +58,37 @@ function quanChange(index) {
 	});
 }
 
-
-$(function() {
+/* 바로구매 선택 시 페이징 처리 */
+function choiceBuy(index) {
+	let product_id = $("#product_id" + index).val();
+	let product_count = $("#quantity" + index).val();
+	location.href="storePay?product_id=" + product_id + "&product_count=" + product_count;
+}
+/* x 버튼 선택 시 해당 상품 삭제 처리 */
+function choiceDel(index) {
+	if(co("해당상품을 삭제하시겠습니까?")) {
+		alert("삭제되었습니다!");
+		
+		let product_id = $("#product_id"+index).val();
+		
+		$.ajax({
+			type: "post",
+			url: "cartDelete",
+			data: {
+				product_id: product_id
+			},
+			dataType: "json",
+			success: function(data) {
+				
+			},
+			error: function() {
+				
+			}
+		});
+		
+	}
 	
-
-	
-});
+}
 	
 </script>		
 </head>
@@ -134,12 +160,12 @@ $(function() {
 												<!-- 구매금액 -->
 												<!-- 판매 금액 + 선택된 수량 합산 금액 -->
 <%-- 												<td>${cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }원</td> --%>
-												<td id="totalPrice${i}">${cartList.myCartList1[i].product_count * cartList.myCartList2[i].product_price}원</td>
+												<td id="totalPrice${i}">${cartList.myCartList1[i].cart_total_price}원</td>
 												<!-- 선택 -->
 												<td>
 												<!-- 바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
-													<input type="button" value="바로구매">
-													<input type="button" value="x">
+													<input type="button" id="buyNow${i}" value="바로구매" onclick="choiceBuy(${i})">
+													<input type="button" id="choiceDel${i}" value="x" onclick="choiceDel(${i})">
 												</td>
 											</tr>
 										</c:forEach>

@@ -70,19 +70,19 @@ public class StoreController {
 		
 		
 		// 장바구니에 저장된 데이터 즉, 나의 현재 장바구니 내역
-		List<StoreVO> StoreList = service.myCartList(sId);
+		List<StoreVO> storeLsit = service.myStoreList(sId);
 		
-		System.out.println("카트리스트 : " + StoreList);
+		System.out.println("카트리스트 : " + storeLsit);
 		// 장바구니 비즈니스 로직(insert, update) 성공여부 확인을 위한 insertSuccess 변수 초기화
-		System.out.println("사이즈 : " + StoreList.size());
+		System.out.println("사이즈 : " + storeLsit.size());
 		
 		// 장바구니 내역 유무 및 DB작업 판별을 위한 boolean 타입 변수 선언
 		boolean isDuplicate = false;
 		
 		// 장바구니의 행 갯수가 하나라도 있는 경우
 		// 장바구니안의 상품id 값을 비교 해서 isDuplicate = true
-		if(StoreList.size() > 0) {
-			for(StoreVO item : StoreList) {
+		if(storeLsit.size() > 0) {
+			for(StoreVO item : storeLsit) {
 				if(item.getProduct_id().equals(product_id)){
 					isDuplicate = true;
 				} 
@@ -100,6 +100,8 @@ public class StoreController {
 		} else {
 		    // 장바구니 상품 업데이트
 		    int cartDbSuccess = service.updateCart(sId, product_id);
+		    
+		    service.totalPrice(sId, product_id);
 		    if (cartDbSuccess > 0) {
 		        return "redirect:/storeCart2";
 		    } else {
@@ -122,19 +124,19 @@ public class StoreController {
 			return "forward2";
 		}
 		
-		List<StoreVO> StoreList = service.myCartList(sId);
+		List<StoreVO> storeLsit = service.myStoreList(sId);
 		
 		// INSERT & UPDATE 처리 후 장바구니 내역 조회 후 입력
 		List<CartVO> cartList = service.resultCartList(sId);
 		
 		// 나의 현재 장바구니 내역과, 상품 내역을 모두 담을 Map 객체 생성
-		Map<Object, Object> myCartList = new HashMap<>();
+		Map<Object, Object> map = new HashMap<>();
 		
 		// 나의 현재 장바구니 내역과, 상품 내역 저장
-		myCartList.put("myCartList1", cartList);
-		myCartList.put("myCartList2", StoreList);
+		map.put("myCartList1", cartList);
+		map.put("myCartList2", storeLsit);
 		
-		model.addAttribute("cartList", myCartList);
+		model.addAttribute("cartList", map);
 		
 		return "store/store_cart";
 		
@@ -143,25 +145,36 @@ public class StoreController {
 	// 장바구니 내부 수량 변경 시 업데이트 처리 
 	@PostMapping("cartQuanUpdate")
 	@ResponseBody
-	public List<CartVO> quanUpdate(HttpSession session, int product_count, String product_id) {
-		System.out.println(product_count + ", " + product_id);
-		
+	public List<CartVO> quanUpdate(HttpSession session, int product_count, String product_id, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		
-		int resultUpdate = service.updateQuan(sId, product_count, product_id);
-		System.out.println("1");
-		 
-		int resultUpdate2 = service.totalPrice(sId, product_count, product_id);
-		System.out.println("22222222222222222222222222222222222");
-		System.out.println(sId);
+		service.updateQuan(sId, product_count, product_id);
+		service.totalPrice(sId, product_id);
 		List<CartVO> cartList = service.resultCartList(sId); 
-		System.out.println("3333333333333333333333333333333");
-				
-		System.out.println("리스트 : " + cartList);
+		
 		return cartList;
 	}
 		
-
+	// 장바구니 내부 X 버튼 클릭 시 선택된 상품 삭제 처리
+//	@PostMapping("cartDelete")
+//	@ResponseBody
+//	public String cartDelete(Model model, HttpSession session, String product_id) {
+//		String sId = (String)session.getAttribute("sId");
+//		int successDelete = service.cartDelete(sId, product_id);
+////		int successDelete =  1;
+//		Map<Object, Object> map = new HashMap<Object, Object>();
+//		if(successDelete > 0) {
+//			List<CartVO> cartList = service.resultCartList(sId);
+//			List<StoreVO> storeLsit = service.myStoreList(sId);
+//			map.put("myCartList1", cartList);
+//			map.put("myCartList2", storeLsit);
+//			model.addAttribute("cartList", map);
+//			return "storeCart2"; 
+//		} else {
+//			model.addAttribute("msg", "잘못된 접근입니다");
+//	        return "forward2";
+//		}
+//	}
+	
 	
 	@GetMapping("storePay")
 	public String storePay(HttpSession session, Model model, StoreVO store, String product_count, MemberVO member) {
@@ -174,7 +187,7 @@ public class StoreController {
 		}
 		
 		member.setMember_id(sId);
-		
+		System.out.println("카트에서 넘어온 상품 아이디 : " + store);
 		// Member name 과 phone 을 조회하기 위한 select 구문
 		MemberVO members = service.selectMemberInfo(member);
 		

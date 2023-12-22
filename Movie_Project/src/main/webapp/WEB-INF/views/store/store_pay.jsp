@@ -10,8 +10,7 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
-</head>
-
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
 /* 새로 갱신된 파일 */	
 	// 선택된 라디오 버튼 이외의 다른 라디오 버튼을 선택 해제
@@ -44,6 +43,7 @@
 		  }
 		}
 </script>
+</head>
 <body>
 	<div id="wrapper">
 		<header>
