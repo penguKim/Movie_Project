@@ -243,3 +243,36 @@ ul{
 	list-style-type: none;
 }
 
+#cs_table1 th { /* 자주묻는질문, 공지사항 테이블 제목에 */
+	color: #000000;
+	background-color: #f2f2f2; /* 제목 배경색 지정 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+}
+
+#cs_table1 td { /* 자주묻는질문, 공지사항 테이블 내용에 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border: none;
+	text-align: center;
+	border-bottom: 1px solid #9d9d9d; /* 하단줄 */		
+}
+
+#cs_table1 #td_left {
+	text-align: left;
+}
+
+#cs_table2 th { /* 분실물문의, 1대1질문 테이블 제목에 */
+	background-color: #f2f2f2; /* 제목 배경색 지정 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border-bottom: 1px solid #9d9d9d;
+	text-align: center;
+}
+
+#cs_table2 td { /* 분실물문의, 1대1질문 테이블에 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border-bottom: 1px solid #9d9d9d;
+/* 	width: 36%; */
+}
+
+#cs_table2  b { /* 제목 옆 필수항목 *표시 */
+	color: #ff0000; /* 글자 빨간색 */
+}
