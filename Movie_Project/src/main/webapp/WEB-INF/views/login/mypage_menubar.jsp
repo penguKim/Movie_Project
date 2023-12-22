@@ -13,7 +13,7 @@
 <!-- </div> -->
 <!-- --------- 사이드메뉴 끝 ---------- -->
 <div class="sidenav">
-	<div id="admin"><a href="SideMypage">마이페이지</a></div>
+	<div id="admin"><a href="Mypage">마이페이지</a></div>
 	<button class="dropdown-btn">구매내역
 		<i class="fa fa-caret-down"></i>
 	</button>
