@@ -32,7 +32,7 @@ margin-top: 10px;
 					<a href="memberJoin"><input type="button" value="회원가입"></a>
 				</c:when>
 				<c:otherwise>
-					<a href="mypage"><input type="button" value="${sessionScope.sId }"></a>
+					<a href="Mypage"><input type="button" value="${sessionScope.sId }"></a>
 					<a href="javascript:confirmLogout()"><input type="button" value="로그아웃"></a>
 					<c:if test="${sessionScope.sId eq 'admin'}">
 						<a href="adminMovie"><input type="button" value="관리자페이지"></a><%-- 관리자페이지는 메인페이지가 없으므로 영화관리 페이지가 연결되도록 지정(임시) --%>
