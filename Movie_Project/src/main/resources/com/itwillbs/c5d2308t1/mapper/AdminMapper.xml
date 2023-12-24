@@ -324,6 +324,13 @@
 	</select>
 	
 <!--  1대1 문의 답변 등록 -->
+	<update id="updateOneOnOneNewReply">
+		UPDATE cs
+		SET cs_reply = #{cs_reply}
+		WHERE cs_id = #{cs_id}
+	</update>	
+
+<!--  1대1 문의 답변 수정 -->
 	<update id="updateOneOnOneReply">
 		UPDATE cs
 		SET cs_reply = #{cs_reply}
@@ -332,10 +339,30 @@
 
 <!-- *************** 상영스케쥴 관리페이지 작업 ************* -->
 <!-- 상영스케쥴 관리 메인 페이지 정보 조회-->
-	<select id="selectMainScheduleInfo" resultType="theater">
-		SELECT *
-		FROM theaters
-		WHERE theater_id = 1
+	<select id="selectMainScheduleInfo" resultType="hashmap">
+		SELECT r.room_name, m.movie_title, p.play_start_time
+		FROM plays p
+		JOIN rooms r
+		ON p.room_id = r.room_id
+		JOIN theaters t
+		ON r.theater_id = t.theater_id
+		JOIN movies m
+		ON p.movie_id = m.movie_id
+		WHERE t.theater_id = 1;
+	</select>
+	
+<!-- 상영스케쥴 관리 메인페이지 상영일정 조회 -->	
+	<select id="selectScheduleInfo" resultType="hashmap">
+		SELECT r.room_name, m.movie_title, p.play_start_time
+		FROM plays p
+		JOIN rooms r
+		ON p.room_id = r.room_id
+		JOIN theaters t
+		ON r.theater_id = t.theater_id
+		JOIN movies m
+		ON p.movie_id = m.movie_id
+		WHERE t.theater_id = #{theater_id}
+			AND p.play_date = #{play_date}	
 	</select>
 
 </mapper>

@@ -177,13 +177,18 @@ public class AdminService {
 
 	
 	// ****************** 상영스케쥴 관리 게시판 *********************
-	// 상영스케쥴 관리 메인페이지 정보 조회 작업 요청
+	// 상영스케쥴 관리 메인페이지로 이동 시 정보 조회 작업 요청
 //	public TheaterVO getMainScheduleInfo(TheaterVO theater) {
 //		return mapper.selectMainScheduleInfo(theater);
 //	}
 
 	public List<Map<String, Object>> getMainScheduleInfo() {
 		return mapper.selectMainScheduleInfo();
+	}
+	
+	// 상영스케쥴 관리 메인페이지 상영일정 조회 작업 요청 
+	public List<Map<String, Object>> getScheduleInfo() {
+		return mapper.selectScheduleInfo();
 	}
 
 

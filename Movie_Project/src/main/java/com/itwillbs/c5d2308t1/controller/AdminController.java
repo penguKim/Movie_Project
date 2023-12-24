@@ -232,7 +232,7 @@ public class AdminController {
 	// ************************ 상영일정관리 페이지 *************
 	// 관리자페이지 영화 상영 일정 메인 페이지로 이동
 	@GetMapping("adminMovieSchedule")
-	public String adminMovieSchedule(HttpSession session, Model model, PlayVO play) {
+	public String adminMovieSchedule(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -258,7 +258,14 @@ public class AdminController {
 		return "admin/admin_movie_schedule";
 	}
 	
-	
+	// 상영 일정 조회
+	@ResponseBody
+	@GetMapping("ScheduleSearch")
+	public String ScheduleSearch() {
+		List<Map<String, Object>> playList = service.getScheduleInfo();
+//		System.out.println(playList); // 출력값 X
+		return "playList";
+	}
 
 	@GetMapping("movieScheduleMod") // 상영일정 관리 페이지 : admin_movie_schedule_modify.jsp
 	public String movieScheduleMod() {
