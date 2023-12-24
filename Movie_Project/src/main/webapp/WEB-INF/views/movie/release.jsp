@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,17 +30,17 @@
 						<input type="button" value="상영예정작"></a></li>
 				</ul>
 			</nav>
-		<form action="release">
-			<%-- 검색 타입 목록(셀렉트박스), 검색어(텍스트박스) 추가 --%>
-			
-			<select name="sortType">
-				<option value="1" <c:if test="${param.sortType eq '1' }">selected</c:if>>개봉일순</option>
-				<option value="2" <c:if test="${param.sortType eq '2' }">selected</c:if>>가나다순</option>
-				<option value="3" <c:if test="${param.sortType eq '3' }">selected</c:if>>관객수순</option>
-			</select>
-			<input type="submit" value="Go">
-		</form>
 			<section class="movie-section">
+				<div class="sort-menu">
+					<form action="release">
+						<select name="sortType">
+							<option value="1" <c:if test="${param.sortType eq '1' }">selected</c:if>>개봉일순</option>
+							<option value="2" <c:if test="${param.sortType eq '2' }">selected</c:if>>가나다순</option>
+							<option value="3" <c:if test="${param.sortType eq '3' }">selected</c:if>>관객수순</option>
+						</select>
+						<input type="submit" value="Go">
+					</form>
+				</div>
 				<div class="container">
 					<div class="movie-grid">
 					<c:forEach var="movie" items="${movieList}">
@@ -67,10 +68,13 @@
 									<p class="title">${movie.movie_title }</p>
 								</div>
 							</div>
-								<p class="date">${movie.movie_release_date } <span class="release-type">개봉</span></p>
+								<p class="date">
+									<fmt:formatDate value="${movie.movie_release_date }" pattern="yyyy.MM.dd"/>
+									<span class="release-type">개봉</span>
+								</p>
 							</a>
 							<div class="reserve_area">
-								<a href="movie_select" class="rel_reservBtn">
+								<a href="movie_select?movie_id=${movie.movie_id }" class="rel_reservBtn">
 									<input type="button" value="예매하기"></a>
 							</div>
 						</div>

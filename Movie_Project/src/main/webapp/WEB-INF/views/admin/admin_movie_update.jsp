@@ -209,7 +209,7 @@
 					data: {
 						ServiceKey: ServiceKey,
 						title: title,
-// 						director: director,
+						director: director,
 						detail: "Y",
 						releaseDts: releaseDts
 					},
@@ -411,7 +411,7 @@
 <body>
 	<div id="wrapper">
 		<header>
-			<jsp:include page="../inc/top.jsp"></jsp:include>
+			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
 						
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
@@ -422,11 +422,10 @@
 		<jsp:include page="admin_menubar.jsp"></jsp:include>
 	</div>
 	<div id="admin_main">
-		<div id="grayDiv">
-			<div>
-				<div id="boxofficeDate"></div>
+<!-- 		<div id="grayDiv"> -->
+			<div id="searchArea">
 				<input type="date" value="" id="dateSelect">
-				<input type="button" value="조회" id="boxofficeSearch">
+				<input type="button" value="박스오피스 조회" id="boxofficeSearch">
 				<select id="dailyBox">
 					<option value="dateValue" selected disabled class="dateValue">날짜를 조회하세요.</option>
 					<%-- 일일 박스오피스 조회한 영화 제목 정보 표시 --%>
@@ -434,113 +433,189 @@
 				<input type="button" value="선택" id="boxofficeSelect">
 				<input type="button" value="상세조회" id="movieDetail"><br><br>
 			</div>
-			<div id="posterArea">
-				<img src="" class="poster"><br>
-			</div>
-	<!-- 		<img src="" width="250" height="400"><br> -->
 			<form action="movieRgst" method="post" id="movieRegist">
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>영화코드</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_id" id="movie_id">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>영화제목</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_title" id="movie_title">
-				</div>
-				<br><br>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>감독</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_director" id="movie_director">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>배우</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_actor" id="movie_actor">
-				</div>
-				<br><br>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>제작년도</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_prdtYear" id="movie_prdtYear">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>제작국가</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_nation" id="movie_nation">
-				</div>
-				<br><br>	
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>관람객수</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_audience" id="movie_audience">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>상영시간</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_runtime" id="movie_runtime">
-				</div>
-				<br><br>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>관람등급</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_rating" id="movie_rating">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>장르</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_genre" id="movie_genre">
-				</div>
-				<br><br>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>상영일</span><br>
-					&nbsp;&nbsp;<input type="date" name="movie_release_date" id="movie_release_date">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>종영일</span><br>
-					&nbsp;&nbsp;<input type="date" name="movie_close_date" id="movie_close_date">
-				</div>
-				<br><br>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>포스터</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_poster" class="poster">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>스틸컷1</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_still1" class="still">
-				</div>
-				<br><br>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>스틸컷2</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_still2" class="still">
-				</div>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>스틸컷3</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_still3" class="still">
-				</div>
-				<br><br>
-				<div id="grayBlock">
-					&nbsp;&nbsp;<span>예고영상</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_trailer" id="movie_trailer">
-				</div>
-				<div id="grayBlockWide">
-					&nbsp;&nbsp;<span>줄거리</span><br>
-					&nbsp;&nbsp;<input type="text" name="movie_plot" id="movie_plot">
-				</div>
-					<br><br>
-				<div id="grayBlockWide">
-					&nbsp;&nbsp;<span>상영상태</span><br>
-					<select name="movie_status" id="movie_status">
-						<option value="" selected disabled id="default_status">상영 상태</option>
-						<option value="0" id="comming">개봉 예정</option>
-						<option value="1" id="release">개봉</option>
-					</select>
-				</div>
-				<br><br>
-	<!-- 			<div id="grayBlock"> -->
-	<!-- 				&nbsp;&nbsp;<span>검색할 영화 제목</span><br> -->
-	<!-- 				&nbsp;&nbsp;<input type="text" placeholder="검색할영화"> -->
-	<!-- 			</div> -->
-	<!-- 			<div id="grayBlock"> -->
-	<!-- 				&nbsp;&nbsp;<span>조회 연도</span><br> -->
-	<!-- 				&nbsp;&nbsp;<input type="text" value="2002"> -->
-	<!-- 			</div> -->
+				<table id="movieTable">
+		            <colgroup> 
+		                <col style="width: 20%;">
+		                <col style="width: 20%;">   
+		                <col style="width: 20%;"> 
+		                <col style="width: 40%;">   
+		            </colgroup> 
+					<tr>
+						<td rowspan="5" colspan="2" id="posterArea">
+							<img src="" class="poster"><br>
+						</td>
+						<th width="100px">영화코드</th>
+						<td><input type="text" name="movie_id" id="movie_id" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th width="100px">영화제목</th>
+						<td><input type="text" name="movie_title" id="movie_title" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th width="100px">감독</th>
+						<td><input type="text" name="movie_director" id="movie_director" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th>제작년도</th>
+						<td ><input type="text" name="movie_prdtYear" id="movie_prdtYear" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th>제작국가</th>
+						<td ><input type="text" name="movie_nation" id="movie_nation" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th>배우</th>
+						<td><input type="text" name="movie_actor" id="movie_actor" class="shortInput"></td>
+						<th>장르</th>
+						<td><input type="text" name="movie_genre" id="movie_genre" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th>관람객수</th>
+						<td><input type="text" name="movie_audience" id="movie_audience" class="shortInput"></td>
+						<th>상영시간</th>
+						<td><input type="text" name="movie_runtime" id="movie_runtime" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th>관람등급</th>
+						<td><input type="text" name="movie_rating" id="movie_rating" class="shortInput"></td>
+						<th>상영 상태</th>
+						<td>
+						<select name="movie_status" id="movie_status">
+							<option value="" selected disabled id="default_status">상영 상태</option>
+							<option value="0" id="comming">개봉 예정</option>
+							<option value="1" id="release">개봉</option>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<th>상영일</th>
+						<td><input type="date" name="movie_release_date" id="movie_release_date" class="shortInput"></td>
+						<th>종영일</th>
+						<td><input type="date" name="movie_close_date" id="movie_close_date" class="shortInput"></td>
+					</tr>
+					<tr>
+						<th>포스터</th>
+						<td colspan="3"><input type="text" name="movie_poster" class="poster longInput" ></td>
+					</tr>
+					<tr>
+						<th>스틸컷1</th>
+						<td colspan="3"><input type="text" name="movie_still1" class="still longInput"></td>
+					</tr>
+					<tr>
+						<th>스틸컷2</th>
+						<td colspan="3"><input type="text" name="movie_still2" class="still longInput"></td>
+					</tr>
+					<tr>
+						<th>스틸컷3</th>
+						<td colspan="3"><input type="text" name="movie_still3" class="still longInput"></td>
+					</tr>
+					<tr>
+						<th>트레일러</th>
+						<td colspan="3"><input type="text" name="movie_trailer" id="movie_trailer" class="longInput"></td>
+					</tr>
+					<tr>
+						<th>줄거리</th>
+						<td colspan="3"><input type="text" name="movie_plot" id="movie_plot" class="longInput"></td>
+					</tr>
+				</table>
+			
+			
+			
+			
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>영화코드</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_id" id="movie_id"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>영화제목</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_title" id="movie_title"> -->
+<!-- 				</div> -->
+<!-- 				<br><br> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>감독</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_director" id="movie_director"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>배우</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_actor" id="movie_actor"> -->
+<!-- 				</div> -->
+<!-- 				<br><br> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>제작년도</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_prdtYear" id="movie_prdtYear"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>제작국가</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_nation" id="movie_nation"> -->
+<!-- 				</div> -->
+<!-- 				<br><br>	 -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>관람객수</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_audience" id="movie_audience"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>상영시간</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_runtime" id="movie_runtime"> -->
+<!-- 				</div> -->
+<!-- 				<br><br> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>관람등급</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_rating" id="movie_rating"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>장르</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_genre" id="movie_genre"> -->
+<!-- 				</div> -->
+<!-- 				<br><br> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>상영일</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="date" name="movie_release_date" id="movie_release_date"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>종영일</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="date" name="movie_close_date" id="movie_close_date"> -->
+<!-- 				</div> -->
+<!-- 				<br><br> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>예고영상</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_trailer" id="movie_trailer"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>스틸컷1</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_still1" class="still"> -->
+<!-- 				</div> -->
+<!-- 				<br><br> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>스틸컷2</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_still2" class="still"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlock"> -->
+<!-- 					&nbsp;&nbsp;<span>스틸컷3</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_still3" class="still"> -->
+<!-- 				</div> -->
+<!-- 				<br><br> -->
+<!-- 				<div id="grayBlockWide"> -->
+<!-- 					&nbsp;&nbsp;<span>포스터</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_poster" class="poster"> -->
+<!-- 				</div> -->
+<!-- 				<div id="grayBlockWide"> -->
+<!-- 					&nbsp;&nbsp;<span>줄거리</span><br> -->
+<!-- 					&nbsp;&nbsp;<input type="text" name="movie_plot" id="movie_plot"> -->
+<!-- 				</div> -->
+<!-- 					<br><br> -->
+<!-- 				<div id="grayBlockWide"> -->
+<!-- 					&nbsp;&nbsp;<span>상영상태</span><br> -->
+<!-- 					<select name="movie_status" id="movie_status"> -->
+<!-- 						<option value="" selected disabled id="default_status">상영 상태</option> -->
+<!-- 						<option value="0" id="comming">개봉 예정</option> -->
+<!-- 						<option value="1" id="release">개봉</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
 				<input type="submit" value="등록" id="regist">
 				<input type="button" value="창닫기" onclick="history.back();">
 			</form>
-		</div>
+<!-- 		</div> -->
 	</div>
 	</section>
 		<footer>

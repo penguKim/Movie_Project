@@ -44,6 +44,33 @@
 /*     font-weight: bold; 선택된 항목을 굵게 표시 */
 /*     background: #f32; 선택된 항목을 색상 지정 */
 /* } */
+
+/* 정렬 셀렉트박스 메뉴 */
+
+.sort-menu select {
+	padding: 3px 15px;
+/* 	font-size: 18px; */
+	font-weight: 400; /* 폰트 굵기 */
+    border: 1px solid #C4C4C4;
+    border-radius: 10px; /* 테두리 라운드 처리 */
+}
+
+.sort-menu input {
+	border: none;
+	border-bottom: 2px solid #e50914;
+	height: 25px;
+	color: #000000; /* 글자 색상 */
+	padding: 5px 15px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #ffffff;
+	cursor: pointer; /* 커서 변경 */
+}
+
+.sort-menu input:hover {
+	background-color: #eeeeee;
+	border-bottom: 2px solid #000000;
+}
+
 /* ------- 그리드 스타일 목록 -------  */
 .container {
     max-width: 1200px; /* 그리드 전체 넓이 */
@@ -58,14 +85,14 @@
 
 .movie-grid {
     display: grid; /* 목록의 그리드 방식 정렬 */
-    grid-template-columns: repeat(4, 1fr); /* 한줄에 5개씩 동일 비율로 반복 */
+    grid-template-columns: repeat(4, 1fr); /* 한줄에 4개씩 동일 비율로 반복 */
     grid-gap: 40px; /* 그리드 간격 */
 }
 
 /* 그리드 1칸의 영화 항목 */
 .movie {
 	width: 200px;
-	height: 420px;
+	height: 400px;
     background-color: #fff; /* 그리드 한 칸의 배경색 */
     text-align: center; /* 가운데 정렬 */
     overflow: hidden; /* 영역 밖은 표시 안함 */
@@ -81,10 +108,9 @@
 /* 상영작 항목의 테두리 */
 .movie-poster {
 	border: 1px solid;
-	height: 350px;
+	height: 325px;
 	border-radius: 5px; /* 모서리 라운드 처리 */
-	overflow:hidden; /* 영역 밖으로 제목 나가지 않게 처리 */
-	text-overflow: ellipsis; /* 영역 밖의 글자는 ... 처리 */
+	overflow: hidden;
 }
 
 /* 상영작 항목의 포스터 */
@@ -135,22 +161,31 @@
 /* 상영작 항목의 제목 */
 .movie .title {
     color: inherit; /* 링크의 색상 제거 */
-    font-weight: 800;
+    font-weight: 600;
 /*     font-size: 16px; */
-    margin: 15 0 auto; /* 가운데 정렬 */
+    margin: 5px 0 auto; /* 가운데 정렬 */
+	width: 200px; /* 그리드 영역의 넓이와 동일하게 설정 */
+	white-space: nowrap; /* 줄바꿈없이 표시 */
+	overflow: hidden; /* 요소영역을 초과하면 표시안되게 설정 */
+ 	text-overflow: ellipsis; /* 초과한 텍스트를 '...'으로 설정 */
 }
 
+/* 상영작 항목의 개봉일 */
 .movie .date {
-	font-weight: 800;
+	font-weight: 300;
+	color: #666666;
+	margin-top: 1px; /* 그리드 영역과의 거리 */
+	margin-bottom: 1px; /* 예매버튼 영역과의 거리 */
 }
 
+/* 상영작 항목의 개봉상태 */
 .release-type {
 	padding: 2px 3px;
 	background-color: #FF4357; /* 배경색 지정 */
 	border-radius: 5px;
-	font-weight: 800;
+	font-size: 12px;
+	font-weight: 600;
 	color: #FFFFFF;
-/* 	font-size: 14px; */
 }
 
 
@@ -215,7 +250,8 @@
 }
 /* 제목 크기 지정 */
 .detail_title {
-	font-size: 50px;
+	width: 540px; /* 제목의 영역 길이 */
+	font-size: 35px;
 	font-weight: 800;
 	margin-left: 20px;
 }

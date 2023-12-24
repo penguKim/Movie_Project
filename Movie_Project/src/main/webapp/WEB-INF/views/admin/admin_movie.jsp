@@ -12,14 +12,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	function popUpUdt() {
-		window.open("adminMovieUdt", "_blank", "width=800, height=800, left=550, top=100"); 
-		return false;
-	}
-	function popUpMod() {
-		window.open("adminMovieMod", "_blank", "width=800, height=800, left=550, top=100"); 
-		return false;
-	}
 </script>
 </head>
 <body>
@@ -42,10 +34,8 @@
 			
 			<div id="admin_main">
 				<div id="movie_update">
-<!-- 					<input type="button" value="상영예정작 등록하기" onclick = "location.href='adminMovie'">		 -->
-					<input type="button" value="최신영화 등록하기" onclick = "location.href='adminMovieUdt'">
+					<input type="button" value="최신영화 등록" onclick = "location.href='adminMovieUdt'">
 					<input type="button" value="영화 검색" onclick = "location.href='adminMovieSearch'">
-					<input type="button" value="영화등록" onclick = "location.href='adminMovieUdt'">
 				</div>
 				<div id="movie_Search">
 					<%-- 검색 기능을 위한 폼 생성 --%>
@@ -54,7 +44,7 @@
 						<input type="submit" value="검색">
 					</form>
 				</div>
-				<table border="1">
+				<table id="movieList">
 					<tr>
 						<th>영화코드</th>
 						<th>영화제목</th>
@@ -68,7 +58,7 @@
 					<c:forEach var="movie" items="${movieList }">
 						<tr>
 							<td>${movie.movie_id }</td>
-							<td width="200">${movie.movie_title }</td>
+							<td id="movieTitle">${movie.movie_title }</td>
 							<td class="movie_status">
 								<c:choose>
 									<c:when test="${movie.movie_status eq 1 }">
@@ -83,7 +73,7 @@
 							<td>${movie.movie_prdtYear }년</td>
 							<td>${movie.movie_runtime }분</td>
 							<td>${movie.movie_release_date }</td>
-							<td>${movie_close_date }</td>
+							<td>${movie.movie_close_date }</td>
 							<td><input type="button" value="MORE" onclick = "location.href='adminMovieMod?movie_id=${movie.movie_id }&pageNum=${pageNum }'"></td>
 						</tr>
 					</c:forEach>

@@ -35,39 +35,39 @@
 						<img alt="" src=${movie_poster } width="200" height="280">
 					</div>	
 					<div class="info_title">
-						<span class="detail_title">${movie_title }</span>
+						<div class="detail_title">${movie_title }</div>
 						<ul>
 							<li><span>기본 정보 : </span> ${movie_nation } | ${movie_runtime}분 | ${movie_genre }</li>
 							<li><span>개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;봉 : 	</span> ${movie_release_date } </li>
 							<li><span>감&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;독 : </span> ${movie_director }</li>
 							<li><span>등&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;급 : </span> ${movie_rating }</li>
+							<li><span>총관객수 : </span> ${movie_audience }명</li>
 						</ul>
 					</div>
 					<div class="detail_reserve_clear">
-						<a href="movie_select">
+						<a href="movie_select?movie_id=${movie_id}">
 							<input type="button" value="예매하기"></a>
 					</div>
 				</div>
 				<hr>
 				<ul class="click_link">
 					<li><a href="#movie_story"><input type="button" value="줄거리"></a></li>	
-					<li><a href="#movie_trailer"><input type="button" value="트레일러"></a></li>	
+					<c:if test="${not empty movie_trailer }">
+						<li><a href="#movie_trailer"><input type="button" value="트레일러"></a></li>	
+					</c:if>
 					<li><a href="#movie_cut"><input type="button" value="스틸컷"></a></li>	
 					<li><a href="#review"><input type="button" value="리뷰"></a></li>	
 				</ul>
 			    <div class="movie_story" id="movie_story">
 			    ${movie_plot }
 			    </div>
-			    <div class="movie_trailer" id="movie_trailer">
-			    	<hr>
-			    	<h2>트레일러</h2>
-<%-- 				    <embed src="${movie_trailer }" title="YouTube video player"> --%>
-<!-- 						<iframe width="560" height="315" src="https://www.kmdb.or.kr/trailer/play/MK060265_P02.mp4"></iframe> -->
-<!-- 						<iframe width="560" height="315" src="https://www.kmdb.or.kr/trailer/play/MK060265_P02.mp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
-<!-- 				    <video id="movie_trailer" src='https://www.kmdb.or.kr/trailer/play/MK060265_P02.mp4' width='880' height="560" controls autoplay muted="muted" controlsList="nodownload"></video> -->
-<!-- 				    <embed src=""> -->
-				    <video class="trailer" src="${movie_trailer }"  controls autoplay muted></video>
-			    </div>
+				<c:if test="${not empty movie_trailer }">
+				    <div class="movie_trailer" id="movie_trailer">
+				    	<hr>
+				    	<h2>트레일러</h2>
+					    <video class="trailer" src="${movie_trailer }"  controls autoplay muted></video>
+				    </div>
+				</c:if>
 			    <div class="movie_cut" id="movie_cut">
 			    	<hr>
 			    	<h2>스틸컷</h2>

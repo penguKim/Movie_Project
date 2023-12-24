@@ -128,17 +128,6 @@ public class MoviesController {
 		return mav;
 	}
 	
-	// 관리자 영화등록 페이지에서 DB로 등록
-	@PostMapping("movieTest")
-	public ModelAndView movieTest(@RequestParam Map<String, Object> map) {
-		System.out.println(map);
-		int insterCount = service.registMovie(map);
-		
-		ModelAndView mav = new ModelAndView("", map);
-		
-		return mav;
-	}
-	
 	// =========================================================================================
 	// cgv에서 크롤링하여 현재상영작 페이지에 뿌리기
 //	@GetMapping("release")

@@ -293,7 +293,71 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	border-bottom: 3px solid #000000;
 }
 
-/* =============== 영화 등록, 수정, 예매 상세 페이지의 정보를 표시할 회색 블럭 =================== */
+/* =============== 영화 조회, 등록, 수정 페이지 정보 표시 =================== */
+/* 영화 목록조회 게시판의 제목 */
+#movieList #movieTitle {
+	max-width: 200px; /* 최대 길이 */
+	white-space: nowrap; /* 줄바꿈없이 표시 */
+	overflow: hidden; /* 요소영역을 초과하면 표시안되게 설정 */
+ 	text-overflow: ellipsis; /* 초과한 텍스트를 '...'으로 설정 */
+}
+
+/* 테이블 영역 */
+#movieTable {
+	margin-bottom: 10px;
+}
+/* 영화 검색창 영역 */
+#searchArea {
+	text-align: center;
+}
+/* 박스오피스를 조회할 날짜 입력창 */
+#searchArea #dateSelect {
+/* 	border: none; */
+	width: 90px; /* 너비 */
+	font-weight: 500;
+}
+/* 박스오피스의 영화 표시 셀렉트박스 */
+#searchArea #dailyBox {
+	width: 350px;
+	height: 30px;
+}
+/* 포스터가 표시될 영역 */
+#movieTable #posterArea {
+	height: 310px !important;
+}
+/* 짧은 입력창 표시 */
+#movieTable .shortInput { /* 회색 블럭 내 input type="text" 영역 */
+	border:none; /* 테두리 없애기 */
+	/* background-color: #ccc; */
+	/* => 텍스트 출력창 표시하기 위해 임시로 색상 설정 X */
+	height: 50px; /* 높이 */
+	width: 250px; /* 너비 */
+}
+/* 긴 입력창 표시 */
+#movieTable .longInput {
+	border:none; /* 테두리 없애기 */
+	height: 50px; /* 높이 */
+	width: 550px; /* 너비 */
+}
+
+#movieTable #movie_status {
+	border:none; /* 테두리 없애기 */
+	/* background-color: #ccc; */
+	/* => 텍스트 출력창 표시하기 위해 임시로 색상 설정 X */
+	height: 50px; /* 높이 */
+	width: 250px; /* 너비 */
+}
+
+/* 날짜 입력창 표시 */
+#movieTable input[type="date"] { /* 회색 블럭 내 input type="date" 영역 */
+	border:none; /* 테두리 없애기 */
+	/* background-color: #ccc; */
+	/* => 텍스트 출력창 표시하기 위해 임시로 색상 설정 X */
+	height: 50px; /* 높이 */
+	width: 250px; /* 너비 */
+}
+
+/* =============== 예매 상세 페이지의 정보를 표시할 회색 블럭 =================== */
 #grayDiv { /* 회색 블럭을 감싸고 있는 전체 영역에 대한 설정 */
 	text-align: center; /* 가운데 정렬 */
 	margin-left: 2.5px; /* 왼쪽 여백 */
