@@ -54,18 +54,25 @@
 					$("#searchDate").focus();
 					return;
 				} else {
-					$.ajax({
+					$.ajax({ // 조회 버튼 클릭시 ajax 요청
 						type: "get",
 						url: "ScheduleSearch",
 						data: $("form").serialize(),
 // 						data: {
-// 							"room_id":
-// 							"play_date":
+// 							theater_id: $("#theater_id").val(),
+// 							play_date: $("#searchDate").val()
 // 						},
 						success: function(result) {
 							console.log(result);
-							for(let schedule of result) {
-								$("#scheduleTableTr").after("<tr><td>" + schedule.room_name + "</td><td>" + schedule.movie_title + "</td><td>" + schedule.play_start_time + "</td></tr>");
+							
+							if(result == null) {
+								$("#scheduleTableTr").after("<tr><td colspan='3'>" + 상영일정이 존재하지 않습니다! + "</td></tr>");
+							} else {
+								for(let schedule of result) {
+									$("#searchResult").remove();
+									$("#scheduleTableTr").after("<tr><td>" + schedule.room_name + "</td><td>" + schedule.movie_title + "</td><td>" + schedule.play_start_time + "</td></tr>");
+								}
+								
 							}
 						},
 						error: function(e) {
@@ -74,19 +81,6 @@
 							return;
 						}
 						
-						/*
-						INFO : jdbc.sqltiming - SELECT r.room_name, m.movie_title, p.play_start_time FROM plays p JOIN rooms r ON p.room_id 
-						= r.room_id JOIN theaters t ON r.theater_id = t.theater_id JOIN movies m ON p.movie_id = m.movie_id 
-						WHERE t.theater_id = NULL AND p.play_date = NULL 
-						 {executed in 24 msec}
-						INFO : jdbc.resultsettable - 
-						|----------|------------|----------------|
-						|room_name |movie_title |play_start_time |
-						|----------|------------|----------------|
-						|----------|------------|----------------|
-
-						theater_id, play_date가 null 값으로 넘어옴.. xml 쿼리 문제?
-						*/
 						
 						
 					});	
@@ -134,8 +128,25 @@
 						<th>영화명</th>
 						<th>상영시간</th>
 					</tr>
+					<%-- 
+					일단 메인페이지가 로딩되면 1관의 오늘일자 상영정보가 뜨도록하고 
+					지점과 날짜 선택 후 조회 버튼 클릭 시
+					기존 조회된 상영정보가 날아가고 조건에 맞는 상영정보가 떠야함
+					판별을 어떻게 할거야???
+					=> 1관의 오늘 상영일자가 선택 되었을 경우나 아무것도 선택되지 않았을 경우(메인페이지 로딩 시)
+					   기존 로딩 되는 정보(1관의 )
+					--%>
+<%-- 					<c:choose> --%>
+<%-- 						<c:when test="${ }"> --%>
+						
+<%-- 						</c:when> --%>
+<%-- 						<c:otherwise> --%>
+						
+<%-- 						</c:otherwise> --%>
+<%-- 					</c:choose> --%>
+					
 					<c:forEach items="${playList }" var="play">
-						<tr>
+						<tr id="searchResult">
 							<td>${play.room_name }</td>
 							<td>${play.movie_title }</td>
 							<td>${play.play_start_time }</td>

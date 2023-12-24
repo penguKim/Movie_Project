@@ -9,10 +9,39 @@
 <title>1 : 1 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+
 <script type="text/javascript">
-	btnMod() {
+	$(function() {
+		$("#responseWrite").on("click", function() { // 등록 버튼 클릭 이벤트 처리
+			if($("#cs_reply").val() == "") { 
+				alert("내용을 입력하지 않을 경우 답변 등록이 불가능합니다!");
+				$("#cs_reply").focus();
+				return false;
+			}
+			
+		});
+	});
+	
+	$(function() {
+		let previousValue = $("#cs_reply").val(); // 변수에 현재 내용 저장
 		
-	}
+		$("#responseModify").on("click", function() {
+			let currentValue = $("#cs_reply").val();
+			if(previousValue == currentValue) { // textarea의 기존 값과 입력한 내용을 비교했을 경우 변동이 없다면
+				alert("변경된 내용이 없을 경우 답변 수정이 불가능합니다!");
+				$("#cs_reply").focus();
+				return false;
+			} else {
+				if(confirm("수정 내용을 등록하시겠습니까?")) {
+					$.post("OneOnOneModify"), // 제이쿼리 포스트 방식 요청 처리 미완****************
+				}
+			}
+		});
+		
+	});
+	
+	
 </script>
 </head>
 <body>
@@ -57,12 +86,12 @@
 							<th>문의 제목</th>
 							<td>${oneOnOne.cs_subject }</td>
 						</tr>
-<%-- 						<c:if test="${oneOnOne.theater_id ne '' }"> --%>
-<!-- 							<tr> -->
-<!-- 								<th>문의 지점</th> -->
-<%-- 								<td>${oneOnOne.theater_name }</td> --%>
-<!-- 							</tr> -->
-<%-- 						</c:if> --%>
+						<c:if test="${not empty oneOnOne.theater_id }">
+							<tr>
+								<th>문의 지점</th>
+								<td>${oneOnOne.theater_name }</td> <!-- "지점"으로 출력... whyrano... -->
+							</tr>
+						</c:if>
 						
 						<tr>
 							<th>문의 작성자</th>
@@ -79,7 +108,7 @@
 						<tr>
 							<th height="300">답변 내용</th>
 							<td>
-								<textarea rows="30" cols="80" name="cs_reply">${oneOnOne.cs_reply }</textarea>
+								<textarea rows="30" cols="80" id="cs_reply" name="cs_reply">${oneOnOne.cs_reply }</textarea>
 							</td>
 						</tr>
 					</table>
@@ -89,10 +118,11 @@
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
 						<c:choose>
 							<c:when test="${empty oneOnOne.cs_reply }">
-								<input type="submit" value="답변 등록하기" formaction="OneOnOneResponse">
+								<input type="submit" value="답변 등록하기" id="responseWrite" formaction="OneOnOneResponse">
 							</c:when>
 							<c:otherwise>
-								<input type="submit" value="답변 수정" formaction="OneOnOneModify">
+<!-- 								<input type="submit" value="답변 수정" id="responseModify" formaction="OneOnOneModify"> -->
+								<input type="button" value="답변 수정" id="responseModify">
 								<input type="submit" value="답변 삭제" formaction="">
 							</c:otherwise>
 						</c:choose>	

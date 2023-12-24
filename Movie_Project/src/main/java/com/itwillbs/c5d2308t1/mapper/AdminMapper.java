@@ -102,9 +102,7 @@ public interface AdminMapper {
 	int selectOneOnOneListCount();
 
 //	// 1대1문의 관리 게시판 상세 조회 작업
-//	CsVO selectOneOnOne(CsVO cs);
 	HashMap<String, Object> selectOneOnOne(CsVO cs);
-	
 	
 	// 1대1문의 답변 등록 작업
 	int updateOneOnOneNewReply(CsVO cs);
@@ -114,12 +112,10 @@ public interface AdminMapper {
 	
 	// =================== 상영스케쥴 관리 게시판 ==========================
 	// 상영스케쥴 관리 메인페이지로 이동 시 정보 조회 작업
-//	TheaterVO selectMainScheduleInfo(TheaterVO theater);
-//	PlayVO selectMainScheduleInfo(PlayVO play); 
 	List<Map<String, Object>> selectMainScheduleInfo();
 
 	// 상영스케쥴 관리 메인페이지 상영일정 조회 작업
-	List<Map<String, Object>> selectScheduleInfo();
+	List<Map<String, Object>> selectScheduleInfo(Map<String, String> map);
 
 
 	

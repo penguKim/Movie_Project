@@ -9,6 +9,8 @@
 <title>1 : 1 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+
 <script type="text/javascript">
 </script>
 </head>
@@ -46,10 +48,10 @@
 							<th>문의 제목</th>
 							<td>${oneOnOne.cs_subject }</td>
 						</tr>
-						<c:if test="${oneOnOne.theater_id ne '' }">
+						<c:if test="${not empty oneOnOne.theater_id }">
 							<tr>
 								<th>문의 지점</th>
-								<td>${oneOnOne.theater_name } 지점</td>
+								<td>${oneOnOne.theater_name }</td> <!-- "지점"으로 출력... whyrano... -->
 							</tr>
 						</c:if>
 						
@@ -62,7 +64,7 @@
 							<td>${oneOnOne.cs_content }</td>
 						</tr>
 						<tr>
-							<th>사진 첨부</th>
+							<th>첨부 파일</th>
 							<td><input type="file"></td>
 						</tr>
 						<tr>
@@ -75,7 +77,7 @@
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
-						<input type="submit" value="답변 수정" formaction="OneonOneMoveToModify">
+						<input type="submit" value="답변 수정" formaction="OneonOneMoveToModify?pageNum=${param.pageNum }">
 <!-- 						<input type="submit" value="답변 삭제" formaction=""> -->
 						<input type="button" value="돌아가기" onclick="history.back()">
 					</div>

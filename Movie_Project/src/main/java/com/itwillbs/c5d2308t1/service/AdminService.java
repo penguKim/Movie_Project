@@ -157,9 +157,6 @@ public class AdminService {
 	}
 
 //	// 1대1문의 관리 게시판 상세 조회 작업 요청
-//	public CsVO getOneOnOnePostById(CsVO cs) {
-//		return mapper.selectOneOnOne(cs);
-//	}
 	public HashMap<String, Object> getOneOnOnePostById(CsVO cs) {
 		return mapper.selectOneOnOne(cs);
 	}
@@ -178,24 +175,15 @@ public class AdminService {
 	
 	// ****************** 상영스케쥴 관리 게시판 *********************
 	// 상영스케쥴 관리 메인페이지로 이동 시 정보 조회 작업 요청
-//	public TheaterVO getMainScheduleInfo(TheaterVO theater) {
-//		return mapper.selectMainScheduleInfo(theater);
-//	}
-
 	public List<Map<String, Object>> getMainScheduleInfo() {
 		return mapper.selectMainScheduleInfo();
 	}
 	
 	// 상영스케쥴 관리 메인페이지 상영일정 조회 작업 요청 
-	public List<Map<String, Object>> getScheduleInfo() {
-		return mapper.selectScheduleInfo();
+	public List<Map<String, Object>> getScheduleInfo(Map<String, String> map) {
+		return mapper.selectScheduleInfo(map);
 	}
 
-
-	
-//	public PlayVO getMainScheduleInfo(PlayVO play) {
-//		return mapper.selectMainScheduleInfo(play);
-//	}
 
 
 }

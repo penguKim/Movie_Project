@@ -315,10 +315,10 @@
 	<select id="selectOneOnOne" resultType="hashmap">
 		SELECT *
 		FROM cs
-<!-- 		<if test="1 = 1"> -->
-<!-- 			JOIN theaters -->
-<!-- 			ON cs.theater_id = theaters.theater_id -->
-<!-- 		</if> -->
+		<if test="theater_id != 0"> <!-- 고객센터 1대1문의 글 작성 시 지점 선택을 안 했을 경우 -->
+			JOIN theaters
+			ON cs.theater_id = theaters.theater_id
+		</if>
 		WHERE cs_type = '1대1문의'
 		AND cs_id = #{cs_id}
 	</select>

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -261,10 +262,15 @@ public class AdminController {
 	// 상영 일정 조회
 	@ResponseBody
 	@GetMapping("ScheduleSearch")
-	public String ScheduleSearch() {
-		List<Map<String, Object>> playList = service.getScheduleInfo();
-//		System.out.println(playList); // 출력값 X
-		return "playList";
+	public List<Map<String, Object>> ScheduleSearch(
+			@RequestParam Map<String, String> map) {
+		System.out.println("파라미터로 받아온 theater_id : " + map.get("theater_id"));
+		System.out.println("파라미터로 받아온 play_date : " + map.get("play_date"));
+		// System.out.println(theater_id);
+		// System.out.println(play_date);
+		List<Map<String, Object>> playList = service.getScheduleInfo(map);
+		System.out.println("playList : " + playList); // 출력값 X
+		return playList;
 	}
 
 	@GetMapping("movieScheduleMod") // 상영일정 관리 페이지 : admin_movie_schedule_modify.jsp
@@ -901,7 +907,6 @@ public class AdminController {
 		
 //		// AdminService - getOneOnOnePostById() 메서드 호출해 해당 글 조회
 //		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : Map<String, Object> (oneOnOne)
-//		CsVO oneOnOne = service.getOneOnOnePostById(cs);
 		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
@@ -984,39 +989,29 @@ public class AdminController {
 		return "admin/admin_board_one_on_one_response";
 	}
 	
-//	// 관리자 페이지 1대1문의 기존 답변 수정
-//	@PostMapping("OneOnOneModify")
-//	public String OneOnOneModify(HttpSession session, Model model, @RequestParam(defaultValue = "1") int cs_type_list_num, CsVO cs) {
-//		String sId = (String)session.getAttribute("sId");
-//		if(sId == null || !sId.equals("admin")) {
-//			model.addAttribute("msg", "잘못된 접근입니다!");
-//			return "fail_back";
-//		}
-//		
-//		// AdminService - getOneOnOnePostById() 메서드 호출해 해당 글 조회
-//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : Map<String, Object> (oneOnOne)
-//		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
-//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
-//		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
-//		oneOnOne.put("cs_date", date.format(dtf));
-//		
-//		// AdminService - modifyOneOnOneReply() 메서드 호출해 등록된 답변 수정
-//		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : int(updateCount)
-//		int updateCount = service.modifyOneOnOneReply(cs);
-//		
-//		if(updateCount == 0) { // 수정 실패 시
-//			model.addAttribute("msg", "1대1문의 답변 수정 실패!");
-//			return "fail_back";
-//		} else {
-//			// Model 객체에 저장
-//			model.addAttribute("oneOnOne", oneOnOne);
-//			model.addAttribute("cs_type_list_num", cs_type_list_num);
-//
-//			return "redirect:/OneOnOneDetail?cs_type_list_num=" + cs_type_list_num;
-//		}
-//		
-//	}
+	// 관리자 페이지 1대1문의 기존 답변 수정
+	@PostMapping("OneOnOneModify")
+	public String OneOnOneModify(HttpSession session, Model model, CsVO cs, @RequestParam int cs_id) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// AdminService - modifyOneOnOneReply() 메서드 호출해 등록된 답변 수정
+		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : int(updateCount)
+		int updateCount = service.modifyOneOnOneReply(cs);
+		
+		if(updateCount == 0) { // 수정 실패 시
+			model.addAttribute("msg", "1대1문의 답변 수정 실패!");
+			return "fail_back";
+		} else {
+			// Model 객체에 저장
+			model.addAttribute("cs_id", cs_id);
+			return "redirect:/OneOnOneDetail?cs_id=" + cs_id;
+		}
+		
+	}
 	
 	// ===========================================================================================
 	// ********************* 분실물 문의 관리 페이지 *************
