@@ -18,31 +18,28 @@
 function decreaseQuantity(index) {
 	/* 해당 버튼 인덱스와 수정되는 인덱스를 동일하게 적용 시킴 */
 	/* 수량(quantity의 id 값에 동일하게 인덱스를 적용시키기위해 index와 함께 저장) */
-    var quantity = parseInt($("#quantity" + index).val());
+    var quantity = parseInt($("#product_count" + index).val());
 
     if (quantity > 1) {
         quantity -= 1;
-        $("#quantity" + index).val(quantity);
+        $("#product_count" + index).val(quantity);
     }
 }
 function increaseQuantity(index) {
-    var quantity = parseInt($("#quantity" + index).val());
+    var quantity = parseInt($("#product_count" + index).val());
 
     if (quantity < 99) {
         quantity += 1;
-        $("#quantity" + index).val(quantity);
+        $("#product_count" + index).val(quantity);
     }
 }
-var contextRoot = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+
 /* 수량 변경 버튼 클릭 시 처리되는 작업 */
- 
- 
- 
- var price = 0;
+var price = 0;
  
 function quanChange(index) {
 	
-	let product_count = $("#quantity"+index).val();
+	let product_count = $("#product_count"+index).val();
 	let product_id = $("#product_id"+index).val();
 	
 	$.ajax({
@@ -92,9 +89,11 @@ function quanChange(index) {
 /* 바로구매 선택 시 페이징 처리 */
 function choiceBuy(index) {
 	let product_id = $("#product_id" + index).val();
-	let product_count = $("#quantity" + index).val();
+	let product_count = $("#product_count" + index).val();
 	location.href="storePay?product_id=" + product_id + "&product_count=" + product_count;
-}
+} 
+// 컨텍스트 루트 변수
+var contextRoot = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 /* x 버튼 선택 시 해당 상품 삭제 처리 */
 function choiceDel(index) {
 	if(confirm("해당상품을 삭제하시겠습니까?")) {
@@ -122,8 +121,29 @@ function choiceDel(index) {
 }
 	
 $(function() {
+	<%-- 체크박스 전체 체크 --%>
+	$("#Allcheckbox").on("change", function() {
+		
+		if($("#Allcheckbox").prop("checked")) {
+			$("input[name='cartCheckbox']").prop("checked", true);
+		} else {
+			$("input[name='cartCheckbox']").prop("checked", false);
+		}
+	});	
 	
-});	
+	<%-- 체크박스에 체크된 상품 삭제 --%>
+	$("#del_btn").on("click", function() {
+		  var checkboxDel = $("input[name='cartCheckbox']:checked");
+	
+		  checkboxDel.each(function() {
+		    alert($(this).data('value'));
+		  });
+	});
+	
+});
+
+
+
 </script>		
 </head>
 <body>
@@ -137,7 +157,6 @@ $(function() {
 		<section id="content">
 			<h1 id="h01">장바구니</h1>
 			<hr>
-			<form action="storePay" method="post">
 				<section id="content">
 					<!-- 상단 진행도 상태창 -->
 					<!-- 장바구니 페이지 에서는 STEP1 에 빨간색 처리  -->
@@ -156,7 +175,7 @@ $(function() {
 							<table class="store_basket_table">
 								<tr>
 									<!-- 이미지와 상품정보 두칸 합치기 위해 상품명 colspan2 사용 -->
-									<th width="40px"><input type="checkbox" name="Allcheckbox" id="Allcheckbox"></th>
+									<th width="40px"><input type="checkbox" name="Allcheckbox" id="Allcheckbox" checked></th>
 									<th width="350px" colspan="2">상품명</th>
 									<th>판매금액</th>
 									<th>수량</th>
@@ -164,61 +183,6 @@ $(function() {
 									<th width="140px">선택</th>
 								</tr>
 
-<%-- 								<c:choose> --%>
-<%-- 									<c:when test="${not empty cartList}"> --%>
-<%-- 										<c:forEach var="i" begin="0" end="${fn:length(cartList.myCartList1)-1}" > --%>
-<%-- 											총금액 계산을 위한 All_tatal_price 변수 정의 --%>
-<%-- 											반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 --%>
-<%-- 											<c:set var="All_total_price" value="${cart_total_price + cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }"/> --%>
-<%-- 											<input type="hidden" id="product_id${i}" name="product_id" value="${cartList.myCartList2[i].product_id}"> --%>
-<!-- 											<tr> -->
-<!-- 												<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td> -->
-<!-- 												상품 이미지 및 내용(패키지는 구성) -->
-<!-- 												<td> -->
-<%-- 													<img src="${cartList.myCartList2[i].product_img}"> --%>
-<!-- 												</td> -->
-<!-- 												<td> -->
-<%-- 													<span>${cartList.myCartList2[i].product_name }</span><br> --%>
-<%-- 													<span>${cartList.myCartList2[i].product_txt }</span> --%>
-<!-- 												</td> -->
-<!-- 												상품에 등록된 판매 금액 -->
-<%-- 												<td>${cartList.myCartList2[i].product_price }원</td> --%>
-<!-- 												상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
-<!-- 												<td class="product_quantity"> -->
-<!-- 			<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
-<%-- 													<button type="button" id="minus${i}" class="btn_minus" title="수량감소" onclick="decreaseQuantity(${i})">-</button> --%>
-<%-- 													readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
-<%-- 													<input type="text" size="1" title="수량입력" id="quantity${i}" name="quantity" value="${cartList.myCartList1[i].product_count }" min="1" max="99" class="input-text" readonly> --%>
-<%-- 													<button type="button" id="plus${i}" class="btn_minus" title="수량증가" onclick="increaseQuantity(${i})">+</button> --%>
-<%-- 													<input type="button" value="변경" id="btn_quantity${i}" onclick="quanChange(${i})"> --%>
-<!-- 												</td> -->
-<!-- 												구매금액 -->
-<!-- 												판매 금액 + 선택된 수량 합산 금액 -->
-<%-- <%-- 												<td>${cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }원</td> --%>
-<%-- 												<td id="totalPrice${i}">${cartList.myCartList1[i].cart_total_price}원</td> --%>
-<!-- 												선택 -->
-<!-- 												<td> -->
-<!-- 												바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
-<%-- 													<input type="button" id="buyNow${i}" value="바로구매" onclick="choiceBuy(${i})"> --%>
-<%-- 													<input type="button" id="choiceDel${i}" value="x" onclick="choiceDel(${i})"> --%>
-<!-- 												</td> -->
-<!-- 											</tr> -->
-<%-- 										</c:forEach> --%>
-<%-- 									</c:when> --%>
-<%-- 									<c:otherwise> --%>
-<!-- 										<tr> -->
-<!-- 											상품을 어떻게 받아와야 할지? -->
-<!-- 											상품에 따른 상품명 및 구성 자동 입력 -->
-<!-- 											상품이 없을 경우 "장바구니에 상품이 없습니다" 화면에 출력 -->
-<!-- 											상품 정보 없음 -->
-<!-- 											<td colspan="7" align="center">장바구니에 상품이 없습니다</td> -->
-<!-- 											상품이 여러가지 상품을 장바구니에 넣을 방법  -->
-<!-- 											상품이 추가될때마다 행 추가<tr> 추가 -->
-<!-- 											c if 로 상품이 있는지 없는지 판별 후 forEach 사용해서 장바구니에 담은 상품 추가 -->
-<!-- 											상품의 총 가격 계산 -->
-<!-- 										</tr> -->
-<%-- 									</c:otherwise> --%>
-<%-- 								</c:choose> --%>
 								<c:if test="${not empty cartList}">
 									<c:forEach var="i" begin="0" end="${fn:length(cartList)-1}" >
 <!-- 											총금액 계산을 위한 All_tatal_price 변수 정의 -->
@@ -226,7 +190,7 @@ $(function() {
 										<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>
 										<input type="hidden" id="product_id${i}" name="product_id" value="${storeList[i].product_id}">
 										<tr>
-											<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox"></td>
+											<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox" checked></td>
 <!-- 												상품 이미지 및 내용(패키지는 구성) -->
 											<td>
 												<img src="${storeList[i].product_img}">
@@ -242,7 +206,7 @@ $(function() {
 		<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
 												<button type="button" id="minus${i}" class="btn_minus" title="수량감소" onclick="decreaseQuantity(${i})">-</button>
 <!-- 													readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 -->
-												<input type="text" size="1" title="수량입력" id="quantity${i}" name="quantity" value="${cartList[i].product_count }" min="1" max="99" class="input-text" readonly>
+												<input type="text" size="1" title="수량입력" id="product_count${i}" name="product_count" value="${cartList[i].product_count }" min="1" max="99" class="input-text" readonly>
 												<button type="button" id="plus${i}" class="btn_minus" title="수량증가" onclick="increaseQuantity(${i})">+</button>
 												<input type="button" value="변경" id="btn_quantity${i}" onclick="quanChange(${i})">
 											</td>
@@ -309,11 +273,10 @@ $(function() {
 						</div>
 						<br>
 						<div id="store_submit">
-							<input type="submit" value="결제하기">
+							<input type="button" value="결제하기" onclick="location.href='storePay'">
 						</div>
 					</div>
 				</section>
-			</form>
 		</section>
 		
 		<footer>

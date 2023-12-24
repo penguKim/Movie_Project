@@ -10,6 +10,7 @@ public class StoreVO {
 	private int product_price; // 상품가격
 	private String product_img; // 상품이미지
 	private String product_txt; // 상품설명?
+	private int product_count; // 상품갯수 
 	
 	
 }

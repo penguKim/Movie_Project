@@ -1,6 +1,9 @@
 <%-- admin_payment.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,6 +46,9 @@
 						<th>결제상태</th>
 						<th>결제내역 상세보기</th>
 					</tr>
+<%-- 					<c:forEach var="" items=""> --%>
+						
+<%-- 					</c:forEach> --%>
 					<tr>
 						<td>13251245</td>
 						<td>member_id</td>

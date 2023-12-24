@@ -143,13 +143,10 @@ public class StoreController {
 		model.addAttribute("storeList", storeList);
 		model.addAttribute("cartList", cartList);
 		if(model.equals(null) ) {
-			System.out.println("널의 경우"); 
 			return "store/store_cart";
 		} else if(model.equals("")) {
-			System.out.println("널스트링의 경우");
 			return "store/store_cart";
 		} else {
-			System.out.println("그외의 경우");
 			return "store/store_cart";
 		}
 	}
@@ -197,9 +194,9 @@ public class StoreController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward2";
 		}
-		
+		System.out.println("받아오는 상품 id : " + store);
 		member.setMember_id(sId);
-		System.out.println("카트에서 넘어온 상품 아이디 : " + store);
+		System.out.println("카트에서 넘어온 상품 수량 : " + product_count);
 		// Member name 과 phone 을 조회하기 위한 select 구문
 		MemberVO members = service.selectMemberInfo(member);
 		
@@ -217,15 +214,14 @@ public class StoreController {
 		List<StoreVO> storeList = service.selectStore(store);
 		// List<CartVO> storeList = service.selectStore(store);
 			
-		List<CartVO> cartList2 = service.selectCart2(member);
+		List<CartVO> cartList = service.selectCart2(member);
 		
-		model.addAttribute("cartList2", cartList2);
-		System.out.println(cartList2);
-		
-		
+		model.addAttribute("cartList", cartList);
 		model.addAttribute("storeList", storeList);
+		System.out.println("내 장바구니 카운트" + cartList);
+		System.out.println("내 상품 정보" + storeList);
 		
-		model.addAttribute("storeList", storeList);
+		
 		
 		return "store/store_pay";
 	}
