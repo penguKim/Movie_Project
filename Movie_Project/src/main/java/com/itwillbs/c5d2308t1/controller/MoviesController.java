@@ -59,7 +59,87 @@ public class MoviesController {
 	@Autowired
 	MoviesService service;
 	
+	// DB에 저장된 영화정보 가져와서 현재상영작에 뿌리기
+	@GetMapping("release")
+	public ModelAndView release(Map<String, Object> map, @RequestParam(defaultValue = "1") int sortType) {
+		
+		// DB에 저장된 영화정보를 HashMap 객체의 List로 리턴
+		List<Map<String, String>> movieList = service.getMovieList(sortType);
+		// 상영작 페이지의 관람등급 표시를 위해 "관" 이전의 문자열 추출
+		for(Map<String, String> movie : movieList) {
+			movie.put("movie_rating", movie.get("movie_rating")
+					.substring(0, movie.get("movie_rating").indexOf("관")));
+		}
+		map.put("movieList", movieList);
+		
+		ModelAndView mav = new ModelAndView("movie/release", map);
+		
+		return mav;
+	}
 	
+	@GetMapping("comming")
+	// 상영 예정작
+	public ModelAndView comming(Map<String, Object> map) {
+		try {
+			// 요청할 URL 주소
+			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
+			// 크롤링을 위한 Jsoup 객체에 url 전달하여 Connection 객체 생성
+			Connection con = Jsoup.connect(url);
+			// 가져온 데이터를 Document 객체로 저장
+			Document doc = con.get();
+			// 해당하는 요소를 Elements타입의 List로 저장
+			Elements titleElements = doc.select("div.box-contents strong.title");
+			Elements posterElements = doc.select("div.box-image span.thumb-image img");
+//			Elements detailElements = doc.select("div.box-image a");
+			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
+			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
+			
+			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
+			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
+			for(int i = 3; i < titleElements.size(); i++) {
+				CrawlVO movie = new CrawlVO();
+				movie.setTitle(titleElements.get(i).text());
+				movie.setPoster(posterElements.get(i).attr("src"));
+				movie.setPercent(percentElements.get(i).text());
+				movie.setRelease(releaseElements.get(i).text());
+				movieList.add(movie);
+			}
+			
+			map.put("movieList", movieList);
+		} catch (IOException e) {
+			System.out.println("크롤링 실패");
+			e.printStackTrace();
+		}
+		
+		ModelAndView mav = new ModelAndView("movie/comming", map);
+		
+		return mav;
+	}
+	
+	
+	
+	@GetMapping("detail")
+	public ModelAndView detail(String movie_id, Map<String, String> map) {
+		
+		// 영화코드를 사용하여 영화 상세정보 가져오기
+		map = service.getMovieDetail(movie_id);
+		
+		ModelAndView mav = new ModelAndView("movie/detail", map);
+		return mav;
+	}
+	
+	// 관리자 영화등록 페이지에서 DB로 등록
+	@PostMapping("movieTest")
+	public ModelAndView movieTest(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		int insterCount = service.registMovie(map);
+		
+		ModelAndView mav = new ModelAndView("", map);
+		
+		return mav;
+	}
+	
+	// =========================================================================================
 	// cgv에서 크롤링하여 현재상영작 페이지에 뿌리기
 //	@GetMapping("release")
 //	public ModelAndView release(Map<String, Object> map) {
@@ -107,62 +187,6 @@ public class MoviesController {
 //		return mav;
 //	}
 	
-	// DB에 저장된 영화정보 가져와서 현재상영작에 뿌리기
-	@GetMapping("release")
-	public ModelAndView release(Map<String, Object> map) {
-		
-		// DB에 저장된 영화정보를 HashMap 객체의 List로 리턴
-		List<HashMap<String, String>> movieList = service.getMovieList();
-		// 상영작 페이지의 관람등급 표시를 위해 문자열 추출
-		for(HashMap<String, String> movie : movieList) {
-			movie.put("movie_rating", movie.get("movie_rating")
-					.substring(0, movie.get("movie_rating").indexOf("관")));
-		}
-		map.put("movieList", movieList);
-		
-		ModelAndView mav = new ModelAndView("movie/release", map);
-		
-		return mav;
-	}
-	
-	@GetMapping("comming")
-	// 상영 예정작
-	public ModelAndView comming(Map<String, Object> map) {
-		try {
-			
-			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
-			
-			Connection con = Jsoup.connect(url);
-			Document doc = con.get();
-			Elements titleElements = doc.select("div.box-contents strong.title");
-			Elements posterElements = doc.select("div.box-image span.thumb-image img");
-//			Elements detailElements = doc.select("div.box-image a");
-			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
-			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
-			
-			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
-			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
-			for(int i = 3; i < titleElements.size(); i++) {
-				CrawlVO movie = new CrawlVO();
-				movie.setTitle(titleElements.get(i).text());
-				movie.setPoster(posterElements.get(i).attr("src"));
-				movie.setPercent(percentElements.get(i).text());
-				movie.setRelease(releaseElements.get(i).text());
-				movieList.add(movie);
-			}
-			
-			map.put("movieList", movieList);
-		} catch (IOException e) {
-			System.out.println("크롤링 실패");
-			e.printStackTrace();
-		}
-		
-		ModelAndView mav = new ModelAndView("movie/comming", map);
-		
-		return mav;
-	}
-	
-	
 	// cgv에서 크롤링하여 현재상영작의 영화ID를 사용하여 크롤링한 상세페이지 뿌리기
 //	@GetMapping("detail")
 //	public ModelAndView detail(String detailNum, Model model) {
@@ -204,26 +228,8 @@ public class MoviesController {
 //		return mav;
 //	}
 	
-	@GetMapping("detail")
-	public ModelAndView detail(String movie_id, Map<String, String> map) {
-		
-		// 영화코드를 사용하여 영화 상세정보 가져오기
-		map = service.getMovieDetail(movie_id);
-		
-		ModelAndView mav = new ModelAndView("movie/detail", map);
-		return mav;
-	}
-	
-	// 관리자 영화등록 페이지에서 DB로 등록
-	@PostMapping("movieTest")
-	public ModelAndView movieTest(@RequestParam Map<String, Object> map) {
-		System.out.println(map);
-		int insterCount = service.registMovie(map);
-		
-		ModelAndView mav = new ModelAndView("", map);
-		
-		return mav;
-	}
+	// =====================================================================================
+	// 자바 코드로 API 정보 가져오는 테스트 ============================
 	
 	
 	@GetMapping("Test")

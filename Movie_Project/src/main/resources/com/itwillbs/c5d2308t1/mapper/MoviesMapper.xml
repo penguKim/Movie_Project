@@ -5,7 +5,48 @@
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.MoviesMapper">
 
 
-	<!-- 
+	<!-- DB에 저장된 영화 목록 리스트 조회 작업 -->
+	<select id="selectMoviesList" resultType="HashMap">
+		SELECT *
+		FROM movies
+		WHERE movie_status = 1
+		<choose>
+			<when test="sortType == 1">
+				ORDER BY movie_release_date DESC
+			</when>
+			<when test="sortType == 2">
+				ORDER BY movie_title ASC
+			</when>
+			<when test="sortType == 3">
+				ORDER BY movie_audience DESC
+			</when>
+<!-- 			<otherwise> -->
+<!-- 				ORDER BY movie_release_date DESC -->
+<!-- 			</otherwise> -->
+		</choose>
+	</select>
+	
+	<!-- 요청한 movie_id에 해당하는 영화정보 조회 작업 요청 -->
+	<select id="selectMovieDetail" resultType="HashMap">
+		SELECT *
+		FROM movies
+		WHERE movie_id = #{movie_id}
+	</select>
+
+	
+	<insert id="insertMovieReview"> <!--review_id(int타입 null값 허용X / rating null값 허용 / content문자열 / now() 데이터타임 생성  -->
+		INSERT INTO Reviews
+		VALUES(
+			'ddd'
+			,null
+			, #{review_content}
+			, now()
+			, null
+		)
+	</insert>
+	
+	
+		<!-- 
 	List 타입을 파라미터로 지정시 parameterType를 지정하고
 	forEach의 collection="list" item="item" separator=","을 기본값으로 사용한다.
 	list 안의 객체를 item에 담아서 저장한뒤 ,로 구분한다.
@@ -24,25 +65,7 @@
 		ON DUPLICATE KEY UPDATE
 			movie_audience = values(movie_audience)
 	</insert>
-	
-	<select id="selectAllMovie" resultType="movies">
-		SELECT *
-		FROM movies
-	</select>
-
-	<select id="selectMoviesList" resultType="HashMap">
-		SELECT *
-		FROM movies
-		WHERE movie_release_date &lt;= now()
-		ORDER BY movie_release_date DESC
-	</select>
-	
-	<select id="selectMovieDetail" resultType="HashMap">
-		SELECT *
-		FROM movies
-		WHERE movie_id = #{movie_id}
-	</select>
-	
+		
 	<insert id="insertMovie">
 		INSERT INTO movies(movie_id, movie_title, movie_release_date, movie_audience)
 		VALUES(
@@ -52,42 +75,4 @@
 			#{movie_audience}
 		)
 	</insert>
-	
-	<insert id="insertMovies">
-	
-		INSERT INTO movies
-		VALUES(
-			#{movie_id}
-			, #{movie_title}
-			, #{movie_nation}
-			, #{movie_prdtYear}
-			, #{movie_director}
-			, #{movie_actor}
-			, #{movie_genre}
-			, #{movie_rating}
-			, #{movie_plot}
-			, #{movie_release_date}
-			, #{movie_close_date}
-			, #{movie_runtime}
-			, #{movie_poster}
-			, #{movie_still1}
-			, #{movie_still2}
-			, #{movie_still3}
-			, #{movie_trailer}
-			, #{movie_audience}
-			, #{movie_status}
-		)
-	</insert>
-	
-	<insert id="insertMovieReview"> <!--review_id(int타입 null값 허용X / rating null값 허용 / content문자열 / now() 데이터타임 생성  -->
-		INSERT INTO Reviews
-		VALUES(
-			'ddd'
-			,null
-			, #{review_content}
-			, now()
-			, null
-		)
-	</insert>
-	
 </mapper>

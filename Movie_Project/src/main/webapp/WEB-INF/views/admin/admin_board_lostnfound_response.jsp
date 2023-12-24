@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,24 +13,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
-		let msg="";
-		
-		if($("#cs_reply").attr("placeholder") == "") {
-			$("#regist").val("답변 등록");
-			msg = "답변을 등록하시겠습니까?";
-		} else {
-			$("#regist").val("답변 수정");
-			msg = "답변을 수정하시겠습니까?";
-		}
-		
-// 		$("#delete").on("submit", function() {
-// 			let result = confirm("답변을 삭제하시겠습니까?");
-// 			if(result) {
-// 				return true;
-// 			} else {
-// 				return false;
-// 			}
-// 		});
+
 // 		$("#regist").click(function(){
 
 // 	        if($("#cs_reply").val == '') {
@@ -45,7 +29,7 @@
 // 	        }
 // 	    });
 	    
-	    $("#regist").onclick = function() {
+	    $("#regist").on("click", function() {
 	        // "cs_reply"의 내용이 비어 있다면
 	        if ($("#cs_reply").val() == "") {
 	            // 확인창을 띄웁니다.
@@ -56,12 +40,24 @@
 	            // "cs_reply"의 내용이 있다면 confirm 창을 띄웁니다.
 	            return confirm("정말로 등록하시겠습니까?");
 	        }
-	    }
+	    });
+	    
+	    $("#modify").on("click", function() {
+			if(confirm("답변을 수정하시겠습니까?")) {
+				return true;
+			} else {
+				return false;
+			}
+		});
 	    
 		
-// 		function delete() {
-			
-// 		}
+		$("#delete").on("click", function() {
+			if(confirm("답변을 삭제하시겠습니까?")) {
+				return true;
+			} else {
+				return false;
+			}
+		});
 	});
 </script>
 
@@ -115,33 +111,36 @@
 							<td>${lostnfound.cs_content }</td>
 						</tr>
 						<tr>
-							<th>사진 첨부</th>
-							<td><input type="file"></td>
-						</tr>
-<!-- 						<tr> -->
-<!-- 							<th>답변 제목</th> -->
-<!-- 							<td><input type="text" placeholder="제목을 입력하세요." size="80"></td> -->
-<!-- 						</tr> -->
-						<tr>
-							<th>답변 작성자</th>
-							<td>${sId }</td>
+							<th>첨부파일</th>
+							<td>
+								<div class = "file">
+									<c:if test="${not empty lostnfound.cs_file}">
+										<c:set var="original_file_name" value="${fn:substringAfter(lostnfound.cs_file, '_')}"/>
+										${original_file_name}
+										<a href="${pageContext.request.contextPath }/resources/upload/${lostnfound.cs_file}" download="${original_file_name}"><input type="button" value="다운로드"></a>
+									</c:if>
+								</div>
+							</td>
 						</tr>
 						<tr>
 							<th height="300">답변 내용</th>
-							<td><textarea name="cs_reply" id="cs_reply" rows="20" cols="80" placeholder="${lostnfound.cs_reply }"></textarea></td>
+							<td><textarea name="cs_reply" id="cs_reply" rows="20" cols="80">${lostnfound.cs_reply }</textarea></td>
 					
 						</tr>
 					</table>
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
-						<!-- formaction 속성을 추가하여 버튼 클릭 시 해당 서블릿 주소를 요청한다. -->
-						<input type="submit" value="" formaction="boardLostnfoundRgst" id="regist">
-						<c:if test="${not empty lostnfound.cs_reply }">
-<!-- 							<input type="submit" value="답변 수정" formaction="boardLostnfoundMod" id="modify">	 -->
-							<input type="submit" value="답변 삭제" formaction="boardLostnfoundDlt" id="delete">				
-						</c:if>
-						<input type="button" value="돌아가기" onclick="history.back()">
+						<c:choose>
+							<c:when test="${empty lostnfound.cs_reply }">
+								<input type="submit" value="답변 등록하기" formaction="LostNFoundResponse" id="regist">
+							</c:when>
+							<c:otherwise>
+								<input type="submit" value="답변 수정" formaction="LostNFoundModify" id="modify">
+								<input type="submit" value="답변 삭제" formaction="LostNFoundDelete" id="delete">
+							</c:otherwise>
+						</c:choose>	
+						<input type="button" value="돌아가기" onclick="history.back();">
 					</div>
 				</form>
 			</div>

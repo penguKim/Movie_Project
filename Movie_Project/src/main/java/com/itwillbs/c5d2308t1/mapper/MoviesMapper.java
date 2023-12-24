@@ -15,18 +15,14 @@ import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 public interface MoviesMapper {
 	
 	
-	
-//	List<MoviesVO> selectMoviesList();
-	List<HashMap<String, String>> selectMoviesList();
+	// DB에 저장된 영화 목록 리스트 조회 작업
+	List<Map<String, String>> selectMoviesList(int sortType);
 
-	int insertMovie(MoviesVO movie);
-	
-	// movieTest 서블릿으로 영화 DB 등록
-	int insertMovies(Map<String, Object> map);
-
-	// detail 서블릿으로 영화 상세정보 요청 작업 수행
+	// 요청한 movie_id에 해당하는 영화정보 조회 작업 요청
 	HashMap<String, String> selectMovieDetail(String movie_id);
+	
 
+	// 자바 코드로 API 정보 가져오는 테스트 ============================
 	// List 객체 전달과 ON DUPLICATE KEY UPDATE 테스트
 	int upsertMovieCd(List<MoviesVO> movies);
 
@@ -34,5 +30,6 @@ public interface MoviesMapper {
 	List<MoviesVO> selectAllMovie();
 	int insertMovieReview(ReviewsVO review);
 
+	int insertMovie(MoviesVO movie);
 	
 }

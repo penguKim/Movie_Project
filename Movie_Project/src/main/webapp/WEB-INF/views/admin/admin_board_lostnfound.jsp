@@ -50,31 +50,21 @@
 					<c:forEach var="lnf" items="${lostnfoundList }">
 						<tr>
 							<td>${lnf.cs_id }</td>
-<!-- 							분실장소인 극장은 아직 넘겨받을 데이터가 없다. -->
 							<td>${lnf.theater_name }</td>
 							<td>${lnf.cs_subject }</td>
 							<td>${lnf.member_id }</td>
 							<td>${lnf.cs_date }</td>
 							<c:choose>
 								<c:when test="${empty lnf.cs_reply }">
-									<td><a href="adminLostNFoundResp?cs_id=${lnf.cs_id }&pageNum=${pageNum}" id="admin_member">답변등록</a></td>
+									<td><a href="LostNFoundMoveToRegister?cs_id=${lnf.cs_id }&pageNum=${pageNum}"><input type="button" value="답변등록" id="ok"></a></td>
 								</c:when>
 								<c:otherwise>
-									<td><a href="adminLostNFoundResp?cs_id=${lnf.cs_id }&pageNum=${pageNum}"id="admin_Cmember">등록완료</a></td>
+									<td><a href="LostNFoundDetail?cs_id=${lnf.cs_id }&pageNum=${pageNum}"><input type="button" value="답변완료" id="ok"></a></td>
 								</c:otherwise>
 							</c:choose>
 						</tr>
 					</c:forEach>
 				</table>
-<!-- 				<div class="pagination"> -->
-<!-- 					<a href="#">&laquo;</a> -->
-<!-- 					<a href="#">1</a> -->
-<!-- 					<a class="active" href="#">2</a> -->
-<!-- 					<a href="#">3</a> -->
-<!-- 					<a href="#">4</a> -->
-<!-- 					<a href="#">5</a> -->
-<!-- 					<a href="#">&raquo;</a> -->
-<!-- 				</div> -->
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>

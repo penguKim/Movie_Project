@@ -113,6 +113,7 @@ public class AdminController {
 		}
 		return "admin/admin_movie_update";
 	}
+	
 	//관리자페이지 영화검색 페이지로 이동
 	@GetMapping("adminMovieSearch")
 	public String adminMovieSearch(HttpSession session, Model model) {
@@ -134,6 +135,22 @@ public class AdminController {
 		}
 		return "admin/admin_movie_search";
 	}	
+	
+
+	// DB에 등록된 영화 중복 판별 작업
+	@ResponseBody
+	@GetMapping("movieDupl")
+	public String movieDupl(MoviesVO movie) {
+		System.out.println(movie.getMovie_id());
+		
+		movie = service.getMovie(movie);
+		
+		if(movie != null) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
 	
 	@PostMapping("movieRgst") // 영화 등록 팝업 : admin_movie_update.jsp
 	public String movieRgst(@RequestParam Map<String, Object> map, Model model) {
@@ -312,10 +329,10 @@ public class AdminController {
 		return "admin/admin_member";
 	}
 	
-	@PostMapping("memberDlt") // 회원 정보 관리 메인(탈퇴, 비회원) : admin_member.jsp
-	public String memberDlt() {
-		return "";
-	}
+//	@PostMapping("memberDlt") // 회원 정보 관리 메인(탈퇴, 비회원) : admin_member.jsp
+//	public String memberDlt() {
+//		return "";
+//	}
 	
 	// 관리자페이지 회원정보 상세 조회 및 수정/삭제 페이지로 이동
 	@GetMapping("adminMemberMod")
@@ -1027,10 +1044,11 @@ public class AdminController {
 		
 		return "admin/admin_board_lostnfound";
 	}
+	
 
-	// 관리자페이지 분실물 문의 상세 조회 및 답변 등록 페이지로 이동
-	@GetMapping("adminLostNFoundResp")
-	public String adminLostNFoundResp(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
+	// 관리자페이지 분실물 문의 등록 페이지로 이동
+	@GetMapping("LostNFoundMoveToRegister")
+	public String lostNFoundResp(CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1043,14 +1061,13 @@ public class AdminController {
 		LocalDateTime date = (LocalDateTime)lostnfound.get("cs_date");
 		lostnfound.put("cs_date", date.format(dtf));
 		model.addAttribute("lostnfound", lostnfound);
-		model.addAttribute("pageNum", pageNum);
 		
 		return "admin/admin_board_lostnfound_response";
 	}
-
-	// 분실물 문의 등록
-	@PostMapping("boardLostnfoundRgst") // 분실물문의 답변 등록 : admin_board_lostnfound_response.jsp
-	public String boardLostnfoundRgst(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
+	
+	// 분실물 문의 답변 등록
+	@PostMapping("LostNFoundResponse") // 분실물문의 답변 등록 : admin_board_lostnfound_response.jsp
+	public String lostnFoundResponse(CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1060,7 +1077,64 @@ public class AdminController {
 		int updateCount = service.LostnfoundReply(cs);
 		
 		if(updateCount > 0) {
-			model.addAttribute("pageNum", pageNum);
+			return "redirect:/adminLostNFound";
+		} else {
+			model.addAttribute("msg", "등록에 실패했습니다!");
+			return "fail_back";
+		}
+	}
+	
+	// 관리자페이지 분실물 문의 상세 조회 페이지로 이동
+	@GetMapping("LostNFoundDetail")
+	public String lostNFoundDetail(CsVO cs, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
+		Map<String, Object> lostnfound = service.getlostnfound(cs);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+		LocalDateTime date = (LocalDateTime)lostnfound.get("cs_date");
+		lostnfound.put("cs_date", date.format(dtf));
+		model.addAttribute("lostnfound", lostnfound);
+		
+		return "admin/admin_board_lostnfound_detail";
+	}
+	
+	// 관리자페이지 분실물 문의 기존 답변 수정 페이지로 이동
+	@PostMapping("LostNFoundMoveToModify")
+	public String lostNFoundMoveToModify(CsVO cs, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
+		Map<String, Object> lostnfound = service.getlostnfound(cs);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+		LocalDateTime date = (LocalDateTime)lostnfound.get("cs_date");
+		lostnfound.put("cs_date", date.format(dtf));
+		model.addAttribute("lostnfound", lostnfound);
+		
+		return "admin/admin_board_lostnfound_response";
+	}
+	
+	// 관리자페이지 분실물 문의 기존 답볍 수정 
+	@PostMapping("LostNFoundModify")
+	public String lostnFoundModify(CsVO cs, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		// 분실물 문의 답변 등록 작업
+		int updateCount = service.LostnfoundReply(cs);
+		
+		if(updateCount > 0) {
 			return "redirect:/adminLostNFound";
 		} else {
 			model.addAttribute("msg", "등록에 실패했습니다!");
@@ -1068,10 +1142,9 @@ public class AdminController {
 		}
 	}
 
-
 	// 분실물 문의 답변 삭제
-	@PostMapping("boardLostnfoundDlt") // 분실문 문의 답변삭제 : admin_board_lostnfound.jsp
-	public String boardLostnfoundDlt(CsVO cs, HttpSession session, Model model) {
+	@PostMapping("LostNFoundDelete") // 분실문 문의 답변삭제 : admin_board_lostnfound.jsp
+	public String lostNFoundDelete(CsVO cs, HttpSession session, Model model) {
 		System.out.println("넘어온 정보" + cs);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {

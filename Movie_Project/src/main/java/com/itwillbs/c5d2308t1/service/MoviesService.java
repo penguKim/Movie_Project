@@ -25,26 +25,14 @@ public class MoviesService {
 	@Autowired
 	MoviesMapper mapper;
 	
-	
-	public List<HashMap<String, String>> getMovieList() {
-		System.out.println("MoviesService - getMovieList");
-		
-		return mapper.selectMoviesList();
+	// DB에 저장된 영화 목록 리스트 조회 작업 요청
+	public List<Map<String, String>> getMovieList(int sortType) {
+		return mapper.selectMoviesList(sortType);
 	}
 
-	// detail 서블릿으로 영화 정보 요청
+	// 요청한 movie_id에 해당하는 영화정보 조회 작업 요청
 	public HashMap<String, String> getMovieDetail(String movie_id) {
 		return mapper.selectMovieDetail(movie_id);
-	}
-	
-	public int insertMovie(MoviesVO movie) {
-		System.out.println("insertMovie");
-		return mapper.insertMovie(movie);
-	}
-
-	// movieTest 서블릿으로 영화 DB 등록
-	public int registMovie(Map<String, Object> map) {
-		return mapper.insertMovies(map);
 	}
 
 	public int review(ReviewsVO review) {
@@ -53,6 +41,8 @@ public class MoviesService {
 
 	
 	
+	
+	// 자바 코드로 API 정보 가져오는 테스트 ============================
 	public void registMovieCd() {
 	    //발급키
 	    String key = "811a25b246549ad749b278bba8257502";
@@ -120,5 +110,9 @@ public class MoviesService {
 		return mapper.selectAllMovie();
 	}
 	
+	public int insertMovie(MoviesVO movie) {
+		System.out.println("insertMovie");
+		return mapper.insertMovie(movie);
+	}
 
 }
