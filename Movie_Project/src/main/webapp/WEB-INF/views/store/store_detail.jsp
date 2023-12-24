@@ -67,6 +67,7 @@
 	    location.href = url; // 다른 페이지로 이동
 	}
 	
+	
 </script>
 </head>
 <body>
@@ -130,7 +131,7 @@
 						<div id="btn_buy">
 						<%-- 장바구니 이미지로 교체할지 말지 부기능으로 --%>
 						<%-- 구매 버튼 submit으로 교체 예정 --%>
-		                	<a href="storeCart"><button type="button">장바구니</button></a>
+		                	<a  href="#none" onclick="move_cart(2, 'P002')"><button type="button">장바구니</button></a>
 		                <button type="button" onclick="redirectToStorePay()">구매</button>
 		               	</div>
 					</div>	
