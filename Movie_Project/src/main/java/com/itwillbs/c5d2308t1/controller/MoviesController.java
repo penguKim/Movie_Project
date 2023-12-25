@@ -510,7 +510,7 @@ public class MoviesController {
 	
 	@GetMapping("reviewPro")
 	public String review(HttpSession session, ReviewsVO review, Model model) { 
-		int insertCount = service.review(review); 
+		int insertCount = service.review(review);
 		System.out.println(insertCount);
 		
 		

@@ -1,6 +1,8 @@
 package com.itwillbs.c5d2308t1.mapper;
 
 import java.util.*;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import org.apache.ibatis.annotations.*;
 
@@ -10,6 +12,9 @@ public interface LoginMapper {
 	
 	//회원 상세정보 조회
 	MemberVO selectMember(MemberVO member);
+	
+	//회원 정보 수정
+	int updateMember(@Param("member")MemberVO member, @Param("newEmail")String newEmail, @Param("newPasswd")String newPasswd);
 
 	int selectMovieListCount(String searchKeyword);
 

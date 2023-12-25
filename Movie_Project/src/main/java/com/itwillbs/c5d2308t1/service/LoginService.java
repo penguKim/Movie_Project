@@ -17,6 +17,10 @@ public class LoginService {
 //		System.out.println("LoginService - getMember()" + member);
 		return mapper.selectMember(member);
 	}
+	
+	public int editMember(MemberVO member, String newEmail, String newPasswd) {
+		return mapper.updateMember(member, newEmail, newPasswd);
+	}
 
 	public int getMovieListCount(String searchKeyword) {
 		return mapper.selectMovieListCount(searchKeyword);

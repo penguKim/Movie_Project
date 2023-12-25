@@ -16,7 +16,6 @@
 // 여기 페이지에서 해야할것.
 // input 텍스트창에 영화제목을 입력하고 검색버튼을 눌렀을때 영화정보를 보여주기
 
-
 $(document).ready(function(){
 	$("#searchForm").on("submit", function(data){
 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수
@@ -26,18 +25,19 @@ $(document).ready(function(){
 			type: "GET",
 			url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=e9ac77cb0a9e1fa7c1fe08d1ee002e3b&movieNm=" + title,
 			success: function(data){
+				
 				let movies = data.movieListResult.movieList;
 				$("#movieInfo").empty();
+				//영화제목을 검색했을때 감독,상영일이 있으면 반복문 통해서 출력
 				for(let movie of movies) {
+					if(movie.openDt !== "" && movie.directors[0].peopleNm !== "") {
 						$("#movieInfo").append("<hr>제목: " + movie.movieNm + "</br>");
-					if(movie.directors.length > 0){
 						$("#movieInfo").append("감독: " + movie.directors[0].peopleNm + "</br>");
-					}
-					if(movie.openDt !== "") {
 						$("#movieInfo").append("개봉일: " + movie.openDt + "</br>");
+						$("#movieInfo").append("국가: " + movie.nationAlt + "</br>");
 					}
-						$("#movieInfo").append("<hr>국가: " + movie.nationAlt + "</br>");
 				} //for문 끝
+				
 			}, //success 끝
 			error: function(){
 				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
@@ -45,9 +45,16 @@ $(document).ready(function(){
 		}); //ajax 끝
 	}); // submit 끝
 }); //ready 끝
+
+$(function(){
+	$("#searchForm1").on("submit", function(data1){
+		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수	
+		let title = $("#movieTitle").val();
+		
+});
+
+
 </script>
-
-
 </head>
 <body>
 	<div id="wrapper">
@@ -69,8 +76,13 @@ $(document).ready(function(){
 			<input type="text" id="movieTitle" placeholder="제목을 입력하세요">
 			<input type="submit" value="검색">
 		</form>
-
 	<div id="movieInfo"></div>
+	
+		<form id="searchForm1">
+			<input type="text" id="movieTitle1" placeholder="제목을 입력하세요">
+			<input type="submit" value="검색">
+		</form>
+	<div id="movieInfo1"></div>
 
 	</section>
 		<footer>

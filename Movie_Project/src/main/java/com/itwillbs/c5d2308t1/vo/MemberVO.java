@@ -48,8 +48,6 @@ public class MemberVO {
 	private String member_passwd;
 	private String member_like_genre;
 	private int theater_id;
-
-	
 	
 }
 

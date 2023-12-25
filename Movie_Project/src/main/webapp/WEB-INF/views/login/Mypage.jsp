@@ -9,25 +9,8 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-3.7.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
-		document.querySelector("#checkbox1").onclick = function() { // id가 checkbox1 클릭시 실행할 함수
-
-			for(let i = 0; i < document.checkform.checkbox1.length; i++) { 
-				document.checkform.checkbox1[i].checked = document.querySelector("#checkbox1").checked;
-			}
-		}
-		//checkbox 체크박스를 클릭할 때 전체선택기능. checkform 폼 안에 있는 모든 checkbox1 체크박스)
-		
-		
-		document.querySelector("#checkbox2").onclick = function() {
-
-			for(let i = 0; i < document.checkform.checkbox2.length; i++) {
-				document.checkform.checkbox2[i].checked = document.querySelector("#checkbox2").checked;
-			}
-		}
-	}; //window.onload 이벤트끝
 
 </script>
 </head>

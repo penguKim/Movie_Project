@@ -96,11 +96,11 @@
 				    			<th>작성일</th>
 				    		</tr>
 				    		<c:forEach begin="1" end="5">
-						   	<tr>
-				    			<th>${member_sId }</th> <!-- 세션에 저장된 id  -->
-				    			<td>${review_content }</td> <!-- insert로 생성된 내용 -->
-				    			<td>${review_date }</td> <!-- insert로 생성된 datetime -->
-				    		</tr>
+							   	<tr>
+					    			<th>${member_sId }</th> <!-- 세션에 저장된 id  -->
+					    			<td>${review_content }</td> <!-- insert로 생성된 내용 -->
+					    			<td>${review_date }</td> <!-- insert로 생성된 datetime -->
+					    		</tr>
 			    			</c:forEach>
 			    			</table>
 			    </div>

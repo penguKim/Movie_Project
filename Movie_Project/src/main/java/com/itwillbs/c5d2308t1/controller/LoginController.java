@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
@@ -52,13 +53,28 @@ public class LoginController {
 	@GetMapping("MemberLogout") //로그아웃
 	public String logout(HttpSession session) {
 		session.invalidate(); //세션값 초기화
+		
 		return "redirect:/";
 	}
 	
 	
 	@GetMapping("SideEditmember") //회원수정 페이지 이동
-	public String sideEditmember() {
-		return"login/editmember";
+	public String sideEditmember(MemberVO member, HttpSession session, Model model) {
+		// 세션 아이디가 없을 경우 "fail_back" 페이지를 통해 "잘못된 접근입니다" 출력 처리
+		String sId = (String) session.getAttribute("sId");
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			return "fail_back";
+		}
+		//(memberid가 null 또는 널스트링이고 세션Id가 admin이거나),sId가 admin이 아닐때
+		//id를 세션아이디로 봐꾸기
+		if(!sId.equals("admin") || (sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals("")))) {
+			member.setMember_id(sId);
+		}
+		MemberVO dbMember = service.getMember(member);
+		
+		model.addAttribute("member",dbMember);
+		return "login/editmember";
 	}
 	
 	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
