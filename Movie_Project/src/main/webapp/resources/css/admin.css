@@ -41,7 +41,7 @@ a {
 	height: 30px;
 }
 
-#admin_sub input[type="text"] {
+#admin_sub input[type="text"], #admin_sub input[type="password"] {
 	border: none;
 }
 
@@ -158,7 +158,7 @@ td {
 }
 
 /* ======== 전체 영역 입력상자에 적용할 css ======== */
-input[type="date"], input[type="text"], theater_num {
+input[type="date"], input[type="text"], input[type="password"], theater_num {
 	height: 25px;
 }
 
@@ -291,6 +291,17 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	border-bottom: 3px solid #000000;
 }
 
+/* =============== 회원 관리 페이지 =================== */
+/* 폼의 div 영역 폰트와 높이 조절 */
+#modify_table div {
+	font-size: 14px;
+	height: 15px;
+}
+/* =============== 분실물 페이지 =================== */
+#lostNfound #response {
+	background-color: #C4C4C4;
+	color: #000000;
+}
 /* =============== 영화 조회, 등록, 수정 페이지 정보 표시 =================== */
 /* 영화 목록조회 게시판의 제목 */
 #movieList #movieTitle {

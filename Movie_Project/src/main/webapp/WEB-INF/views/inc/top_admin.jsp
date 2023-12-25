@@ -15,7 +15,7 @@
 <div id ="top_area_admin">
 	<div id="member_area_admin">
 		<div id="logo">
-			<a href="./"><img src="${pageContext.request.contextPath }/resources/img/logo.png"></a>
+			<a href="./"><img src="${pageContext.request.contextPath }/resources/img/logo2.png" height="60" width="200"></a>
 		</div>
 		<div id="member">
 			<%-- 작업의 편리성을 위해 일반 페이지에서 관리자페이지로의 전환을 용이하게 해줄 연결 버튼(임시) --%>

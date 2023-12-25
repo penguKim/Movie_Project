@@ -209,7 +209,8 @@
 					data: {
 						ServiceKey: ServiceKey,
 						title: title,
-						director: director,
+						// kobis와 kmdb에서 감독명이 미세하게 다를 수 있으므로 공백 기준 처음 문자열로 검색한다.
+						director: director.split(" ")[0],
 						detail: "Y",
 						releaseDts: releaseDts
 					},
@@ -219,22 +220,17 @@
 							alert("해당 영화의 정보가 없습니다! \n직접 입력해주세요!");
 						}
 						
-						let movieList = kmdb.Data[0].Result;
-						for(let movie of movieList) {
-							// 타이틀
-							let rawTitle = movie.title;
-							// 타이틀 특문 수정
-						  	let title = rawTitle.replace(/!HS/g, "")
-												    .replace(/!HE/g, "")
-												    .replace(/^\s+|\s+$/g, "")
-												    .replace(/ +/g, " ");
-							console.log(title);
-						}
-						<%-- 
-							console.log(movieList.length);
-						
-						$("#movieNm").val(title);
-						--%>
+// 						let movieList = kmdb.Data[0].Result;
+// 						for(let movie of movieList) {
+// 							// 타이틀
+// 							let rawTitle = movie.title;
+// 							// 타이틀 특문 수정
+// 						  	let title = rawTitle.replace(/!HS/g, "")
+// 												    .replace(/!HE/g, "")
+// 												    .replace(/^\s+|\s+$/g, "")
+// 												    .replace(/ +/g, " ");
+// 							console.log(title);
+// 						}
 						// 배우 배열
 						// 배우가 3명보다 작을 경우 그대로 가져오고 3명보다 많을 경우 3명으로 제한한다.
 						let actors = kmdb.Data[0].Result[0].actors.actor.length < 3 
@@ -276,8 +272,8 @@
 					  	let posters = kmdb.Data[0].Result[0].posters.split("|");
 						// 첫번째 포스터
 					  	let poster = posters[0];
-						$("img.poster").attr("src", poster);
-						$("input.poster").val(poster);
+						$("#posterThumnail").attr("src", poster);
+						$("#movie_poster").val(poster);
 						// 스틸샷 문자열
 						let stills = kmdb.Data[0].Result[0].stlls.split("|").slice(0, $('.still').length);
 						$(".still").each(function(index) {
@@ -387,7 +383,7 @@
 			} else if($("#movie_close_date").val() == '') {
 				alert("종영일을 입력하세요!");
 				return false;
-			} else if($("#poster").val() == '') {
+			} else if($("#movie_poster").val() == '') {
 				alert("포스터 주소를 입력하세요!");
 				return false;
 			} else if($("#movie_plot").val() == '') {
@@ -398,7 +394,7 @@
 				return false;
 			}
 			
-			return true;
+			return confirm("영화를 등록하시겠습니까?");
 		});
 		
 
@@ -443,7 +439,7 @@
 		            </colgroup> 
 					<tr>
 						<td rowspan="5" colspan="2" id="posterArea">
-							<img src="" class="poster"><br>
+							<img src="" id="posterThumnail"><br>
 						</td>
 						<th width="100px">영화코드</th>
 						<td><input type="text" name="movie_id" id="movie_id" class="shortInput"></td>
@@ -496,7 +492,7 @@
 					</tr>
 					<tr>
 						<th>포스터</th>
-						<td colspan="3"><input type="text" name="movie_poster" class="poster longInput" ></td>
+						<td colspan="3"><input type="text" name="movie_poster" id="movie_poster" class="longInput"></td>
 					</tr>
 					<tr>
 						<th>스틸컷1</th>

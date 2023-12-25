@@ -28,7 +28,9 @@ public class TheaterController {
 	// 위 메뉴바에서 극장 눌렀을때 극장페이지로 이동
 	@GetMapping("theater")
 	public String theater(CsVO cs, Model model, HttpServletRequest request,
-		@RequestParam(defaultValue = "1") int pageNum) {
+		@RequestParam(defaultValue = "1") int pageNum,
+		@RequestParam(defaultValue = "0") int theater,
+		@RequestParam(defaultValue = "") String searchValue) {
 		cs.setCs_type("공지사항");
 		
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
@@ -39,7 +41,7 @@ public class TheaterController {
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<HashMap<String, Object>>(noticeList)
-		List<HashMap<String, Object>> noticeList = service.getCsList(cs, startRow, listLimit);
+		List<HashMap<String, Object>> noticeList = service.getNoticeList(cs, startRow, listLimit, theater, searchValue);
 	//	System.out.println(noticeList);
 		
 		// ======================================================

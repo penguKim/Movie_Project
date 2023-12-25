@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,32 +72,10 @@ public class CsController {
 		// 자주묻는질문 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
 		cs.setCs_type("자주묻는질문");
 		
-		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 5;
-		
-		// 조회 시작 행번호
-		int startRow = (pageNum - 1) * listLimit;
-		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
-		List<HashMap<String, Object>> faqList = service.getCsList(cs, startRow, listLimit);
-	//	System.out.println(noticeList);
+		List<HashMap<String, Object>> faqList = service.getFaqList(cs);
 		
-		// ======================================================
-		int listCount = service.getCsTypeListCount(cs);
-		int pageListLimit = 5;
-		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		int endPage = startPage + pageListLimit - 1;
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
-		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
-		PageInfo pageInfo = new PageInfo(listCount, maxPage, pageListLimit, startPage, endPage);
-		// ------------------------------------------------------
-		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
-		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("faqList", faqList);
 			
 		return "cs/cs_FAQ";
@@ -106,10 +85,14 @@ public class CsController {
 	// 고객센터 공지사항 페이지로 이동
 	@GetMapping("csNotice")
 	public String csNotice(CsVO cs, Model model, HttpServletRequest request,
-			@RequestParam(defaultValue = "1") int pageNum) {
-		// 공지사항 버튼을 눌렀을 때 cs_type을 공지사항으로 설정
+			@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "0") int theater,
+			@RequestParam(defaultValue = "") String searchValue) {
+		
 		cs.setCs_type("공지사항");
 		
+		// --------------------------------------------------
+		// 페이징
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
 		int listLimit = 5;
 		
@@ -118,7 +101,7 @@ public class CsController {
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<HashMap<String, Object>>(noticeList)
-		List<HashMap<String, Object>> noticeList = service.getCsList(cs, startRow, listLimit);
+		List<HashMap<String, Object>> noticeList = service.getNoticeList(cs, startRow, listLimit, theater, searchValue);
 	//	System.out.println(noticeList);
 		
 		// ======================================================
@@ -130,58 +113,34 @@ public class CsController {
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
-			
 		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
 		PageInfo pageInfo = new PageInfo(listCount, maxPage, pageListLimit, startPage, endPage);
 		// ------------------------------------------------------
 		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
 		model.addAttribute("pageInfo", pageInfo);
-		
+		// -------------------------------------------------------------
+
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
 		model.addAttribute("noticeList", noticeList);
-		System.out.println("noticeList : " +noticeList);
 		return "cs/cs_notice";
 	}
 	
 	// 자주묻는질문 항목별 모아보기 기능
 	@ResponseBody
 	@GetMapping("faqDetail")
-	public List<CsVO> faqDetail(CsVO cs, Model model, HttpServletRequest request, String buttonName, @RequestParam(defaultValue = "1") int pageNum) {
+	public List<CsVO> faqDetail(CsVO cs, Model model, HttpServletRequest request, String buttonName) {
 		
 		// 자주묻는질문 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
 		cs.setCs_type("자주묻는질문");
 		
-		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 5;
-		
-		// 조회 시작 행번호
-		int startRow = (pageNum - 1) * listLimit;
-		
-		// ======================================================
-		int listCount = service.getFaqDetailCount(cs, buttonName);
-		int pageListLimit = 5;
-		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
-		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		int endPage = startPage + pageListLimit - 1;
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		System.out.println("listCount "+ listCount + "maxPage " + maxPage + "pageListLimit " + pageListLimit + "startPage " + startPage + "endPage " + endPage);
-		
-		// 계산된 페이징 처리 관련 값을 PageInfo 객체에 저장
-		PageInfo pageInfo = new PageInfo(listCount, maxPage, pageListLimit, startPage, endPage);
-		// ------------------------------------------------------
-		
 		// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : cs, buttonName, startRow, listLimit   리턴타입 : List<CsVO>(faqDetail)
-		List<CsVO> faqDetail = service.getFaqDetail(cs, buttonName, startRow, listLimit);
+		List<CsVO> faqDetail = service.getFaqDetail(cs, buttonName);
 		System.out.println(faqDetail);
 		
 		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
-		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("faqDetail", faqDetail);
-		model.addAttribute("pageNum", pageNum);
-		
+
 		return faqDetail;			
 		
 	}
@@ -200,22 +159,6 @@ public class CsController {
 		
 		return faqSearch;			
 	
-	}
-
-	// 공지사항 검색 기능
-	@ResponseBody
-	@GetMapping("noticeSearch")
-	public List<HashMap<String, Object>> noticeSearch(Model model, String theater_id, String searchValue) {
-		// CsService - getNoticeSearch() 메서드 호출하여 고객센터 검색하기
-		// => 파라미터 : theater_id, searchValue   리턴타입 : List<HashMap<String, Object>>(noticeSearch)
-		List<HashMap<String, Object>> noticeSearch = service.getNoticeSearch(theater_id, searchValue);
-		System.out.println(noticeSearch);
-		
-		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeSearch")
-		model.addAttribute("noticeSearch", noticeSearch);
-		
-		return noticeSearch;			
-		
 	}
 	
 	// 고객센터 공지사항 상세 페이지로 이동

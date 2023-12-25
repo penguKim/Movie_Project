@@ -38,7 +38,7 @@
 				<form action="adminFaqModifyForm?cs_type=${faqDetail.cs_type}&cs_type_list_num=${faqDetail.cs_type_list_num}&pageNum=${param.pageNum}" method="post">
 					<table border="1">
 						<tr>
-							<th>번호</th>
+							<th width="100px">번호</th>
 							<td>${faqDetail.cs_type_list_num}</td>
 						</tr>
 						<tr>
@@ -57,7 +57,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th height="400">내용</th>
+							<th>내용</th>
 							<td>${faqDetail.cs_content}</td>
 						</tr>
 					</table>

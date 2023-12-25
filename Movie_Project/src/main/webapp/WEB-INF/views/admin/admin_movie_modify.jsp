@@ -12,6 +12,84 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script>
+<script type="text/javascript">
+	$(function() {
+		// ======== 개봉일과 상영상태를 비교하는 변수 목록 ========
+		let nowTime = new Date().getTime(); // 계산의 기준이 될 날짜를 밀리초 단위로 리턴
+		let movieReleaseTime = ''; // 계산의 대상이 될 날짜를 밀리초 단위로 리턴
+		let differenceTime = ''; // 기준 날짜와 대상 날짜의 차이
+		// ===== submit 수행 시 값의 판별에 사용할 변수 목록 =====
+		let isDuplicateMovie = false;
+		// ===============================================
+		$("#movie_close_date").attr("min", $("#movie_release_date").val());
+		
+		// 개봉일을 변경할 경우 종영일의 최소값을 변경한다.
+		$("#movie_release_date").on("change", function() {
+			$("#movie_close_date").attr("min", $("#movie_release_date").val());
+			movieReleaseTime = new Date($("#movie_release_date").val()).getTime();
+			differenceTime = Math.round((nowTime - movieReleaseTime) / 1000 / 60 / 60 / 24);
+			if(differenceTime > 0) { // 오늘보다 개봉일이 이전인 경우
+				$("#release").prop("selected", true);
+			} else { // 오늘보다 개봉일이 이후인 경우
+				$("#comming").prop("selected", true);
+			}
+		});
+		
+		// submit 시 수행할 동작
+		$("#movieMod").on("click", function() {
+			if($("#movie_title").val() == '') {
+				alert("영화 제목을 입력하세요!");
+				return false;
+			} else if($("#movie_director").val() == '') {
+				alert("감독을 입력하세요!");
+				return false;
+			} else if($("#movie_actor").val() == '') {
+				alert("배우를 입력하세요!");
+				return false;
+			} else if($("#movie_prdtYear").val() == '') {
+				alert("제작년도를 입력하세요!");
+				return false;
+			} else if($("#movie_nation").val() == '') {
+				alert("제작국가를 입력하세요!");
+				return false;
+			} else if($("#movie_audience").val() == '') {
+				alert("관객수를 입력하세요!");
+				return false;
+			} else if($("#movie_runtime").val() == '') {
+				alert("상영시간을 입력하세요!");
+				return false;
+			} else if($("#movie_rating").val() == '') {
+				alert("관람등급을 입력하세요!");
+				return false;
+			} else if($("#movie_genre").val() == '') {
+				alert("장르를 입력하세요!");
+				return false;
+			} else if($("#movie_release_date").val() == '') {
+				alert("개봉일을 입력하세요!");
+				return false;
+			} else if($("#movie_close_date").val() == '') {
+				alert("종영일을 입력하세요!");
+				return false;
+			} else if($("#movie_poster").val() == '') {
+				alert("포스터 주소를 입력하세요!");
+				return false;
+			} else if($("#movie_plot").val() == '') {
+				alert("줄거리를 입력하세요!");
+				return false;
+			} else if($("#movie_status").val() == '') {
+				alert("상영상태를 선택하세요!");
+				return false;
+			}
+			
+			return confirm("영화를 수정하시겠습니까?");
+		});
+		
+		$("#movieDlt").on("click", function() {
+			return confirm("영화를 삭제하시겠습니까?");
+		});
+		
+	});
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -32,7 +110,7 @@
 <%-- 				<img src="${movie.movie_poster }" class="poster"><br> --%>
 <!-- 				<input type="file"><br><br> -->
 <!-- 			</div> -->
-			<form action="movieMod" method="post">
+			<form action="" method="post">
 				<table id="movieTable">
 		            <colgroup> 
 		                <col style="width: 20%;">
@@ -42,10 +120,10 @@
 		            </colgroup> 
 					<tr>
 						<td rowspan="5" colspan="2" id="posterArea">
-							<img src="${movie.movie_poster }"" class="poster"><br>
+							<img src="${movie.movie_poster }" id="posterThumnail"><br>
 						</td>
 						<th width="100px">영화코드</th>
-						<td><input type="text" name="movie_id" value="${movie.movie_id }" id="movie_id" class="shortInput"></td>
+						<td><input type="text" name="movie_id" value="${movie.movie_id }" id="movie_id" class="shortInput" readonly></td>
 					</tr>
 					<tr>
 						<th width="100px">영화제목</th>
@@ -82,8 +160,8 @@
 						<td>
 							<select name="movie_status" id="movie_status">
 								<option disabled>상영 상태</option>
-								<option value="0"<c:if test="${movie.movie_status eq 0 }">selected</c:if>>미개봉</option>
-								<option value="1" <c:if test="${movie.movie_status eq 1 }">selected</c:if>>개봉</option>
+								<option value="0" id="comming" <c:if test="${movie.movie_status eq 0 }">selected</c:if>>개봉 예정</option>
+								<option value="1" id="release" <c:if test="${movie.movie_status eq 1 }">selected</c:if>>개봉</option>
 							</select>
 						</td>
 					</tr>
@@ -95,7 +173,7 @@
 					</tr>
 					<tr>
 						<th>포스터</th>
-						<td colspan="3"><input type="text" name="movie_poster" value="${movie.movie_poster }" class="poster longInput" ></td>
+						<td colspan="3"><input type="text" name="movie_poster" value="${movie.movie_poster }" id="movie_poster" class="longInput"></td>
 					</tr>
 					<tr>
 						<th>스틸컷1</th>
@@ -208,8 +286,8 @@
 <!-- 					</select> -->
 <!-- 				</div> -->
 <!-- 				<br><br> -->
-				<input type="submit" value="수정">
-				<input type="submit" value="삭제" formaction="adminMovieDlt">
+				<input type="submit" value="수정" id="movieMod" formaction="movieMod">
+				<input type="submit" value="삭제" id="movieDlt" formaction="adminMovieDlt">
 				<input type="button" value="창닫기" onclick="history.back();">
 			</form>
 <!-- 		</div> -->

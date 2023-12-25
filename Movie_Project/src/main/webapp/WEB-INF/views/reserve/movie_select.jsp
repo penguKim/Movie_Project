@@ -170,15 +170,13 @@
 		
 		$('.btnsubmit').click(function(){
 // 			var sId = sessionStorage.getItem('sId');
-			var sId = '<%= session.getAttribute("sId") %>';
-			console.log("sId : " + sId);
-
+			var sId = <%= session.getAttribute("sId") %>;  	
 			if(sId == null){
 				if(confirm("로그인이 필요한서비스입니다. 로그인하시겠습니까?")){
 					location.href = "memberLogin";
 				}else{// 취소 버튼 클릭시 좌석 선택페이지로 넘어가지 않고 현재 페이지 그대로 유지}
-				return false;
 				}
+				return false;
 			}
 			console.log("영화제목 : " + $("#movie_title").val())
 			if($("#movie_title").val()==""){
@@ -197,9 +195,6 @@
 				alert("시간선택 필수!")
 				return false;
 			}
-			
-			
-			return true;
 		});
 		
 		
