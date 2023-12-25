@@ -1,6 +1,6 @@
 package com.itwillbs.c5d2308t1.controller;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -62,8 +62,27 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
-	public String mypage_Refund_BoardList() {
+	public String mypage_Refund_BoardList(
+		    Model model, HttpSession session) {
+		// 내 세션 아이디 저장
+
+		String sId = (String)session.getAttribute("sId");
+		
+		// 임시 예매페이지에서 영화제목 , 예약시간 , 예약상태 조회
+		Map<String, String> reserveList = service.getReserveList();
+		
+		model.addAttribute("reserveList", reserveList);
+		
+		// 로그인한 아이디에 따라서
+		// 예매내역 판별 해야됨
+		// 취소시 고놈만 취소내역에 남도록
+		
+		System.out.println("지금내아이디 : " + sId);
+		
+		System.out.println("여긴 뭐가 들었지? : " + reserveList);
+		
 		return"login/Mypage_Refund_BoardList";
+		
 	}
 	
 	@GetMapping("Mypage_ReviewList")

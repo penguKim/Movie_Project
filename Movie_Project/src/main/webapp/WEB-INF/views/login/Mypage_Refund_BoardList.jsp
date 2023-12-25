@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>환불내역</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
@@ -47,34 +50,32 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 						<tr>
 							<th>No.</th>
 							<th>영화 제목</th>
-							<th>내용</th>
+							<th>예매취소일</th>
 							<th>상태</th>
 						</tr>
-						<tr>
-							<td>[예매취소순번]</td>
-							<td>[영화제목]</td>
-							<td>[예매취소일]</td>
-							<td>[환불완료]</td>
-						</tr>
-						<tr>
-							<td>[예매취소순번]</td>
-							<td>[영화제목]</td>
-							<td>[예매취소일]</td>
-							<td>[환불완료]</td>
-						</tr>
+<%-- 					<c:if test="${not empty reserveList}"> --%>
+<%-- 					<c:set var="maxCount" value="${fn:length(reserveList)}" /> --%>
+<%-- 						<c:forEach var="reserve" items="${reserveList}" varStatus="status" end="${maxCount}"> --%>
+						
+						<c:choose>
+							<c:when test="${not empty reserveList}">
+							<tr>					
+								<td>${status.index + 1}</td>
+								<td>${reserveList.movie_title}</td>
+								<td>${fn:replace(reserveList.payment_datetime, 'T', ' ')}</td>
+									<!-- 이게 0 이면 환불 완료 처리할 예정 -->
+<%-- 								<td>${reserveList.payment_status }</td> --%>
+								<td>[환불완료]</td>
+							</tr>
+							</c:when>
+							<c:otherwise>
+								<td colspan="4">취소 내역이 없습니다.</td>
+							</c:otherwise>
+						</c:choose>
+<%-- 						</c:forEach> --%>
+<%-- 					</c:if> --%>
 					</table><br>
 					
-					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1</a>
-						<a class="active" href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">&raquo;</a>
-					</div>
-				</div>
-				
 				<div id="refund_info">
 					<h2>환불 안내서</h2>
 					<table id="my_table1">
