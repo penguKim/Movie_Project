@@ -407,8 +407,8 @@ public class AdminController {
 		}
 		
 		MemberVO dbMember = service.getMember(member); 
-		// input[type=date] 입력을 위한 처리
-		dbMember.setMember_birth(dbMember.getMember_birth().replace(".", "-"));
+//		// input[type=date] 입력을 위한 처리
+//		dbMember.setMember_birth(dbMember.getMember_birth().replace(".", "-"));
 		
 		model.addAttribute("member", dbMember);
 		
@@ -447,11 +447,19 @@ public class AdminController {
 	// 기존 비밀번호와 새 비밀번호가 일치하는지 확인
 	@ResponseBody
 	@GetMapping("passwdCheck")
-	public String passwdCheck(MemberVO member, String newPasswd) {
-		System.out.println(member);
+	public String passwdCheck(String member_passwd, String newPasswd) {
+		System.out.println(member_passwd);
 		System.out.println("새 비밀번호 : " + newPasswd);
 		
-		return "test";
+//	    MemberVO dbMember = service.getMember(member);
+
+	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	    
+	    if(passwordEncoder.matches(newPasswd, member_passwd)) {
+	    	return "true";
+	    } else {
+	    	return "false";
+	    }
 		
 	}
 	
