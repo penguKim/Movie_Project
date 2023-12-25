@@ -13,6 +13,38 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script>
 <script type="text/javascript">
+// 여기 페이지에서 해야할것.
+// input 텍스트창에 영화제목을 입력하고 검색버튼을 눌렀을때 영화정보를 보여주기
+
+
+$(document).ready(function(){
+	$("#searchForm").on("submit", function(data){
+		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수
+		let title = $("#movieTitle").val();
+
+		$.ajax({
+			type: "GET",
+			url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=e9ac77cb0a9e1fa7c1fe08d1ee002e3b&movieNm=" + title,
+			success: function(data){
+				let movies = data.movieListResult.movieList;
+				$("#movieInfo").empty();
+				for(let movie of movies) {
+						$("#movieInfo").append("<hr>제목: " + movie.movieNm + "</br>");
+					if(movie.directors.length > 0){
+						$("#movieInfo").append("감독: " + movie.directors[0].peopleNm + "</br>");
+					}
+					if(movie.openDt !== "") {
+						$("#movieInfo").append("개봉일: " + movie.openDt + "</br>");
+					}
+						$("#movieInfo").append("<hr>국가: " + movie.nationAlt + "</br>");
+				} //for문 끝
+			}, //success 끝
+			error: function(){
+				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
+			} //error 끝
+		}); //ajax 끝
+	}); // submit 끝
+}); //ready 끝
 </script>
 
 
@@ -25,121 +57,21 @@
 						
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 	<section id="content">
+	
 	<h1 id="h01">영화검색</h1>
 	<hr>
+	
 	<div id="admin_nav">
 		<jsp:include page="admin_menubar.jsp"></jsp:include>
 	</div>
-	<div id="admin_main">
 	
-		<form action="adminMovieDetails" method="post"> <!-- 영화 검색 기능 -->
-			<input type="text" name="searchKeyword" placeholder="제목을 입력하세요">
+		<form id="searchForm">
+			<input type="text" id="movieTitle" placeholder="제목을 입력하세요">
 			<input type="submit" value="검색">
 		</form>
-		
-		<form action="movieRgst" method="post">
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>영화코드</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_id" id="movieCd">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>영화제목</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_title" id="movieNm">
-			</div>
-			<br><br>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>감독</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_director" id="directors">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>배우</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_actor" id="actors">
-			</div>
-			<br><br>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>제작년도</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_prdtYear" id="prdtYear">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>제작국가</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_nation" id="nation">
-			</div>
-			<br><br>	
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>관람객수</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_audience" id="audiAcc">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>상영시간</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_runtime" id="showTm">
-			</div>
-			<br><br>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>관람등급</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_rating" id="watchGradeNm">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>장르</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_genre" id="genre">
-			</div>
-			<br><br>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>상영일</sup><br>
-				&nbsp;&nbsp;<input type="date" name="movie_release_date" id="openDt">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>종영일</sup><br>
-				&nbsp;&nbsp;<input type="date" name="movie_close_date" value="2024-01-31">
-			</div>
-			<br><br>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>포스터</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_poster" class="poster">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>스틸컷1</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_still1" class="still">
-			</div>
-			<br><br>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>스틸컷2</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_still2" class="still">
-			</div>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>스틸컷3</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_still3" class="still">
-			</div>
-			<br><br>
-			<div id="grayBlock">
-				&nbsp;&nbsp;<sup>예고영상</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_trailer" id="vod">
-			</div>
-			<div id="grayBlockWide">
-				&nbsp;&nbsp;<sup>줄거리</sup><br>
-				&nbsp;&nbsp;<input type="text" name="movie_plot" id="plot">
-			</div>
-				<br><br>
-			<div id="grayBlockWide">
-				&nbsp;&nbsp;<sup>상영상태</sup><br>
-				<select name="movie_status" id="movie_status">
-					<option>상영 상태</option>
-					<option value="0">미개봉</option>
-					<option value="1">개봉</option>
-				</select>
-			</div>
-			<br><br>
-<!-- 			<div id="grayBlock"> -->
-<!-- 				&nbsp;&nbsp;<sup>검색할 영화 제목</sup><br> -->
-<!-- 				&nbsp;&nbsp;<input type="text" placeholder="검색할영화"> -->
-<!-- 			</div> -->
-<!-- 			<div id="grayBlock"> -->
-<!-- 				&nbsp;&nbsp;<sup>조회 연도</sup><br> -->
-<!-- 				&nbsp;&nbsp;<input type="text" value="2002"> -->
-<!-- 			</div> -->
-			<input type="submit" value="등록">
-			<input type="button" value="창닫기" onclick="history.back();">
-		</form>
-	</div>
+
+	<div id="movieInfo"></div>
+
 	</section>
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>	

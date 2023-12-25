@@ -28,6 +28,8 @@ public interface MoviesMapper {
 
 	// 모든 영화 가져오기
 	List<MoviesVO> selectAllMovie();
+	
+	//영화 리뷰
 	int insertMovieReview(ReviewsVO review);
 
 	int insertMovie(MoviesVO movie);
