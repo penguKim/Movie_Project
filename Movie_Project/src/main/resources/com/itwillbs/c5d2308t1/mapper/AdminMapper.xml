@@ -365,4 +365,51 @@
 			AND p.play_date = #{play_date}	
 	</select>
 
+	<!-- 선택한 지점명에 따른 상영관 조회 -->
+	<select id="selectRoom" resultType="hashmap">
+		SELECT room_id, room_name
+		FROM rooms
+		WHERE theater_id = #{theater_id}
+	</select>
+	
+	<!-- 상영중인 영화 조회 -->
+	<select id="selectPlayingMovie" resultType="hashmap">
+		SELECT *
+		FROM movies
+		WHERE movie_status = 1
+	</select>
+	
+	<!-- 영화 정보 조회 -->
+	<select id="selectMovieInfo" resultType="hashmap">
+		SELECT *
+		FROM movies
+		WHERE movie_id = #{movie_id}
+	</select>
+	
+	<!-- 상영 일정 등록 -->
+	<insert id="insertPlay">
+		INSERT INTO plays
+		VALUE (
+			null
+			, play_date = #{play_date}
+			, play_turn = 0
+			, play_start_time = #{play_start_time}
+			, play_end_time = #{play_end_time}
+			, room_id = #{room_id}
+			, movie_id = #{movie_id}
+		)
+	</insert>
+
+	<select id="selectPlayListAll" resultType="hashmap">
+		SELECT *
+		FROM plays JOIN movies
+		ON plays.movie_id = movies.movie_id 
+		JOIN rooms
+		ON plays.room_id = rooms.room_id
+		JOIN theaters
+		ON rooms.theater_id = theaters.theater_id
+		ORDER BY play_date DESC
+	</select>
+
+
 </mapper>

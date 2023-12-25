@@ -270,13 +270,73 @@ public class AdminController {
 		// System.out.println(play_date);
 		List<Map<String, Object>> playList = service.getScheduleInfo(map);
 		System.out.println("playList : " + playList); // 출력값 X
+		
+		
 		return playList;
 	}
 
 	@GetMapping("movieScheduleMod") // 상영일정 관리 페이지 : admin_movie_schedule_modify.jsp
-	public String movieScheduleMod() {
+	public String movieScheduleMod(Model model) {
+		
+		List<HashMap<String, Object>> playRegistList = service.getPlayRegistList();
+		
+		System.out.println(playRegistList);
+		
+		model.addAttribute("playRegistList", playRegistList);
+		
 		return "admin/admin_movie_schedule_modify";
 	}
+	
+	// ajax 이용하여 선택된 지점에 따른 상영관 불러오기
+	@ResponseBody
+	@GetMapping("getRoom")
+	public List<HashMap<String, Object>> roomList(@RequestParam String theater_id) {
+		List<HashMap<String, Object>> roomList = service.getRoomList(theater_id);
+		return roomList;
+	}
+	
+	// ajax 이용하여 상영중인 영화 불러오기
+	@ResponseBody
+	@GetMapping("nowPlaying")
+	public List<HashMap<String, Object>> playingList() {
+		List<HashMap<String, Object>> playingList = service.getPlayingList();
+		return playingList;
+	}
+	
+	// ajax 이용하여 선택한 영화 정보 불러오기
+	@ResponseBody
+	@GetMapping("getMovieInfo")
+	public HashMap<String, Object> movieInfo(@RequestParam String movie_id) {
+		HashMap<String, Object> movieInfo = service.getMovieInfo(movie_id);
+		return movieInfo;
+	}
+	
+	// 상영 일정 등록하기
+	@PostMapping("registPlay")
+	public String registPlay(PlayVO play, HttpSession session, Model model) {
+		
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		int insertCount = service.registPlay(play);
+		
+		if(insertCount > 0) { // 성공 시
+			return "redirect:/movieScheduleMod";
+			
+		} else { // 실패 시
+			model.addAttribute("msg", "상영 일정 등록에 실패했습니다!");
+			return "fail_back";
+			
+		}
+		
+		
+	}
+	
+	
 	
 	
 	// ===========================================================================================

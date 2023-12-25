@@ -14,7 +14,7 @@
 	vertical-align: top;
 	display: inline-block;
 	width: 800px; /* 너비 800지정 */
-	margin: 10px;	
+	margin: 10px 10px 100px 10px;	
 }
 
 #admin_sub {
@@ -163,7 +163,7 @@ input[type="date"], input[type="text"], theater_num {
 }
 
 /* ============= 전체 버튼에 적용할 css ================== */
-input[type="button"], input[type="submit"] { /* 모든 버튼에 */
+input[type="button"], input[type="submit"], input[type="reset"] { /* 모든 버튼에 */
 	padding: 6px 15px; /* 안쪽 여백 */
     background-color: #505050; /* 배경색 진회색 */
     color: white; /* 글씨색 흰색*/
@@ -212,16 +212,13 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 
 /* Pagination links */
 .pagination {
-	padding:20px 0 100px 250px;
-/* 	padding:50px 0; */
-/* 	margin-top: 50px; */
+	padding:30px 0 80px 0px;
 	text-align: center;
 }
 
 
-.pagination a b {
+.pagination a {
   color: black;
-  float: left;
   padding: 8px 16px;
   text-decoration: none;
   transition: background-color .3s;
@@ -235,6 +232,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 
 /* Add a grey background color on mouse-over */
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
 
 
 /* =============== 상영일정관리 ==================== */

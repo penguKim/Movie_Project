@@ -117,6 +117,21 @@ public interface AdminMapper {
 	// 상영스케쥴 관리 메인페이지 상영일정 조회 작업
 	List<Map<String, Object>> selectScheduleInfo(Map<String, String> map);
 
+	// 지점명에 따른 상영관 조회
+	List<HashMap<String, Object>> selectRoom(String theater_id);
+	
+	// 상영중인 영화 조회 작업
+	List<HashMap<String, Object>> selectPlayingMovie();
+
+	// 선택한 영화 정보 조회 작업
+	HashMap<String, Object> selectMovieInfo(String movie_id);
+
+	// 상영 일정 등록
+	int insertPlay(PlayVO play);
+
+	List<HashMap<String, Object>> selectPlayListAll();
+
+
 
 	
 

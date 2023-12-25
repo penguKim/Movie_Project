@@ -184,6 +184,31 @@ public class AdminService {
 		return mapper.selectScheduleInfo(map);
 	}
 
+	// 지점명에 따른 상영관 조회
+	public List<HashMap<String, Object>> getRoomList(String theater_id) {
+		return mapper.selectRoom(theater_id);
+	}
+	
+	// 상영중인 영화 조회 작업 요청
+	public List<HashMap<String, Object>> getPlayingList() {
+		return mapper.selectPlayingMovie();
+	}
+
+	// 선택한 영화 정보 요청
+	public HashMap<String, Object> getMovieInfo(String movie_id) {
+		return mapper.selectMovieInfo(movie_id);
+	}
+
+	// 상영 일정 등록
+	public int registPlay(PlayVO play) {
+		return mapper.insertPlay(play);
+	}
+
+	// 등록된 상영 일정 조회
+	public List<HashMap<String, Object>> getPlayRegistList() {
+		return mapper.selectPlayListAll();
+	}
+
 
 
 }
