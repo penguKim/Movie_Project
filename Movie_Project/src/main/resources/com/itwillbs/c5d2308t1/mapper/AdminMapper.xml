@@ -348,7 +348,8 @@
 		ON r.theater_id = t.theater_id
 		JOIN movies m
 		ON p.movie_id = m.movie_id
-		WHERE t.theater_id = 1;
+		WHERE t.theater_id = 1
+			AND p.play_date = '2023-01-15'
 	</select>
 	
 <!-- 상영스케쥴 관리 메인페이지 상영일정 조회 -->	

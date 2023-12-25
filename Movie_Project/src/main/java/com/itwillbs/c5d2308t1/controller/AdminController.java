@@ -237,24 +237,12 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		List<Map<String, Object>> playList = service.getMainScheduleInfo();
 		System.out.println(playList);
 		model.addAttribute("playList", playList);
-		
-//		TheaterVO mTheater = service.getMainScheduleInfo(theater);
-//		System.out.println(mTheater);
-//		
-//		if(mTheater != null) {
-//			model.addAttribute("mTheater", mTheater);
-//			return "admin/admin_movie_schedule";
-//		} else {
-//			model.addAttribute("msg", "상영 일정 조회에 실패했습니다!");
-//			return "fail_back";
-//		}
-		
-//		PlayVO playList = service.getMainScheduleInfo(play);
 		
 		return "admin/admin_movie_schedule";
 	}
@@ -269,8 +257,6 @@ public class AdminController {
 		// System.out.println(theater_id);
 		// System.out.println(play_date);
 		List<Map<String, Object>> playList = service.getScheduleInfo(map);
-		System.out.println("playList : " + playList); // 출력값 X
-		
 		
 		return playList;
 	}
@@ -932,7 +918,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		// 페이지 번호와 글의 개수를 파라미터로 전달
 		PageDTO page = new PageDTO(pageNum, 5);
@@ -962,7 +949,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 //		// AdminService - getOneOnOnePostById() 메서드 호출해 해당 글 조회
@@ -984,7 +972,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 //		// AdminService - getOneOnOnePostById() 메서드 호출해 글 목록 조회
 		Map<String, Object> oneOnOne = service.getOneOnOnePostById(cs);
@@ -1007,7 +996,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// AdminService - writeOneOnOneReply() 메서드 호출해 답변 등록
@@ -1032,7 +1022,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 //		// AdminService - getOneOnOnePostById() 메서드 호출해 해당 글 조회
@@ -1055,7 +1046,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// AdminService - modifyOneOnOneReply() 메서드 호출해 등록된 답변 수정
