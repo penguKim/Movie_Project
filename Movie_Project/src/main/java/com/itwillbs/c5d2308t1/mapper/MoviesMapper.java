@@ -19,7 +19,7 @@ public interface MoviesMapper {
 	List<Map<String, String>> selectMoviesList(int sortType);
 
 	// 요청한 movie_id에 해당하는 영화정보 조회 작업 요청
-	HashMap<String, String> selectMovieDetail(String movie_id);
+	HashMap<String, String> selectMovieDetail(int movie_id);
 	
 
 	// 자바 코드로 API 정보 가져오는 테스트 ============================
@@ -33,5 +33,8 @@ public interface MoviesMapper {
 	int insertMovieReview(ReviewsVO review);
 
 	int insertMovie(MoviesVO movie);
-	
+
+	// 스케쥴러에서 사용하는 일일 관객수 업데이트 메서드
+	int updateMovieAudiAcc(MoviesVO movie);
+
 }

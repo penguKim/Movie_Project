@@ -66,30 +66,30 @@
 					</c:forEach>
 				</table>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
+			</section>
+			<section class="pagination">
+			<input type="button" value="이전" 
+				onclick="location.href='adminLostNFound?pageNum=${pageNum - 1}'"
+				<c:if test="${pageNum <= 1 }">disabled</c:if>
+			>
+			<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+				<c:choose>
+					<c:when test="${pageNum eq i }">
+						<b>${i }</b>
+					</c:when>
+					<c:otherwise>
+						<a href="adminLostNFound?pageNum=${i }">${i }</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<input type="button" value="다음" 
+				onclick="location.href='adminLostNFound?pageNum=${pageNum + 1}'"
+				<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if>
+			>
 		</section>
-		<section class="pagination">
-		<input type="button" value="이전" 
-			onclick="location.href='adminLostNFound?pageNum=${pageNum - 1}'"
-			<c:if test="${pageNum <= 1 }">disabled</c:if>
-		>
-		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-			<c:choose>
-				<c:when test="${pageNum eq i }">
-					<b>${i }</b>
-				</c:when>
-				<c:otherwise>
-					<a href="adminLostNFound?pageNum=${i }">${i }</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-		<input type="button" value="다음" 
-			onclick="location.href='adminLostNFound?pageNum=${pageNum + 1}'"
-			<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if>
-		>
-	</section>
+		<footer>
+			<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
+		</footer>
 	</div>
 </body>
 </html>

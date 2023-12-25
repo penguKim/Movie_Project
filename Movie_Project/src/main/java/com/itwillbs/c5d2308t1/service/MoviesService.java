@@ -23,7 +23,7 @@ public class MoviesService {
 	}
 
 	// 요청한 movie_id에 해당하는 영화정보 조회 작업 요청
-	public HashMap<String, String> getMovieDetail(String movie_id) {
+	public HashMap<String, String> getMovieDetail(int movie_id) {
 		return mapper.selectMovieDetail(movie_id);
 	}
 

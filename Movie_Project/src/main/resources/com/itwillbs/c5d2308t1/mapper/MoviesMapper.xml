@@ -3,8 +3,6 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.MoviesMapper">
-
-
 	<!-- DB에 저장된 영화 목록 리스트 조회 작업 -->
 	<select id="selectMoviesList" resultType="HashMap">
 		SELECT *
@@ -20,9 +18,6 @@
 			<when test="sortType == 3">
 				ORDER BY movie_audience DESC
 			</when>
-<!-- 			<otherwise> -->
-<!-- 				ORDER BY movie_release_date DESC -->
-<!-- 			</otherwise> -->
 		</choose>
 	</select>
 	
@@ -46,6 +41,13 @@
 	</insert>
 	
 	
+	 <!-- 관객수 업데이트를 위한 UPDATE 구문 -->
+	 <update id="updateMovieAudiAcc">
+	 		UPDATE movies
+	 		SET movie_audience = #{movie_audience}
+	 		WHERE movie_id = #{movie_id}
+	 </update>
+	 
 		<!-- 
 	List 타입을 파라미터로 지정시 parameterType를 지정하고
 	forEach의 collection="list" item="item" separator=","을 기본값으로 사용한다.

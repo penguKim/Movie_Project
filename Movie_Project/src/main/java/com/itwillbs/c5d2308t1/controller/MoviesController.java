@@ -119,7 +119,7 @@ public class MoviesController {
 	
 	
 	@GetMapping("detail")
-	public ModelAndView detail(String movie_id, Map<String, String> map) {
+	public ModelAndView detail(int movie_id, Map<String, String> map) {
 		
 		// 영화코드를 사용하여 영화 상세정보 가져오기
 		map = service.getMovieDetail(movie_id);

@@ -13,27 +13,14 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
-
-// 		$("#regist").click(function(){
-
-// 	        if($("#cs_reply").val == '') {
-// 	        	alert("답변을 등록해주세요!");
-// 	        	$("#cs_reply").focus();
-// 	        } else if(!confirm(msg)){
-// 	            return false;
-// 		});
-		
-// 	    $('#delete').click(function(){
-// 	        if(!confirm("답변을 삭제하시겠습니까?")){
-// 	            return false;
-// 	        }
-// 	    });
+		let previousValue = $("#cs_reply").val(); // 변수에 현재 내용 저장
 	    
 	    $("#regist").on("click", function() {
 	        // "cs_reply"의 내용이 비어 있다면
 	        if ($("#cs_reply").val() == "") {
 	            // 확인창을 띄웁니다.
 	            alert("답변 내용을 입력하세요.");
+	            $("#cs_reply").focus();
 	            // 'submit' 이벤트를 취소합니다.
 	            return false;
 	        } else {
@@ -43,10 +30,13 @@
 	    });
 	    
 	    $("#modify").on("click", function() {
-			if(confirm("답변을 수정하시겠습니까?")) {
-				return true;
-			} else {
+	    	let currentValue = $("#cs_reply").val();
+			if(previousValue == currentValue) {
+				alert("변경된 내용이 없을 경우 답변 수정이 불가능합니다!");
+				$("#cs_reply").focus();
 				return false;
+			} else {
+				return confirm("답변을 수정하시겠습니까?");
 			}
 		});
 	    

@@ -1,4 +1,4 @@
-<%-- admin_board_one_on_one_response.jsp --%>
+<%-- admin_board_lostnfound_detail.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
@@ -10,7 +10,17 @@
 <title>분실물 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+	$(function() {
+		$("#modify").on("click", function() {
+			if(confirm("답변을 수정하시겠습니까?")) {
+				return true;
+			} else {
+				return false;
+			}
+		});		
+	});
 </script>
 </head>
 <body>
@@ -77,9 +87,9 @@
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
-						<input type="submit" value="답변 수정" formaction="LostNFoundMoveToModify?pageNum=${param.pageNum }">
+						<input type="submit" value="답변 수정" formaction="LostNFoundMoveToModify?pageNum=${param.pageNum }" id="modify">
 <!-- 						<input type="submit" value="답변 삭제" formaction=""> -->
-						<input type="button" value="돌아가기" onclick="history.back()">
+						<input type="button" value="돌아가기" onclick="history.back();">
 					</div>
 				</form>
 			</div>

@@ -395,7 +395,7 @@ public class AdminController {
 	
 	// 관리자페이지 회원정보 상세 조회 및 수정/삭제 페이지로 이동
 	@GetMapping("adminMemberMod")
-	public String adminMemberMod(@RequestParam(defaultValue = "1") int pageNum, MemberVO member, HttpSession session, Model model) {
+	public String adminMemberMod(MemberVO member, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -414,7 +414,7 @@ public class AdminController {
 		
 		return "admin/admin_member_modify";
 	}
-	
+	// 관리자페이지 회원정보 수정/ 삭제 작업
 	@PostMapping("memberModOrDlt") // 회원정보 상세(회원) : admin_member_modify.jsp
 	public String memberModOrDlt(@RequestParam(defaultValue = "1") int pageNum, MemberVO member, String newPasswd, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -441,6 +441,18 @@ public class AdminController {
 			model.addAttribute("msg", "수정에 실패했습니다!");
 			return "fail_back";
 		}
+	}
+	
+	// 회원정보 수정 시 DB의 정보와 일치하는지 여부 판별
+	// 기존 비밀번호와 새 비밀번호가 일치하는지 확인
+	@ResponseBody
+	@GetMapping("passwdCheck")
+	public String passwdCheck(MemberVO member, String newPasswd) {
+		System.out.println(member);
+		System.out.println("새 비밀번호 : " + newPasswd);
+		
+		return "test";
+		
 	}
 	
 	// ===========================================================================================
@@ -1121,7 +1133,7 @@ public class AdminController {
 	
 	// 분실물 문의 답변 등록
 	@PostMapping("LostNFoundResponse") // 분실물문의 답변 등록 : admin_board_lostnfound_response.jsp
-	public String lostnFoundResponse(CsVO cs, HttpSession session, Model model) {
+	public String lostnFoundResponse(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1131,7 +1143,7 @@ public class AdminController {
 		int updateCount = service.LostnfoundReply(cs);
 		
 		if(updateCount > 0) {
-			return "redirect:/adminLostNFound";
+			return "redirect:/adminLostNFound?pageNum=" + pageNum;
 		} else {
 			model.addAttribute("msg", "등록에 실패했습니다!");
 			return "fail_back";
@@ -1179,7 +1191,7 @@ public class AdminController {
 	
 	// 관리자페이지 분실물 문의 기존 답볍 수정 
 	@PostMapping("LostNFoundModify")
-	public String lostnFoundModify(CsVO cs, HttpSession session, Model model) {
+	public String lostnFoundModify(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1189,7 +1201,7 @@ public class AdminController {
 		int updateCount = service.LostnfoundReply(cs);
 		
 		if(updateCount > 0) {
-			return "redirect:/adminLostNFound";
+			return "redirect:/adminLostNFound?pageNum=" + pageNum;
 		} else {
 			model.addAttribute("msg", "등록에 실패했습니다!");
 			return "fail_back";
@@ -1198,7 +1210,7 @@ public class AdminController {
 
 	// 분실물 문의 답변 삭제
 	@PostMapping("LostNFoundDelete") // 분실문 문의 답변삭제 : admin_board_lostnfound.jsp
-	public String lostNFoundDelete(CsVO cs, HttpSession session, Model model) {
+	public String lostNFoundDelete(@RequestParam(defaultValue = "1") int pageNum, CsVO cs, HttpSession session, Model model) {
 		System.out.println("넘어온 정보" + cs);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -1209,7 +1221,7 @@ public class AdminController {
 		int updateCount = service.lostnfoundDlt(cs);
 		
 		if(updateCount > 0) {
-			return "redirect:/adminLostNFound";
+			return "redirect:/adminLostNFound?pageNum=" + pageNum;
 		} else {
 			model.addAttribute("msg", "삭제에 실패했습니다!");
 			return "fail_back";
