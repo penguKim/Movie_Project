@@ -31,7 +31,7 @@
 				<table border="1">
 					<tr>
 						<th width="60">번호</th>
-						<th width="100">지점</th>
+						<th width="120">지점</th>
 						<th>제목</th>
 						<th width="120">등록일</th>
 					</tr>
@@ -39,7 +39,7 @@
 					<c:forEach var="notice" items="${NoticeList}">
 						<tr>
 							<td>${notice.cs_type_list_num}</td>
-							<td>${notice.theater_id}</td>
+							<td>${notice.theater_name}</td>
 							<td class="post_name"><a href="adminNoticeView?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}">${notice.cs_subject}</a></td>
 							<td>
 								<fmt:parseDate value='${notice.cs_date}' pattern="yyyy-MM-dd" var='cs_date'/>
@@ -80,7 +80,7 @@
 					<%-- '>>' 버튼 클릭 시 현체 페이지보다 한 페이지 다음 페이지 요청 --%>
 					<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
 					<c:choose>
-						<c:when test="${pageNum eq pageInfo.maxPage}">
+						<c:when test="${pageNum eq pageInfo.endPage}">
 							<a href="" >&raquo;</a>					
 						</c:when>
 						<c:otherwise>

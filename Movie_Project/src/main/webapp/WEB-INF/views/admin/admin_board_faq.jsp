@@ -83,9 +83,9 @@
 				<table border="1">
 					<thead>
 						<tr>
-							<th width="30">번호</th>
+							<th width="50">번호</th>
 							<th width="100">유형</th>
-							<th width="370">제목</th>
+							<th>제목</th>
 							<th width="120">등록일</th>
 						</tr>
 					</thead>					
@@ -143,7 +143,7 @@
 					<%-- '>>' 버튼 클릭 시 현체 페이지보다 한 페이지 다음 페이지 요청 --%>
 					<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
 					<c:choose>
-						<c:when test="${pageNum eq pageInfo.maxPage}">
+						<c:when test="${pageNum eq pageInfo.endPage}">
 							<a href="" >&raquo;</a>					
 						</c:when>
 						<c:otherwise>

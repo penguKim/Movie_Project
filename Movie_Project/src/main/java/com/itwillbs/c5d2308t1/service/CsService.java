@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.mapper.CsMapper;
 import com.itwillbs.c5d2308t1.vo.CsVO;
@@ -26,9 +27,14 @@ public class CsService {
 		return mapper.selectNoticeMainList();
 	}
 	
-	// 자주묻는질문 공지사항 목록 조회 요청 및 페이징
-	public List<HashMap<String, Object>> getCsList(CsVO cs, int startRow, int listLimit) {
-		return mapper.selectCsList(cs, startRow, listLimit);
+	// 자주묻는질문 목록 조회 요청
+	public List<HashMap<String, Object>> getFaqList(CsVO cs) {
+		return mapper.selectFaqList(cs);
+	}
+	
+	// 공지사항 목록 조회 요청 및 페이징
+	public List<HashMap<String, Object>> getNoticeList(CsVO cs, int startRow, int listLimit, int theater, String searchValue) {
+		return mapper.selectNoticeList(cs, startRow, listLimit, theater, searchValue);
 	}
 	
 	// 고객센터 항목별 목록 갯수 조회 요청
@@ -37,8 +43,8 @@ public class CsService {
 	}
 	
 	// 자주묻는질문 항목별로 모아보기 기능
-	public List<CsVO> getFaqDetail(CsVO cs, String buttonName, int startRow, int listLimit) {
-		return mapper.selectFaqDetail(cs, buttonName, startRow, listLimit);
+	public List<CsVO> getFaqDetail(CsVO cs, String buttonName) {
+		return mapper.selectFaqDetail(cs, buttonName);
 	}
 	
 	// 자주묻는질문 항목별로 목록 개수 조회 요청
@@ -51,11 +57,6 @@ public class CsService {
 		return mapper.selectFaqSearch(searchValue);
 	}
 	
-	// 공지사항 검색기능
-	public List<HashMap<String, Object>> getNoticeSearch(String theater_id, String searchValue) {
-		return mapper.selectNoticeSearch(theater_id, searchValue);
-	}
-
 	// 공지사항 상세페이지 보기
 	public HashMap<String, Object> csNoticeDetail(CsVO cs) {
 		return mapper.selectNoticeDetail(cs);

@@ -39,7 +39,7 @@
 				<form action="adminNoticeModifyForm?cs_type=${noticeDetail.cs_type}&cs_type_list_num=${noticeDetail.cs_type_list_num}&pageNum=${param.pageNum}" method="post">
 					<table border="1">
 						<tr>
-							<th>번호</th>
+							<th width="100px">번호</th>
 							<td>${param.cs_type_list_num}</td>
 						</tr>
 						<tr>
@@ -59,7 +59,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th height=400>내용</th>
+							<th>내용</th>
 							<td>${noticeDetail.cs_content}</td>
 						</tr>
 						<tr>
