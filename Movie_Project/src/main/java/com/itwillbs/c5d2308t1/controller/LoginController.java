@@ -1,6 +1,6 @@
 package com.itwillbs.c5d2308t1.controller;
 
-import java.util.*;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,7 +35,7 @@ public class LoginController {
 	    
 //	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    
-	    if(dbMember == null || !member.getMember_passwd().equals(dbMember.getMember_passwd())) {//로그인 실패시
+	    if(dbMember == null) {//로그인 실패시
 //	    if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
 
 	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
@@ -62,27 +62,8 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
-	public String mypage_Refund_BoardList(
-		    Model model, HttpSession session) {
-		// 내 세션 아이디 저장
-
-		String sId = (String)session.getAttribute("sId");
-		
-		// 임시 예매페이지에서 영화제목 , 예약시간 , 예약상태 조회
-		Map<String, String> reserveList = service.getReserveList();
-		
-		model.addAttribute("reserveList", reserveList);
-		
-		// 로그인한 아이디에 따라서
-		// 예매내역 판별 해야됨
-		// 취소시 고놈만 취소내역에 남도록
-		
-		System.out.println("지금내아이디 : " + sId);
-		
-		System.out.println("여긴 뭐가 들었지? : " + reserveList);
-		
+	public String mypage_Refund_BoardList() {
 		return"login/Mypage_Refund_BoardList";
-		
 	}
 	
 	@GetMapping("Mypage_ReviewList")
@@ -108,11 +89,6 @@ public class LoginController {
 	@GetMapping("Mypage_LostBoad")
 	public String mypage_LostBoad() { // 분실물 문의 상세게시판으로 이동
 		return "login/Mypage_LostBoad";
-	}
-	
-	@GetMapping("Mypage_Reserv_boardList")
-	public String mypage_Reserv_boardList() { // 예매내역 게시판
-		return "login/Mypage_Reserv_boardList";
 	}
 	
 	@GetMapping("Mypage_Product_boardList")

@@ -128,7 +128,10 @@
 	position: relative;
 }
 
-
+.opacity{
+	opacity: 0.6; /* 선택한 영역의 불투명도 설정 */
+	pointer-events: none; /* 선택한 영역의 클릭 이벤트 비활성화 */
+}
 
 #end_param td{
 /* 	text-align: center; */
@@ -166,6 +169,12 @@
 }
 
 /* ================= 좌석선택 css ===================== */
+.alone{
+	background-color: #d5d7d7!important;
+	pointer-events: none; /* 선택한 영역의 클릭 이벤트 비활성화 */
+}
+
+
 
 .seatSelectPage_Result_P, .seatSelectPage_Result_S{
 	width: 130px!important;
@@ -196,7 +205,7 @@
 	width: 30px;
     height: 30px;
     margin: 1px;
-    background-color: #d6d6d6; 
+    background-color: #d5d7d7; 
     display: inline-block;
 	align-items: center;
 	line-height: 30px;
@@ -213,7 +222,18 @@
 	background: url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/step2/screen_bg.png) repeat-x left;
 }
 
-
+#DiscountInformation{
+	width: auto;
+}
+#DiscountInformation div{
+	color:red;
+	font-size:11px;
+	margin-bottom: 50px;
+}
+#DiscountInformation input{
+	font-size: 13px;
+	width: auto;
+}
 
 .seat:nth-of-type(4), .seat:nth-of-type(12) {
 	margin-right: 30px/*좌석의 4번째열과 12번째 열 옆으로 통로만드는 css*/
@@ -231,27 +251,29 @@
 	text-align: center;
 }
 
-
-#header_box {
-	margin-left: 100px;
+.header_box{
+	margin-left: auto;
+	margin-right: auto;
 }
 
-/* 상하 테이블 설정에 대한 */
-table.header_box/* , th, td, */ td { 
-/* 	border: 2px solid orange;  영역에대한 수정사항이 있을때 살릴수도 있을 영역 일단 삭제 하지마세요!*/
-	width: 800px; 
-/* 	margin: 0 auto; */
+table.header_box td, table.header_box tr { 
+/* 	border: 2px solid orange; 테이블 테두리 설계용*/
+	width: 600px; 
 	text-align: center;
 	margin: 0 auto;
 }
 
-table.hbt td {
-    width: 35px;
+table.peoSelTable td{
+    width: 25px;
 	font-size: 12px;
 }
 
-table.hbt td:nth-of-type(1) {
+table.peoSelTable td:nth-of-type(1) {
     width: 50px;
+}
+
+#peoSelTableTh{
+	width: auto;
 }
 
 #height50{
@@ -263,7 +285,7 @@ table.hbt td:nth-of-type(1) {
 	text-align: left;
 }
 
-table { border-collapse: collapse; }
+/* table { border-collapse: collapse; } */
 
 .text_left{
 	text-align: left;

@@ -48,6 +48,10 @@
 					<td>${map.select_seat}</td>
 				</tr>
 				<tr>
+					<td>인원 수</td>
+					<td>${map.typeCount}</td>
+				</tr>
+				<tr>
 					<td>극장이름</td>
 					<td>${map.Theater}</td>
 				</tr>
@@ -61,7 +65,11 @@
 				</tr>
 				<tr>
 					<td>시작시간</td>
-					<td>${map.Time}</td>
+					<td>${map.StartTime}</td>
+				</tr>
+				<tr>
+					<td>종료시간</td>
+					<td>${map.EndTime}</td>
 				</tr>
 			</table>
 		</section>

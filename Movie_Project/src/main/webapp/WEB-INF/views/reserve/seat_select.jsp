@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +17,23 @@
     	background-color: #de1010; 
     } 
     .SelectPeople{
-    	background-color: #00ffff; 
+    	background-color: black;
+    	color: white; 
+    }
+    .StartSelectPeople{
+    	background-color: black;
+    	color: white; 
     }
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
    let selectNumArr;//선택된 인원수 배열
+   let Count2;
+   let Count3;
+   let Count4;
+   let isAlone = false; // 1명인지 판별하는 변수
+   var selectPeopleArr; //선택한 인원 타입 배열
+
    function toggleNum(num) {
 	    // 클릭된 요소가 속한 행을 찾음
 	    var row = $(num).closest('tr');
@@ -28,15 +41,23 @@
 	    var elements = row.find('.NumOfPeo');
 	    // 모든 .NumOfPeo 요소에서 'SelectPeople' 클래스를 제거
 	    elements.removeClass('SelectPeople');
+	    elements.removeClass('StartSelectPeople');
+	    $("#seat_num").removeClass("opacity");
 	    // 클릭된 요소에만 'selected' 클래스를 추가
 	    $(num).addClass('SelectPeople');
 	    
 	    var selectPeople = $(".SelectPeople");
-	    var selectPeopleArr = [];
+	    selectPeopleArr = [];
 	    $.each(selectPeople, function(index, people) { // 반복문을 통해 선택된 좌석의 값을 배열에 저장
-	    	selectPeopleArr.push($(people).attr("value"));
+	    	if (!($(people).attr("value")=="일반0" || $(people).attr("value")=="청소년0" || $(people).attr("value")=="경로0" || $(people).attr("value")=="우대0")) {
+		    	selectPeopleArr.push($(people).attr("value"));
+	    	}
+
+	    	
 	    });
 	    $(".Result_NumOfPeople_Param").text(selectPeopleArr.join(","));
+	    $("#hidden_typeCount").val(selectPeopleArr.join(","));
+	    
 	    console.log("selectPeopleArr : " + selectPeopleArr);
 	    
 	    var selectNum = $(".SelectPeople");
@@ -46,27 +67,24 @@
 	    });
 	    console.log("selectNumArr : " + selectNumArr);
 	   
-	    let Count2=0;
-	    let Count3=0;
-	    let Count4=0;
+	    Count2=0;
+	    Count3=0;
+	    Count4=0;
 	    let sumCountNum = selectNumArr.length
 	    if(sumCountNum == 2){
 		    for(let i = 0; i<sumCountNum; i++){
 		    	Count2 += selectNumArr[i];
 		    }
-		    console.log("Count2 : " + Count2);
 		    
 	    }else if(sumCountNum == 3){
 	    	 for(let i = 0; i<sumCountNum; i++){
 		    	Count3 += selectNumArr[i];
 		    }
-		    console.log("Count3 : " + Count3);
 		    
 	    }else if(sumCountNum == 4){
 	    	 for(let i = 0; i<sumCountNum; i++){
 			    	Count4 += selectNumArr[i];
 		    }
-			console.log("Count4 : " + Count4);
 		    }
 	
     	if(Count2>8||Count3>8||Count4>8){
@@ -78,40 +96,107 @@
 	    	Count4=0;
 	    	selectNumArr = [];
     	}
+    	
+    	
+    	
+    	//==================인원이 1명인지 판별하기 위한 판별 식===================
+    	var aloneCount = 0; 
+    	var NotAloneCount = 0;
+
+    	for (var i = 0; i < selectNumArr.length; i++) {
+    	  if (selectNumArr[i] === 1) {
+    		  aloneCount++;
+    		  console.log("aloneCount++ : " + aloneCount);
+    	  }else if(selectNumArr[i] !== 1 && selectNumArr[i] !== 0){
+    		  NotAloneCount++;
+    		  console.log("NotAloneCount++ : " + NotAloneCount);
+    	  }else if(selectNumArr[i] === 0){
+    		  NotAloneCount=0;
+    		  console.log("otAloneCount=0 : " + NotAloneCount);
+    	  }
+    	}
+
+    	if (aloneCount === 1 && NotAloneCount===0) {
+      		// 1이 하나만 존재하는 경우에 대한 동작을 수행합니다.
+    	  isAlone = true;
+    	  console.log('isAlone : ' + isAlone);
+    	}else{
+    	  isAlone = false;
+    	}
+   	   if(isAlone){
+   		    $("div.seat.2").addClass("alone");
+   		    $("div.seat.3").addClass("alone");
+   		    $("div.seat.6").addClass("alone");
+   		    $("div.seat.11").addClass("alone");
+   		    $("div.seat.14").addClass("alone");
+   		    $("div.seat.15").addClass("alone");
+   		}else if(isAlone == false || isAlone == null){
+   		    $("div.seat.2").removeClass("alone");
+   		    $("div.seat.3").removeClass("alone");
+   		    $("div.seat.6").removeClass("alone");
+   		    $("div.seat.11").removeClass("alone");
+   		    $("div.seat.14").removeClass("alone");
+   		    $("div.seat.15").removeClass("alone");
+   		}
+   	   	
+		/*
+		일반 15000
+		청소년 11000
+		경로 7000
+		우대 5000
+		*/
+		
 	    
 
-	}   
+	}// 인원수 선택 함수 끝
+	
+   let NumberOfSeatsCurrentlySelected = 0 ; // 현재 선택한 좌석 수
+   let NumberOfSeatsToChoose; //선택할 좌석 수 (선택한 인원 수)
    function toggleSeat(seat) {
-	   let countSeat = 0; //선택할 좌석 수 
-	   let selectSeat = 0; //선택된 좌석 수
-       seat.classList.toggle("selected");
-       selectSeat++;
-       /* 12/22 17:38 여기까지 진행함
-       진행상황
-       완료 
-       - 영화선택 페이지 미선택 항목 출력 후 돌려보내기
-       - 세션아이디 미인증시 접근 불가 페이지 둘다
-       - 인원수 선택 8명 이상 선택 불가 처리
-       미완료
-       - 인원수랑 좌석 선택 연동기능 진행중
-        (현재 좌석 선택후 인원선택은 원활 반대는 문제가 발생!)
-       - 1명 선택시 지정불가 좌석 처리
-       - 인설트 구문 작성 하여 직접 데이터 처리
-       - 예매 게시판 2개
-       */
-       console.log("좌석선택 시 selectNumArr : " + selectNumArr);
-       if(selectNumArr != null){
-	       for(let i=0; i<selectNumArr.length; i++){
-	    	   countSeat += selectNumArr[i];
-	       }
-	       console.log("선택할 좌석수 countSeat : " + countSeat);
-	       if(countSeat!=selectSeat){
-	    	   alert("선택된 인원수를 초과한 좌석 지정이 불가능합니다!")
-	    	   seat.classList.toggle("selected");
-	       }
-       }
-       displaySelectedSeats(); // 좌석 선택 시 선택된 좌석을 출력하는 함수 호출
-   }
+   	   NumberOfSeatsToChoose = 0; //선택할 좌석 수 
+//        NumberOfSeatsCurrentlySelected++;
+   	  if (seat.classList.contains('selected')) {
+   	    NumberOfSeatsCurrentlySelected--;
+   	  } else {
+   	    NumberOfSeatsCurrentlySelected++;
+   	  }
+       console.log("선택된 좌석 수 NumberOfSeatsCurrentlySelected : " + NumberOfSeatsCurrentlySelected);
+		if(selectNumArr != null){
+		  	for(let i=0; i<selectNumArr.length; i++){
+				NumberOfSeatsToChoose += selectNumArr[i];
+			}
+			console.log("선택할 좌석수 NumberOfSeatsToChoose : " + NumberOfSeatsToChoose);
+			if(NumberOfSeatsToChoose<NumberOfSeatsCurrentlySelected){
+				alert("선택된 인원수를 초과한 좌석 지정이 불가능합니다!")
+				NumberOfSeatsCurrentlySelected--;
+			}else{
+				seat.classList.toggle("selected");
+			}
+		}
+		displaySelectedSeats(); // 좌석 선택 시 선택된 좌석을 출력하는 함수 호출
+		$("#total_Payment").html("<table class='paymentResult'></table>");
+		var regexLan = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+		var regexNum = /\d+/g;
+  	 	
+		for(let arr of selectPeopleArr){
+			var resultLan = arr.match(regexLan).join("");
+			var resultNum = arr.match(regexNum).join("");
+			switch (resultLan) {
+				case "일반": resultNum = "15000원 X " + resultNum; break;
+				case "청소년": resultNum = "11000원 X " + resultNum; break;
+				case "경로": resultNum = "7000원 X " + resultNum; break;
+				case "우대": resultNum = "5000원 X " + resultNum; break;
+				default: resultNum=""; break;
+			}
+			
+			$(".paymentResult").append(
+			"<tr>"
+			+"<td class='widthSmall'>"+ arr.match(regexLan).join("") +"</td>"
+			+"<td>"+resultNum+"</td>"
+			+"</tr>");
+		}// for End
+		  
+	}//toggle Seat End
    
    function displaySelectedSeats() {
 	   let selectedSeats = $(".selected"); // 선택된 좌석값의 위치
@@ -124,25 +209,41 @@
        $("#selected_seats").text(selectedSeatValues.join(", ") + " 선택됨");
        // 선택된 좌석 값을 숨겨진 input 요소에 할당
        $("#hidden_select_seat").val(selectedSeatValues.join(","));
-       console.log(selectedSeatValues);
+       console.log("선택된 좌석 값" + selectedSeatValues);
    }
    
    function back(){
    	history.back();
    }
-
+   
+   
    $(function(){
-	   $("#subBtn").click(function(){
-			if(sum==0){
-				alert("인원선택 필수!")
-				return false;
+	   $(".subBtn").click(function(){
+		   if(selectNumArr==null){
+			   alert("인원선택 필수!")
+			   return false;
 			}
-			if(!$('.seat').hasClass("selected")){
-				alert("좌석선택 필수!")
-				return false;
+		   if(NumberOfSeatsCurrentlySelected==null){
+		       alert("좌석선택 필수!")
+			   return false;
 			}
-	   });
-   });
+		   
+		   if(NumberOfSeatsCurrentlySelected != NumberOfSeatsToChoose){
+			   alert("인원수와 좌석수가 일치하지 않습니다!")
+			   return false;
+			}
+		});
+	   $("#DiscountInfo").click(function(){
+			   var width = 700; // 팝업 창의 가로 크기
+			   var height = 500; // 팝업 창의 세로 크기
+			   var left = (window.innerWidth - width) / 2; // 화면가로중앙에 위치
+			   var top = (window.innerHeight - height) / 2; // 화면세로중앙에 위치
+
+			   var options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
+
+			   window.open("DiscountInfo", "관람할인안내", options);
+		});
+	});
    
 </script>
 </head>
@@ -184,39 +285,43 @@
 							<td colspan="6"><h3>인원 / 좌석</h3></td>
 						<tr>	
 						<tr id="height50">
-							<th colspan="3">
-								<table class="hbt">
+							<th colspan="2" id="peoSelTableTh">
+								<table class="peoSelTable">
 									<c:set var="type" value="${fn:split('일반,청소년,경로,우대',',')}" /><%--행을결정지을 변수 x 선언--%>
 									<c:forEach var="j" begin="0" end="${fn:length(type)-1}">
 									<tr>
 										<td>
 											${type[j]}
 										</td>
-										<c:forEach var="i" begin="1" end="8">
+										<c:forEach var="i" begin="0"  end="8">
 										<c:set var="NumOfpeople" value="${type[j]}${i}"/>
 										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="${NumOfpeople}">${i}</div>
+											<div <c:if test="${i eq 0}"> class="NumOfPeo StartSelectPeople" </c:if> class="NumOfPeo" onclick="toggleNum(this)" value="${NumOfpeople}">${i}</div>
 										</td>
 										</c:forEach>
 									</tr>
 									</c:forEach>
 								</table>
-							</th>
+								</th>
+							<td id="DiscountInformation">
+								<div>*최대 8명 선택 가능</div>
+								<input type="button" id="DiscountInfo" value="관람할인안내">
+							</td>
 							<th colspan="3" class="header_box_Runtime">
 								${reserveVO.theater_name } ${reserveVO.room_name} 남은좌석 ${176-fn:length(SeatList)}/176<br>
-							 	<b>${outputDate} ex)상영시간 10:39~13:10</b>
+							 	<b>${outputDate} ${fn:substring(reserveVO.play_start_time, 0, 5)} ~ ${fn:substring(reserveVO.play_end_time, 0, 5)}</b>
 							 </th>
 						</tr>
 					</table>
 				</div>
 				<c:forEach var="SeatList" items="${SeatList}">
-<!-- 					예매된 좌석을 하나의 변수에 저장하는 반복문 -->
+				<!-- 예매된 좌석을 하나의 변수에 저장하는 반복문 -->
 					<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
 				</c:forEach>
-				<div id="seat_num">
+				<div id="seat_num" class="opacity">
 					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><%--행을결정지을 변수 x 선언--%>
 				   
-				    <h1 id="screenArea">Screen</h1>
+				    <h1 id="screenArea">Screen ${isAlone} </h1>
 					<c:forEach var="i" begin="0" end="${fn:length(x)-1}">		<%--행을 반복할 반복문 선언--%>
 				    	<div class="center">
 					 	<c:forEach var="j" begin="1" end="16">
@@ -236,7 +341,10 @@
 											<c:forEach var="sa" begin="0" end="${fn:length(seatArr)-1}" varStatus="status">
 												<%-- 만약 'A1'좌석이 예매되지 않았을 경우 --%>
 												<c:if test="${seatArr[sa] ne 'A1' && !stopIteration}">
+												
 						    						<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
+						    					
+						    					
 						    						<c:set var="stopIteration" value="true" />
 												</c:if>
 												<%-- 만약 'A1'좌석이 예매되었을 경우 --%>
@@ -253,6 +361,7 @@
 					    			</c:choose>
 					    		</c:when>
 					    		<c:otherwise>
+								<%-- <c:if test='${isAlone eq true and (j eq 2 or j eq 3 or j eq 6 or j eq 11 or j eq 14 or j eq 15)}'>alone</c:if> --%>
 					    			<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
 					    		</c:otherwise>
 					    	</c:choose>
@@ -261,7 +370,7 @@
 					</c:forEach><%-- 행반복 종료 --%>
 					<table id="seatCondition">
 						<tr>
-							<td><img src="${pageContext.request.contextPath }/resources/img/좌석상태표.png" width="90px" height="160px"></td>
+							<td><img src="${pageContext.request.contextPath}/resources/img/seatCondition.png" width="90px" height="160px"></td>
 						</tr>
 					</table>
 				</div>
@@ -296,18 +405,18 @@
 					<td class="seatSelectPage_Result_S">
 						<h3 id="selected_seats">좌석 선택</h3>
 					</td>
-					<td class="seatSelectPage_Result_P">
-						<h3 id="">결제</h3>
-					</td>
+					<td id="total_Payment"><h3>결제</h3></td>
 					<td class="button_area">
 						<form action="ReservationComplete" method="post" onsubmit="setSelectedSeatValue()">
 						    <input type="hidden" name="movie" value="${reserveVO.movie_title}">		    <%-- 선택된 값을 숨겨진 input 요소에 할당 --%>
 						    <input type="hidden" name="Theater" value="${reserveVO.theater_name}">
 						    <input type="hidden" name="Date" value="${reserveVO.play_date}">
-						    <input type="hidden" name="Time" value="${reserveVO.play_start_time}">
+						    <input type="hidden" name="StartTime" value="${reserveVO.play_start_time}">
+						    <input type="hidden" name="EndTime" value="${reserveVO.play_end_time}">
 						    <input type="hidden" name="Room" value="${reserveVO.room_name}">
+						    <input type="hidden" id="hidden_typeCount" name="typeCount" value="">
 						    <input type="hidden" id="hidden_select_seat" name="select_seat" value="">			<%--  선택된 좌석 값 전달 --%>	    
-						    <input type="submit" value="결제하기" class="button" id="subBtn">
+						    <input type="submit" value="결제하기" class="button subBtn">
 						</form>
 					</td>
 				</tr>
