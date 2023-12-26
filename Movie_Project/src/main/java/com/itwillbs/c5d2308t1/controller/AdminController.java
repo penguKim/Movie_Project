@@ -104,6 +104,17 @@ public class AdminController {
 		return "admin/admin_movie";
 	}
 	
+	@GetMapping("adminMovieRgst")
+	public String movieRgst(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		return "admin/admin_movie_regist";
+	}
+	
+	
 	// 관리자페이지 영화 정보 등록 페이지로 이동
 	@GetMapping("adminMovieUdt")
 	public String adminMovieUdt(HttpSession session, Model model) {

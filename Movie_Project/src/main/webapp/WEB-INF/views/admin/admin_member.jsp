@@ -49,10 +49,10 @@
 						<%-- 검색 기능을 위한 폼 생성 --%>
 						<form action="adminMember">
 							<select name="searchType">
-								<option value="member">아이디</option>
-								<option value="name">이름</option>
+								<option value="member" <c:if test="${param.searchType eq 'member' }">selected</c:if>>아이디</option>
+								<option value="name" <c:if test="${param.searchType eq 'name' }">selected</c:if>>이름</option>
 							</select>
-							<input type="text" name="searchKeyword">
+							<input type="text" name="searchKeyword" value="${param.searchKeyword }">
 							<input type="submit" value="검색">
 						</form>
 					</div>
