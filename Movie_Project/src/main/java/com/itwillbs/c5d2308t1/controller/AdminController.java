@@ -300,8 +300,7 @@ public class AdminController {
 	// 상영 일정 등록하기
 	@PostMapping("registPlay")
 	public String registPlay(PlayVO play, HttpSession session, Model model) {
-		
-		
+		// 관리자가 아니면 등록을 하지 못하도록 하기
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");

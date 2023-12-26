@@ -83,12 +83,12 @@
 				
 				switch (count) {
 					case 4: 
-						$("#checkPasswdResult").text("안전").css("color", "blue");
+						$("#checkPasswdResult").text("안전").css("color", "green");
 						isSafePasswd = true;
 						iscorrectPasswd = true;
 						break;
 					case 3: 
-						$("#checkPasswdResult").text("보통").css("color", "yello");
+						$("#checkPasswdResult").text("보통").css("color", "blue");
 						isSafePasswd = true;
 						iscorrectPasswd = true;
 						break;
