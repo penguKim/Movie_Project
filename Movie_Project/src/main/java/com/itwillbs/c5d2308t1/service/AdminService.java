@@ -161,15 +161,16 @@ public class AdminService {
 		return mapper.selectOneOnOne(cs);
 	}
 
-	// 1대1문의 답변 등록 작업 요청
+	// 1대1문의 답변 등록, 수정 작업 요청
 	public int writeOneOnOneReply(CsVO cs) {
-		return mapper.updateOneOnOneNewReply(cs);
-	}
-
-	// 1대1문의 답변 수정 작업 요청
-	public int modifyOneOnOneReply(CsVO cs) {
 		return mapper.updateOneOnOneReply(cs);
 	}
+	
+	// 1대1문의 답변 삭제 작업 요청
+	public int removeOneOnOneReply(CsVO cs) {
+		return mapper.deleteOneOnOneReply(cs);
+	}
+
 
 
 	
@@ -208,6 +209,7 @@ public class AdminService {
 	public List<HashMap<String, Object>> getPlayRegistList() {
 		return mapper.selectPlayListAll();
 	}
+
 
 
 

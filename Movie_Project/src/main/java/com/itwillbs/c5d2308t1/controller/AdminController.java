@@ -1062,7 +1062,36 @@ public class AdminController {
 	
 	// 관리자 페이지 1대1문의 기존 답변 수정
 	@PostMapping("OneOnOneModify")
-	public String OneOnOneModify(HttpSession session, Model model, CsVO cs, @RequestParam int cs_id) {
+	public String OneOnOneModify(HttpSession session, Model model, CsVO cs, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "1") int cs_id) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
+		System.out.println(cs_id);
+		System.out.println(pageNum);
+		
+		// AdminService - writeOneOnOneReply() 메서드 호출해 등록된 답변 수정
+		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : int(updateCount)
+		int updateCount = service.writeOneOnOneReply(cs);
+		
+		if(updateCount > 0) { // 등록 성공
+			model.addAttribute("pageNum", pageNum);
+			model.addAttribute("cs_id", cs_id);
+			// 답변 등록 완료 후 해당 글이 속해있는 1대1문의 관리페이지로 이동해 버튼으로 답변 상태 확인
+			return "redirect:/OneOnOneDetail?cs_id="+ cs_id +"&pageNum=" + pageNum;
+			
+		} else { // 등록 실패
+			model.addAttribute("msg", "1대1 답변 등록 실패!");
+			return "fail_back";
+		}
+		
+	}
+	
+	// 관리자 페이지 1대1문의 답변 삭제
+	@PostMapping("OneOnOneDelete")
+	public String OneOnOneDelete(HttpSession session, Model model, CsVO cs, @RequestParam(defaultValue = "1") int pageNum) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1070,17 +1099,16 @@ public class AdminController {
 			return "forward";
 		}
 		
-		// AdminService - modifyOneOnOneReply() 메서드 호출해 등록된 답변 수정
-		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : int(updateCount)
-		int updateCount = service.modifyOneOnOneReply(cs);
+		// AdminService - removeOneOnOneReply() 메서드 호출해 등록된 답변 삭제
+		// => 파라미터 : CsVO 객체(cs)	 리턴타입 : int(deleteCount)
+		int deleteCount = service.removeOneOnOneReply(cs);
 		
-		if(updateCount == 0) { // 수정 실패 시
-			model.addAttribute("msg", "1대1문의 답변 수정 실패!");
+		if(deleteCount == 0 ) {
+			model.addAttribute("msg", "1대1 답변 삭제 실패!");
 			return "fail_back";
 		} else {
-			// Model 객체에 저장
-			model.addAttribute("cs_id", cs_id);
-			return "redirect:/OneOnOneDetail?cs_id=" + cs_id;
+			model.addAttribute("pageNum", pageNum);
+			return "redirect:/adminOneOnOne?pageNum=" + pageNum; 
 		}
 		
 	}

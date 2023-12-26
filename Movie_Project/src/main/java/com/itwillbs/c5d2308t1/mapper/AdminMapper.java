@@ -104,11 +104,11 @@ public interface AdminMapper {
 //	// 1대1문의 관리 게시판 상세 조회 작업
 	HashMap<String, Object> selectOneOnOne(CsVO cs);
 	
-	// 1대1문의 답변 등록 작업
-	int updateOneOnOneNewReply(CsVO cs);
-
-	// 1대1문의 답변 수정 작업
+	// 1대1문의 답변 등록, 수정 작업
 	int updateOneOnOneReply(CsVO cs);
+
+	// 1대1문의 답변 삭제 작업
+	int deleteOneOnOneReply(CsVO cs);
 	
 	// =================== 상영스케쥴 관리 게시판 ==========================
 	// 상영스케쥴 관리 메인페이지로 이동 시 정보 조회 작업
@@ -130,6 +130,7 @@ public interface AdminMapper {
 	int insertPlay(PlayVO play);
 
 	List<HashMap<String, Object>> selectPlayListAll();
+
 
 
 

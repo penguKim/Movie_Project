@@ -100,8 +100,16 @@ public class LoginController {
 		return "login/Mypage_OneOnOne";
 	}
 	
+	// 마이페이지 나의 게시글 1대1문의 게시판으로 이동
 	@GetMapping("Mypage_OneOnOneList")
-	public String mypage_OneOnOneList() { // 1대1문의게시판으로 이동
+	public String mypage_OneOnOneList(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
+		
 		return "login/Mypage_OneOnOneList";
 	}
 	

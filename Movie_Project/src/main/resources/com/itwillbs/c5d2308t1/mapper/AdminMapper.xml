@@ -315,7 +315,7 @@
 	<select id="selectOneOnOne" resultType="hashmap">
 		SELECT *
 		FROM cs
-		<if test="theater_id != 0"> <!-- 고객센터 1대1문의 글 작성 시 지점 선택을 안 했을 경우 -->
+		<if test="theater_id != 0"> <!-- 고객센터 1대1문의 글 작성 시 지점 선택을 했을 경우 -->
 			JOIN theaters
 			ON cs.theater_id = theaters.theater_id
 		</if>
@@ -323,19 +323,19 @@
 		AND cs_id = #{cs_id}
 	</select>
 	
-<!--  1대1 문의 답변 등록 -->
-	<update id="updateOneOnOneNewReply">
-		UPDATE cs
-		SET cs_reply = #{cs_reply}
-		WHERE cs_id = #{cs_id}
-	</update>	
-
-<!--  1대1 문의 답변 수정 -->
+<!--  1대1 문의 답변 등록, 수정 -->
 	<update id="updateOneOnOneReply">
 		UPDATE cs
 		SET cs_reply = #{cs_reply}
 		WHERE cs_id = #{cs_id}
 	</update>	
+
+<!-- 1대1 문의 답변 삭제 -->
+	<update id="deleteOneOnOneReply">
+		UPDATE cs
+		SET cs_reply = ''
+		WHERE cs_id = #{cs_id}
+	</update>
 
 <!-- *************** 상영스케쥴 관리페이지 작업 ************* -->
 <!-- 상영스케쥴 관리 메인 페이지 정보 조회-->
