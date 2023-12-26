@@ -31,7 +31,11 @@
 	    
 	    $("#modify").on("click", function() {
 	    	let currentValue = $("#cs_reply").val();
-			if(previousValue == currentValue) {
+	    	if (currentValue == "") {
+	    		alert("수정할 내용을 입력해주세요!");
+				$("#cs_reply").focus();
+				return false;
+	    	} else if(previousValue == currentValue) {
 				alert("변경된 내용이 없을 경우 답변 수정이 불가능합니다!");
 				$("#cs_reply").focus();
 				return false;

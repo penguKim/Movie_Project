@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -102,8 +103,9 @@
 	$(function() {
 		$("#play_start_time").blur(function() {
 			let movie_id = $("#movie_id").val();
-			let start_time = $("#play_start_time").val();
-			console.log(start_time);
+			let start_time = $("#play_start_time").val().split(":")[0];
+// 			console.log(start_time); // 09
+			
 			$.ajax({
 				type: "GET",
 				url: "getMovieInfo",
@@ -114,7 +116,7 @@
 					if(start_time == '') {
 						$("#play_end_time").val('');
 					} else {
-						let end_time = parseInt(start_time) + parseInt(result.movie_runtime)
+						let end_time = (start_time * 60) + parseInt(result.movie_runtime)
 						
 						let hours = Math.floor(end_time / 60); // 시간 계산
 						let minutes = end_time % 60; // 분 계산
@@ -150,7 +152,10 @@
 			}
 		});
 		$("#play_start_time").click(function() {
-			if($("#movie_id").val() == '') {
+			if($("#play_date").val() == '') {
+				alert("날짜를 선택해주세요");
+				$("#play_date").focus();
+			} else if($("#movie_id").val() == '') {
 				alert("영화를 선택해주세요");
 				$("#movie_id").focus();
 			}
@@ -240,24 +245,24 @@
 							<th>초기화</th>
 						</tr>
 							<td id="date">
-								<input type="date" nema ="play_date">
+								<input type="date" name="play_date">
 							</td>
 							<td>
 								<select id="play_start_time" name="play_start_time">
 									<option value="">시작 시간 선택</option>
-									<option value="540">09:00</option>
-									<option value="600">10:00</option>
-									<option value="660">11:00</option>
-									<option value="720">12:00</option>
-									<option value="780">13:00</option>
-									<option value="840">14:00</option>
-									<option value="900">15:00</option>
-									<option value="960">16:00</option>
-									<option value="1020">17:00</option>
-									<option value="1080">18:00</option>
-									<option value="1140">19:00</option>
-									<option value="1200">20:00</option>
-									<option value="1260">21:00</option>
+									<option value="09:00">09:00</option>
+									<option value="10:00">10:00</option>
+									<option value="11:00">11:00</option>
+									<option value="12:00">12:00</option>
+									<option value="13:00">13:00</option>
+									<option value="14:00">14:00</option>
+									<option value="15:00">15:00</option>
+									<option value="16:00">16:00</option>
+									<option value="17:00">17:00</option>
+									<option value="18:00">18:00</option>
+									<option value="19:00">19:00</option>
+									<option value="20:00">20:00</option>
+									<option value="21:00">21:00</option>
 								</select>
 							</td>
 							<td>
@@ -291,8 +296,8 @@
 							<td>${play.room_name}</td>
 							<td>${play.movie_title}</td>
 							<td>${play.play_date}</td>
-							<td>${play.play_start_time}</td>
-							<td>${play.play_end_time}</td>
+							<td>${fn:substring(play.play_start_time, 0, 5)}</td>
+							<td>${fn:substring(play.play_end_time, 0, 5)}</td>
 							<td>
 								<input type="button" value="수정">
 							</td>

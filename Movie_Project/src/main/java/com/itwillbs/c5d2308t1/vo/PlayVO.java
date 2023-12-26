@@ -1,7 +1,7 @@
 package com.itwillbs.c5d2308t1.vo;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.Data;
 

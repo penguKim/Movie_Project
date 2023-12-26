@@ -34,7 +34,8 @@
 			
 			<div id="admin_main">
 				<div id="movie_update">
-					<input type="button" value="최신영화 등록" onclick = "location.href='adminMovieUdt'">
+					<input type="button" value="영화 등록" onclick = "location.href='adminMovieRgst'">
+					<input type="button" value="인기 영화 등록" onclick = "location.href='adminMovieUdt'">
 					<input type="button" value="영화 검색" onclick = "location.href='adminMovieSearch'">
 				</div>
 				<div id="movie_Search">

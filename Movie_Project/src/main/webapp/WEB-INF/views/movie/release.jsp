@@ -10,6 +10,14 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#sortType").on("change", function() {
+			 $("form").submit();
+		});
+	});
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -33,12 +41,11 @@
 			<section class="movie-section">
 				<div class="sort-menu">
 					<form action="release">
-						<select name="sortType">
+						<select name="sortType" id="sortType">
 							<option value="1" <c:if test="${param.sortType eq '1' }">selected</c:if>>개봉일순</option>
 							<option value="2" <c:if test="${param.sortType eq '2' }">selected</c:if>>가나다순</option>
 							<option value="3" <c:if test="${param.sortType eq '3' }">selected</c:if>>관객수순</option>
 						</select>
-						<input type="submit" value="Go">
 					</form>
 				</div>
 				<div class="container">
