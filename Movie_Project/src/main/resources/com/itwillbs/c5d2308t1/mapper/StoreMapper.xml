@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.StoreMapper">
-	
 	<!-- 상세 페이지 조회를 위한 SELECT -->
 	<select id="selectStorePro" resultType="store">
 		SELECT *
@@ -50,12 +50,12 @@
 		WHERE c.member_id = #{sId};
 	</select>
 	
-	<!-- 단일 결제를 위한 SELECT 조회 -->
-<!-- 	<select id="selectStore" resultType="store"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM products -->
-<!-- 		WHERE product_id = #{product_id} -->
-<!-- 	</select> -->
+<!-- 	단일 결제를 위한 SELECT 조회 -->
+	<select id="selectStore" resultType="store">
+		SELECT *
+		FROM products
+		WHERE product_id = #{product_id}
+	</select>
 	
 	<!-- 장바구니 페이지 수량 변경 시 수량 UPDATE -->
 	<update id="updateQuan">

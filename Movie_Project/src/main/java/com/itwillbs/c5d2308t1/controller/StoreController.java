@@ -237,13 +237,14 @@ public class StoreController {
 		members.setMember_phone(phone.split("-")[0] + "-****-" + phone.split("-")[2]);
 		// Member 객체에 조회한 name 과 phone 을 저장
 		model.addAttribute("members", members);
+		
 		List<StoreVO> storeList = new ArrayList<StoreVO>();
 		for(String arrPro : product_id) {
 			List<StoreVO> arrStore = service.selectCart3(arrPro, sId);
 			storeList.addAll(arrStore);
-			System.out.println("카트리스트 : " + arrStore);
+			System.out.println("카트리스트ddddddddddddd : " + arrStore);
 		}
-		System.out.println("카트리스트 : " + storeList);
+		System.out.println("카트리스트ddddddddddd : " + storeList);
 		model.addAttribute("storeList", storeList);
 //		List<StoreVO> storeList = service.selectStore2(store);
 //		model.addAttribute("storeList", storeList);

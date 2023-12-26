@@ -34,8 +34,23 @@ function increaseQuantity(index) {
 }
 
 /* 수량 변경 버튼 클릭 시 처리되는 작업 */
-var price = 0;
+/* 수량 변경 버튼 클릭 시 그 행에 체크박스 자동 체크 */
+// function checkCheckbox(index) {
+// 	  var checkbox = document.getElementById("cartCheckbox" + index);
+// 	  checkbox.checked = true;
+	  
+// 	}
+
+// 전체 체크박스를 자동으로 체크하는 함수
+function checkAllCheckboxes() {
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(function (checkbox) {
+    checkbox.checked = true;
+  });
+}
  
+ 
+var price = 0;
 function quanChange(index) {
 	
 	let product_count = $("#product_count"+index).val();
@@ -53,6 +68,8 @@ function quanChange(index) {
 				 let previousCount = data[index].product_count; // 이전 수량 저장
 			      let newCount = parseInt(product_count); // 변경된 수량
 			      
+// 			      checkCheckbox(index); // 수량 변경 버튼 클릭 시 그 행에 체크박스 자동 체크
+			      checkAllCheckboxes(); // 수량 변경 버튼 클릭 시 전체 체크박스 자동 체크
 			      // 수량이 증가한 경우
 			      if (newCount > previousCount) {
 			        let quantityDifference = newCount - previousCount;
@@ -181,8 +198,69 @@ $(function() {
 // }
 
 
+// 체크박스 선택 시 가격 추가
+function addPrice(i) {
+  // 체크박스 요소 가져오기
+  var checkbox = document.getElementById("cartCheckbox" + i);
+  // 상품 가격 가져오기
+  var price = parseInt(document.getElementById("totalPrice" + i).innerText);
+  // 전체 가격 가져오기
+  var totalPrice = parseInt(document.getElementById("All_total_price").innerText);
 
-</script>		
+  // 체크박스의 선택 여부에 따라 가격 추가 또는 제거
+  if (checkbox.checked) {
+    totalPrice += price; // 가격 추가
+  } else {
+    totalPrice -= price; // 가격 제거
+  }
+
+  // 전체 가격이 음수일 경우 0으로 설정
+  if (totalPrice < 0) {
+    totalPrice = 0;
+  }
+
+  // 변경된 전체 가격을 화면에 업데이트
+  document.getElementById("All_total_price").innerText = totalPrice + "원";
+  document.getElementById("All_total_price1").innerText = totalPrice + "원";
+}
+
+
+// ----------------------------------------------------------
+
+function getCheckedValues() {
+  var checkboxes = document.querySelectorAll('input[name^="cartCheckbox"]:checked');
+  var values = [];
+
+  checkboxes.forEach(function(checkbox) {
+    values.push(checkbox.value);
+  });
+
+  return values;
+}
+
+function submitForm() {
+	  var checkedValues = getCheckedValues();
+	  var queryString = '';
+
+	  if (checkedValues.length > 0) {
+	    queryString = '?' + checkedValues.map(function(value) {
+	      return 'product_id=' + encodeURIComponent(value);
+	    }).join('&');
+	  }
+
+	  var url = 'storePay' + queryString;
+	  window.location.href = url;
+
+	  return false; // 폼 제출 방지
+	}
+
+
+
+
+</script>
+
+
+
 </head>
 <body>
 	<div id="wrapper">
@@ -194,8 +272,10 @@ $(function() {
 
 		<section id="content">
 			<h1 id="h01">장바구니</h1>
+			<!-- 체크박스와 버튼 -->
 			<hr>
-			<form action="storePay2" method="post">
+<!-- 			<form action="storePay2" method="post"> -->
+				<form action="storePay2" method="GET" onsubmit="return submitForm()">
 					<section id="content">
 						<!-- 상단 진행도 상태창 -->
 						<!-- 장바구니 페이지 에서는 STEP1 에 빨간색 처리  -->
@@ -221,15 +301,17 @@ $(function() {
 										<th>구매금액</th>
 										<th width="140px">선택</th>
 									</tr>
-	
+									
 									<c:if test="${not empty cartList}">
 										<c:forEach var="i" begin="0" end="${fn:length(cartList)-1}" >
 	<!-- 											총금액 계산을 위한 All_tatal_price 변수 정의 -->
 	<!-- 											반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 -->
 											<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>
+											
 											<input type="hidden" id="product_id${i}" name="product_id" value="${storeList[i].product_id}">
 											<tr>
-												<td><input type="checkbox" name="cartCheckbox${i}" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked></td>
+											<td><input type="checkbox" name="cartCheckbox${i}" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked onclick="addPrice(${i})"></td>
+<%-- 												<td><input type="checkbox" name="cartCheckbox${i}" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked></td> --%>
 	<!-- 												상품 이미지 및 내용(패키지는 구성) -->
 												<td>
 													<img src="${storeList[i].product_img}">
@@ -298,15 +380,16 @@ $(function() {
 									</tr>
 									<tr class="store_table_box04">
 										<!-- 선택된 모든 상품의 가격과 갯수의 합산된 금액 자동 입력-->
-										<td class="table_box_red">
+										<td class="table_box_red" id="All_total_price">
 											${All_total_price }원
 										<td><img src="${pageContext.request.contextPath }/resources/img/-.png" width="35px" height="35px"></img> </td>
 										<!-- 할인 기능 미구현 -->
 										<!-- 구현하게 된다면 할인 기능에 따라 할인 가격 책정 -->
-										<td>원</td>
+										<td>
+										</td>
 										<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 										<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-										<td class="table_box_red">${All_total_price }원</td>
+										 <td class="table_box_red" id="All_total_price1">${All_total_price }원</td>
 									</tr>
 								</table>
 							</div>
