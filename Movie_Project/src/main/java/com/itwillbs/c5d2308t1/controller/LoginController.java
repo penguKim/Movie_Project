@@ -1,6 +1,7 @@
 package com.itwillbs.c5d2308t1.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -78,7 +79,14 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
-	public String mypage_Refund_BoardList() {
+	public String mypage_Refund_BoardList(HttpSession session,Model model) {
+		// 세션 아이디를 판별
+		String sId = (String) session.getAttribute("sId");
+		
+		Map<String, String> reserveList = service.getReserveList(); 
+		
+		model.addAttribute("reserveList", reserveList);
+		
 		return"login/Mypage_Refund_BoardList";
 	}
 	
