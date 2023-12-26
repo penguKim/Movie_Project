@@ -72,10 +72,10 @@
 	<mybatis-spring:scan base-package="com.itwillbs.c5d2308t1"/>
 	
 	<!-- 스케쥴러를 수행할 패키지와 클래스 지정 -->
-	<bean id="schedulerService" class="com.itwillbs.c5d2308t1.service.SchedulerService" />
-		<task:scheduler id="gsScheduler" pool-size="10" />
-		<task:executor id="gsTaskExecutor" pool-size="10" />
-		<task:annotation-driven executor="gsTaskExecutor"
-	scheduler="gsScheduler" />
+<!-- 	<bean id="schedulerService" class="com.itwillbs.c5d2308t1.service.SchedulerService" /> -->
+<!-- 		<task:scheduler id="gsScheduler" pool-size="10" /> -->
+<!-- 		<task:executor id="gsTaskExecutor" pool-size="10" /> -->
+<!-- 		<task:annotation-driven executor="gsTaskExecutor" -->
+<!-- 	scheduler="gsScheduler" /> -->
 		
 </beans>

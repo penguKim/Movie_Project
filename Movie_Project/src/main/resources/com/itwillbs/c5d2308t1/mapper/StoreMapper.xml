@@ -51,11 +51,11 @@
 	</select>
 	
 	<!-- 단일 결제를 위한 SELECT 조회 -->
-	<select id="selectStore" resultType="store">
-		SELECT *
-		FROM products
-		WHERE product_id = #{product_id}
-	</select>
+<!-- 	<select id="selectStore" resultType="store"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM products -->
+<!-- 		WHERE product_id = #{product_id} -->
+<!-- 	</select> -->
 	
 	<!-- 장바구니 페이지 수량 변경 시 수량 UPDATE -->
 	<update id="updateQuan">
@@ -80,12 +80,12 @@
 	</update>	
 		
 	<!-- 장바구니 내에서 수량 변경 업데이트 이후 출력을 위한 조회 -->
-<!-- 	<select id="updateAfter" resultType="cart"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM carts -->
-<!-- 		WHERE member_id = #{sId} -->
-<!-- 		AND product_id = #{product_id} -->
-<!-- 	</select>	 -->
+	<select id="updateAfter" resultType="cart">
+		SELECT *
+		FROM carts
+		WHERE member_id = #{sId}
+		AND product_id = #{product_id}
+	</select>	
 	
 	<!--  결제 페이지용 멤버이름 / 번호를 SELECT 조회 -->
 	<select id="selectMemberInfo" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
@@ -101,16 +101,19 @@
 		AND product_id = #{product_id}
 	</delete>
 	
+	<!-- 총 금액 계산용 -->
 	<select id="selectCart2" resultType="cart">
 		SELECT product_count, cart_id, cart_total_price
 		FROM carts
 		WHERE member_id = #{member_id}
 	</select>
 	
-	<select id="selectCart3" resultType="cart">
-		SELECT product_count
-		FROM carts
-		WHERE member_id = #{member_id}
+	<select id="selectCart3" resultType="store">
+		SELECT p.product_id, product_name, product_img, product_txt, product_price, product_count 
+		FROM products p JOIN carts c 
+		ON p.product_id = c.product_id 
+		WHERE member_id = #{sId} 
+		AND c.product_id = #{arrPro}
 	</select>
 	
 	<select id="selectCart1" resultType="cart">
@@ -118,4 +121,28 @@
 		FROM carts
 		WHERE product_count = #{product_count}
 	</select>
+	
+	<!-- 장바구니에서 결제 페이지 테스트용 -->
+	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

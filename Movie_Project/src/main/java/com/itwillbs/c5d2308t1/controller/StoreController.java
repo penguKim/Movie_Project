@@ -1,6 +1,7 @@
 package com.itwillbs.c5d2308t1.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.StoreService;
@@ -40,15 +42,9 @@ public class StoreController {
 	
 	// 스토어 상세페이지 매핑
 	@GetMapping("storeDetail")
-	public String storeDetail(HttpSession session, String product_id, Model model, CartVO cart) {
-//		System.out.println("상품명 : " + product_id);
-		StoreVO store = service.selectStore(product_id); 
-//		System.out.println("출력값 : " + store);
-		
-		model.addAttribute("store", store);
-		
-		model.addAttribute("product_id", store.getProduct_id());
-		
+	public String storeDetail(HttpSession session, StoreVO store, Model model) {
+		List<StoreVO> dbStore = service.selectStore(store.getProduct_id()); 
+		model.addAttribute("store", dbStore);
 		return "store/store_detail";
 	}
 	
@@ -186,7 +182,7 @@ public class StoreController {
 	
 	
 	@GetMapping("storePay")
-	public String storePay(HttpSession session, Model model, StoreVO store, String product_count, MemberVO member) {
+	public String storePay(HttpSession session, Model model, StoreVO store, MemberVO member) {
 		String sId = (String)session.getAttribute("sId");
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg","로그인이 필요합니다. 로그인 하시겠습니까?");
@@ -194,32 +190,68 @@ public class StoreController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward2";
 		}
-		System.out.println("받아오는 상품 id : " + store);
 		member.setMember_id(sId);
-		System.out.println("카트에서 넘어온 상품 수량 : " + product_count);
 		// Member name 과 phone 을 조회하기 위한 select 구문
 		MemberVO members = service.selectMemberInfo(member);
-		
 		// 로그인 되어있는 phone 번호를 변수에 저장
 		String phone = members.getMember_phone();
-		
 		// 휴대폰번호 가운데 "****" 처리
 		members.setMember_phone(phone.split("-")[0] + "-****-" + phone.split("-")[2]);
-		
 		// Member 객체에 조회한 name 과 phone 을 저장
 		model.addAttribute("members", members);
 		
-		System.out.println("나는 누구 인가? : " + members);
-//		System.out.println("스토어아이디: " + store);
-		List<StoreVO> storeList = service.selectStore(store);
-		// List<CartVO> storeList = service.selectStore(store);
-			
-		List<CartVO> cartList = service.selectCart2(member);
+		// 하나의 문자열로 들어올경우 split 처리해서 배열로 나눠서 저장
+		System.out.println(store.getProduct_id());
+		System.out.println(store);
 		
+		
+		List<StoreVO> storeList = service.selectStore(store.getProduct_id());
+		List<CartVO> cartList = service.selectCart2(member);
 		model.addAttribute("cartList", cartList);
 		model.addAttribute("storeList", storeList);
 		System.out.println("내 장바구니 카운트" + cartList);
 		System.out.println("내 상품 정보" + storeList);
+		
+		
+		
+		return "store/store_pay";
+	}
+	
+	
+	@PostMapping("storePay2")
+	public String storePay2(HttpSession session, Model model,@RequestParam List<String> product_id, MemberVO member) {
+		String sId = (String)session.getAttribute("sId");
+		if(session.getAttribute("sId") == null) {
+			model.addAttribute("msg","로그인이 필요합니다. 로그인 하시겠습니까?");
+			// targetURL 속성명으로 로그인 폼 페이지 서블릿 주소 저장
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward2";
+		}
+		
+		member.setMember_id(sId);
+		// Member name 과 phone 을 조회하기 위한 select 구문
+		MemberVO members = service.selectMemberInfo(member);
+		// 로그인 되어있는 phone 번호를 변수에 저장
+		String phone = members.getMember_phone();
+		// 휴대폰번호 가운데 "****" 처리
+		members.setMember_phone(phone.split("-")[0] + "-****-" + phone.split("-")[2]);
+		// Member 객체에 조회한 name 과 phone 을 저장
+		model.addAttribute("members", members);
+		List<StoreVO> storeList = new ArrayList<StoreVO>();
+		for(String arrPro : product_id) {
+			List<StoreVO> arrStore = service.selectCart3(arrPro, sId);
+			storeList.addAll(arrStore);
+			System.out.println("카트리스트 : " + arrStore);
+		}
+		System.out.println("카트리스트 : " + storeList);
+		model.addAttribute("storeList", storeList);
+//		List<StoreVO> storeList = service.selectStore2(store);
+//		model.addAttribute("storeList", storeList);
+//		System.out.println("내 상품 정보" + storeList);
+		
+		// 총금액 계산용
+//		model.addAttribute("cartList", cartList);
+//		System.out.println("내 장바구니 카운트" + cartList);
 		
 		
 		

@@ -85,9 +85,9 @@
 								<td><span>${store.product_name }</span> <br> 
 									<span>${store.product_txt }</span></td>
 								<td>${store.product_price }원</td>
-								<td> ${param.product_count }개</td>
+								<td> ${store.product_count }개</td>
 <!-- 						지금은 param 이지만, list의 경우로 변경 -->
-								<td> ${store.product_price * param.product_count}원</td>
+								<td> ${store.product_price * store.product_count}원</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -100,15 +100,13 @@
 							<th>총 결제 예정금액</th>
 						</tr>
 						<!-- -, = 꾸미는법 아시는분? -->
-						<c:forEach var="store" items="${storeList }">
 						<tr class="store_table_box04">
-							<td> ${store.product_price * param.product_count}원 </td>
+							<td> ${store.product_price * store.product_count}원 </td>
 							<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
 							<td></td>
 							<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
-							<td class="table_box_red"> ${store.product_price * param.product_count} 원</td>
+							<td class="table_box_red"> ${store.product_price * store.product_count} 원</td>
 						</tr>
-						</c:forEach>
 					</table>
 				</div>
 				<br>

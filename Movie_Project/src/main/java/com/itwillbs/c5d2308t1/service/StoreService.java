@@ -18,7 +18,7 @@ public class StoreService {
 	StoreMapper mapper;
 	
 	
-	public StoreVO selectStore(String product_id) {
+	public List<StoreVO> selectStore(String product_id) {
 		
 		return mapper.selectStorePro(product_id);
 	}
@@ -49,9 +49,9 @@ public class StoreService {
 		return mapper.resultCartList(sId);
 	}
 	
-	public List<StoreVO> selectStore(StoreVO store) {
-		return mapper.selectStore(store);
-	}
+//	public List<StoreVO> selectStore(StoreVO store) {
+//		return mapper.selectStore(store);
+//	}
 
 
 	public List<CartVO> selectCart2(MemberVO member) {
@@ -79,7 +79,6 @@ public class StoreService {
 	
 	// 업데이트 후 셀렉트 조회 // 나중에 selectKey 처리
 	public List<CartVO> updateAfter(String sId, String product_id) {
-		
 		return mapper.updateAfter(sId, product_id);
 	}
 	
@@ -87,7 +86,13 @@ public class StoreService {
 	public int cartDelete(String sId, String product_id) {
 		return mapper.cartDelete(sId, product_id);
 	}
+
 	
+	// 장바구니에서 결제하기로 테스트
+	public List<StoreVO> selectCart3(String arrPro, String sId) {
+		return mapper.selectCart3(arrPro, sId);
+	}
+
 	
 	
 }

@@ -93,7 +93,7 @@
 					<div class="left">
 							<%-- 상품 이미지 DB에서 직접 꺼내오는 방법 고민 --%>
 							<%-- 이미지 절대경로 설정하는 법 익히기 --%>
-						<p><img src="${store.product_img}" alt="우리패키지"></p>
+						<p><img src="${store[0].product_img}" alt="우리패키지"></p>
 					</div>
 					<div class="right">
 						<div class="goods_info">

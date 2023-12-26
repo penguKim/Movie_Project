@@ -13,7 +13,7 @@ import com.itwillbs.c5d2308t1.vo.StoreVO;
 public interface StoreMapper {
 	
 	// 상세 페이지를 위한 SELECT 조회
-	StoreVO selectStorePro(String product_id);
+	List<StoreVO> selectStorePro(String product_id);
 
 	// 장바구니 판별 이벤트
 	// ------------------------
@@ -50,6 +50,10 @@ public interface StoreMapper {
 	
 	// 장바구니 X 버튼 클릭 시 해당 상품 내역 삭제
 	int cartDelete( @Param("sId")String sId, @Param("product_id") String product_id);
+
+	// 장바구니에서 결제하기로 테스트
+	List<StoreVO> selectCart3(@Param("arrPro") String arrPro, @Param("sId") String sId);
+	
 
 
 
