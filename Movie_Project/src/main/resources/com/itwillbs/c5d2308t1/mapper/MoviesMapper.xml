@@ -29,16 +29,18 @@
 	</select>
 
 	
-	<insert id="insertMovieReview"> <!--review_id(int타입 null값 허용X / rating null값 허용 / content문자열 / now() 데이터타임 생성  -->
-		INSERT INTO Reviews
-		VALUES(
-			'ddd'
-			,null
-			, #{review_content}
-			, now()
-			, null
-		)
-	</insert>
+<!-- 	<insert id="insertReviewBoard"> -->
+<!-- 		INSERT INTO reviewr2 -->
+<!-- 		VALUES( -->
+<!-- 			#{review_id} -->
+<!-- 			, #{review_rating} -->
+<!-- 			, #{review_content} -->
+<!-- 			, now() -->
+<!-- 			, #{movie_id} -->
+<!-- 			, #{movie_title} -->
+<!-- 			, #{member_id} -->
+<!-- 		) -->
+<!-- 	</insert> -->
 	
 	
 	 <!-- 관객수 업데이트를 위한 UPDATE 구문 -->
@@ -77,4 +79,10 @@
 			#{movie_audience}
 		)
 	</insert>
+	
+	<select id="selectReview" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO">
+		SELECT *
+		FROM reviewr2
+		WHERE review_id = #{review_id}
+	</select>
 </mapper>

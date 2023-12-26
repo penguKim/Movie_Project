@@ -47,6 +47,7 @@ public class LoginController {
 	    	model.addAttribute("dbMember", dbMember);
 	    	session.setAttribute("sId", member.getMember_id());
 	    	System.out.println("로그인 성공: " + dbMember);
+	    	//주소값 뒤에 파라미터값을 판별해서 각 페이지로 이동한다.
 	    	return "main";
 	    }
 	}

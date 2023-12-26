@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.c5d2308t1.mapper.MoviesMapper;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
-import com.itwillbs.c5d2308t1.vo.ReviewsVO;
+import com.itwillbs.c5d2308t1.vo.ReviewBoardVO;
 
 @Service
 public class MoviesService {
@@ -26,11 +26,10 @@ public class MoviesService {
 	public HashMap<String, String> getMovieDetail(int movie_id) {
 		return mapper.selectMovieDetail(movie_id);
 	}
-
-	public int review(ReviewsVO review) {
-		return mapper.insertMovieReview(review);
-	}
-
+//	//리뷰 글 작성
+//	public int reviewBoard(ReviewBoardVO review1) {
+//		return mapper.insertReviewBoard(review1);
+//	}
 	
 	
 	
@@ -49,5 +48,10 @@ public class MoviesService {
 		System.out.println("insertMovie");
 		return mapper.insertMovie(movie);
 	}
+
+	public ReviewBoardVO getreview1(ReviewBoardVO review1) {
+		return mapper.selectReview(review1);
+	}
+
 
 }

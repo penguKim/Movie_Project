@@ -86,24 +86,24 @@
 					    	<input type="hidden" name="movie_id" >
 						</form>
 				    	<br>
-			    			<table>
-			    			<tr>
-				    			<td rowspan="6" width="200">
-				    				평점이 들어간다면<br>
-				    				넣을 자리
-				    			</td>
-				    			<th>아이디</th>
-				    			<th>내용</th>
-				    			<th>작성일</th>
+		    			<table>
+		    			<tr>
+			    			<td rowspan="6" width="200">
+			    				평점이 들어간다면<br>
+			    				넣을 자리
+			    			</td>
+			    			<th>아이디</th>
+			    			<th>내용</th>
+			    			<th>작성일</th>
+			    		</tr>
+			    		<c:forEach begin="1" end="5">
+						   	<tr>
+				    			<th>${review1.member_id}</th> <!-- 세션에 저장된 id  -->
+				    			<td>${review1.movie_title}</td> <!-- insert로 생성된 내용 -->
+				    			<td>${review1.movie_id}</td> <!-- insert로 생성된 datetime -->
 				    		</tr>
-				    		<c:forEach begin="1" end="5">
-							   	<tr>
-					    			<th>${member_sId }</th> <!-- 세션에 저장된 id  -->
-					    			<td>${review_content }</td> <!-- insert로 생성된 내용 -->
-					    			<td>${review_date }</td> <!-- insert로 생성된 datetime -->
-					    		</tr>
-			    			</c:forEach>
-			    			</table>
+		    			</c:forEach>
+		    			</table>
 			    </div>
 			</section>
 		</section>	

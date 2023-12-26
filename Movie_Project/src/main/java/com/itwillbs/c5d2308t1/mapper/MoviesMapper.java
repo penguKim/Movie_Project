@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
+import com.itwillbs.c5d2308t1.vo.ReviewBoardVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Mapper
@@ -30,11 +31,14 @@ public interface MoviesMapper {
 	List<MoviesVO> selectAllMovie();
 	
 	//영화 리뷰
-	int insertMovieReview(ReviewsVO review);
+	int insertReviewBoard(ReviewBoardVO review1);
 
 	int insertMovie(MoviesVO movie);
 
 	// 스케쥴러에서 사용하는 일일 관객수 업데이트 메서드
 	int updateMovieAudiAcc(MoviesVO movie);
+
+	ReviewBoardVO selectReview(ReviewBoardVO review1);
+
 
 }

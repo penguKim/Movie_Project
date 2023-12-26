@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-3.7.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 
 	
@@ -57,21 +58,16 @@
 		});
 		
 		/* 새 비밀번호만 입력 했을경우 */
-		$("form").on("submit", function() {
+// 		$("form").on("submit", function() {
 			
-			if($("#passwd").val() != "") {
-				alert("비밀번호를 재입력 하세요!");
-				return false;
-			}
+// 			if($("#passwd").val() != "") {
+// 				alert("비밀번호를 재입력 하세요!");
+// 				return false;
+// 			}
 			
-		});
-		
+// 		});
 	});
 	
-	
-	function Back() {
-				history.back();
-			 }
 	
 </script>
 </head>
@@ -84,7 +80,7 @@
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content">	
-			<form action="join_result.html" method="post" name="joinForm">
+			<form method="get" name="loginForm">
 				<h1 id="h01">회원 수정</h1>
 				<hr>
 				<h2 id="login_top">회원정보입력</h2>
@@ -92,9 +88,9 @@
 				<div class="login_center">
 					<!-- 이름 변경 불가능 아이디 데이터에 있는 이름값 받아서 적용 -->
 					<!-- readonly 에서 disabled 로 변경 -->
-					<input type="text" name="name" id="name" placeholder="이름을 입력하세요" disabled="disabled"><br>
+					<input type="text" name="name" id="name" value="${member.member_name }" disabled="disabled"><br>
 					<!-- 아이디 변경 불가능 session 값에서 받아와 입력란에 적용 시킬예정 -->
-					<input type="text" name="id" id="id" placeholder="아이디를 입력하세요" disabled="disabled"><br>
+					<input type="text" name="id" id="id" value="${sessionScope.sId }" disabled="disabled"><br>
 	<!-- 						<span id="checkIdResult"></span> -->
 					<!-- 기존 비밀번호 입력 창 추가 -->
 	<!-- 				<input type="password" name="passwd" id="passwd" placeholder="기존 비밀번호를 입력하세요"><br> -->
@@ -111,7 +107,7 @@
 					<!-- readonly 에서 disabled 로 변경 -->
 					<!-- 생년월일 변경 불가능 아이디 데이터에 있는 생년월일값 받아서 적용 -->
 					<!-- 변경 불가 에서 생년월일로 변경 -->
-					<input type="text" name="member_birth" id="member_birth" placeholder="생년월일" disabled="disabled"><br>
+					<input type="text" name="member_birth" id="member_birth" value="${member.member_birth }" disabled="disabled"><br>
 					<!-- 이메일 변경을 위한 인증 버튼 추가 -->
 					<!-- 이메일 변경은 인증은 API 작업, 회원가입 시 작업과 동일 할 예정 -->
 					<input type="text" name="email" size="8" id="email" placeholder="이메일주소를 입력하세요"><br>
