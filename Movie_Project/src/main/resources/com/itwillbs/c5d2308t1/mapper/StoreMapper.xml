@@ -116,6 +116,14 @@
 		AND c.product_id = #{arrPro}
 	</select>
 	
+	<select id="selectCart4" resultType="store">
+		SELECT p.product_id, product_name, product_img, product_txt, product_price, product_count 
+		FROM products p JOIN carts c 
+		ON p.product_id = c.product_id 
+		WHERE member_id = #{sId} 
+		AND c.product_id = #{productId}
+	</select>
+	
 	<select id="selectCart1" resultType="cart">
 		SELECT product_count
 		FROM carts

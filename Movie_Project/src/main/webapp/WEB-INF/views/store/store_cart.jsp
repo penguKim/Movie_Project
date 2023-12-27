@@ -103,6 +103,7 @@ function quanChange(index) {
 }
 
 /* 바로구매 선택 시 페이징 처리 */
+
 function choiceBuy(index) {
 	let product_id = $("#product_id" + index).val();
 	let product_count = $("#product_count" + index).val();
@@ -198,6 +199,11 @@ $(function() {
 // }
 
 
+
+
+
+// ---------------------------------------------------------------------------------------------
+
 // 체크박스 선택 시 가격 추가
 function addPrice(i) {
   // 체크박스 요소 가져오기
@@ -227,35 +233,46 @@ function addPrice(i) {
 
 // ----------------------------------------------------------
 
-function getCheckedValues() {
-  var checkboxes = document.querySelectorAll('input[name^="cartCheckbox"]:checked');
-  var values = [];
+// function getCheckedValues() {
+//   var checkboxes = document.querySelectorAll('input[name^="cartCheckbox"]:checked');
+//   var values = [];
 
-  checkboxes.forEach(function(checkbox) {
-    values.push(checkbox.value);
-  });
+//   checkboxes.forEach(function(checkbox) {
+//     values.push(checkbox.value);
+//   });
 
-  return values;
+//   return values;
+// }
+
+// function submitForm() {
+// 	  var checkedValues = getCheckedValues();
+// 	  var queryString = '';
+
+// 	  if (checkedValues.length > 0) {
+// 	    queryString = '?' + checkedValues.map(function(value) {
+// 	      return 'product_id=' + encodeURIComponent(value);
+// 	    }).join('&');
+// 	  }
+
+// 	  var url = 'storePay' + queryString;
+// 	  window.location.href = url;
+
+// 	  return false; // 폼 제출 방지
+// 	}
+
+
+// -----------------------------------------------------------------------------------
+
+// 체크박스를 클릭했을 때 모든 항목을 체크하는 함수
+function checkAll() {
+  var checkboxes = document.getElementsByName("product_id");
+  var allCheckbox = document.getElementById("Allcheckbox");
+
+  // 모든 체크박스를 선택 상태로 변경
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = allCheckbox.checked;
+  }
 }
-
-function submitForm() {
-	  var checkedValues = getCheckedValues();
-	  var queryString = '';
-
-	  if (checkedValues.length > 0) {
-	    queryString = '?' + checkedValues.map(function(value) {
-	      return 'product_id=' + encodeURIComponent(value);
-	    }).join('&');
-	  }
-
-	  var url = 'storePay' + queryString;
-	  window.location.href = url;
-
-	  return false; // 폼 제출 방지
-	}
-
-
-
 
 </script>
 
@@ -274,8 +291,8 @@ function submitForm() {
 			<h1 id="h01">장바구니</h1>
 			<!-- 체크박스와 버튼 -->
 			<hr>
-<!-- 			<form action="storePay2" method="post"> -->
-				<form action="storePay2" method="GET" onsubmit="return submitForm()">
+			<form action="storePay2" method="post">
+<!-- 				<form action="storePay2" method="GET" onsubmit="return submitForm()"> -->
 					<section id="content">
 						<!-- 상단 진행도 상태창 -->
 						<!-- 장바구니 페이지 에서는 STEP1 에 빨간색 처리  -->
@@ -294,7 +311,7 @@ function submitForm() {
 								<table class="store_basket_table">
 									<tr>
 										<!-- 이미지와 상품정보 두칸 합치기 위해 상품명 colspan2 사용 -->
-										<th width="40px"><input type="checkbox" name="Allcheckbox" id="Allcheckbox" checked></th>
+										<th width="40px"><input type="checkbox" name="Allcheckbox" id="Allcheckbox" checked onclick="checkAll()"></th>
 										<th width="350px" colspan="2">상품명</th>
 										<th>판매금액</th>
 										<th>수량</th>
@@ -308,9 +325,10 @@ function submitForm() {
 	<!-- 											반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 -->
 											<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>
 											
-											<input type="hidden" id="product_id${i}" name="product_id" value="${storeList[i].product_id}">
+<%-- 											<input type="checkbox" id="product_id${i}" name="product_id" value="${storeList[i].product_id}"> --%>
+											<input type="hidden" id="product_id${i}" name="product_id1" value="${storeList[i].product_id}">
 											<tr>
-											<td><input type="checkbox" name="cartCheckbox${i}" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked onclick="addPrice(${i})"></td>
+											<td><input type="checkbox" name="product_id" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked onclick="addPrice(${i})"></td>
 <%-- 												<td><input type="checkbox" name="cartCheckbox${i}" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked></td> --%>
 	<!-- 												상품 이미지 및 내용(패키지는 구성) -->
 												<td>

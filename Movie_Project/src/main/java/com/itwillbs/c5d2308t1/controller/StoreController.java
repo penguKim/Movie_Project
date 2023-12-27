@@ -220,7 +220,8 @@ public class StoreController {
 	
 	
 	@PostMapping("storePay2")
-	public String storePay2(HttpSession session, Model model,@RequestParam List<String> product_id, MemberVO member) {
+//	public String storePay2(HttpSession session, Model model,@RequestParam List<String> product_id, MemberVO member) {
+	public String storePay2(HttpSession session, Model model,@RequestParam("product_id") String[] selectedProductIds, MemberVO member) {
 		String sId = (String)session.getAttribute("sId");
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg","로그인이 필요합니다. 로그인 하시겠습니까?");
@@ -229,7 +230,7 @@ public class StoreController {
 			return "forward2";
 		}
 		
-		member.setMember_id(sId);
+		member.setMember_id(sId); 
 		// Member name 과 phone 을 조회하기 위한 select 구문
 		MemberVO members = service.selectMemberInfo(member);
 		// 로그인 되어있는 phone 번호를 변수에 저장
@@ -240,21 +241,14 @@ public class StoreController {
 		model.addAttribute("members", members);
 		
 		List<StoreVO> storeList = new ArrayList<StoreVO>();
-		for(String arrPro : product_id) {
-			List<StoreVO> arrStore = service.selectCart3(arrPro, sId);
-			storeList.addAll(arrStore);
-			System.out.println("카트리스트ddddddddddddd : " + arrStore);
+		
+		
+		for (String productId : selectedProductIds) {
+			List<StoreVO> arrProductId = service.selectCart4(productId, sId);
+			storeList.addAll(arrProductId);
 		}
-		System.out.println("카트리스트ddddddddddd : " + storeList);
 		model.addAttribute("storeList", storeList);
-//		List<StoreVO> storeList = service.selectStore2(store);
-//		model.addAttribute("storeList", storeList);
-//		System.out.println("내 상품 정보" + storeList);
-		
-		// 총금액 계산용
-//		model.addAttribute("cartList", cartList);
-//		System.out.println("내 장바구니 카운트" + cartList);
-		
+		System.out.println("내 상품 정보는 뭐지? " + storeList);
 		
 		
 		return "store/store_pay";

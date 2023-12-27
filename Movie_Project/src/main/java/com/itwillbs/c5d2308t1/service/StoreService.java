@@ -93,6 +93,11 @@ public class StoreService {
 		return mapper.selectCart3(arrPro, sId);
 	}
 
+	public List<StoreVO> selectCart4(String productId, String sId) {
+		
+		return mapper.selectCart4(productId, sId);
+	}
+
 	
 	
 }

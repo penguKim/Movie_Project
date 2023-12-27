@@ -36,7 +36,7 @@
 	<!-- 예매 취소내역 조회를 위한 작업 -->
 	<!-- 예매 페이지에 있는 영화제목,예약시간,예약상태 조회 작업 -->
 	<select id="getReserveList" resultType="HashMap">
-		SELECT movie_title, payment_datetime, payment_status
+		SELECT movie_title,payment_datetime,payment_status
 		FROM resView
 		WHERE payment_status = 1 <!-- 1이 예매 0이 취소지만 현재 DB에 1밖에 없어서 1로 지정해둠 -->
 	</select>

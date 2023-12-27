@@ -61,8 +61,9 @@
 	
 	function redirectToStorePay() {
 	    var productCount = document.getElementById("product_count").value; // 수량 입력 필드의 값 가져오기
-	    var productID = "${product_id}"; // 상품 ID 가져오기
-
+// 	    var productID = "${product_id}"; // 상품 ID 가져오기
+	    var productID = "${param.product_id}"; // 상품 ID 가져오기
+	    
 	    var url = "storePay?product_id=" + productID + "&product_count=" + productCount; // URL 생성
 	    location.href = url; // 다른 페이지로 이동
 	}

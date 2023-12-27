@@ -55,8 +55,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 						</tr>
 <%-- 					<c:if test="${not empty reserveList}"> --%>
 <%-- 					<c:set var="maxCount" value="${fn:length(reserveList)}" /> --%>
-<%-- 						<c:forEach var="reserve" items="${reserveList}" varStatus="status" end="${maxCount}"> --%>
-						
+						<c:forEach var="i" begin="0" end="${fn:length(reserveList)}">
 						<c:choose>
 							<c:when test="${not empty reserveList}">
 							<tr>					
@@ -72,7 +71,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 								<td colspan="4">취소 내역이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
-<%-- 						</c:forEach> --%>
+						</c:forEach>
 <%-- 					</c:if> --%>
 					</table><br>
 					

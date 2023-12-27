@@ -81,16 +81,36 @@
 						<!-- 단일 구매 인 경우 바로 결제 페이지에 데이터 입력 -->
 						<!-- 장바구니에서 넘어오는 경우 랑 단일인 경우 판별 -->
 						<!-- 장바구니에서 넘어오는 데이터 테이블화 시켜서 보여줄것 -->
+						<c:set var="store_pay_price" value="0"></c:set>
 						<c:forEach var="store" items="${storeList }">
-						<c:set var="store_pay_price" value="${store.product_price }"></c:set>
+						
+						<c:set var="store_pay_price" value="${store_pay_price + (store.product_price * store.product_count)}"></c:set>
+						<c:set var="store_pay_count" value="${store.product_price * param.product_count}"></c:set>
 							<tr class="store_table_box02">
 								<td><img src="${store.product_img }"></td>
 								<td><span>${store.product_name }</span> <br> 
 									<span>${store.product_txt }</span></td>
-								<td>${store.product_price }원</td>
-								<td> ${param.product_count }개</td>
-<!-- 						지금은 param 이지만, list의 경우로 변경 -->
-								<td> ${store.product_price * param.product_count}원</td>
+									
+<%-- 								<td>${param.product_count }개</td> --%>
+<%-- 								<td>${store.product_price * param.product_count }원</td> --%>
+								
+								<c:choose>
+								  <c:when test="${param.product_count != null}">
+								    <td>${param.product_count}개</td>
+								    <td>${store.product_price}원</td>
+								    <td>${store.product_price * param.product_count}원</td>
+								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
+								  </c:when>
+								  <c:otherwise>
+								    <td>${store.product_price}원</td>
+								    <td>${store.product_count}개</td>
+								    <td>${store.product_price * store.product_count}원</td>
+								  </c:otherwise>
+								</c:choose>
+								
+<%-- 								<td>${store.product_price }원</td> --%>
+<%-- 								<td>${store.product_count }개</td> --%>
+<%-- 								<td> ${store.product_price * store.product_count}원</td> --%>
 							</tr>
 						</c:forEach>
 					</table>
@@ -104,11 +124,34 @@
 						</tr>
 						<!-- -, = 꾸미는법 아시는분? -->
 						<tr class="store_table_box04">
-							<td> ${store_pay_price * param.product_count}원 </td>
-							<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
-							<td></td>
-							<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
-							<td class="table_box_red"> ${store_pay_price * param.product_count} 원</td>
+						
+							<c:choose>
+								  <c:when test="${param.product_count != null}">
+								    <td> ${store_pay_count}원 </td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
+									<td></td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
+									<td class="table_box_red"> ${store_pay_count} 원</td>
+								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
+								  </c:when>
+								  <c:otherwise>
+								    <td> ${store_pay_price}원 </td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
+									<td></td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
+									<td class="table_box_red"> ${store_pay_price} 원</td>
+								  </c:otherwise>
+								</c:choose>
+							
+							
+							
+<%-- 							<td> ${store_pay_price}원 </td> --%>
+<%-- 							<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td> --%>
+<!-- 							<td></td> -->
+<%-- 							<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td> --%>
+<%-- 							<td class="table_box_red"> ${store_pay_price} 원</td> --%>
+							
+							
 						</tr>
 					</table>
 				</div>
