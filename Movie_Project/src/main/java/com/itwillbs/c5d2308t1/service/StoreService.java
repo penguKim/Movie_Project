@@ -17,6 +17,15 @@ public class StoreService {
 	@Autowired
 	StoreMapper mapper;
 	
+	// 관리자페이지 상품 등록 시 상품 id 중복 판별을 위한 셀렉트
+	public int adminProductSelect(String product_id) {
+		return mapper.adminProductSelect(product_id);
+	}
+	
+	// 모든 상품 조회
+	public List<StoreVO> allSelectStore() {
+		return mapper.allSelectStore();
+	}
 	
 	public List<StoreVO> selectStore(String product_id) {
 		
@@ -97,6 +106,10 @@ public class StoreService {
 		
 		return mapper.selectCart4(productId, sId);
 	}
+
+	
+
+	
 
 	
 	

@@ -4,6 +4,21 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.StoreMapper">
+	
+	<!-- 관리자페이지 스토어상품 관리 페이지 모든 상품 출력을위한 셀렉트 -->
+	<select id="allSelectStore" resultType="store">
+		SELECT *
+		FROM products
+	</select>
+	
+	<!-- // 관리자페이지 상품 등록 시 상품 id 중복 판별을 위한 셀렉트 -->
+	<select id="adminProductSelect" resultType="store">
+		SELECT product_id
+		FROM products
+		WHERE product_id = #{product_id}
+	</select>
+	
+	
 	<!-- 상세 페이지 조회를 위한 SELECT -->
 	<select id="selectStorePro" resultType="store">
 		SELECT *

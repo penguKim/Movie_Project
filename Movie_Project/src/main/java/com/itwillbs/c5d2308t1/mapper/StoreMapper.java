@@ -12,6 +12,12 @@ import com.itwillbs.c5d2308t1.vo.StoreVO;
 @Mapper
 public interface StoreMapper {
 	
+	// 모든 상품 조회
+	List<StoreVO> allSelectStore();
+	
+	// 관리자페이지 상품 등록 시 상품 id 중복 판별을 위한 셀렉트
+	int adminProductSelect(String product_id);
+	
 	// 상세 페이지를 위한 SELECT 조회
 	List<StoreVO> selectStorePro(String product_id);
 
@@ -55,6 +61,10 @@ public interface StoreMapper {
 	List<StoreVO> selectCart3(@Param("arrPro") String arrPro, @Param("sId") String sId);
 
 	List<StoreVO> selectCart4(@Param("productId")String productId,@Param("sId") String sId);
+	
+	
+
+	
 	
 
 
