@@ -273,10 +273,7 @@ function checkAll() {
     checkboxes[i].checked = allCheckbox.checked;
   }
 }
-
 </script>
-
-
 
 </head>
 <body>

@@ -55,9 +55,9 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 						</tr>
 <%-- 					<c:if test="${not empty reserveList}"> --%>
 <%-- 					<c:set var="maxCount" value="${fn:length(reserveList)}" /> --%>
-						<c:forEach var="i" begin="0" end="${fn:length(reserveList)}">
-						<c:choose>
-							<c:when test="${not empty reserveList}">
+<%-- 						<c:forEach var="i" begin="0" end="${fn:length(reserveList)}"> --%>
+					<c:if test="${not empty reserveList}">
+						<c:forEach varStatus="status" var="reserveList" items="${reserveList }" begin="0" end="${fn:length(reserveList)}">
 							<tr>					
 								<td>${status.index + 1}</td>
 								<td>${reserveList.movie_title}</td>
@@ -66,15 +66,13 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 <%-- 								<td>${reserveList.payment_status }</td> --%>
 								<td>[환불완료]</td>
 							</tr>
-							</c:when>
-							<c:otherwise>
-								<td colspan="4">취소 내역이 없습니다.</td>
-							</c:otherwise>
-						</c:choose>
-						</c:forEach>
-<%-- 					</c:if> --%>
+						</c:forEach>	
+					</c:if>
+					<c:if test="${empty reserveList}">
+						<td colspan="4">취소 내역이 없습니다.</td>
+					</c:if>
 					</table><br>
-					
+				</div>
 				<div id="refund_info">
 					<h2>환불 안내서</h2>
 					<table id="my_table1">

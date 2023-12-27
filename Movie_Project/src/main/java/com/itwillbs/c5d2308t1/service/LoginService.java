@@ -37,4 +37,9 @@ public class LoginService {
 		return mapper.getReserveList();
 	}
 
+	public List<RefundVO> getReserveList2(RefundVO refund, String sId) {
+		
+		return mapper.getReserveList2(refund, sId);
+	}
+
 }

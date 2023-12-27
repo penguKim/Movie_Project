@@ -23,6 +23,8 @@ public interface LoginMapper {
 	
 	// 예매 페이지에 있는 영화제목,예약시간,예약상태 조회 작업
 	Map<String, String> getReserveList();
-
+	
+	// 예매 페이지에 있는 영화제목,예약시간,예약상태 조회 작업
+	List<RefundVO> getReserveList2(@Param("refund")RefundVO refund, @Param("sId")String sId);
 
 }

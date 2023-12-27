@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 @Controller
 public class LoginController {
 
@@ -80,11 +81,15 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
-	public String mypage_Refund_BoardList(HttpSession session,Model model) {
+	public String mypage_Refund_BoardList(HttpSession session,Model model, RefundVO refund) {
 		// 세션 아이디를 판별
 		String sId = (String) session.getAttribute("sId");
 		
-		Map<String, String> reserveList = service.getReserveList(); 
+		refund.setMember_id(sId);
+		
+		List<RefundVO> reserveList = service.getReserveList2(refund, sId);
+		
+		System.out.println("지금 내아이디다 : " + refund.getMember_id());
 		
 		model.addAttribute("reserveList", reserveList);
 		
