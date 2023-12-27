@@ -315,6 +315,12 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 #movieTable {
 	margin-bottom: 10px;
 }
+
+#movieTable div {
+	font-size: 14px;
+	height: 15px;
+}
+
 /* 영화 검색창 영역 */
 #searchArea {
 	text-align: center;

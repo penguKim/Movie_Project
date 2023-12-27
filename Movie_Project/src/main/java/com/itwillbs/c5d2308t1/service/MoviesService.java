@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.c5d2308t1.mapper.MoviesMapper;
+import com.itwillbs.c5d2308t1.vo.LikesVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.ReviewBoardVO;
 
@@ -26,6 +27,23 @@ public class MoviesService {
 	public HashMap<String, String> getMovieDetail(int movie_id) {
 		return mapper.selectMovieDetail(movie_id);
 	}
+	
+	// 찜하기 정보 가져오기
+	public LikesVO getLike(LikesVO like) {
+		return mapper.selectLike(like);
+	}
+
+	// 찜하기 등록
+	public int registLike(LikesVO like) {
+		return mapper.insertLike(like);
+	}
+	
+	// 찜하기 삭제
+	public int removeLike(LikesVO like) {
+		return mapper.deleteLike(like);
+	}
+
+	
 //	//리뷰 글 작성
 //	public int reviewBoard(ReviewBoardVO review1) {
 //		return mapper.insertReviewBoard(review1);
@@ -51,6 +69,11 @@ public class MoviesService {
 
 	public ReviewBoardVO getreview1(ReviewBoardVO review1) {
 		return mapper.selectReview(review1);
+	}
+
+	// 해당 회원의 좋아요 정보 불러오기
+	public List<LikesVO> getLikeList(String member_id) {
+		return mapper.selectLikeList(member_id);
 	}
 
 

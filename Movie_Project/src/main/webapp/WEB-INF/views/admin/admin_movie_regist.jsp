@@ -37,6 +37,59 @@
 		let isDuplicateMovie = false;
 		// ===============================================
 		
+		// 영화 코드는 9자리 숫자로 제한한다.
+		$("#movie_id").on("blur", function() {
+			let movie_id = $("#movie_id").val();
+			let regex = /^[0-9]{9}$/;
+			
+			if(!regex.test(movie_id)) {
+				$("#checkMovie_idResult").text("9자리의 숫자로 입력해주세요").css("color", "red");
+			} else {
+				$("#checkMovie_idResult").text("잘했어요").css("color", "blue");
+			}
+		});
+			
+		// 제작년도는 4자리 숫자로 제한한다.
+		$("#movie_prdtYear").on("blur", function() {
+			let movie_prdtYear = $("#movie_prdtYear").val();
+			let regex = /^(19[0-9][0-9]|20[0-2][0-9])/;
+			
+			if(!regex.test(movie_prdtYear)) {
+				$("#checkMovie_prdtYearResult").text("올바른 년도를 입력해주세요").css("color", "red")
+			} else {
+				$("#checkMovie_prdtYearResult").text("");
+			}
+			
+		});
+		
+		// 관람객수는 숫자로 입력한다.
+		$("#movie_audience").on("blur", function() {
+			let movie_audience = $("#movie_audience").val();
+			let regex = /^[0-9]$/;
+			
+			if(!regex.test(movie_audience)) {
+				$("#checkMovie_audienceResult").text("숫자로 입력해주세요").css("color", "red");
+			} else {
+				$("#checkMovie_audienceResult").text("");
+			}
+		});
+			
+		// 상영시간은 숫자로 입력한다.
+		$("#movie_runtime").on("blur", function() {
+			let movie_runtime = $("#movie_runtime").val();
+			let regex = /^[0-9]{3}$/;
+			
+			if(!regex.test(movie_runtime)) {
+				$("#checkMovie_runtimeResult").text("분단위 숫자로 입력해주세요").css("color", "red");
+			} else {
+				$("#checkMovie_runtimeResult").text("");
+			}
+		});
+		
+		// 영화 포스터 주소를 입력하면 이미지가 뜬다.
+		$("#movie_poster").on("blur", function() {
+			$("#posterThumnail").attr("src", $("#movie_poster").val());
+		});
 		
 		// 영화를 선택했을 경우 DB에서 중복 판별 작업을 수행한다.
 		$("#dailyBox").on("change", function() {
@@ -165,7 +218,10 @@
 						<img src="" id="posterThumnail"><br>
 					</td>
 					<th width="100px">영화코드</th>
-					<td><input type="text" name="movie_id" id="movie_id" class="shortInput"></td>
+					<td>
+						<input type="text" name="movie_id" id="movie_id" class="shortInput" maxlength="9">
+						<div id="checkMovie_idResult"></div>
+					</td>
 				</tr>
 				<tr>
 					<th width="100px">영화제목</th>
@@ -177,11 +233,15 @@
 				</tr>
 				<tr>
 					<th>제작년도</th>
-					<td ><input type="text" name="movie_prdtYear" id="movie_prdtYear" class="shortInput"></td>
+					<td >
+						<input type="text" name="movie_prdtYear" id="movie_prdtYear" class="shortInput" maxlength="4">
+						<div id="checkMovie_prdtYearResult"></div>
+					</td>
 				</tr>
 				<tr>
 					<th>제작국가</th>
 					<td ><input type="text" name="movie_nation" id="movie_nation" class="shortInput"></td>
+					
 				</tr>
 				<tr>
 					<th>배우</th>
@@ -191,9 +251,15 @@
 				</tr>
 				<tr>
 					<th>관람객수</th>
-					<td><input type="text" name="movie_audience" id="movie_audience" class="shortInput"></td>
+					<td>
+						<input type="text" name="movie_audience" id="movie_audience" class="shortInput">
+						<div id="checkMovie_audienceResult"></div>
+					</td>
 					<th>상영시간</th>
-					<td><input type="text" name="movie_runtime" id="movie_runtime" class="shortInput"></td>
+					<td>
+						<input type="text" name="movie_runtime" id="movie_runtime" class="shortInput" maxlength="4">
+						<div id="checkMovie_runtimeResult"></div>
+					</td>
 				</tr>
 				<tr>
 					<th>관람등급</th>

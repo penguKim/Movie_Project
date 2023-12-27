@@ -50,6 +50,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.c5d2308t1.service.MoviesService;
 import com.itwillbs.c5d2308t1.vo.KobisAPI;
+import com.itwillbs.c5d2308t1.vo.LikesVO;
 import com.itwillbs.c5d2308t1.vo.CrawlVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.ReviewBoardVO;
@@ -72,14 +73,14 @@ public class MoviesController {
 					.substring(0, movie.get("movie_rating").indexOf("관")));
 		}
 		map.put("movieList", movieList);
-		
+		map.put("data", "테스트");
 		ModelAndView mav = new ModelAndView("movie/release", map);
 		
 		return mav;
 	}
 	
-	@GetMapping("comming")
 	// 상영 예정작
+	@GetMapping("comming")
 	public ModelAndView comming(Map<String, Object> map) {
 		try {
 			// 요청할 URL 주소
@@ -118,7 +119,7 @@ public class MoviesController {
 	}
 	
 	
-	
+	// 영화 상세 페이지
 	@GetMapping("detail")
 	public ModelAndView detail(int movie_id, Map<String, String> map) {
 		
@@ -127,6 +128,34 @@ public class MoviesController {
 		
 		ModelAndView mav = new ModelAndView("movie/detail", map);
 		return mav;
+	}
+	
+	// 찜하기 기능
+	@ResponseBody
+	@GetMapping("likeCheck")
+	public String likeCheck(LikesVO like) {
+		System.out.println(like);
+		
+		LikesVO dBlike = service.getLike(like);
+		
+		if(dBlike != null) { // 해당 영화를 찜한 경우
+			// 찜하기 삭제 수행
+			int deleteCount = service.removeLike(like);
+			return "false";
+		} else { // 찜을 안한 경우
+			// 찜하기 등록 수행
+			int insertCount = service.registLike(like);
+			return "true";
+		}
+	}
+	
+	// 찜하기 불러오기
+	@ResponseBody
+	@GetMapping("likeShow")
+	public List<LikesVO> likeShow(String member_id) {
+		List<LikesVO> likeList = service.getLikeList(member_id);
+		
+		return likeList;
 	}
 	
 	// =========================================================================================

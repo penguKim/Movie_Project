@@ -42,6 +42,40 @@
 <!-- 		) -->
 <!-- 	</insert> -->
 	
+	<!-- 찜하기 정보 조회 -->
+	<select id="selectLike">
+		SELECT *
+		FROM likes
+		WHERE 
+			member_id = #{member_id}
+		AND movie_id = #{movie_id}
+	</select>
+	
+	<!-- 찜하기 정보 등록 -->
+	<insert id="insertLike">
+		INSERT INTO likes
+		VALUES (
+			null
+			, #{member_id}
+			, #{movie_id}
+		)
+	</insert>
+	
+	<!-- 찜하기 정보 삭제 -->
+	<delete id="deleteLike">
+		DELETE FROM likes
+		WHERE 
+			member_id = #{member_id}
+		AND movie_id = #{movie_id}
+	</delete>
+	
+	<!-- 회원의 좋아요 정보 불러오기 -->
+	<select id="selectLikeList">
+		SELECT *
+		FROM likes
+		WHERE 
+			member_id = #{member_id}
+	</select>
 	
 	 <!-- 관객수 업데이트를 위한 UPDATE 구문 -->
 	 <update id="updateMovieAudiAcc">
