@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +10,22 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-3.7.1.js"></script>
+<style>
+	#resCancleBtn{
+		background-color: gray;
+	}
+</style>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-
+$(function(){
+	$("#resCancleBtn").click(function(){
+		if(confirm("선택하신 예매내역을 취소하시겠습니까?")){
+			return true;
+		}else{
+			return false;
+		}
+	});
+});
 </script>
 </head>
 <body>
@@ -44,34 +58,24 @@
 							<th>상태</th>
 							<th>상품 구매 정보</th>
 						</tr>
-<%-- 						<c:forEach var="" items=""> --%>
-<%-- 							구매 순번 --%>
-<!-- 							<td></td>  -->
-<%-- 							상품명 --%>
-<!-- 							<td></td> -->
-<%-- 							구매일 --%>
-<!-- 							<td></td> -->
-<%-- 							상태 --%>
-<!-- 							<td></td> -->
-<%-- 							상품 구매 정보 --%>
-<!-- 							<td><input type="button" value="상품상세정보"></td> -->
-<%-- 						</c:forEach> --%>
-						
+					<c:forEach varStatus="status" var="myStoreList" items="${myStoreList }" >
 						<tr>
-							<td>[구매순번 최신순]</td>
-							<td>[상품명]</td>
-							<td>[구매일]</td>
-							<td>[구매완료]</td>
-							<td></td>
-							
+							<td>${status.index + 1}</td>
+							<td>${myStoreList.product_name }</td>
+							<td>${fn:replace(myStoreList.payment_datetime,'T',' ')}</td>
+							<td>
+								<c:if test="${myStoreList.payment_status eq 1}">결제완료</c:if>
+								<c:if test="${myStoreList.payment_status eq 0}">취소완료</c:if>
+							</td>
+							<td>
+							<c:choose>
+									<c:when test="${myStoreList.payment_status eq 0}"><input type="submit" id="stupidButton" value="구매취소"></c:when>
+									<c:otherwise><input type="button" id="resCancleBtn" value="구매취소"></c:otherwise>
+								</c:choose>
+<!-- 							<td><input type="button" value="구매취소"></td> -->
+							</td>
 						</tr>
-						<tr>
-							<td>[구매순번 최신순]</td>
-							<td>[상품명]</td>
-							<td>[구매일]</td>
-							<td>[구매완료]</td>
-							<td><input type="button" value="상품상세정보"></td>
-						</tr>
+					</c:forEach>
 					</table><br>
 								
 						<div class="pagination">

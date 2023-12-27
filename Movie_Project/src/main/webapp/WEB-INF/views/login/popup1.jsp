@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,29 +17,35 @@
 			<table border="1" id="popup1_table">
 				<tr>
 					<th width="150">예매 번호</th>
-					<td></td>
+					<td>${map.payment_id}</td>
 				</tr>
 				<tr>
 					<th>영화제목</th>
-					<td>주문자명입니다</td>
+					<td>${map.movie_title}</td>
 				</tr>
 				<tr>
 					<th>영화극장 정보</th>
-					<td></td>
+					<td>${map.theater_name}<br>${map.room_name}</td>
 				</tr>
 				<tr>
 					<th>상태</th>
-					<td></td>
+					<td>${map.payment_status}</td>
 				</tr>
 				<tr>
 					<th>좌석 번호</th>
-					<td></td>
+					<td>${map.seat_name}</td>
 				</tr>
 			</table>
 			<br>
 			<section id="payX">
-				<!-- 자바스크립트 사용해 사이즈 조정 후 팝업으로 만들 창이므로 버튼을 미리 가운데 정렬-->
-				<input type="button" value="결제취소" onclick="confirm('결제 취소하시겠습니까?')">
+				<c:choose>
+					<c:when test="${map.payment_status eq 0}">
+						<input type="button" value="확인" onclick="window.close()">
+					</c:when>
+					<c:otherwise>
+						<input type="button" value="결제취소" onclick="confirm('결제 취소하시겠습니까?')">
+					</c:otherwise>
+				</c:choose>
 			</section>
 		</div>
 	</form>

@@ -31,15 +31,21 @@ public class LoginService {
 		return mapper.selectMovieList(searchKeyword, page);
 	}
 
-	// 예매 페이지에 있는 영화제목,예약시간,예약상태 조회 작업
-	public Map<String, String> getReserveList() {
+
+//	public List<RefundVO> getReserveList2(RefundVO refund, String sId) {
+//		
+//		return mapper.getReserveList2(refund, sId);
+//	}
+
+
+	public List<RefundVO> getReserveList(RefundVO refund) {
 		
-		return mapper.getReserveList();
+		return mapper.getReserveList(refund);
 	}
 
-	public List<RefundVO> getReserveList2(RefundVO refund, String sId) {
+	public List<RefundVO> getMyStoreSelect(RefundVO refund) {
 		
-		return mapper.getReserveList2(refund, sId);
+		return mapper.getMyStoreSelect(refund);
 	}
 
 

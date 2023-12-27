@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.itwillbs.c5d2308t1.service.AdminService;
+import com.itwillbs.c5d2308t1.service.StoreService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
@@ -37,6 +38,7 @@ import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.StoreVO;
 import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Controller
@@ -45,6 +47,8 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	
+	@Autowired
+	StoreService storeService;
 	
 	// =============== 2023.12.19 임은령 주석 ============================
 	// 1. 자바스크립트 처리가 동일하여 서블릿 매핑을 모듈화 하였으나 사용하는 것이 적합하지않다고 판명되어 
@@ -357,6 +361,48 @@ public class AdminController {
 	
 	// ===========================================================================================
 	// ******************** 스토어 결제 관리 페이지 *************
+	// 관리자페이지 스토어 상품 관리 페이지로 이동
+	@GetMapping("adminProduct")
+	public String adminProduct(HttpSession session, Model model) {
+		// 관리자가 아니면 등록을 하지 못하도록 하기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		// 모든 상품 조회
+		List<StoreVO> storeList = storeService.allSelectStore();
+		System.out.println(storeList);
+		model.addAttribute("storeList", storeList);
+		return "admin/admin_product";
+	}
+	
+	// 관리자 페이지 스토어상품 등록 페이지로 이동
+	@GetMapping("adminProductInsert")
+	public String adminProductInsert(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		return "admin/admin_product_insert";
+	}
+	
+	// 스토어 상품 등록시 상품 코드 비교
+	@GetMapping("productDupl")
+	public String productDupl(String product_id) {
+		
+		System.out.println("상품 아이디 " + product_id);
+		int proIdDupl = storeService.adminProductSelect(product_id);
+		
+		if(proIdDupl > 0 ) {
+			return "true";
+		} else {
+			return "false";
+		}
+		
+	}
+	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")
 	public String adminPayment() {

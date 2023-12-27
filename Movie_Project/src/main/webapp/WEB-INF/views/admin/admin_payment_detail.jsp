@@ -43,28 +43,16 @@
 						<td>주문자명입니다</td>
 					</tr>
 					<tr>
-						<th>결제일</th>
-						<td></td>
-					</tr>
-					<tr>
-						<th>영화 명</th>
-						<td></td>
-					</tr>
-					<tr>
-						<th>극장 명</th>
-						<td></td>
-					</tr>
-					<tr>
-						<th>인원 수</th>
-						<td></td>
-					</tr>
-					<tr>
-						<th>좌석 번호</th>
+						<th>상품수량</th>
 						<td></td>
 					</tr>
 					<tr>
 						<th>주문한 상품</th>
 						<td></td>
+					<tr>
+						<th>결제일</th>
+						<td></td>
+					</tr>
 					</tr>
 					<tr>
 						<th>결제 방법</th>

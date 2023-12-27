@@ -45,6 +45,9 @@ public class ReserveService {
 	public int getSeatCancle(String seat_id) {
 		return mapper.updateSeatCancle(seat_id);
 	}
+	public Map<String, String> getresInfoDetail(String payment_id) {
+		return mapper.selectresInfoDetail(payment_id);
+	}
 	
 	// payment table insert
 //	public int getPaymentInsert(Map<String, String> map) {

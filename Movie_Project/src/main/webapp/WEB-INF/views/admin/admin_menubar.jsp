@@ -16,6 +16,7 @@
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
+		<a href="adminProduct">스토어상품관리</a>
 		<a href="adminPayment">스토어결제관리</a>
 	</div>
 	<button class="dropdown-btn">MEMBER 
