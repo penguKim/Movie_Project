@@ -43,19 +43,22 @@ public class LoginService {
 	}
 
 
+
+
 // ============================================================================	
 // =====================마이페이지 나의게시글 1대1문의 내역==================	
 	// 마이페이지 나의 게시글 1대1문의 글 목록 조회 작업 요청
-//	public List<MemberVO> getOneOnOnePosts() {
-//		return mapper.selectMyOneOnOneList();
-//	}
+	public List<HashMap<String, Object>> getMyOneOnOnePosts(String sId) {
+		return mapper.selectMyOneOnOneList(sId);
+	}
 
-//	public Map<String, Object> getOneOnOnePosts(MemberVO member) {
-//		return mapper.selectMyOneOnOneList(member);
-//	}
+	// 마이페이지 나의 게시글 1대1문의 글 상세 조회 작업 요청
+	public Map<String, Object> getMyOneOnOneDetail(CsVO cs) {
+		return mapper.selectMyOneOnOneDetail(cs);
+	}
 
-//	public List<HashMap<String, Object>> getOneOnOnePosts(MemberVO member) {
-//		return mapper.selectMyOneOnOneList(member);
-//	}
-
+	// 마이페이지 나의 게시글 1대1문의 글 삭제 작업 요청
+	public int removeMyOneOnOne(CsVO cs) {
+		return mapper.deleteMyOneOnOne(cs);
+	}
 }

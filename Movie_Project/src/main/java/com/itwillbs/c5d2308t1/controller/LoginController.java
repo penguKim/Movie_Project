@@ -1,5 +1,8 @@
 package com.itwillbs.c5d2308t1.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,11 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
+import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.RefundVO;
 @Controller
@@ -97,18 +104,42 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage_ReviewList")
-	public String mypage_ReviewList() { // 1대1문의게시판으로 이동
+	public String mypage_ReviewList() { // 리뷰 게시판으로 이동
 		return "login/Mypage_ReviewList";
 	}
 	
-	@GetMapping("Mypage_OneOnOne")
-	public String mypage_OneOnOne() { //1대1문의 상세게시판으로 이동
-		return "login/Mypage_OneOnOne";
-	}
 	
-	// 마이페이지 나의 게시글 1대1문의 게시판으로 이동
+	// 마이페이지 나의 게시글 1대1문의 내역 조회 게시판으로 이동
 	@GetMapping("Mypage_OneOnOneList")
-	public String mypage_OneOnOneList(HttpSession session, Model model) {
+	public String mypage_OneOnOneList(HttpSession session, Model model, MemberVO member) {
+		String sId = (String)session.getAttribute("sId");
+		member.setMember_id(sId);
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
+		
+		// LoginService - getMyOneOnOnePosts() 메서드 호출해 글 목록 조회
+		// => 파라미터 : 세션아이디(sId) 	 리턴 타입 : List<HashMap<String, Object>>(myOneOnOneList)
+		List<HashMap<String, Object>> myOneOnOneList = service.getMyOneOnOnePosts(sId);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		for(HashMap<String, Object> map : myOneOnOneList) {
+			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+			LocalDateTime date = (LocalDateTime)map.get("cs_date");
+			map.put("cs_date", date.format(dtf));
+		}
+//		System.out.println("myOneOnOneList : " + myOneOnOneList);
+		model.addAttribute("myOneOnOneList", myOneOnOneList);
+		model.addAttribute("sId", sId);
+		
+		return "login/Mypage_OneOnOneList";
+	}
+
+	
+	// 마이페이지 나의 게시글 1대1문의 상세 조회
+	@RequestMapping(value = "Mypage_OneOnOneDetail", method = {RequestMethod.GET, RequestMethod.POST})
+	public String Mypage_OneOnOneDetail(HttpSession session, Model model, CsVO cs) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -116,8 +147,44 @@ public class LoginController {
 			return "forward";
 		}
 		
-		return "login/Mypage_OneOnOneList";
+		// LoginService - getMyOneOnOneDetail() 메서드 호출해 해당 글 상세 내용 조회
+		// 파라미터 : CsVO 객체(cs) 		리턴타입 : Map<String, Object> (oneOnOne) 
+		Map<String, Object> oneOnOne = service.getMyOneOnOneDetail(cs);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
+		oneOnOne.put("cs_date", date.format(dtf));
+		
+		model.addAttribute("oneOnOne", oneOnOne);
+
+		return "login/Mypage_OneOnOne";
 	}
+	
+	// 마이페이지 나의 게시글 1대1문의 글 삭제
+	@PostMapping("MyPageOneOnOneDelete")
+	public String MyPageOneOnOneDelete(HttpSession session, Model model, CsVO cs) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
+		
+		// LoginService - removeMYOneOnOne() 메서드 호출해 해당 글 상세 내용 조회
+		// 파라미터 : CsVO 객체(cs) 		리턴타입 : int (deleteCount) 
+		int deleteCount = service.removeMyOneOnOne(cs);
+		if(deleteCount > 0) {
+			return "redirect:/Mypage_OneOnOneList";
+		} else {
+			model.addAttribute("msg", "1대1문의 글 삭제에 실패했습니다!");
+			return "fail_back";
+		}
+		
+	}
+	
+	
+	
+	
 	
 	@GetMapping("Mypage_LostBoard_List")
 	public String mypage_LostBoard_List() { // 분실물 문의 게시판으로 이동

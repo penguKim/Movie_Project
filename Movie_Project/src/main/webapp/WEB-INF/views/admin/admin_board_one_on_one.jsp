@@ -85,7 +85,7 @@
 				<c:when test="${pageNum eq i }">
 					<b>${i }</b>
 				</c:when>
-				<c:otherwise>
+				<c:otherwise>s
 					<a href="adminOneOnOne?pageNum=${i }">${i }</a>
 				</c:otherwise>
 			</c:choose>

@@ -4,7 +4,6 @@ import java.util.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import org.apache.ibatis.annotations.*;
 
 import com.itwillbs.c5d2308t1.vo.*;
 @Mapper
@@ -26,5 +25,21 @@ public interface LoginMapper {
 	
 	// 예매 페이지에 있는 영화제목,예약시간,예약상태 조회 작업
 	List<RefundVO> getReserveList2(@Param("refund")RefundVO refund, @Param("sId")String sId);
+
+
+
+
+	
+// ============================================================================	
+// =====================마이페이지 나의게시글 1대1문의 내역==================
+	// 마이페이지 나의 게시글 1대1문의 글 목록 조회 작업
+	List<HashMap<String, Object>> selectMyOneOnOneList(String sId);
+
+	// 마이페이지 나의 게시글 1대1문의 글 상세 조회 작업
+	Map<String, Object> selectMyOneOnOneDetail(CsVO cs);
+
+	// 마이페이지 나의 게시글 1대1문의 글 삭제 작업
+	int deleteMyOneOnOne(CsVO cs);
+
 
 }
