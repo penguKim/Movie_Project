@@ -87,11 +87,14 @@ public class LoginController {
 		
 		refund.setMember_id(sId);
 		
-		List<RefundVO> reserveList = service.getReserveList2(refund, sId);
+		
+		List<RefundVO> reserveList = service.getReserveList(refund);
 		
 		System.out.println("지금 내아이디다 : " + refund.getMember_id());
 		
 		model.addAttribute("reserveList", reserveList);
+		
+		System.out.println("지금나는뭘까요 :" +  reserveList);
 		
 		return"login/Mypage_Refund_BoardList";
 	}
@@ -130,7 +133,20 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage_Product_boardList")
-	public String mypage_Product_boardList() { // 상품내역 게시판
+	public String mypage_Product_boardList(HttpSession session, RefundVO refund, Model model) { // 상품내역 게시판
+		
+		// 세션 아이디 저장
+		String sId = (String)session.getAttribute("sId");
+		// 세션 아이디 refund.member_id에 저장
+		refund.setMember_id(sId);
+		
+		List<RefundVO> myStoreList = service.getMyStoreSelect(refund);
+		// 모델 객체에 select한 결과값 저장
+		model.addAttribute("myStoreList", myStoreList);
+		
+		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ : " + myStoreList);
+		
+		
 		return "login/Mypage_Product_boardList";
 	}
 	

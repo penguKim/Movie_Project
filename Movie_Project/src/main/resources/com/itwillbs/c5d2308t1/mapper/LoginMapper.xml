@@ -34,19 +34,18 @@
 	
 	<!-- 예매 취소내역 조회를 위한 작업 -->
 	<!-- 예매 페이지에 있는 영화제목,예약시간,예약상태 조회 작업 -->
-<!-- 	<select id="getReserveList" resultType="Map"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM resView -->
-<!-- 		WHERE payment_status = 0 1이 예매 0이 취소지만 현재 DB에 1밖에 없어서 1로 지정해둠 -->
-<!-- 	</select> -->
-	
-	<select id="getReserveList2" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
+	<select id="getReserveList" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
 		SELECT payment_datetime , member_id, payment_status, movie_title
 		FROM resView
-		WHERE payment_status = 0 AND member_id = #{sId}
+		WHERE payment_status = 0 AND member_id = #{member_id}
 	</select>
 	
-
+	<!-- 나의 상품 구매내역 조회를 위한 작업 -->
+	<select id="getMyStoreSelect" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
+		SELECT payment_id , payment_status, quantity, member_name, product_name,payment_datetime, payment_total_price, member_id
+		FROM store_pay_detail
+		WHERE member_id = #{member_id}
+	</select>
 
 	<!-- 회원 정보 수정 -->
 	<update id="updateMember">

@@ -25,6 +25,12 @@ public interface LoginMapper {
 	Map<String, String> getReserveList();
 	
 	// 예매 페이지에 있는 영화제목,예약시간,예약상태 조회 작업
-	List<RefundVO> getReserveList2(@Param("refund")RefundVO refund, @Param("sId")String sId);
+//	List<RefundVO> getReserveList2(@Param("refund")RefundVO refund, @Param("sId")String sId);
+	
+	// 마이페이지 예매취소내역 조회
+	List<RefundVO> getReserveList(RefundVO refund);
+
+	// 마이페이지 상품구매 내역 조회
+	List<RefundVO> getMyStoreSelect(RefundVO refund);
 
 }
