@@ -15,7 +15,7 @@
 /* 새로 갱신된 파일 */
 	$(function() {
 		
-		let price = ${store.product_price};
+		let price = ${store[0].product_price};
 		let product_count = parseInt($("#product_count").val());
 		
 		/* - 클릭 시 상품 수량 감소 */
@@ -86,7 +86,7 @@
 			<!-- 상품정보 -->
 			<!-- 상품명 -->
 			<form action="storePay" method="GET">
-				<div id="item_name"><strong>${store.product_name }</strong></div> 
+				<div id="item_name"><strong>${store[0].product_name }</strong></div> 
 				
 				<!-- 상품상세 이미지  -->
 				<div id="box_store_view">
@@ -98,7 +98,7 @@
 					<div class="right">
 						<div class="goods_info">
 							<div class="line">
-								<b>상품구성</b> ${store.product_txt }
+								<b>상품구성</b> ${store[0].product_txt }
 							</div>
 							<br>
 							<div class="line">
@@ -120,7 +120,7 @@
 									<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
 									<input type="text" title="수량입력" id="product_count" name="product_count" value="1" min="1" max="99" class="input-text" readonly>
 									<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
-									<div class="money">${store.product_price}원</div>
+									<div class="money">${store[0].product_price}원</div>
 								</div>
 							</div>
 						</div>	

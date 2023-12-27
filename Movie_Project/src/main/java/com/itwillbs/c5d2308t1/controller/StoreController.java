@@ -43,8 +43,11 @@ public class StoreController {
 	// 스토어 상세페이지 매핑
 	@GetMapping("storeDetail")
 	public String storeDetail(HttpSession session, StoreVO store, Model model) {
-		List<StoreVO> dbStore = service.selectStore(store.getProduct_id()); 
+		System.out.println("상품 ID : " + store.getProduct_id());
+		List<StoreVO> dbStore = service.selectStore(store.getProduct_id());
+		System.out.println("상품 정보 : " + dbStore);
 		model.addAttribute("store", dbStore);
+		
 		return "store/store_detail";
 	}
 	
@@ -122,7 +125,6 @@ public class StoreController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward2";
 		}
-		System.out.println("111111111111111111");
 		
 		List<StoreVO> storeList = service.myStoreList(sId);
 		
@@ -131,7 +133,6 @@ public class StoreController {
 		
 		// 나의 현재 장바구니 내역과, 상품 내역을 모두 담을 Map 객체 생성
 //		Map<Object, Object> map = new HashMap<>();
-		System.out.println("222222222222222222222222");
 		// 나의 현재 장바구니 내역과, 상품 내역 저장
 //		map.put("myCartList1", cartList);
 //		map.put("myCartList2", storeLsit);
