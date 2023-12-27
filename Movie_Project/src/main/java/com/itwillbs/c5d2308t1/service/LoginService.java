@@ -54,8 +54,8 @@ public class LoginService {
 //		return mapper.selectMyOneOnOneList(member);
 //	}
 
-	public List<HashMap<String, Object>> getOneOnOnePosts(MemberVO member) {
-		return mapper.selectMyOneOnOneList(member);
-	}
+//	public List<HashMap<String, Object>> getOneOnOnePosts(MemberVO member) {
+//		return mapper.selectMyOneOnOneList(member);
+//	}
 
 }
