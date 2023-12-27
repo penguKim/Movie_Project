@@ -42,4 +42,20 @@ public class LoginService {
 		return mapper.getReserveList2(refund, sId);
 	}
 
+
+// ============================================================================	
+// =====================마이페이지 나의게시글 1대1문의 내역==================	
+	// 마이페이지 나의 게시글 1대1문의 글 목록 조회 작업 요청
+//	public List<MemberVO> getOneOnOnePosts() {
+//		return mapper.selectMyOneOnOneList();
+//	}
+
+//	public Map<String, Object> getOneOnOnePosts(MemberVO member) {
+//		return mapper.selectMyOneOnOneList(member);
+//	}
+
+	public List<HashMap<String, Object>> getOneOnOnePosts(MemberVO member) {
+		return mapper.selectMyOneOnOneList(member);
+	}
+
 }
