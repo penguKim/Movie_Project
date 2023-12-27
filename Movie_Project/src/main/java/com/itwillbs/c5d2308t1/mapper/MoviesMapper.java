@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
+import com.itwillbs.c5d2308t1.vo.LikesVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.ReviewBoardVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
@@ -22,7 +23,18 @@ public interface MoviesMapper {
 	// 요청한 movie_id에 해당하는 영화정보 조회 작업 요청
 	HashMap<String, String> selectMovieDetail(int movie_id);
 	
-
+	// 찜하기 정보 조회
+	LikesVO selectLike(LikesVO like);
+	
+	// 찜하기 등록
+	int insertLike(LikesVO like);
+	
+	// 찜하기 삭제
+	int deleteLike(LikesVO like);
+	
+	// 해당 회원의 좋아요 정보 불러오기
+	List<LikesVO> selectLikeList(String member_id);
+	
 	// 자바 코드로 API 정보 가져오는 테스트 ============================
 	// List 객체 전달과 ON DUPLICATE KEY UPDATE 테스트
 	int upsertMovieCd(List<MoviesVO> movies);
@@ -38,7 +50,16 @@ public interface MoviesMapper {
 	// 스케쥴러에서 사용하는 일일 관객수 업데이트 메서드
 	int updateMovieAudiAcc(MoviesVO movie);
 
+
+	
 	ReviewBoardVO selectReview(ReviewBoardVO review1);
+
+
+
+
+
+
+
 
 
 }

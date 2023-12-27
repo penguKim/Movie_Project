@@ -12,82 +12,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <%-- <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script> --%>
-<script type="text/javascript"> <!-- 연습 -->
-// 	$(function() {
-// 		let key = "811a25b246549ad749b278bba8257502"; // 발급 키
-// 		// 어제 날짜 호출
-// 		let targetDt = new Date().toLocaleDateString().replace(/[\.\s]/g, '') - 1;
-// 		// kobis 일일 박스오피스
-// 		$("#boxofficeSearch").on("click", function() {
-// 			$.ajax({
-// 				type: "GET",
-// 				url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json",
-// 				data: {
-// 					key: key,
-// 					targetDt: targetDt
-// 				},
-// 				dataType: "json",
-// // 					async: false,
-// 				success: function(result) { // 영화코드, 제목, 개봉일, 누적관객수
-// 					let boxOfficeResult = result.boxOfficeResult;
-// 					let dailyBoxOfficeList = boxOfficeResult.dailyBoxOfficeList;
-					
-// 					// 셀렉트 박스에 관객수, 영화코드, 개봉일을 data 속성으로 넣어주고 반복
-// 					for(let movie of dailyBoxOfficeList) {
-// 						$("#dailyBox").append("<option data-audiacc='" + movie.audiAcc + "' data-moviecd='" + movie.movieCd + "' data-opendt='" + movie.openDt + "'>" + movie.movieNm + "</option>");
-// 		//					$("#dailyBox").append("<option>" + movie.movieCd + ":" + movie.movieNm + "</option>");
-// 					}
-// 				}, // 일일 박스오피스 success 끝
-// 				error: function(xhr, textStatus, errorThrown) {
-// 					alert("박스오피스 로딩중입니다.");
-// 				}
-// 			}); // 일일 박스오피스 ajax 요청 끝
-// 		});
-// 		// 셀렉트박스 선택 시
-// 		$("#dailyBox").on("change", function() {
-// 			// kobis 영화 상세정보
-// 			$.ajax({
-// 				type: "GET",
-// 				url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json",
-// 				data: {
-// 					key: key,
-// 					movieCd: $("#dailyBox option:selected").data("moviecd"),
-// 				},
-// 				dataType: "json",
-// // 				async: false,
-// 				success: function(kobis) {
-// 					let directors = movieInfo.directors[0].peopleNm == null ? '' : movieInfo.directors[0].peopleNm;
-// 					$("#directors").val(directors);
-// 					// ----------------- kmdb api 접근 ------------------
-// 					let ServiceKey = "08P2788CP12T24B2US8F";
-// 			// 		let releaseDts = $("#dailyBox option:selected").data("opendt").replace(/[-]/g, '');
-// 					$.ajax({
-// 						type: "GET",
-// 						url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2",
-// 						data: {
-// 							ServiceKey: ServiceKey,
-// 							title: movieNm,
-// 							director: directors,
-// 							detail: "Y",
-// 			//					releaseDts: releaseDts
-// 						},
-// 						dataType: "json",
-// 						success: function(kmdb) {
-// 							console.log("성공");
-							
-// 						},
-// 						error: function(xhr, textStatus, errorThrown) {
-// 							alert("박스오피스 로딩중입니다.");
-// 						}
-// 					});
-// 				},
-// 				error: function(xhr, textStatus, errorThrown) {
-// 					alert("박스오피스 로딩중입니다.");
-// 				}
-// 			});
-// 		});
-// 	});
-</script>
 <script>
 	$(function() {
 		// ============= api 조회에 쓸 변수 목록 =============
@@ -330,6 +254,43 @@
 			$("#posterArea").find("img").attr("src", "");
 		});
 		
+		// 제작년도는 4자리 숫자로 제한한다.
+		$("#movie_prdtYear").on("blur", function() {
+			let movie_prdtYear = $("#movie_prdtYear").val();
+			let regex = /^(19[0-9][0-9]|20[0-2][0-9])/;
+			
+			if(!regex.test(movie_prdtYear)) {
+				$("#checkMovie_prdtYearResult").text("올바른 년도를 입력해주세요").css("color", "red")
+			} else {
+				$("#checkMovie_prdtYearResult").text("");
+			}
+			
+		});
+		
+		// 관람객수는 숫자로 입력한다.
+		$("#movie_audience").on("blur", function() {
+			let movie_audience = $("#movie_audience").val();
+			let regex = /^[0-9]$/;
+			
+			if(!regex.test(movie_audience)) {
+				$("#checkMovie_audienceResult").text("숫자로 입력해주세요").css("color", "red");
+			} else {
+				$("#checkMovie_audienceResult").text("");
+			}
+		});
+			
+		// 상영시간은 숫자로 입력한다.
+		$("#movie_runtime").on("blur", function() {
+			let movie_runtime = $("#movie_runtime").val();
+			let regex = /^[0-9]{3}$/;
+			
+			if(!regex.test(movie_runtime)) {
+				$("#checkMovie_runtimeResult").text("분단위 숫자로 입력해주세요").css("color", "red");
+			} else {
+				$("#checkMovie_runtimeResult").text("");
+			}
+		});
+		
 		// 자동 선택 이후 개봉일을 변경할 경우 종영일의 최소값을 변경한다.
 		$("#movie_release_date").on("change", function() {
 			$("#movie_close_date").attr("min", $("#movie_release_date").val());
@@ -452,166 +413,82 @@
 						<th width="100px">감독</th>
 						<td><input type="text" name="movie_director" id="movie_director" class="shortInput"></td>
 					</tr>
-					<tr>
-						<th>제작년도</th>
-						<td ><input type="text" name="movie_prdtYear" id="movie_prdtYear" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th>제작국가</th>
-						<td ><input type="text" name="movie_nation" id="movie_nation" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th>배우</th>
-						<td><input type="text" name="movie_actor" id="movie_actor" class="shortInput"></td>
-						<th>장르</th>
-						<td><input type="text" name="movie_genre" id="movie_genre" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th>관람객수</th>
-						<td><input type="text" name="movie_audience" id="movie_audience" class="shortInput"></td>
-						<th>상영시간</th>
-						<td><input type="text" name="movie_runtime" id="movie_runtime" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th>관람등급</th>
-						<td><input type="text" name="movie_rating" id="movie_rating" class="shortInput"></td>
-						<th>상영 상태</th>
-						<td>
-						<select name="movie_status" id="movie_status">
-							<option value="" selected disabled id="default_status">상영 상태</option>
-							<option value="0" id="comming">개봉 예정</option>
-							<option value="1" id="release">개봉</option>
-						</select>
-						</td>
-					</tr>
-					<tr>
-						<th>상영일</th>
-						<td><input type="date" name="movie_release_date" id="movie_release_date" class="shortInput"></td>
-						<th>종영일</th>
-						<td><input type="date" name="movie_close_date" id="movie_close_date" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th>포스터</th>
-						<td colspan="3"><input type="text" name="movie_poster" id="movie_poster" class="longInput"></td>
-					</tr>
-					<tr>
-						<th>스틸컷1</th>
-						<td colspan="3"><input type="text" name="movie_still1" class="still longInput"></td>
-					</tr>
-					<tr>
-						<th>스틸컷2</th>
-						<td colspan="3"><input type="text" name="movie_still2" class="still longInput"></td>
-					</tr>
-					<tr>
-						<th>스틸컷3</th>
-						<td colspan="3"><input type="text" name="movie_still3" class="still longInput"></td>
-					</tr>
-					<tr>
-						<th>트레일러</th>
-						<td colspan="3"><input type="text" name="movie_trailer" id="movie_trailer" class="longInput"></td>
-					</tr>
-					<tr>
-						<th>줄거리</th>
-						<td colspan="3"><input type="text" name="movie_plot" id="movie_plot" class="longInput"></td>
-					</tr>
-				</table>
-			
-			
-			
-			
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>영화코드</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_id" id="movie_id"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>영화제목</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_title" id="movie_title"> -->
-<!-- 				</div> -->
-<!-- 				<br><br> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>감독</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_director" id="movie_director"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>배우</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_actor" id="movie_actor"> -->
-<!-- 				</div> -->
-<!-- 				<br><br> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>제작년도</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_prdtYear" id="movie_prdtYear"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>제작국가</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_nation" id="movie_nation"> -->
-<!-- 				</div> -->
-<!-- 				<br><br>	 -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>관람객수</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_audience" id="movie_audience"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>상영시간</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_runtime" id="movie_runtime"> -->
-<!-- 				</div> -->
-<!-- 				<br><br> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>관람등급</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_rating" id="movie_rating"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>장르</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_genre" id="movie_genre"> -->
-<!-- 				</div> -->
-<!-- 				<br><br> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>상영일</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="date" name="movie_release_date" id="movie_release_date"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>종영일</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="date" name="movie_close_date" id="movie_close_date"> -->
-<!-- 				</div> -->
-<!-- 				<br><br> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>예고영상</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_trailer" id="movie_trailer"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>스틸컷1</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_still1" class="still"> -->
-<!-- 				</div> -->
-<!-- 				<br><br> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>스틸컷2</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_still2" class="still"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlock"> -->
-<!-- 					&nbsp;&nbsp;<span>스틸컷3</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_still3" class="still"> -->
-<!-- 				</div> -->
-<!-- 				<br><br> -->
-<!-- 				<div id="grayBlockWide"> -->
-<!-- 					&nbsp;&nbsp;<span>포스터</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_poster" class="poster"> -->
-<!-- 				</div> -->
-<!-- 				<div id="grayBlockWide"> -->
-<!-- 					&nbsp;&nbsp;<span>줄거리</span><br> -->
-<!-- 					&nbsp;&nbsp;<input type="text" name="movie_plot" id="movie_plot"> -->
-<!-- 				</div> -->
-<!-- 					<br><br> -->
-<!-- 				<div id="grayBlockWide"> -->
-<!-- 					&nbsp;&nbsp;<span>상영상태</span><br> -->
-<!-- 					<select name="movie_status" id="movie_status"> -->
-<!-- 						<option value="" selected disabled id="default_status">상영 상태</option> -->
-<!-- 						<option value="0" id="comming">개봉 예정</option> -->
-<!-- 						<option value="1" id="release">개봉</option> -->
-<!-- 					</select> -->
-<!-- 				</div> -->
-				<input type="submit" value="등록" id="regist">
-				<input type="button" value="창닫기" onclick="history.back();">
-			</form>
-<!-- 		</div> -->
+				<tr>
+					<th>제작년도</th>
+					<td >
+						<input type="text" name="movie_prdtYear" id="movie_prdtYear" class="shortInput" maxlength="4">
+						<div id="checkMovie_prdtYearResult"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>제작국가</th>
+					<td ><input type="text" name="movie_nation" id="movie_nation" class="shortInput"></td>
+					
+				</tr>
+				<tr>
+					<th>배우</th>
+					<td><input type="text" name="movie_actor" id="movie_actor" class="shortInput"></td>
+					<th>장르</th>
+					<td><input type="text" name="movie_genre" id="movie_genre" class="shortInput"></td>
+				</tr>
+				<tr>
+					<th>관람객수</th>
+					<td>
+						<input type="text" name="movie_audience" id="movie_audience" class="shortInput">
+						<div id="checkMovie_audienceResult"></div>
+					</td>
+					<th>상영시간</th>
+					<td>
+						<input type="text" name="movie_runtime" id="movie_runtime" class="shortInput" maxlength="4">
+						<div id="checkMovie_runtimeResult"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>관람등급</th>
+					<td><input type="text" name="movie_rating" id="movie_rating" class="shortInput"></td>
+					<th>상영 상태</th>
+					<td>
+					<select name="movie_status" id="movie_status">
+						<option value="" selected disabled id="default_status">상영 상태</option>
+						<option value="0" id="comming">개봉 예정</option>
+						<option value="1" id="release">개봉</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<th>상영일</th>
+					<td><input type="date" name="movie_release_date" id="movie_release_date" class="shortInput"></td>
+					<th>종영일</th>
+					<td><input type="date" name="movie_close_date" id="movie_close_date" class="shortInput"></td>
+				</tr>
+				<tr>
+					<th>포스터</th>
+					<td colspan="3"><input type="text" name="movie_poster" id="movie_poster" class="longInput"></td>
+				</tr>
+				<tr>
+					<th>스틸컷1</th>
+					<td colspan="3"><input type="text" name="movie_still1" class="still longInput"></td>
+				</tr>
+				<tr>
+					<th>스틸컷2</th>
+					<td colspan="3"><input type="text" name="movie_still2" class="still longInput"></td>
+				</tr>
+				<tr>
+					<th>스틸컷3</th>
+					<td colspan="3"><input type="text" name="movie_still3" class="still longInput"></td>
+				</tr>
+				<tr>
+					<th>트레일러</th>
+					<td colspan="3"><input type="text" name="movie_trailer" id="movie_trailer" class="longInput"></td>
+				</tr>
+				<tr>
+					<th>줄거리</th>
+					<td colspan="3"><input type="text" name="movie_plot" id="movie_plot" class="longInput"></td>
+				</tr>
+			</table>
+			<input type="submit" value="등록" id="regist">
+			<input type="button" value="창닫기" onclick="history.back();">
+		</form>
 	</div>
 	</section>
 		<footer>

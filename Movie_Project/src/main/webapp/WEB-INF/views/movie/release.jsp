@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -13,10 +14,83 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
+		var sId = "<%= session.getAttribute("sId") %>";  
+		
+		$.ajax({
+			url: "likeShow",
+			data: {
+				member_id: sId
+			},
+			dataType: "json",
+			success: function(result) {
+				if(result.length != 0){
+					for(let i = 0; i < ${fn:length(movieList)}; i++) {
+						let movie_id = $("#likeBtn" + i).data("id");
+						for(let like of result) {
+							if(like.movie_id == movie_id) {
+								console.log(i);
+								$("#likeBtn" + i).val("찜성공");
+							}
+						}
+					}
+				} else {
+					console.log("좋아요 없음");
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
+			}
+		});
+		
 		$("#sortType").on("change", function() {
 			 $("form").submit();
 		});
+		
+		
+		
+		
+// 		$("#likeBtn").on("click", function() {
+// 			$.ajax({
+// 				url: "likeCheck",
+// 				data: {
+// 					member_id = sId,
+// 					movie_id = 
+// 				}
+// 			});
+// 			console.log();
+// 		});
+		
+// 		for(let i = 0; i < ${fn:length(movieList)}; i++) {
+// 			$("")
+// 		}
+		
+		
 	});
+	
+	function likeBtnClick(like, index) {
+		var sId = "<%= session.getAttribute("sId") %>";
+		console.log($("#likeBtn" + index).data("id") + ", " + $("#likeBtn" + index).data("title"));
+		console.log(sId);
+		$.ajax({
+			url: "likeCheck",
+			data: {
+				member_id: sId,
+				movie_id: $("#likeBtn" + index).data("id")
+			},
+			success: function(like) {
+				if(like == 'true') {
+					$("#likeBtn" + index).val("찜성공");
+				} else if(like == 'false') {
+					$("#likeBtn" + index).val("찜하기");
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
+			}
+		});
+		
+	}
+	
 </script>
 </head>
 <body>
@@ -50,7 +124,7 @@
 				</div>
 				<div class="container">
 					<div class="movie-grid">
-					<c:forEach var="movie" items="${movieList}">
+					<c:forEach var="movie" items="${movieList}" varStatus="status">
 						<div class="movie">
 							<a href="detail?movie_id=${movie.movie_id}">
 							<c:choose>
@@ -81,7 +155,8 @@
 								</p>
 							</a>
 							<div class="reserve_area">
-								<a href="movie_select?movie_id=${movie.movie_id }" class="rel_reservBtn">
+								<input type="button" value="찜하기" id="likeBtn${status.index }" data-status="0" data-id="${movie.movie_id }" data-title="${movie.movie_title }" onclick="likeBtnClick(this, ${status.index})">
+	 							<a href="movie_select?movie_id=${movie.movie_id }" class="rel_reservBtn">
 									<input type="button" value="예매하기"></a>
 							</div>
 						</div>
