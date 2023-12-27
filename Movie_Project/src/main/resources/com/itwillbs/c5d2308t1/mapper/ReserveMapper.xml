@@ -54,6 +54,13 @@
 		WHERE member_id = #{sId}
 	</select>
 	
+	<!-- 마이페이지에서 예매상세정보 조회 -->
+	<select id="selectresInfoDetail" resultType="map">
+		SELECT *
+		FROM resView
+		WHERE payment_id = #{payment_id}
+	</select>
+	
 	<!-- 	마이페이지에서 예매취소 -->
 	<update id="updateResCancle">
 		UPDATE payments SET payment_status = 0

@@ -110,6 +110,14 @@ public class ReserveController {
 		return "login/Mypage_Reserv_boardList";
 	}
 	
+	//마이페이지 예매내역게시판 상세내역 팝업창
+	@GetMapping("resInfoDetailPro")
+	public String resInfoDetailPro(@RequestParam String payment_id, Map<String, String> map, Model model) {
+		map = reserve.getresInfoDetail(payment_id);
+		model.addAttribute("map",map);
+		return"login/popup1";
+	}
+	
 	@PostMapping("resCancle")
 	public String resCancle(@RequestParam String payment_id,@RequestParam String seat_id, Model model) {
 		int paymentUpdateCount = reserve.getresCancle(payment_id); //결제취소
