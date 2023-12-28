@@ -79,8 +79,6 @@
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>	
 		
 		<section id="content">
-			<h1 id="h01">결제하기</h1>
-			<hr>
 			<div class="store_progress">
 				<div id="prog_img"><img src="${pageContext.request.contextPath}/resources/img/pay2.png"></div><div id="progress_red"><span class="step">STEP 01</span><br>결제하기</div>
 				<div> <span class="bracket"> > </span> </div>
@@ -160,13 +158,13 @@
 					</div>
 				</div>
 				<div class="paybtn">
-					<form action="competePayment">
+					<form action="complete_pay" method="get">
 						<input type="button" value="이전화면" class="back">
-						<input type="hidden" name="movie" value="${map.movie}">
-						<input type="hidden" name="Theater" value="${map.Theater}">
-						<input type="hidden" name="Room" value="${map.Room}">
-						<input type="hidden" name="Date" value="${map.Date}">
-						<input type="hidden" name="StartTime" value="${map.StartTime}">
+						<input type="hidden" name="movie_title" value="${map.movie}">
+						<input type="hidden" name="theater_name" value="${map.Theater}">
+						<input type="hidden" name="room_name" value="${map.Room}">
+						<input type="hidden" name="play_date" value="${map.Date}">
+						<input type="hidden" name="play_start_time" value="${map.StartTime}">
 						<input type="hidden" name="typeCount" value="${map.typeCount}">
 						<input type="hidden" name="seat_name" value="${map.select_seat}">
 						<input type="hidden" class="totalPriceResult" name="payment_total_price" value="">

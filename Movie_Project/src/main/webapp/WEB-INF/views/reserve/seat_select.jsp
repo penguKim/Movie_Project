@@ -407,7 +407,7 @@
 					</td>
 					<td id="total_Payment"><h3>결제</h3></td>
 					<td class="button_area">
-						<form action="ReservationComplete" method="post" onsubmit="setSelectedSeatValue()">
+						<form action="reserve_pay" method="post" onsubmit="setSelectedSeatValue()">
 						    <input type="hidden" name="movie" value="${reserveVO.movie_title}">		    <%-- 선택된 값을 숨겨진 input 요소에 할당 --%>
 						    <input type="hidden" name="Theater" value="${reserveVO.theater_name}">
 						    <input type="hidden" name="Date" value="${reserveVO.play_date}">

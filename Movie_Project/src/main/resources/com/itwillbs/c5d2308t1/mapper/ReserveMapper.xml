@@ -25,6 +25,7 @@
 		FROM resView 
 		WHERE play_date = #{play_date}
 		AND play_start_time = #{play_start_time}
+		AND seat_status = 1
 	</select>
 	
 	<select id="selectSchedule" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
@@ -72,85 +73,75 @@
 		UPDATE seats SET seat_status = 0
 		WHERE seat_id = #{seat_id}
 	</update>
-	
-	
-<!-- 		<input type="hidden" name="movie" value="${map.movie}"> -->
-<!-- 		<input type="hidden" name="Theater" value="${map.Theater}"> -->
-<!-- 		<input type="hidden" name="Room" value="${map.Room}"> -->
-<!-- 		<input type="hidden" name="Date" value="${map.Date}"> -->
-<!-- 		<input type="hidden" name="StartTime" value="${map.StartTime}"> -->
-<!-- 		<input type="hidden" name="typeCount" value="${map.typeCount}"> -->
-<!-- 		<input type="hidden" name="seat_name" value="${map.select_seat}"> -->
-<!-- 		<input type="hidden" class="totalPriceResult" name="payment_total_price" value=""> -->
-	
-	
+
+	<!-- seats table insert -->
+	<insert id="insertSeats">
+		INSERT INTO seats
+		VALUES(
+			null
+			,#{seat_name}
+			,1
+			,(SELECT play_id 
+			  FROM PRT   
+			  WHERE play_date = #{Date}
+			  AND play_start_time = #{StartTime}
+			  AND room_name = #{Room})
+			,#{payment_total_price}
+		
+		)
+	</insert>
 	
 	<!-- payment table insert -->
-<!-- 	<insert id="insertPayment"> -->
-<!-- 		INSERT INTO payments -->
-<!-- 		VALUES( -->
-<!-- 			null -->
-<!-- 			,(SELECT CONCAT('P',play_id ,'S',seat_id)   -->
-<!-- 			  FROM resView  -->
-<!-- 			  WHERE play_start_time = #{StartTime} -->
-<!-- 			  AND play_date = #{Date} -->
-<!-- 			  AND movie_title = #{movie} -->
-<!-- 			  AND theater_name = #{Theater} -->
-<!-- 			  AND room_name = #{Room})  P2S2 play_id와 Seat_id를 합친 Unique한 문자열 생성 -->
-<!-- 			,now() -->
-<!-- 			,'카드이름' -->
-<!-- 			,'카드번호' -->
-<!-- 			,#{payment_total_price} -->
-<!-- 			,1			 -->
-<!-- 		) -->
-<!-- 	</insert> -->
-	
-	<!-- seats table insert -->
-<!-- 	<insert id="insertSeats"> -->
-<!-- 		INSERT INTO seats -->
-<!-- 		VALUES( -->
-<!-- 			null -->
-<!-- 			,#{seat_name} -->
-<!-- 			,1 -->
-<!-- 			,(SELECT play_id  -->
-<!-- 			  FROM PRT    -->
-<!-- 			  WHERE play_date = #{Date} -->
-<!-- 			  AND play_start_time = #{StartTime} -->
-<!-- 			  AND room_name = #{Room}) -->
-<!-- 			,#{payment_total_price} -->
-		
-<!-- 		) -->
-		
-<!-- 	</insert> -->
+	<insert id="insertPayment">
+		INSERT INTO payments
+		VALUES(
+			null
+			,(SELECT CONCAT('P',prt.play_id ,'S',s.seat_id)
+			  FROM PRT prt JOIN seats s
+			  ON prt.play_id = s.play_id
+			  WHERE seat_name = #{seat_name}
+			  AND play_date = #{play_date}
+			  AND play_start_time = #{play_start_time}
+			)
+			,now()
+			,'카드이름'
+			,'카드번호'
+			,#{payment_total_price}
+			,1			
+		)
+	</insert>
 	
 	<!-- reserve table insert -->
-<!-- 	<insert id="insertReserve"> -->
-<!-- 		<selectKey keyColumn="payment_id" order="BEFORE"> -->
-<!-- 			SELECT payment_id -->
-<!-- 			FROM payment -->
-<!-- 			WHERE payment_name = (SELECT CONCAT('P',play_id ,'S',seat_id)   -->
-<!-- 								  FROM resView  -->
-<!-- 								  WHERE play_start_time = #{StartTime} -->
-<!-- 								  AND play_date = #{Date} -->
-<!-- 								  AND movie_title = #{movie} -->
-<!-- 								  AND theater_name = #{Theater} -->
-<!-- 								  AND room_name = #{Room}) -->
-<!-- 		</selectKey> -->
-<!-- 		INSERT INTO reserve -->
-<!-- 		VALUES( -->
-<!-- 			#{payment_id} -->
-<!-- 			,#{sId} -->
-<!-- 			,#{payment_total_price} -->
-<!-- 			,SELECT seat_id -->
-<!-- 			 FROM seats -->
-<!-- 			 WHERE seat_name = #{seat_name} -->
-<!-- 			 AND play_id = (SELECT play_id  -->
-<!-- 						    FROM PRT    -->
-<!-- 						    WHERE play_date = #{Date} -->
-<!-- 						    AND play_start_time = #{StartTime} -->
-<!-- 						    AND room_name = #{Room}) -->
-<!-- 		) -->
-<!-- 	</insert> -->
+	<insert id="insertReserve">
+		<selectKey keyColumn="payment_id" resultType="int" order="BEFORE">
+			SELECT payment_id
+			FROM payment
+			WHERE payment_name = (SELECT CONCAT('P',prt.play_id ,'S',s.seat_id)
+								  FROM PRT prt JOIN seats s
+								  ON prt.play_id = s.play_id
+								  WHERE seat_name = #{seat_name}
+								  AND play_date = #{play_date}
+								  AND play_start_time = #{play_start_time}
+								)
+		</selectKey>
+		
+		INSERT INTO reserve
+		VALUES(
+			#{payment_id}
+			,#{sId}
+			,#{payment_total_price}
+			,(SELECT seat_id
+			 FROM seats
+			 WHERE seat_name = #{seat_name}
+			 AND play_id = (SELECT play_id 
+						    FROM PRT   
+						    WHERE play_date = #{play_date}
+						    AND play_start_time = #{play_start_time}
+						    AND room_name = #{room_name}
+						    )
+			)
+		)
+	</insert>
 	
 </mapper>
 

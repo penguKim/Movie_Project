@@ -49,19 +49,19 @@ public class ReserveService {
 		return mapper.selectresInfoDetail(payment_id);
 	}
 	
-	// payment table insert
-//	public int getPaymentInsert(Map<String, String> map) {
-//		return mapper.insertPayment(map);
-//	}
+//	 payment table insert
+	public int getPaymentInsert(Map<String, String> map) {
+		return mapper.insertPayment(map);
+	}
 //	
 //	// seats table insert
-//	public int getSeatInsert(Map<String, String> map) {
-//		return mapper.insertSeats(map);
-//	}
+	public int getSeatInsert(Map<String, String> map) {
+		return mapper.insertSeats(map);
+	}
 //	
 //	// reserve table insert
-//	public int getReserveInsert(Map<String, String> map) {
-//		return mapper.insertReserve(map);
-//	}
+	public int getReserveInsert(Map<String, String> map) {
+		return mapper.insertReserve(map);
+	}
 
 }

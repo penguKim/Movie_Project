@@ -10,7 +10,44 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
+<style type="text/css">
+	#sec01{
+		height: 400px;
+		position: relative;
+	}
+	.store_pay_table{
+		width: 700px!important;
+	}
+	.cnt{
+		height: 50px;
+		position:absolute;
+		left: 50%;
+		top:30%;
+		transform:translate(-50%,-50%);
+		text-align: center;
+		line-height: 50px;
+	}
+	#orderTable{
+		width: 300px;
+	}
+	.effect{
+		color: green;
+		animation-name: example;
+		animation-duration: 2s;
+	}
+	
+	@keyframes example {
+		from {color: black;}
+		to {color: green;}
+	}
+	
+	.store_table_box01{
+/* 		background-color: #17b75e!important; */
+	}
+</style>
+
 <script>
 
 </script>
@@ -23,39 +60,36 @@
 						
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>	
 		
-		<section id="content">
-			<h1 id="h01">결제하기</h1>
-			<hr>
 			<div class="store_progress">
 				<div id="prog_img"><img src="${pageContext.request.contextPath}/resources/img/pay1.png"></div><div><span class="step">STEP 01</span><br>결제하기</div>
 				<div> <span class="bracket"> > </span> </div>
 				<div id="prog_img"><img src="${pageContext.request.contextPath}/resources/img/finish2.png"></div><div id="progress_red"><span class="step">STEP 02</span><br>예매완료</div>
 			</div>
-			
-			<!-- 구매 상품 정보 테이블 -->
-			<div class="store_pay">
-				<div class="store_pay_box">
-					<table class="store_pay_table">
-						<tr>
-							<th colspan="5"><h1>예매가 완료되었습니다.</h1></th>
-						</tr>
-						<tr>
-							<th colspan="5">Thank You for Your Order</th>
-						</tr>
-						<tr>
-							<th colspan="5"><img src="${pageContext.request.contextPath }/resources/img/결제성공.png"></th>
-						</tr>
-					</table>
-					
-				</div>
-				<br>
-			
-				<div class="paybtn">
-					<a href="movie_select"><input type="button" value="추가 예매하기"></a>
-					<a href="./" ><input type="button" value="홈으로"></a>
-				</div>
+			<section id="sec01">
+			<div class ="cnt">
+			<i class="material-icons effect" style="font-size:40px;">check_circle</i><b style="font-size: 40px;">예매가 완료되었습니다.</b><br>
+			<b class="effect">Thank You for Your Order!</b><br>
+			<table class="store_pay_table">
+				<tr class="store_table_box01">
+					<th>예매번호</th>
+					<th>결제시간</th>
+					<th>결제금액</th>
+					<th>비고</th>
+				</tr>
+				<tr class="effect">
+					<td></td>
+					<td>${map.payment_total_price}</td>
+					<td>2</td>
+					<td>2</td>
+				</tr>
+			</table>
+			<div class="paybtn">
+			<a href="movie_select"><input type="button" value="추가 예매하기 "></a>
+			<a href="./" ><input type="button" value="  홈으로  "></a>
+			<a href="movie_select"><input type="button" value="예매내역조회 "></a>
 			</div>
-		</section>
+			</div>
+			</section>
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>

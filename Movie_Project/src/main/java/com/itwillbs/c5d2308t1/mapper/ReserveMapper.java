@@ -22,8 +22,8 @@ public interface ReserveMapper {
 	List<HashMap<String, String>> selectReserveList(String sId);
 	int updateResCancle(String payment_id);
 	int updateSeatCancle(String seat_id);
-//	int insertPayment(Map<String, String> map);
-//	int insertSeats(Map<String, String> map);
-//	int insertReserve(Map<String, String> map);
+	int insertPayment(Map<String, String> map);
+	int insertSeats(Map<String, String> map);
+	int insertReserve(Map<String, String> map);
 	Map<String, String> selectresInfoDetail(String payment_id);
 }
