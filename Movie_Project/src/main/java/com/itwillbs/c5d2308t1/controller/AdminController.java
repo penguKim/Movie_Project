@@ -524,7 +524,8 @@ public class AdminController {
 	// 관리자페이지 자주묻는질문 관리 페이지로 이동
 	@GetMapping("adminFaq")
 	public String adminFaq(CsVO cs, Model model, HttpServletRequest request,
-			@RequestParam(defaultValue = "1") int pageNum, HttpSession session) {
+			@RequestParam(defaultValue = "1") int pageNum, HttpSession session,
+			@RequestParam(defaultValue = "") String searchValue) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -543,11 +544,11 @@ public class AdminController {
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
-		List<HashMap<String, Object>> faqList = service.getCsList(cs, startRow, listLimit);
+		List<HashMap<String, Object>> faqList = service.getFaqList(cs, startRow, listLimit, searchValue);
 	//	System.out.println(noticeList);
 		
 		// ======================================================
-		int listCount = service.getCsTypeListCount(cs);
+		int listCount = service.getFaqListCount(cs, searchValue);
 		int pageListLimit = 5;
 		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
@@ -700,7 +701,8 @@ public class AdminController {
 	// 관리자페이지 공지사항 관리 페이지로 이동
 	@GetMapping("adminNotice")
 	public String adminNotice(CsVO cs, Model model, HttpServletRequest request,
-			@RequestParam(defaultValue = "1") int pageNum, HttpSession session) {
+			@RequestParam(defaultValue = "1") int pageNum, HttpSession session,
+			@RequestParam(defaultValue = "") String searchValue) {
 		
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
 		String sId = (String)session.getAttribute("sId");
@@ -720,11 +722,11 @@ public class AdminController {
 		
 		// CsService - getFaqList() 메서드 호출하여 공지사항 출력(재사용)
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
-		List<HashMap<String, Object>> NoticeList = service.getCsList(cs, startRow, listLimit);
+		List<HashMap<String, Object>> NoticeList = service.getNoticeList(cs, startRow, listLimit, searchValue);
 	//	System.out.println(noticeList);
 		
 		// ======================================================
-		int listCount = service.getCsTypeListCount(cs);
+		int listCount = service.getNoticeListCount(cs, searchValue);
 		int pageListLimit = 5;
 		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;

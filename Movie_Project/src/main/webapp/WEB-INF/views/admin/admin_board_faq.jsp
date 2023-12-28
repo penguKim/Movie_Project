@@ -73,9 +73,8 @@
 				<div id="admin_search">
 					<%-- 검색 기능을 위한 폼 생성 --%>
 					<form>
-						<input type="text" name="searchKeyword" placeholder="제목을 입력하세요">
+						<input type="text" name="searchValue" placeholder="유형, 제목으로 검색">
 						<input type="submit" value="검색">
-						<input type="hidden" name="cs_type" value="자주묻는질문">
 					</form>
 				</div>
 				

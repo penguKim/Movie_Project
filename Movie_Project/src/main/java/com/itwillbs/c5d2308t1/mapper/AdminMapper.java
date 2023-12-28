@@ -71,10 +71,12 @@ public interface AdminMapper {
 	
 	// ============= 자주묻는질문관리, 공지사항관리 게시판 ===============
 	// 관리자페이지 자주묻는질문 공지사항 조회 - 추상메서드 정의
-	List<HashMap<String, Object>> selectCsList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
+	List<HashMap<String, Object>> selectFaqList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit, @Param("searchValue") String searchValue);
+	List<HashMap<String, Object>> selectNoticeList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit, @Param("searchValue") String searchValue);
 	
 	// 관리자페이지 게시판별 목록 갯수 조회 - 추상메서드 정의
-	int selectCsTypeCount(CsVO cs);
+	int selectFaqCount(@Param("cs") CsVO cs, @Param("searchValue") String searchValue);
+	int selectNoticeCount(@Param("cs") CsVO cs, @Param("searchValue") String searchValue);
 	
 	// 관리자페이지 자주묻는질문 상세페이지 보기
 	HashMap<String, Object> selectFaqDetailPage(CsVO cs);

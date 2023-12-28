@@ -170,7 +170,7 @@
 			
 				<form id="search">
 					<b>빠른 검색</b>
-					<input type="search" placeholder="검색어를 입력해주세요" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
+					<input type="search" placeholder="유형, 제목으로 검색하기" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
 					<input type="button" value="검색" id="faqSearch">
 				</form>
 			

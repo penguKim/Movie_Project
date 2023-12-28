@@ -106,13 +106,19 @@ public class AdminService {
 	// ============ 자주묻는질문관리, 공지사항관리 게시판 =================
 	
 	// 자주묻는질문 공지사항 목록 조회 요청 및 페이징
-	public List<HashMap<String, Object>> getCsList(CsVO cs, int startRow, int listLimit) {
-		return mapper.selectCsList(cs, startRow, listLimit);
+	public List<HashMap<String, Object>> getFaqList(CsVO cs, int startRow, int listLimit, String searchValue) {
+		return mapper.selectFaqList(cs, startRow, listLimit, searchValue);
+	}	
+	public List<HashMap<String, Object>> getNoticeList(CsVO cs, int startRow, int listLimit, String searchValue) {
+		return mapper.selectNoticeList(cs, startRow, listLimit, searchValue);
 	}
 	
 	// 관리자페이지 게시판 항목별 목록 갯수 조회 요청
-	public int getCsTypeListCount(CsVO cs) {
-		return mapper.selectCsTypeCount(cs);
+	public int getFaqListCount(CsVO cs, String searchValue) {
+		return mapper.selectFaqCount(cs, searchValue);
+	}
+	public int getNoticeListCount(CsVO cs, String searchValue) {
+		return mapper.selectNoticeCount(cs, searchValue);
 	}
 	
 	// 관리자페이지 자주묻는질문 상세페이지 보기

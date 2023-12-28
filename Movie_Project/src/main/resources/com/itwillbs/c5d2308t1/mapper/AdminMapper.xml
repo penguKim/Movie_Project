@@ -201,26 +201,54 @@
 	
 	
 	<!-- ============ 자주묻는질문관리, 공지사항관리 게시판 ================= -->
-	<!-- 자주묻는질문 공지사항 출력 및 페이지번호 출력 -->	
-	<select id="selectCsList" resultType="hashmap">
+	<!-- 자주묻는질문 출력 및 페이지번호 출력, 검색 -->	
+	<select id="selectFaqList" resultType="hashmap">
 		SELECT * 
 		FROM cs 
-		<if test="cs.cs_type == '공지사항'">
-			LEFT OUTER JOIN theaters
-			ON cs.theater_id = theaters.theater_id
-		</if>
-			WHERE cs_type = #{cs.cs_type}
-		<if test="cs.cs_type == '공지사항'">
-			ORDER BY cs_date DESC
+		WHERE cs.cs_type = '자주묻는질문'
+		<if test="searchValue != ''">
+			AND (cs.cs_subject LIKE '%${searchValue}%'
+			OR cs.cs_type_detail LIKE '%${searchValue}%')
 		</if>
 		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
-	<!-- 관리자페이지 게시판별 목록 갯수 세기 -->
-	<select id="selectCsTypeCount" resultType="int">
+	<!-- 자주묻는질문 목록 갯수 세기 -->
+	<select id="selectFaqCount" resultType="int">
 		SELECT COUNT(*) 
-		FROM cs
-		WHERE cs_type = #{cs_type}
+		FROM cs 
+		WHERE cs.cs_type = '자주묻는질문'
+		<if test="searchValue != ''">
+			AND (cs.cs_subject LIKE '%${searchValue}%'
+			OR cs.cs_type_detail LIKE '%${searchValue}%')
+		</if>
+	</select>	
+	<!-- 자주묻는질문 공지사항 출력 및 페이지번호 출력, 검색 -->	
+	<select id="selectNoticeList" resultType="hashmap">
+		SELECT * 
+		FROM cs 
+		LEFT OUTER JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		WHERE cs.cs_type = '공지사항'
+		<if test="searchValue != ''">
+			AND (cs.cs_subject LIKE '%${searchValue}%'
+			OR theaters.theater_name LIKE '%${searchValue}%')
+		</if>
+		ORDER BY cs_date DESC
+		LIMIT #{startRow}, #{listLimit}
+	</select>
+	
+	<!-- 관리자페이지 게시판별 목록 갯수 세기 -->
+	<select id="selectNoticeCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM cs 
+		LEFT OUTER JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		WHERE cs.cs_type = '공지사항'
+		<if test="searchValue != ''">
+			AND (cs.cs_subject LIKE '%${searchValue}%'
+			OR theaters.theater_name LIKE '%${searchValue}%')
+		</if>
 	</select>	
 	
 	<!-- 관리자페이지 자주묻는질문 상세페이지 보기 -->

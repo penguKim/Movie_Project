@@ -58,7 +58,7 @@
 					<select id="theater_id" name="theater">
 						<option value="0">전체</option> <%-- 전체 지점 공지사항 보기 --%>
 					</select>
-					<input type="search" placeholder="검색어를 입력해주세요" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
+					<input type="search" placeholder="제목으로 검색하기" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
 					<input type="submit" value="검색" id="noticeSearch">
 				</form>
 				<br>

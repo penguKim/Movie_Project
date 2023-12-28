@@ -38,9 +38,7 @@
 				AND cs.theater_id = #{theater}
 			</if>
 			<if test="searchValue != ''">
-				AND (cs_subject LIKE '%${searchValue}%'
-				OR cs_content LIKE '%${searchValue}%'
-				OR cs_type_detail LIKE '%${searchValue}%')
+				AND cs_subject LIKE '%${searchValue}%'
 			</if>
 		ORDER BY cs_date DESC
 		LIMIT #{startRow}, #{listLimit}
@@ -55,9 +53,7 @@
 				AND cs.theater_id = #{theater}
 			</if>
 			<if test="searchValue != ''">
-				AND (cs_subject LIKE '%${searchValue}%'
-				OR cs_content LIKE '%${searchValue}%'
-				OR cs_type_detail LIKE '%${searchValue}%')
+				AND cs_subject LIKE '%${searchValue}%'
 			</if>
 	</select>	
 	
@@ -95,7 +91,6 @@
 		SELECT * FROM cs
 		WHERE cs_type = '자주묻는질문'
 			AND (cs_subject LIKE '%${searchValue}%'
-			OR cs_content LIKE '%${searchValue}%'
 			OR cs_type_detail LIKE '%${searchValue}%')
 	</select>
 	
