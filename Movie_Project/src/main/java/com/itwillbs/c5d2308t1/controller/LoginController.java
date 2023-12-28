@@ -149,7 +149,7 @@ public class LoginController {
 
 	
 	// 마이페이지 나의 게시글 1대1문의 상세 조회
-	@RequestMapping(value = "Mypage_OneOnOneDetail", method = {RequestMethod.GET, RequestMethod.POST})
+	@GetMapping("Mypage_OneOnOneDetail")
 	public String Mypage_OneOnOneDetail(HttpSession session, Model model, CsVO cs) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
@@ -172,7 +172,7 @@ public class LoginController {
 	}
 	
 	// 마이페이지 나의 게시글 1대1문의 글 삭제
-	@PostMapping("MyPageOneOnOneDelete")
+	@GetMapping("MyPageOneOnOneDelete")
 	public String MyPageOneOnOneDelete(HttpSession session, Model model, CsVO cs) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
@@ -181,7 +181,7 @@ public class LoginController {
 			return "forward";
 		}
 		
-		// LoginService - removeMYOneOnOne() 메서드 호출해 해당 글 상세 내용 조회
+		// LoginService - removeMyOneOnOne() 메서드 호출해 해당 글 상세 내용 조회
 		// 파라미터 : CsVO 객체(cs) 		리턴타입 : int (deleteCount) 
 		int deleteCount = service.removeMyOneOnOne(cs);
 		if(deleteCount > 0) {

@@ -16,6 +16,12 @@
 </script>
 </head>
 <body>
+	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1 로 저장) --%>
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
+	
 	<div id="wrapper">
 		<header>
 			<jsp:include page="../inc/top.jsp"></jsp:include>
@@ -34,36 +40,29 @@
 				
 			<!-- 바디부분 시작 -->
 			
-			<form action="Mypage_OneOnOneDetail" method="post" name="checkform">
+			<form name="checkform">
 				<div id="my_list">
 					<h2>1대1문의 내역 조회</h2>
 					<table id="my_table1">
 						<tr>
-<!-- 							<th>No.</th> -->
 							<th>제목</th>
-							<th width="200">문의 내용</th>
-							<th width="85">등록일</th>
-<!-- 							<th width="80">더보기</th> -->
+							<th width="150">문의 유형</th>
+							<th width="100">등록일</th>
 						</tr>
 						
 						<c:forEach var="ooo" items="${myOneOnOneList }">
 							<tr id="move_menu">
-<%-- 								<td>${ooo.cs_type_list_num }</td> --%>
-								<td><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">${ooo.cs_subject }</a></td>
-								<c:set var="cs_content" value="${ooo.cs_content }"/>
+								<c:set var="cs_subject" value="${ooo.cs_subject }"/>
 								<c:choose>
-									<c:when test="${fn:length(cs_content) > 13 }">
-										<td><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">${fn:substring(cs_content, 0, 11) }...</a></td>
+									<c:when test="${fn:length(cs_subject) > 30 }">
+										<td><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">${fn:substring(cs_subject, 0, 28) }...</a></td>
 									</c:when>
 									<c:otherwise>
-										<td><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">${ooo.cs_content }</a></td>
+										<td><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">${ooo.cs_subject }</a></td>
 									</c:otherwise>
 								</c:choose>
+								<td>${ooo.cs_type_detail }</td>
 								<td>${ooo.cs_date }</td>
-<!-- 								<td> -->
-<!-- 									<input type="submit" value="상세정보"> -->
-									<%-- cs_id 오류 해결 미완 --%>
-<!-- 								</td> -->
 							</tr>
 						</c:forEach>
 					</table><br>
@@ -78,14 +77,17 @@
 						<a href="#">5</a>
 						<a href="#">&raquo;</a>
 					</div>
+					
+					
+					
 				</div>
-							
 			</form>
 		</section>
 	
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>
+	
 	</div>
 	
 </body>

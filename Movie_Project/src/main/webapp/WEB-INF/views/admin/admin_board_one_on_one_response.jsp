@@ -84,19 +84,23 @@
 				<form method="post"> <!-- 복수개의 서브밋 처리 필요 -->
 					<table border="1">
 						<tr>
-							<th>번호</th>
+							<th width="150">번호</th>
 							<td>${oneOnOne.cs_type_list_num}</td>
 						</tr>
 						<tr>
 							<th>문의 유형</th>
 							<td>${oneOnOne.cs_type_detail }</td>
 						</tr>
-						<c:if test="${not empty oneOnOne.theater_id }">
-							<tr>
-								<th>문의 지점</th>
-								<td>${oneOnOne.theater_name }</td>
-							</tr>
-						</c:if>
+						<c:choose>
+							<c:when test="${not empty oneOnOne.theater_id}">
+								<tr>
+									<th>문의 지점</th>
+									<td>${oneOnOne.theater_name }</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
 						<tr>
 							<th>문의 작성일</th>
 							<td>${oneOnOne.cs_date }</td>
