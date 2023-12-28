@@ -77,7 +77,7 @@
 							<c:choose>
 								<c:when test="${empty noticeList}">
 									<tr>
-										공지사항 없음
+										<td colspan="4">검색 결과가 없습니다</td>
 									</tr>
 								</c:when>
 								<c:otherwise>

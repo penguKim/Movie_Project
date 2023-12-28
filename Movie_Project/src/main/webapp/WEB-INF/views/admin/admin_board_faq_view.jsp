@@ -58,7 +58,7 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td>${faqDetail.cs_content}</td>
+							<td><pre id="content_table">${faqDetail.cs_content}</pre></td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 

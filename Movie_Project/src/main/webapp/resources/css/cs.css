@@ -43,7 +43,7 @@ textarea { /* 텍스트박스 */
 	margin: 5px;
 }
 
-input[type="button"], input[type="submit"] { /* 모든 버튼에 */
+input[type="button"]:not(.faqButton), input[type="submit"] { /* 모든 버튼에 */
 	padding: 6px 15px; /* 안쪽 여백 */
     background-color: #e50914; /* 배경색 빨간색 */
     color: white; /* 글씨색 흰색*/
@@ -74,13 +74,16 @@ th {
 	color: #000000;
 	background-color: #f2f2f2; /* 제목 배경색 지정 */
 	padding: 5px 10px; /* 안쪽 여백 지정 */
+	height: 30px;
+	border-bottom: 1px solid #c0c0c0; /* 하단줄 */		
 }
 
 #cs_table1 td { /* 자주묻는질문, 공지사항 테이블 내용에 */
 	padding: 5px 10px; /* 안쪽 여백 지정 */
 	border: none;
 	text-align: center;
-	border-bottom: 1px solid #9d9d9d; /* 하단줄 */		
+	border-bottom: 1px solid #c0c0c0; /* 하단줄 */		
+	height: 25px;
 }
 
 #cs_table1 #td_left {
@@ -304,21 +307,38 @@ input[type="search"] {
 	width: 150px; /* 넓이지정 */
 }
 
-#fqa_button {
-	position: relative;
+.btn-active {
+	background-color: #eeeeee;
+	border: none;
+	border-bottom: 3px solid #000000;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 40px; /* 영역의 상하 좌우 크기 */
+	cursor: pointer; /* 커서 변경 */
 }
 
+.btn-inactive {
+	background-color: #ffffff;
+	border: none;
+	border-bottom: 3px solid #e50914;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 40px; /* 영역의 상하 좌우 크기 */
+	cursor: pointer; /* 커서 변경 */
+}
+#faq_button {
+	position: relative;
+	margin-bottom: 10px;	
+}
 
-#fqa_button ul {
+#faq_button ul {
 	text-align: center;
 	margin: 0;
 }
 
-#fqa_button {
+#faq_button {
 	text-align: center;
 }
 
-#fqa_button li {
+#faq_button li {
 	display: inline-block;
 	height: 50px;
 	text-align: center;
@@ -326,19 +346,21 @@ input[type="search"] {
 	margin: 10px;
 }
 
-#fqa_button input {
-	border: none;
-	border-bottom: 3px solid #e50914;
-	color: #000000; /* 글자 색상 */
-	padding: 10px 40px; /* 영역의 상하 좌우 크기 */
-/* 	margin-top: 10px; */
-	background-color: #ffffff;
-	cursor: pointer; /* 커서 변경 */
-}
-
-#fqa_button input:hover {
+#faq_button input:hover {
 	background-color: #eeeeee;
 	border-bottom: 3px solid #000000;
+}
+
+#faq_list {
+	border-top: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+}
+
+#faq_content {
+	margin: 0;
+	width: 630px;
+	padding: 5px;
+	white-space: pre-wrap;
 }
 
 /* Pagination links */
@@ -346,7 +368,6 @@ input[type="search"] {
 	padding:30px 0 0 0px;
 	text-align: center;
 }
-
 
 .pagination a {
   color: black;
@@ -366,7 +387,7 @@ input[type="search"] {
 
 
 
-/* ======== FQA 질문 리스트에 적용할 css ============ */
+/* ======== FAQ 질문 리스트에 적용할 css ============ */
 .accordion {
   background-color: #fff;
   color: #444;
@@ -374,7 +395,7 @@ input[type="search"] {
   padding: 18px;
   width: 100%;
   border: none;
-  border-bottom: 1px solid #9d9d9d;
+  border-bottom: 1px solid #c0c0c0;
   text-align: left;
   outline: none;
   font-size: 15px;
@@ -402,7 +423,7 @@ input[type="search"] {
   padding: 10px 10px 10px 140px;
   display: none;
   background-color: white;
-  border-bottom: 1px solid #9d9d9d;
+  border-bottom: 1px solid #c0c0c0;
   overflow: hidden;
 }
 
@@ -426,8 +447,8 @@ input[type="search"] {
 
 #notice_table td {
 	padding: 10px;
-	border-top: 1px solid #9d9d9d;
-	border-bottom: 1px solid #9d9d9d;
+	border-top: 1px solid #c0c0c0;
+	border-bottom: 1px solid #c0c0c0;
 
 }
 
@@ -449,6 +470,7 @@ input[type="search"] {
 }
 
 .notice_content {
+	vertical-align: top;
 	height: 200px;
 }
 

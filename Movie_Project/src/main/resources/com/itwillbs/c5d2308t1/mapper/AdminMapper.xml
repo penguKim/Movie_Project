@@ -295,7 +295,15 @@
 	<update id="updateBoard">
 		UPDATE cs
 			SET
-				cs_subject = #{cs_subject}
+				<choose>
+					<when test="theater_id != null">
+						theater_id = #{theater_id}
+					</when>
+					<otherwise>
+						theater_id = null		
+					</otherwise>
+				</choose>
+				, cs_subject = #{cs_subject}
 				, cs_content = #{cs_content}
 				, cs_type_detail = #{cs_type_detail}
 				, cs_file = #{cs_file}
