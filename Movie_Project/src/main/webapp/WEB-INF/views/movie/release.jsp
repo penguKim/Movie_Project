@@ -16,60 +16,58 @@
 <script type="text/javascript">
 	$(function() {
 		var sId = "<%= session.getAttribute("sId") %>";  
-		if(sId != "null") {
+		if(sId != "null") { <%-- 로그인한 회원인지 판별 --%>
 			$.ajax({
-				url: "likeShow",
+				url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
 				data: {
 					member_id: sId
 				},
 				dataType: "json",
 				success: function(result) {
-					if(result.length != 0){
-						for(let i = 0; i < ${fn:length(movieList)}; i++) {
+					if(result.length != 0){ <%-- 찜 정보가 있을 경우 --%>
+						for(let i = 0; i < ${fn:length(movieList)}; i++) { // <%-- 상영작 페이지의 목록만큼 반복 --%>
 							let movie_id = $("#likeBtn" + i).data("id");
 							for(let like of result) {
-								if(like.movie_id == movie_id) {
+								if(like.movie_id == movie_id) { <%-- 찜한 영화가 상영작 페이지에 있을 경우 --%>
 									console.log(i);
 									$("#likeBtn" + i).addClass("likeCheck");
-									$("#likeBtn" + i).html("<i class='fa fa-heart'></i>좋아요");
+									$("#likeBtn" + i).html("<i class='fa fa-heart'></i>찜하기");
 								}
 							}
 						}
 					} else {
-						console.log("좋아요 없음");
+// 						console.log("찜한 영화 없음");
 					}
 				},
 				error: function(xhr, textStatus, errorThrown) {
 // 					alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
 				}
 			});
-			
-			$("#sortType").on("change", function() {
-				 $("form").submit();
-			});
-			
 		}
 		
-	});
+		// 정렬 방식 변경하기
+		$("#sortType").on("change", function() {
+			 $("form").submit();
+		});
+		
+	}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
 	
-	function likeBtnClick(like, index) {
+	// 찜하기 버튼
+	function likeBtnClick(index) { <%-- 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
 		var sId = "<%= session.getAttribute("sId") %>";
-		if(sId != "null") {
-			console.log($("#likeBtn" + index).data("id") + ", " + $("#likeBtn" + index).data("title"));
-			console.log(sId);
+		if(sId != "null") { <%-- 로그인한 회원인지 판별 --%>
 			$.ajax({
-				url: "likeCheck",
+				url: "likeCheck", <%-- 해당 영화의 찜 정보가 DB에 있는지 판별 --%>
 				data: {
 					member_id: sId,
 					movie_id: $("#likeBtn" + index).data("id")
 				},
 				success: function(like) {
-					if(like == 'true') {
 						$("#likeBtn" + index).toggleClass("likeCheck");
-						$("#likeBtn" + index).html("<i class='fa fa-heart'></i>좋아요");
-					} else if(like == 'false') {
-						$("#likeBtn" + index).toggleClass("likeCheck");
-						$("#likeBtn" + index).html("<i class='fa fa-heart-o'></i>좋아요");
+					if(like == 'true') { <%-- 찜을 등록하는 경우 --%>
+						$("#likeBtn" + index).html("<i class='fa fa-heart'></i>찜하기");
+					} else if(like == 'false') { <%-- 찜을 삭제하는 경우 --%>
+						$("#likeBtn" + index).html("<i class='fa fa-heart-o'></i>찜하기");
 					}
 				},
 				error: function(xhr, textStatus, errorThrown) {
@@ -77,13 +75,11 @@
 				}
 			});
 		} else {
-			if(confirm("로그인이 필요한서비스입니다. 로그인하시겠습니까?")){
+			if(confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")){
 				location.href = "memberLogin";
 			}
 		}
-		
 	}
-	
 </script>
 </head>
 <body>
@@ -150,7 +146,7 @@
 <!-- 							<div id=""> -->
 <!-- 							</div> -->
 							<div class="reserve_area">
-								<button id="likeBtn${status.index}" class="likeBtn" data-id="${movie.movie_id }" data-title="${movie.movie_title }" onclick="likeBtnClick(this, ${status.index})"><i class="fa fa-heart-o"></i>좋아요</button>
+								<button id="likeBtn${status.index}" class="likeBtn" data-id="${movie.movie_id }" data-title="${movie.movie_title }" onclick="likeBtnClick(${status.index})"><i class="fa fa-heart-o"></i>찜하기</button>
 	 							<a href="movie_select?movie_id=${movie.movie_id }" class="rel_reservBtn">
 									<input type="button" value="예매하기"
 								></a>

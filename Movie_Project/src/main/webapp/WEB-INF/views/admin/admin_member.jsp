@@ -12,16 +12,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<script type="text/javascript">
-	$(function() {
-// 		if($(".member_status").text() == 1) {
-// 			$(".member_status").html("회원");
-// 		} else if($(".member_status").text() == 2) {
-// 			$(".member_status").html("탈퇴");
-// 		}
-		
-	});
-</script>
 </head>
 <body>
 	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1 로 저장) --%>
@@ -63,28 +53,35 @@
 						<th width="100">회원상태</th>
 						<th width="100">계정종류 및 변경</th>
 					</tr>
-					<c:forEach var="member" items="${memberList }">
-						<tr>
-							<td>${member.member_name}</td>
-							<td>${member.member_id}</td>
-							<td>${member.member_email}</td>
-							<td class="member_status">
-							<c:choose>
-								<c:when test="${member.member_status eq 1 }">
-								<span id="admin_member">회원</span>
-								</c:when>
-								<c:when test="${member.member_status eq 2 }">
-								<span id="admin_Cmember">탈퇴</span>
-								</c:when>
-							</c:choose>
-							</td>
-							<td>
-							<a href="adminMemberMod?member_id=${member.member_id}&pageNum=${pageNum }" id="ok">
-								<input type="button" value="수정" id="ok">
-							</a>
-							</td>
-						</tr>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${empty memberList }">
+							<td colspan="5">검색 결과가 없습니다.</td>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="member" items="${memberList }">
+								<tr>
+									<td>${member.member_name}</td>
+									<td>${member.member_id}</td>
+									<td>${member.member_email}</td>
+									<td class="member_status">
+									<c:choose>
+										<c:when test="${member.member_status eq 1 }">
+										<span id="admin_member">회원</span>
+										</c:when>
+										<c:when test="${member.member_status eq 2 }">
+										<span id="admin_Cmember">탈퇴</span>
+										</c:when>
+									</c:choose>
+									</td>
+									<td>
+									<a href="adminMemberMod?member_id=${member.member_id}&pageNum=${pageNum }" id="ok">
+										<input type="button" value="수정" id="ok">
+									</a>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</table>
 				<div class="pagination">
 						<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>

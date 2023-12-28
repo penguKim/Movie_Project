@@ -1060,7 +1060,7 @@ public class AdminController {
 	// 관리자페이지 분실물 문의 관리 페이지로 이동
 	// 파라미터로 pageNum을 넘겨주고 파라미터가 없을 경우 기본값으로 1을 넘겨줍니다.
 	@GetMapping("adminLostNFound")
-	public String adminLostNFound(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
+	public String adminLostNFound(@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "") String searchValue, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1069,18 +1069,17 @@ public class AdminController {
 		// 페이지 번호와 글의 개수를 파라미터로 전달
 		PageDTO page = new PageDTO(pageNum, 5);
 		// 전체 게시글 갯수 조회
-		int listCount = service.getlostnfoundListCount();
+		int listCount = service.getlostnfoundListCount(searchValue);
 		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		// page 객체를 파라미터로 글 목록 조회(극장명이 포함되어 HashMap 객체로 저장)
-		List<HashMap<String, Object>> lostnfoundList = service.getLostnfoundList(page);
+		List<HashMap<String, Object>> lostnfoundList = service.getLostnfoundList(page, searchValue);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		for(HashMap<String, Object> map : lostnfoundList) {
 			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
 			LocalDateTime date = (LocalDateTime)map.get("cs_date");
 			map.put("cs_date", date.format(dtf));
 		}
-		
 		// 모델 객체에 담아서 전송
 		model.addAttribute("lostnfoundList", lostnfoundList);
 		model.addAttribute("sId", sId);

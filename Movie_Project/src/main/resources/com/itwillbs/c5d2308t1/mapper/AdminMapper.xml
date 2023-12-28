@@ -103,8 +103,12 @@
 		FROM cs JOIN theaters
 		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = '분실물문의'
+		<if test="!searchValue.equals('')">
+			AND (cs_subject LIKE '%${searchValue}%' 
+			OR theaters.theater_name LIKE '%${searchValue}%')
+		</if>
 		ORDER BY cs_id DESC
-		LIMIT #{startRow}, #{listLimit}
+		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 	
 <!-- 	분실문 문의 관리 게시판 상세 조회 작업 -->
@@ -133,8 +137,14 @@
 <!-- 	분실물 페이징 처리를 위한 게시물 개수 조회 -->	
 	<select id="selectLostnfoundListCount" resultType="int">
 		SELECT COUNT(*)
-		FROM cs
-		WHERE cs_type = '분실물문의'
+		FROM cs JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		WHERE 
+			cs_type = '분실물문의'
+		<if test="!searchValue.equals('')">
+			AND (cs_subject LIKE '%${searchValue}%' 
+			OR theaters.theater_name LIKE '%${searchValue}%')
+		</if>
 	</select>
 	
 	<!-- ================ 회원 관리 페이지 ==================== -->

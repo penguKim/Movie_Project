@@ -56,8 +56,8 @@ public class AdminService {
 	
 	// ================ 분실물 게시판 ================
 	// 분실물 문의 관리 게시판 조회 작업 요청
-	public List<HashMap<String, Object>> getLostnfoundList(PageDTO page) {
-		return mapper.selectLostnfoundList(page);
+	public List<HashMap<String, Object>> getLostnfoundList(PageDTO page, String searchValue) {
+		return mapper.selectLostnfoundList(page, searchValue);
 	}
 
 	// 분실문 문의 관리 게시판 상세 조회 작업 요청
@@ -76,8 +76,8 @@ public class AdminService {
 	}
 	
 	// 분실물 페이징 처리를 위한 게시물 개수 조회 작업 요청
-	public int getlostnfoundListCount() {
-		return mapper.selectLostnfoundListCount();
+	public int getlostnfoundListCount(String searchValue) {
+		return mapper.selectLostnfoundListCount(searchValue);
 	}
 	
 	// ================ 회원 관리 게시판 ================

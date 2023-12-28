@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +10,69 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
-<style type="text/css">
-.trailer {
-	width: 600px;
-	text-align: center;
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+$(function() {
+	var sId = "<%= session.getAttribute("sId") %>";  
+	if(sId != "null") { <%-- 로그인한 회원인지 판별 --%>
+		$.ajax({
+			url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
+			data: {
+				member_id: sId
+			},
+			dataType: "json",
+			success: function(result) {
+				if(result.length != 0){ <%-- 찜 정보가 있을 경우 --%>
+					for(let like of result) {
+						if(like.movie_id == ${movie_id}) { <%-- 찜한 영화가 상영작 페이지에 있을 경우 --%>
+							$("#likeBtn").addClass("likeCheck");
+							$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
+						}
+					}
+				} else {
+					console.log("찜한 영화 없음");
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+//					alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
+			}
+		});
+	}
+}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
+
+// 찜하기 버튼
+function likeBtnClick(like) { <%-- 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
+	var sId = "<%= session.getAttribute("sId") %>";
+	if(sId != "null") { <%-- 로그인한 회원인지 판별 --%>
+		console.log("${movie_id}");
+		console.log(sId);
+		$.ajax({
+			url: "likeCheck", <%-- 해당 영화의 찜 정보가 DB에 있는지 판별 --%>
+			data: {
+				member_id: sId,
+				movie_id: ${movie_id}
+			},
+			success: function(like) {
+				if(like == 'true') { <%-- 찜을 등록하는 경우 --%>
+					$("#likeBtn").toggleClass("likeCheck");
+					$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
+				} else if(like == 'false') { <%-- 찜을 삭제하는 경우 --%>
+					$("#likeBtn").toggleClass("likeCheck");
+					$("#likeBtn").html("<i class='fa fa-heart-o'></i>찜하기");
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("찜하기를 실패했습니다.");
+			}
+		});
+	} else {
+		if(confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")){
+			location.href = "memberLogin";
+		}
+	}
 }
-</style>
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -46,6 +104,8 @@
 						</ul>
 					</div>
 					<div class="detail_reserve_clear">
+<!-- 					<div class="reserve_area"> -->
+						<button id="likeBtn" class="detail_likeBtn likeBtn" data-id="${movie_id }" data-title="${movie_title }" onclick="likeBtnClick(this)"><i class="fa fa-heart-o"></i>찜하기</button>
 						<a href="movie_select?movie_id=${movie_id}">
 							<input type="button" value="예매하기"></a>
 					</div>
