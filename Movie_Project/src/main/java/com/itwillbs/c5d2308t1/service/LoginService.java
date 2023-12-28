@@ -72,5 +72,9 @@ public class LoginService {
 	public List<CsVO> getLostBoardList(CsVO myCs) {
 	return mapper.selectLostList(myCs);
 	}
+
+	public HashMap<String, Object> getlostnfound(CsVO cs) {
+		return  mapper.selectMyLost(cs);
+		}
 	
 }

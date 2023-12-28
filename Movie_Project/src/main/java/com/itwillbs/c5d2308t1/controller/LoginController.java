@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
-import com.itwillbs.c5d2308t1.vo.CsVO;
-import com.itwillbs.c5d2308t1.vo.MemberVO;
-import com.itwillbs.c5d2308t1.vo.RefundVO;
+import com.itwillbs.c5d2308t1.vo.*;
 @Controller
 public class LoginController {
 
@@ -196,15 +194,19 @@ public class LoginController {
 	
 	
 	
-	
+	// 분실물 문의 게시판으로 이동
 	@GetMapping("Mypage_LostBoard_List")
-	public String LostBoard(Model model, HttpSession session, CsVO myCs) { // 분실물 문의 게시판으로 이동
+	public String LostBoard(Model model, HttpSession session, CsVO myCs) { 
 		
 		String sId = (String)session.getAttribute("sId");
 		
 		myCs.setMember_id(sId);
 		
 		List<CsVO> myLost = service.getLostBoardList(myCs);
+		
+//		Map<String, Object> myLost2 = service.getlostnfound(myCs);
+		
+//		myLost2.put("myLost2", myLost2);
 		
 		model.addAttribute("myLost", myLost);
 		
@@ -246,7 +248,15 @@ public class LoginController {
 	
 	// 마이페이지 분실물 상세 조회
 		@GetMapping("Mypage_LostBoardDetail")
-		public String LostBoardDetail() {
+		public String LostBoardDetail(HttpSession session,Model model, CsVO cs) {
+			
+			// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
+			Map<String, Object> myLostDetail = service.getlostnfound(cs);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+			LocalDateTime date = (LocalDateTime)myLostDetail.get("cs_date");
+			myLostDetail.put("cs_date", date.format(dtf));
+			model.addAttribute("myLostDetail", myLostDetail);
 			
 		return "login/Mypage_LostBoardDetail";
 	}

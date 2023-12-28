@@ -56,6 +56,7 @@ public class CsVO {
 	private String cs_reply;
 	private String member_id;
 	private int theater_id;
+	private String theater_name;
 	
 	private MultipartFile mFile;
 	

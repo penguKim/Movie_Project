@@ -40,36 +40,36 @@
 					<table border="1">
 						<tr>
 							<th>번호</th>
-							<td>${lostnfound.cs_id}</td>
+							<td>${myLostDetail.cs_id}</td>
 						</tr>
 						<tr>
 							<th>분실장소</th>
-							<td>${lostnfound.theater_name }</td>
+							<td>${myLostDetail.theater_name }</td>
 						</tr>
 						<tr>
 							<th>분실일시</th>
-							<td>${lostnfound.cs_date }</td>
+							<td>${myLostDetail.cs_date }</td>
 						</tr>
 						<tr>
 							<th>문의 제목</th>
-							<td>${lostnfound.cs_subject }</td>
+							<td>${myLostDetail.cs_subject }</td>
 						</tr>
 						<tr>
 							<th>문의 작성자</th>
-							<td>${lostnfound.member_id }</td>
+							<td>${myLostDetail.member_id }</td>
 						</tr>
 						<tr>
 							<th height="300">문의 내용</th>
-							<td>${lostnfound.cs_content }</td>
+							<td>${myLostDetail.cs_content }</td>
 						</tr>
 						<tr>
 							<th>첨부파일</th>
 							<td>
 								<div class = "file">
-									<c:if test="${not empty lostnfound.cs_file}">
-										<c:set var="original_file_name" value="${fn:substringAfter(lostnfound.cs_file, '_')}"/>
+									<c:if test="${not empty myLostDetail.cs_file}">
+										<c:set var="original_file_name" value="${fn:substringAfter(myLostDetail.cs_file, '_')}"/>
 										${original_file_name}
-										<a href="${pageContext.request.contextPath }/resources/upload/${lostnfound.cs_file}" download="${original_file_name}"><input type="button" value="다운로드"></a>
+										<a href="${pageContext.request.contextPath }/resources/upload/${myLostDetail.cs_file}" download="${original_file_name}"><input type="button" value="다운로드"></a>
 									</c:if>
 								</div>
 							</td>
@@ -77,12 +77,12 @@
 						<tr>
 							<th height="300">답변 내용</th>
 							<td>
-								${lostnfound.cs_reply }
+								${myLostDetail.cs_reply }
 							</td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 
-						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
+						<input type="hidden" name="cs_id" value="${myLostDetail.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
 <!-- 						<input type="submit" value="답변 삭제" formaction=""> -->
 						<input type="button" value="돌아가기" onclick="history.back();">

@@ -40,16 +40,16 @@
 						<tr>
 							<th>No</th>
 							<th>제목</th>
-							<th>등록일</th>
 							<th>지점명</th>
+							<th>등록일</th>
 						</tr>
 						
 					<c:forEach var="myLost" items="${myLost}" varStatus="status">
 						<tr>
-							<td>${status.index + 1 }</td>
+							<td>${myLost.cs_id}</td>
 							<td><a href="Mypage_LostBoardDetail?cs_id=${myLost.cs_id }">${myLost.cs_subject }</a></td>
+							<td>${myLost.theater_name }</td>
 							<td>${myLost.cs_date }</td>
-							<td>${myLost.member_id }</td>
 						</tr>
 					</c:forEach>						
 					</table><br>
