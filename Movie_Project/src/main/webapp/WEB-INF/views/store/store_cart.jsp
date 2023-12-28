@@ -42,15 +42,13 @@ function increaseQuantity(index) {
 	  
 // 	}
 
-// 전체 체크박스를 자동으로 체크하는 함수
+ // 전체 체크박스를 자동으로 체크하는 함수
 function checkAllCheckboxes() {
   var checkboxes = document.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach(function (checkbox) {
     checkbox.checked = true;
   });
 }
- 
- 
 var price = 0;
 function quanChange(index) {
 	
@@ -140,16 +138,6 @@ function choiceDel(index) {
 	
 // 체크박스 처리 스크립트
 $(function() {
-	<%-- 체크박스 전체 체크 --%>
-	$("#Allcheckbox").on("change", function() {
-		
-		if($("#Allcheckbox").prop("checked")) {
-			$("input[name='cartCheckbox']").prop("checked", true);
-		} else {
-			$("input[name='cartCheckbox']").prop("checked", false);
-		}
-	});	
-	
 	<%-- 체크박스에 체크된 상품 삭제 --%>
 	$("#del_btn").on("click", function() {
 		  var checkboxDel = $("input[name='cartCheckbox']:checked");
@@ -240,15 +228,47 @@ function addPrice(i) {
 }
 
 
-// 체크박스를 클릭했을 때 모든 항목을 체크하는 함수
+// 모든 체크박스 체크하기
 function checkAll() {
-  var checkboxes = document.getElementsByName("product_id");
-  var allCheckbox = document.getElementById("Allcheckbox");
+  var checkboxes = document.getElementsByName("product_id") // product_id로 된 이름을 가진 체크박스들을 가져오기
+  var checkAllCheckbox = document.getElementById("Allcheckbox");// 전체 선택 체크박스를 가져옴.
+  var totalPrice = 0;
+  
+  
+  checkboxes.forEach(function (checkbox) {
+    checkbox.checked = checkAllCheckbox.checked;
+    var i = checkbox.id.replace("cartCheckbox", "");
+    addPrice(i);
+    var price = document.getElementById("totalPrice" + i).innerText;
+    price = parseInt(price.replace(",", ""));
+    
+    if (checkbox.checked) {
+      totalPrice += price;
+    }
+  });
+  
+  var totalPriceElement = document.getElementById("All_total_price2");
+  totalPriceElement.innerText = totalPrice.toLocaleString() + "원";
+  document.getElementById("All_total_price1").innerText = totalPriceElement.innerText;
+}
 
-  // 모든 체크박스를 선택 상태로 변경
-  for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].checked = allCheckbox.checked;
-  }
+// ----------------------------------------------------------------------------------
+// 체크박스에 체크가 하나도 안되어있을시 돌려보내기
+
+function validateCheckbox() {
+    var checkboxes = document.getElementsByName("product_id");
+    var checkedCount = 0;
+
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        checkedCount++;
+      }
+    }
+    if (checkedCount === 0) {
+        alert("1개 이상 체크 하셔야됩니다");
+        return false;
+    }
+    return true;
 }
 </script>
 
@@ -265,7 +285,7 @@ function checkAll() {
 			<h1 id="h01">장바구니</h1>
 			<!-- 체크박스와 버튼 -->
 			<hr>
-			<form action="storePay2" method="post">
+			<form action="storePay2" method="post" onsubmit="return validateCheckbox();">
 <!-- 				<form action="storePay2" method="GET" onsubmit="return submitForm()"> -->
 					<section id="content">
 						<!-- 상단 진행도 상태창 -->
