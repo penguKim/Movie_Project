@@ -210,10 +210,16 @@ function addPrice(i) {
   // 체크박스 요소 가져오기
   var checkbox = document.getElementById("cartCheckbox" + i);
   // 상품 가격 가져오기
-  var price = parseInt(document.getElementById("totalPrice" + i).innerText);
+//   var price = parseInt(document.getElementById("totalPrice" + i).innerText);
+  
+  var price = document.getElementById("totalPrice" + i).innerText;
+  price = parseInt(price.replace(",", ""));
   // 전체 가격 가져오기
-  var totalPrice = parseInt(document.getElementById("All_total_price").innerText);
-
+//   var totalPrice = parseInt(document.getElementById("All_total_price").innerText);
+  var totalPrice = document.getElementById("All_total_price2").innerText;
+  totalPrice = totalPrice.replace(/,/g, "").replace("원", "");
+  totalPrice = parseInt(totalPrice);
+  console.log(totalPrice);
   // 체크박스의 선택 여부에 따라 가격 추가 또는 제거
   if (checkbox.checked) {
     totalPrice += price; // 가격 추가
@@ -227,8 +233,10 @@ function addPrice(i) {
   }
 
   // 변경된 전체 가격을 화면에 업데이트
-  document.getElementById("All_total_price").innerText = totalPrice.toLocaleString() + "원";
-  document.getElementById("All_total_price1").innerText = totalPrice.toLocaleString() + "원";
+  totalPrice =  totalPrice.toLocaleString();
+  document.getElementById("All_total_price2").innerText = totalPrice + "원";
+//   document.getElementById("All_total_price1").innerText = totalPrice.toLocaleString() + "원";
+  document.getElementById("All_total_price1").innerText = totalPrice + "원";
 }
 
 
@@ -302,10 +310,12 @@ function checkAll() {
 												</td>
 												<td>
 													<span>${storeList[i].product_name }</span><br>
+
 													<span>${storeList[i].product_txt }</span>
 												</td>
 	<!-- 												상품에 등록된 판매 금액 -->
 												<td><fmt:formatNumber value="${storeList[i].product_price }" pattern="###,###"/>원</td>
+<%-- 												<td>${storeList[i].product_price }원</td> --%>
 	<!-- 												상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 												<td class="product_quantity">
 			<!-- 								<button type="button" class="btn_minus" title="수량감소" onclick="product_quantity()">-</button> -->
@@ -319,7 +329,7 @@ function checkAll() {
 	<!-- 												판매 금액 + 선택된 수량 합산 금액 -->
 	<%-- 												<td>${cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }원</td> --%>
 <%-- 												<td id="totalPrice${i}">${cartList[i].cart_total_price}원</td> --%>
-												<td id="totalPrice${i}"><fmt:formatNumber value="${cartList[i].cart_total_price}" pattern="###"/>원</td>
+												<td id="totalPrice${i}"><fmt:formatNumber value="${cartList[i].cart_total_price}" pattern="###,###"/>원</td>
 	<!-- 												선택 -->
 												<td>
 	<!-- 												바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
@@ -365,8 +375,8 @@ function checkAll() {
 									</tr>
 									<tr class="store_table_box04">
 										<!-- 선택된 모든 상품의 가격과 갯수의 합산된 금액 자동 입력-->
-										<td class="table_box_red" id="All_total_price">
-											<fmt:formatNumber value="${All_total_price }" pattern="###,###"/>원</td>
+<%-- 										<td class="table_box_red" id="All_total_price2">${All_total_price }원</td> --%>
+										<td class="table_box_red" id="All_total_price2"><fmt:formatNumber value="${All_total_price}" pattern="###,###"/>원</td>
 										<td><img src="${pageContext.request.contextPath }/resources/img/-.png" width="35px" height="35px"></img> </td>
 										<!-- 할인 기능 미구현 -->
 										<!-- 구현하게 된다면 할인 기능에 따라 할인 가격 책정 -->
@@ -374,8 +384,8 @@ function checkAll() {
 										</td>
 										<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 										<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-<%-- 										 <td class="table_box_red" id="All_total_price1"><fmt:formatNumber value="${All_total_price }" pattern="###,###"/>원</td> --%>
-										 <td class="table_box_red" id="All_total_price1">${formatted_price }원</td>
+										 <td class="table_box_red" id="All_total_price1"><fmt:formatNumber value="${All_total_price }" pattern="###,###"/>원</td>
+<%-- 										 <td class="table_box_red" id="All_total_price1">${All_total_price }원</td> --%>
 									</tr>
 								</table>
 							</div>
