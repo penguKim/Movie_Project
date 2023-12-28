@@ -192,9 +192,10 @@
 /* 상영작 예매버튼 */
 .reserve_area input {
 	border: 1px solid;
+	height: 40px;
 	background-color: #e50914; /* 버튼 색상 */
 	color: #fff; /* 글자 색상 */
-	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	padding: 10px 30px; /* 영역의 상하 좌우 크기 */
 	margin-top: 10px;
 	text-decoration: none; /* 링크의 밑줄 제거 */
 	border-radius: 5px; /* 모서리 라운드처리 */
@@ -203,6 +204,39 @@
 
 .reserve_area input:hover {
 	background-color: #ce0912;
+}
+
+
+/* ---------------- 찜하기 버튼 ----------------  */
+.reserve_area .likeBtn {
+/* 	border: 1px solid !important; */
+	background-color: #fff; /* 버튼 색상 */
+	color: #000; /* 글자 색상 */
+	padding: 10px; /* 영역의 상하 좌우 크기 */
+	border-radius: 5px; /* 모서리 라운드처리 */
+	cursor: pointer; /* 커서 변경 */
+	box-sizing: border-box;
+}
+
+.likeBtn:hover {
+	background-color: #ce0912;
+	color: #fff;
+}
+
+.reserve_area .likeBtn.likeCheck {
+	border: 1px solid;
+	background-color: #e50914; /* 버튼 색상 */
+	color: #fff; /* 글자 색상 */
+	padding: 10px; /* 영역의 상하 좌우 크기 */
+	border-radius: 5px; /* 모서리 라운드처리 */
+	cursor: pointer; /* 커서 변경 */
+	box-sizing: border-box;
+	
+}
+
+.reserve_area .likeBtn.likeCheck:hover {
+	background-color: #ce0912;
+	color: #000;
 }
 
 

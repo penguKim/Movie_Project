@@ -11,83 +11,76 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var sId = "<%= session.getAttribute("sId") %>";  
-		
-		$.ajax({
-			url: "likeShow",
-			data: {
-				member_id: sId
-			},
-			dataType: "json",
-			success: function(result) {
-				if(result.length != 0){
-					for(let i = 0; i < ${fn:length(movieList)}; i++) {
-						let movie_id = $("#likeBtn" + i).data("id");
-						for(let like of result) {
-							if(like.movie_id == movie_id) {
-								console.log(i);
-								$("#likeBtn" + i).val("찜성공");
+		if(sId != "null") {
+			$.ajax({
+				url: "likeShow",
+				data: {
+					member_id: sId
+				},
+				dataType: "json",
+				success: function(result) {
+					if(result.length != 0){
+						for(let i = 0; i < ${fn:length(movieList)}; i++) {
+							let movie_id = $("#likeBtn" + i).data("id");
+							for(let like of result) {
+								if(like.movie_id == movie_id) {
+									console.log(i);
+									$("#likeBtn" + i).addClass("likeCheck");
+									$("#likeBtn" + i).html("<i class='fa fa-heart'></i>좋아요");
+								}
 							}
 						}
+					} else {
+						console.log("좋아요 없음");
 					}
-				} else {
-					console.log("좋아요 없음");
+				},
+				error: function(xhr, textStatus, errorThrown) {
+// 					alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
 				}
-			},
-			error: function(xhr, textStatus, errorThrown) {
-				alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
-			}
-		});
-		
-		$("#sortType").on("change", function() {
-			 $("form").submit();
-		});
-		
-		
-		
-		
-// 		$("#likeBtn").on("click", function() {
-// 			$.ajax({
-// 				url: "likeCheck",
-// 				data: {
-// 					member_id = sId,
-// 					movie_id = 
-// 				}
-// 			});
-// 			console.log();
-// 		});
-		
-// 		for(let i = 0; i < ${fn:length(movieList)}; i++) {
-// 			$("")
-// 		}
-		
+			});
+			
+			$("#sortType").on("change", function() {
+				 $("form").submit();
+			});
+			
+		}
 		
 	});
 	
 	function likeBtnClick(like, index) {
 		var sId = "<%= session.getAttribute("sId") %>";
-		console.log($("#likeBtn" + index).data("id") + ", " + $("#likeBtn" + index).data("title"));
-		console.log(sId);
-		$.ajax({
-			url: "likeCheck",
-			data: {
-				member_id: sId,
-				movie_id: $("#likeBtn" + index).data("id")
-			},
-			success: function(like) {
-				if(like == 'true') {
-					$("#likeBtn" + index).val("찜성공");
-				} else if(like == 'false') {
-					$("#likeBtn" + index).val("찜하기");
+		if(sId != "null") {
+			console.log($("#likeBtn" + index).data("id") + ", " + $("#likeBtn" + index).data("title"));
+			console.log(sId);
+			$.ajax({
+				url: "likeCheck",
+				data: {
+					member_id: sId,
+					movie_id: $("#likeBtn" + index).data("id")
+				},
+				success: function(like) {
+					if(like == 'true') {
+						$("#likeBtn" + index).toggleClass("likeCheck");
+						$("#likeBtn" + index).html("<i class='fa fa-heart'></i>좋아요");
+					} else if(like == 'false') {
+						$("#likeBtn" + index).toggleClass("likeCheck");
+						$("#likeBtn" + index).html("<i class='fa fa-heart-o'></i>좋아요");
+					}
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					alert("찜하기를 실패했습니다.");
 				}
-			},
-			error: function(xhr, textStatus, errorThrown) {
-				alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
+			});
+		} else {
+			if(confirm("로그인이 필요한서비스입니다. 로그인하시겠습니까?")){
+				location.href = "memberLogin";
 			}
-		});
+		}
 		
 	}
 	
@@ -154,10 +147,13 @@
 									<span class="release-type">개봉</span>
 								</p>
 							</a>
+<!-- 							<div id=""> -->
+<!-- 							</div> -->
 							<div class="reserve_area">
-								<input type="button" value="찜하기" id="likeBtn${status.index }" data-status="0" data-id="${movie.movie_id }" data-title="${movie.movie_title }" onclick="likeBtnClick(this, ${status.index})">
+								<button id="likeBtn${status.index}" class="likeBtn" data-id="${movie.movie_id }" data-title="${movie.movie_title }" onclick="likeBtnClick(this, ${status.index})"><i class="fa fa-heart-o"></i>좋아요</button>
 	 							<a href="movie_select?movie_id=${movie.movie_id }" class="rel_reservBtn">
-									<input type="button" value="예매하기"></a>
+									<input type="button" value="예매하기"
+								></a>
 							</div>
 						</div>
 					</c:forEach>
