@@ -46,6 +46,11 @@ a {
 	height: 30px;
 }
 
+#admin_main a {
+	text-decoration: none;
+	color:#666;
+}
+
 #admin_sub th, #admin_sub td {
 	height: 30px;
 }

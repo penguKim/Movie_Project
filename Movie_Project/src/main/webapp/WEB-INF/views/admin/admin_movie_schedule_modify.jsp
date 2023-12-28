@@ -237,6 +237,7 @@
 									<option value="">영화 선택</option>
 								</select>
 							</td>
+						</tr>
 						<tr>
 							<th width="170px">상영날짜</th>
 							<th width="170px">상영시작시간</th>
@@ -244,6 +245,7 @@
 							<th width="140px">등록</th>
 							<th width="140px">초기화</th>
 						</tr>
+						<tr>
 							<td id="date">
 								<input type="date" id="play_date" name="play_date">
 							</td>

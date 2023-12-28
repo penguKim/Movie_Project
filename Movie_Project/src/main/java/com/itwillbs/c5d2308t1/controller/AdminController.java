@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -315,6 +318,7 @@ public class AdminController {
 	// 상영 일정 등록하기
 	@PostMapping("registPlay")
 	public String registPlay(PlayVO play, HttpSession session, Model model) {
+
 		// 관리자가 아니면 등록을 하지 못하도록 하기
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -876,7 +880,7 @@ public class AdminController {
 	// *********************** 1대1문의 관리 페이지 *************
 	// 관리자페이지 1대1문의 관리 페이지로 이동
 	@GetMapping("adminOneOnOne")
-	public String adminOneOnOne(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
+	public String adminOneOnOne(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model, TheaterVO theater, CsVO cs) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -897,6 +901,9 @@ public class AdminController {
 		// => 파라미터 : PageDTO 객체(page)	 리턴타입 : List<CsVO>(oneOnOneList)
 		List<CsVO> oneOnOneList = service.getOneOnOnePosts(page);
 		
+		
+		System.out.println(oneOnOneList);
+		
 		// Model 객체에 저장
 		model.addAttribute("oneOnOneList", oneOnOneList);
 		model.addAttribute("sId", sId);
@@ -907,7 +914,7 @@ public class AdminController {
 
 	// 관리자페이지 1대1문의 상세 조회 페이지로 이동
 	@GetMapping("OneOnOneDetail")
-	public String OneOnOneDetail(CsVO cs, HttpSession session, Model model) {
+	public String OneOnOneDetail(CsVO cs, HttpSession session, Model model, TheaterVO theater) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -922,6 +929,9 @@ public class AdminController {
 		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
 		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
 		oneOnOne.put("cs_date", date.format(dtf));
+		
+		System.out.println(oneOnOne);
+		
 		// Model 객체에 저장
 		model.addAttribute("oneOnOne", oneOnOne);
 		
@@ -953,7 +963,7 @@ public class AdminController {
 	
 	// 관리자 페이지 1대1문의 답변 등록
 	@PostMapping("OneOnOneResponse") 
-	public String OneOnOneResponse(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNum, CsVO cs) {
+	public String OneOnOneResponse(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "1") int cs_id, CsVO cs) {
 //		System.out.println(cs);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -969,7 +979,7 @@ public class AdminController {
 		if(updateCount > 0) { // 등록 성공
 			model.addAttribute("pageNum", pageNum);
 			// 답변 등록 완료 후 해당 글이 속해있는 1대1문의 관리페이지로 이동해 버튼으로 답변 상태 확인
-			return "redirect:/adminOneOnOne?pageNum=" + pageNum;
+			return "redirect:/OneOnOneDetail?cs_id=" + cs_id + "&pageNum=" + pageNum;
 			
 		} else { // 등록 실패
 			model.addAttribute("msg", "1대1 답변 등록 실패!");

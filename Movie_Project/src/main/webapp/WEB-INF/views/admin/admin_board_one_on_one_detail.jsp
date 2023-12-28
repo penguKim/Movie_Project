@@ -40,12 +40,16 @@
 							<th>문의 유형</th>
 							<td>${oneOnOne.cs_type_detail }</td>
 						</tr>
-						<c:if test="${not empty oneOnOne.theater_id }">
-							<tr>
-								<th>문의 지점</th>
-								<td>${oneOnOne.theater_name }</td>
-							</tr>
-						</c:if>
+						<c:choose>
+							<c:when test="${not empty oneOnOne.theater_id}">
+								<tr>
+									<th>문의 지점</th>
+									<td>${oneOnOne.theater_name }</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
 						<tr>
 							<th>문의 작성일</th>
 							<td>${oneOnOne.cs_date }</td>
@@ -88,8 +92,15 @@
 					</table>
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">	
-						<input type="hidden" name="pageNum" value="${param.pageNum }">	
-						<input type="submit" value="답변 수정/삭제">
+						<input type="hidden" name="pageNum" value="${param.pageNum }">
+						<c:choose>
+							<c:when test="${empty oneOnOne.cs_reply }">
+								<a href="OneOnOneMoveToRegister?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변하기"></a>
+							</c:when>
+							<c:otherwise>
+								<input type="submit" value="답변 수정/삭제">
+							</c:otherwise>
+						</c:choose>	
 						<input type="button" value="돌아가기" onclick="history.back()">
 					</div>
 				</form>
