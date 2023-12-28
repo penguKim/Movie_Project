@@ -406,6 +406,30 @@ public class AdminController {
 		}
 		
 	}
+	// 스토어 상품관리 상품 상세페이지로 이동
+	@GetMapping("adminProductDtl")
+	public String adminProductDtl(HttpSession session, Model model, StoreVO store) {
+		List<StoreVO> product = storeService.selectStore(store.getProduct_id());
+		
+		model.addAttribute("product", product);
+		return "admin/admin_product_detail";
+	}
+
+	@GetMapping("adminProductDel")
+	public String adminProductDel(Model model, StoreVO store) {
+		System.out.println("상품 : " + store.getProduct_id());
+		
+//		int resultDel = storeService.adminProductDel(store); 
+		int resultDel = 1; 
+		
+		if(resultDel > 0) {
+			return "redirect:/adminProduct";
+		} else {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+	}
 	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")
@@ -418,6 +442,9 @@ public class AdminController {
 	public String adminPaymentDtl() {
 		return "admin/admin_payment_detail";
 	}
+	
+	
+	
 	
 	// ===========================================================================================
 	// ******************** 회원 정보 관리 페이지 *************
