@@ -105,7 +105,7 @@ public class CsController {
 	//	System.out.println(noticeList);
 		
 		// ======================================================
-		int listCount = service.getCsTypeListCount(cs);
+		int listCount = service.getCsNoticeCount(cs, theater, searchValue);
 		int pageListLimit = 5;
 		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
@@ -168,7 +168,7 @@ public class CsController {
 		
 		model.addAttribute("csNoticeDetail", csNoticeDetail);
 		
-		int maxCount = service.getCsTypeListCount(cs);
+		int maxCount = service.getCsNoticeCount(cs, 0, "");
 		model.addAttribute("maxCount", maxCount);
 		
 		return "cs/cs_notice_detail";

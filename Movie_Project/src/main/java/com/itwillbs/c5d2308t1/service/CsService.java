@@ -38,8 +38,8 @@ public class CsService {
 	}
 	
 	// 고객센터 항목별 목록 갯수 조회 요청
-	public int getCsTypeListCount(CsVO cs) {
-		return mapper.selectCsTypeCount(cs);
+	public int getCsNoticeCount(CsVO cs, int theater, String searchValue) {
+		return mapper.selectNoticeCount(cs, theater, searchValue);
 	}
 	
 	// 자주묻는질문 항목별로 모아보기 기능

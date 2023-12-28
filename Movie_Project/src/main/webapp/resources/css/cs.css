@@ -26,12 +26,13 @@ form {
 	min-height: 400px;
 }
 
-#fqa_main {
+#faq_main {
 	vertical-align: top;
 	display: inline-block;
 	width: 800px; /* 너비 800지정 */
 	margin: 10px;	
 	padding-bottom: 100px;	
+	min-height: 400px;
 }
 
 textarea { /* 텍스트박스 */
@@ -412,6 +413,7 @@ input[type="search"] {
 	display: inline-block;
 	width: 800px; /* 너비 800지정 */
 	margin: 10px;	
+	min-height: 500px;
 }
 
 #notice_table th {

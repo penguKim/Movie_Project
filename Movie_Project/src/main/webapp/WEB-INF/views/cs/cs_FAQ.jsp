@@ -166,7 +166,7 @@
 				<jsp:include page="cs_menubar.jsp"></jsp:include>
 			</div>
 			
-			<div id="fqa_main">
+			<div id="faq_main">
 			
 				<form id="search">
 					<b>빠른 검색</b>

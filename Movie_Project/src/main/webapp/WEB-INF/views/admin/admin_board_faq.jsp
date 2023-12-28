@@ -75,6 +75,7 @@
 					<form>
 						<input type="text" name="searchKeyword" placeholder="제목을 입력하세요">
 						<input type="submit" value="검색">
+						<input type="hidden" name="cs_type" value="자주묻는질문">
 					</form>
 				</div>
 				

@@ -23,7 +23,7 @@ public interface CsMapper {
 	List<HashMap<String, Object>> selectNoticeList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit, @Param("theater") int theater, @Param("searchValue") String searchValue);
 	
 	// 고객센터 항목별 목록 갯수 조회 - 추상메서드 정의
-	int selectCsTypeCount(CsVO cs);
+	int selectNoticeCount(@Param("cs") CsVO cs, @Param("theater") int theater, @Param("searchValue") String searchValue);
 	
 	// 자주묻는질문 세부항목별 조회 - 추상메서드 정의
 	List<CsVO> selectFaqDetail(@Param("cs") CsVO cs, @Param("buttonName") String buttonName);

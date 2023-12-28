@@ -33,7 +33,7 @@
 		FROM cs 
 		LEFT OUTER JOIN theaters
 		ON cs.theater_id = theaters.theater_id
-		WHERE cs_type = '공지사항'
+		WHERE cs_type = #{cs.cs_type}
 			<if test="theater != ''">
 				AND cs.theater_id = #{theater}
 			</if>
@@ -47,10 +47,18 @@
 	</select>
 	
 	<!-- 고객센터 항목별 목록 갯수 세기 -->
-	<select id="selectCsTypeCount" resultType="int">
+	<select id="selectNoticeCount" resultType="int">
 		SELECT COUNT(*) 
 		FROM cs
-		WHERE cs_type = #{cs_type}
+		WHERE cs_type = #{cs.cs_type}
+			<if test="theater != 0">
+				AND cs.theater_id = #{theater}
+			</if>
+			<if test="searchValue != ''">
+				AND (cs_subject LIKE '%${searchValue}%'
+				OR cs_content LIKE '%${searchValue}%'
+				OR cs_type_detail LIKE '%${searchValue}%')
+			</if>
 	</select>	
 	
 	<!--  자주묻는질문 세부항목별로 모아보기 -->
