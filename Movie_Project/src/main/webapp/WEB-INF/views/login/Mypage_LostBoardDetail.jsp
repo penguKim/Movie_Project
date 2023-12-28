@@ -26,24 +26,21 @@
 <body>
 	<div id="wrapper">
 		<header>
-			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
+			<jsp:include page="../inc/top.jsp"></jsp:include>
 		</header>
 
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content">
 			<h1 id="h01">분실물 문의 상세 조회페이지</h1>
 			<hr>		
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
 
 			<div id="admin_sub">
 				<form action="" method="post">
 					<table border="1">
 						<tr>
 							<th>번호</th>
-							<td>223</td>
+							<td>${lostnfound.cs_id}</td>
 						</tr>
 						<tr>
 							<th>분실장소</th>
@@ -87,7 +84,6 @@
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
-						<input type="submit" value="답변 수정" formaction="LostNFoundMoveToModify?pageNum=${param.pageNum }" id="modify">
 <!-- 						<input type="submit" value="답변 삭제" formaction=""> -->
 						<input type="button" value="돌아가기" onclick="history.back();">
 					</div>

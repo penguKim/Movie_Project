@@ -198,7 +198,18 @@ public class LoginController {
 	
 	
 	@GetMapping("Mypage_LostBoard_List")
-	public String mypage_LostBoard_List() { // 분실물 문의 게시판으로 이동
+	public String LostBoard(Model model, HttpSession session, CsVO myCs) { // 분실물 문의 게시판으로 이동
+		
+		String sId = (String)session.getAttribute("sId");
+		
+		myCs.setMember_id(sId);
+		
+		List<CsVO> myLost = service.getLostBoardList(myCs);
+		
+		model.addAttribute("myLost", myLost);
+		
+		System.out.println("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ + " + myLost);
+		
 		return "login/Mypage_LostBoard_List";
 	}
 	
@@ -231,5 +242,12 @@ public class LoginController {
 		map = reserve.getresInfoDetail(payment_id);
 		model.addAttribute("map",map);
 		return"login/popup3";
+	}
+	
+	// 마이페이지 분실물 상세 조회
+		@GetMapping("Mypage_LostBoardDetail")
+		public String LostBoardDetail() {
+			
+		return "login/Mypage_LostBoardDetail";
 	}
 }

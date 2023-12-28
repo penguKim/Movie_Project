@@ -67,4 +67,10 @@ public class LoginService {
 	public int removeMyOneOnOne(CsVO cs) {
 		return mapper.deleteMyOneOnOne(cs);
 	}
+	
+	// 마이페이지 고객센터 분실물 조회
+	public List<CsVO> getLostBoardList(CsVO myCs) {
+	return mapper.selectLostList(myCs);
+	}
+	
 }

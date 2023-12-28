@@ -46,6 +46,8 @@ public interface LoginMapper {
 
 	// 마이페이지 나의 게시글 1대1문의 글 삭제 작업
 	int deleteMyOneOnOne(CsVO cs);
-
+	
+	// 마이페이지 고객센터 조회
+	List<CsVO> selectLostList(CsVO myCs);
 
 }

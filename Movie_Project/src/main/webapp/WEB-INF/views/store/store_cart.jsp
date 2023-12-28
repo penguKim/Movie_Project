@@ -85,7 +85,7 @@ function quanChange(index) {
 			      }
 			      alert("수량 " + data[index].product_count + "개로 변경되었습니다!");
 			      alert("총금액 " + data[index].cart_total_price + "원");
-			      $("#totalPrice" + index).text(data[index].cart_total_price + "원");
+			      $("#totalPrice" + index).text(data[index].cart_total_price.toLocaleString() + "원");
 				
 			      var totalSum = 0; // 총합을 저장할 변수
 
@@ -232,38 +232,6 @@ function addPrice(i) {
 }
 
 
-// ----------------------------------------------------------
-
-// function getCheckedValues() {
-//   var checkboxes = document.querySelectorAll('input[name^="cartCheckbox"]:checked');
-//   var values = [];
-
-//   checkboxes.forEach(function(checkbox) {
-//     values.push(checkbox.value);
-//   });
-
-//   return values;
-// }
-
-// function submitForm() {
-// 	  var checkedValues = getCheckedValues();
-// 	  var queryString = '';
-
-// 	  if (checkedValues.length > 0) {
-// 	    queryString = '?' + checkedValues.map(function(value) {
-// 	      return 'product_id=' + encodeURIComponent(value);
-// 	    }).join('&');
-// 	  }
-
-// 	  var url = 'storePay' + queryString;
-// 	  window.location.href = url;
-
-// 	  return false; // 폼 제출 방지
-// 	}
-
-
-// -----------------------------------------------------------------------------------
-
 // 체크박스를 클릭했을 때 모든 항목을 체크하는 함수
 function checkAll() {
   var checkboxes = document.getElementsByName("product_id");
@@ -322,7 +290,7 @@ function checkAll() {
 	<!-- 											총금액 계산을 위한 All_tatal_price 변수 정의 -->
 	<!-- 											반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 -->
 											<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>
-											
+											<fmt:formatNumber var="formatted_price" value="${All_total_price}" pattern="###,###,###"/>
 <%-- 											<input type="checkbox" id="product_id${i}" name="product_id" value="${storeList[i].product_id}"> --%>
 											<input type="hidden" id="product_id${i}" name="product_id1" value="${storeList[i].product_id}">
 											<tr>
@@ -350,7 +318,8 @@ function checkAll() {
 	<!-- 												구매금액 -->
 	<!-- 												판매 금액 + 선택된 수량 합산 금액 -->
 	<%-- 												<td>${cartList.myCartList1[i].cart_total_price * cartList.myCartList1[i].product_count }원</td> --%>
-												<td id="totalPrice${i}"><fmt:formatNumber value="${cartList[i].cart_total_price}" pattern="###,###"/>원</td>
+<%-- 												<td id="totalPrice${i}">${cartList[i].cart_total_price}원</td> --%>
+												<td id="totalPrice${i}"><fmt:formatNumber value="${cartList[i].cart_total_price}" pattern="###"/>원</td>
 	<!-- 												선택 -->
 												<td>
 	<!-- 												바로 구매 버튼 입력 시 해당하는 상품만 개별구매 -->
@@ -405,7 +374,8 @@ function checkAll() {
 										</td>
 										<td><img src="${pageContext.request.contextPath }/resources/img/=.png" width="35px" height="35px"></img></td>
 										<!-- 총 가짓수 상품의 가격 및 갯수의 합산금액에서 할인 가격이 차감된 금액 -->
-										 <td class="table_box_red" id="All_total_price1"><fmt:formatNumber value="${All_total_price }" pattern="###,###"/>원</td>
+<%-- 										 <td class="table_box_red" id="All_total_price1"><fmt:formatNumber value="${All_total_price }" pattern="###,###"/>원</td> --%>
+										 <td class="table_box_red" id="All_total_price1">${formatted_price }원</td>
 									</tr>
 								</table>
 							</div>

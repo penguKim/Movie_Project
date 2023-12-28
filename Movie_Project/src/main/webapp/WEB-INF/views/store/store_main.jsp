@@ -66,7 +66,6 @@
 				<hr>
 				<!-- 버튼 클릭시 해당 섹션으로 이동  -->
 				<!-- body부분 페이지 변환없이 한페이지에서 모두 보이도록 구성 -->
-
 				<nav class="menubtn">
 					<ul>
 						<li><a href="#div01"><input type="button" value="패키지"></a></li>
