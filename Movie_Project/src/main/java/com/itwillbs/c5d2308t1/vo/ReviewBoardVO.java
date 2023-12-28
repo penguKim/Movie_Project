@@ -10,7 +10,7 @@ public class ReviewBoardVO { //리뷰게시글 출력을 위해서 뷰테이블 
 	private int review_rating;
 	private String review_content;
 	private Date review_date;
-	private String movie_id;
+	private int movie_id;
 	private String movie_title;
 	private String member_id;
 	

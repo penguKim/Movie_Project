@@ -12,6 +12,7 @@ import com.itwillbs.c5d2308t1.mapper.MoviesMapper;
 import com.itwillbs.c5d2308t1.vo.LikesVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.ReviewBoardVO;
+import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Service
 public class MoviesService {
@@ -27,6 +28,7 @@ public class MoviesService {
 	public HashMap<String, String> getMovieDetail(int movie_id) {
 		return mapper.selectMovieDetail(movie_id);
 	}
+
 	
 	// 찜하기 정보 가져오기
 	public LikesVO getLike(LikesVO like) {
@@ -48,6 +50,7 @@ public class MoviesService {
 //	public int reviewBoard(ReviewBoardVO review1) {
 //		return mapper.insertReviewBoard(review1);
 //	}
+
 	
 	
 	
@@ -66,9 +69,14 @@ public class MoviesService {
 		System.out.println("insertMovie");
 		return mapper.insertMovie(movie);
 	}
-
-	public ReviewBoardVO getreview1(ReviewBoardVO review1) {
-		return mapper.selectReview(review1);
+	//리뷰 조회
+	public ReviewBoardVO getreview(Map<String, String> map) {
+		return mapper.selectReview(map);
+	}
+	
+	//리뷰작성
+	public int registReview(String sId, String review_content, String movie_id) {
+		return mapper.insertReviewBoard(sId, review_content, movie_id);
 	}
 
 	// 해당 회원의 좋아요 정보 불러오기

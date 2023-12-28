@@ -46,12 +46,12 @@ $(document).ready(function(){
 	}); // submit 끝
 }); //ready 끝
 
-$(function(){
-	$("#searchForm1").on("submit", function(data1){
-		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수	
-		let title = $("#movieTitle").val();
+// $(function(){
+// 	$("#searchForm1").on("submit", function(data1){
+// 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수	
+// 		let title = $("#movieTitle").val();
 		
-});
+// });
 
 
 </script>
