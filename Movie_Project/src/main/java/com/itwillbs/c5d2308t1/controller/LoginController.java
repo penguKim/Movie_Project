@@ -1,5 +1,6 @@
 package com.itwillbs.c5d2308t1.controller;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
+import com.itwillbs.c5d2308t1.service.ReserveService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.RefundVO;
@@ -28,6 +30,9 @@ public class LoginController {
 
 	@Autowired
 	private LoginService service;
+	
+	@Autowired
+	ReserveService reserve;
 	
 	@GetMapping("memberLogin") //메인화면에서 로그인 버튼 클릭시 이동
 	public String memberLogin() {
@@ -94,14 +99,17 @@ public class LoginController {
 		
 		refund.setMember_id(sId);
 		
-		
 		List<RefundVO> reserveList = service.getReserveList(refund);
 		
+		// DecimalFormat을 사용하여 payment_total_price를 30,000 형식으로 변환
+	    DecimalFormat decimalFormat = new DecimalFormat("###,###");
+	    
 		System.out.println("지금 내아이디다 : " + refund.getMember_id());
 		
 		model.addAttribute("reserveList", reserveList);
 		
 		System.out.println("지금나는뭘까요 :" +  reserveList);
+		
 		
 		return"login/Mypage_Refund_BoardList";
 	}
@@ -217,4 +225,11 @@ public class LoginController {
 		return "login/Mypage_Product_boardList";
 	}
 	
+	//마이페이지 예매 취소 상세내역 팝업창
+	@GetMapping("refundInfoDetailPro")
+	public String resInfoDetailPro(@RequestParam String payment_id, Map<String, String> map, Model model) {
+		map = reserve.getresInfoDetail(payment_id);
+		model.addAttribute("map",map);
+		return"login/popup3";
+	}
 }

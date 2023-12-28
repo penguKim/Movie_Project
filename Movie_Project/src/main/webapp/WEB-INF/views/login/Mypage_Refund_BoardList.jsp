@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,18 +12,20 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-3.7.1.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
-		document.querySelector("#checkbox3").onclick = function() { // id가 checkbox1 클릭시 실행할 함수
+function openPopup(index){
+	var payment_id = document.getElementById("payment_id_" + index).value;
+// 	var payment_id = $(".payment_id").val();
+	var width = 700; // 팝업 창의 가로 크기
+    var height = 500; // 팝업 창의 세로 크기
+    var left = Math.ceil((window.screen.width - width) / 2); // 화면가로중앙에 위치
+    var top =  Math.ceil((window.screen.height - height) / 2); // 화면세로중앙에 위치
 
-			for(let i = 0; i < document.checkform.checkbox3.length; i++) { 
-				document.checkform.checkbox3[i].checked = document.querySelector("#checkbox3").checked;
-			}
-		}
-	};
-		//checkbox 체크박스를 클릭할 때 전체선택기능. checkform 폼 안에 있는 모든 checkbox1 체크박스)
-
+    var options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
+       window.open("refundInfoDetailPro?payment_id="+payment_id, "취소상세정보", options);
+       
+}
 </script>
 </head>
 <body>
@@ -43,7 +46,7 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 						
 
 			<!-- 바디부분 상단 -->
-			<form action="" method="" name="checkform">
+			<form onsubmit="openPopup()">
 				<div id="refund_list">
 					<h2>예매 취소내역</h2>
 					<table id="my_table1">
@@ -51,7 +54,9 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 							<th>No.</th>
 							<th>영화 제목</th>
 							<th>예매취소일</th>
+							<th>결제금액</th>
 							<th>상태</th>
+							<th>비고</th>
 						</tr>
 <%-- 					<c:if test="${not empty reserveList}"> --%>
 <%-- 					<c:set var="maxCount" value="${fn:length(reserveList)}" /> --%>
@@ -59,12 +64,18 @@ window.onload = function() {//페이지 로딩이 끝난뒤 함수 실행
 					<c:if test="${not empty reserveList}">
 						<c:forEach varStatus="status" var="reserveList" items="${reserveList }" begin="0" end="${fn:length(reserveList)}">
 							<tr>					
-								<td>${status.index + 1}</td>
+								<td>${reserveList.payment_id}</td>
 								<td>${reserveList.movie_title}</td>
 								<td>${fn:replace(reserveList.payment_datetime, 'T', ' ')}</td>
+<%-- 								<td>${reserveList.payment_total_price}</td> --%>
+								<td><fmt:formatNumber value="${reserveList.payment_total_price}" pattern="###,###"/></td>
 									<!-- 이게 0 이면 환불 완료 처리할 예정 -->
 <%-- 								<td>${reserveList.payment_status }</td> --%>
-								<td>[환불완료]</td>
+								<td>[취소완료]</td>
+								<td>
+								<input type="hidden" class="payment_id" id="payment_id_${status.index}" value="${reserveList.payment_id}">
+								<input type="submit" value="상세정보" class="resInfoDetail" onclick="openPopup(${status.index})">
+								</td>
 							</tr>
 						</c:forEach>	
 					</c:if>

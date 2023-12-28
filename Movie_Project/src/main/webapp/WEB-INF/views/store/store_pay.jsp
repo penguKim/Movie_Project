@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,9 +97,9 @@
 								
 								<c:choose>
 								  <c:when test="${param.product_count != null}">
+								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
 								    <td>${param.product_count}개</td>
-								    <td>${store.product_price}원</td>
-								    <td>${store.product_price * param.product_count}원</td>
+								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
 								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
 								  </c:when>
 								  <c:otherwise>
@@ -127,19 +128,19 @@
 						
 							<c:choose>
 								  <c:when test="${param.product_count != null}">
-								    <td> ${store_pay_count}원 </td>
+								    <td><fmt:formatNumber value="${store_pay_count}" pattern="###,###"/>원 </td>
 									<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
 									<td></td>
 									<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
-									<td class="table_box_red"> ${store_pay_count} 원</td>
+									<td class="table_box_red"><fmt:formatNumber value="${store_pay_count}" pattern="###,###"/>원</td>
 								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
 								  </c:when>
 								  <c:otherwise>
-								    <td> ${store_pay_price}원 </td>
+								    <td><fmt:formatNumber value="${store_pay_price}" pattern="###,###"/>원 </td>
 									<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
 									<td></td>
 									<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
-									<td class="table_box_red"> ${store_pay_price} 원</td>
+									<td class="table_box_red"><fmt:formatNumber value="${store_pay_price}" pattern="###,###"/>원</td>
 								  </c:otherwise>
 								</c:choose>
 							

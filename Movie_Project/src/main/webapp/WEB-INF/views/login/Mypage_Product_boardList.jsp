@@ -75,9 +75,8 @@ $(function(){
 <!-- 							<td><input type="button" value="구매취소"></td> -->
 							</td>
 						</tr>
-					</c:forEach>
+					</c:forEach> 
 					</table><br>
-								
 						<div class="pagination">
 						<a href="#">&laquo;</a>
 						<a href="#">1</a>
