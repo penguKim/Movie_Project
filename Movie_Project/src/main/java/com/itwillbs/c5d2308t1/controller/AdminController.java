@@ -767,42 +767,6 @@ public class AdminController {
 			return "fail_back";
 		}
 		
-		// --------------------------------------------------------
-		// 파일업로드를 위한 준비
-		// resources 디렉토리 내에 upload 파일 생성
-		String uploadDir = "/resources/upload"; // 가상 디렉토리
-		String saveDir = session.getServletContext().getRealPath(uploadDir); // 실제 디렉토리
-		String subDir = "";
-//				
-		// 날짜별로 서브디렉토리 생성하기
-		LocalDate now = LocalDate.now();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-		subDir = now.format(dtf);
-		
-		saveDir += File.separator + subDir;
-		
-		// 해당 디렉토리가 존재하지 않을 때에만 자동생성
-		try {
-			Path path = Paths.get(saveDir); // 업로드 경로
-			Files.createDirectories(path); // Path 객체
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-//				// MultipartFile 타입 객체 꺼내기
-		MultipartFile mFile = cs.getMFile();
-		
-		// 파일명 중복을 방지하기 위해 난수 생성하기
-		cs.setCs_file("");
-		String fileName = UUID.randomUUID().toString() + "_" + mFile.getOriginalFilename();
-		
-		if(!mFile.getOriginalFilename().equals("")) {
-			cs.setCs_file(subDir + "/" + fileName);
-		}
-		
-		System.out.println("업로드 파일명 확인 : " + cs.getCs_file());
-		
-		
 		// CsService - registBoard() 메서드 호출하여 문의글 등록 요청
 		// => 파라미터 : CsVO 객체   리턴타입 : int(insertCount)
 		int insertCount = service.registBoard(cs);
@@ -811,18 +775,6 @@ public class AdminController {
 		// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
 		//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
 		if(insertCount > 0) {
-			// 파일이 있을 경우에만 파일 생성
-			try {
-				if(!mFile.getOriginalFilename().equals("")) {
-					mFile.transferTo(new File(saveDir, fileName));
-				}
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-					
-			
 			return "redirect:/adminNotice";
 			
 		} else {			
@@ -878,42 +830,6 @@ public class AdminController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		
-		// --------------------------------------------------------
-		// 파일업로드를 위한 준비
-		// resources 디렉토리 내에 upload 파일 생성
-		String uploadDir = "/resources/upload"; // 가상 디렉토리
-		String saveDir = session.getServletContext().getRealPath(uploadDir); // 실제 디렉토리
-		String subDir = "";
-//				
-		// 날짜별로 서브디렉토리 생성하기
-		LocalDate now = LocalDate.now();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-		subDir = now.format(dtf);
-		
-		saveDir += File.separator + subDir;
-		
-		// 해당 디렉토리가 존재하지 않을 때에만 자동생성
-		try {
-			Path path = Paths.get(saveDir); // 업로드 경로
-			Files.createDirectories(path); // Path 객체
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-//		// MultipartFile 타입 객체 꺼내기
-		MultipartFile mFile = cs.getMFile();
-		
-		// 파일명 중복을 방지하기 위해 난수 생성하기
-		cs.setCs_file("");
-		String fileName = UUID.randomUUID().toString() + "_" + mFile.getOriginalFilename();
-		
-		if(!mFile.getOriginalFilename().equals("")) {
-			cs.setCs_file(subDir + "/" + fileName);
-		}
-		
-		System.out.println("업로드 파일명 확인 : " + cs.getCs_file());
-		
 
 		int updateCount = service.updateBoard(cs);
 		System.out.println("updateCount :" + updateCount);
@@ -922,26 +838,13 @@ public class AdminController {
 		// => 포워딩 출력할 오류메세지를 "msg" 라는 속성명으로 Model 객체에 저장
 		//    (현재 메서드 파라미터에 Model 타입 파라미터 변수 선언 필요)
 		if(updateCount > 0) {
-			// 파일이 있을 경우에만 파일 생성
-			try {
-				if(!mFile.getOriginalFilename().equals("")) {
-					mFile.transferTo(new File(saveDir, fileName));
-				}
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
 			return "redirect:/adminNotice";
 				
 		} else {			
 			model.addAttribute("msg", "공지사항 수정 실패!");
 			return "fail_back";
 		}
-		
 	}
-	
 	
 	@GetMapping("adminNoticeDelete")
 	public String adminNoticeDelete(CsVO cs, @RequestParam(defaultValue = "1") int pageNum, Model model, HttpSession session) {
@@ -957,25 +860,6 @@ public class AdminController {
 		int deleteCount = service.removeBoard(board);
 		
 		if(deleteCount > 0) { // 삭제 성공
-			try {
-				// ------------------------------------------------------
-				// [ 서버에서 파일 삭제 ]
-				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
-				String saveDir = session.getServletContext().getRealPath(uploadDir);
-
-				if(!board.get("cs_file").equals("")) {
-					// Paths.get() 메서드 호출하여 파일 경로 관리 객체인 Path 객체 생성 후
-					// => 파라미터로 업로드 디렉토리명과 서브디렉토리를 포함한 파일명 결합하여 전달
-					// => Files.deleteIfExists() 메서드 호출하여 파일이 존재할 경우에만 파일 삭제
-					Path path = Paths.get(saveDir + "/" + board.get("cs_file"));
-					System.out.println(path);
-					Files.deleteIfExists(path);
-				}
-							
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
 			return "redirect:/adminNotice?pageNum=" + pageNum;
 			
 		} else { // 삭제 실패

@@ -16,7 +16,14 @@
 			, now()
 			, #{member_phone}
 			, 1
-			, #{member_passwd}
+			<choose>
+				<when test="member_passwd != null and !member_passwd.equals('')">
+					, #{member_passwd}
+				</when>
+				<otherwise>
+					, ''
+				</otherwise>
+			</choose>
 			, null
 			, null
 		)		

@@ -141,8 +141,8 @@
 							<td colspan="3"><textarea rows="15" cols="90" name="cs_content"></textarea></td>
 						</tr>
 						<tr>
-							<th>첨부파일</th>
-							<td colspan="3"><input type="file" id="file" name="mFile"></td>
+							<th>첨부이미지</th>
+							<td colspan="3"><input type="file" id="file" name="mFile" accept=".gif, .jpg, .png"></td>
 							<input type="hidden" name="cs_type" value="분실물문의">
 						</tr>
 					</table>

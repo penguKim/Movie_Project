@@ -288,7 +288,13 @@ public class CsController {
 				e.printStackTrace();
 			}
 			
-			return "redirect:/Mypage";
+			if(cs.getCs_type().equals("1대1문의")) {
+				return "redirect:/Mypage_OneOnOneList";				
+			} else if(cs.getCs_type().equals("분실물문의")) {
+				return "redirect:/Mypage_LostBoard_List";	
+			} else {
+				return "redirect:/Mypage";
+			}
 			
 		} else {			
 			model.addAttribute("msg", "문의글 등록 실패!");

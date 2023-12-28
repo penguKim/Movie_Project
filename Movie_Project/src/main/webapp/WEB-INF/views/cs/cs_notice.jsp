@@ -56,7 +56,7 @@
 			<section id="notice_main">
 				<form action="csNotice" id="search">
 					<select id="theater_id" name="theater">
-						<option value="">지점을 선택하세요</option> <%-- 전체 지점 공지사항 보기 --%>
+						<option value="0">전체</option> <%-- 전체 지점 공지사항 보기 --%>
 					</select>
 					<input type="search" placeholder="검색어를 입력해주세요" id="searchValue" name="searchValue"> <%-- 검색어 입력창 --%>
 					<input type="submit" value="검색" id="noticeSearch">
@@ -85,7 +85,14 @@
 									<c:forEach var="notice" items="${noticeList}">
 										<tr>
 											<td>${notice.cs_type_list_num}</td> <%-- 내용 넣기 --%>
-											<td>${notice.theater_name}</td>
+											<c:choose>
+												<c:when test="${notice.theater_id == null}">
+													<td>전체</td>
+												</c:when>
+												<c:otherwise>												
+													<td>${notice.theater_name}</td>
+												</c:otherwise>
+											</c:choose>
 											<%-- 제목 클릭 시 해당 게시물로 이동 --%>
 											<td id="td_left"><a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}" id="notice_tit">${notice.cs_subject}</a></td>
 											<td>

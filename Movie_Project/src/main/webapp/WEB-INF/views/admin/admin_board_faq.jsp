@@ -69,17 +69,15 @@
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
-			
 			<div id="admin_main">
-				<nav id="faq_button">
-					<ul>
-						<li><input type="button" value="전체" class="faqButton" name="전체"></li> <%-- 전체 질문 보기 --%>
-						<li><input type="button" value="예매" class="faqButton" name="예매"></li> <%-- 예매 관련 질문 모아보기 --%>
-						<li><input type="button" value="관람권" class="faqButton" name="관람권"></li> <%-- 관람권 관련 질문 모아보기 --%>
-						<li><input type="button" value="할인혜택" class="faqButton" name="할인혜택"></li> <%-- 할인 관련 질문 모아보기 --%>
-						<li><input type="button" value="영화관이용" class="faqButton" name="영화관이용"></li> <%-- 영화관 관련 질문 모아보기 --%>
-					</ul>
-				</nav>
+				<div id="admin_search">
+					<%-- 검색 기능을 위한 폼 생성 --%>
+					<form>
+						<input type="text" name="searchKeyword" placeholder="제목을 입력하세요">
+						<input type="submit" value="검색">
+					</form>
+				</div>
+				
 				<table border="1">
 					<thead>
 						<tr>

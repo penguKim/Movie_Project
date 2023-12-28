@@ -27,7 +27,15 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			
+			
 			<div id="admin_main">
+				<div id="admin_search">
+					<%-- 검색 기능을 위한 폼 생성 --%>
+					<form>
+						<input type="text" name="searchKeyword" placeholder="제목을 입력하세요">
+						<input type="submit" value="검색">
+					</form>
+				</div>
 				<table border="1">
 					<tr>
 						<th width="60">번호</th>
@@ -39,7 +47,14 @@
 					<c:forEach var="notice" items="${NoticeList}">
 						<tr>
 							<td>${notice.cs_type_list_num}</td>
-							<td>${notice.theater_name}</td>
+							<c:choose>
+								<c:when test="${notice.theater_id == null}">
+									<td>전체</td>
+								</c:when>
+								<c:otherwise>
+									<td>${notice.theater_name}</td>
+								</c:otherwise>
+							</c:choose>
 							<td class="post_name"><a href="adminNoticeView?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}">${notice.cs_subject}</a></td>
 							<td>
 								<fmt:parseDate value='${notice.cs_date}' pattern="yyyy-MM-dd" var='cs_date'/>

@@ -1,7 +1,9 @@
 <%-- admin_board_notice_detail.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +46,14 @@
 						</tr>
 						<tr>
 							<th>지점</th>
-							<td>${noticeDetail.theater_name}</td>
+							<c:choose>
+								<c:when test="${noticeDetail.theater_id == null}">
+									<td>전체</td>
+								</c:when>							
+								<c:otherwise>
+									<td>${noticeDetail.theater_name}</td>						
+								</c:otherwise>
+							</c:choose>
 							<input type="hidden" value="${noticeDetail.theater_id}">
 						</tr>
 						<tr>
@@ -61,10 +70,6 @@
 						<tr>
 							<th>내용</th>
 							<td>${noticeDetail.cs_content}</td>
-						</tr>
-						<tr>
-							<th>첨부파일</th>
-							<td>${noticeDetail.cs_file}</td>
 						</tr>
 					</table>
 					<div id="admin_writer">

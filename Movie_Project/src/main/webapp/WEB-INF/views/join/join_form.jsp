@@ -320,9 +320,9 @@
 				<section id="join_center">
 					<input type="text" id="id" name="member_id" placeholder="아이디">
 					<div id="checkIdResult"></div> <br>
-					<input type="text" id="passwd" name="member_passwd" placeholder="비밀번호">
+					<input type="password" id="passwd" name="member_passwd" placeholder="비밀번호">
 					<div id="checkPasswdResult"></div> <br>
-					<input type="text" id="passwd2" name="passwd2" placeholder="비밀번호확인">
+					<input type="password" id="passwd2" name="passwd2" placeholder="비밀번호확인">
 					<div id="checkPasswd2Result"></div> <br>
 					<input type="text" id="name" name="member_name" placeholder="이름">
 					<div id="checkNameResult"></div> <br>

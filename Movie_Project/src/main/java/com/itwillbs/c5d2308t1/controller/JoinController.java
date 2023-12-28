@@ -82,4 +82,17 @@ public class JoinController {
 		return "main";
 	}
 	
+	// 네이버 로그인 api
+	@ResponseBody
+	@PostMapping("naverLogin")
+	public int naverLogin(MemberVO member) {
+//		int result = service.naverLogin(member);
+		int result = 1;
+		return result;
+	}
+	
+	
+	
+	
+	
 }

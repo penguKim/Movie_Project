@@ -49,6 +49,13 @@ a {
 	border: none;
 }
 
+/* 검색창 div영역 오른쪽정렬 */
+#admin_search {
+	text-align: right;
+}
+
+
+
 /* ========================== 가운데 정렬할 버튼 ============================= */
 #btnCtr {
 	text-align: center;
@@ -252,44 +259,6 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	border-color: #C4C4C4;
 }
 
-/* =============== 자주묻는질문 ==================== */
-
-#faq_button {
-	position: relative;
-}
-
-
-#faq_button ul {
-	text-align: center;
-	margin: 0;
-}
-
-#faq_button {
-	text-align: center;
-}
-
-#faq_button li {
-	display: inline-block;
-	height: 50px;
-	text-align: center;
-	line-height: 30px;
-	margin: 10px;
-}
-
-#faq_button input {
-	border: none;
-	border-bottom: 3px solid #505050;
-	color: #000000; /* 글자 색상 */
-	padding: 10px 40px; /* 영역의 상하 좌우 크기 */
-/* 	margin-top: 10px; */
-	background-color: #ffffff;
-	cursor: pointer; /* 커서 변경 */
-}
-
-#faq_button input:hover {
-	background-color: #eeeeee;
-	border-bottom: 3px solid #000000;
-}
 
 /* =============== 회원 관리 페이지 =================== */
 /* 폼의 div 영역 폰트와 높이 조절 */

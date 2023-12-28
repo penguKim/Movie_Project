@@ -54,7 +54,7 @@
 							<th>지점</th>
 							<td>
 								<select name="theater_id" id="theater_id">
-									<option value="">지점을 선택하세요</option>
+									<option value="">전체</option>
 								</select>
 							</td>
 						</tr>
@@ -69,11 +69,6 @@
 						<tr>
 							<th>내용</th>
 							<td><textarea rows="15" cols="90" name="cs_content"></textarea></td>
-						</tr>
-						<tr>
-							<th>첨부파일</th>
-							<td><input type="file" name="mFile"></td>
-							<input type="hidden" name="cs_type" value="공지사항">
 						</tr>
 					</table>
 					<div id="admin_writer"> 

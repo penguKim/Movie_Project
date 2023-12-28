@@ -41,12 +41,8 @@
 						<tr>
 							<th>내용</th>
 							<td><textarea rows="15" cols="90" name="cs_content">${noticeDetail.cs_content}</textarea></td>
-						</tr>
-						<tr>
-							<th>첨부파일</th>
-							<td><input type="file" name="mFile"></td>
-							<input type="hidden" name="cs_type" value="공지사항">
-							<input type="hidden" name="cs_type_list_num" value="${param.cs_type_list_num}">
+							<input type="hidden" name="cs_type" value="${noticeDetail.cs_type}">
+							<input type="hidden" name="cs_type_list_num" value="${noticeDetail.cs_type_list_num}">
 						</tr>
 					</table>
 					<div id="admin_writer"> 

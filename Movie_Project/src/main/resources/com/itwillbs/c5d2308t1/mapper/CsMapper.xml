@@ -31,10 +31,10 @@
 	<select id="selectNoticeList" resultType="hashmap">
 		SELECT * 
 		FROM cs 
-		JOIN theaters
+		LEFT OUTER JOIN theaters
 		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = '공지사항'
-			<if test="theater != 0">
+			<if test="theater != ''">
 				AND cs.theater_id = #{theater}
 			</if>
 			<if test="searchValue != ''">
@@ -95,7 +95,7 @@
 	<select id="selectNoticeDetail" resultType="hashmap">
 		SELECT cs_subject, theater_name, cs_date, cs_content
 		FROM cs
-		JOIN theaters
+		LEFT OUTER JOIN theaters
 		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = #{cs_type} 
 			AND cs_type_list_num = #{cs_type_list_num} 

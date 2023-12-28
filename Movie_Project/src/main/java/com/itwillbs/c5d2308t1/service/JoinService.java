@@ -23,6 +23,10 @@ public class JoinService {
 		return mapper.selectDup(member);
 	}
 
+	public int naverLogin(MemberVO member) {
+		return mapper.insertMember(member);
+	}
+
 
 	
 }

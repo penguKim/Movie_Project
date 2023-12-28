@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,10 +43,6 @@
 					</tr>
 					<tr>
 						<td colspan="4"  class="notice_content">${csNoticeDetail.cs_content}</td>
-					</tr>
-					<tr>
-						<td class="notice_file">첨부파일</td>
-						<td colspan="3"  class="notice_file">${csNoticeDetail.cs_file}</td>
 					</tr>
 					<tr>
 						<td>이전  ▲</td>
