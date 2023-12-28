@@ -542,12 +542,8 @@ public class MoviesController {
 	//member_id값이 있고 영화상영일 + 상영종료시간 이후에 리뷰작성이 가능함
 	// 리뷰 작성후 등록 버튼 클릭시 데이터 출력하기
 	@GetMapping("reviewPro")
-	public String reviewBoard(HttpSession session, Model model, ReviewBoardVO review1) {
-//		int insertCount = service.reviewBoard(review1);
-//		System.out.println(insertCount);
-		ReviewBoardVO dbReview = service.getreview1(review1);
-		System.out.println("저장된데이터 : " + dbReview);
-		
+	public String reviewBoard(Map map) {
+		System.out.println(map.get("movie_id"));
 		
 		return "detail";
 	}//reviewPro 끝

@@ -82,8 +82,8 @@
 			    	<h2>리뷰</h2>
 						<form action="reviewPro">
 					    	<input type="text" name="review_content" placeholder="리뷰 입력" size="50">
+<%-- 					    	<input type="hidden" name="movie_id" value="#{movie_id}"> --%>
 					    	<input type=submit value="등록"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
-					    	<input type="hidden" name="movie_id" >
 						</form>
 				    	<br>
 		    			<table>
@@ -98,9 +98,9 @@
 			    		</tr>
 			    		<c:forEach begin="1" end="5">
 						   	<tr>
-				    			<th>${review1.member_id}</th> <!-- 세션에 저장된 id  -->
-				    			<td>${review1.movie_title}</td> <!-- insert로 생성된 내용 -->
-				    			<td>${review1.movie_id}</td> <!-- insert로 생성된 datetime -->
+<%-- 				    			<th>${review1.member_id}</th> <!-- 세션에 저장된 id  --> --%>
+<%-- 				    			<td>${review1.movie_title}</td> <!-- insert로 생성된 내용 --> --%>
+<%-- 				    			<td>${review1.movie_id}</td> <!-- insert로 생성된 datetime --> --%>
 				    		</tr>
 		    			</c:forEach>
 		    			</table>

@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,13 +19,13 @@
 	#textSmall td{
 		font-size: 10px;
 	}
+	.CancleReservation{
+		background-color: #F4E4E4!important;
+	}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	function openPopup(){
-		
-		var payment_id = $(".payment_id").val();
-		
+	function openPopup(payment_id){
 		var width = 700; // 팝업 창의 가로 크기
 	    var height = 500; // 팝업 창의 세로 크기
 	    var left = Math.ceil((window.screen.width - width) / 2); // 화면가로중앙에 위치
@@ -68,33 +70,25 @@
 						</tr>
 						<c:forEach var="reslist" items="${resList}">
 						<div id="textSmall">
-						<tr>
+						<c:choose>
+							<c:when test="${reslist.payment_status eq 0}"><tr class="CancleReservation"></c:when>
+							<c:otherwise><tr></c:otherwise>
+						</c:choose>
 							<td>${reslist.payment_id}</td>
-							<td>${reslist.movie_title}</td>
+							<td><a href="detail?movie_id=${reslist.movie_id}">${reslist.movie_title}</a></td>
 							<td>${fn:replace(reslist.payment_datetime, 'T', '<br>')}</td>
-							<td>${reslist.payment_total_price}</td>
+							<td><fmt:formatNumber value="${reslist.payment_total_price}" pattern="#,##0" />원</td>
 							<td>
 								<c:if test="${reslist.payment_status eq 1}">결제완료</c:if>
 								<c:if test="${reslist.payment_status eq 0}">취소완료</c:if>
 							</td>
 							<td>
-								<input type="hidden" class="payment_id" value="${reslist.payment_id}">
-								<input type="submit" value="상세정보" class="resInfoDetail">
+								<input type="button"  onclick="openPopup(${reslist.payment_id})" value="상세정보" class="resInfoDetail">
 							</td>
 						</tr>
 						</div>
 						</c:forEach>
 					</table><br>
-								
-					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1< /a>
-						<a class="active" href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">&raquo;</a>
-					</div>
 				</div>
 							
 			</form>

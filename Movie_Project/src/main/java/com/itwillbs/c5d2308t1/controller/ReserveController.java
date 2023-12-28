@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itwillbs.c5d2308t1.service.ReserveService;
+import com.itwillbs.c5d2308t1.vo.PageInfo;
 import com.itwillbs.c5d2308t1.vo.ReserveVO;
 
 @Controller
@@ -103,7 +105,11 @@ public class ReserveController {
 	
 	//마이페이지 예매내역 처리
 	@GetMapping("Mypage_Reserv_boardList")
-	public String mypage_Reserv_boardList(Map<String, Object> map, Model model, HttpSession session) { // 예매내역 게시판
+	public String mypage_Reserv_boardList(Map<String, Object> map, Model model, HttpSession session,@RequestParam(defaultValue = "1") int pageNum) { // 예매내역 게시판
+		
+		
+
+		
 		String sId = (String)session.getAttribute("sId");
 		List<HashMap<String, String>> resList = reserve.getReserveList(sId);
 		model.addAttribute("resList", resList);
@@ -118,15 +124,17 @@ public class ReserveController {
 		return"login/popup1";
 	}
 	
-	@PostMapping("resCancle")
-	public String resCancle(@RequestParam String payment_id,@RequestParam String seat_id, Model model) {
+	
+	@ResponseBody
+	@GetMapping("resCancle")
+	public boolean resCancle(@RequestParam String payment_id,@RequestParam String seat_id, Model model) {
+		System.out.println(seat_id+" "+payment_id);
 		int paymentUpdateCount = reserve.getresCancle(payment_id); //결제취소
 		int seatUpdateCount = reserve.getSeatCancle(seat_id); //좌석예매취소
 		if(paymentUpdateCount>0 && seatUpdateCount>0)  {
-			return "redirect:/Mypage_Reserv_boardList";
+			return true;
 		}else {
-			model.addAttribute("msg", "예매취소 실패!");
-			return "fail_back";
+			return false;
 		}
 	}
 	
