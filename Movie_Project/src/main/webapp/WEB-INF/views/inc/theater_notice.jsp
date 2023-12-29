@@ -27,7 +27,14 @@
 									<%-- 공지사항 리스트 List<CsVO> 객체(noticeList) 활용하여 목록 출력 --%>
 									<c:forEach var="notice" items="${noticeList}">
 										<tr>
+										<c:choose>
+											<c:when test="${notice.theater_id == null}">
+												<td>전체</td>
+											</c:when>
+											<c:otherwise>
 											<td>${notice.theater_name}</td>
+											</c:otherwise>
+										</c:choose>
 											<%-- 제목 클릭 시 해당 게시물로 이동 --%>
 											<td id="td_left"><a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}" id="notice_tit">${notice.cs_subject}</a></td>
 											<td>
