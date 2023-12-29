@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>박스오피스 영화 등록</title>
+<title>스토어 상품 상세 페이지</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
@@ -17,48 +17,20 @@
 </script>
 <script>
 $(function() {
-	let isDuplicateMovie = false;
-	$("#product_id").on("change", function() {
-		alert($("#product_id").val());
-		
-		$.ajax({
-			type:"GET",
-			url:"productDupl",
-			data: {
-				product_id: $("#product_id").val()
-			},
-			success: function(result) {
-				// 중복 결과를 "true", "false" 문자열로 반환
-				if(result == 'true') {
-					alert("이미 등록된 상품입니다!");
-					isDuplicateMovie = true;
-					$("#product_id").focus();
-				} else {
-					isDuplicateMovie = false;
-				}
-			},
-			error: function() {
-				alert("실패");
-			}
-		});
-	});
-	
+	alert($("#product_img").val());
 	// submit 시 수행할 동작
 	$("form").on("submit", function() {
-		if(isDuplicateMovie) { // 등록된 영화인지 판별
-			alert("이미 등록된 상품입니다!");
-			return false;
-		} else if($("#product_id").val() == '') {
-			alert("상품코드를 입력하세요!");
-			$("#product_id").focus();
-			return false;
-		} else if($("#product_name").val() == '') {
+		if($("#product_name").val() == '') {
 			alert("상품 이름을 입력하세요!");
 			$("#product_name").focus();
 			return false;
 		} else if($("#product_txt").val() == '') {
 			alert("상품설명을 입력하세요!");
 			$("#product_txt").focus();
+			return false;
+		} else if($("#product_price").val() == '') {
+			alert("상품가격을 입력하세요!");
+			$("#product_price").focus();
 			return false;
 		} else if($("#product_img").val() == '') {
 			alert("상품이미지를 입력하세요!");
@@ -88,7 +60,7 @@ function productDel(id) {
 						
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 	<section id="content">
-	<h1 id="h01">상품등록</h1>
+	<h1 id="h01">상품 상세 정보</h1>
 	<hr>
 	<div id="admin_nav">
 		<jsp:include page="admin_menubar.jsp"></jsp:include>
@@ -104,7 +76,7 @@ function productDel(id) {
 		            </colgroup> 
 					<tr>
 						<td rowspan="5" colspan="2" id="posterArea">
-							<img src="${product[0].product_img }" id="product_img"><br>
+							<img src="${product[0].product_img }" id=""><br>
 						</td>
 						<!-- 상품 코드 수정 불가 -->
 						<th width="100px">상품코드</th>
@@ -124,7 +96,7 @@ function productDel(id) {
 					</tr>
 					<tr>
 						<th>이미지 파일 첨부</th>
-						<td><input type="file" name="product_img" id="product_img" class="shortInput"></td>
+						<td><input type="file" name="imgFile" id="product_img" class="shortInput"></td>
 					</tr>
 				</table>
 				<input type="submit" value="변경" id="regist">

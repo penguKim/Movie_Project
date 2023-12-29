@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>박스오피스 영화 등록</title>
+<title>스토어 상품 등록</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
@@ -60,6 +60,10 @@ $(function() {
 			alert("상품설명을 입력하세요!");
 			$("#product_txt").focus();
 			return false;
+		} else if($("#product_price").val() == '') {
+			alert("상품가격을 입력하세요!");
+			$("#product_price").focus();
+			return false;
 		} else if($("#product_img").val() == '') {
 			alert("상품이미지를 입력하세요!");
 			$("#product_img").focus();
@@ -82,13 +86,13 @@ $(function() {
 						
 		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 	<section id="content">
-	<h1 id="h01">상품등록</h1>
+	<h1 id="h01">상품 등록</h1>
 	<hr>
 	<div id="admin_nav">
 		<jsp:include page="admin_menubar.jsp"></jsp:include>
 	</div>
 	<div id="admin_main">
-			<form action="movieRgst" method="post" id="movieRegist">
+			<form action="adminProductInsert" method="post" id="movieRegist" enctype="multipart/form-data">
 				<table id="movieTable">
 		            <colgroup> 
 		                <col style="width: 20%;">
@@ -117,7 +121,7 @@ $(function() {
 					</tr>
 					<tr>
 						<th>이미지 파일 첨부</th>
-						<td ><input type="text" name="product_img" id="product_img" class="shortInput"></td>
+						<td ><input type="file" name="imgFile" id="product_img" class="shortInput"></td>
 					</tr>
 				</table>
 				<input type="submit" value="등록" id="regist">

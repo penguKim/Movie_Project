@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.c5d2308t1.mapper.StoreMapper;
 import com.itwillbs.c5d2308t1.vo.CartVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.StoreVO;
 
 @Service
@@ -17,9 +18,16 @@ public class StoreService {
 	@Autowired
 	StoreMapper mapper;
 	
+	// 관리자 페이지 상품 관리
+	// ===================================================
+	// 관리자 페이지 상품 등록 - INSERT 
+	public int productInsert(StoreVO store) {
+		return mapper.productInsert(store);
+	}
+	
 	// 관리자페이지 상품 등록 시 상품 id 중복 판별을 위한 셀렉트
-	public int adminProductSelect(String product_id) {
-		return mapper.adminProductSelect(product_id);
+	public StoreVO adminProductSelect(StoreVO store) {
+		return mapper.adminProductSelect(store);
 	}
 	
 	// 모든 상품 조회
@@ -37,6 +45,16 @@ public class StoreService {
 		return mapper.adminProductDel(store);
 	}
 	
+	// 페이징 처리를 위한 게시글 카운트 조회
+	public int getProductListCount(String searchKeyword) {
+		return mapper.selectProductListCount(searchKeyword);
+	}
+	
+	public List<StoreVO> getStoreList(String searchType, String searchKeyword, PageDTO page) {
+		return mapper.selectStoreList(searchType, searchKeyword, page);
+	}
+
+	// ========================= 스토어 페이지 
 	//-----------------------------
 	// 장바구니 판별후 UPDATE
 	public int updateCart(String sId, String product_id) {
@@ -101,7 +119,6 @@ public class StoreService {
 		return mapper.cartDelete(sId, product_id);
 	}
 
-	
 	// 장바구니에서 결제하기로 테스트
 	public List<StoreVO> selectCart3(String arrPro, String sId) {
 		return mapper.selectCart3(arrPro, sId);
@@ -112,6 +129,11 @@ public class StoreService {
 		return mapper.selectCart4(productId, sId);
 	}
 
+	
+
+	
+	
+	
 	
 
 	

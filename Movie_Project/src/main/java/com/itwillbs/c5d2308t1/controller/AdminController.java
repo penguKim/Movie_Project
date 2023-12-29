@@ -365,46 +365,121 @@ public class AdminController {
 	// ******************** 스토어 결제 관리 페이지 *************
 	// 관리자페이지 스토어 상품 관리 페이지로 이동
 	@GetMapping("adminProduct")
-	public String adminProduct(HttpSession session, Model model) {
+	public String adminProduct(HttpSession session, Model model, 
+			@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "") String searchType,
+			@RequestParam(defaultValue = "") String searchKeyword) {
+		
 		// 관리자가 아니면 등록을 하지 못하도록 하기
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(!sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
+		
+		PageDTO page = new PageDTO(pageNum, 5);
+		// 전체 게시글 갯수 조회
+		int listCount = storeService.getProductListCount(searchKeyword);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
 		// 모든 상품 조회
-		List<StoreVO> storeList = storeService.allSelectStore();
-		System.out.println(storeList);
+		List<StoreVO> storeList = storeService.getStoreList(searchType, searchKeyword, page);
+		
 		model.addAttribute("storeList", storeList);
+		model.addAttribute("pageInfo", pageInfo);
+
 		return "admin/admin_product";
 	}
 	
 	// 관리자 페이지 스토어상품 등록 페이지로 이동
-	@GetMapping("adminProductInsert")
+	@GetMapping("adminProductWrite")
 	public String adminProductInsert(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		return "admin/admin_product_insert";
+		return "admin/admin_product_write";
 	}
 	
 	// 스토어 상품 등록시 상품 코드 비교
+	@ResponseBody
 	@GetMapping("productDupl")
-	public String productDupl(String product_id) {
+	public String productDupl(StoreVO store, Model model) {
 		
-		System.out.println("상품 아이디 " + product_id);
-		int proIdDupl = storeService.adminProductSelect(product_id);
+		System.out.println("상품 아이디 " + store);
+		store = storeService.adminProductSelect(store);
 		
-		if(proIdDupl > 0 ) {
+		if(store != null) {
 			return "true";
 		} else {
 			return "false";
 		}
-		
 	}
-	// 스토어 상품관리 상품 상세페이지로 이동
+	
+	// 관리자페이지 스토어상품 관리 상품 등록
+	@PostMapping("adminProductInsert")
+	public String productInsert(HttpSession session, StoreVO store, Model model) {
+		
+		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
+		String saveDir = session.getServletContext().getRealPath(uploadDir); // 세션도 가능(마침 request 객체 호출해서 사용했음)
+		String subDir = "";
+		LocalDate now = LocalDate.now();
+		System.out.println(now); // 2023-12-19 
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		subDir = now.format(dtf);
+		saveDir += File.separator + subDir; // File.separator 대신 \ 또는 / 지정도 가능
+		try {
+			Path path = Paths.get(saveDir); // 파라미터로 업로드 경로 전달
+			Files.createDirectories(path); // 파라미터로 Path 객체 전달
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile imgFile = store.getImgFile();
+		System.out.println("원본파일명1 : " + imgFile.getOriginalFilename());
+		
+		store.setProduct_img("");
+		
+		String fileName1 = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
+		if(!imgFile.getOriginalFilename().equals("")) store.setProduct_img(subDir + "/" + fileName1);
+		System.out.println("실제 업로드 파일명1 : " + store.getProduct_img()); // ba278eaa_1.jpg
+		
+		int insertCount = storeService.productInsert(store);
+		
+		if(insertCount > 0) {
+			try {
+				// 업로드 된 파일들은 MultipartFile 객체에 의해 임시 디렉토리에 저장되며
+				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리 이동 작업 필요
+				// => MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(=업로드)
+				// => 파일이 선택되지 않은 경우(파일명이 널스트링) 이동이 불가능(예외 발생)하므로 제외
+				// => transfetTo() 메서드 파라미터로 java.io.File 타입 객체 전달
+				
+				if(!imgFile.getOriginalFilename().equals("")) imgFile.transferTo(new File(saveDir, fileName1));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+				
+				// 글목록(BoardList) 서블릿 리다이렉트
+				return "redirect:/adminProduct";
+			} else {
+				// "글쓰기 실패!" 메세지 처리(fail_back)
+				model.addAttribute("msg", "글쓰기 실패!");
+				return "fail_back";
+			}
+	}
+	
+	@PostMapping("adminProductUpd")
+	public String adminProductUpd() {
+			
+		
+		return "";
+	} 
+	
+	// 관리자페이지 스토어 상품관리 상품 상세페이지로 이동
 	@GetMapping("adminProductDtl")
 	public String adminProductDtl(HttpSession session, Model model, StoreVO store) {
 		List<StoreVO> product = storeService.selectStore(store.getProduct_id());
