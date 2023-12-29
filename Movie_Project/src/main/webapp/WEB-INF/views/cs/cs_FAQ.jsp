@@ -13,14 +13,18 @@
 <script>
 	$(function() {
 		<%-- faq 세부항목별 보기 버튼을 눌렀을 때 세부항목별로 모아서 보여주는 기능 --%> 
-		$(".faqButton").click(function() {
+		$("#faq_button input").click(function() {
 			<%-- 선택한 버튼의 이름값 가져와서 변수에 저장 --%>
 			let buttonName = $(this).attr("name");
-			
+			console.log(buttonName);
+
 			$.ajax({
 				url: "faqDetail",
 				data: { buttonName: buttonName },
 				success: function(data) {
+					$("#faq_button input").removeClass("btn-active").addClass("btn-inactive");
+					$(".faqButton[name='" + buttonName +"']").removeClass("btn-inactive").addClass("btn-active");
+					
 					<%-- 세부항목을 눌렀을 때 --%>
 					$("#faq_list").empty();
 					
@@ -86,7 +90,7 @@
 						}
 						
 					} else {
-						$("#faq_list").append("<h3>검색결과가 없습니다<h3>");
+						$("#faq_list").append("<br><p style='text-align: center;'>검색 결과가 없습니다<p>");
 					}
 				
 					
@@ -143,6 +147,27 @@
 		  });
 		
 	});
+	
+	// 고객센터 메인 페이지에서 선택한 자주묻는질문 바로 보기
+	$(function() {
+		// 파라미터로 cs_type_list_num 값 가져오기
+		let urlParams = new URL(location.href).searchParams;
+		let targetValue = urlParams.get('cs_type_list_num');
+		
+		// 해당 값을 가진 버튼을 찾아 클릭
+		$('.accordion').each(function() {
+			let hiddenInput = $(this).find('input[name="cs_type_list_num"]');
+			if (hiddenInput.length > 0) {
+				let buttonValue = hiddenInput.val();
+			
+				if (buttonValue === targetValue) {
+					$(this).click(); // 버튼을 클릭
+					return false; // 반복문 종료
+				}
+			}
+		});
+	});
+	
 </script>		
 </head>
 <body>
@@ -174,30 +199,31 @@
 					<input type="button" value="검색" id="faqSearch">
 				</form>
 			
-				<nav id="fqa_button">
+				<nav id="faq_button">
 					<ul>
-						<li><input type="button" value="전체" class="faqButton" name="전체"></li> <%-- 전체 질문 보기 --%>
-						<li><input type="button" value="예매" class="faqButton" name="예매"></li> <%-- 예매 관련 질문 모아보기 --%>
-						<li><input type="button" value="관람권" class="faqButton" name="관람권"></li> <%-- 관람권 관련 질문 모아보기 --%>
-						<li><input type="button" value="할인혜택" class="faqButton" name="할인혜택"></li> <%-- 할인 관련 질문 모아보기 --%>
-						<li><input type="button" value="영화관이용" class="faqButton" name="영화관이용"></li> <%-- 영화관 관련 질문 모아보기 --%>
+						<li><input type="button" value="전체" class="faqButton btn-active" name="전체"></li> <%-- 전체 질문 보기 --%>
+						<li><input type="button" value="예매" class="faqButton btn-inactive" name="예매"></li> <%-- 예매 관련 질문 모아보기 --%>
+						<li><input type="button" value="관람권" class="faqButton btn-inactive" name="관람권"></li> <%-- 관람권 관련 질문 모아보기 --%>
+						<li><input type="button" value="할인혜택" class="faqButton btn-inactive" name="할인혜택"></li> <%-- 할인 관련 질문 모아보기 --%>
+						<li><input type="button" value="영화관이용" class="faqButton btn-inactive" name="영화관이용"></li> <%-- 영화관 관련 질문 모아보기 --%>
 					</ul>
 				</nav>
 				
 				<div id="faq_list">
 					<c:choose>
 						<c:when test="${empty faqList}">
-							자주 묻는 질문 없음						
+							검색 결과가 없습니다					
 						</c:when>
 						<c:otherwise>
-							<%-- FQA 질문 리스트 List<CsVO> 객체(faqList) 활용하여 목록 출력 --%>
+							<%-- FAQ 질문 리스트 List<CsVO> 객체(faqList) 활용하여 목록 출력 --%>
 							<c:forEach var="faq" items="${faqList}">
-								<div id="fqa_list">
-									<button class="accordion"><div id="topic">[ ${faq.cs_type_detail} ]</div><div id="subject">${faq.cs_subject}</div></button>
+								<div class="faq_list">
+									<button class="accordion">
+										<div id="topic">[ ${faq.cs_type_detail} ]</div><div id="subject">${faq.cs_subject}</div>
+										<input type="hidden" name="cs_type_list_num" value="${faq.cs_type_list_num}">
+									</button>
 									<div class="panel">
-										<p id="writing">
-											${faq.cs_content}
-										</p>
+										<pre id="faq_content">${faq.cs_content}</pre>
 									</div>
 								</div>
 							</c:forEach>

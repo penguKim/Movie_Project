@@ -38,7 +38,7 @@ public interface AdminMapper {
 	
 	// ================ 분실물 게시판 ================
 	// 분실물 문의 관리 게시판 조회 작업
-	List<HashMap<String, Object>> selectLostnfoundList(PageDTO page);
+	List<HashMap<String, Object>> selectLostnfoundList(@Param("page") PageDTO page, @Param("searchValue") String searchValue);
 
 	// 분실문 문의 관리 게시판 상세 조회 작업
 	HashMap<String, Object> selectLostnfound(CsVO cs);
@@ -50,7 +50,7 @@ public interface AdminMapper {
 	int updateLnfDlt(CsVO cs);
 
 	// 분실물 페이징 처리를 위한 게시물 개수 조회 작업
-	int selectLostnfoundListCount();
+	int selectLostnfoundListCount(String searchValue);
 	
 	// ================ 회원 관리 게시판 ================
 	

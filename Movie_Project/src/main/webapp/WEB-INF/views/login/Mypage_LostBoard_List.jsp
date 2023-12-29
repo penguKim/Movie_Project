@@ -38,28 +38,20 @@
 					<h2>분실물 문의</h2>
 					<table id="my_table1">
 						<tr>
-							<th>No.</th>
+							<th>No</th>
 							<th>제목</th>
-							<th>작성자</th>
+							<th>지점명</th>
 							<th>등록일</th>
-							<th>상세정보</th>
 						</tr>
 						
+					<c:forEach var="myLost" items="${myLost}" varStatus="status">
 						<tr>
-							<td>[번호]</td>
-							<td>[제목]</td>
-							<td>[작성자]</td>
-							<td>[등록일]</td>
-							<td><input type="button" value="상세정보"></td>
+							<td>${myLost.cs_id}</td>
+							<td><a href="Mypage_LostBoardDetail?cs_id=${myLost.cs_id }">${myLost.cs_subject }</a></td>
+							<td>${myLost.theater_name }</td>
+							<td>${myLost.cs_date }</td>
 						</tr>
-						
-						<tr>
-							<td>[번호]</td>
-							<td>[제목]</td>
-							<td>[작성자]</td>
-							<td>[등록일]</td>
-							<td><input type="button" value="상세정보"></td>
-						</tr>
+					</c:forEach>						
 					</table><br>
 								
 					<div class="pagination">

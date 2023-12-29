@@ -43,25 +43,31 @@
 						<th>제목</th>
 						<th width="120">등록일</th>
 					</tr>
-					
-					<c:forEach var="notice" items="${NoticeList}">
-						<tr>
-							<td>${notice.cs_type_list_num}</td>
-							<c:choose>
-								<c:when test="${notice.theater_id == null}">
-									<td>전체</td>
-								</c:when>
-								<c:otherwise>
-									<td>${notice.theater_name}</td>
-								</c:otherwise>
-							</c:choose>
-							<td class="post_name"><a href="adminNoticeView?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}">${notice.cs_subject}</a></td>
-							<td>
-								<fmt:parseDate value='${notice.cs_date}' pattern="yyyy-MM-dd" var='cs_date'/>
-								<fmt:formatDate value="${cs_date}" pattern="yyyy-MM-dd"/>
-							</td>
-						</tr>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${empty NoticeList}">
+							<tr><td colspan="4">검색 결과가 없습니다</td></tr>						
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="notice" items="${NoticeList}">
+								<tr>
+									<td>${notice.cs_type_list_num}</td>
+									<c:choose>
+										<c:when test="${notice.theater_id == null}">
+											<td>전체</td>
+										</c:when>
+										<c:otherwise>
+											<td>${notice.theater_name}</td>
+										</c:otherwise>
+									</c:choose>
+									<td class="post_name"><a href="adminNoticeView?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=${pageNum}">${notice.cs_subject}</a></td>
+									<td>
+										<fmt:parseDate value='${notice.cs_date}' pattern="yyyy-MM-dd" var='cs_date'/>
+										<fmt:formatDate value="${cs_date}" pattern="yyyy-MM-dd"/>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</table>
 				<div id="admin_writer">
 					<a href="adminNoticeWriteForm"><input type="button" value="글쓰기"></a>

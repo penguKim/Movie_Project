@@ -20,7 +20,10 @@ public interface StoreMapper {
 	
 	// 상세 페이지를 위한 SELECT 조회
 	List<StoreVO> selectStorePro(String product_id);
-
+	
+	// 관리자 페이지 상품 삭제를 위한 DELETE
+	int adminProductDel(StoreVO store);
+	
 	// 장바구니 판별 이벤트
 	// ------------------------
 	int insertCart(@Param("sId") String sId
@@ -61,6 +64,8 @@ public interface StoreMapper {
 	List<StoreVO> selectCart3(@Param("arrPro") String arrPro, @Param("sId") String sId);
 
 	List<StoreVO> selectCart4(@Param("productId")String productId,@Param("sId") String sId);
+
+	
 	
 	
 

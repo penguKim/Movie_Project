@@ -18,6 +18,8 @@
 	<c:if test="${not empty param.pageNum }">
 		<c:set var="pageNum" value="${param.pageNum }" />
 	</c:if>
+	
+	
 	<div id="wrapper">
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
@@ -47,7 +49,7 @@
 						<tr>
 							<td>${oneOnOne.cs_id }</td>
 							<td>${oneOnOne.cs_type_detail }</td>
-							<td class="post_name">${oneOnOne.cs_subject }</td>
+							<td class="post_name"><a href="OneOnOneDetail?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }">${oneOnOne.cs_subject }</a></td>
 							<td>${oneOnOne.member_id }</td>
 							<td>${oneOnOne.cs_date }</td>
 							<c:choose>
@@ -61,40 +63,32 @@
 						</tr>
 					</c:forEach>
 				</table>
-<!-- 				<div class="pagination"> -->
-<!-- 					<a href="#">&laquo;</a> -->
-<!-- 					<a href="#">1</a> -->
-<!-- 					<a class="active" href="#">2</a> -->
-<!-- 					<a href="#">3</a> -->
-<!-- 					<a href="#">4</a> -->
-<!-- 					<a href="#">5</a> -->
-<!-- 					<a href="#">&raquo;</a> -->
-<!-- 				</div> -->
 			</div>
+			
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
 			</footer>
 		</section>
 		<section class="pagination">
-		<input type="button" value="이전" 
-			onclick="location.href='adminOneOnOne?pageNum=${pageNum - 1}'"
-			<c:if test="${pageNum <= 1 }">disabled</c:if>
-		>
-		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-			<c:choose>
-				<c:when test="${pageNum eq i }">
-					<b>${i }</b>
-				</c:when>
-				<c:otherwise>s
-					<a href="adminOneOnOne?pageNum=${i }">${i }</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-		<input type="button" value="다음" 
-			onclick="location.href='adminOneOnOne?pageNum=${pageNum + 1}'"
-			<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if>
-		>
-	</section>		
+			<input type="button" value="이전" 
+				onclick="location.href='adminOneOnOne?pageNum=${pageNum - 1}'"
+				<c:if test="${pageNum <= 1 }">disabled</c:if>
+			>
+			<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+				<c:choose>
+					<c:when test="${pageNum eq i }">
+						<b>${i }</b>
+					</c:when>
+					<c:otherwise>
+						<a href="adminOneOnOne?pageNum=${i }">${i }</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<input type="button" value="다음" 
+				onclick="location.href='adminOneOnOne?pageNum=${pageNum + 1}'"
+				<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if>
+			>
+		</section>		
 	</div>
 </body>
 </html>

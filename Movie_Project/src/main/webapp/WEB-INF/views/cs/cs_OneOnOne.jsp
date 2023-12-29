@@ -168,7 +168,7 @@
 						</tr>
 						<tr>
 							<th>내용<b>*</b></th>
-							<td colspan="3"><textarea rows="15" cols="90" name="cs_content"></textarea></td>
+							<td colspan="3"><textarea name="cs_content"></textarea></td>
 						</tr>
 						<tr>
 							<th>첨부파일</th>

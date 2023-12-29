@@ -46,14 +46,16 @@
 						</tr>
 						<tr>
 							<th>지점</th>
-							<c:choose>
-								<c:when test="${noticeDetail.theater_id == null}">
-									<td>전체</td>
-								</c:when>							
-								<c:otherwise>
-									<td>${noticeDetail.theater_name}</td>						
-								</c:otherwise>
-							</c:choose>
+							<td>
+								<c:choose>
+									<c:when test="${noticeDetail.theater_id == null}">
+										전체
+									</c:when>							
+									<c:otherwise>
+										${noticeDetail.theater_name}						
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<input type="hidden" value="${noticeDetail.theater_id}">
 						</tr>
 						<tr>
@@ -69,7 +71,7 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td>${noticeDetail.cs_content}</td>
+							<td><pre id="content_table">${noticeDetail.cs_content}</pre></td>
 						</tr>
 					</table>
 					<div id="admin_writer">

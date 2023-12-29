@@ -53,6 +53,7 @@ import com.itwillbs.c5d2308t1.vo.KobisAPI;
 import com.itwillbs.c5d2308t1.vo.LikesVO;
 import com.itwillbs.c5d2308t1.vo.CrawlVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
+import com.itwillbs.c5d2308t1.vo.ReviewBoard;
 import com.itwillbs.c5d2308t1.vo.ReviewBoardVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
@@ -541,12 +542,28 @@ public class MoviesController {
 	//리뷰-----
 	//member_id값이 있고 영화상영일 + 상영종료시간 이후에 리뷰작성이 가능함
 	// 리뷰 작성후 등록 버튼 클릭시 데이터 출력하기
-	@GetMapping("reviewPro")
-	public String reviewBoard(Map map) {
-		System.out.println(map.get("movie_id"));
-		
-		return "detail";
-	}//reviewPro 끝
+
+	@ResponseBody
+	@PostMapping("reviewPro")
+    public String reviewBoard(HttpSession session, Model model, Map<String, String> map, @RequestParam String movie_id, @RequestParam String review_content) {
+			String sId = (String)session.getAttribute("sId"); //현재 로그인 중인 아이디 sId 저장
+//			map.put("sId",sId); //map에 현재 로그인 중인 아이디 저장
+			map.put("movie_id", movie_id); //map에 무비아이디 저장
+			ReviewBoardVO dbReview = service.getreview(map);
+			System.out.println(movie_id);
+			
+			
+			int insertCount = service.registReview(sId, review_content, movie_id);
+			
+			model.addAttribute("reviews", insertCount);
+			
+			System.out.println("ReviewBoardVO 맵 : " + dbReview);
+        System.out.println("무비아이디" +map.get("movie_id"));
+        
+        return "movie/detail"+ movie_id;
+    }//reviewPro 끝 
+
+
 	
 } //MoviesController 끝
 

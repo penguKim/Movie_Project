@@ -28,10 +28,10 @@
 				<form action="adminFaqModifyPro" method="post">
 					<table border="1">
 						<tr>
-							<th>유형</th>
+							<th width="70px">유형</th>
 							<td>
 							
-								<select name="cs_type_detail">
+								<select id="select" name="cs_type_detail">
 									<option value="">유형선택</option>
 									<option value="예매" <c:if test="${faqDetail.cs_type_detail eq '예매'}">selected</c:if>>예매</option>
 									<option value="관람권" <c:if test="${faqDetail.cs_type_detail eq '관람권'}">selected</c:if>>관람권</option>
@@ -42,15 +42,15 @@
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td><input type="text" name="member_id" value="${sessionScope.sId}" readonly></td>
+							<td><input type="text" id="id" name="member_id" value="${sessionScope.sId}" readonly></td>
 						</tr>
 						<tr>
 							<th>제목</th>
-							<td><input type="text" name="cs_subject" value="${faqDetail.cs_subject}"></td>
+							<td><input type="text" id="subject" name="cs_subject" value="${faqDetail.cs_subject}"></td>
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea rows="15" cols="90" name="cs_content">${faqDetail.cs_content}</textarea></td>
+							<td><textarea id="textarea" name="cs_content">${faqDetail.cs_content}</textarea></td>
 							<input type="hidden" name="cs_type" value="자주묻는질문">
 							<input type="hidden" name="cs_type_list_num" value="${param.cs_type_list_num}">
 						</tr>

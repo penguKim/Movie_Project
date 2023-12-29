@@ -10,15 +10,19 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-3.7.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	$("#oneOnOneDelete").on("click", function() {
-		if(confirm("문의 글을 삭제하시겠습니까?")) {
-			return true;
-		} else {
-			return false;
-		}
+	$(function() {
+		$("#oneOnOneDelete").on("click", function() {
+			if(confirm("문의 글을 삭제하시겠습니까?")) {
+				return true;
+			} else {
+				return false;
+			}
+		});
+		
 	});
+
 </script>
 </head>
 <body>
@@ -40,7 +44,7 @@
 				
 			<!-- 바디부분 시작 -->
 			
-			<form action="MyPageOneOnOneDelete" method="post" name="checkform">
+			<form action="MyPageOneOnOneDelete" name="checkform">
 				<div id="my_list">
 					<h2>1대1문의 내역 상세 조회</h2>
 					<table id="my_table1">
@@ -91,9 +95,8 @@
 							</td>
 						</tr>
 					</table><br>
-<!-- 					<input type="submit" value="문의 삭제" id="oneOnOneDelete"><br><br> -->
-														<%-- cs_id 오류 해결 미완 --%>
-					
+					<input type="submit" value="문의 삭제" id="oneOnOneDelete"><br><br>
+					<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">
 								
 					<div class="pagination">
 						<a href="#">&laquo;</a>

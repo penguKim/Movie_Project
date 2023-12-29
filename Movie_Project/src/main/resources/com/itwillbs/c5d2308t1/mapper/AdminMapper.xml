@@ -103,8 +103,12 @@
 		FROM cs JOIN theaters
 		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = '분실물문의'
+		<if test="!searchValue.equals('')">
+			AND (cs_subject LIKE '%${searchValue}%' 
+			OR theaters.theater_name LIKE '%${searchValue}%')
+		</if>
 		ORDER BY cs_id DESC
-		LIMIT #{startRow}, #{listLimit}
+		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 	
 <!-- 	분실문 문의 관리 게시판 상세 조회 작업 -->
@@ -133,8 +137,14 @@
 <!-- 	분실물 페이징 처리를 위한 게시물 개수 조회 -->	
 	<select id="selectLostnfoundListCount" resultType="int">
 		SELECT COUNT(*)
-		FROM cs
-		WHERE cs_type = '분실물문의'
+		FROM cs JOIN theaters
+		ON cs.theater_id = theaters.theater_id
+		WHERE 
+			cs_type = '분실물문의'
+		<if test="!searchValue.equals('')">
+			AND (cs_subject LIKE '%${searchValue}%' 
+			OR theaters.theater_name LIKE '%${searchValue}%')
+		</if>
 	</select>
 	
 	<!-- ================ 회원 관리 페이지 ==================== -->
@@ -295,7 +305,15 @@
 	<update id="updateBoard">
 		UPDATE cs
 			SET
-				cs_subject = #{cs_subject}
+				<choose>
+					<when test="theater_id != null">
+						theater_id = #{theater_id}
+					</when>
+					<otherwise>
+						theater_id = null		
+					</otherwise>
+				</choose>
+				, cs_subject = #{cs_subject}
 				, cs_content = #{cs_content}
 				, cs_type_detail = #{cs_type_detail}
 				, cs_file = #{cs_file}
@@ -329,7 +347,7 @@
 		FROM cs
 		WHERE cs_type = '1대1문의'
 		ORDER BY cs_id DESC
-		LIMIT #{startRow}, #{listLimit}
+ 		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
 <!-- 	1대1문의 페이징 처리를 위한 게시물 개수 조회 -->	
@@ -343,10 +361,8 @@
 	<select id="selectOneOnOne" resultType="hashmap">
 		SELECT *
 		FROM cs
-		<if test="theater_id != 0"> <!-- 고객센터 1대1문의 글 작성 시 지점 선택 했을 경우 -->
-			JOIN theaters
-			ON cs.theater_id = theaters.theater_id
-		</if>
+		LEFT OUTER JOIN theaters
+		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = '1대1문의'
 		AND cs_id = #{cs_id}
 	</select>

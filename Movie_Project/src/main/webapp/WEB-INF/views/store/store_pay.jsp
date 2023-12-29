@@ -99,7 +99,7 @@
 								  <c:when test="${param.product_count != null}">
 								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
 								    <td>${param.product_count}개</td>
-								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
+								    <td><fmt:formatNumber value="${store.product_price * param.product_count}" pattern="###,###"/>원</td>
 								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
 								  </c:when>
 								  <c:otherwise>

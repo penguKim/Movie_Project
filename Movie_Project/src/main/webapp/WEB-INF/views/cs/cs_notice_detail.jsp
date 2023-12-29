@@ -70,7 +70,7 @@
 						</c:choose>
 					</tr>
 				</table>
-				<div id="button"><a href="csNotice?pageNum=${param.pageNum}"><input type="button" value="목록"></a></div>
+				<div id="button"><input type="button" value="목록" onclick="history.back()"></a></div>
 			</div>
 		</section>
 		

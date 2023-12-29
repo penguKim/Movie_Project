@@ -28,19 +28,18 @@
 		WHERE movie_id = #{movie_id}
 	</select>
 
-	
-<!-- 	<insert id="insertReviewBoard"> -->
-<!-- 		INSERT INTO reviewr2 -->
-<!-- 		VALUES( -->
-<!-- 			#{review_id} -->
-<!-- 			, #{review_rating} -->
-<!-- 			, #{review_content} -->
-<!-- 			, now() -->
-<!-- 			, #{movie_id} -->
-<!-- 			, #{movie_title} -->
-<!-- 			, #{member_id} -->
-<!-- 		) -->
-<!-- 	</insert> -->
+<!-- 	리뷰 작성 -->
+	<insert id="insertReviewBoard">
+		INSERT INTO reviews3
+		VALUES(
+			 NULL
+			,3
+			, #{review_content}
+			, now()
+			, #{sId}
+			, #{movie_id}
+		)
+	</insert>
 	
 	<!-- 찜하기 정보 조회 -->
 	<select id="selectLike">
@@ -114,9 +113,10 @@
 		)
 	</insert>
 	
-	<select id="selectReview" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO">
-		SELECT *
-		FROM reviewr2
-		WHERE review_id = #{review_id}
-	</select>
+	<!-- 리뷰 조회 -->
+    <select id="selectReview" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO">
+        SELECT *
+        FROM reviews
+        WHERE member_id = #{sId}
+    </select>
 </mapper>

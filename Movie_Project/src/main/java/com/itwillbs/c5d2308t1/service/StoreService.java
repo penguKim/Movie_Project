@@ -27,9 +27,14 @@ public class StoreService {
 		return mapper.allSelectStore();
 	}
 	
+	// 상세 페이지 조회를 위한 SELECT
 	public List<StoreVO> selectStore(String product_id) {
-		
 		return mapper.selectStorePro(product_id);
+	}
+	
+	// 관리자 페이지 상품 삭제를 위한 DELETE
+	public int adminProductDel(StoreVO store) {
+		return mapper.adminProductDel(store);
 	}
 	
 	//-----------------------------
@@ -106,6 +111,8 @@ public class StoreService {
 		
 		return mapper.selectCart4(productId, sId);
 	}
+
+	
 
 	
 

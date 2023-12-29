@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -315,6 +318,7 @@ public class AdminController {
 	// 상영 일정 등록하기
 	@PostMapping("registPlay")
 	public String registPlay(PlayVO play, HttpSession session, Model model) {
+
 		// 관리자가 아니면 등록을 하지 못하도록 하기
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -402,6 +406,30 @@ public class AdminController {
 		}
 		
 	}
+	// 스토어 상품관리 상품 상세페이지로 이동
+	@GetMapping("adminProductDtl")
+	public String adminProductDtl(HttpSession session, Model model, StoreVO store) {
+		List<StoreVO> product = storeService.selectStore(store.getProduct_id());
+		
+		model.addAttribute("product", product);
+		return "admin/admin_product_detail";
+	}
+
+	@GetMapping("adminProductDel")
+	public String adminProductDel(Model model, StoreVO store) {
+		System.out.println("상품 : " + store.getProduct_id());
+		
+//		int resultDel = storeService.adminProductDel(store); 
+		int resultDel = 1; 
+		
+		if(resultDel > 0) {
+			return "redirect:/adminProduct";
+		} else {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+	}
 	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")
@@ -414,6 +442,9 @@ public class AdminController {
 	public String adminPaymentDtl() {
 		return "admin/admin_payment_detail";
 	}
+	
+	
+	
 	
 	// ===========================================================================================
 	// ******************** 회원 정보 관리 페이지 *************
@@ -897,6 +928,9 @@ public class AdminController {
 		// => 파라미터 : PageDTO 객체(page)	 리턴타입 : List<CsVO>(oneOnOneList)
 		List<CsVO> oneOnOneList = service.getOneOnOnePosts(page);
 		
+		
+		System.out.println(oneOnOneList);
+		
 		// Model 객체에 저장
 		model.addAttribute("oneOnOneList", oneOnOneList);
 		model.addAttribute("sId", sId);
@@ -922,6 +956,9 @@ public class AdminController {
 		// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
 		LocalDateTime date = (LocalDateTime)oneOnOne.get("cs_date");
 		oneOnOne.put("cs_date", date.format(dtf));
+		
+		System.out.println(oneOnOne);
+		
 		// Model 객체에 저장
 		model.addAttribute("oneOnOne", oneOnOne);
 		
@@ -953,7 +990,7 @@ public class AdminController {
 	
 	// 관리자 페이지 1대1문의 답변 등록
 	@PostMapping("OneOnOneResponse") 
-	public String OneOnOneResponse(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNum, CsVO cs) {
+	public String OneOnOneResponse(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "1") int cs_id, CsVO cs) {
 //		System.out.println(cs);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -969,7 +1006,7 @@ public class AdminController {
 		if(updateCount > 0) { // 등록 성공
 			model.addAttribute("pageNum", pageNum);
 			// 답변 등록 완료 후 해당 글이 속해있는 1대1문의 관리페이지로 이동해 버튼으로 답변 상태 확인
-			return "redirect:/adminOneOnOne?pageNum=" + pageNum;
+			return "redirect:/OneOnOneDetail?cs_id=" + cs_id + "&pageNum=" + pageNum;
 			
 		} else { // 등록 실패
 			model.addAttribute("msg", "1대1 답변 등록 실패!");
@@ -1060,7 +1097,7 @@ public class AdminController {
 	// 관리자페이지 분실물 문의 관리 페이지로 이동
 	// 파라미터로 pageNum을 넘겨주고 파라미터가 없을 경우 기본값으로 1을 넘겨줍니다.
 	@GetMapping("adminLostNFound")
-	public String adminLostNFound(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
+	public String adminLostNFound(@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "") String searchValue, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1069,18 +1106,17 @@ public class AdminController {
 		// 페이지 번호와 글의 개수를 파라미터로 전달
 		PageDTO page = new PageDTO(pageNum, 5);
 		// 전체 게시글 갯수 조회
-		int listCount = service.getlostnfoundListCount();
+		int listCount = service.getlostnfoundListCount(searchValue);
 		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		// page 객체를 파라미터로 글 목록 조회(극장명이 포함되어 HashMap 객체로 저장)
-		List<HashMap<String, Object>> lostnfoundList = service.getLostnfoundList(page);
+		List<HashMap<String, Object>> lostnfoundList = service.getLostnfoundList(page, searchValue);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		for(HashMap<String, Object> map : lostnfoundList) {
 			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
 			LocalDateTime date = (LocalDateTime)map.get("cs_date");
 			map.put("cs_date", date.format(dtf));
 		}
-		
 		// 모델 객체에 담아서 전송
 		model.addAttribute("lostnfoundList", lostnfoundList);
 		model.addAttribute("sId", sId);
@@ -1098,6 +1134,7 @@ public class AdminController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
+		
 		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
 		Map<String, Object> lostnfound = service.getlostnfound(cs);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");

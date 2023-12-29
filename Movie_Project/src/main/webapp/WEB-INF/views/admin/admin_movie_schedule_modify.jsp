@@ -217,8 +217,8 @@
 				<form action="registPlay" method="post">
 					<table border="1">
 						<tr>
-							<th width="160px">지점명</th>
-							<th width="160px">상영관명</th>
+							<th width="170px">지점명</th>
+							<th width="170px">상영관명</th>
 							<th colspan="3">영화제목</th>
 						</tr>
 						<tr>
@@ -237,15 +237,17 @@
 									<option value="">영화 선택</option>
 								</select>
 							</td>
-						<tr>
-							<th width="160px">상영날짜</th>
-							<th width="160px">상영시작시간</th>
-							<th width="160px">상영종료시간</th>
-							<th>등록</th>
-							<th>초기화</th>
 						</tr>
+						<tr>
+							<th width="170px">상영날짜</th>
+							<th width="170px">상영시작시간</th>
+							<th width="170px">상영종료시간</th>
+							<th width="140px">등록</th>
+							<th width="140px">초기화</th>
+						</tr>
+						<tr>
 							<td id="date">
-								<input type="date" name="play_date">
+								<input type="date" id="play_date" name="play_date">
 							</td>
 							<td>
 								<select id="play_start_time" name="play_start_time">
@@ -266,7 +268,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" width="120px" id="play_end_time" name="play_end_time" readonly>
+								<input type="text" id="play_end_time" name="play_end_time" readonly>
 							</td>
 							<td>
 								<input type="submit" value="등록" id="regist">

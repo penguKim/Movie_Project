@@ -53,7 +53,7 @@
 							<td>${store.product_name}</td>
 							<td>${store.product_txt}</td>
 							<td>${store.product_price}원</td>
-							<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
+							<td><a href="adminProductDtl?product_id=${store.product_id}"><input type="button" value="상세보기"></a></td>
 						</tr>
 					</c:forEach>
 				</table>

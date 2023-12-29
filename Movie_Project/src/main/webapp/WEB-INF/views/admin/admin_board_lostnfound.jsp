@@ -38,6 +38,12 @@
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_main">
+				<div id="admin_search">
+					<form>
+						<input type="text" name="searchValue" value="${param.searchValue }" placeholder="지점, 제목으로 검색">
+						<input type="submit" value="검색">
+					</form>
+				</div>
 				<div id="lostNfound">
 					<table border="1">
 						<tr>
@@ -48,23 +54,30 @@
 							<th width="120">등록일</th>
 							<th width="95">답변상태</th>
 						</tr>
-						<c:forEach var="lnf" items="${lostnfoundList }">
-							<tr>
-								<td>${lnf.cs_id }</td>
-								<td>${lnf.theater_name }</td>
-								<td>${lnf.cs_subject }</td>
-								<td>${lnf.member_id }</td>
-								<td>${lnf.cs_date }</td>
-								<c:choose>
-									<c:when test="${empty lnf.cs_reply }">
-										<td><a href="LostNFoundMoveToRegister?cs_id=${lnf.cs_id }&pageNum=${pageNum}"><input type="button" value="답변등록" id="response"></a></td>
-									</c:when>
-									<c:otherwise>
-										<td><a href="LostNFoundDetail?cs_id=${lnf.cs_id }&pageNum=${pageNum}"><input type="button" value="답변완료"></a></td>
-									</c:otherwise>
-								</c:choose>
-							</tr>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${empty lostnfoundList }">
+							<td colspan="6">검색 결과가 없습니다.</td>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="lnf" items="${lostnfoundList }">
+									<tr>
+										<td>${lnf.cs_id }</td>
+										<td>${lnf.theater_name }</td>
+										<td>${lnf.cs_subject }</td>
+										<td>${lnf.member_id }</td>
+										<td>${lnf.cs_date }</td>
+										<c:choose>
+											<c:when test="${empty lnf.cs_reply }">
+												<td><a href="LostNFoundMoveToRegister?cs_id=${lnf.cs_id }&pageNum=${pageNum}"><input type="button" value="답변등록" id="response"></a></td>
+											</c:when>
+											<c:otherwise>
+												<td><a href="LostNFoundDetail?cs_id=${lnf.cs_id }&pageNum=${pageNum}"><input type="button" value="답변완료"></a></td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</table>
 					<div class="pagination">
 						<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +50,7 @@
 		/* 수량 변경시 totalPrice 액수 변경 */
 		function updateTotalPrice() {
 			let totalPrice = price * product_count;
-			$("#sum").html("총 금액 : <b>" + totalPrice + "원</b>");
+			$("#sum").html("총 금액 : <b>" + totalPrice.toLocaleString() + "원</b>");
 		} 
 		
 		<%-- 토탈 금액 및 금액에서 , 찍어야함 --%>
@@ -121,7 +122,9 @@
 									<%-- readonly 하거나 숫자 입력 시 100 이상일 경우 경고메세지 처리 중 어떤게 나을까 --%>
 									<input type="text" title="수량입력" id="product_count" name="product_count" value="1" min="1" max="99" class="input-text" readonly>
 									<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
-									<div class="money">${store[0].product_price}원</div>
+									<div class="money">
+									<fmt:formatNumber value="${store[0].product_price}" pattern="###,###"/>
+									</div>
 								</div>
 							</div>
 						</div>	

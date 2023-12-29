@@ -208,8 +208,8 @@
 
 
 /* ---------------- 찜하기 버튼 ----------------  */
-.reserve_area .likeBtn {
-/* 	border: 1px solid !important; */
+.likeBtn {
+	border: 1px solid !important;
 	background-color: #fff; /* 버튼 색상 */
 	color: #000; /* 글자 색상 */
 	padding: 10px; /* 영역의 상하 좌우 크기 */
@@ -223,7 +223,7 @@
 	color: #fff;
 }
 
-.reserve_area .likeBtn.likeCheck {
+.likeCheck {
 	border: 1px solid;
 	background-color: #e50914; /* 버튼 색상 */
 	color: #fff; /* 글자 색상 */
@@ -234,7 +234,8 @@
 	
 }
 
-.reserve_area .likeBtn.likeCheck:hover {
+.likeCheck:hover {
+	border: none;
 	background-color: #ce0912;
 	color: #000;
 }
@@ -320,7 +321,7 @@
 	border-radius: 5px; /* 모서리 라운드처리 */
 	cursor: pointer; /* 커서 변경 */
 	position: absolute;
-	left: 30px; top:70px;
+	left: 100px; top:70px;
 }
 
 .reserve_area input:hover {
@@ -333,6 +334,12 @@
 	color: #fff;
 	font-weight: 500;
 }
+
+/* 찜하기 버튼의 위치 조절 */
+.detail_likeBtn {
+	transform:translate(0, 80px);
+}
+
 
 /* 숏컷 버튼 */
 .click_link {

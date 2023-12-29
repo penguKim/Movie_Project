@@ -90,10 +90,10 @@
 					<tbody>	
 						<c:choose>
 							<c:when test="${empty faqList}">
-								자주 묻는 질문 없음						
+								<tr><td colspan="4">검색 결과가 없습니다</td></tr>						
 							</c:when>
 							<c:otherwise>
-								<%-- FQA 질문 리스트 List<CsVO> 객체(faqList) 활용하여 목록 출력 --%>
+								<%-- FAQ 질문 리스트 List<CsVO> 객체(faqList) 활용하여 목록 출력 --%>
 								<c:forEach var="faq" items="${faqList}">
 									<tr>
 										<td>${faq.cs_type_list_num}</td>

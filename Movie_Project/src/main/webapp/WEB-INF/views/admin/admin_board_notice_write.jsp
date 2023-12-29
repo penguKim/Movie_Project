@@ -51,7 +51,7 @@
 				<form action="adminNoticeWritePro" method="post" enctype="multipart/form-data">
 					<table border="1">
 						<tr>
-							<th>지점</th>
+							<th width="70px">지점</th>
 							<td>
 								<select name="theater_id" id="theater_id">
 									<option value="">전체</option>
@@ -60,15 +60,15 @@
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td><input type="text" name="member_id" value="${sessionScope.sId}" readonly> </td>
+							<td><input type="text" id="id" name="member_id" value="${sessionScope.sId}" readonly> </td>
 						</tr>
 						<tr>
 							<th>제목</th>
-							<td><input type="text" name="cs_subject"></td>
+							<td><input type="text" id="subject" name="cs_subject"></td>
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea rows="15" cols="90" name="cs_content"></textarea></td>
+							<td><textarea id="textarea" name="cs_content"></textarea></td>
 						</tr>
 					</table>
 					<div id="admin_writer"> 

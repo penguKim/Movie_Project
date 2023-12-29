@@ -49,10 +49,15 @@ public interface MoviesMapper {
 
 	// 스케쥴러에서 사용하는 일일 관객수 업데이트 메서드
 	int updateMovieAudiAcc(MoviesVO movie);
-
-
 	
-	ReviewBoardVO selectReview(ReviewBoardVO review1);
+	//리뷰 조회
+	ReviewBoardVO selectReview(Map<String, String> map);
+
+//	//리뷰 작성
+	int insertReviewBoard(@Param("sId")String sId, @Param("review_content")String review_content, @Param("movie_id")String movie_id);
+	
+
+
 
 
 
