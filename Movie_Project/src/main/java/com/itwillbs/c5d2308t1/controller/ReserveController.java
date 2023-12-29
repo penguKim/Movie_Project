@@ -90,6 +90,7 @@ public class ReserveController {
 		map.put("sId", sId);
 		int insertSeatCount = reserve.getSeatInsert(map);
 		int insertPayCount = reserve.getPaymentInsert(map);
+//		map.put("payment_id", "");
 		int insertResCount = reserve.getReserveInsert(map);
 		System.out.println("complete_pay_controller : " + map);
 //complete_pay_controller : {movie_title=3일의 휴가, theater_name=서면삼정타워, room_name=IMAX관, play_date=2023-01-15, play_start_time=11:00:00, typeCount=일반2, seat_name=A3,A4, payment_total_price=30000, sId=reserve}
