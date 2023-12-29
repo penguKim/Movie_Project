@@ -83,9 +83,10 @@
 			,1
 			,(SELECT play_id 
 			  FROM PRT   
-			  WHERE play_date = #{Date}
-			  AND play_start_time = #{StartTime}
-			  AND room_name = #{Room})
+			  WHERE play_date = #{play_date}
+			  AND play_start_time = #{play_start_time}
+			  AND room_name = #{room_name}
+			  AND theater_name = #{theater_name})
 			,#{payment_total_price}
 		
 		)
@@ -113,21 +114,32 @@
 	
 	<!-- reserve table insert -->
 	<insert id="insertReserve">
-		<selectKey keyColumn="payment_id" resultType="int" order="BEFORE">
-			SELECT payment_id
-			FROM payment
-			WHERE payment_name = (SELECT CONCAT('P',prt.play_id ,'S',s.seat_id)
-								  FROM PRT prt JOIN seats s
-								  ON prt.play_id = s.play_id
-								  WHERE seat_name = #{seat_name}
-								  AND play_date = #{play_date}
-								  AND play_start_time = #{play_start_time}
-								)
-		</selectKey>
+<!-- 		<selectKey keyColumn="payment_id" resultType="String" order="BEFORE"> -->
+<!-- 			(SELECT payment_id -->
+<!-- 			FROM payments -->
+<!-- 			WHERE payment_name = (SELECT CONCAT('P',prt.play_id ,'S',s.seat_id) -->
+<!-- 								  FROM PRT prt JOIN seats s -->
+<!-- 								  ON prt.play_id = s.play_id -->
+<!-- 								  WHERE s.seat_name = #{seat_name} -->
+<!-- 								  AND prt.play_date = #{play_date} -->
+<!-- 								  AND prt.play_start_time = #{play_start_time} -->
+<!-- 								) -->
+<!-- 			) -->
+			
+<!-- 		</selectKey> -->
 		
 		INSERT INTO reserve
 		VALUES(
-			#{payment_id}
+			(SELECT payment_id
+			FROM payments
+			WHERE payment_name = (SELECT CONCAT('P',prt.play_id ,'S',s.seat_id)
+								  FROM PRT prt JOIN seats s
+								  ON prt.play_id = s.play_id
+								  WHERE s.seat_name = #{seat_name}
+								  AND prt.play_date = #{play_date}
+								  AND prt.play_start_time = #{play_start_time}
+								)
+			)
 			,#{sId}
 			,#{payment_total_price}
 			,(SELECT seat_id
