@@ -51,7 +51,7 @@ public interface MoviesMapper {
 	int updateMovieAudiAcc(MoviesVO movie);
 	
 	//리뷰 조회
-	ReviewBoardVO selectReview(Map<String, String> map);
+	List<ReviewsVO> selectReview(Map<String, String> map);
 
 //	//리뷰 작성
 	int insertReviewBoard(@Param("sId")String sId, @Param("review_content")String review_content, @Param("movie_id")String movie_id);

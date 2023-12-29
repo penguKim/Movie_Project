@@ -113,7 +113,12 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage_ReviewList")
-	public String mypage_ReviewList() { // 리뷰 게시판으로 이동
+	public String mypage_ReviewList(HttpSession session, Model model, ReviewsVO review) { // 리뷰 게시판으로 이동
+		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
+		review.setMember_id(sId);
+//		System.out.println(sId);
+		List<ReviewsVO> myreview = service.getReviewList(review);
+		model.addAttribute("myreview", myreview);
 		return "login/Mypage_ReviewList";
 	}
 	

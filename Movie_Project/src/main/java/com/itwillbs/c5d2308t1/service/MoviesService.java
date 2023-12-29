@@ -46,12 +46,6 @@ public class MoviesService {
 	}
 
 	
-//	//리뷰 글 작성
-//	public int reviewBoard(ReviewBoardVO review1) {
-//		return mapper.insertReviewBoard(review1);
-//	}
-
-	
 	
 	
 	// 자바 코드로 API 정보 가져오는 테스트 ============================
@@ -70,7 +64,7 @@ public class MoviesService {
 		return mapper.insertMovie(movie);
 	}
 	//리뷰 조회
-	public ReviewBoardVO getreview(Map<String, String> map) {
+	public List<ReviewsVO> getreview(Map<String, String> map) {
 		return mapper.selectReview(map);
 	}
 	

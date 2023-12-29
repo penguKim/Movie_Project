@@ -53,4 +53,7 @@ public interface LoginMapper {
 	// 마이페이지 분실물 상세 조회
 	HashMap<String, Object> selectMyLost(CsVO cs);
 
+	//마이페이지 리뷰 조회
+	List<ReviewsVO> selectMyreview(ReviewsVO review);
+
 }

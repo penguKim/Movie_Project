@@ -107,8 +107,18 @@
 		WHERE cs_type = '분실물문의'
 		and cs_id = #{cs_id}
 	</select>
-</mapper>
 
+	<!-- 리뷰 조회 -->
+	<select id="selectMyreview" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">
+		SELECT review_id, review_content, review_date, movie_id, member_id, movie_title
+		FROM reviews JOIN movies
+		ON reviews.movie_id = movies.movie_id
+		
+		SELECT movie_id, movie_title, review_content, review_date
+		FROM Movies
+		INNER JOIN Reviews ON movies.movie_id = revies.movie_id;
+	</select>
+</mapper>
 
 
 

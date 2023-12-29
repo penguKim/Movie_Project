@@ -30,10 +30,10 @@
 
 <!-- 	리뷰 작성 -->
 	<insert id="insertReviewBoard">
-		INSERT INTO reviews3
+		INSERT INTO reviews
 		VALUES(
 			 NULL
-			,3
+			,2
 			, #{review_content}
 			, now()
 			, #{sId}

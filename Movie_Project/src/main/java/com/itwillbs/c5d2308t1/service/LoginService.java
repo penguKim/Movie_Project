@@ -76,5 +76,10 @@ public class LoginService {
 	public HashMap<String, Object> getlostnfound(CsVO cs) {
 		return  mapper.selectMyLost(cs);
 		}
+
+	//마이페이지 리뷰 조회
+	public List<ReviewsVO> getReviewList(ReviewsVO review) {
+		return mapper.selectMyreview(review);
+	}
 	
 }
