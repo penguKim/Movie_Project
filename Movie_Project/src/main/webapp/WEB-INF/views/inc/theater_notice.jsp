@@ -18,7 +18,6 @@
 								<th width="100">등록일</th>
 							</tr>
 						</thead>
-							
 						<tbody>
 							<c:choose>
 								<c:when test="${empty noticeList}">

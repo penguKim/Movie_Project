@@ -119,4 +119,11 @@
         FROM reviews
         WHERE member_id = #{sId}
     </select>
+    
+    <select id="selectAllMovie" resultType="movies">
+    	SELECT *
+    	FROM movies
+    	WHERE movie_status = 0
+    </select>
+    
 </mapper>

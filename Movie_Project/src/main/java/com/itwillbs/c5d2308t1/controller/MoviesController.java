@@ -80,44 +80,55 @@ public class MoviesController {
 		return mav;
 	}
 	
-	// 상영 예정작
+	// 내가 만든 상영작
 	@GetMapping("comming")
-	public ModelAndView comming(Map<String, Object> map) {
-		try {
-			// 요청할 URL 주소
-			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
-			// 크롤링을 위한 Jsoup 객체에 url 전달하여 Connection 객체 생성
-			Connection con = Jsoup.connect(url);
-			// 가져온 데이터를 Document 객체로 저장
-			Document doc = con.get();
-			// 해당하는 요소를 Elements타입의 List로 저장
-			Elements titleElements = doc.select("div.box-contents strong.title");
-			Elements posterElements = doc.select("div.box-image span.thumb-image img");
-//			Elements detailElements = doc.select("div.box-image a");
-			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
-			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
-			
-			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
-			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
-			for(int i = 3; i < titleElements.size(); i++) {
-				CrawlVO movie = new CrawlVO();
-				movie.setTitle(titleElements.get(i).text());
-				movie.setPoster(posterElements.get(i).attr("src"));
-				movie.setPercent(percentElements.get(i).text());
-				movie.setRelease(releaseElements.get(i).text());
-				movieList.add(movie);
-			}
-			
-			map.put("movieList", movieList);
-		} catch (IOException e) {
-			System.out.println("크롤링 실패");
-			e.printStackTrace();
+	public String comming(Model model, MoviesVO movie) {
+		
+		List<MoviesVO> commingList = service.getAllMovie();
+		
+		model.addAttribute("commingList", commingList);
+		
+		return "movie/comming";
 		}
-		
-		ModelAndView mav = new ModelAndView("movie/comming", map);
-		
-		return mav;
-	}
+	
+//	// 상영 예정작
+//	@GetMapping("comming")
+//	public ModelAndView comming(Map<String, Object> map) {
+//		try {
+//			// 요청할 URL 주소
+//			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
+//			// 크롤링을 위한 Jsoup 객체에 url 전달하여 Connection 객체 생성
+//			Connection con = Jsoup.connect(url);
+//			// 가져온 데이터를 Document 객체로 저장
+//			Document doc = con.get();
+//			// 해당하는 요소를 Elements타입의 List로 저장
+//			Elements titleElements = doc.select("div.box-contents strong.title");
+//			Elements posterElements = doc.select("div.box-image span.thumb-image img");
+////			Elements detailElements = doc.select("div.box-image a");
+//			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
+//			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
+//			
+//			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
+//			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
+//			for(int i = 3; i < titleElements.size(); i++) {
+//				CrawlVO movie = new CrawlVO();
+//				movie.setTitle(titleElements.get(i).text());
+//				movie.setPoster(posterElements.get(i).attr("src"));
+//				movie.setPercent(percentElements.get(i).text());
+//				movie.setRelease(releaseElements.get(i).text());
+//				movieList.add(movie);
+//			}
+//			
+//			map.put("movieList", movieList);
+//		} catch (IOException e) {
+//			System.out.println("크롤링 실패");
+//			e.printStackTrace();
+//		}
+//		
+//		ModelAndView mav = new ModelAndView("movie/comming", map);
+//		
+//		return mav;
+//	}
 	
 	
 	// 영화 상세 페이지

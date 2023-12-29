@@ -195,15 +195,17 @@ $(document).ready(function(){
 						<c:if test="${not empty movie_still2 }"><img src="${movie_still2 }"></c:if>
 						<c:if test="${not empty movie_still3 }"><img src="${movie_still3 }"></c:if>
 			    </div>
-			    <div class="review" id="review">
+				<c:if test="${movie_status eq 1}">				    	
+			     <div class="review" id="review">
 			    	<hr>
-			    	<h2>리뷰</h2>
+				    	<h2>리뷰</h2>
 						<form action="reviewPro" method="post">
 					    	<input type="text" name="review_content" placeholder="리뷰 입력" size="50" id="review_content">
 					    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
 					    	<input type="hidden" name="movie_id" value="${movie_id}">
 						</form>
 				    	<br>
+						
 		    			<table id="review_no">
 		    			<tr>
 			    			<td rowspan="6" width="200">
@@ -222,7 +224,8 @@ $(document).ready(function(){
 <!-- 				    		</tr> -->
 <%-- 		    			</c:forEach> --%>
 		    			</table>
-			    </div>
+		  		  </div>
+    			</c:if>
 			</section>
 		</section>	
 		<footer>
