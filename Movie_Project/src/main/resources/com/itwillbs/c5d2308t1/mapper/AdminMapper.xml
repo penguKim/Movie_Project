@@ -434,14 +434,14 @@
 	<!-- 상영 일정 등록 -->
 	<insert id="insertPlay">
 		INSERT INTO plays
-		VALUE (
+		VALUES (
 			null
-			, play_date = #{play_date}
-			, play_turn = 0
-			, play_start_time = #{play_start_time}
-			, play_end_time = #{play_end_time}
-			, room_id = #{room_id}
-			, movie_id = #{movie_id}
+			, #{play_date}
+			, 0
+			, #{play_start_time}
+			, #{play_end_time}
+			, #{room_id}
+			, #{movie_id}
 		)
 	</insert>
 
