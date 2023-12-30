@@ -6,14 +6,14 @@
 <mapper namespace="com.itwillbs.c5d2308t1.mapper.CsMapper">
 
 	<!-- 메인페이지에 자주묻는질문 출력 -->	
-	<select id="selectFaqMainList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+	<select id="selectFaqMainList" resultType="cs">
 		SELECT * FROM cs
 		WHERE cs_type = "자주묻는질문"
 		LIMIT 5
 	</select>
 	
 	<!-- 메인페이지에 공지사항 출력 -->	
-	<select id="selectNoticeMainList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+	<select id="selectNoticeMainList" resultType="cs">
 		SELECT * FROM cs
 		WHERE cs_type = "공지사항"
 		ORDER BY cs_date DESC
@@ -58,7 +58,7 @@
 	</select>	
 	
 	<!--  자주묻는질문 세부항목별로 모아보기 -->
-	<select id="selectFaqDetail" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+	<select id="selectFaqDetail" resultType="cs">
 		SELECT * FROM cs
 		WHERE cs_type = '자주묻는질문'
 		<choose>
@@ -87,7 +87,7 @@
 	</select>	
 	
 	<!--  자주묻는질문 검색 -->
-	<select id="selectFaqSearch" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
+	<select id="selectFaqSearch" resultType="cs">
 		SELECT * FROM cs
 		WHERE cs_type = '자주묻는질문'
 			AND (cs_subject LIKE '%${searchValue}%'
