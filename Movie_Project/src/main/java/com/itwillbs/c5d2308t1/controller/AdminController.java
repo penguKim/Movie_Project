@@ -472,37 +472,138 @@ public class AdminController {
 			}
 	}
 	
-	@PostMapping("adminProductUpd")
-	public String adminProductUpd() {
-			
-		
-		return "";
-	} 
-	
 	// 관리자페이지 스토어 상품관리 상품 상세페이지로 이동
 	@GetMapping("adminProductDtl")
 	public String adminProductDtl(HttpSession session, Model model, StoreVO store) {
-		List<StoreVO> product = storeService.selectStore(store.getProduct_id());
+		
+		// 관리자 페이지 상품 조회를 위한 SELECT
+		StoreVO product = storeService.getStore(store.getProduct_id());
 		
 		model.addAttribute("product", product);
 		return "admin/admin_product_detail";
 	}
-
+	
+	// 관리자 페이지 상품 상세페이지 싱픔 정보 삭제
 	@GetMapping("adminProductDel")
-	public String adminProductDel(Model model, StoreVO store) {
+	public String adminProductDel(HttpSession session, Model model, StoreVO store
+			, @RequestParam(defaultValue = "1") String pageNum) {
 		System.out.println("상품 : " + store.getProduct_id());
+		String sId = (String)session.getAttribute("sId");
+		if(!sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
 		
-//		int resultDel = storeService.adminProductDel(store); 
-		int resultDel = 1; 
+		StoreVO product = storeService.getStore(store.getProduct_id());
 		
+		int resultDel = storeService.adminProductDel(store); 
+//		int resultDel = 1; 
 		if(resultDel > 0) {
-			return "redirect:/adminProduct";
+			try {
+				// [ 서버에서 파일 삭제 ]
+				// 실제 업로드 경로 알아내기
+				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				String fileName = product.getProduct_img();
+				
+				if(!fileName.equals("")) {
+					Path path = Paths.get(saveDir + "/" + fileName);
+					Files.deleteIfExists(path);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/adminProduct?pageNum=" + pageNum;
 		} else {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
 		
 	}
+	
+	@ResponseBody
+	@PostMapping("ProductDeleteFile")
+	public String deleteFile(StoreVO store, HttpSession session) {
+//		System.out.println(board.getBoard_num() + ", " + board.getBoard_file1());
+		
+		// BoardService - removeBoardFile() 메서드 호출하여 지정된 파일명 삭제 요청
+		// => 파라미터 : BoardVO 객체   리턴타입 : int(removeCount)
+		int removeCount = storeService.removeProductImg(store);
+//		System.out.println(removeCount);
+		try {
+			if(removeCount > 0) { // 레코드의 파일명 삭제(수정) 성공 시
+				// 서버에 업로드 된 실제 파일 삭제
+				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				
+				// 파일명이 널스트링이 아닐 경우에만 삭제 작업 수행
+				if(!store.getProduct_img().equals("")) {
+					Path path = Paths.get(saveDir + "/" + store.getProduct_img());
+					Files.deleteIfExists(path);
+					// 예외가 발생하지 않을 경우 정상적으로 파일 삭제가 완료되었으므로 "true" 리턴
+					return "true";
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// DB 파일명 삭제 실패 또는 서버 업로드 파일 삭제 실패 등의 문제 발생 시 "false" 리턴
+		return "false";
+	}
+	
+	// 관리자 페이지 상품 상세페이지 싱픔 정보 수정
+	@PostMapping("adminProductReply")
+	public String adminProductReply(StoreVO store, HttpSession session, Model model) {
+		
+		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
+		String saveDir = session.getServletContext().getRealPath(uploadDir); // 세션도 가능(마침 request 객체 호출해서 사용했음)
+		String subDir = "";
+		LocalDate now = LocalDate.now();
+		System.out.println(now); // 2023-12-19 
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		subDir = now.format(dtf);
+		saveDir += File.separator + subDir; // File.separator 대신 \ 또는 / 지정도 가능
+		
+		try {
+			Path path = Paths.get(saveDir); // 파라미터로 업로드 경로 전달
+			Files.createDirectories(path); // 파라미터로 Path 객체 전달
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile imgFile = store.getImgFile();
+		
+		store.setProduct_img("");
+		
+		System.out.println("22222222222222222222222222222222222222222222222222222222222222222222");
+		String fileName = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
+		if(!imgFile.getOriginalFilename().equals("")) store.setProduct_img(subDir + "/" + fileName);
+		
+		System.out.println("33333333333333333333333333333333333333333333333333333333333333333333333333333");
+		int updateCount = storeService.productReply(store);
+		
+		System.out.println("4444444444444444444444444444444444444444444444444444444444444");
+		if(updateCount > 0) {
+			try {
+				if(!imgFile.getOriginalFilename().equals("")) {
+					imgFile.transferTo(new File(saveDir, fileName));
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			// 글목록(BoardList) 서블릿 리다이렉트
+			return "redirect:/adminProduct";
+		} else {
+			// "답글 쓰기 실패!" 메세지 처리(fail_back)
+			model.addAttribute("msg", "답글 쓰기 실패!");
+			return "fail_back";
+		}
+	}
+	
 	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")

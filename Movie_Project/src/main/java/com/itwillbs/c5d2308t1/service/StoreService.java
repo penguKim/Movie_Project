@@ -20,6 +20,11 @@ public class StoreService {
 	
 	// 관리자 페이지 상품 관리
 	// ===================================================
+	// 관리자 페이지 상품 조회를 위한 SELECT
+	public StoreVO getStore(String product_id) {
+		return mapper.getStoreSelect(product_id);
+	}
+	
 	// 관리자 페이지 상품 등록 - INSERT 
 	public int productInsert(StoreVO store) {
 		return mapper.productInsert(store);
@@ -44,6 +49,17 @@ public class StoreService {
 	public int adminProductDel(StoreVO store) {
 		return mapper.adminProductDel(store);
 	}
+	
+	// 관리자 페이지 상품 수정 - 파일 삭제 요청
+	public int removeProductImg(StoreVO store) {
+		return mapper.updateStoreImg(store);
+	}
+	
+	// 관리자 페이지 상품 수정 요청
+	public int productReply(StoreVO store) {
+		return mapper.updateProduct(store);
+	}
+
 	
 	// 페이징 처리를 위한 게시글 카운트 조회
 	public int getProductListCount(String searchKeyword) {
@@ -128,6 +144,11 @@ public class StoreService {
 		
 		return mapper.selectCart4(productId, sId);
 	}
+
+	
+	
+
+	
 
 	
 
