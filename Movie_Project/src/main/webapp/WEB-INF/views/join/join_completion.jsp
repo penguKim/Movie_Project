@@ -29,7 +29,7 @@
 			<form action="" method="" name="" id="completion_msg">
 				<hr>
 				<h2>회원가입을 축하합니다</h2>
-				<p>[ ${param.id} ] 님의 회원가입을 축하합니다. <br>
+				<p>[ ${param.member_id} ] 님의 회원가입을 축하합니다. <br>
 				로그인을 하시면 포인트 적립, 쿠폰 등 <br>
 				다양한 혜택을 누리실 수 있습니다. </p>
 				<section id="join_button">

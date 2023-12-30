@@ -75,6 +75,7 @@
 .container {
     max-width: 1200px; /* 그리드 전체 넓이 */
     margin: 0 auto; /* 가운데 맞춤 */
+    padding-bottom: 100px;
 }
 
 .movie-section {
