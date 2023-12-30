@@ -11,6 +11,7 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/cs.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -47,9 +48,9 @@
 					<tr>
 						<td>이전  ▲</td>
 						<c:choose>
-							<c:when test="${param.cs_type_list_num > 0}">
+							<c:when test="${param.cs_type_list_num > 1}">
 								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num - 1}&pageNum=${param.pageNum}" id="notice_tit">
-									이전 공지사항 보기</a></td>								
+									${noticeSubject[0].cs_subject}</a></td>		
 							</c:when>
 							<c:otherwise>
 								<td>이전 공지사항이 없습니다</td>
@@ -60,9 +61,13 @@
 					<tr>
 						<td>다음  ▼</td>
 						<c:choose>
-							<c:when test="${param.cs_type_list_num < maxCount - 1}">
+							<c:when test="${param.cs_type_list_num > 1 && param.cs_type_list_num < maxCount}">
 								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num + 1}&pageNum=${param.pageNum}" id="notice_tit">
-									다음 공지사항 보기</a></td>								
+									${noticeSubject[1].cs_subject}</a></td>								
+							</c:when>
+							<c:when test="${param.cs_type_list_num eq 1}">
+								<td colspan="3"><a href="csNoticeDetail?cs_type=${param.cs_type}&cs_type_list_num=${param.cs_type_list_num + 1}&pageNum=${param.pageNum}" id="notice_tit">
+									${noticeSubject[0].cs_subject}</a></td>								
 							</c:when>
 							<c:otherwise>
 								<td>다음 공지사항이 없습니다</td>
@@ -70,7 +75,9 @@
 						</c:choose>
 					</tr>
 				</table>
-				<div id="button"><input type="button" value="목록" onclick="history.back()"></a></div>
+				<div id="button">
+					<a href="csNotice?pageNum=${param.pageNum}"><input type="button" value="목록"></a>
+					</div>
 			</div>
 		</section>
 		

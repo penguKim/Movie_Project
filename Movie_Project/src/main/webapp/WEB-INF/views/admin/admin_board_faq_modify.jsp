@@ -51,7 +51,7 @@
 						<tr>
 							<th>내용</th>
 							<td><textarea id="textarea" name="cs_content">${faqDetail.cs_content}</textarea></td>
-							<input type="hidden" name="cs_type" value="자주묻는질문">
+							<input type="hidden" name="cs_type" value="${faqDetail.cs_type}">
 							<input type="hidden" name="cs_type_list_num" value="${param.cs_type_list_num}">
 						</tr>
 					</table>

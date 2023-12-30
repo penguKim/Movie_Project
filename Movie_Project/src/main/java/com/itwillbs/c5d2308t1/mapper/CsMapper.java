@@ -36,6 +36,9 @@ public interface CsMapper {
 	
 	// 공지사항 상세페이지 보기
 	HashMap<String, Object> selectNoticeDetail(CsVO cs);
+	
+	// 공지사항 상세페이지 이전글 다음글 제목 가져오기
+	List<HashMap<String, Object>> selectNoticeSubject(CsVO cs);
 
 	// 극장명 조회하여 지점명으로 출력
 	List<HashMap<String, Object>> selectTheaterList();

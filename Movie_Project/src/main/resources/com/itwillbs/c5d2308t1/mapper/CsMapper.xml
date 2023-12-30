@@ -104,6 +104,16 @@
 			AND cs_type_list_num = #{cs_type_list_num} 
 	</select>
 	
+	<!-- 공지사항 상세페이지 이전글, 다음글 제목 가져오기 -->
+	<select id="selectNoticeSubject" resultType="hashmap">
+		SELECT cs_subject
+		FROM cs
+		WHERE cs_type = '공지사항'
+			AND (cs_type_list_num = #{cs_type_list_num} - 1
+			OR cs_type_list_num = #{cs_type_list_num} + 1)
+	</select>
+	
+	
 	<!-- 영화관 이름 불러오기 -->
 	<select id="selectTheaterList" resultType="hashmap">
 		SELECT theater_id, theater_name

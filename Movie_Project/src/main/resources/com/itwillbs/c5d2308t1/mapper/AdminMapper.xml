@@ -233,6 +233,7 @@
 			OR cs.cs_type_detail LIKE '%${searchValue}%')
 		</if>
 	</select>	
+	
 	<!-- 자주묻는질문 공지사항 출력 및 페이지번호 출력, 검색 -->	
 	<select id="selectNoticeList" resultType="hashmap">
 		SELECT * 
