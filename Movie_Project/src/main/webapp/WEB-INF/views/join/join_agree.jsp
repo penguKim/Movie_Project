@@ -140,6 +140,7 @@
 				</div>
 				<hr>
 				<p id="notice">선택약관에 동의하지 않으셔도 가입이 가능합니다.</p>
+				<input type="hidden" name="email" value="${param.email}">
 				<br>
 			</form>
 		</section>

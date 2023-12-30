@@ -24,6 +24,16 @@ public class JoinController {
 		return "join/join_certification";
 	}
 	
+	// 이메일 인증
+	@ResponseBody
+	@GetMapping("authEmail")
+	public String authEmail(String email) {
+		String auth_code = service.sendAuthMail(email);
+		System.out.println("인증코드 : " + auth_code);
+		
+		return auth_code;
+	}
+	
 	// 회원가입(동의) 페이지로 이동
 	@PostMapping("memberJoinAgree")
 	public String memberJoinAgree() {
