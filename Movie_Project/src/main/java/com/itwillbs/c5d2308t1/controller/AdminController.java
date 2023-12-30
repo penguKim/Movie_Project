@@ -249,7 +249,8 @@ public class AdminController {
 	
 	// ===========================================================================================
 	// ************************ 상영일정관리 페이지 *************
-	// 관리자페이지 영화 상영 일정 메인 페이지로 이동
+	// 1) 상영일정 메인 페이지
+	// 상영 일정 메인 페이지로 이동(기본 조회 작업 포함)
 	@GetMapping("adminMovieSchedule")
 	public String adminMovieSchedule(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -259,19 +260,19 @@ public class AdminController {
 			return "forward";
 		}
 		List<Map<String, Object>> playList = service.getMainScheduleInfo();
-		System.out.println(playList);
+		System.out.println("리스트가 갖고있는 것 : " + playList);
 		model.addAttribute("playList", playList);
 		
 		return "admin/admin_movie_schedule";
 	}
 	
-	// 상영 일정 조회
+	//상영 일정 메인 페이지의 상영 일정 조회
 	@ResponseBody
 	@GetMapping("ScheduleSearch")
 	public List<Map<String, Object>> ScheduleSearch(
 			@RequestParam Map<String, String> map) {
-		System.out.println("파라미터로 받아온 theater_id : " + map.get("theater_id"));
-		System.out.println("파라미터로 받아온 play_date : " + map.get("play_date"));
+//		System.out.println("파라미터로 받아온 theater_id : " + map.get("theater_id"));
+//		System.out.println("파라미터로 받아온 play_date : " + map.get("play_date"));
 		// System.out.println(theater_id);
 		// System.out.println(play_date);
 		List<Map<String, Object>> playList = service.getScheduleInfo(map);
@@ -279,12 +280,15 @@ public class AdminController {
 		return playList;
 	}
 
-	@GetMapping("movieScheduleMod") // 상영일정 관리 페이지 : admin_movie_schedule_modify.jsp
+
+	// 2) 상영일정 관리 페이지
+	// 관리자페이지 영화 상영 일정 관리 페이지로 이동(기본 조회 작업 포함)
+	@GetMapping("movieScheduleMod")
 	public String movieScheduleMod(Model model) {
 		
 		List<HashMap<String, Object>> playRegistList = service.getPlayRegistList();
 		
-		System.out.println(playRegistList);
+		System.out.println("반영이 됐는가4 : " + playRegistList);
 		
 		model.addAttribute("playRegistList", playRegistList);
 		
@@ -337,6 +341,34 @@ public class AdminController {
 		}
 		
 	}
+	
+	// 상영일정 삭제하기
+	@PostMapping("deletePlay")
+	public String deletePlay(HttpSession session, Model model, @RequestParam int play_id) {
+		System.out.println("파라미터로 받아온 상영코드 : " + play_id);
+		// 관리자가 아니면 삭제 하지 못하도록 하기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		int deleteCount = service.removePlay(play_id);
+		
+		if(deleteCount == 0) {
+			model.addAttribute("msg", "상영 일정 삭제에 실패했습니다!");
+			return "fail_back";
+		} else {
+			return "redirect:/movieScheduleMod";
+		}
+	}
+	
+	// 상영일정 수정하기
+//	@ResponseBody
+//	@PostMapping("modifyPlay")
+//	public String modifyPlay() {
+//		
+//	}
 	
 	
 	

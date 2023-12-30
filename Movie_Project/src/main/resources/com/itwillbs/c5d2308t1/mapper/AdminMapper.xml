@@ -383,9 +383,10 @@
 	</update>
 
 <!-- *************** 상영스케쥴 관리페이지 작업 ************* -->
-<!-- 상영스케쥴 관리 메인 페이지 정보 조회-->
+<!-- 1) 상영스케쥴 메인 페이지 -->
+<!-- 상영스케쥴 메인 페이지 기본 정보 조회-->
 	<select id="selectMainScheduleInfo" resultType="hashmap">
-		SELECT r.room_name, m.movie_title, p.play_start_time
+		SELECT t.theater_name, r.room_name, m.movie_title, p.play_start_time, p.play_end_time
 		FROM plays p
 		JOIN rooms r
 		ON p.room_id = r.room_id
@@ -394,10 +395,10 @@
 		JOIN movies m
 		ON p.movie_id = m.movie_id
 		WHERE t.theater_id = 1
-			AND p.play_date = '2023-01-15'
+			AND p.play_date = curdate()
 	</select>
 	
-<!-- 상영스케쥴 관리 메인페이지 상영일정 조회 -->	
+<!-- 상영스케쥴 메인페이지 상영일정 조회 -->	
 	<select id="selectScheduleInfo" resultType="hashmap">
 		SELECT r.room_name, m.movie_title, p.play_start_time
 		FROM plays p
@@ -408,9 +409,22 @@
 		JOIN movies m
 		ON p.movie_id = m.movie_id
 		WHERE t.theater_id = #{theater_id}
-			AND p.play_date = #{play_date}	
+			AND p.play_date = #{play_date}
 	</select>
 
+<!-- 2) 상영스케쥴 관리 페이지 -->
+	<!-- 기존 상영 일정 조회 -->
+	<select id="selectPlayListAll" resultType="hashmap">
+		SELECT *
+		FROM plays JOIN movies
+		ON plays.movie_id = movies.movie_id 
+		JOIN rooms
+		ON plays.room_id = rooms.room_id
+		JOIN theaters
+		ON rooms.theater_id = theaters.theater_id
+		ORDER BY play_date DESC, play_start_time DESC, theaters.theater_id DESC, rooms.room_id ASC
+	</select>
+	
 	<!-- 선택한 지점명에 따른 상영관 조회 -->
 	<select id="selectRoom" resultType="hashmap">
 		SELECT room_id, room_name
@@ -445,17 +459,13 @@
 			, #{movie_id}
 		)
 	</insert>
+	
+	<!-- 상영 일정 삭제 -->
+	<delete id="deletePlay">
+		DELETE FROM plays
+		WHERE play_id = #{play_id}
+	</delete>
 
-	<select id="selectPlayListAll" resultType="hashmap">
-		SELECT *
-		FROM plays JOIN movies
-		ON plays.movie_id = movies.movie_id 
-		JOIN rooms
-		ON plays.room_id = rooms.room_id
-		JOIN theaters
-		ON rooms.theater_id = theaters.theater_id
-		ORDER BY play_date DESC
-	</select>
 
 
 </mapper>

@@ -124,6 +124,7 @@
 				<table border="1" width="1100" id="scheduleTable">
 					<thead>
 						<tr>
+							<th>지점</th>
 							<th>상영관</th>
 							<th>영화명</th>
 							<th>상영시간</th>
@@ -164,13 +165,14 @@
 					<tbody>
 					<%-- ******************************************************** --%>
 					<%-- ****************************기존코드**************************** --%>
-<%-- 						<c:forEach items="${playList }" var="play"> --%>
-<!-- 							<tr id="searchResult"> -->
-<%-- 								<td>${play.room_name }</td> --%>
-<%-- 								<td>${play.movie_title }</td> --%>
-<%-- 								<td>${play.play_start_time }</td> --%>
-<!-- 							</tr> -->
-<%-- 						</c:forEach> --%>
+						<c:forEach items="${playList }" var="play">
+							<tr id="searchResult">
+								<td>${play.theater_name }</td>
+								<td>${play.room_name }</td>
+								<td>${play.movie_title }</td>
+								<td>${play.play_start_time } ~ ${play.play_end_time }</td>
+							</tr>
+						</c:forEach>
 					<%-- ******************************************************** --%>
 					<%-- ****************************2차 코드**************************** --%>
 <%-- 						<c:forEach items="${playList }" var="play" varStatus="status"> <!-- 반복문 시작 --> --%>
@@ -217,8 +219,9 @@
 
 					<%-- ******************************************************** --%>
 					<%-- ****************************6차 코드**************************** --%>
-					<c:forEach items="${playList }" var="play" varStatus="status">
-					<c:set var="count" value="1"/> <%-- 중복 카운트할 변수 선언 (rowspan 값으로 지정할 것이므로 기본값 1)--%>
+<%-- 					<c:forEach items="${playList }" var="play" varStatus="status"> --%>
+						<%-- 중복 카운트할 변수 선언 (rowspan 값으로 지정할 것이므로 기본값 1)--%>
+<%-- 					<c:set var="count" value="1"/>  --%>
 						<%-- 
 							${play.room_name } 값이 중복인 경우를 판별해 횟수를 세고 rowspan 값으로 적용
 							중복 횟수를 어떻게 셀 건지?
@@ -229,63 +232,67 @@
 								rowspan - 1 의 값으로 병합된 tr 반복
 						--%>
 					
-					<c:set var="currentRoomName" value=""/> <%-- 현재 행의 room_name 값 지정할 변수 --%>
-					<c:set var="nextRoomName" value=""/> <%-- 다음 행의 room_name 값 지정할 변수 --%>
-					<c:if test="${not empty play.room_name }"> 
+					<%-- 현재 행의 room_name 값 지정할 변수 --%>
+<%-- 					<c:set var="currentRoomName" value=""/> --%>
+					<%-- 다음 행의 room_name 값 지정할 변수 --%> 
+<%-- 					<c:set var="nextRoomName" value=""/>  --%>
 					<%-- room_name 값이 있다면 --%>
+<%-- 					<c:if test="${not empty play.room_name }">  --%>
 					
-						<c:set var="currentRoomName" value="${play.room_name}"/>
+					
 						<%-- 현재 행의 room_name값 지정 변수에 기본값인 불러온 데이터의 첫 행인 room_name값 지정 --%>
+<%-- 						<c:set var="currentRoomName" value="${play.room_name}"/> --%>
 						
-						<c:set var="nextPlay" value="${playList[status.index + 1]}"/>
 						<%-- 다음 행의 데이터 리스트의 값을 지정할 변수 선언하고 인덱스 1 증가 --%>
+<%-- 						<c:set var="nextPlay" value="${playList[status.index + 1]}"/> --%>
 						
-						<c:if test="${not empty nextPlay}"> 
 						<%-- 다음 행의 데이터 리스트가 비어있지않다면 --%>
+<%-- 						<c:if test="${not empty nextPlay}">  --%>
 							
-							<c:set var="nextRoomName" value="${nextPlay.room_name}"/>
 							<%-- 다음 행의 room_name값을 앞에서 지정한 변수에 덮어씌움 --%>			
-						</c:if>
+<%-- 							<c:set var="nextRoomName" value="${nextPlay.room_name}"/> --%>
+<%-- 						</c:if> --%>
 						
-						<c:if test="${currentRoomName eq nextRoomName}"> 
 						<%-- 현재 행의 room_name과 다음 행의 room_name 값이 일치한다면 --%>
+<%-- 						<c:if test="${currentRoomName eq nextRoomName}">  --%>
 						
-							<c:set var="nextRoomName" value="${nextPlay.room_name}"/>
 							<%-- 다음 행의 room_name값을 앞에서 지정한 변수에 덮어씌움 --%>	
-							<c:set var="count" value="${count + 1 }"/> 
+<%-- 							<c:set var="nextRoomName" value="${nextPlay.room_name}"/> --%>
 							<!-- 일치횟수를 세는 변수 count 1 증가 -->
-						</c:if>
+<%-- 							<c:set var="count" value="${count + 1 }"/>  --%>
+<%-- 						</c:if> --%>
 						
-						<c:choose>
-							<c:when test="${currentRoomName eq nextRoomName}">
+<%-- 						<c:choose> --%>
 							<%-- 현재 행의 room_name과 다음 행의 room_name 값이 일치할 경우 => rowspan 적용 --%>
-								<tr>
-									<td rowspan="${count}">${nextPlay.room_name }</td>
-									<td>${play.movie_title }</td>
-									<td>${play.play_start_time }</td>
-								</tr>
-								<c:forEach begin="1" end="${count - 1}"> 
+<%-- 							<c:when test="${currentRoomName eq nextRoomName}"> --%>
+<!-- 								<tr> -->
+<%-- 									<td rowspan="${count}">${nextPlay.room_name }</td> --%>
+<%-- 									<td>${play.movie_title }</td> --%>
+<%-- 									<td>${play.play_start_time }</td> --%>
+<!-- 								</tr> -->
 								<%-- 아래의 tr은 rowspan - 1 값 만큼 반복해야한다 --%>
-									<tr>
-										<td>${nextPlay.movie_title }</td>
-										<td>${nextPlay.play_start_time }</td>
-									</tr>
-								</c:forEach>			
-							</c:when>
-							<c:otherwise>
+<%-- 								<c:forEach begin="1" end="${count - 1}">  --%>
+<!-- 									<tr> -->
+<%-- 										<td>${nextPlay.movie_title }</td> --%>
+<%-- 										<td>${nextPlay.play_start_time }</td> --%>
+<!-- 									</tr> -->
+<%-- 								</c:forEach>			 --%>
+<%-- 							</c:when> --%>
 							<%-- 현재 행의 room_name과 다음 행의 room_name 값이 일치하지 않는 경우 => rowspan 적용 X --%>
-								<tr>
-									<td>${play.room_name }</td> <!-- rowspan 적용하지않은 원래대로 출력 -->
-									<td>${play.movie_title }</td>
-									<td>${play.play_start_time }</td>
-								</tr>
-							</c:otherwise>
+<%-- 							<c:otherwise> --%>
+<!-- 								<tr> -->
+									<!-- rowspan 적용하지않은 원래대로 출력 -->
+<%-- 									<td>${play.room_name }</td> --%>
+<%-- 									<td>${play.movie_title }</td> --%>
+<%-- 									<td>${play.play_start_time }</td> --%>
+<!-- 								</tr> -->
+<%-- 							</c:otherwise> --%>
 						
-						</c:choose>
-						<c:set var="status.index" value="${status.index + count - 1 }"/>
+<%-- 						</c:choose> --%>
 						<%-- 인덱스 갱신 --%>
-					</c:if>
-				</c:forEach>
+<%-- 						<c:set var="status.index" value="${status.index + count - 1 }"/> --%>
+<%-- 					</c:if> --%>
+<%-- 				</c:forEach> --%>
 
 
 					

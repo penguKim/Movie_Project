@@ -181,17 +181,24 @@ public class AdminService {
 
 	
 	// ****************** 상영스케쥴 관리 게시판 *********************
-	// 상영스케쥴 관리 메인페이지로 이동 시 정보 조회 작업 요청
+	// 1) 상영 일정 메인 페이지
+	// 상영 일정 메인페이지로 이동 시 기본 정보 조회 작업 요청
 	public List<Map<String, Object>> getMainScheduleInfo() {
 		return mapper.selectMainScheduleInfo();
 	}
 	
-	// 상영스케쥴 관리 메인페이지 상영일정 조회 작업 요청 
+	// 상영 일정 메인 페이지 상영일정 조회 작업 요청 
 	public List<Map<String, Object>> getScheduleInfo(Map<String, String> map) {
 		return mapper.selectScheduleInfo(map);
 	}
 
-	// 지점명에 따른 상영관 조회
+	// 2) 상영 일정 관리 페이지
+	// 상영 일정 관리 페이지로 이동 시 등록된 상영 일정 조회 작업 요청
+	public List<HashMap<String, Object>> getPlayRegistList() {
+		return mapper.selectPlayListAll();
+	}
+
+	// 지점명에 따른 상영관 조회 작업 요청
 	public List<HashMap<String, Object>> getRoomList(String theater_id) {
 		return mapper.selectRoom(theater_id);
 	}
@@ -206,15 +213,16 @@ public class AdminService {
 		return mapper.selectMovieInfo(movie_id);
 	}
 
-	// 상영 일정 등록
+	// 상영 일정 등록 요청
 	public int registPlay(PlayVO play) {
 		return mapper.insertPlay(play);
 	}
 
-	// 등록된 상영 일정 조회
-	public List<HashMap<String, Object>> getPlayRegistList() {
-		return mapper.selectPlayListAll();
+	// 상영 일정 삭제 요청
+	public int removePlay(int play_id) {
+		return mapper.deletePlay(play_id);
 	}
+
 
 
 
