@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 </script>
 <script>
 $(function() {
-	alert($("#product_img").val());
+	
 	// submit 시 수행할 동작
 	$("form").on("submit", function() {
 		if($("#product_name").val() == '') {
@@ -32,9 +33,9 @@ $(function() {
 			alert("상품가격을 입력하세요!");
 			$("#product_price").focus();
 			return false;
-		} else if($("#product_img").val() == '') {
+		} else if($("#imgFile").val() == '') {
 			alert("상품이미지를 입력하세요!");
-			$("#product_img").focus();
+			$("#imgFile").focus();
 			return false;
 		}
 		
@@ -46,6 +47,38 @@ $(function() {
 function productDel(id) {
 	if(confirm("상품을 삭제하시겠습니까")) {
 		location.href="adminProductDel?product_id=" + id
+	}
+}
+
+function deleteFile(product_id, product_img) {
+//		alert(board_num + ", " + board_file + ", " + index); // 1, 2023/12/20/093ec3dc_daumlogo.png
+	if(confirm("삭제하시겠습니까?")) {
+		// 파일 삭제 작업을 AJAX 로 처리하기 - POST
+		// BoardDeleteFile 서블릿 요청(파라미터 : 글번호, 파일명)
+		$.ajax({
+			url: "ProductDeleteFile", 
+			type: "POST",
+			data: {
+				"product_id" : product_id,
+				"product_img" : product_img
+				// 전달받은 파일명을 컬럼 구별없이 검색하기 위해 board_file1 으로 지정(board_file2, board_file3 도 무관)
+			},
+			success: function(result) {
+				console.log("파일 삭제 요청 결과 : " + result + ", " + typeof(result));
+				
+				// 삭제 성공/실패 여부 판별(result 값 문자열 : "true"/"false" 판별)
+				if(result == "true") { // 삭제 성공 시
+					// 기존 파일 다운로드 링크 요소를 제거하고
+					// 파일 업로드를 위한 파일 선택 요소 표시 => html() 활용
+					// => ID 선택자 "fileItemAreaX" 인 요소 지정(X 는 index 값 활용)
+					// => 표시할 태그 요소 : <input type="file" name="file1" />
+					//    => name 속성값도 index 값을 활용하여 각 파일마다 다른 name 값 사용
+					$("#imgFileArea").html('<input type="file" name="imgFile" id="imgFile" class="shortInput"/>');
+				} else if(result == "false") {
+					console.log("파일 삭제 실패!");
+				}
+			}
+		});
 	}
 }
 
@@ -66,7 +99,7 @@ function productDel(id) {
 		<jsp:include page="admin_menubar.jsp"></jsp:include>
 	</div>
 	<div id="admin_main">
-			<form action="adminProductUpd" method="post" id="movieRegist">
+			<form action="adminProductReply" method="post" id="movieRegist">
 				<table id="movieTable">
 		            <colgroup> 
 		                <col style="width: 20%;">
@@ -76,31 +109,46 @@ function productDel(id) {
 		            </colgroup> 
 					<tr>
 						<td rowspan="5" colspan="2" id="posterArea">
-							<img src="${product[0].product_img }" id=""><br>
+							<img src="${product.product_img }" alt="상품이미지" id=""><br>
 						</td>
 						<!-- 상품 코드 수정 불가 -->
 						<th width="100px">상품코드</th>
-						<td><input type="text" name="product_id" id="product_id" class="shortInput" value="${product[0].product_id }" readonly ></td>
+						<td><input type="text" name="product_id" id="product_id" class="shortInput" value="${product.product_id }" readonly ></td>
 					</tr>
 					<tr>
 						<th width="100px">상품이름</th>
-						<td><input type="text" name="product_name" id="product_name" class="shortInput" value="${product[0].product_name }"></td>
+						<td><input type="text" name="product_name" id="product_name" class="shortInput" value="${product.product_name }"></td>
 					</tr>
 					<tr>
 						<th width="100px">상품설명</th>
-						<td><input type="text" name="product_txt" id="product_txt" class="shortInput" value="${product[0].product_txt }"></td>
+						<td><input type="text" name="product_txt" id="product_txt" class="shortInput" value="${product.product_txt }"></td>
 					</tr>
 					<tr>
 						<th>상품가격</th>
-						<td ><input type="text" name="product_price" id="product_price" class="shortInput" value="${product[0].product_price }원"></td>
+						<td ><input type="text" name="product_price" id="product_price" class="shortInput" value="${product.product_price }원"></td>
 					</tr>
 					<tr>
-						<th>이미지 파일 첨부</th>
-						<td><input type="file" name="imgFile" id="product_img" class="shortInput"></td>
+						<th><label for="product_img">이미지 첨부 파일</label></th>
+						<td>
+							<div class="file" id="imgFileArea">
+								<c:choose>
+									<c:when test="${not empty product.product_img}">
+										<c:set var="original_img_name" value="${fn:substringAfter(product.product_img, '_')}"/>
+										${original_img_name}
+										<a href="javascript:deleteFile('${product.product_id }','${product.product_img}', 1)">
+											<img src="${pageContext.request.contextPath }/resources/img/선택불가.png" class="img_btnDelete">
+										</a>
+									</c:when>
+									<c:otherwise>
+										<input type="file" name="imgFile" id="imgFile" class="shortInput">
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</td>
 					</tr>
 				</table>
 				<input type="submit" value="변경" id="regist">
-				<input type="button" value="삭제" onclick="productDel('${product[0].product_id}')">
+				<input type="button" value="삭제" onclick="productDel('${product.product_id}')">
 				<input type="button" value="뒤로가기" onclick="history.back();">
 			</form>
 	</div>

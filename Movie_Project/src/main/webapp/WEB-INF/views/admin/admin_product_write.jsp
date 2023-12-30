@@ -64,9 +64,9 @@ $(function() {
 			alert("상품가격을 입력하세요!");
 			$("#product_price").focus();
 			return false;
-		} else if($("#product_img").val() == '') {
+		} else if($("#imgFile").val() == '') {
 			alert("상품이미지를 입력하세요!");
-			$("#product_img").focus();
+			$("#imgFile").focus();
 			return false;
 		}
 		
@@ -121,7 +121,7 @@ $(function() {
 					</tr>
 					<tr>
 						<th>이미지 파일 첨부</th>
-						<td ><input type="file" name="imgFile" id="product_img" class="shortInput"></td>
+						<td ><input type="file" name="imgFile" id="imgFile" class="shortInput"></td>
 					</tr>
 				</table>
 				<input type="submit" value="등록" id="regist">

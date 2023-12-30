@@ -17,7 +17,10 @@ public interface StoreMapper {
 	// ===================================================
 	// 모든 상품 조회
 	List<StoreVO> allSelectStore();
-
+	
+	// 관리자 페이지 상품 조회를 위한 SELECT
+	StoreVO getStoreSelect(String product_id);
+	
 	// 관리자 페이지 상품 등록 - INSERT 
 	int productInsert(StoreVO store);
 	
@@ -29,6 +32,12 @@ public interface StoreMapper {
 	
 	// 관리자 페이지 상품 삭제를 위한 DELETE
 	int adminProductDel(StoreVO store);
+	
+	// 관리자 페이지 상품 수정 - 파일 삭제 요청
+	int updateStoreImg(StoreVO store);
+	
+	// 관리자 페이지 상품 수정 요청
+	int updateProduct(StoreVO store);
 	
 	// 페이징 처리를 위한 게시글 카운트 조회
 	int selectProductListCount(String searchKeyword);
@@ -78,6 +87,11 @@ public interface StoreMapper {
 	List<StoreVO> selectCart3(@Param("arrPro") String arrPro, @Param("sId") String sId);
 
 	List<StoreVO> selectCart4(@Param("productId")String productId,@Param("sId") String sId);
+
+	
+
+	
+	
 
 	
 
