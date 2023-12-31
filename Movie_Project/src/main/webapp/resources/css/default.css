@@ -41,19 +41,6 @@ header {
 	text-align: center; /* 스토어 제목 중앙 정렬  */
 }
 
-#member input[type="button"] { /* 로그인, 회원가입 버튼에 */
-	padding: 6px 15px; /* 안쪽 여백 */
-    background-color: #e50914; /* 배경색 빨간색 */
-    color: white; /* 글씨색 흰색*/
-    border: none; /* 테두리 없음 */
-    cursor: pointer; /* 커서 변경 */
-}
-
-#member input[type="button"]:hover { /* 로그인, 회원가입 버튼에 마우스오버 시 */
-	background-color: #ce0912;
-}
-
-
 
 /* 아이티윌홈으로 ---로그인 회원가입 정렬*/
 #top_area {
@@ -69,6 +56,20 @@ header {
 #member {
 	text-align: right;
 	margin: 5px;
+}
+
+#member input[type="button"] { /* 로그인, 회원가입 버튼에 */
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #e50914; /* 배경색 빨간색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+    min-height: 30px;
+    vertical-align: top;
+}
+
+#member input[type="button"]:hover { /* 로그인, 회원가입 버튼에 마우스오버 시 */
+	background-color: #ce0912;
 }
 
 /* 메뉴영역<div id="menu_nav"> 배경색과 글자 정렬*/

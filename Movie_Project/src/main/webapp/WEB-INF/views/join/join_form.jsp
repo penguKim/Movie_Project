@@ -22,7 +22,7 @@
 		let iscorrectPasswd = false; <%-- 비밀번호가 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		let iscorrectName = false; <%-- 이름이 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		let iscorrectPhone = false; <%-- 휴대폰번호가 정규표현식에 적합한지를 저장할 변수 선언 --%>
-		let iscorrectEmail = false; <%-- 이메일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
+<%-- 		let iscorrectEmail = false; 이메일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		let iscorrectBirth = false; <%-- 생일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		
 		
@@ -150,40 +150,40 @@
 		
 		
 		<%-- 이메일주소 확인 --%>
-		$("#email").blur(function() {			
-			let member_email = $("#email").val();
-			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+// 		$("#email").blur(function() {			
+// 			let member_email = $("#email").val();
+// 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			
-			if(!regEmail.exec(member_email)){
-				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
-				iscorrectEmail = false;
-			} else {
-				<%-- AJAX를 통해 이메일 중복값 확인 --%>
-				$.ajax({
-					url: "checkDup",
-					data: {
-						member_email : member_email
-					},
-					dataType: "json",
-					success: function(checkDupEmail) {
-						if(checkDupEmail) { // 중복
- 							$("#checkEmailResult").text("이미 사용중인 이메일입니다").css("color", "red");
- 							iscorrectEmail = false;
- 							isDuplicateEmail = true;
-						} else { // 사용가능
-							$("#checkEmailResult").text("사용 가능한 이메일입니다").css("color", "blue");
-							isDuplicateEmail = false;
-							iscorrectEmail = true;
-						}
+// 			if(!regEmail.exec(member_email)){
+// 				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
+// 				iscorrectEmail = false;
+// 			} else {
+<%-- 				AJAX를 통해 이메일 중복값 확인 --%>
+// 				$.ajax({
+// 					url: "checkDup",
+// 					data: {
+// 						member_email : member_email
+// 					},
+// 					dataType: "json",
+// 					success: function(checkDupEmail) {
+// 						if(checkDupEmail) { // 중복
+//  							$("#checkEmailResult").text("이미 사용중인 이메일입니다").css("color", "red");
+//  							iscorrectEmail = false;
+//  							isDuplicateEmail = true;
+// 						} else { // 사용가능
+// 							$("#checkEmailResult").text("사용 가능한 이메일입니다").css("color", "blue");
+// 							isDuplicateEmail = false;
+// 							iscorrectEmail = true;
+// 						}
 							
-					},
-					error: function(xhr, status, error) {
-					      // 요청이 실패한 경우 처리할 로직
-					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
-					}
-				});
-	        }
-		});	
+// 					},
+// 					error: function(xhr, status, error) {
+// 					      // 요청이 실패한 경우 처리할 로직
+// 					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
+// 					}
+// 				});
+// 	        }
+// 		});	
 		
 		<%-- 휴대폰번호 확인 --%>
 		$("#phone").on("blur", function() {	
@@ -286,7 +286,7 @@
 			} else if(isDuplicatePhone) {  <%-- 휴대폰번호 중복 시 --%>
 				$("#phone").focus();
 				return false; // submit 동작 취소
-			} else if(!iscorrectEmail) {  <%-- 이메일 주소 미입력 시 --%>
+			} else if($("#email").val() == null) {  <%-- 이메일 주소 미입력 시 --%>
 				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
 				$("#email").focus();
 				return false; // submit 동작 취소
@@ -297,7 +297,11 @@
 				$("#checkBirthResult").text("생년월일을 확인해주세요").css("color", "red");
 				$("#birth").focus();
 				return false; // submit 동작 취소
-			}
+			} else if(!$('input[name=member_gender]:checked').is(":checked")) {  <%-- 성별 미선택 시 --%>
+				$("#checkGenderResult").text("성별을 선택해주세요").css("color", "red");
+				$("#identityGender1").focus();
+			return false; // submit 동작 취소
+		}
 			return true; // submit 동작 수행(생략 가능)
 	
 		});
@@ -342,6 +346,13 @@
 					<div id="checkEmailResult"></div> <br>
 					<input type="text" id="birth" name="member_birth" placeholder="생년월일" maxlength="10">
 					<div id="checkBirthResult"></div> <br>
+					<div id="gender">
+                        <input type="radio" id="identityGender1" name="member_gender" value="1" class="blind">
+                        <label for="identityGender1">남자</label>
+                        <input type="radio" id="identityGender2" name="member_gender" value="2" class="blind">
+                        <label for="identityGender2">여자</label>
+                    </div>
+					<div id="checkGenderResult"></div> <br>
 					<div class="joinbtn">
 						<a href=""><input type="button" value="이전"></a>
 						<input type="submit" value="가입완료">

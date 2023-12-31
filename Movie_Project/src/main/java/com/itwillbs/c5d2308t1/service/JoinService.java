@@ -19,7 +19,7 @@ public class JoinService {
 	private SendMailClient mailClient;
 
 	// 인증 메일 발송 요청을 위한 sendAuthMail() 메서드
-	public String sendAuthMail(String email) {
+	public String sendAuthMail(String member_email) {
 		// 인증 메일에 포함시켜 전달할 난수 생성
 		String auth_code = GenerateRandomCode.getRandomCode(6);
 		System.out.println("생성된 난수 : " + auth_code);
@@ -41,7 +41,7 @@ public class JoinService {
 //				mailClient.sendMail(email, subject, content);
 //			}
 //		}).start();
-		mailClient.sendMail(email, subject, content);
+		mailClient.sendMail(member_email, subject, content);
 		
 		// 발송된 인증코드 리턴
 		return auth_code;

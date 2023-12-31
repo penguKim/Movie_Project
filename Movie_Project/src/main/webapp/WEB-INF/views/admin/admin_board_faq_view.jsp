@@ -63,7 +63,7 @@
 					</table>
 					<div id="admin_writer"> 
 						<input type="submit" value="수정">
-						<input type="button" value="돌아가기" onclick="history.back()">
+						<a href="adminFaq?pageNum=${param.pageNum}"><input type="button" value="돌아가기"></a>
 						<input type="button" value="삭제" id="deleteBtn">
 					</div>
 				</form>

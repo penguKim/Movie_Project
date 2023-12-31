@@ -17,8 +17,9 @@
 		var isChecked = false;
 		
 		<%-- 이메일주소 중복 확인 --%>
-		$("#email").blur(function() {			
-			let member_email = $("#email").val();
+		// 인증번호 발송 버튼을 클릭했을 때
+		$("#sendMail").click(function() {		
+			var member_email = $("#email").val();
 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			
 			if(!regEmail.exec(member_email)){
@@ -37,29 +38,23 @@
  							$("#checkResult").text("이미 사용중인 이메일입니다").css("color", "red");
 						} else { // 사용가능
 							$("#checkResult").text("사용 가능한 이메일입니다").css("color", "blue");
-						
-							// 인증번호 발송 버튼을 클릭했을 때
-							$("#sendMail").click(function() {
-								alert("인증번호를 발송했습니다. \n인증번호를 확인하고 인증번호확인란에 입력해주세요.");
-								// 인증여부를 저장하는 변수 값을 true로 변경
-								isChecked = true;
-								console.log("isChecked : " + isChecked);
-								email = $("#email").val();
-								
-								// 인증번호 발송 요청
-								$.ajax({
-									url: "authEmail",
-									data: {
-										email : email
-									},
-									success: function(data) {
-										checkCNum(data);
-									},
-									error: function(xhr, status, error) {
-									      // 요청이 실패한 경우 처리할 로직
-									      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
-									}
-								});
+							alert("인증번호를 발송했습니다. \n인증번호를 확인하고 인증번호확인란에 입력해주세요.");
+							// 인증여부를 저장하는 변수 값을 true로 변경
+							isChecked = true;
+							
+							// 인증번호 발송 요청
+							$.ajax({
+								url: "authEmail",
+								data: {
+									member_email : member_email
+								},
+								success: function(data) {
+									checkCNum(data);
+								},
+								error: function(xhr, status, error) {
+								      // 요청이 실패한 경우 처리할 로직
+								      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
+								}
 							});
 						
 						}
