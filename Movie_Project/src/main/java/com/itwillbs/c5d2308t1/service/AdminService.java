@@ -13,6 +13,7 @@ import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Service
@@ -221,6 +222,11 @@ public class AdminService {
 	// 상영 일정 삭제 요청
 	public int removePlay(int play_id) {
 		return mapper.deletePlay(play_id);
+	}
+
+	//리뷰 조회
+	public List<ReviewsVO> getReviewLiset(ReviewsVO review) {
+		return mapper.selectReviewList(review);
 	}
 
 

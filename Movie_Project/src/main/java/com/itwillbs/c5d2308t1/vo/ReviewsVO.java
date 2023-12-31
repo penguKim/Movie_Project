@@ -1,7 +1,6 @@
 package com.itwillbs.c5d2308t1.vo;
 
 import java.sql.Date;
-import java.sql.Time;
 
 import lombok.Data;
 @Data
@@ -14,6 +13,5 @@ public class ReviewsVO {
 		private int movie_id; //영화코드
 		private String movie_title; //영화제목
 		private Date play_date; // 상영일
-		private Time play_end_time; //상영종료 시간
-		
+		private String play_end_time; //상영종료 시간
 }

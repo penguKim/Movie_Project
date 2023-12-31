@@ -38,6 +38,9 @@
 			, now()
 			, #{sId}
 			, #{movie_id}
+			, #{movie_title}
+			,now()
+			,now()
 		)
 	</insert>
 	

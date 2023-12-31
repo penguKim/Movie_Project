@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-<<<<<<< HEAD
 // 	$(function() {
 <%-- 		var sId = "<%= session.getAttribute("sId") %>";   --%>
 <%-- 		if(sId != "null") { 로그인한 회원인지 판별 --%>
@@ -73,104 +72,46 @@
 // 			}
 // 		}
 <%-- 	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
-=======
-	$(function() {
-		$.ajax({
-			url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
-			dataType: "json",
-			success: function(result) { <%-- List 타입으로 찜 데이터 응답 --%>
-				for(let like of result) {
-					if(like.movie_id == ${movie_id}) { <%-- 찜한 영화가 상영작 페이지에 있을 경우 --%>
-						$("#likeBtn").addClass("likeCheck");
-						$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
-					}
-				}
-			},
-			error: function(xhr, textStatus, errorThrown) {
-					alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
-			}
-		});
-	}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
-	
-	//찜하기 버튼
-	function likeBtnClick(like) { <%-- 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
-// 		console.log("${movie_id}");
-		$.ajax({
-			url: "likeCheck", <%-- 해당 영화의 찜 정보가 DB에 있는지 판별 --%>
-			data: {
-				movie_id: ${movie_id}
-			},
-			success: function(result) { <%-- 응답 결과가 문자열로 전송 --%>
-				if(result == 'login') {
-					if(confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")){
-						location.href = "memberLogin";
-					}
-				} else if(result == 'false') { <%-- 찜을 등록하는 경우 --%>
-					$("#likeBtn").toggleClass("likeCheck");
-					$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
-				} else if(result == 'true') { <%-- 찜을 삭제하는 경우 --%>
-					$("#likeBtn").toggleClass("likeCheck");
-					$("#likeBtn").html("<i class='fa fa-heart-o'></i>찜하기");
-				}
-			},
-			error: function(xhr, textStatus, errorThrown) {
-				alert("찜하기를 실패했습니다.");
-			}
-		});
-	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
->>>>>>> e6842a032b13ba4bb06f122328ad9a4ff8fabcdc
-	
+
+
 $(document).ready(function(){
-        var member_id = "<%= session.getAttribute("sId") %>";
-        	
-    $("#submitReview").click(function(){
-    	
-    	let targetDate = new Date();
-    	let nowTime = new Date().getTime(); // 계산의 기준이 될 날짜를 밀리초 단위로 리턴
-//     	let targetDate = 
-//     	alert(nowTime);
-//     	alert(targetDate);
-    	movieReleaseTime = new Date(repRlsDate).getTime(); // 계산의 대상이 될 날짜를 밀리초 단위로 리턴
-		// 두 날짜의 차이를 초 -> 분 -> 시 -> 일 비교값으로 나타내기
-		differenceTime = Math.round((nowTime - movieReleaseTime) / 1000 / 60 / 60 / 24);
-		// 개봉상태 지정
-		if(differenceTime> 0) { // 오늘보다 개봉일이 이전인 경우
-			$("#release").prop("selected", true);
-		} else { // 오늘보다 개봉일이 이후인 경우
-			$("#comming").prop("selected", true);
-		}
-        
-        console.log(member_id);
-        $.ajax({
-            url: "reviewPro", // 요청을 보낼 URL
-            type: "POST",
-            data: {
-            	review_content : review_content,
-            	member_id : member_id,
-            	movie_id : movie_id
-            },
-            datatype: "json",
-            success: function(data) { // 요청 성공
+	var member_id = "<%= session.getAttribute("sId") %>";
+	var movie_id = ${param.movie_id};
+	
+	var currentDate = new Date();
+	var year = currentDate.getFullYear();  // 현재 연도
+	var month = currentDate.getMonth() + 1; // 현재 월
+	var day = currentDate.getDate() // 현재 일
+
+	var formattedDate = year + "-" + month + "-" + day;
+	$("#submitReview").click(function(){
+		alert(formattedDate);
+		$.ajax({
+			url: "reviewPro", // 요청을 보낼 URL
+			type: "POST",
+			data: {
+					review_content : review_content,
+					member_id : member_id,
+					movie_id : movie_id
+			},
+			datatype: "json",
+			success: function(data) { // 요청 성공
 				$("#review_no").append(
-						"<tr>"	
-						+ "<td>" + member_id + "</td>"	
-						+ "<td>" + review_content + "</td>"	
-						+ "<td>" + formattedTime  + "</td>"	
-						+ "</tr>"	
+					"<tr>"	
+					+ "<td>" + member_id + "</td>"	
+					+ "<td>" + review_content + "</td>"	
+					+ "<td>" + formattedDate  + "</td>"	
+					+ "</tr>"	
 				);
             	
             	
-                console.log("성공");
-            },
-            error: function(request, status, error) { // 요청 실패
-            	 console.log("실패");
-            }
-        });//ajax
-//   		  	}else{ // 실패시 
-// 		    	alert("로그인 후 작성이 가능합니다");
-// 		    	location.href = "memberLogin";
-//    		 	} //if
-    });
+				console.log("성공");
+			},
+			error: function(request, status, error) { // 요청 실패
+				console.log("실패");
+			}
+		});//ajax
+	}); //click
 });
 </script>
 </head>

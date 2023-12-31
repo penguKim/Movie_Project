@@ -9,6 +9,47 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="../js/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	.ajax({
+		url:"adminReview",
+		type:"GET",
+		data:{
+        	review_content : review_content,
+        	member_id : member_id,
+        	movie_id : movie_id
+		},
+		success: function(data){
+			$("#review_no").append(
+				+ "<td>" + movie_title + "</td>"	
+				+ "<td>" + review_rating + "</td>"	
+				+ "<td>" + member_id  + "</td>"	
+				+ "<td>" + review_content  + "</td>"	
+		},
+		error: function() {
+			${"#review_no"}.html("AJAX 요청 실패");
+		}
+	});//ajax끝
+	
+});//ready 끝
+	$(function() { //검색기능
+		$('#searchButton').on('click', function() {
+		var searchKeyword = $('#searchInput').val(); // 입력된 단어 가져오기
+			$('#review_SearchTable tr').each(function(index, element) {
+			var rowText = $(element).text().toLowerCase(); // 행의 텍스트 가져오기 (소문자로 변환)
+				if (rowText.includes(searchKeyword.toLowerCase())) {
+					$(element).show(); // 일치하는 단어가 포함된 행 보이기
+					alert("일치하는 단어");
+				} else {
+					$(element).hide(); // 일치하지 않는 단어가 포함된 행 숨기기
+					alert("일치하는 단어가 없습니다");
+				}
+			});
+		});
+	});
+</script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -27,8 +68,8 @@
 			
 			<div id="admin_main">
 				<div id="review_Search">
-					<input type="text" placeholder="아이디 또는 영화명 입력">
-					<input type="button" value="조회">
+					<input type="text" id="searchInput" placeholder="아이디 또는 영화명 입력">
+					<input type="button" id="searchButton" value="조회">
 				</div>
 				<form action="reviewDlt" method="post">
 					<table border="1" width="1100">
@@ -39,56 +80,14 @@
 							<th>내용</th>
 							<th>리뷰 삭제하기</th>
 						</tr>
-						<tr>
-							<td>movie_title</td>
-							<td>review_rating</td>
-							<td>member_id</td>
-							<td>review_content</td>
+						<tr id="review_no">
+							<td>${review.movie_title}</td>
+							<td>${review.review_rating}</td>
+							<td>${review.member_id}</td>
+							<td>${review.review_content}</td>
 							<td>
 							<input type="submit" value="삭제">
 							</td>
-						</tr>
-						<tr>
-							<td>movie_title</td>
-							<td>review_rating</td>
-							<td>member_id</td>
-							<td>review_content</td>
-							<td><input type="submit" value="삭제"></td>
-						</tr>
-						<tr>
-							<td>movie_title</td>
-							<td>review_rating</td>
-							<td>member_id</td>
-							<td>review_content</td>
-							<td><input type="submit" value="삭제"></td>
-						</tr>
-						<tr>
-							<td>movie_title</td>
-							<td>review_rating</td>
-							<td>member_id</td>
-							<td>review_content</td>
-							<td><input type="submit" value="삭제"></td>
-						</tr>
-						<tr>
-							<td>movie_title</td>
-							<td>review_rating</td>
-							<td>member_id</td>
-							<td>review_content</td>
-							<td><input type="submit" value="삭제"></td>
-						</tr>
-						<tr>
-							<td>movie_title</td>
-							<td>review_rating</td>
-							<td>member_id</td>
-							<td>review_content</td>
-							<td><input type="submit" value="삭제"></td>
-						</tr>
-						<tr>
-							<td>movie_title</td>
-							<td>review_rating</td>
-							<td>member_id</td>
-							<td>review_content</td>
-							<td><input type="submit" value="삭제"></td>
 						</tr>
 					</table>
 					<div class="pagination">

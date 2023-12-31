@@ -41,6 +41,7 @@ import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 import com.itwillbs.c5d2308t1.vo.StoreVO;
 import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
@@ -1453,7 +1454,16 @@ public class AdminController {
 	// ********************* 영화리뷰 관리 페이지 *************
 	// 관리자페이지 영화 리뷰 관리 페이지로 이동
 	@GetMapping("adminReview")
-	public String adminReview() {
+	public String adminReview(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		List<ReviewsVO> adminReview = service.getReviewLiset(review);
+		model.addAttribute("adminReview",adminReview);
+		System.out.println(adminReview);
 		return "admin/admin_review";
 	}
 
