@@ -95,6 +95,10 @@ textarea { /* 텍스트박스 */
 	width: 180px; /* 넓이지정 */
 }
 
+#email3>input[type="button"], #email3>input[type="submit"] {
+	width: 120px;
+}
+
 #checkResult {
 	height: 13px;
 	font-size: 13px;
