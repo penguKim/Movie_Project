@@ -13,91 +13,86 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	$(function() {
-		var sId = "<%= session.getAttribute("sId") %>";  
-		if(sId != "null") { <%-- 로그인한 회원인지 판별 --%>
-			$.ajax({
-				url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
-				data: {
-					member_id: sId
-				},
-				dataType: "json",
-				success: function(result) {
-					if(result.length != 0){ <%-- 찜 정보가 있을 경우 --%>
-						for(let like of result) {
-							if(like.movie_id == ${movie_id}) { <%-- 찜한 영화가 상영작 페이지에 있을 경우 --%>
-								$("#likeBtn").addClass("likeCheck");
-								$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
-							}
-						}
-					} else {
-						console.log("찜한 영화 없음");
-					}
-				},
-				error: function(xhr, textStatus, errorThrown) {
-		//				alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
-				}
-			});
-		}
-	}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
+// 	$(function() {
+<%-- 		var sId = "<%= session.getAttribute("sId") %>";   --%>
+<%-- 		if(sId != "null") { 로그인한 회원인지 판별 --%>
+// 			$.ajax({
+<%-- 				url: "likeShow", 회원별 찜 정보 가져오기 --%>
+// 				data: {
+// 					member_id: sId
+// 				},
+// 				dataType: "json",
+// 				success: function(result) {
+<%-- 					if(result.length != 0){ 찜 정보가 있을 경우 --%>
+// 						for(let like of result) {
+<%-- 							if(like.movie_id == ${movie_id}) { 찜한 영화가 상영작 페이지에 있을 경우 --%>
+// 								$("#likeBtn").addClass("likeCheck");
+// 								$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
+// 							}
+// 						}
+// 					} else {
+// 						console.log("찜한 영화 없음");
+// 					}
+// 				},
+// 				error: function(xhr, textStatus, errorThrown) {
+// 		//				alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
+// 				}
+// 			});
+// 		}
+<%-- 	}); 로그인한 회원의 찜 정보 가져오기 끝 --%>
 	
-	//찜하기 버튼
-	function likeBtnClick(like) { <%-- 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
-		var sId = "<%= session.getAttribute("sId") %>";
-		if(sId != "null") { <%-- 로그인한 회원인지 판별 --%>
-			console.log("${movie_id}");
-			console.log(sId);
-			$.ajax({
-				url: "likeCheck", <%-- 해당 영화의 찜 정보가 DB에 있는지 판별 --%>
-				data: {
-					member_id: sId,
-					movie_id: ${movie_id}
-				},
-				success: function(like) {
-					if(like == 'true') { <%-- 찜을 등록하는 경우 --%>
-						$("#likeBtn").toggleClass("likeCheck");
-						$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
-					} else if(like == 'false') { <%-- 찜을 삭제하는 경우 --%>
-						$("#likeBtn").toggleClass("likeCheck");
-						$("#likeBtn").html("<i class='fa fa-heart-o'></i>찜하기");
-					}
-				},
-				error: function(xhr, textStatus, errorThrown) {
-					alert("찜하기를 실패했습니다.");
-				}
-			});
-		} else {
-			if(confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")){
-				location.href = "memberLogin";
-			}
-		}
-	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
+// 	//찜하기 버튼
+<%-- 	function likeBtnClick(like) { 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
+<%-- 		var sId = "<%= session.getAttribute("sId") %>"; --%>
+<%-- 		if(sId != "null") { 로그인한 회원인지 판별 --%>
+// 			console.log("${movie_id}");
+// 			console.log(sId);
+// 			$.ajax({
+<%-- 				url: "likeCheck", 해당 영화의 찜 정보가 DB에 있는지 판별 --%>
+// 				data: {
+// 					member_id: sId,
+// 					movie_id: ${movie_id}
+// 				},
+// 				success: function(like) {
+<%-- 					if(like == 'true') { 찜을 등록하는 경우 --%>
+// 						$("#likeBtn").toggleClass("likeCheck");
+// 						$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
+<%-- 					} else if(like == 'false') { 찜을 삭제하는 경우 --%>
+// 						$("#likeBtn").toggleClass("likeCheck");
+// 						$("#likeBtn").html("<i class='fa fa-heart-o'></i>찜하기");
+// 					}
+// 				},
+// 				error: function(xhr, textStatus, errorThrown) {
+// 					alert("찜하기를 실패했습니다.");
+// 				}
+// 			});
+// 		} else {
+// 			if(confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")){
+// 				location.href = "memberLogin";
+// 			}
+// 		}
+<%-- 	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
 	
 $(document).ready(function(){
         var member_id = "<%= session.getAttribute("sId") %>";
         	
     $("#submitReview").click(function(){
-			var play_data = reviewr1.play_data; // 영화상영일
-	        var play_endTime = reviewr1.play_end_time; // 영화끝나는시간
-			var review_content = $("#review_content").val(); // 'review_content'라는 id를 가진 요소의 값을 가져옴
-	        var movie_id = ${param.movie_id};
-	        var currentDateTime = new Date(); // 현재 시간을 가져옵니다.
-	        
-	        
-	        var year = currentDateTime.getFullYear();
-	        var month = currentDateTime.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
-	        var date = currentDateTime.getDate();
-	        var hours = currentDateTime.getHours();
-	        var minutes = currentDateTime.getMinutes();
-	        
-//         if(member_id != "null" && currentDateTime ){
-	        var formattedTime = year + '-' + // 현재 연도
-	        month + '-' + // 현재 월
-	        date + ' ' + // 현재 일
-	        hours + ':' + // 현재 시간
-	        minutes; // 현재 분
+    	
+    	let targetDate = new Date();
+    	let nowTime = new Date().getTime(); // 계산의 기준이 될 날짜를 밀리초 단위로 리턴
+//     	let targetDate = 
+//     	alert(nowTime);
+//     	alert(targetDate);
+    	movieReleaseTime = new Date(repRlsDate).getTime(); // 계산의 대상이 될 날짜를 밀리초 단위로 리턴
+		// 두 날짜의 차이를 초 -> 분 -> 시 -> 일 비교값으로 나타내기
+		differenceTime = Math.round((nowTime - movieReleaseTime) / 1000 / 60 / 60 / 24);
+		// 개봉상태 지정
+		if(differenceTime> 0) { // 오늘보다 개봉일이 이전인 경우
+			$("#release").prop("selected", true);
+		} else { // 오늘보다 개봉일이 이후인 경우
+			$("#comming").prop("selected", true);
+		}
         
-//         alert(movie_id);
         console.log(member_id);
         $.ajax({
             url: "reviewPro", // 요청을 보낼 URL

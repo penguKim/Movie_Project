@@ -101,21 +101,15 @@
 							<th>상세정보</th>
 						</tr>
 						
+						<c:forEach var="review" items="${myreview}" varStatus="status">
 						<tr>
-							<td>[번호]</td>
-							<td>[제목]</td>
-							<td>[내용]</td>
-							<td>[등록일]</td>
+							<td>${status.index + 1}</td>
+							<td>${review.movie_title}</td>
+							<td>${review.review_content}</td>
+							<td>${review.review_date}</td>
 							<td><input type="button" value="상세정보"></td>
 						</tr>
-						
-						<tr>
-							<td>[번호]</td>
-							<td>[제목]</td>
-							<td>[내용]</td>
-							<td>[등록일]</td>
-							<td><input type="button" value="상세정보"></td>
-						</tr>
+						</c:forEach>
 					</table><br>
 								
 				</div>

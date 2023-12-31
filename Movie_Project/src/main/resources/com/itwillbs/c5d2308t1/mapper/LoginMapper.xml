@@ -110,14 +110,18 @@
 
 	<!-- 리뷰 조회 -->
 	<select id="selectMyreview" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">
-		SELECT review_id, review_content, review_date, movie_id, member_id, movie_title
-		FROM reviews JOIN movies
-		ON reviews.movie_id = movies.movie_id
-		
-		SELECT movie_id, movie_title, review_content, review_date
-		FROM Movies
-		INNER JOIN Reviews ON movies.movie_id = revies.movie_id;
+	    SELECT review_id, review_content, review_date, r.movie_id, r.member_id, m.movie_title
+	    FROM reviews r JOIN movies m
+	    ON r.movie_id = m.movie_id
+	    where member_id = #{member_id}
+	  	order by review_date DESC
 	</select>
+		
+<!-- 	<select id="selectMyreview" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO"> -->
+<!-- 	    SELECT movie_id, movie_title, review_content, review_date -->
+<!-- 	    FROM Movies -->
+<!-- 	    INNER JOIN Reviews ON movies.movie_id = reviews.movie_id; -->
+<!-- 	</select> -->
 </mapper>
 
 
