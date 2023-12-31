@@ -95,6 +95,13 @@ textarea { /* 텍스트박스 */
 	width: 180px; /* 넓이지정 */
 }
 
+#checkResult {
+	height: 13px;
+	font-size: 13px;
+	text-align: left;
+	padding-left: 20px;
+}
+
 /* ======== 동의 페이지에 적용할 css ======== */
 #agree { /* 동의영역 */
 	margin-top: 30px; /* 상단여백 */

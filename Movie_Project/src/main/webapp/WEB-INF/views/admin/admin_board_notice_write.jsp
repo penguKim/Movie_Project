@@ -69,6 +69,7 @@
 						<tr>
 							<th>내용</th>
 							<td><textarea id="textarea" name="cs_content"></textarea></td>
+							<input type="hidden" name="cs_type" value="공지사항">
 						</tr>
 					</table>
 					<div id="admin_writer"> 

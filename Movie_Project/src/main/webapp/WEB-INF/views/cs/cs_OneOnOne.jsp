@@ -88,7 +88,27 @@
 			
 		});
 	});
-
+	
+	// 파일 이미지로만 제한
+	$(function() {
+		$("#file").on("change", function() {
+			let fileVal = $(this).val();
+			if (fileVal != "") {
+				let ext = fileVal.split('.').pop().toLowerCase(); // 확장자 분리
+				
+				// 허용되는 확장자 리스트
+				let allowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+				
+				// 허용되지 않는 확장자일 경우 경고 메시지 출력 후 등록 취소
+				if (!allowedExtensions.includes(ext)) {
+					alert("jpg, gif, jpeg, png 파일만 업로드 할 수 있습니다.");
+					$(this).val(""); // 파일 입력 필드 초기화
+					return false;
+				}
+			}
+		});
+	});
+	
 </script>
 </head>
 <body>
@@ -172,7 +192,7 @@
 						</tr>
 						<tr>
 							<th>첨부파일</th>
-							<td colspan="3"><input type="file" id="file" name="mFile"></td>
+							<td colspan="3"><input type="file" id="file" name="mFile" accept=".gif, .jpg, .png"></td>
 							<input type="hidden" name="cs_type" value="1대1문의">
 						</tr>
 					</table>

@@ -72,6 +72,10 @@ public class CsService {
 		return mapper.insertBoard(cs);
 	}
 
+	public List<HashMap<String, Object>> noticeSubject(CsVO cs) {
+		return mapper.selectNoticeSubject(cs);
+	}
+
 
 
 

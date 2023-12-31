@@ -64,7 +64,8 @@ public class MoviesController {
 	
 	// DB에 저장된 영화정보 가져와서 현재상영작에 뿌리기
 	@GetMapping("release")
-	public ModelAndView release(Map<String, Object> map, @RequestParam(defaultValue = "1") int sortType) {
+	public ModelAndView release(Map<String, List<Map<String, String>>> map, 
+							@RequestParam(defaultValue = "1") int sortType) {
 		
 		// DB에 저장된 영화정보를 HashMap 객체의 List로 리턴
 		List<Map<String, String>> movieList = service.getMovieList(sortType);
@@ -74,50 +75,60 @@ public class MoviesController {
 					.substring(0, movie.get("movie_rating").indexOf("관")));
 		}
 		map.put("movieList", movieList);
-		map.put("data", "테스트");
 		ModelAndView mav = new ModelAndView("movie/release", map);
 		
 		return mav;
 	}
 	
-	// 상영 예정작
+	// 내가 만든 상영작
 	@GetMapping("comming")
-	public ModelAndView comming(Map<String, Object> map) {
-		try {
-			// 요청할 URL 주소
-			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
-			// 크롤링을 위한 Jsoup 객체에 url 전달하여 Connection 객체 생성
-			Connection con = Jsoup.connect(url);
-			// 가져온 데이터를 Document 객체로 저장
-			Document doc = con.get();
-			// 해당하는 요소를 Elements타입의 List로 저장
-			Elements titleElements = doc.select("div.box-contents strong.title");
-			Elements posterElements = doc.select("div.box-image span.thumb-image img");
-//			Elements detailElements = doc.select("div.box-image a");
-			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
-			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
-			
-			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
-			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
-			for(int i = 3; i < titleElements.size(); i++) {
-				CrawlVO movie = new CrawlVO();
-				movie.setTitle(titleElements.get(i).text());
-				movie.setPoster(posterElements.get(i).attr("src"));
-				movie.setPercent(percentElements.get(i).text());
-				movie.setRelease(releaseElements.get(i).text());
-				movieList.add(movie);
-			}
-			
-			map.put("movieList", movieList);
-		} catch (IOException e) {
-			System.out.println("크롤링 실패");
-			e.printStackTrace();
+	public String comming(Model model, MoviesVO movie) {
+		
+		List<MoviesVO> commingList = service.getAllMovie();
+		
+		model.addAttribute("commingList", commingList);
+		
+		return "movie/comming";
 		}
-		
-		ModelAndView mav = new ModelAndView("movie/comming", map);
-		
-		return mav;
-	}
+	
+//	// 상영 예정작
+//	@GetMapping("comming")
+//	public ModelAndView comming(Map<String, Object> map) {
+//		try {
+//			// 요청할 URL 주소
+//			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
+//			// 크롤링을 위한 Jsoup 객체에 url 전달하여 Connection 객체 생성
+//			Connection con = Jsoup.connect(url);
+//			// 가져온 데이터를 Document 객체로 저장
+//			Document doc = con.get();
+//			// 해당하는 요소를 Elements타입의 List로 저장
+//			Elements titleElements = doc.select("div.box-contents strong.title");
+//			Elements posterElements = doc.select("div.box-image span.thumb-image img");
+////			Elements detailElements = doc.select("div.box-image a");
+//			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
+//			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
+//			
+//			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
+//			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
+//			for(int i = 3; i < titleElements.size(); i++) {
+//				CrawlVO movie = new CrawlVO();
+//				movie.setTitle(titleElements.get(i).text());
+//				movie.setPoster(posterElements.get(i).attr("src"));
+//				movie.setPercent(percentElements.get(i).text());
+//				movie.setRelease(releaseElements.get(i).text());
+//				movieList.add(movie);
+//			}
+//			
+//			map.put("movieList", movieList);
+//		} catch (IOException e) {
+//			System.out.println("크롤링 실패");
+//			e.printStackTrace();
+//		}
+//		
+//		ModelAndView mav = new ModelAndView("movie/comming", map);
+//		
+//		return mav;
+//	}
 	
 	
 	// 영화 상세 페이지
@@ -134,29 +145,29 @@ public class MoviesController {
 	// 찜하기 기능
 	@ResponseBody
 	@GetMapping("likeCheck")
-	public String likeCheck(LikesVO like) {
+	public String likeCheck(LikesVO like, HttpSession session) {
 		System.out.println(like);
-		
-		LikesVO dBlike = service.getLike(like);
-		
-		if(dBlike != null) { // 해당 영화를 찜한 경우
-			// 찜하기 삭제 수행
-			int deleteCount = service.removeLike(like);
-			return "false";
-		} else { // 찜을 안한 경우
-			// 찜하기 등록 수행
-			int insertCount = service.registLike(like);
-			return "true";
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			return "login";
 		}
+		like.setMember_id(sId);
+		// 찜 정보가 있을 경우와 없을 경우의 "true"/"false" 문자열 반환
+		return service.getLike(like);
 	}
 	
 	// 찜하기 불러오기
 	@ResponseBody
 	@GetMapping("likeShow")
-	public List<LikesVO> likeShow(String member_id) {
-		List<LikesVO> likeList = service.getLikeList(member_id);
-		
-		return likeList;
+	public List<LikesVO> likeShow(HttpSession session) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId != null) {
+			System.out.println("세션아이디가 있어서 찜정보를 불러와요");
+			List<LikesVO> likeList = service.getLikeList(sId);
+			return likeList;
+		}
+		System.out.println("세션아이디가 없어서 빈 배열이 넘어가요");
+		return new ArrayList<LikesVO>();
 	}
 	
 	// =========================================================================================

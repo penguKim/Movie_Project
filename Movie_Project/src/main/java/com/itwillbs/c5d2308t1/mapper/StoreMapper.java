@@ -7,16 +7,25 @@ import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.c5d2308t1.vo.CartVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.StoreVO;
 
 @Mapper
 public interface StoreMapper {
 	
+	// 관리자 페이지
+	// ===================================================
 	// 모든 상품 조회
 	List<StoreVO> allSelectStore();
 	
+	// 관리자 페이지 상품 조회를 위한 SELECT
+	StoreVO getStoreSelect(String product_id);
+	
+	// 관리자 페이지 상품 등록 - INSERT 
+	int productInsert(StoreVO store);
+	
 	// 관리자페이지 상품 등록 시 상품 id 중복 판별을 위한 셀렉트
-	int adminProductSelect(String product_id);
+	StoreVO adminProductSelect(StoreVO store);
 	
 	// 상세 페이지를 위한 SELECT 조회
 	List<StoreVO> selectStorePro(String product_id);
@@ -24,6 +33,20 @@ public interface StoreMapper {
 	// 관리자 페이지 상품 삭제를 위한 DELETE
 	int adminProductDel(StoreVO store);
 	
+	// 관리자 페이지 상품 수정 - 파일 삭제 요청
+	int updateStoreImg(StoreVO store);
+	
+	// 관리자 페이지 상품 수정 요청
+	int updateProduct(StoreVO store);
+	
+	// 페이징 처리를 위한 게시글 카운트 조회
+	int selectProductListCount(String searchKeyword);
+	
+	// 관리자 페이지 상품 리스트 조회
+	List<StoreVO> selectStoreList(@Param("searchKeyword") String searchKeyword,@Param("searchType") String searchType, @Param("page") PageDTO page);
+	
+	// 스토어 페이지
+	// ===================================================================
 	// 장바구니 판별 이벤트
 	// ------------------------
 	int insertCart(@Param("sId") String sId
@@ -64,6 +87,19 @@ public interface StoreMapper {
 	List<StoreVO> selectCart3(@Param("arrPro") String arrPro, @Param("sId") String sId);
 
 	List<StoreVO> selectCart4(@Param("productId")String productId,@Param("sId") String sId);
+
+	
+
+	
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 	

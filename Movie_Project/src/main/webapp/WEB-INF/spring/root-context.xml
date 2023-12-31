@@ -6,12 +6,15 @@
 <!-- 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd"> -->
 <!-- 스케쥴러 추가를 위한 작업 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
@@ -67,6 +70,16 @@
 		<!-- 매퍼(이름은 XXXMapper.xml 로 지정해서 만능문자 * 사용) -->
 		<property name="mapperLocations" value="classpath:/com/itwillbs/c5d2308t1/mapper/*Mapper.xml"></property>
 	</bean>
+	
+	<!-- >>>>>>>>>>>>>>>>>>>>>>>> 트랜잭선 설정 추가 <<<<<<<<<<<<<<<<<<<<<<<<<<<  -->
+	<!-- org.springframework.jdbc.datasource 패키지의 DataSourceTransactionManager 클래스 지정 -->
+	<!-- 내부 property 태그에 2번에서 설정한 dataSource 객체 지정 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>		
+	</bean>
+	<!-- Namespaces에서 tx 체크해줘야함! -->
+	<!-- tx:annotation-driven 태그를 통해 트랜잭션 관리 객체 지정 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<!-- 4. MyBatis 연동에 사용될 객체(클래스)들의 패키지 위치 지정(기본 루트 패키지 지정) -->
 	<mybatis-spring:scan base-package="com.itwillbs.c5d2308t1"/>

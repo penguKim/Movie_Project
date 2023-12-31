@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
 // 	$(function() {
 <%-- 		var sId = "<%= session.getAttribute("sId") %>";   --%>
 <%-- 		if(sId != "null") { 로그인한 회원인지 판별 --%>
@@ -72,6 +73,52 @@
 // 			}
 // 		}
 <%-- 	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
+=======
+	$(function() {
+		$.ajax({
+			url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
+			dataType: "json",
+			success: function(result) { <%-- List 타입으로 찜 데이터 응답 --%>
+				for(let like of result) {
+					if(like.movie_id == ${movie_id}) { <%-- 찜한 영화가 상영작 페이지에 있을 경우 --%>
+						$("#likeBtn").addClass("likeCheck");
+						$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
+					}
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+					alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
+			}
+		});
+	}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
+	
+	//찜하기 버튼
+	function likeBtnClick(like) { <%-- 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
+// 		console.log("${movie_id}");
+		$.ajax({
+			url: "likeCheck", <%-- 해당 영화의 찜 정보가 DB에 있는지 판별 --%>
+			data: {
+				movie_id: ${movie_id}
+			},
+			success: function(result) { <%-- 응답 결과가 문자열로 전송 --%>
+				if(result == 'login') {
+					if(confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")){
+						location.href = "memberLogin";
+					}
+				} else if(result == 'false') { <%-- 찜을 등록하는 경우 --%>
+					$("#likeBtn").toggleClass("likeCheck");
+					$("#likeBtn").html("<i class='fa fa-heart'></i>찜하기");
+				} else if(result == 'true') { <%-- 찜을 삭제하는 경우 --%>
+					$("#likeBtn").toggleClass("likeCheck");
+					$("#likeBtn").html("<i class='fa fa-heart-o'></i>찜하기");
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("찜하기를 실패했습니다.");
+			}
+		});
+	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
+>>>>>>> e6842a032b13ba4bb06f122328ad9a4ff8fabcdc
 	
 $(document).ready(function(){
         var member_id = "<%= session.getAttribute("sId") %>";
@@ -190,15 +237,17 @@ $(document).ready(function(){
 						<c:if test="${not empty movie_still2 }"><img src="${movie_still2 }"></c:if>
 						<c:if test="${not empty movie_still3 }"><img src="${movie_still3 }"></c:if>
 			    </div>
-			    <div class="review" id="review">
+				<c:if test="${movie_status eq 1}">				    	
+			     <div class="review" id="review">
 			    	<hr>
-			    	<h2>리뷰</h2>
+				    	<h2>리뷰</h2>
 						<form action="reviewPro" method="post">
 					    	<input type="text" name="review_content" placeholder="리뷰 입력" size="50" id="review_content">
 					    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
 					    	<input type="hidden" name="movie_id" value="${movie_id}">
 						</form>
 				    	<br>
+						
 		    			<table id="review_no">
 		    			<tr>
 			    			<td rowspan="6" width="200">
@@ -217,7 +266,8 @@ $(document).ready(function(){
 <!-- 				    		</tr> -->
 <%-- 		    			</c:forEach> --%>
 		    			</table>
-			    </div>
+		  		  </div>
+    			</c:if>
 			</section>
 		</section>	
 		<footer>

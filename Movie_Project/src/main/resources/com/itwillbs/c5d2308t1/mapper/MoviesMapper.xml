@@ -73,7 +73,7 @@
 		SELECT *
 		FROM likes
 		WHERE 
-			member_id = #{member_id}
+			member_id = #{sId}
 	</select>
 	
 	 <!-- 관객수 업데이트를 위한 UPDATE 구문 -->
@@ -119,4 +119,11 @@
         FROM reviews
         WHERE member_id = #{sId}
     </select>
+    
+    <select id="selectAllMovie" resultType="movies">
+    	SELECT *
+    	FROM movies
+    	WHERE movie_status = 0
+    </select>
+    
 </mapper>

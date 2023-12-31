@@ -164,16 +164,22 @@ public class CsController {
 	// 고객센터 공지사항 상세 페이지로 이동
 	@GetMapping("csNoticeDetail")
 	public String csNoticeDetail(CsVO cs, Model model) {
+		// 선택한 공지사항의 세부정보 가져오기
 		HashMap<String, Object> csNoticeDetail = service.csNoticeDetail(cs);
-		
 		model.addAttribute("csNoticeDetail", csNoticeDetail);
 		
+		// 공지사항 최대 수를 가져오기
+		// 다음 공지사항 최대 글번호 제한용
 		int maxCount = service.getCsNoticeCount(cs, 0, "");
 		model.addAttribute("maxCount", maxCount);
 		
+		// 이전공지사항, 다음공지사항 제목 가져오기
+		List<HashMap<String, Object>> noticeSubject = service.noticeSubject(cs);
+		model.addAttribute("noticeSubject", noticeSubject);
+		
 		return "cs/cs_notice_detail";
 	}
-	
+
 	// 고객센터 1대1문의 페이지로 이동
 	@GetMapping("csOneOnOneForm")
 	public String csOneOnOneForm(Model model, HttpSession session) {

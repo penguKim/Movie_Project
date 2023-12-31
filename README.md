@@ -1,4 +1,4 @@
-# 뷰페이지 초안 진행 상황
+## 뷰페이지 초안 진행 상황
 메인페이지 : 12-03 완료
 
 예매(이민석) : 12-09 완료
@@ -15,7 +15,7 @@
 
 회원가입(박가영) : 11-30 완료
 
-로그인(강주형) : 작업중
+로그인(강주형) : 12-14일 완료
 
 고객센터(박가영) : 11-30 완료
 
@@ -33,6 +33,8 @@
 * Spring Security Web - 암호화를 위한 라이브러리
 * Apache Commons IO - 파일 및 입출력을 위한 라이브러리
 * Apache Commons FileUpload - 파일 업로드를 위한 라이브러리
+* javax.mail - 자바 메일 발송 라이브러리
+* javax.activation - 자바 메일 발송 라이브러리
 * JSON.simple - JSON 파싱 라이브러리
 * Jsoup Java HTML Parser - 크롤링 라이브러리
 

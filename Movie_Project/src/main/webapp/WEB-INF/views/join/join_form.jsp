@@ -42,7 +42,6 @@
 					},
 					dataType: "json",
 					success: function(checkDupId) {
-						console.log("결과 : " + checkDupId)
 						if(checkDupId) { // 중복
  							$("#checkIdResult").text("이미 사용중인 아이디입니다").css("color", "red");
  							iscorrectId = false;
@@ -53,6 +52,10 @@
  							isDuplicateId = false;
 						}
 							
+					},
+					error: function(xhr, status, error) {
+					      // 요청이 실패한 경우 처리할 로직
+					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 					}
 				});
 			}
@@ -163,7 +166,6 @@
 					},
 					dataType: "json",
 					success: function(checkDupEmail) {
-						console.log("결과 : " + checkDupEmail)
 						if(checkDupEmail) { // 중복
  							$("#checkEmailResult").text("이미 사용중인 이메일입니다").css("color", "red");
  							iscorrectEmail = false;
@@ -174,6 +176,10 @@
 							iscorrectEmail = true;
 						}
 							
+					},
+					error: function(xhr, status, error) {
+					      // 요청이 실패한 경우 처리할 로직
+					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 					}
 				});
 	        }
@@ -206,6 +212,10 @@
 							isDuplicatePhone = false;
 						}
 							
+					},
+					error: function(xhr, status, error) {
+					      // 요청이 실패한 경우 처리할 로직
+					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 					}
 				});
 	        }
@@ -328,7 +338,7 @@
 					<div id="checkNameResult"></div> <br>
 					<input type="tel" id="phone" name="member_phone" placeholder="휴대폰번호"  maxlength="13">
 					<div id="checkPhoneResult"></div> <br>
-					<input type="text" id="email" name="member_email" placeholder="이메일주소">
+					<input type="text" id="email" name="member_email" placeholder="이메일주소" value="${param.email}"  readonly>
 					<div id="checkEmailResult"></div> <br>
 					<input type="text" id="birth" name="member_birth" placeholder="생년월일" maxlength="10">
 					<div id="checkBirthResult"></div> <br>

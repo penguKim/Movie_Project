@@ -29,7 +29,7 @@
 		)		
 	</insert>
 	
-	<select id="selectDup" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
+	<select id="selectDup" resultType="member">
 		SELECT * 
 		FROM members
 		WHERE member_id = #{member_id} OR member_email = #{member_email} OR member_phone = #{member_phone}

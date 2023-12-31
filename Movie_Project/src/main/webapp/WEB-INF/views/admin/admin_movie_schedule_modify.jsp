@@ -165,7 +165,7 @@
 	
 	// 등록하기
 	$(function() {
-		$("form").submit(function() {
+		$("#registForm").submit(function() {
 			if($("#theater_id").val() == '') {
 				alert("지점을 선택해주세요");
 				$("#theater_id").focus();
@@ -191,7 +191,31 @@
 		});
 	});
 	
+	// 삭제 버튼 클릭 시 이벤트 처리
+	$(function() {
+		$("#btnDelete").on("click", function() {
+			if(confirm("상영 일정을 삭제하시겠습니까?")) {
+				return true;
+			} else {
+				return false;
+			}
+		});
+	});
 	
+	// 수정 버튼 클릭 시 이벤트 처리
+	$(function() {
+		$("#btnModify").on("click", function() {
+			alert("alertforcheck");
+// 			$.ajax({
+// 				type: "post",
+// 				url: "modifyPlay",
+// 				data: {
+// 					$("form").
+// 				},
+// 			});
+		});
+		
+	});
 	
 	
 </script>
@@ -214,7 +238,7 @@
 			<div id="admin_main">
 				<a href="adminMovieSchedule"><input type="button" value="상영일정조회"></a>
 				<br><br>
-				<form action="registPlay" method="post">
+				<form action="registPlay" method="post" id="registForm">
 					<table border="1">
 						<tr>
 							<th width="170px">지점명</th>
@@ -281,34 +305,37 @@
 				</form>
 						
 				<br>
-				<table border="1">
-					<tr>
-						<th>지점명</th>
-						<th>상영관명</th>
-						<th>영화제목</th>
-						<th>상영날짜</th>
-						<th>시작</th>
-						<th>종료</th>
-						<th>수정</th>
-						<th>삭제</th>
-					</tr>
-					<c:forEach var="play" items="${playRegistList}">
+				<form action="deletePlay" method="post">
+					<table border="1">
 						<tr>
-							<td>${play.theater_name}</td>
-							<td>${play.room_name}</td>
-							<td>${play.movie_title}</td>
-							<td>${play.play_date}</td>
-							<td>${fn:substring(play.play_start_time, 0, 5)}</td>
-							<td>${fn:substring(play.play_end_time, 0, 5)}</td>
-							<td>
-								<input type="button" value="수정">
-							</td>
-							<td>
-								<input type="button" value="삭제">
-							</td>
+							<th>지점명</th>
+							<th>상영관명</th>
+							<th>영화제목</th>
+							<th>상영날짜</th>
+							<th>시작</th>
+							<th>종료</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
-					</c:forEach>
-				</table>
+						<c:forEach var="play" items="${playRegistList}">
+						<input type="hidden" value="${play.play_id}" name="play_id">
+							<tr>
+								<td>${play.theater_name}</td>
+								<td>${play.room_name}</td>
+								<td>${play.movie_title}</td>
+								<td>${play.play_date}</td>
+								<td>${fn:substring(play.play_start_time, 0, 5)}</td>
+								<td>${fn:substring(play.play_end_time, 0, 5)}</td>
+								<td>
+									<input type="button" value="수정" id="btnModify">
+								</td>
+								<td>
+									<input type="submit" value="삭제" id="btnDelete">
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</form>	
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>

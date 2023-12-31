@@ -31,8 +31,17 @@ public class MoviesService {
 
 	
 	// 찜하기 정보 가져오기
-	public LikesVO getLike(LikesVO like) {
-		return mapper.selectLike(like);
+	public String getLike(LikesVO like) {
+		// 찜한 영화인지 판별을 위해 DB에 조회 요청
+		LikesVO dbLike = mapper.selectLike(like);
+		
+		if(dbLike != null) { // 해당 영화를 찜한 경우
+			mapper.deleteLike(like); // 찜하기 삭제 수행
+			return "true";
+		} else { // 찜을 안한 경우
+			mapper.insertLike(like); // 찜하기 등록 수행
+			return "false";
+		}
 	}
 
 	// 찜하기 등록
@@ -45,6 +54,10 @@ public class MoviesService {
 		return mapper.deleteLike(like);
 	}
 
+	// 해당 회원의 좋아요 정보 불러오기
+	public List<LikesVO> getLikeList(String sId) {
+		return mapper.selectLikeList(sId);
+	}
 	
 	
 	
@@ -73,10 +86,6 @@ public class MoviesService {
 		return mapper.insertReviewBoard(sId, review_content, movie_id);
 	}
 
-	// 해당 회원의 좋아요 정보 불러오기
-	public List<LikesVO> getLikeList(String member_id) {
-		return mapper.selectLikeList(member_id);
-	}
 
 
 }

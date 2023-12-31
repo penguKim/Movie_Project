@@ -249,7 +249,8 @@ public class AdminController {
 	
 	// ===========================================================================================
 	// ************************ 상영일정관리 페이지 *************
-	// 관리자페이지 영화 상영 일정 메인 페이지로 이동
+	// 1) 상영일정 메인 페이지
+	// 상영 일정 메인 페이지로 이동(기본 조회 작업 포함)
 	@GetMapping("adminMovieSchedule")
 	public String adminMovieSchedule(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -259,19 +260,19 @@ public class AdminController {
 			return "forward";
 		}
 		List<Map<String, Object>> playList = service.getMainScheduleInfo();
-		System.out.println(playList);
+		System.out.println("리스트가 갖고있는 것 : " + playList);
 		model.addAttribute("playList", playList);
 		
 		return "admin/admin_movie_schedule";
 	}
 	
-	// 상영 일정 조회
+	//상영 일정 메인 페이지의 상영 일정 조회
 	@ResponseBody
 	@GetMapping("ScheduleSearch")
 	public List<Map<String, Object>> ScheduleSearch(
 			@RequestParam Map<String, String> map) {
-		System.out.println("파라미터로 받아온 theater_id : " + map.get("theater_id"));
-		System.out.println("파라미터로 받아온 play_date : " + map.get("play_date"));
+//		System.out.println("파라미터로 받아온 theater_id : " + map.get("theater_id"));
+//		System.out.println("파라미터로 받아온 play_date : " + map.get("play_date"));
 		// System.out.println(theater_id);
 		// System.out.println(play_date);
 		List<Map<String, Object>> playList = service.getScheduleInfo(map);
@@ -279,12 +280,15 @@ public class AdminController {
 		return playList;
 	}
 
-	@GetMapping("movieScheduleMod") // 상영일정 관리 페이지 : admin_movie_schedule_modify.jsp
+
+	// 2) 상영일정 관리 페이지
+	// 관리자페이지 영화 상영 일정 관리 페이지로 이동(기본 조회 작업 포함)
+	@GetMapping("movieScheduleMod")
 	public String movieScheduleMod(Model model) {
 		
 		List<HashMap<String, Object>> playRegistList = service.getPlayRegistList();
 		
-		System.out.println(playRegistList);
+		System.out.println("반영이 됐는가4 : " + playRegistList);
 		
 		model.addAttribute("playRegistList", playRegistList);
 		
@@ -317,8 +321,7 @@ public class AdminController {
 	
 	// 상영 일정 등록하기
 	@PostMapping("registPlay")
-	public String registPlay(PlayVO play, HttpSession session, Model model) {
-
+	public String registPlay(PlayVO play, HttpSession session, Model model, @RequestParam String play_date) {
 		// 관리자가 아니면 등록을 하지 못하도록 하기
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -337,8 +340,35 @@ public class AdminController {
 			
 		}
 		
-		
 	}
+	
+	// 상영일정 삭제하기
+	@PostMapping("deletePlay")
+	public String deletePlay(HttpSession session, Model model, @RequestParam int play_id) {
+		System.out.println("파라미터로 받아온 상영코드 : " + play_id);
+		// 관리자가 아니면 삭제 하지 못하도록 하기
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		int deleteCount = service.removePlay(play_id);
+		
+		if(deleteCount == 0) {
+			model.addAttribute("msg", "상영 일정 삭제에 실패했습니다!");
+			return "fail_back";
+		} else {
+			return "redirect:/movieScheduleMod";
+		}
+	}
+	
+	// 상영일정 수정하기
+//	@ResponseBody
+//	@PostMapping("modifyPlay")
+//	public String modifyPlay() {
+//		
+//	}
 	
 	
 	
@@ -367,69 +397,245 @@ public class AdminController {
 	// ******************** 스토어 결제 관리 페이지 *************
 	// 관리자페이지 스토어 상품 관리 페이지로 이동
 	@GetMapping("adminProduct")
-	public String adminProduct(HttpSession session, Model model) {
+	public String adminProduct(HttpSession session, Model model, 
+			@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "") String searchType,
+			@RequestParam(defaultValue = "") String searchKeyword) {
+		
 		// 관리자가 아니면 등록을 하지 못하도록 하기
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(!sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
+		
+		PageDTO page = new PageDTO(pageNum, 5);
+		// 전체 게시글 갯수 조회
+		int listCount = storeService.getProductListCount(searchKeyword);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
 		// 모든 상품 조회
-		List<StoreVO> storeList = storeService.allSelectStore();
-		System.out.println(storeList);
+		List<StoreVO> storeList = storeService.getStoreList(searchType, searchKeyword, page);
+		
 		model.addAttribute("storeList", storeList);
+		model.addAttribute("pageInfo", pageInfo);
+
 		return "admin/admin_product";
 	}
 	
 	// 관리자 페이지 스토어상품 등록 페이지로 이동
-	@GetMapping("adminProductInsert")
+	@GetMapping("adminProductWrite")
 	public String adminProductInsert(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		return "admin/admin_product_insert";
+		return "admin/admin_product_write";
 	}
 	
 	// 스토어 상품 등록시 상품 코드 비교
+	@ResponseBody
 	@GetMapping("productDupl")
-	public String productDupl(String product_id) {
+	public String productDupl(StoreVO store, Model model) {
 		
-		System.out.println("상품 아이디 " + product_id);
-		int proIdDupl = storeService.adminProductSelect(product_id);
+		System.out.println("상품 아이디 " + store);
+		store = storeService.adminProductSelect(store);
 		
-		if(proIdDupl > 0 ) {
+		if(store != null) {
 			return "true";
 		} else {
 			return "false";
 		}
-		
 	}
-	// 스토어 상품관리 상품 상세페이지로 이동
+	
+	// 관리자페이지 스토어상품 관리 상품 등록
+	@PostMapping("adminProductInsert")
+	public String productInsert(HttpSession session, StoreVO store, Model model) {
+		
+		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
+		String saveDir = session.getServletContext().getRealPath(uploadDir); // 세션도 가능(마침 request 객체 호출해서 사용했음)
+		String subDir = "";
+		LocalDate now = LocalDate.now();
+		System.out.println(now); // 2023-12-19 
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		subDir = now.format(dtf);
+		saveDir += File.separator + subDir; // File.separator 대신 \ 또는 / 지정도 가능
+		try {
+			Path path = Paths.get(saveDir); // 파라미터로 업로드 경로 전달
+			Files.createDirectories(path); // 파라미터로 Path 객체 전달
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile imgFile = store.getImgFile();
+		System.out.println("원본파일명1 : " + imgFile.getOriginalFilename());
+		
+		store.setProduct_img("");
+		
+		String fileName1 = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
+		if(!imgFile.getOriginalFilename().equals("")) store.setProduct_img(subDir + "/" + fileName1);
+		System.out.println("실제 업로드 파일명1 : " + store.getProduct_img()); // ba278eaa_1.jpg
+		
+		int insertCount = storeService.productInsert(store);
+		
+		if(insertCount > 0) {
+			try {
+				// 업로드 된 파일들은 MultipartFile 객체에 의해 임시 디렉토리에 저장되며
+				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리 이동 작업 필요
+				// => MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(=업로드)
+				// => 파일이 선택되지 않은 경우(파일명이 널스트링) 이동이 불가능(예외 발생)하므로 제외
+				// => transfetTo() 메서드 파라미터로 java.io.File 타입 객체 전달
+				
+				if(!imgFile.getOriginalFilename().equals("")) imgFile.transferTo(new File(saveDir, fileName1));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+				
+				// 글목록(BoardList) 서블릿 리다이렉트
+				return "redirect:/adminProduct";
+			} else {
+				// "글쓰기 실패!" 메세지 처리(fail_back)
+				model.addAttribute("msg", "글쓰기 실패!");
+				return "fail_back";
+			}
+	}
+	
+	// 관리자페이지 스토어 상품관리 상품 상세페이지로 이동
 	@GetMapping("adminProductDtl")
 	public String adminProductDtl(HttpSession session, Model model, StoreVO store) {
-		List<StoreVO> product = storeService.selectStore(store.getProduct_id());
+		
+		// 관리자 페이지 상품 조회를 위한 SELECT
+		StoreVO product = storeService.getStore(store.getProduct_id());
 		
 		model.addAttribute("product", product);
 		return "admin/admin_product_detail";
 	}
-
+	
+	// 관리자 페이지 상품 상세페이지 싱픔 정보 삭제
 	@GetMapping("adminProductDel")
-	public String adminProductDel(Model model, StoreVO store) {
+	public String adminProductDel(HttpSession session, Model model, StoreVO store
+			, @RequestParam(defaultValue = "1") String pageNum) {
 		System.out.println("상품 : " + store.getProduct_id());
+		String sId = (String)session.getAttribute("sId");
+		if(!sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
 		
-//		int resultDel = storeService.adminProductDel(store); 
-		int resultDel = 1; 
+		StoreVO product = storeService.getStore(store.getProduct_id());
 		
+		int resultDel = storeService.adminProductDel(store); 
+//		int resultDel = 1; 
 		if(resultDel > 0) {
-			return "redirect:/adminProduct";
+			try {
+				// [ 서버에서 파일 삭제 ]
+				// 실제 업로드 경로 알아내기
+				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				String fileName = product.getProduct_img();
+				
+				if(!fileName.equals("")) {
+					Path path = Paths.get(saveDir + "/" + fileName);
+					Files.deleteIfExists(path);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/adminProduct?pageNum=" + pageNum;
 		} else {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
 		
 	}
+	
+	@ResponseBody
+	@PostMapping("ProductDeleteFile")
+	public String deleteFile(StoreVO store, HttpSession session) {
+//		System.out.println(board.getBoard_num() + ", " + board.getBoard_file1());
+		
+		// BoardService - removeBoardFile() 메서드 호출하여 지정된 파일명 삭제 요청
+		// => 파라미터 : BoardVO 객체   리턴타입 : int(removeCount)
+		int removeCount = storeService.removeProductImg(store);
+//		System.out.println(removeCount);
+		try {
+			if(removeCount > 0) { // 레코드의 파일명 삭제(수정) 성공 시
+				// 서버에 업로드 된 실제 파일 삭제
+				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				
+				// 파일명이 널스트링이 아닐 경우에만 삭제 작업 수행
+				if(!store.getProduct_img().equals("")) {
+					Path path = Paths.get(saveDir + "/" + store.getProduct_img());
+					Files.deleteIfExists(path);
+					// 예외가 발생하지 않을 경우 정상적으로 파일 삭제가 완료되었으므로 "true" 리턴
+					return "true";
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// DB 파일명 삭제 실패 또는 서버 업로드 파일 삭제 실패 등의 문제 발생 시 "false" 리턴
+		return "false";
+	}
+	
+	// 관리자 페이지 상품 상세페이지 싱픔 정보 수정
+	@PostMapping("adminProductReply")
+	public String adminProductReply(StoreVO store, HttpSession session, Model model) {
+		
+		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
+		String saveDir = session.getServletContext().getRealPath(uploadDir); // 세션도 가능(마침 request 객체 호출해서 사용했음)
+		String subDir = "";
+		LocalDate now = LocalDate.now();
+		System.out.println(now); // 2023-12-19 
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		subDir = now.format(dtf);
+		saveDir += File.separator + subDir; // File.separator 대신 \ 또는 / 지정도 가능
+		
+		try {
+			Path path = Paths.get(saveDir); // 파라미터로 업로드 경로 전달
+			Files.createDirectories(path); // 파라미터로 Path 객체 전달
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile imgFile = store.getImgFile();
+		
+		store.setProduct_img("");
+		
+		System.out.println("22222222222222222222222222222222222222222222222222222222222222222222");
+		String fileName = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
+		if(!imgFile.getOriginalFilename().equals("")) store.setProduct_img(subDir + "/" + fileName);
+		
+		System.out.println("33333333333333333333333333333333333333333333333333333333333333333333333333333");
+		int updateCount = storeService.productReply(store);
+		
+		System.out.println("4444444444444444444444444444444444444444444444444444444444444");
+		if(updateCount > 0) {
+			try {
+				if(!imgFile.getOriginalFilename().equals("")) {
+					imgFile.transferTo(new File(saveDir, fileName));
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			// 글목록(BoardList) 서블릿 리다이렉트
+			return "redirect:/adminProduct";
+		} else {
+			// "답글 쓰기 실패!" 메세지 처리(fail_back)
+			model.addAttribute("msg", "답글 쓰기 실패!");
+			return "fail_back";
+		}
+	}
+	
 	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")
