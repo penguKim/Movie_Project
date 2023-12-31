@@ -64,7 +64,8 @@ public class MoviesController {
 	
 	// DB에 저장된 영화정보 가져와서 현재상영작에 뿌리기
 	@GetMapping("release")
-	public ModelAndView release(Map<String, Object> map, @RequestParam(defaultValue = "1") int sortType) {
+	public ModelAndView release(Map<String, List<Map<String, String>>> map, 
+							@RequestParam(defaultValue = "1") int sortType) {
 		
 		// DB에 저장된 영화정보를 HashMap 객체의 List로 리턴
 		List<Map<String, String>> movieList = service.getMovieList(sortType);
@@ -74,7 +75,6 @@ public class MoviesController {
 					.substring(0, movie.get("movie_rating").indexOf("관")));
 		}
 		map.put("movieList", movieList);
-		map.put("data", "테스트");
 		ModelAndView mav = new ModelAndView("movie/release", map);
 		
 		return mav;
@@ -145,29 +145,29 @@ public class MoviesController {
 	// 찜하기 기능
 	@ResponseBody
 	@GetMapping("likeCheck")
-	public String likeCheck(LikesVO like) {
+	public String likeCheck(LikesVO like, HttpSession session) {
 		System.out.println(like);
-		
-		LikesVO dBlike = service.getLike(like);
-		
-		if(dBlike != null) { // 해당 영화를 찜한 경우
-			// 찜하기 삭제 수행
-			int deleteCount = service.removeLike(like);
-			return "false";
-		} else { // 찜을 안한 경우
-			// 찜하기 등록 수행
-			int insertCount = service.registLike(like);
-			return "true";
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			return "login";
 		}
+		like.setMember_id(sId);
+		// 찜 정보가 있을 경우와 없을 경우의 "true"/"false" 문자열 반환
+		return service.getLike(like);
 	}
 	
 	// 찜하기 불러오기
 	@ResponseBody
 	@GetMapping("likeShow")
-	public List<LikesVO> likeShow(String member_id) {
-		List<LikesVO> likeList = service.getLikeList(member_id);
-		
-		return likeList;
+	public List<LikesVO> likeShow(HttpSession session) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId != null) {
+			System.out.println("세션아이디가 있어서 찜정보를 불러와요");
+			List<LikesVO> likeList = service.getLikeList(sId);
+			return likeList;
+		}
+		System.out.println("세션아이디가 없어서 빈 배열이 넘어가요");
+		return new ArrayList<LikesVO>();
 	}
 	
 	// =========================================================================================
