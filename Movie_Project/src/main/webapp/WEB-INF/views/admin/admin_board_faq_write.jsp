@@ -28,7 +28,7 @@
 				<form action="adminFaqWritePro" method="post">
 					<table border="1">
 						<tr>
-							<th width="70px">유형</th>
+							<th width="90px">유형</th>
 							<td>
 								<select id="select" name="cs_type_detail">
 									<option value="">유형선택</option>

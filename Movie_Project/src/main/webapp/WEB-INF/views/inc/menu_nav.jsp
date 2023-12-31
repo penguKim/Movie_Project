@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div id="menu_nav">
-	<nav>
+<div id="navbar">
+	<nav id="menu_nav">
 		<a href="movie_select">예매</a>
 		<a href="release">영화</a>
 		<a href="theater">극장정보</a>

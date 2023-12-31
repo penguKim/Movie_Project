@@ -219,12 +219,28 @@ th {
 	display: inline-block;
 	vertical-align: top;
 	width: 46%; /* 45%차지 */
-	height: 330px;
+	height: 310px;
 	padding: 10px;
 	border-top: 2px solid #9d9d9d;
 	border-bottom: 2px solid #9d9d9d;
 	position: relative;	
 	text-align: left;
+	line-height: 30px;
+}
+
+.ol {
+	padding-inline-start: 10px;
+	margin-top: 30px;
+}
+
+#cs_subject {
+	font-weight: bolder;
+	color: gray;
+}
+
+#main_faq #cs_type_detail {
+	color: blue;
+	font-weight: bolder;
 }
 
 #main_notice { /* 공지사항 미리보기 */
@@ -233,12 +249,17 @@ th {
 	display: inline-block;
 	vertical-align: top;
 	width: 46%; /* 45%차지 */
-	height: 330px;
+	height: 310px;
 	padding: 10px;
 	border-top: 2px solid #9d9d9d;
 	border-bottom: 2px solid #9d9d9d;
 	position: relative;	
 	text-align: left;
+	line-height: 30px;
+}
+
+#main_notice img {
+	width: 17px;
 }
 
 #main_faq a, #main_notice a {
@@ -247,27 +268,24 @@ th {
 	font-size: 15px;
 }
 
-#main_faq>h3, #main_notice>h3 { /* 미리보기 제목 */
+#main_faq>h2, #main_notice>h2 { /* 미리보기 제목 */
 	display: inline-block; /* 더보기 버튼과 나란히 배치하기 위해 속성변경 */
-/* 	margin-left: 30px; */
-	font-size: 20px;
-	margin: 10px 0 0 10px;
+	font-size: 25px;
+	margin: 20px 0 0 20px;
 }
 
-#main_faq>a { /* 더보기 버튼 */
+#main_faq>a, #main_notice>a { /* 더보기 버튼 */
 /* 	text-align: right; 오른쪽에 배치 */
 	position: absolute;
-	right: 5%; top: 13%;
-}
-
-#main_notice>a { /* 더보기 버튼 */
-/* 	text-align: right; 오른쪽에 배치 */
-	position: absolute;
-	right: 5%; top: 12%;
+	right: 6%; top: 10%;
 }
 
 #main_faq li, #main_notice li {
 	margin: 10px 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 345px;
 }
 
 #search { /* 빠른검색 */
@@ -480,6 +498,7 @@ input[type="search"] {
 p { /* 1대1문의, 분실물문의 최상단 안내문 */
 	font-size: 15px; /* 글자크기 지정 */
 	margin-top: 0;
+	padding-left: 10px;
 }
 
 #agree_msg { /* 동의문 영역의 */

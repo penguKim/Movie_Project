@@ -64,14 +64,14 @@
 					<div id="main_faq"> <%-- 자주묻는질문 바로가기 --%>
 						<h2>자주 묻는 질문 BEST5</h2>
 						<a href="csFaq">더보기</a>
-						<ol>
+						<ol class="ol">
 							<c:choose>
 								<c:when test="${empty faqMainList}">
 									자주묻는질문 없음
 								</c:when>
 								<c:otherwise>
 									<c:forEach begin="0" end="4" var="faq" items="${faqMainList}">
-										<li><a href="csFaq?cs_type_list_num=${faq.cs_type_list_num}">${faq.cs_subject}</a></li> <%-- 자주묻는질문 상위 5개만 보여주기 --%>
+										<li><a href="csFaq?cs_type_list_num=${faq.cs_type_list_num}"><span id="cs_type_detail">[${faq.cs_type_detail}]</span> <span id="cs_subject">${faq.cs_subject}</span></a></li> <%-- 자주묻는질문 상위 5개만 보여주기 --%>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
@@ -81,14 +81,16 @@
 					<div id="main_notice"> <%-- 공지사항 바로가기 --%>
 						<h2>공지사항</h2>
 						<a href="csNotice">더보기</a>
-						<ol>
+						<ol class="ol">
 							<c:choose>
 								<c:when test="${empty noticeMainList}">
 									공지사항 없음
 								</c:when>
 								<c:otherwise>
 									<c:forEach begin="0" end="4" var="notice" items="${noticeMainList}">
-										<li><a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=1">${notice.cs_subject}<a></li> <%-- 자주묻는질문 최신 5개만 보여주기 --%>
+										<li><img src="${pageContext.request.contextPath}/resources/img/megaphone.png">
+											<a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=1"><span id="cs_subject">${notice.cs_subject}</span><a>
+										</li> <%-- 자주묻는질문 최신 5개만 보여주기 --%>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>

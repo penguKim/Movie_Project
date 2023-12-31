@@ -124,15 +124,39 @@ body {font-family: Verdana, sans-serif; margin:0}
 	cursor: pointer; /* 커서 변경 */
 }
 
+#Sort .active {
+	background-color: #eeeeee;
+	border: none;
+	border-bottom: 3px solid #000000;
+	color: #000000; /* 글자 색상 */
+	padding: 10px 40px; /* 영역의 상하 좌우 크기 */
+	cursor: pointer; /* 커서 변경 */
+}
+
 #Sort input:hover {
 	background-color: #eeeeee;
 	border-bottom: 3px solid #000000;
 }
 
+/* 영화 목록 전체보기 버튼 */
+#moviePage input {
+	border: none;
+/* 	border-bottom: 3px solid #e50914; */
+	color: #ffffff; /* 글자 색상 */
+	padding: 5px 10px; /* 영역의 상하 좌우 크기 */
+	margin-top: 10px;
+	background-color: #e50914;
+	cursor: pointer; /* 커서 변경 */
+	transform: translate(30px,0);
+}
+
+#moviePage input:hover {
+	background-color: #ce0912;
+}
 
 #boxoffice {
 	position: relative;
-	left: 60px;
+	left: 20px;
 	text-align: center;
 	display: flex;
 	flex-wrap: wrap;
@@ -174,6 +198,25 @@ body {font-family: Verdana, sans-serif; margin:0}
 #boxoffice input:hover {
 	color: red; /* 좋아요 글자에 마우스 가까이 가져가면 빨간색으로 변함*/
 }
+/* 박스오피스 내의 예매 영역 */
+#boxoffice .main_reserve_area input {
+	border: 1px solid;
+	height: 40px;
+	background-color: #e50914; /* 버튼 색상 */
+	color: #fff; /* 글자 색상 */
+	font-size: 16px;
+	padding: 0 15px;
+	margin-left: 10px; /* 찜하기 버튼과의 거리 */
+	text-decoration: none; /* 링크의 밑줄 제거 */
+	border-radius: 5px; /* 모서리 라운드처리 */
+	cursor: pointer; /* 커서 변경 */
+	transform: translate(0,1px);
+}
+
+#boxoffice .main_reserve_area input:hover {
+	background-color: #ce0912;
+}
+
 
 
 #main_store {

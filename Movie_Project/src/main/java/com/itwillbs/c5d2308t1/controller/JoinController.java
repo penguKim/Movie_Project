@@ -27,8 +27,8 @@ public class JoinController {
 	// 이메일 인증
 	@ResponseBody
 	@GetMapping("authEmail")
-	public String authEmail(String email) {
-		String auth_code = service.sendAuthMail(email);
+	public String authEmail(String member_email) {
+		String auth_code = service.sendAuthMail(member_email);
 		System.out.println("인증코드 : " + auth_code);
 		
 		return auth_code;

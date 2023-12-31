@@ -11,14 +11,17 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <!-- 네이버 api를 위한 script -->
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<!-- 카카오 api를 위한 script -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
 	$(function() {
 		// 인증여부를 저장할 변수 선언
 		var isChecked = false;
 		
 		<%-- 이메일주소 중복 확인 --%>
-		$("#email").blur(function() {			
-			let member_email = $("#email").val();
+		// 인증번호 발송 버튼을 클릭했을 때
+		$("#sendMail").click(function() {		
+			var member_email = $("#email").val();
 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			
 			if(!regEmail.exec(member_email)){
@@ -37,29 +40,24 @@
  							$("#checkResult").text("이미 사용중인 이메일입니다").css("color", "red");
 						} else { // 사용가능
 							$("#checkResult").text("사용 가능한 이메일입니다").css("color", "blue");
-						
-							// 인증번호 발송 버튼을 클릭했을 때
-							$("#sendMail").click(function() {
-								alert("인증번호를 발송했습니다. \n인증번호를 확인하고 인증번호확인란에 입력해주세요.");
-								// 인증여부를 저장하는 변수 값을 true로 변경
-								isChecked = true;
-								console.log("isChecked : " + isChecked);
-								email = $("#email").val();
-								
-								// 인증번호 발송 요청
-								$.ajax({
-									url: "authEmail",
-									data: {
-										email : email
-									},
-									success: function(data) {
-										checkCNum(data);
-									},
-									error: function(xhr, status, error) {
-									      // 요청이 실패한 경우 처리할 로직
-									      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
-									}
-								});
+							alert("인증번호를 발송했습니다. \n인증번호를 확인하고 인증번호확인란에 입력해주세요.");
+							// 인증여부를 저장하는 변수 값을 true로 변경
+							isChecked = true;
+							$("#sendMail").val("인증번호재발송");
+							
+							// 인증번호 발송 요청
+							$.ajax({
+								url: "authEmail",
+								data: {
+									member_email : member_email
+								},
+								success: function(data) {
+									checkCNum(data);
+								},
+								error: function(xhr, status, error) {
+								      // 요청이 실패한 경우 처리할 로직
+								      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
+								}
 							});
 						
 						}
@@ -89,7 +87,11 @@
 		// 인증번호 대조
 		function checkCNum(data) {
 			$("form").on("submit", function() {
-				if($("#cNum").val() != data) {
+				if($("#cNum").val() == '') {
+					alert("인증번호를 입력해주세요");
+					$("#cNum").focus();
+					return false; // submit 동작 취소
+				} else if($("#cNum").val() != data) {
 					alert("인증번호가 일치하지 않습니다.");
 					return false; // submit 동작 취소
 				}
@@ -121,7 +123,8 @@
 				<hr>		
 				<h3 id="join_top">회원가입을 위해 본인 인증을 해주세요.</h3>
 				<section id="api">
-					<a href=""><img src="${pageContext.request.contextPath}/resources/img/카카오버튼.png" width="160px" height="40px"></a>
+					<!-- 카카오 로그인 버튼 노출 영역 -->
+					<a href="#" id="kakao-login-btn"></a>					
 					<!-- 네이버 로그인 버튼 노출 영역 -->
 					<div id="naver_id_login"></div>
 				</section>
@@ -187,6 +190,41 @@
  	</script>
 	<!-- //네이버아디디로로그인 Callback페이지 처리 Script -->
 	
+	
+	
+	<script type="text/javascript">
+		$(function() {
+		
+			Kakao.init("7f2cbaab42a6ec66232f961c71c7350f");
+		
+			// 카카오 로그인 버튼을 생성
+			Kakao.Auth.createLoginButton({
+				container: '#kakao-login-btn',
+				success: function(authObj) {
+				// 로그인 성공시, API를 호출합니다.
+			Kakao.API.request({// 로그인한 사용자 정보 가져오기
+				url: '/v2/user/me',
+				success: function(res) {
+					console.log("사용자 정보 요청 실패", res);
+				},
+				fail: function(error) {
+					console.log("로그인 실패", error);
+					}
+			});
+				},
+				fail: function(err) {
+					console.log(err);
+				}
+			});
+			
+			document.addEventListener("DOMContentLoaded", function () { //웹 페이지의 HTML이 모두 로드되었을 때(DOMContentLoaded) 실행될 함수
+				document.getElementById("kakao-login-btn").addEventListener("click", function (a) { //카카오로그인 버튼클릭 시 실행되는 함수
+					a.preventDefault(); // 기본 동작인 페이지 이동을 막음
+				loginWithKakao();
+				});
+			});
+		});
+	</script>
 	
 	
 </body>

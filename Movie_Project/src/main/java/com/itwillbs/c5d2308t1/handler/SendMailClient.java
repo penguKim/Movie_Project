@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class SendMailClient {
 
 	// 메일 발송을 수행할 sendMail() 메서드
-	public void sendMail(String email, String subject, String content) {
+	public void sendMail(String member_email, String subject, String content) {
 		try {
 			// 1. 서버 정보를 java.util.Properties 객체로 리턴받기
 			Properties props = System.getProperties();
@@ -64,7 +64,7 @@ public class SendMailClient {
 			//    => Address 타입으로 업캐스팅
 			//    => 파라미터 : 수신자 주소
 			//    => AddressException 예외 처리 필요(수신자 주소 불일치 등)
-			Address receiverAddress = new InternetAddress(email);
+			Address receiverAddress = new InternetAddress(member_email);
 			
 //		// 3) Message 객체를 사용하여 전송할 메일에 대한 내용 설정
 			//    => MessagingException 처리 필요

@@ -41,24 +41,17 @@ header {
 	text-align: center; /* 스토어 제목 중앙 정렬  */
 }
 
-#member input[type="button"] { /* 로그인, 회원가입 버튼에 */
-	padding: 6px 15px; /* 안쪽 여백 */
-    background-color: #e50914; /* 배경색 빨간색 */
-    color: white; /* 글씨색 흰색*/
-    border: none; /* 테두리 없음 */
-    cursor: pointer; /* 커서 변경 */
-}
-
-#member input[type="button"]:hover { /* 로그인, 회원가입 버튼에 마우스오버 시 */
-	background-color: #ce0912;
-}
-
-
 
 /* 아이티윌홈으로 ---로그인 회원가입 정렬*/
 #top_area {
 	background-color: #ffffff;
 	height: 90px;
+	width: 100%;
+}
+
+#top_content {
+	width: 1421px;
+	margin: 0 auto;
 }
 
 #logo {
@@ -71,17 +64,36 @@ header {
 	margin: 5px;
 }
 
+#member input[type="button"] { /* 로그인, 회원가입 버튼에 */
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #e50914; /* 배경색 빨간색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+    min-height: 30px;
+    vertical-align: top;
+}
+
+#member input[type="button"]:hover { /* 로그인, 회원가입 버튼에 마우스오버 시 */
+	background-color: #ce0912;
+}
+
 /* 메뉴영역<div id="menu_nav"> 배경색과 글자 정렬*/
-#menu_nav {
+#navbar {
 	background-color: #e50914;
 	text-align: center;
+	position: sticky;
+	top: -1px;
+	z-index: 9999;
 }
 
 /*메뉴<nav> 영역 안의 태그<a>에 대한 정렬 */
-#menu_nav nav {
+#menu_nav {
+	margin: 0 auto;	
 	margin-top: 10px;
 	display: flex;
 	justify-content: center; /* 양 끝을 기준으로 정렬 */
+	width: 1421px;
 }
 
 
@@ -120,13 +132,6 @@ header {
 	width: 28px;
     height: 28px;
     box-shadow: 1px 3px 6px 0 rgba(0, 0, 0, 0.3);
-}
-
-#menu_nav {
-	position: sticky;
-	top: -1px;
-	width: 100%;
-	z-index: 9999;
 }
 
 

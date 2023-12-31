@@ -95,6 +95,10 @@ textarea { /* 텍스트박스 */
 	width: 180px; /* 넓이지정 */
 }
 
+#email3>input[type="button"], #email3>input[type="submit"] {
+	width: 120px;
+}
+
 #checkResult {
 	height: 13px;
 	font-size: 13px;
@@ -139,10 +143,42 @@ textarea { /* 텍스트박스 */
 	font-size: 17px;
 }
 
-#join_center>div {
+#join_center>div:not(#gender) {
 	font-size: 14px;
 	height: 15px;
 }
+
+#gender {
+   	text-align: center;
+   	height: 40px;
+}
+
+#gender input[type=radio]{
+    display: none;
+}
+
+#gender input[type=radio]+label{
+    display: inline-block;
+    cursor: pointer;
+    height: 35px;
+    width: 155px;
+    border: 1px solid #333;
+    text-align: center;
+    font-weight:bold;
+    font-size:17px;
+    line-height: 35px;
+}
+
+#gender input[type=radio]+label{
+    background-color: #fff;
+    color: #AFAFB2;
+}
+
+#gender input[type=radio]:checked+label{
+    background-color: #eeeeee;
+    color: #000;
+}
+
 
 /* ======== 가입 완료 페이지에 적용할 css ======== */
 #completion_msg { /* 가입 완료 메세지 */

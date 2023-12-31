@@ -51,7 +51,7 @@
 				<form action="adminNoticeWritePro" method="post" enctype="multipart/form-data">
 					<table border="1">
 						<tr>
-							<th width="70px">지점</th>
+							<th width="90px">지점</th>
 							<td>
 								<select name="theater_id" id="theater_id">
 									<option value="">전체</option>
