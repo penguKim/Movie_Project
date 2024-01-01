@@ -1508,9 +1508,24 @@ public class AdminController {
 		return "admin/admin_review";
 	}
 
-	@PostMapping("reviewDlt") // 리뷰 관리 : admin_review.jsp
-	public String reviewDlt() {
-		return "";
+	@PostMapping("reviewDlt") // 리뷰 삭제 : admin_review.jsp
+	public String reviewDlt(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg","잘못된 접근입니다");
+			return "fail_back";
+		}
+		
+		int deleteCount = service.deleteReview(review);
+		
+		if(deleteCount > 0) {
+			//삭제 성공
+			return "redirect:/adminReview";
+		}else {
+			//삭제 실패
+			model.addAttribute("msg","삭제 실패");
+			return "fail_back";
+		}
 	}
 	
 

@@ -52,6 +52,17 @@ $(document).ready(function() { //리뷰
 			});
 		});
 	});
+	
+$(function() {
+	$("#reviewDelete").on("click", function() {
+		if(confirm("글을 삭제하시겠습니까?")) {
+			return true;
+		} else {
+			return false;
+		}
+	}); //on click 끝
+	
+}); //function 끝	
 </script>
 
 </head>
@@ -90,7 +101,7 @@ $(document).ready(function() { //리뷰
 								<td>${adminReview.review_rating}</td>
 								<td>${adminReview.member_id}</td>
 								<td>${adminReview.review_content}</td>
-								<td><input type="button" value="상세정보"></td>
+								<td><input type="submit" id="reviewDelete" value="삭제"></td>
 							</tr>
 						</c:forEach>
 					</table>

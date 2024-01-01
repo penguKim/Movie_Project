@@ -251,6 +251,11 @@ public class AdminService {
 		return mapper.selectReviewList(review);
 	}
 
+	//리뷰 삭제
+	public int deleteReview(ReviewsVO review) {
+		return mapper.deleteReview(review);
+	}
+
 
 
 

@@ -514,6 +514,12 @@
 			, movie_id = #{movie_id}
 		WHERE play_id = #{play_id}
 	</update>
+	
+	<!-- 관리자 리뷰삭제 -->
+	<delete id="deleteReview">
+		FROM reviews
+		WHERE member_id = #{member_id}
+	</delete>
 
 
 </mapper>

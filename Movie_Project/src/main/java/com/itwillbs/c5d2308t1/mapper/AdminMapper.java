@@ -151,6 +151,9 @@ public interface AdminMapper {
 	//리뷰 조회
 	List<ReviewsVO> selectReviewList(ReviewsVO review);
 
+	//리뷰 삭제
+	int deleteReview(ReviewsVO review);
+
 	
 
 
