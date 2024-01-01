@@ -1142,13 +1142,19 @@ public class AdminController {
 	// *********************** 1대1문의 관리 페이지 *************
 	// 관리자페이지 1대1문의 관리 페이지로 이동
 	@GetMapping("adminOneOnOne")
-	public String adminOneOnOne(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model) {
+	public String adminOneOnOne(
+			@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "") String searchType,
+			@RequestParam(defaultValue = "") String searchKeyword,
+			HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
+		
+		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
 		PageDTO page = new PageDTO(pageNum, 5);
 		

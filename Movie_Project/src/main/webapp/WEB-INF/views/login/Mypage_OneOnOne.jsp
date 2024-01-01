@@ -47,9 +47,9 @@
 			<form action="MyPageOneOnOneDelete" name="checkform">
 				<div id="my_list">
 					<h2>1대1문의 내역 상세 조회</h2>
-					<table id="my_table1">
+					<table id=MyOneOnOneTable>
 						<tr>
-							<th>번호</th>
+							<th width="150">번호</th>
 							<td>${oneOnOne.cs_type_list_num}</td>
 						</tr>
 						<tr>
@@ -75,7 +75,7 @@
 							<td>${oneOnOne.cs_content }</td>
 						</tr>
 						<tr>
-							<th>첨부 파일</th>
+							<th>첨부 사진</th>
 							<c:choose>
 								<c:when test="${not empty oneOnOne.cs_file }">
 								<c:set var="original_file_name" value="${fn:substringAfter(oneOnOne.cs_file, '_') }"/>
@@ -97,16 +97,7 @@
 					</table><br>
 					<input type="submit" value="문의 삭제" id="oneOnOneDelete"><br><br>
 					<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">
-								
-					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1</a>
-						<a class="active" href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">&raquo;</a>
-					</div>
+
 				</div>
 							
 			</form>

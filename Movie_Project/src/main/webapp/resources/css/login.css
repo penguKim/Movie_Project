@@ -375,7 +375,7 @@ h1{
 
 /* Style the active/current link */
 .pagination a.active {
-  background-color: dodgerblue;
+  background-color: ff0000;
   color: white;
 }
 
@@ -490,3 +490,22 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
 	width: 250px; /* 넓이지정 */
 }	
 
+/* ================================= 1대1문의 내역 =========================================== */
+#MyOneOnOneTable {
+	table-layout: fixed;
+	width: 800px;
+}
+
+#MyOneOnOneTable th {
+	color: #000000;
+	background-color: #f2f2f2; /* 제목 배경색 지정 */
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border-bottom: 1px solid #9d9d9d; /* 제목 아래 얇은 실선 */
+	text-align: center;
+}
+
+#MyOneOnOneTable td {
+	padding: 5px 10px; /* 안쪽 여백 지정 */
+	border-bottom: 1px solid #9d9d9d; /* 행마다 얇은 실선 */
+	text-align: left;
+}

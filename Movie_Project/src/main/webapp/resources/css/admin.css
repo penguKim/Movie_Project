@@ -327,6 +327,12 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	background-color: #C4C4C4;
 	color: #000000;
 }
+
+/* =============== 1대1문의 관리 페이지 =================== */
+#admin_main #btnOneOnOneresponse {
+	background-color: #C4C4C4;
+	color: #000000;
+}
 /* =============== 영화 조회, 등록, 수정 페이지 정보 표시 =================== */
 /* 영화 목록조회 게시판의 제목 */
 #movieList #movieTitle {

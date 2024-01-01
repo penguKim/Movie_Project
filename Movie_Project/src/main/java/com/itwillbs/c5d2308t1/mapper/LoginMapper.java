@@ -39,7 +39,11 @@ public interface LoginMapper {
 // ============================================================================	
 // =====================마이페이지 나의게시글 1대1문의 내역==================
 	// 마이페이지 나의 게시글 1대1문의 글 목록 조회 작업
-	List<HashMap<String, Object>> selectMyOneOnOneList(String sId);
+	List<HashMap<String, Object>> selectMyOneOnOneList(@Param("sId") String sId, @Param("page") PageDTO page);
+//	List<HashMap<String, Object>> selectMyOneOnOneList(String sId);
+	
+	// 마이페이지 나의 게시글 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업 
+	int selectMyOneOnOnePostsCount(String sId);
 
 	// 마이페이지 나의 게시글 1대1문의 글 상세 조회 작업
 	Map<String, Object> selectMyOneOnOneDetail(CsVO cs);
@@ -47,13 +51,16 @@ public interface LoginMapper {
 	// 마이페이지 나의 게시글 1대1문의 글 삭제 작업
 	int deleteMyOneOnOne(CsVO cs);
 	
+// =====================마이페이지 나의게시글 분실물 문의 내역==================
 	// 마이페이지 분실물 조회
 	List<CsVO> selectLostList(CsVO myCs);
 	
 	// 마이페이지 분실물 상세 조회
 	HashMap<String, Object> selectMyLost(CsVO cs);
 
+// =====================마이페이지 리뷰 내역==================
 	//마이페이지 리뷰 조회
 	List<ReviewsVO> selectMyreview(ReviewsVO review);
+
 
 }
