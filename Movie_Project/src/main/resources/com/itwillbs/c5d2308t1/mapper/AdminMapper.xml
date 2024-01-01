@@ -425,25 +425,33 @@
 		ORDER BY play_date DESC, play_start_time DESC, theaters.theater_id DESC, rooms.room_id ASC
 	</select>
 	
-	<!-- 선택한 지점명에 따른 상영관 조회 -->
+	<!-- 선택한 지점명에 따른 상영관 조회 ajax -->
 	<select id="selectRoom" resultType="hashmap">
 		SELECT room_id, room_name
 		FROM rooms
 		WHERE theater_id = #{theater_id}
 	</select>
 	
-	<!-- 상영중인 영화 조회 -->
+	<!-- 상영중인 영화 조회 ajax -->
 	<select id="selectPlayingMovie" resultType="hashmap">
 		SELECT *
 		FROM movies
 		WHERE movie_status = 1
 	</select>
 	
-	<!-- 영화 정보 조회 -->
+	<!-- 영화 정보 조회 ajax -->
 	<select id="selectMovieInfo" resultType="hashmap">
 		SELECT *
 		FROM movies
 		WHERE movie_id = #{movie_id}
+	</select>
+	
+	<select id="selectPlayTimeInfo" resultType="hashmap">
+		SELECT *
+		FROM plays
+		WHERE 
+			room_id = #{room_id}
+			AND play_date = #{play_date}
 	</select>
 	
 	<!-- 상영 일정 등록 -->
@@ -473,7 +481,7 @@
 		ON r.movie_id = m.movie_id 
 	</select>
 
-	<!-- 상영 일정 수정 -->
+<!-- 	상영 일정 수정 -->
 <!-- 	<update id="deleteRef"> -->
 <!-- 	  DELETE FROM plays WHERE movie_id = #{movieId} -->
 <!-- 	</update> -->
@@ -495,7 +503,17 @@
 <!-- 	  SET foreign_key_checks = 1;  -->
 <!-- 	</update> -->
 
-	
+	<!-- 상영 일정 수정 -->
+	<update id="updateSchedule">
+		UPDATE plays
+		SET 
+			play_date = #{play_date}
+			, play_start_time = #{play_start_time}
+			, play_end_time = #{play_end_time}
+			, room_id = #{room_id}
+			, movie_id = #{movie_id}
+		WHERE play_id = #{play_id}
+	</update>
 
 
 </mapper>

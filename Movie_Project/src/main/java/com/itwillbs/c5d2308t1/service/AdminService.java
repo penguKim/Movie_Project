@@ -214,6 +214,11 @@ public class AdminService {
 	public HashMap<String, Object> getMovieInfo(String movie_id) {
 		return mapper.selectMovieInfo(movie_id);
 	}
+	
+	// 상영시간 정보 불러오기
+	public List<HashMap<String, Object>> playTimeInfo(PlayVO play) {
+		return mapper.selectPlayTimeInfo(play);
+	}
 
 	// 상영 일정 등록 요청
 	public int registPlay(PlayVO play) {
@@ -227,23 +232,25 @@ public class AdminService {
 
 	// 상영 일정 수정 요청
 //	@Transactional
-//	public int modifySchedule(Map<String, String> formData) {
+	public int modifySchedule(PlayVO play) {
 //		String playId = formData.get("play_id");
 //        String theaterId = formData.get("theater_id");
 //        String roomId = formData.get("room_id");
 //        String movieId = formData.get("movie_title");
-//        String playDate = formData.get("play_date2");
-//        String playStartTime = formData.get("play_start_time2");
-//        String playEndTime = formData.get("play_end_time2");
+//        String playDate = formData.get("play_date");
+//        String playStartTime = formData.get("play_start_time");
+//        String playEndTime = formData.get("play_end_time");
 //        mapper.deleteRef(movieId);
 //        return mapper.updateSchedule(playId, theaterId, roomId, movieId, playDate, playStartTime, playEndTime);
-//
-//	}
+		return mapper.updateSchedule(play);
+
+	}
 
 	//리뷰 조회
 	public List<ReviewsVO> getReviewLiset(ReviewsVO review) {
 		return mapper.selectReviewList(review);
 	}
+
 
 
 

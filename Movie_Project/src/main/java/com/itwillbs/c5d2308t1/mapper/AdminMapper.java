@@ -134,6 +134,9 @@ public interface AdminMapper {
 	// 선택한 영화 정보 조회 작업
 	HashMap<String, Object> selectMovieInfo(String movie_id);
 
+	// 상영 시간 조회 작업
+	List<HashMap<String, Object>> selectPlayTimeInfo(PlayVO play);
+	
 	// 상영 일정 등록
 	int insertPlay(PlayVO play);
 
@@ -142,11 +145,12 @@ public interface AdminMapper {
 
 	// 상영 일정 수정
 //	void deleteRef(String movieId);
-//	int updateSchedule(Map<String, String> formData);
+	int updateSchedule(PlayVO play);
 //	int updateSchedule(@Param("playId") String playId, @Param("theaterId") String theaterId, @Param("roomId") String roomId, @Param("movieId") String movieId, @Param("playDate") String playDate, @Param("playStartTime") String playStartTime, @Param("playEndTime") String playEndTime);
 
 	//리뷰 조회
 	List<ReviewsVO> selectReviewList(ReviewsVO review);
+
 	
 
 
