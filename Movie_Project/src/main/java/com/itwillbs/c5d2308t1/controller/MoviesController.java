@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -134,12 +135,19 @@ public class MoviesController {
 	
 	// 영화 상세 페이지
 	@GetMapping("detail")
-	public ModelAndView detail(int movie_id, Map<String, String> map) {
-		
+	public ModelAndView detail(int movie_id, Map<String, String> map, ReviewsVO review, HttpSession session, Model model ) {
+		String sId = (String)session.getAttribute("sId");
 		// 영화코드를 사용하여 영화 상세정보 가져오기
+		
+		review.setMember_id(sId);
+		
 		map = service.getMovieDetail(movie_id);
 		
 		ModelAndView mav = new ModelAndView("movie/detail", map);
+		
+		List<ReviewsVO> review2 = service.getreview2(review);
+		
+		model.addAttribute("movieReview",review2 );
 		return mav;
 	}
 	
@@ -570,24 +578,28 @@ public class MoviesController {
 	
 	//리뷰-----
 	//member_id값이 있고 영화상영일 + 상영종료시간 이후에 리뷰작성이 가능함
+	//내가 본 영화페이지에 리뷰값이 있어야한다
 	// 리뷰 작성후 등록 버튼 클릭시 데이터 출력하기
 
 	@ResponseBody
 	@PostMapping("reviewPro")
-    public String reviewBoard(HttpSession session, Model model, Map<String, String> map, @RequestParam String movie_id, @RequestParam String review_content) {
+    public String reviewBoard(HttpSession session, Model model, Map<String, String> map, @RequestParam String movie_id, @RequestParam String review_content, HttpServletRequest request) {
 			String sId = (String)session.getAttribute("sId"); //현재 로그인 중인 아이디 sId 저장
 			map.put("sId",sId); //map에 현재 로그인 중인 아이디 저장
-			map.put("movie_id", movie_id); //map에 무비아이디 저장
+//			map.put("movie_id", movie_id); //map에 무비아이디 저장
 			List<ReviewsVO> dbReview = service.getreview(map);
-			System.out.println(movie_id);
-			
+//			System.out.println(movie_id);
+				
 			
 			int insertCount = service.registReview(sId, review_content, movie_id);
 			
 			model.addAttribute("reviews", insertCount);
+			String str1 = request.getParameter("movie_id");
+			String str2 = request.getParameter("review_content");
 			
+			System.out.println("");
 			System.out.println("ReviewBoardVO 맵 : " + dbReview);
-        System.out.println("무비아이디" +map.get("movie_id"));
+//        System.out.println("무비아이디" +map.get("movie_id"));
         
         return "movie/detail"+ movie_id;
     }//reviewPro 끝 

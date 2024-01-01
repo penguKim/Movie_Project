@@ -59,5 +59,7 @@ public interface MoviesMapper {
 //	//리뷰 작성
 	int insertReviewBoard(@Param("sId")String sId, @Param("review_content")String review_content, @Param("movie_id")String movie_id);
 
+	List<ReviewsVO> selectReview2(ReviewsVO review);
+
 
 }

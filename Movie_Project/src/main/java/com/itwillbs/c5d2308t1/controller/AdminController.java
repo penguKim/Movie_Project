@@ -1462,7 +1462,9 @@ public class AdminController {
 		}
 		
 		List<ReviewsVO> adminReview = service.getReviewLiset(review);
+		
 		model.addAttribute("adminReview",adminReview);
+		
 		System.out.println(adminReview);
 		return "admin/admin_review";
 	}

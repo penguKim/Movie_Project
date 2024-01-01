@@ -10,8 +10,6 @@ public class ReviewsVO {
 		private String review_content; //리뷰내용
 		private Date review_date; //작성시간
 		private String member_id; //회원 ID
+		private String movie_title; //회원 ID
 		private int movie_id; //영화코드
-		private String movie_title; //영화제목
-		private Date play_date; // 상영일
-		private String play_end_time; //상영종료 시간
 }

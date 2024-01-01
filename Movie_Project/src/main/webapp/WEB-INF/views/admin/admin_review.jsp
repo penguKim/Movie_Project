@@ -1,6 +1,8 @@
 <%-- admin_review.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,15 +84,15 @@ $(document).ready(function() { //리뷰
 							<th>내용</th>
 							<th>리뷰 삭제하기</th>
 						</tr>
-						<tr id="review_no">
-							<td>${review.movie_title}</td> 
-							<td>${review.review_rating}</td>
-							<td>${review.member_id}</td>
-							<td>${review.review_content}</td>
-							<td>
-							<input type="submit" value="삭제">
-							</td>
-						</tr>
+						<c:forEach var="adminReview" items="${adminReview}" varStatus="status">
+							<tr>
+								<td>${adminReview.movie_title}</td>
+								<td>${adminReview.review_rating}</td>
+								<td>${adminReview.member_id}</td>
+								<td>${adminReview.review_content}</td>
+								<td><input type="button" value="상세정보"></td>
+							</tr>
+						</c:forEach>
 					</table>
 					<div class="pagination">
 						<a href="#">&laquo;</a>

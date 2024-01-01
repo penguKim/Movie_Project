@@ -89,4 +89,8 @@ public class MoviesService {
 		return mapper.insertReviewBoard(sId, review_content, movie_id);
 	}
 
+	public List<ReviewsVO> getreview2(ReviewsVO review) {
+		return mapper.selectReview2(review);
+	}
+
 }

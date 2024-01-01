@@ -60,29 +60,33 @@
 	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
 	
 
-$(document).ready(function(){
-	var member_id = "<%= session.getAttribute("sId") %>";
-	var movie_id = ${param.movie_id};
+$(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행됨
+	var member_id = "<%= session.getAttribute("sId") %>"; 
+	var movie_id = ${param.movie_id}; //영화 선택시 주소에 movie_id ="111"값을 movie_id에 저장 
 	
-	var currentDate = new Date();
-	var year = currentDate.getFullYear();  // 현재 연도
-	var month = currentDate.getMonth() + 1; // 현재 월
-	var day = currentDate.getDate() // 현재 일
+	var currentDate = new Date(); //현재날짜와 시간을 currentDate 변수 저장
+	var year = currentDate.getFullYear();  // 현재 연도 추출
+	var month = currentDate.getMonth() + 1; // 현재 월 추출
+	var day = currentDate.getDate() // 현재 일 추출
 
-	var formattedDate = year + "-" + month + "-" + day;
-	$("#submitReview").click(function(){
-		alert(formattedDate);
+	var formattedDate = year + "-" + month + "-" + day; //연도,월,일을 formattedDate변수 저장
+	$("#submitReview").click(function(){ //클릭시 실행되는 함수
+	var review_content = $("#review_content").val();
+	console.log(review_content);
 		$.ajax({
-			url: "reviewPro", // 요청을 보낼 URL
+			url: "reviewPro", // 데이터를 가지고 보낼 주소
 			type: "POST",
 			data: {
-					review_content : review_content,
+					review_content : review_content, 
 					member_id : member_id,
 					movie_id : movie_id
 			},
 			datatype: "json",
 			success: function(data) { // 요청 성공
-				$("#review_no").append(
+				
+				
+				
+				$("#review_no").append( //id="review_no" 뒤에 데이터들 출력하기
 					"<tr>"	
 					+ "<td>" + member_id + "</td>"	
 					+ "<td>" + review_content + "</td>"	
@@ -90,7 +94,8 @@ $(document).ready(function(){
 					+ "</tr>"	
 				);
             	
-            	
+			
+			
 				console.log("성공");
 			},
 			error: function(request, status, error) { // 요청 실패
@@ -185,13 +190,13 @@ $(document).ready(function(){
 			    			<th>내용</th>
 			    			<th>작성일</th>
 			    		</tr>
-<%-- 			    		<c:forEach var="rev" items="${reviews}"> --%>
-<!-- 						   	<tr> -->
-<%-- 				    			<td id="review_no">${rev.member_id}</td> <!-- 세션에 저장된 id  --> --%>
-<%-- 				    			<td>${rev.movie_title}</td> <!-- insert로 생성된 내용 --> --%>
-<%-- 				    			<td>${rev.movie_id}</td> <!-- insert로 생성된 datetime --> --%>
-<!-- 				    		</tr> -->
-<%-- 		    			</c:forEach> --%>
+			    		<c:forEach var="movieReview" items="${movieReview}" begin="1" end="5">
+						   	<tr>
+				    			<td id="review_no">${movieReview.member_id}</td> <!-- 세션에 저장된 id  -->
+				    			<td>${movieReview.review_content}</td> <!-- insert로 생성된 내용 -->
+				    			<td>${movieReview.review_date}</td> <!-- insert로 생성된 datetime -->
+				    		</tr>
+		    			</c:forEach>
 		    			</table>
 		  		  </div>
     			</c:if>

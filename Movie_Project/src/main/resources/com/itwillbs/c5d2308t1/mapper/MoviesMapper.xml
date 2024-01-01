@@ -38,9 +38,6 @@
 			, now()
 			, #{sId}
 			, #{movie_id}
-			, #{movie_title}
-			,now()
-			,now()
 		)
 	</insert>
 	
@@ -138,6 +135,13 @@
         SELECT *
         FROM reviews
         WHERE member_id = #{sId}
+    </select>
+    
+	<!-- 리뷰 조회2 -->
+    <select id="selectReview2" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO">
+        SELECT *
+        FROM reviews
+        WHERE member_id = #{member_id}
     </select>
     
     <select id="selectAllMovie" resultType="movies">

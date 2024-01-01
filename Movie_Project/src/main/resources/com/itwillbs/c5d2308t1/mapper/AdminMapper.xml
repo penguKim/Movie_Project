@@ -471,7 +471,6 @@
 		SELECT m.movie_title, r.review_rating, r.member_id, r.review_content 
 		FROM reviews r JOIN movies m
 		ON r.movie_id = m.movie_id 
-		WHERE member_id = #{movie_id};
 	</select>
 
 
