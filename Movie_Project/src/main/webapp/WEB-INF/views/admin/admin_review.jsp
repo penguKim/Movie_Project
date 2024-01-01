@@ -11,7 +11,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="../js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() { //리뷰
 	.ajax({
 		url:"adminReview",
 		type:"GET",
@@ -35,9 +35,11 @@ $(document).ready(function() {
 });//ready 끝
 	$(function() { //일치하는 단어 검색 기능
 		$('#searchButton').on('click', function() {
+			
 		var searchKeyword = $('#searchInput').val(); // 입력된 단어 가져오기
 			$('#review_SearchTable tr').each(function(index, element) {
 			var rowText = $(element).text().toLowerCase(); // 행의 텍스트 가져오기
+			
 				if (rowText.includes(searchKeyword.toLowerCase())) {
 					$(element).show(); // 일치하는 단어가 포함된 행 보이기
 					alert("일치하는 단어");
