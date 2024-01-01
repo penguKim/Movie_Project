@@ -196,7 +196,7 @@
 				</div>
 				<div class="paybtn">
 					<a href="store_main.jsp"><input type="button" value="이전화면"></a>
-					<a href="" ><input type="button" value="결제하기"></a>
+					<a href="ProductPayment" ><input type="button" value="결제하기"></a>
 				</div>
 			</div>
 		</section>
