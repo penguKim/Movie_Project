@@ -122,7 +122,55 @@
 				}
 			});
 		});
+		
+		// 메인페이지의 이벤트 목록 
+		$.ajax({
+			url: "eventList",
+			dataType: "json",
+			success: function(result) {
+				for(let i = 0; i < result.length; i++) {
+					$(".event-grid").append(
+							"<div class='event myBtn" + i + "' data-content='" 
+								+ result[i].event_image + "' onclick='eventModal(" + i + ")'>"	
+								+ "<div class='event-image'>"
+									+ "<img src='" + result[i].event_thumnail + "'>"
+									+ "<div class='event-info'>"
+										+ "<p class='event-title'>" + result[i].event_title + "</p>"
+										+ "<p class='event-date'>" + result[i].event_release_date 
+											+ " ~ " + result[i].event_close_date + "</p>"
+									+ "</div>"
+								+ "</div>"
+							+ "</div>"
+							);
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("이벤트 목록을 불러오는데 실패했습니다.\n새로고침을 해주세요.");
+			}
+		});
+		
+		// 모달 닫기 버튼 클릭 이벤트
+		$(".close").on("click", function() {
+			$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
+		  $("#myModal").hide(); <%-- div 영역 숨김 --%>
+		});
+
+		// 모달 외부 영역 클릭 시 모달 닫기
+		$(window).on("click", function(event) {
+			if ($(event.target).is("#myModal")) { <%-- 클릭한 곳이 모달창 바깥 영역일 경우 --%>
+				$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
+				$("#myModal").hide(); <%-- div 영역 숨김 --%>
+			}
+		});
 	});
+	
+	// 모달 열기 버튼 클릭 이벤트
+	function eventModal(index) {
+		$("body").addClass("not_scroll"); <%-- body 영역 스크롤바 삭제 --%>
+		<%-- ajax에서 data 속성으로 추가한 상세이미치 불러오기 --%>
+		$(".modal-content img").attr("src", $(".myBtn" + index).data("content"));
+		$("#myModal").show();
+	}
 	
 	// 찜하기 버튼
 	function likeBtnClick(index) { <%-- 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
@@ -186,24 +234,17 @@
 				 <hr>
 		        <h2>진행 중인 이벤트</h2>
 		        <div class="event-grid">
-		        <c:forEach begin="1" end="4">
-		            <div class="event">
-		            	<a href="event_detail.jsp" class="event_link">
-			            	<div class="event-image">
-				                <img src="https://img.megabox.co.kr/SharedImg/event/2023/11/21/GuvlkLZPAUjb8uk2ikaFSmI6C4E6GRtg.jpg" alt="이벤트 썸네일">
-				            </div>
-				            <div>
-				                <p class="event-title">이벤트 제목</p>
-				                <p class="event-date">2023. 11. 1 ~ 2023. 11. 30</p>
-				            </div>    
-		                </a>
-		            </div>
-	            </c:forEach>
-		            <%-- 이벤트 항목을 추가로 작성 --%>
-		        </div>
+					<!-- 모달 배경 -->
+					<div id="myModal" class="modal">
+						<!-- 모달 컨텐츠 -->
+						<div class="modal-content">
+							<span class="close">&times;</span>
+							<img src="">
+						</div>
+					</div>
+				</div>
 	     	</div>
 		</div>
-	
 		<footer>
 			<jsp:include page="inc/bottom.jsp"></jsp:include>
 		</footer>

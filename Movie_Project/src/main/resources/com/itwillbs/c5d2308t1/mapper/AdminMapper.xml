@@ -473,6 +473,29 @@
 		ON r.movie_id = m.movie_id 
 	</select>
 
+	<!-- 상영 일정 수정 -->
+<!-- 	<update id="deleteRef"> -->
+<!-- 	  DELETE FROM plays WHERE movie_id = #{movieId} -->
+<!-- 	</update> -->
+	
+<!-- 	<update id="updateSchedule"> -->
+<!-- 	  SET foreign_key_checks = 0; -->
+<!-- 	  UPDATE plays -->
+<!-- 	  JOIN movies ON plays.movie_id = movies.movie_id -->
+<!-- 	  JOIN rooms ON plays.room_id = rooms.room_id -->
+<!-- 	  JOIN theaters ON rooms.theater_id = theaters.theater_id -->
+<!-- 	  SET  -->
+<!-- 	  	, theaters.theater_id = #{theaterId} -->
+<!-- 	    , rooms.room_id = #{roomId} -->
+<!-- 	    , movies.movie_id = #{movieId} -->
+<!-- 	    , plays.play_date = #{playDate} -->
+<!-- 	    , plays.play_start_time = #{playStartTime} -->
+<!-- 	    , plays.play_end_time = #{playEndTime} -->
+<!-- 	  WHERE plays.play_id = #{playId}; -->
+<!-- 	  SET foreign_key_checks = 1;  -->
+<!-- 	</update> -->
+
+	
 
 
 </mapper>

@@ -123,9 +123,11 @@ public class LoginController {
 	}
 	
 	
+	// ============================================================================	
+	// =====================마이페이지 나의게시글 1대1문의 내역==================
 	// 마이페이지 나의 게시글 1대1문의 내역 조회 게시판으로 이동
 	@GetMapping("Mypage_OneOnOneList")
-	public String mypage_OneOnOneList(HttpSession session, Model model, MemberVO member) {
+	public String mypage_OneOnOneList(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model, MemberVO member) {
 		String sId = (String)session.getAttribute("sId");
 		member.setMember_id(sId);
 		if(sId == null) {
@@ -133,10 +135,20 @@ public class LoginController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 5);
+		
+		// LoginService - getMyOneOnOnePostsCount() 메서드 호출해 전체 게시글 개수 조회
+		// => 파라미터 : 세션 아이디(sId)	 리턴타입 : int
+		int listCount = service.getMyOneOnOnePostsCount(sId);
+		
+		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
+		PageCount pageInfo = new PageCount(page, listCount, 3);
 		
 		// LoginService - getMyOneOnOnePosts() 메서드 호출해 글 목록 조회
-		// => 파라미터 : 세션아이디(sId) 	 리턴 타입 : List<HashMap<String, Object>>(myOneOnOneList)
-		List<HashMap<String, Object>> myOneOnOneList = service.getMyOneOnOnePosts(sId);
+		// => 파라미터 : 세션 아이디(sId), PageDTO 객체(page) 	 리턴 타입 : List<HashMap<String, Object>>(myOneOnOneList)
+		List<HashMap<String, Object>> myOneOnOneList = service.getMyOneOnOnePosts(sId, page);
+//		List<HashMap<String, Object>> myOneOnOneList = service.getMyOneOnOnePosts(sId);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		for(HashMap<String, Object> map : myOneOnOneList) {
 			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
@@ -146,6 +158,8 @@ public class LoginController {
 //		System.out.println("myOneOnOneList : " + myOneOnOneList);
 		model.addAttribute("myOneOnOneList", myOneOnOneList);
 		model.addAttribute("sId", sId);
+		model.addAttribute("pageInfo", pageInfo);
+
 		
 		return "login/Mypage_OneOnOneList";
 	}
@@ -178,6 +192,7 @@ public class LoginController {
 	@GetMapping("MyPageOneOnOneDelete")
 	public String MyPageOneOnOneDelete(HttpSession session, Model model, CsVO cs) {
 		String sId = (String)session.getAttribute("sId");
+		cs.setMember_id(sId);
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			model.addAttribute("targetURL", "memberLogin");
@@ -196,6 +211,7 @@ public class LoginController {
 		
 	}
 	
+	// ============================================================================	
 	
 	
 	

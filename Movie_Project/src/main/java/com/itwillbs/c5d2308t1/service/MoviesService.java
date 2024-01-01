@@ -59,11 +59,6 @@ public class MoviesService {
 		return mapper.selectLikeList(sId);
 	}
 	
-	// 메인 페이지에 출력할 영화목록 조회
-	public List<MoviesVO> getMainMovieList(int status, String sortType) {
-		return mapper.selectMainMovieList(status, sortType);
-	}
-	
 	// 자바 코드로 API 정보 가져오는 테스트 ============================
 
 	// List 객체 전달과 ON DUPLICATE KEY UPDATE 테스트

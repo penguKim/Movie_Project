@@ -140,8 +140,14 @@ public interface AdminMapper {
 	// 상영 일정 삭제
 	int deletePlay(int play_id);
 
+	// 상영 일정 수정
+//	void deleteRef(String movieId);
+//	int updateSchedule(Map<String, String> formData);
+//	int updateSchedule(@Param("playId") String playId, @Param("theaterId") String theaterId, @Param("roomId") String roomId, @Param("movieId") String movieId, @Param("playDate") String playDate, @Param("playStartTime") String playStartTime, @Param("playEndTime") String playEndTime);
+
 	//리뷰 조회
 	List<ReviewsVO> selectReviewList(ReviewsVO review);
+	
 
 
 

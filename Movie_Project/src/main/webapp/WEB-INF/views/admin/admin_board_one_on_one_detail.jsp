@@ -33,7 +33,7 @@
 				<form action="OneonOneMoveToModify?pageNum=${param.pageNum }" method="post">
 					<table border="1">
 						<tr>
-							<th>번호</th>
+							<th width="150">번호</th>
 							<td>${oneOnOne.cs_type_list_num}</td>
 						</tr>
 						<tr>
@@ -68,13 +68,16 @@
 							<td>${oneOnOne.cs_content }</td>
 						</tr>
 						<tr>
-							<th>첨부 파일</th>
+							<th>첨부 사진</th>
 						
 							<c:choose>
 								<c:when test="${not empty oneOnOne.cs_file }">
 								<c:set var="original_file_name" value="${fn:substringAfter(oneOnOne.cs_file, '_') }"/>
 										<td>
-											<a href="${pageContext.request.contextPath}/resources/upload/${oneOnOne.cs_file }" download="${original_file_name }">${original_file_name }</a>
+											${original_file_name }
+											<a href="${pageContext.request.contextPath}/resources/upload/${oneOnOne.cs_file }" download="${original_file_name }">
+												<input type="button" value="다운로드">
+											</a>
 										</td>
 								</c:when>
 								<c:otherwise>

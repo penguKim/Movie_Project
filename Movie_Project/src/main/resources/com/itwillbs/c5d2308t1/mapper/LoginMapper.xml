@@ -71,26 +71,38 @@
 		ON m.member_id = c.member_id
 		WHERE cs_type = '1대1문의'
 		AND m.member_id = #{sId}
+		ORDER BY cs_date DESC
+ 		LIMIT #{page.startRow}, #{page.listLimit}
+ 		
+	</select>
+	
+	<!-- 1대1문의 페이징 처리를 위한 게시물 개수 조회 -->
+	<select id="selectMyOneOnOnePostsCount" resultType="int">
+		SELECT COUNT(*)
+		FROM members m
+		JOIN cs c
+		ON m.member_id = c.member_id
+		WHERE cs_type = '1대1문의'
+		AND m.member_id = #{sId}
 	</select>
 	
 	<!-- 1대1문의 글 상세 조회 -->
 	<select id="selectMyOneOnOneDetail" resultType="hashmap">
 		SELECT *
-		FROM cs c
-		<if test="theater_id != 0">
-			JOIN theaters t
-			ON t.theater_id = c.theater_id
-		</if>
+		FROM cs
+		LEFT OUTER JOIN theaters
+		ON theaters.theater_id = cs.theater_id
 		WHERE cs_type = '1대1문의'
-		And cs_id = #{cs_id}
+		AND cs_id = #{cs_id}
 	</select>	
 	
 	<!-- 1대1문의 글 삭제 -->
 	<delete id="deleteMyOneOnOne">
 		DELETE FROM cs
-		WHERE cs_id = #{cs_id} and member_id = ${sId}
+		WHERE cs_id = #{cs_id} and member_id = #{member_id}
 	</delete>
 	
+	<!-- =============================================================================== -->
 	<!-- 분실물 조회 -->
 	<select id="selectLostList" resultType="com.itwillbs.c5d2308t1.vo.CsVO">
 		SELECT cs_id, cs_subject , cs_date, cs_type, member_id, theater_name

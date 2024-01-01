@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.mapper.LoginMapper;
 import com.itwillbs.c5d2308t1.vo.*;
@@ -54,8 +55,16 @@ public class LoginService {
 // ============================================================================	
 // =====================마이페이지 나의게시글 1대1문의 내역==================	
 	// 마이페이지 나의 게시글 1대1문의 글 목록 조회 작업 요청
-	public List<HashMap<String, Object>> getMyOneOnOnePosts(String sId) {
-		return mapper.selectMyOneOnOneList(sId);
+	public List<HashMap<String, Object>> getMyOneOnOnePosts(String sId, PageDTO page) {
+		return mapper.selectMyOneOnOneList(sId, page);
+	}
+//	public List<HashMap<String, Object>> getMyOneOnOnePosts(String sId) {
+//		return mapper.selectMyOneOnOneList(sId);
+//	}
+	
+	// 마이페이지 나의 게시글 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업 요청 
+	public int getMyOneOnOnePostsCount(String sId) {
+		return mapper.selectMyOneOnOnePostsCount(sId);
 	}
 
 	// 마이페이지 나의 게시글 1대1문의 글 상세 조회 작업 요청
@@ -68,6 +77,7 @@ public class LoginService {
 		return mapper.deleteMyOneOnOne(cs);
 	}
 	
+	// =====================마이페이지 나의게시글 분실물 문의 내역==================
 	// 마이페이지 고객센터 분실물 조회
 	public List<CsVO> getLostBoardList(CsVO myCs) {
 	return mapper.selectLostList(myCs);
@@ -77,9 +87,11 @@ public class LoginService {
 		return  mapper.selectMyLost(cs);
 		}
 
+	// =====================마이페이지 리뷰 내역==================
 	//마이페이지 리뷰 조회
 	public List<ReviewsVO> getReviewList(ReviewsVO review) {
 		return mapper.selectMyreview(review);
 	}
+
 	
 }
