@@ -33,7 +33,7 @@ $(document).ready(function() {
 	});//ajax 끝
 	
 });//ready 끝
-	$(function() { //검색기능
+	$(function() { //일치하는 단어 검색 기능
 		$('#searchButton').on('click', function() {
 		var searchKeyword = $('#searchInput').val(); // 입력된 단어 가져오기
 			$('#review_SearchTable tr').each(function(index, element) {
@@ -81,7 +81,7 @@ $(document).ready(function() {
 							<th>리뷰 삭제하기</th>
 						</tr>
 						<tr id="review_no">
-							<td>${review.movie_title}</td>
+							<td>${review.movie_title}</td> 
 							<td>${review.review_rating}</td>
 							<td>${review.member_id}</td>
 							<td>${review.review_content}</td>
