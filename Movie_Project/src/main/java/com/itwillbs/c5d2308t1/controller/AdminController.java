@@ -326,6 +326,20 @@ public class AdminController {
 		return movieInfo;
 	}
 	
+	
+	// ajax 이용하여 상영시간 정보 불러오기
+	@ResponseBody
+	@GetMapping("getPlayTimeInfo")
+	public List<HashMap<String, Object>> playTimeInfo(PlayVO play) {
+//		System.out.println("상영관 = " + play.getRoom_id());
+//		System.out.println("일자 = " + play.getPlay_date());
+		
+		List<HashMap<String, Object>> playTimeInfo = service.playTimeInfo(play);
+		
+		return playTimeInfo;
+	}
+	
+	
 	// 상영 일정 등록하기
 	@PostMapping("registPlay")
 	public String registPlay(PlayVO play, HttpSession session, Model model, @RequestParam String play_date) {
@@ -336,6 +350,7 @@ public class AdminController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
+		System.out.println("play_Date = " + play.getPlay_date());
 		
 		int insertCount = service.registPlay(play);
 		
@@ -373,31 +388,21 @@ public class AdminController {
 	}
 	
 	// 상영일정 수정하기
-//	@ResponseBody
-//	@PostMapping("modifyPlay")
-//	public String modifyPlay(@RequestParam Map<String, String> formData, Model model) {
-//		System.out.println("넘어온 전체 파라미터 확인: " + formData);
-//		System.out.println("play_id 출력 : " + formData.get("play_id"));
-//		System.out.println("theater_id 출력 : " + formData.get("theater_id"));
-//		System.out.println("room_id 출력 : " + formData.get("room_id"));
-//		System.out.println("movie_title 출력 : " + formData.get("movie_title"));
-//		System.out.println("play_date2 출력 : " + formData.get("play_date2"));
-//		System.out.println("play_start_time2 출력 : " + formData.get("play_start_time2"));
-//		System.out.println("play_end_time2 출력 : " + formData.get("play_end_time2"));
-//
-//        
-//        int updateCount = service.modifySchedule(formData);
-//        if(updateCount == 0) {
-//        	model.addAttribute("msg", "상영 일정 수정에 실패했습니다!");
-//        	return "fail_back";
-//        	System.out.println("상영일정 수정 실패");
-//        	return "";
-//        } else {
-//        	model.addAttribute("formData", formData);
-//        	return "formData";
-//        }
-//
-//	}
+	@ResponseBody
+	@PostMapping("modifyPlay")
+	public String modifyPlay(PlayVO play, Model model) {
+		//넘어온 전체 파라미터 확인: {play_id=22, theater_id=2, room_id=8, movie_id=20212866, play_date=Tue Jan 02 2024 09:00:00 GMT+0900 (한국 표준시), start_time=14:00, end_time=16:21}
+
+		System.out.println("넘어온 전체 파라미터 확인: " + play);
+        
+        int updateCount = service.modifySchedule(play);
+        
+        if(updateCount == 0) {
+        	return "fail_back";
+        } else {
+        	return "formData";
+        }
+	}
 	
 	
 	

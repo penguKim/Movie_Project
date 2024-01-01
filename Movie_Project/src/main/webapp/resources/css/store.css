@@ -508,7 +508,7 @@
 .store_basket input[type="button"], .store_basket input[type="submit"]:hover {
 	background-color: #ce0912;
 }
-a{
+a:not(#menu_nav a){
  text-decoration-line: none;
  font-weight: bold;
  color: black;

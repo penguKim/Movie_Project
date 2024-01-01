@@ -35,7 +35,7 @@
 	min-height: 250px;
 }
 
-form {
+form:not(#deletePlay) {
 	margin-bottom: 20px;
 }
 
