@@ -171,23 +171,6 @@ public class MoviesController {
 		return new ArrayList<LikesVO>();
 	}
 	
-	// 메인페이지 영화목록 출력
-	@ResponseBody
-	@GetMapping("mainMovieChart")
-	public List<MoviesVO> movieChart(String status, String sort) {
-		List<MoviesVO> movieList = null;
-		if(status.equals(MainMovieType.RELEASE) && sort.equals(MainMovieType.DATE_SORT)) {
-			// 현재 상영작 조회
-			movieList = service.getMainMovieList(MainMovieType.STATUS_RELEASE, MainMovieType.DATE_SORT);
-		} else if(status.equals(MainMovieType.COMMING) && sort.equals(MainMovieType.DATE_SORT)) {
-			// 상영 예정작 조회
-			movieList = service.getMainMovieList(MainMovieType.STATUS_COMMING, MainMovieType.DATE_SORT);
-		} else if(status.equals(MainMovieType.RELEASE) && sort.equals(MainMovieType.AUDIENCE_SORT)) {
-			// 관객수순 조회
-			movieList = service.getMainMovieList(MainMovieType.STATUS_RELEASE, MainMovieType.AUDIENCE_SORT);
-		} 
-		return movieList;			
-	}
 	// =========================================================================================
 	// cgv에서 크롤링하여 현재상영작 페이지에 뿌리기
 //	@GetMapping("release")

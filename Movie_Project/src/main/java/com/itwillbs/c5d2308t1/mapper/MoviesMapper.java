@@ -34,10 +34,6 @@ public interface MoviesMapper {
 	
 	// 해당 회원의 좋아요 정보 불러오기
 	List<LikesVO> selectLikeList(String sId);
-	
-	// 메인 페이지에 출력할 영화목록 조회
-	List<MoviesVO> selectMainMovieList(@Param("status") int status, @Param("sortType") String sortType);
-	
 	// 자바 코드로 API 정보 가져오는 테스트 ============================
 	// List 객체 전달과 ON DUPLICATE KEY UPDATE 테스트
 	int upsertMovieCd(List<MoviesVO> movies);

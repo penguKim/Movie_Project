@@ -78,24 +78,7 @@
 		WHERE 
 			member_id = #{sId}
 	</select>
-	
-	<!-- 메인 페이지에 출력할 영화목록 조회 -->
-	<select id="selectMainMovieList" resultType="movies">
-		SELECT *
-		FROM movies
-		WHERE movie_status = #{status}
-		<choose>
-			<when test="sortType.equals('dateSort')">
-				ORDER BY movie_release_date DESC
-			</when>
-			<when test="sortType.equals('audienceSort')">
-				ORDER BY movie_audience DESC
-			</when>
-		</choose>
-		LIMIT 0, 5
-	</select>
-	
-	
+
 	 <!-- 관객수 업데이트를 위한 UPDATE 구문 -->
 	 <update id="updateMovieAudiAcc">
 	 		UPDATE movies

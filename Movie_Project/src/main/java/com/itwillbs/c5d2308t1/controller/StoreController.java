@@ -34,12 +34,6 @@ public class StoreController {
 		return "store/store_main";
 	}
 	
-	// 이벤트 페이지 이동
-	@GetMapping("event")
-	public String event() {
-		return "event/event_movie";
-	}
-	
 	// 스토어 상세페이지 매핑
 	@GetMapping("storeDetail")
 	public String storeDetail(HttpSession session, StoreVO store, Model model) {

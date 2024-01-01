@@ -257,13 +257,14 @@ body {font-family: Verdana, sans-serif; margin:0}
 .event {
 	border: 1px solid;
 	width: 200px;
-	height: 300px;
+	height: 250px;
     background-color: #fff;
 /*     padding: 20px; */
     border-radius: 5px; /* 모서리 라운드 처리 */
     text-align: center; /* 가운데 정렬 */
     overflow: hidden;
     display: table; /* 테이블형식 */
+    cursor: pointer;
 }
 
 .event a {
@@ -281,8 +282,10 @@ body {font-family: Verdana, sans-serif; margin:0}
 }
 
 .event-image img {
-	width: 220px;
-	height: 240px;
+/* 	width: 220px; */
+/* 	height: 240px; */
+	max-width: 100%;
+    margin-bottom:30px;
 }
 
 /* 이벤트 항목의 제목 */
@@ -295,7 +298,56 @@ body {font-family: Verdana, sans-serif; margin:0}
 
 /* 이벤트 항목의 날짜 */
 .event-date {
+	margin-top: 20px;
     color: #999;
     font-size: 14px;
+}
+
+/* ========== 이벤트 항목의 모달창 ========== */
+.modal {
+	display: none; /* 모달창 숨김 */
+	position: fixed; /* 화면 위치 고정 */
+	z-index: 9999; /* 내용 위에 표시 */
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 너비 */
+	height: 100%; /* 전체 높이 */
+	overflow: auto; /* 모달창에 스크롤 추가 */
+/* 		background-color: rgb(0,0,0); /* 백그라운드 색 */ 
+	background-color: rgba(0,0,0,0.4); /* 약간의 투명도 */
+}
+
+/* 모달 컨텐츠 */
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto; /* 페이지 중앙에 위치 */
+	padding: 20px;
+	border: 1px solid #888;
+	border-radius: 20px;
+	width: 50%; /* 대부분의 너비 */
+}
+
+/* 모달 컨텐츠의 이미지 */
+.modal-content img {
+	max-width: 70%; /* 원본 크기의 70% */
+}
+
+/* 닫기 버튼 */
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* 모달창 띄웠을 시 body 영역의 스크롤바 삭제 */
+.not_scroll{
+   	overflow: hidden;
 }
 
