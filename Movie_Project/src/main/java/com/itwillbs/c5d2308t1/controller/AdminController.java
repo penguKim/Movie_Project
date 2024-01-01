@@ -285,7 +285,13 @@ public class AdminController {
 	// 2) 상영일정 관리 페이지
 	// 관리자페이지 영화 상영 일정 관리 페이지로 이동(기본 조회 작업 포함)
 	@GetMapping("movieScheduleMod")
-	public String movieScheduleMod(Model model) {
+	public String movieScheduleMod(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
 		
 		List<HashMap<String, Object>> playRegistList = service.getPlayRegistList();
 		
@@ -327,7 +333,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		int insertCount = service.registPlay(play);
@@ -351,7 +358,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		int deleteCount = service.removePlay(play_id);
@@ -367,8 +375,28 @@ public class AdminController {
 	// 상영일정 수정하기
 //	@ResponseBody
 //	@PostMapping("modifyPlay")
-//	public String modifyPlay() {
-//		
+//	public String modifyPlay(@RequestParam Map<String, String> formData, Model model) {
+//		System.out.println("넘어온 전체 파라미터 확인: " + formData);
+//		System.out.println("play_id 출력 : " + formData.get("play_id"));
+//		System.out.println("theater_id 출력 : " + formData.get("theater_id"));
+//		System.out.println("room_id 출력 : " + formData.get("room_id"));
+//		System.out.println("movie_title 출력 : " + formData.get("movie_title"));
+//		System.out.println("play_date2 출력 : " + formData.get("play_date2"));
+//		System.out.println("play_start_time2 출력 : " + formData.get("play_start_time2"));
+//		System.out.println("play_end_time2 출력 : " + formData.get("play_end_time2"));
+//
+//        
+//        int updateCount = service.modifySchedule(formData);
+//        if(updateCount == 0) {
+//        	model.addAttribute("msg", "상영 일정 수정에 실패했습니다!");
+//        	return "fail_back";
+//        	System.out.println("상영일정 수정 실패");
+//        	return "";
+//        } else {
+//        	model.addAttribute("formData", formData);
+//        	return "formData";
+//        }
+//
 //	}
 	
 	

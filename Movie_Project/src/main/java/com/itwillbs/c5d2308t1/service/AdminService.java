@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.c5d2308t1.mapper.AdminMapper;
 import com.itwillbs.c5d2308t1.vo.CsVO;
@@ -223,6 +224,21 @@ public class AdminService {
 	public int removePlay(int play_id) {
 		return mapper.deletePlay(play_id);
 	}
+
+	// 상영 일정 수정 요청
+//	@Transactional
+//	public int modifySchedule(Map<String, String> formData) {
+//		String playId = formData.get("play_id");
+//        String theaterId = formData.get("theater_id");
+//        String roomId = formData.get("room_id");
+//        String movieId = formData.get("movie_title");
+//        String playDate = formData.get("play_date2");
+//        String playStartTime = formData.get("play_start_time2");
+//        String playEndTime = formData.get("play_end_time2");
+//        mapper.deleteRef(movieId);
+//        return mapper.updateSchedule(playId, theaterId, roomId, movieId, playDate, playStartTime, playEndTime);
+//
+//	}
 
 	//리뷰 조회
 	public List<ReviewsVO> getReviewLiset(ReviewsVO review) {
