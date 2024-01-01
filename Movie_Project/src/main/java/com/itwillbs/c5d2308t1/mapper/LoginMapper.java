@@ -62,5 +62,8 @@ public interface LoginMapper {
 	//마이페이지 리뷰 조회
 	List<ReviewsVO> selectMyreview(ReviewsVO review);
 
+	//마이페이지 리뷰 삭제
+	int deleteMyreview(ReviewsVO review);
+
 
 }

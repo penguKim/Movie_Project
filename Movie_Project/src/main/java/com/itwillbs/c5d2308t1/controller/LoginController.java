@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
 import com.itwillbs.c5d2308t1.vo.*;
+import com.mysql.cj.Session;
 @Controller
 public class LoginController {
 
@@ -120,6 +121,27 @@ public class LoginController {
 		List<ReviewsVO> myreview = service.getReviewList(review);
 		model.addAttribute("myreview", myreview);
 		return "login/Mypage_ReviewList";
+	}
+	
+	@GetMapping("reviewDelete") //리뷰 삭제
+	public String mypage_reviewDelete(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId"); //세션 id를 sId 저장
+		if(sId == null) { // sId가 null일때 로그인창으로 보내기
+			model.addAttribute("msg","로그인이 필요합니다");
+			model.addAttribute("targetURL","memberLogin");
+			return "forward";
+		}
+		int deleteCount = service.reviewBoard(review);
+		
+		if(deleteCount > 0) {
+			//삭제 성공
+			return "redirect:/Mypage_ReviewList";
+		}else {
+			//삭제 실패
+			model.addAttribute("msg", "글 삭제 실패!");
+			return "fail_back";
+		}
+		
 	}
 	
 	

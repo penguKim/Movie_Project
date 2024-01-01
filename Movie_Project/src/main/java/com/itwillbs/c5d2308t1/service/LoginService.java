@@ -93,5 +93,10 @@ public class LoginService {
 		return mapper.selectMyreview(review);
 	}
 
+	//마이페이지 리뷰삭제
+	public int reviewBoard(ReviewsVO review) {
+		return mapper.deleteMyreview(review);
+	}
+
 	
 }

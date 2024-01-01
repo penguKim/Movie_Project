@@ -58,6 +58,17 @@ $(document).ready(function(){
 // } //if
 	}); //click 이벤트 끝
 });
+
+$(function() {
+	$("#reviewDelete").on("click", function() {
+		if(confirm("글을 삭제하시겠습니까?")) {
+			return true;
+		} else {
+			return false;
+		}
+	}); //on click 끝
+	
+}); //function 끝
 </script>
 </head>
 <body>
@@ -79,7 +90,7 @@ $(document).ready(function(){
 				
 			<!-- 바디부분 시작 -->
 			
-			<form action="mypage_OneOnOne" method="get">
+			<form action="reviewDelete" method="get">
 				<div id="my_list">
 					<h2>나의 리뷰</h2>
 					<table id="my_table1">
@@ -88,7 +99,7 @@ $(document).ready(function(){
 							<th>제목</th>
 							<th>내용</th>
 							<th>등록일</th>
-							<th>상세정보</th>
+							<th>게시글 삭제</th>
 						</tr>
 						
 						<c:forEach var="review" items="${myreview}" varStatus="status">
@@ -97,7 +108,7 @@ $(document).ready(function(){
 							<td>${review.movie_title}</td>
 							<td>${review.review_content}</td>
 							<td>${review.review_date}</td>
-							<td><input type="button" value="상세정보"></td>
+							<td><input type="submit" id="reviewDelete" value="삭제"></td>
 						</tr>
 						</c:forEach>
 					</table><br>
