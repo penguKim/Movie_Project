@@ -30,14 +30,14 @@ $(document).ready(function() {
 		error: function() {
 			${"#review_no"}.html("AJAX 요청 실패");
 		}
-	});//ajax끝
+	});//ajax 끝
 	
 });//ready 끝
 	$(function() { //검색기능
 		$('#searchButton').on('click', function() {
 		var searchKeyword = $('#searchInput').val(); // 입력된 단어 가져오기
 			$('#review_SearchTable tr').each(function(index, element) {
-			var rowText = $(element).text().toLowerCase(); // 행의 텍스트 가져오기 (소문자로 변환)
+			var rowText = $(element).text().toLowerCase(); // 행의 텍스트 가져오기
 				if (rowText.includes(searchKeyword.toLowerCase())) {
 					$(element).show(); // 일치하는 단어가 포함된 행 보이기
 					alert("일치하는 단어");
