@@ -73,5 +73,11 @@ public interface LoginMapper {
 
 	List<ReviewsVO> selectMyreview2(ReviewsVO review);
 
+	// 회원 아이디 찾기
+	MemberVO selectFindId(MemberVO member);
+
+	// 회원 비밀번호 찾기
+	MemberVO selectFindPasswd(MemberVO member);
+
 
 }

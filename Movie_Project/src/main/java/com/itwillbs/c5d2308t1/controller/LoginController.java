@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +48,9 @@ public class LoginController {
 	}
 	
 	@PostMapping("MemberLoginPro") // 로그인 클릭 시 메인페이지로 이동
-	public String memberLoginPro(MemberVO member, HttpSession session, Model model) {
+	public String memberLoginPro(MemberVO member,String rememberId, HttpSession session,HttpServletResponse response,  Model model) {
 	    MemberVO dbMember = service.getMember(member);
-	    
+	    Cookie cookie = new Cookie("cookieId", dbMember.getMember_id()); // 쿠키에 아이디 저장
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    
 //	    if(dbMember == null) {//로그인 실패시
@@ -57,11 +60,17 @@ public class LoginController {
 	    	return "fail_back";
 	    	
 	    } else { // 로그인 성공시
+	    	if(rememberId == null) { // 아이디 저장을 체크했을 경우
+	    		cookie.setMaxAge(0); // 쿠키의 유효기간을 0으로 체크
+	    	} else {
+	    		cookie.setMaxAge(60 * 60 * 24); // 쿠키의 유효기간을 1일로 설정
+	    	}
+	    	response.addCookie(cookie);
 	    	model.addAttribute("dbMember", dbMember);
 	    	session.setAttribute("sId", member.getMember_id());
 	    	System.out.println("로그인 성공: " + dbMember);
 	    	//주소값 뒤에 파라미터값을 판별해서 각 페이지로 이동한다.
-	    	return "main";
+	    	return "redirect:/";
 	    }
 	}
 	
@@ -405,4 +414,47 @@ public class LoginController {
 			
 		return "login/Mypage_LostBoardDetail";
 	}
+		
+	// 아이디 찾기
+	@GetMapping("idFind")
+	public String idFind() {
+		return "login/id_find";
+	}
+		
+	// 아이디 찾기 비즈니스 로직 수행
+	@PostMapping("idFindPro")
+	public String idFindPro(MemberVO member, Model model) {
+		// 이름과 이메일이 일치하는 회원 검색
+		member = service.findMember(member);
+		
+		if(member == null) { // 일치하는 회원이 없을 경우
+			model.addAttribute("msg", "일치하는 회원이 없습니다!");
+			return "fail_back";
+		} else {
+			model.addAttribute("member", member);
+			return "login/find_success";
+		}
+	}
+	
+	// 비밀번호 찾기
+	@GetMapping("pwFind")
+	public String passwdFind() {
+		return "login/pw_find";
+	}
+	
+	// 비밀번호 찾기 비즈니스 로직 수행 - 처리중
+	@PostMapping("pwFindPro")
+	public String passwdFindPro(MemberVO member, Model model) {
+		// 이름과 이메일이 일치하는 회원 검색
+		member = service.findMember(member);
+		
+		if(member == null) { // 일치하는 회원이 없을 경우
+			model.addAttribute("msg", "일치하는 회원이 없습니다!");
+			return "fail_back";
+		} else {
+			model.addAttribute("member", member);
+			return "login/find_success";
+		}
+	}
+		
 }

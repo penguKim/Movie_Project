@@ -9,14 +9,8 @@
 <meta charset="UTF-8">
 <title>분실물 문의 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<script type="text/javascript">
-	$(function() {
-		
-	});
-</script>
 </head>
 <body>
 	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1 로 저장) --%>
@@ -25,18 +19,15 @@
 		<c:set var="pageNum" value="${param.pageNum }" />
 	</c:if>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-	
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">분실물 문의 관리</h1>
 			<hr>
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
 			<div id="admin_main">
 				<div id="admin_search">
 					<form>
@@ -104,7 +95,6 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						
 						<%-- '>>' 버튼 클릭 시 현체 페이지보다 한 페이지 다음 페이지 요청 --%>
 						<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
 						<c:choose>
@@ -118,30 +108,7 @@
 					</div>
 				</div>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>
-<!-- 			<section class="pagination"> -->
-<!-- 			<input type="button" value="이전"  -->
-<%-- 				onclick="location.href='adminLostNFound?pageNum=${pageNum - 1}'" --%>
-<%-- 				<c:if test="${pageNum <= 1 }">disabled</c:if> --%>
-<!-- 			> -->
-<%-- 			<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }"> --%>
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${pageNum eq i }"> --%>
-<%-- 						<b>${i }</b> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:otherwise> --%>
-<%-- 						<a href="adminLostNFound?pageNum=${i }">${i }</a> --%>
-<%-- 					</c:otherwise> --%>
-<%-- 				</c:choose> --%>
-<%-- 			</c:forEach> --%>
-<!-- 			<input type="button" value="다음"  -->
-<%-- 				onclick="location.href='adminLostNFound?pageNum=${pageNum + 1}'" --%>
-<%-- 				<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if> --%>
-<!-- 			> -->
-<!-- 		</section> -->
 </body>
 </html>

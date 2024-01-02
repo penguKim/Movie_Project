@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디찾기</title>
+<title>찾은 회원 정보</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet" type="text/css">
@@ -29,8 +29,8 @@
 		    }
 		});	
 		
-		$("#member_email").on("blur", function() {
-			let member_email = $("#member_email").val();
+		$("#email").on("blur", function() {
+			let member_email = $("#email").val();
 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			
 			if(!regEmail.exec(member_email)){
@@ -67,7 +67,7 @@
 		
 		// 인증번호 발송 버튼을 클릭했을 때
 		$("#sendMail").click(function() {		
-			let member_email = $("#member_email").val();
+			let member_email = $("#email").val();
 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			
 			if(!regEmail.exec(member_email)){
@@ -101,7 +101,7 @@
 		$("#checkCode").on("click", function() {
 			if(!isSended) {
 				$("#checkResult").text("인증번호를 발송해주세요.").css("color", "red");
-				$("#member_email").focus();
+				$("#email").focus();
 				isChecked = false;
 			} else if($("#cNum").val() == '') {
 // 				alert("인증번호를 입력해주세요");
@@ -126,11 +126,11 @@
 				return false;
 			} else if(!iscorrectEmail) {
 				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
-				$("#member_email").focus();
+				$("#email").focus();
 				return false; // submit 동작 취소
 			} else if(!isSended) {
 				$("#checkResult").text("인증번호를 발송해주세요.").css("color", "red");
-				$("#member_email").focus();
+				$("#email").focus();
 				return false; // submit 동작 취소
 			} else if($("#cNum").val() == '') {
 				$("#checkResult").text("인증번호를 입력해주세요.").css("color", "red");
@@ -154,43 +154,29 @@
 		</header>
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		<section id="content">
-		<h1 id="h01">아이디찾기</h1>
+		<h1 id="h01">찾은 회원 정보</h1>
 		<hr>
-		<nav class="login_find">
-			<ul>
-				<li>
-					<a href="idFind">
-					<input type="button" value="아이디찾기">
-					</a>
-				</li>
-				<li>
-					<a href="pwFind">
-					<input type="button" value="비밀번호찾기">
-					</a>
-				</li>
-			</ul>
-		</nav>
-			<form action="idFindPro" method="post">
-				<div class="login_center">
-					<h4>회원가입시 등록한 정보를 입력하세요</h4>
-					<div id="findArea">
-						<input type="text" placeholder="이름을 입력하세요" id="name" name="member_name">
-						<div id="checkNameResult" class="resultArea"></div>
-	<!-- 							<input type="text" placeholder="생년월일 8자리를 입력하세요" id="member_birth" name="member_birth" maxlength="10"> -->
-	<!-- 							<div id="checkBirthResult" class="resultArea"></div> -->
-						<input type="text" placeholder="이메일을 입력하세요" name="member_email" id="member_email" class="Certification">
-						<input type="button" id="sendMail" value="인증번호발송">
-						<div id="checkEmailResult" class="resultArea"></div>
-						<input type="text" placeholder="인증번호를 입력하세요" id="cNum" name="cNum" class="Certification">
-						<input type="hidden" id="authCode">
-						<input type="button" id="checkCode" value="인증번호 확인">
-						<div id="checkResult"></div>
-						<input type="button" value="돌아가기" onclick='history.back();'><%--로그인 페이지로 돌아가기 --%>
-						<input type="submit" value="아이디찾기" id="findId">
-					</div>
-				</div>
-			</form>
+			<div class="login_center">
+<!-- 					<h4>회원가입시 등록한 정보를 입력하세요</h4> -->
+<!-- 					<input type="text" placeholder="이름을 입력하세요" id="name" name="member_name"> -->
+<!-- 					<div id="checkNameResult" class="resultArea"></div> -->
+<!-- 					<input type="text" placeholder="이메일을 입력하세요" name="member_email" id="email"> -->
+<!-- 					<div id="checkEmailResult" class="resultArea"></div> -->
+<!-- 					<input type="button" id="sendMail" value="인증번호발송"> -->
+<!-- 					<div id="sendResult"></div> -->
+<!-- 					<input type="text" placeholder="인증번호를 입력하세요" id="cNum" name="cNum"> -->
+<!-- 					<input type="hidden" id="authCode"> -->
+<!-- 					<input type="button" id="checkCode" value="인증번호 확인"> -->
+<!-- 					<div id="checkResult"></div> -->
+<%-- 					<input type="button" value="돌아가기" onclick='history.back();'>로그인 페이지로 돌아가기 --%>
+<!-- 					<input type="submit" value="아이디찾기" id="findId"> -->
+				<h3>회원님의 ID는</h3>
+				<div><h3>${member.member_id } 입니다.</h3></div>
+				<a href="memberLogin?member_id=${member.member_id }"><input type="button" value="로그인하기"></a>
+				<a href="./"><input type="button" value="메인으로 이동"></a>
+			</div>
 		</section>
+		
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>

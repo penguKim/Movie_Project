@@ -158,6 +158,13 @@
 		member_id = #{sId}
 	</update>
 	
+	<!-- 회원 아이디 찾기 -->
+	<select id="selectFindId" resultType="member">
+		SELECT *
+		FROM members
+		WHERE member_name = #{member_name}
+		AND member_email = #{member_email}
+	</select>
 </mapper>
 
 

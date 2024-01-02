@@ -138,7 +138,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 					<div class="detail_reserve_clear">
 					<!-- 					<div class="reserve_area"> -->
 						<button id="likeBtn" class="detail_likeBtn likeBtn" data-id="${movie_id }" data-title="${movie_title }" onclick="likeBtnClick(this)"><i class="fa fa-heart-o"></i>찜하기</button>
-						<a href="movie_select?movie_id=${movie_id}">
+						<a href="movie_select?movie_title=${movie_title}">
 							<input type="button" value="예매하기"></a>
 					</div>
 				</div>
