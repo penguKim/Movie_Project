@@ -14,18 +14,54 @@
 	#resCancleBtn{
 		background-color: gray;
 	}
+	.sidenav{
+		display: inline-block;
+		position: relative;
+	}
+	#buy_list{
+		display: inline-block;
+		position: relative;
+	}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#resCancleBtn").click(function(){
-		if(confirm("선택하신 예매내역을 취소하시겠습니까?")){
-			return true;
-		}else{
-			return false;
-		}
+// 	  모든 구매 취소 버튼에 대해 클릭 이벤트 리스너 등록
+	  $("input[id^='stupidButton']").click(function(){
+	    if(confirm("선택하신 상품을 취소하시겠습니까?")){
+	      return true;
+	    }else{
+	      return false;
+	    }
+	  });
 	});
-});
+	
+	// ajax 처리시 사용
+	
+// 	function storeX(payment_id) {
+// 		$.ajax({
+// 			url:"Mypage_Product_boardListX",
+// 			data:{
+// 				payment_id : payment_id
+// 			},
+// 			success:function(data) {
+// 					$("#stupidButton").html("<input type='button' id='resCancleBtn' value='구매취소'>");
+// 				}
+// 		});
+// 	}
+// function storeX(payment_id) {
+//   $.ajax({
+//     url: "Mypage_Product_boardListX",
+//     data: {
+//       payment_id: payment_id
+//     },
+//     success: function(data) {
+    	
+//     }
+//   });
+// }
+
+
 </script>
 </head>
 <body>
@@ -46,8 +82,7 @@ $(function(){
 			
 				
 			<!-- 바디부분 시작 -->
-			
-			<form action="Mypage_Product_boardList" method="get" name="checkform">
+<!-- 			<form action="" method="GET" id="product_X" name="checkform"> -->
 				<div id="buy_list">
 					<h2>상품 구매내역</h2>
 					<table id="my_table1">
@@ -58,19 +93,27 @@ $(function(){
 							<th>상태</th>
 							<th>상품 구매 정보</th>
 						</tr>
-					<c:forEach varStatus="status" var="myStoreList" items="${myStoreList }" >
+					<c:forEach varStatus="status" var="myStore" items="${myStoreList }" >
 						<tr>
-							<td>${status.index + 1}</td>
-							<td>${myStoreList.product_name }</td>
-							<td>${fn:replace(myStoreList.payment_datetime,'T',' ')}</td>
+							<td>${myStore.payment_id }</td>
+							<td>${myStore.product_name }</td>
+							<td>${fn:replace(myStore.payment_datetime,'T',' ')}</td>
 							<td>
-								<c:if test="${myStoreList.payment_status eq 1}">결제완료</c:if>
-								<c:if test="${myStoreList.payment_status eq 0}">취소완료</c:if>
+								<c:if test="${myStore.payment_status eq 1}">결제완료</c:if>
+								<c:if test="${myStore.payment_status eq 0}">취소완료</c:if>
 							</td>
 							<td>
 							<c:choose>
-									<c:when test="${myStoreList.payment_status eq 0}"><input type="submit" id="stupidButton" value="구매취소"></c:when>
-									<c:otherwise><input type="button" id="resCancleBtn" value="구매취소"></c:otherwise>
+								<c:when test="${myStore.payment_status eq 1}">
+								<form action="Mypage_Product_boardListX" method="POST" id="product_X" name="checkform">
+<%-- 									<input type="button" id="stupidButton" onclick="storeX(${myStore.payment_id})" value="구매취소"> --%>
+									<input type="submit" id="stupidButton" value="구매취소">
+									<input type="hidden" name="payment_id" value="${myStore.payment_id }">
+								</form>	
+								</c:when>
+								<c:otherwise>
+									<input type="button" id="resCancleBtn" value="취소완료">
+								</c:otherwise>
 								</c:choose>
 <!-- 							<td><input type="button" value="구매취소"></td> -->
 							</td>
@@ -87,8 +130,7 @@ $(function(){
 						<a href="#">&raquo;</a>
 					</div>
 				</div>
-							
-			</form>
+<!-- 			</form> -->
 		</section>
 	
 		<footer>

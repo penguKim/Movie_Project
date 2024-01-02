@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.itwillbs.c5d2308t1.service.AdminService;
+import com.itwillbs.c5d2308t1.service.ReserveService;
 import com.itwillbs.c5d2308t1.service.StoreService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
@@ -53,6 +54,9 @@ public class AdminController {
 	
 	@Autowired
 	StoreService storeService;
+	
+	@Autowired
+	ReserveService reserve;
 	
 	// =============== 2023.12.19 임은령 주석 ============================
 	// 1. 자바스크립트 처리가 동일하여 서블릿 매핑을 모듈화 하였으나 사용하는 것이 적합하지않다고 판명되어 
@@ -307,6 +311,7 @@ public class AdminController {
 	@GetMapping("getRoom")
 	public List<HashMap<String, Object>> roomList(@RequestParam String theater_id) {
 		List<HashMap<String, Object>> roomList = service.getRoomList(theater_id);
+		System.out.println(roomList);
 		return roomList;
 	}
 	
@@ -398,35 +403,49 @@ public class AdminController {
         int updateCount = service.modifySchedule(play);
         
         if(updateCount == 0) {
+        	model.addAttribute("msg", "상영 일정 수정에 실패했습니다!");
         	return "fail_back";
         } else {
         	return "formData";
         }
 	}
-	
-	
-	
-	
 	// ===========================================================================================
-	// ******************** 영화 예매 관리 페이지 *************
-	// 관리자페이지 영화 예매 관리 페이지로 이동
-	@GetMapping("adminMovieBooking")
-	public String adminMovieBooking() {
-		return "admin/admin_movie_booking";
-	}
+		// ******************** 영화 예매 관리 페이지 *************
+		// 관리자페이지 영화 예매 관리 페이지로 이동
+		@GetMapping("adminMovieBooking")
+		public String adminMovieBooking(@RequestParam(defaultValue = "") String searchKeyword, 
+			     						@RequestParam(defaultValue = "1") int pageNum,
+			     						HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 5);
+		// 전체 게시글 갯수 조회
+		int listCount = service.getReserveListCount(searchKeyword);
+		System.out.println(listCount);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		// 한 페이지에 불러올 영화 목록 조회
+		List<HashMap<String, String>> resList = service.getReserveList(searchKeyword, page);
+//		List<HashMap<String, String>> resList = reserve.getReserveList(sId);
+		
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("resList", resList);
+			return "admin/admin_movie_booking";
+		}
 
-	// 관리자페이지 영화 예매 정보 상세 조회 및 수정/삭제 페이지로 이동
-	@GetMapping("adminMovieBookingMod")
-	public String adminMovieBookingMod() {
-		return "admin/admin_movie_booking_modify";
-	}
-	
-	@PostMapping("movieBooking") // 영화 예매 팝업(수정/삭제) : admin_movie_booking_modify.jsp
-	public String movieBooking() {
-		return "";
-	}
-
-	
+		// 관리자페이지 영화 예매 정보 상세 조회 및 수정/삭제 페이지로 이동
+		@GetMapping("adminMovieBookingMod")
+		public String adminMovieBookingMod(@RequestParam String payment_id, Map<String, String> map, Model model) {
+			map = reserve.getresInfoDetail(payment_id);
+			model.addAttribute("resList", map);
+			return "admin/admin_movie_booking_modify";
+		}
+		
+		@PostMapping("movieBooking") // 영화 예매 팝업(수정/삭제) : admin_movie_booking_modify.jsp
+		public String movieBooking() {
+			return "";
+		}
 	// ===========================================================================================
 	// ******************** 스토어 결제 관리 페이지 *************
 	// 관리자페이지 스토어 상품 관리 페이지로 이동

@@ -10,10 +10,11 @@ import lombok.Data;
 @Data
 public class RefundVO {
 	
-	private String payment_id; // // 결제번호
+	private int payment_id; // // 결제번호
 	private String product_id; // 상품번호(P005)
 	private String product_name; // 상품이름
 	private String member_id; // 회원아이디
+	private String movie_id; // 영화코드
 	private String member_name; // 회원이름
 	private int cart_total_price; // 장바구니 총 가격
 	private int payment_total_price; // 결제 총 가격

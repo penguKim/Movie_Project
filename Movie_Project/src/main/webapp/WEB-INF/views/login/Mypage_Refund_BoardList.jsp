@@ -65,7 +65,7 @@ function openPopup(index){
 						<c:forEach varStatus="status" var="reserveList" items="${reserveList }" begin="0" end="${fn:length(reserveList)}">
 							<tr>					
 								<td>${reserveList.payment_id}</td>
-								<td>${reserveList.movie_title}</td>
+								<td><a href="detail?movie_id=${reserveList.movie_id }">${reserveList.movie_title}</a></td>
 								<td>${fn:replace(reserveList.payment_datetime, 'T', ' ')}</td>
 <%-- 								<td>${reserveList.payment_total_price}</td> --%>
 								<td><fmt:formatNumber value="${reserveList.payment_total_price}" pattern="###,###"/></td>

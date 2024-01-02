@@ -268,35 +268,90 @@
 				}
 			});
 
+	        // 상영관 선택
 	        var roomName = $("<select id='modifyRoom'></select>");
-	        $(row).find("#room_name_mod").empty().append(roomName);
+	        $(row).find("#room_name_mod").html(roomName);
 	        roomName.append("<option value='" + $("#room_id").val() + "'>" + $(row).find('#room_name_mod').attr("data-room_name") + "</option>");
-	        
-	    	// 상영중인 영화 선택
+			// 선행되는 값을 선택했을 때 나타나는 값 ajax
+	        // 지점 선택에 따른 상영관 출력
+// 		    var theater_id = $("#modifyTheater").val();
+// 		    console.log("theater_id = " + theater_id); // blur 이벤트 발생 이전엔 null
+			$("#modifyTheater").blur(function() {
+			    var theater_id = $("#modifyTheater").val();
+			    console.log("theater_id = " + theater_id);
+			    
+				$.ajax({
+					type: "GET",
+					url: "getRoom",
+					data: {
+						theater_id : theater_id
+					},
+					success: function(result) {
+						roomName.html("<option value='0'>상영관 선택</option>");
+						for(let room of result) {
+							
+							if(room.room_name === $(row).find('#room_name_mod').attr("data-room_name")) { // 지점 선택 변경이 없을 경우에 해당되는 판별식 자리
+								roomName.append("<option value='" + room.room_id + "' selected>" + room.room_name + "</option>");
+								
+							} else {
+								roomName.append("<option value='" + room.room_id + "'>" + room.room_name + "</option>");
+								
+							}
+// 							roomName.append("<option value='" + room.room_id + "' >" + room.room_name + "</option>");
+						}
+					},
+					error: function(xhr, textStatus, errorThrown) {
+						alert("상영관 로딩 오류입니다.");
+					}
+					
+				});
+			});
+			
+			// 상영관 선택 후 상영중인 영화 선택
 	        var movieTitle = $("<select id='modifyMovie'></select>");
 	        $(row).find("#movie_title_mod").html(movieTitle);
-			$.ajax({
-				type: "GET",
-				url: "nowPlaying",
-				success: function(result) {
-					movieTitle.append("<option value='0'>영화 선택</option>");
-					for(let movie of result) {
-						if (movie.movie_title === $(row).find('#movie_title_mod').attr("data-movie_title")) {
-			                movieTitle.append("<option value='" + movie.movie_id + "' selected>" + movie.movie_title + "</option>");
-			            } else {
-			                movieTitle.append("<option value='" + movie.movie_id + "'>" + movie.movie_title + "</option>");
-			            }
+	        movieTitle.append("<option>" + $(row).find('#movie_title_mod').attr("data-movie_title") + "</option>");
+
+	        
+			$("#modifyRoom").on("blur", function() {
+				var room_id = $("#modifyRoom").val();
+			    console.log("room_id = " + room_id);
+		    	// 상영중인 영화 선택
+				$.ajax({
+					type: "GET",
+					url: "nowPlaying",
+					success: function(result) {
+						movieTitle.html("<option value='0'>영화 선택</option>");
+						for(let movie of result) {
+							if (movie.movie_title === $(row).find('#movie_title_mod').attr("data-movie_title")) {
+				                movieTitle.append("<option value='" + movie.movie_id + "' selected>" + movie.movie_title + "</option>");
+				            } else {
+				                movieTitle.append("<option value='" + movie.movie_id + "'>" + movie.movie_title + "</option>");
+				            }
+						}
+					},
+					error: function(xhr, textStatus, errorThrown) {
+						alert("상영중인 영화 로딩 오류입니다.");
 					}
-				},
-				error: function(xhr, textStatus, errorThrown) {
-					alert("상영중인 영화 로딩 오류입니다.");
-				}
+				});
 			});
+
+
+
+
+	        
 	        
 			// 상영 날짜 선택
 			var playDate = $("<input type='date' id='modifyDate'>");
 			playDate.val($(row).find("#play_date_mod").text());
 			$(row).find("#play_date_mod").html(playDate);
+			
+			$("#modifyMovie").on("blur", function() {
+				var pDate = $("#modifyDate").val();
+				console.log("playdate = " + pDate);
+				
+					
+			});
 	        
 	        // 상영 시작 시간 선택
 	        var startTime = $("<select id='modifyStart'></select>");
@@ -334,27 +389,36 @@
 	        
 	        // 선행되는 값을 선택했을 때 나타나는 값 ajax
 	        // 지점 선택에 따른 상영관 출력
-			$("#modifyTheater").blur(function() {
-			    var theater_id = $("#modifyTheater").val();
-			    console.log(theater_id);
-				$.ajax({
-					type: "GET",
-					url: "getRoom",
-					data: {
-						theater_id : theater_id
-					},
-					success: function(result) {
-						roomName.append("<option value='0'>상영관 선택</option>");
-						for(let room of result) {
-							roomName.append("<option value='" + room.room_id + "'>" + room.room_name + "</option>");
-						}
-					},
-					error: function(xhr, textStatus, errorThrown) {
-						alert("상영관 로딩 오류입니다.");
-					}
+// 			$("#modifyTheater").blur(function() {
+// 			    var theater_id = $("#modifyTheater").val();
+
+// 			    console.log(theater_id);
+// 				$.ajax({
+// 					type: "GET",
+// 					url: "getRoom",
+// 					data: {
+// 						theater_id : theater_id
+// 					},
+// 					success: function(result) {
+// 						roomName.html("<option value='0'>상영관 선택</option>");
+// 						for(let room of result) {
+							// 
+// 							if() { // 지점 선택 변경이 없을 경우에 해당되는 판별식 자리
+// 								roomName.append("<option value='" + room.room_id + "' selected>" + room.room_name + "</option>");
+								
+// 							} else {
+// 								roomName.append("<option value='" + room.room_id + "'>" + room.room_name + "</option>");
+								
+// 							}
+// 							roomName.append("<option value='" + room.room_id + "' >" + room.room_name + "</option>");
+// 						}
+// 					},
+// 					error: function(xhr, textStatus, errorThrown) {
+// 						alert("상영관 로딩 오류입니다.");
+// 					}
 					
-				});
-			});
+// 				});
+// 			});
 	        
 	        // 영화 선택에 따른 날짜 선택 제한
 			$("#modifyMovie").blur(function() {
@@ -426,7 +490,7 @@
 				
 				// 다시 수정 버튼을 눌렀을 때 작동하는 ajax
 				$(".btnModify").on("click", function() {
-
+					
 					console.log(play_id + ", " + theater + ", " + room + ", " + movie + ", " + date + ", " + start + ", " + end)
 		            $.ajax({
 		                type: "POST",
@@ -440,10 +504,11 @@
 		                    movie_id: movie
 		                },
 		                success: function(result) {
-// 		                    alert(result);
+		                    alert("수정 완료!");
+		                    location.href="movieScheduleMod";
 		                },
 		                error: function(xhr, textStatus, errorThrown) {
-		                    alert("값 전달 오류입니다.");
+		                    alert("수정 실패! 항목을 다시 선택해보세요!");
 		                }
 		            });
 	            });
@@ -813,13 +878,13 @@
 					<c:forEach var="play" items="${playRegistList}">
 						<tr>
 							<td id="theater_name_mod" data-theater-name="${play.theater_name}">${play.theater_name}</td>
-							<input type="hidden" value="${play.room_id}" id="room_id">
 							<td id="room_name_mod" data-room_name="${play.room_name}">${play.room_name}</td>
 							<td id="movie_title_mod" data-movie_title="${play.movie_title}">${play.movie_title}</td>
 							<td id="play_date_mod">${play.play_date}</td>
 							<td id="play_start_time_mod">${fn:substring(play.play_start_time, 0, 5)}</td>
 							<td id="play_end_time_mod">${fn:substring(play.play_end_time, 0, 5)}</td>
 							<td>
+								<input type="hidden" value="${play.room_id}" id="room_id">
 								<input type="button" value="수정" class="btnModify">
 							</td>
 							<td>

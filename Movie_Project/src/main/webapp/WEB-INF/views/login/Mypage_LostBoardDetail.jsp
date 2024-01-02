@@ -7,6 +7,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style type="text/css">
+#admin_sub {
+	display: inline-block;
+	position: relative;
+	left: 6em;
+}
+</style>
 <title>분실물 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
@@ -35,7 +42,7 @@
 			<h1 id="h01">분실물 문의 상세 조회페이지</h1>
 			<hr>		
 
-			<div id="admin_sub">
+			<div id="admin_sub" align="center">
 				<form action="" method="post">
 					<table border="1">
 						<tr>

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
@@ -275,10 +276,39 @@ public class LoginController {
 		// 모델 객체에 select한 결과값 저장
 		model.addAttribute("myStoreList", myStoreList);
 		
+//		int myStoreX = service.getMyStoreUpdate(refund);
+		
 		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ : " + myStoreList);
 		
 		
 		return "login/Mypage_Product_boardList";
+	}
+	
+	// 마이페이지 상품 구매 취소
+	@PostMapping("Mypage_Product_boardListX")
+	public String mypage_Product_boardListX(HttpSession session, RefundVO refund, Model model) { // 상품내역 게시판
+		
+		// 세션 아이디 저장
+		String sId = (String)session.getAttribute("sId");
+		// 세션 아이디 refund.member_id에 저장
+		
+		
+		int myStoreX = service.getMyStoreUpdate(refund);
+		
+		
+		
+		if(myStoreX > 0) {
+//			model.addAttribute("msg", "결제가 취소되었습니다");
+			model.addAttribute("targetURL", "Mypage_Product_boardList");
+			return "forward3";
+//			return "login/Mypage_Product_boardList";
+//			return "";
+		}else {
+			model.addAttribute("msg", "상품삭제실패!");
+			return "fail_back";
+//			return "false";
+			
+		}
 	}
 	
 	//마이페이지 예매 취소 상세내역 팝업창

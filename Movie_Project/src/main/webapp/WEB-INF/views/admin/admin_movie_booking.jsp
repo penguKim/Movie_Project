@@ -1,6 +1,9 @@
 <%-- admin_movie_booking.jsp --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +13,17 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-	function popUp() {
-		window.open("adminMovieBookingMod", "_blank", "width=579, height=500, left=550, top=100"); 
+	function popUp(payment_id) {
+		window.open("adminMovieBookingMod?payment_id="+payment_id, "_blank", "width=579, height=500, left=550, top=100"); 
 		return false;
 	}
 </script>
 </head>
 <body>
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
 	<div id="wrapper">
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
@@ -30,100 +37,75 @@
 			<div id="admin_nav">
 				<jsp:include page="admin_menubar.jsp"></jsp:include>
 			</div>
-			
 			<div id="admin_sub">
 				<form action="">
 					<table border="1">
 						<tr>
+							<form action="adminMovieBooking">
+							<td colspan="8"><input type="text" name="searchKeyword" placeholder="회원ID를 입력하세요">
+											<input type="submit" value="검색"></td>
+							</form>
+						</tr>
+						<tr>
 							<th>결제번호</th>
 							<th>영화명</th>
 							<th>회원ID</th>
-							<th>영화관명</th>
+							<th>극장명</th>
+							<th>상영관명</th>
 							<th>날짜</th>
 							<th>좌석</th>
-							<th>회원정보</th>
 							<th>수정/삭제</th>
 						</tr>
-						<tr>
-							<td>13251245</td>
-							<td>A영화</td>
-							<td>coming</td>
-							<td>지점명A</td>
-							<td>2023-01-01</td>
-							<td>A3, B4</td>
-							<td>다비치</td>
-							<td><input type="button" value="MORE" onclick = "popUp()"></td>
-						</tr>
-						<tr>
-							<td>13251245</td>
-							<td>A영화</td>
-							<td>coming</td>
-							<td>지점명B</td>
-							<td>2023</td>
-							<td>01:01</td>
-							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" onclick = "popUp()"></td>
-						</tr>
-						<tr>
-							<td>13251245</td>
-							<td>A영화</td>
-							<td>coming</td>
-							<td>지점명C</td>
-							<td>2023</td>
-							<td>01:01</td>
-							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" onclick = "popUp()"></td>
-						</tr>
-						<tr>
-							<td>13251245</td>
-							<td>A영화</td>
-							<td>coming</td>
-							<td>지점명D</td>
-							<td>2023</td>
-							<td>01:01</td>
-							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" onclick = "popUp()"></td>
-						</tr>
-						<tr>
-							<td>13251245</td>
-							<td>A영화</td>
-							<td>coming</td>
-							<td>지점명E</td>
-							<td>2023</td>
-							<td>01:01</td>
-							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" onclick = "popUp()"></td>
-						</tr>
-						<tr>
-							<td>13251245</td>
-							<td>A영화</td>
-							<td>coming</td>
-							<td>지점명F</td>
-							<td>2023</td>
-							<td>01:01</td>
-							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" onclick = "popUp()"></td>
-						</tr>
-						<tr>
-							<td>13251245</td>
-							<td>A영화</td>
-							<td>coming</td>
-							<td>지점명G</td>
-							<td>2023</td>
-							<td>01:01</td>
-							<td>2023-06-06</td>
-							<td><input type="button" value="MORE" onclick = "popUp()"></td>
-						</tr>
+						<c:forEach var="resList" items="${resList}">
+							<tr>
+								<td>${resList.payment_id}</td>
+								<td>${resList.movie_title}</td>
+								<td>${resList.member_id}</td>
+								<td>${resList.theater_name}</td>
+								<td>${resList.room_name}</td>
+								<td>${resList.play_date}</td>
+								<td>${resList.seat_name}</td>
+								<td><input type="button" value="MORE" onclick = "popUp(${resList.payment_id})"></td>
+							</tr>
+						</c:forEach>
 					</table>
 					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1</a>
-						<a class="active" href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">&raquo;</a>
-					</div>
+						<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>
+						<%-- 다만, 페이지 번호가 1일 경우 비활성화 --%>		
+						<c:choose>
+							<c:when test="${pageNum eq 1}">
+								<a href="" >&laquo;</a>					
+							</c:when>
+							<c:otherwise>
+								<a href="adminMovieBooking?pageNum=${pageNum-1}" >&laquo;</a>
+							</c:otherwise>				
+						</c:choose>
+						<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
+						<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+							<%-- 각 페이지마다 하이퍼링크 설정(페이지번호를 pageNum 파라미터로 전달) --%>
+							<%-- 단, 현재 페이지는 하이퍼링크 제거하고 굵게 표시 --%>
+							<c:choose>
+								<%-- 현재 페이지번호와 표시될 페이지번호가 같을 경우 판별 --%>
+								<c:when test="${pageNum eq i}">
+									<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+								</c:when>
+								<c:otherwise>
+									<a href="adminMovieBooking?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						
+						<%-- '>>' 버튼 클릭 시 현체 페이지보다 한 페이지 다음 페이지 요청 --%>
+						<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
+						<c:choose>
+							<c:when test="${pageNum eq pageInfo.maxPage}">
+								<a href="" >&raquo;</a>					
+							</c:when>
+							<c:otherwise>
+								<a href="adminMovieBooking?pageNum=${pageNum+1}" >&raquo;</a>
+							</c:otherwise>				
+						</c:choose>
+				</div>
 				</form>
 			</div>
 			<footer>

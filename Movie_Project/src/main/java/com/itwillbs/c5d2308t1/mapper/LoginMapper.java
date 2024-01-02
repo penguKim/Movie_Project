@@ -64,6 +64,9 @@ public interface LoginMapper {
 
 	//마이페이지 리뷰 삭제
 	int deleteMyreview(ReviewsVO review);
+	
+	// 마이페이지 상품구매내역 업데이트
+	int updateMyStore(RefundVO refund);
 
 
 }
