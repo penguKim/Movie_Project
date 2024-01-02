@@ -332,27 +332,36 @@
 				<hr>
 				<h3 id="join_top">회원정보입력</h3> <%-- 소제목 --%>
 				<section id="join_center">
-					<input type="text" id="id" name="member_id" placeholder="아이디">
-					<div id="checkIdResult"></div> <br>
-					<input type="password" id="passwd" name="member_passwd" placeholder="비밀번호">
-					<div id="checkPasswdResult"></div> <br>
-					<input type="password" id="passwd2" name="passwd2" placeholder="비밀번호확인">
-					<div id="checkPasswd2Result"></div> <br>
-					<input type="text" id="name" name="member_name" placeholder="이름">
-					<div id="checkNameResult"></div> <br>
-					<input type="tel" id="phone" name="member_phone" placeholder="휴대폰번호"  maxlength="13">
-					<div id="checkPhoneResult"></div> <br>
-					<input type="text" id="email" name="member_email" placeholder="이메일주소" value="${param.email}"  readonly>
-					<div id="checkEmailResult"></div> <br>
-					<input type="text" id="birth" name="member_birth" placeholder="생년월일" maxlength="10">
-					<div id="checkBirthResult"></div> <br>
+					<label for="id"><b>아이디</b></label>
+					<input type="text" placeholder="5~20자의 영문 대/소문자, 숫자" name="member_id" id="id">
+					<div id="checkIdResult" class="resultArea"></div>
+					<label for="passwd"><b>비밀번호</b></label>
+					<input type="password" placeholder="8~16자의 영문 대/소문자, 숫자, 특수문자(!@#%^&*)" name="member_passwd" id="passwd">
+					<div id="checkPasswdResult" class="resultArea"></div>
+					<label for="passwd2"><b>비밀번호확인</b></label>
+					<input type="password" placeholder="비밀번호를 다시 입력해주세요" name="passwd2" id="passwd2">
+					<div id="checkPasswd2Result" class="resultArea"></div>
+					<label for="name"><b>이름</b></label>
+					<input type="text" placeholder="2~5글자의 한글" name="member_name" id="name" required>
+					<div id="checkNameResult" class="resultArea"></div>
+					<label for="phone"><b>휴대폰번호</b></label>
+					<input type="tel" placeholder="숫자만 입력해주세요" name="member_phone" id="phone" maxlength="13">
+					<div id="checkPhoneResult" class="resultArea"></div>
+					<label for="email"><b>이메일주소</b></label>
+					<input type="text" placeholder="숫자만 입력해주세요" value="${param.email}" name="member_email" id="email" readonly>
+					<div id="checkEmailResult" class="resultArea"></div>
+					<label for="birth"><b>생년월일</b></label>
+					<input type="text" placeholder="숫자만 입력해주세요" name="member_birth" id="birth" maxlength="10">
+					<div id="checkBirthResult" class="resultArea"></div>
+					<label for="gender"><b>성별</b></label>
 					<div id="gender">
                         <input type="radio" id="identityGender1" name="member_gender" value="1" class="blind">
                         <label for="identityGender1">남자</label>
                         <input type="radio" id="identityGender2" name="member_gender" value="2" class="blind">
                         <label for="identityGender2">여자</label>
                     </div>
-					<div id="checkGenderResult"></div> <br>
+					<div id="checkGenderResult" class="resultArea"></div>
+					<hr>
 					<div class="joinbtn">
 						<a href=""><input type="button" value="이전"></a>
 						<input type="submit" value="가입완료">
