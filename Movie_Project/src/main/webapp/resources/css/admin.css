@@ -2,38 +2,116 @@
 
 /* ============= 전체 게시판에 적용할 css ============== */
 
-#admin_nav { /* 내비게이션바에 */
+* {
+  box-sizing: border-box;
+}
+
+html {
+	margin-left: 200px;
+	height: 100%;
+	scroll-behavior: smooth;
+}
+
+body {
+	height: 100%;
+	position: relative;	
+	margin: 0;
+}
+
+#wrapper {
+	min-height: 100%;
+	position: relative;
+	width: 100%;
+}
+
+/* 내비게이션바에 */
+navbar { 
 	display: inline-block;
-	top: 170px;
-	width: 160px;
-	margin: 10px;
-	vertical-align: top;
+	width: 200px;
+	margin: 0;
+}
+
+#nav_logo {
+	width: 200px;
+	height: 60px;
+	text-align: center;
+	margin: 10px auto;	
+	color: white;
+}
+
+.admin_nav_title {
+	width: 200px;
+	color: white;
+	margin: 20px 0 5px 10px;	
+	font-size: 16px;
+}
+
+/* Fixed sidenav, full height */
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a {
+  padding: 6px 8px 6px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+#content {
+	display: inline-block;
+	margin: 0 auto;
+	width: 1240px;
+}
+
+#top_area_admin {
+	height: 50px;
+	text-align: right;
+}
+
+#top_area_admin input[type="button"] {
+	margin-right: 5px;
+	margin-top: 10px;
+}
+
+#h01 {
+	margin: 30px 0 0 20px;
+	font-size: 30px;
 }
 
 #admin_main {
-	vertical-align: top;
-	display: inline-block;
-	width: 800px; /* 너비 800지정 */
-	margin: 10px;
-	min-height: 400px;	
+	width: 1200px; /* 너비 800지정 */
+	margin: 10px auto;
+	min-height: 600px;	
 }
 
 #admin_sub {
-	vertical-align: top;
-	display: inline-block;
-	width: 800px; /* 너비 800지정 */
-	margin: 10px;	
+	width: 1200px; /* 너비 800지정 */
+	margin: 10px auto;	
 	min-height: 600px;
 }
 
-#content_table {
-	text-align: left;
-	padding: 10px;
-	width: 640px;
-	margin: 0;
-	white-space: pre-wrap;
-	min-height: 250px;
-}
 
 form:not(#deletePlay) {
 	margin-bottom: 20px;
@@ -55,6 +133,16 @@ a {
 
 #admin_sub th, #admin_sub td {
 	height: 30px;
+}
+
+
+#content_table {
+	text-align: left;
+	padding: 10px;
+	width: 1100px;
+	margin: 0;
+	white-space: pre-wrap;
+	min-height: 250px;
 }
 
 #admin_sub input[type="text"], #admin_sub input[type="password"] {
@@ -117,89 +205,13 @@ select {
 	text-align: center;
 }
 
-/* ============ 네비바에 적용할 css ============= */
-
-/* Fixed sidenav, full height */
-.sidenav {
-	width: 160px; /* 넓이지정 */
-	border-radius: 3px; /* 모서리 둥글게 */
- 	background-color: #505050; /* 배경색 */
- 	margin-bottom: 40px;
-}
-
-.sidenav #admin {
-	text-align: center;
-	font-size: 20px;
-	cursor: pointer;
-	padding: 10px;	
-	margin: 0;
-}
-
-#admin>a {
-	text-decoration: none;
-	color: #fff;
-}
-
-/* Style the sidenav links and the dropdown button */
-.dropdown-btn {
-	font-size: 20px;
-	background-color: #C4C4C4;
-	color: #000;
-	display: block;
-	border: none;
-	width: 160px;
-	text-align: center;
-	cursor: pointer;
-	outline: none;
-	padding: 10px;
-}
-
-.dropdown-container>a {
-	background-color: #e3e3e3;
-	text-decoration: none;
-	font-size: 16px;
-	color: #000;
-	display: block;
-	border: none;
-	width: 160px;
-	text-align: center;
-	cursor: pointer;
-	outline: none;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	margin-left: -8px;
-}
-
-/* On mouse-over */
-.sidenav a:hover, .dropdown-btn:hover {
-	color: #505050;
-}
-
-/* Add an active class to the active dropdown button */
-.active {
-	background-color: #afafaf;
-	color: white;
-}
-
-/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
-.dropdown-container {
-	display: none;
-	padding-left: 8px;
-}
-
-/* Optional: Style the caret down icon */
-.fa-caret-down {
-	float: right;
-	padding-right: 8px;
-}
-
 
 /* ======== 전체 영역 테이블에 적용할 css ======== */
 
 table {
 	border-collapse: collapse; /* 칸 사이 간격 없애기 */
 	border: 1px solid #C4C4C4; /* 표 줄 */ 
-	width: 800px;
+	width: 1200px;
 	margin: 0 auto;
 	text-align: center;
 }

@@ -1,12 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div id="menu_nav_admin">
-	<nav>
-		<a href="movie_select">예매</a>
-		<a href="release">영화</a>
-		<a href="theater">극장정보</a>
-		<a href="store">스토어</a>
-		<a href="csMain">고객센터</a>
-	</nav>
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<div class="sidenav">
+<a href="adminMain"><div id="nav_logo">영화관로고</div></a>
+<div class="admin_nav_title">MOVIE</div>
+<a href="adminMovie">영화관리</a>
+<a href="adminMovieSchedule">상영일정관리</a>
+<a href="adminMovieBooking">영화예매관리</a>
+
+<div class="admin_nav_title">STORE</div>
+<a href="adminProduct">스토어상품관리</a>
+<a href="adminPayment">스토어결제관리</a>
+
+<div class="admin_nav_title">MEMBER</div>
+<a href="adminMember">회원정보관리</a>
+
+<div class="admin_nav_title">BOARD</div>
+<a href="adminFaq">자주묻는질문관리</a>
+<a href="adminNotice">공지사항관리</a>
+<a href="adminOneOnOne">1대1문의관리</a>
+<a href="adminLostNFound">분실물문의관리</a>
+<a href="adminReview">리뷰관리</a><%-- 뷰 아직 X --%>
 </div>
-<hr id="top_hr_admin">
