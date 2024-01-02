@@ -165,7 +165,7 @@ public class LoginController {
 		return "login/Mypage_ReviewList";
 	}
 	
-	@GetMapping("reviewDelete")
+	@GetMapping("reviewDelete") // 리뷰 삭제
 	public String reviewDelete(HttpSession session, Model model, ReviewsVO review) {
 		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
 		review.setMember_id(sId);

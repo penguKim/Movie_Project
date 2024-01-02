@@ -101,6 +101,7 @@ $(document).ready(function(){
 							<td>${review.review_date}</td>
 							<td><input type="submit" value="상세페이지"></td>
 						</tr>
+							<input type="hidden" name="review_id" value="${review.review_id}">
 						</c:forEach>
 					</table><br>
 								
