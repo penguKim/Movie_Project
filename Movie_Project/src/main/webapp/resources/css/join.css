@@ -17,7 +17,7 @@
 }
 
 #join_top>#this { /* 회원가입 진행사항 표시부분 */
-	background-color: #e50914;
+	background-color: #433581;
     color: white;
 	font-weight: bold;
 	margin: 0;
@@ -42,7 +42,7 @@ form { /* 정보 입력창 */
 
 input[type="button"], input[type="submit"] { /* 모든 버튼에 */
 	padding: 5px 15px;
-    background-color: #e50914;
+    background-color: #433581;
     color: white;
     border: none;
     cursor: pointer;
@@ -120,7 +120,7 @@ textarea { /* 텍스트박스 */
 
 #required { /* 필수입력사항 글자 */
 	font-weight: bold; /* 진하게 */
-	color: #e50914; /* 빨간색으로 */
+	color: #433581; /* 빨간색으로 */
 }
 
 .joinbtn {

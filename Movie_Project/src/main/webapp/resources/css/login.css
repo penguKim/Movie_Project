@@ -62,7 +62,7 @@ table:not(#popup1_table) {
 
 input[type="button"], input[type="submit"] { /* 모든 버튼에 */
 	padding: 5px 15px;
-    background-color: #e50914;
+    background-color: #433581;
     color: white;
     border: none;
     cursor: pointer;
@@ -178,7 +178,7 @@ th {
 .sidenav {
 	width: 160px; /* 넓이지정 */
 	border-radius: 3px; /* 모서리 둥글게 */
- 	background-color: #e50914; /* 배경색 */
+ 	background-color: #433581; /* 배경색 */
  	margin-bottom: 40px;
  	border: 2px solid #9d9d9d; /*테두리*/
 }
@@ -199,7 +199,7 @@ th {
 /* Style the sidenav links and the dropdown button */
 .dropdown-btn {
 	font-size: 20px;
-	background-color: #e50914;
+	background-color: #433581;
 	color: #000;
 	display: block;
 	border: none;
@@ -428,7 +428,7 @@ h1{
 
 .login_find input {
 	border: none;
-	border-bottom: 3px solid #e50914;
+	border-bottom: 3px solid #433581;
 	height: 50px;
 	color: #000000; /* 글자 색상 */
 	padding: 10px 50px; /* 영역의 상하 좌우 크기 */

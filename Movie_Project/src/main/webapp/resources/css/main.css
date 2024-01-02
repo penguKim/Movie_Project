@@ -116,7 +116,7 @@ body {font-family: Verdana, sans-serif; margin:0}
 
 #Sort input {
 	border: none;
-	border-bottom: 3px solid #e50914;
+	border-bottom: 3px solid #433581;
 	color: #000000; /* 글자 색상 */
 	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
 	margin-top: 10px;
@@ -141,17 +141,17 @@ body {font-family: Verdana, sans-serif; margin:0}
 /* 영화 목록 전체보기 버튼 */
 #moviePage input {
 	border: none;
-/* 	border-bottom: 3px solid #e50914; */
+/* 	border-bottom: 3px solid #433581; */
 	color: #ffffff; /* 글자 색상 */
 	padding: 5px 10px; /* 영역의 상하 좌우 크기 */
 	margin-top: 10px;
-	background-color: #e50914;
+	background-color: #433581;
 	cursor: pointer; /* 커서 변경 */
 	transform: translate(30px,0);
 }
 
 #moviePage input:hover {
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 
 #boxoffice {
@@ -202,7 +202,7 @@ body {font-family: Verdana, sans-serif; margin:0}
 #boxoffice .main_reserve_area input {
 	border: 1px solid;
 	height: 40px;
-	background-color: #e50914; /* 버튼 색상 */
+	background-color: #433581; /* 버튼 색상 */
 	color: #fff; /* 글자 색상 */
 	font-size: 16px;
 	padding: 0 15px;
@@ -214,7 +214,7 @@ body {font-family: Verdana, sans-serif; margin:0}
 }
 
 #boxoffice .main_reserve_area input:hover {
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 
 
