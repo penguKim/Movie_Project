@@ -103,9 +103,9 @@
 								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
 								  </c:when>
 								  <c:otherwise>
-								    <td>${store.product_price}원</td>
+								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
 								    <td>${store.product_count}개</td>
-								    <td>${store.product_price * store.product_count}원</td>
+								    <td><fmt:formatNumber value="${store.product_price * store.product_count}" pattern="###,###"/>원</td>
 								  </c:otherwise>
 								</c:choose>
 								
