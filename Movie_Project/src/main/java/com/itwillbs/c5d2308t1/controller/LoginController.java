@@ -298,14 +298,16 @@ public class LoginController {
 		
 		
 		if(myStoreX > 0) {
-			model.addAttribute("msg", "결제가 취소되었습니다");
+//			model.addAttribute("msg", "결제가 취소되었습니다");
 			model.addAttribute("targetURL", "Mypage_Product_boardList");
-			return "forward";
+			return "forward3";
+//			return "login/Mypage_Product_boardList";
 //			return "";
 		}else {
 			model.addAttribute("msg", "상품삭제실패!");
 			return "fail_back";
 //			return "false";
+			
 		}
 	}
 	
