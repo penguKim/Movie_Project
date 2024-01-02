@@ -302,7 +302,7 @@ $(function() {
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content">	
-			<form action="Editmember" method="get" name="loginForm">
+			<form method="get" name="loginForm">
 				<h1 id="h01">회원 조회</h1>
 				<hr>
 				<h2 id="login_top">회원정보입력</h2>
@@ -319,13 +319,13 @@ $(function() {
 					<!-- ajax 이용해서 db에서 비밀번호 비교  -->
 					<!-- 비밀번호 입력 방식 db에서 비교해서 맞으면 수정할수 있도록 설정 -->
 					<!-- 기존 비밀번호랑 새 비밀번호랑 다르도록 비교 처리   -->
-					<input type="password" name="newPasswd" id="newPasswd" placeholder="새 비밀번호를 입력하세요">
+					<input type="password" name="newPasswd" id="newPasswd" placeholder="새 비밀번호를 입력하세요" required>
 						<span id="passwdResult"></span> <br>
 						<div id="checkNewPasswdResult"></div>
 				
 					<!-- 새 비밀번호와 같도록 비교 처리 (추가적으로 문장 등장하도록) -->
 					<!-- 비밀번호만 입력됬을 경우 "비밀번호 재입력하세요!" 알람 출력 -->
-					<input type="password" name="newPasswd2" id="newPasswd2" placeholder="새 비밀번호를 재입력하세요">
+					<input type="password" name="newPasswd2" id="newPasswd2" placeholder="새 비밀번호를 재입력하세요" required>
 					<span id="passwdResult2"></span><br>
 					<div id="checkNewPasswd2Result"></div>
 					<!-- readonly 에서 disabled 로 변경 -->
@@ -344,13 +344,13 @@ $(function() {
                         <label for="identityGender2">여자</label>
                     </div>
 					<div id="login_button">
-						<input type="button" value="회원탈퇴" onclick="confirm('탈퇴하시겠습니까?')">
+						<input type="submit" value="회원탈퇴" formaction="memberDie">
+						<input type="submit" value="정보수정" formaction="Editmember">
 						<input type="button" value="돌아가기" onclick="Back()">
-						<input type="submit" value="정보수정">
 					</div>	
 				</div>
-				<hr>
 			</form>
+				<hr>
 		</section>
 				
 		<footer>

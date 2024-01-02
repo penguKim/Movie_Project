@@ -132,6 +132,7 @@ public class LoginController {
 	}
 	
 	
+	
 	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
 	public String mypage_Refund_BoardList(HttpSession session,Model model, RefundVO refund) {
 		// 세션 아이디를 판별
