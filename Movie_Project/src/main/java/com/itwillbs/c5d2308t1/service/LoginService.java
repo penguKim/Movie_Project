@@ -88,14 +88,20 @@ public class LoginService {
 		}
 
 	// =====================마이페이지 리뷰 내역==================
-	//마이페이지 리뷰 조회
+	// 마이페이지 리뷰 조회
 	public List<ReviewsVO> getReviewList(ReviewsVO review) {
 		return mapper.selectMyreview(review);
 	}
 
-	//마이페이지 리뷰삭제
+	// 마이페이지 리뷰삭제
 	public int reviewBoard(ReviewsVO review) {
 		return mapper.deleteMyreview(review);
+	}
+
+	// 마이페이지 상품구매내역 업데이트
+	public int getMyStoreUpdate(RefundVO refund) {
+		
+		return mapper.updateMyStore(refund);
 	}
 
 	

@@ -36,7 +36,7 @@ h2 {
 	text-align: left; /* 가운데정렬 */
 }
 
-form:not(#popup1_form, #sideEdit) { /* 정보 입력창 */
+form:not(#popup1_form, #sideEdit, #product_X) { /* 정보 입력창 */
 	vertical-align: top;
 	display: inline-block;
 	width: 800px; /* 너비 800지정 */
