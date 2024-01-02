@@ -75,17 +75,18 @@ public class MoviesService {
 		return mapper.insertMovie(movie);
 	}
 	//리뷰 조회
-	public List<ReviewsVO> getreview(Map<String, String> map) {
-		return mapper.selectReview(map);
-	}
+//	public List<ReviewsVO> getreview(Map<String, String> map) {
+//		return mapper.selectReview(map);
+//	}
 	
 	//리뷰작성
 	public int registReview(String sId, String review_content, String movie_id) {
 		return mapper.insertReviewBoard(sId, review_content, movie_id);
 	}
 
-	public List<ReviewsVO> getreview2(ReviewsVO review) {
-		return mapper.selectReview2(review);
+	//리뷰 조회
+	public List<ReviewsVO> getreview(ReviewsVO review) {
+		return mapper.selectReview(review);
 	}
 
 }

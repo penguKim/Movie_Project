@@ -110,5 +110,10 @@ public class LoginService {
 	}
 
 
+	public List<ReviewsVO> getReviewList2(ReviewsVO review) {
+		
+		return mapper.selectMyreview2(review);
+	}
+
 	
 }

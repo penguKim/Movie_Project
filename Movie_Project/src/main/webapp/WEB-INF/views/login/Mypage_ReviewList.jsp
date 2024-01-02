@@ -9,7 +9,7 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-3.7.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	var member_id = "<%= session.getAttribute("sId") %>";
@@ -59,16 +59,7 @@ $(document).ready(function(){
 	}); //click 이벤트 끝
 });
 
-$(function() {
-	$("#reviewDelete").on("click", function() {
-		if(confirm("글을 삭제하시겠습니까?")) {
-			return true;
-		} else {
-			return false;
-		}
-	}); //on click 끝
-	
-}); //function 끝
+
 </script>
 </head>
 <body>
@@ -90,7 +81,7 @@ $(function() {
 				
 			<!-- 바디부분 시작 -->
 			
-			<form action="reviewDelete" method="get">
+			<form action="reviewDetail" method="get">
 				<div id="my_list">
 					<h2>나의 리뷰</h2>
 					<table id="my_table1">
@@ -99,16 +90,16 @@ $(function() {
 							<th>제목</th>
 							<th>내용</th>
 							<th>등록일</th>
-							<th>게시글 삭제</th>
+							<th>상세정보</th>
 						</tr>
 						
 						<c:forEach var="review" items="${myreview}" varStatus="status">
 						<tr>
-							<td>${status.index + 1}</td>
+							<td>${review.review_id}</td>
 							<td>${review.movie_title}</td>
 							<td>${review.review_content}</td>
 							<td>${review.review_date}</td>
-							<td><input type="submit" id="reviewDelete" value="삭제"></td>
+							<td><input type="submit" value="상세페이지"></td>
 						</tr>
 						</c:forEach>
 					</table><br>

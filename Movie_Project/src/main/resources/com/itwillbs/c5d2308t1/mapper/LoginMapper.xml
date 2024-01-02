@@ -128,11 +128,19 @@
 	    WHERE member_id = #{member_id}
 	  	order by review_date DESC
 	</select>
+	<!-- 리뷰 상세 조회 -->
+	<select id="selectMyreview2" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">
+	    SELECT review_id, review_content, review_date, r.movie_id, r.member_id, m.movie_title
+	    FROM reviews r JOIN movies m
+	    ON r.movie_id = m.movie_id
+	    WHERE review_id = #{review_id}
+	  	order by review_date DESC
+	</select>
 	
 	<!-- 리뷰 삭제 -->
 	<delete id="deleteMyreview">
 		DELETE FROM reviews
-		WHERE member_id = #{member_id}
+		WHERE review_id = #{review_id}
 	</delete>
 		
 	<!-- 상품 구매내역 업데이트 -->

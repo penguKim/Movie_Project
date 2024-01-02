@@ -145,9 +145,9 @@ public class MoviesController {
 		
 		ModelAndView mav = new ModelAndView("movie/detail", map);
 		
-		List<ReviewsVO> review2 = service.getreview2(review);
+		List<ReviewsVO> reviewSelect = service.getreview(review);
 		
-		model.addAttribute("movieReview",review2 );
+		model.addAttribute("movieReview",reviewSelect );
 		return mav;
 	}
 	
@@ -568,9 +568,10 @@ public class MoviesController {
 	@PostMapping("reviewPro")
     public String reviewBoard(HttpSession session, Model model, Map<String, String> map, @RequestParam String movie_id, @RequestParam String review_content, HttpServletRequest request) {
 			String sId = (String)session.getAttribute("sId"); //현재 로그인 중인 아이디 sId 저장
-			map.put("sId",sId); //map에 현재 로그인 중인 아이디 저장
+			model.addAttribute("sId",sId);
+//			map.put("sId",sId); //map에 현재 로그인 중인 아이디 저장
 //			map.put("movie_id", movie_id); //map에 무비아이디 저장
-			List<ReviewsVO> dbReview = service.getreview(map);
+//			List<ReviewsVO> dbReview = service.getreview(map);
 //			System.out.println(movie_id);
 				
 			
@@ -581,7 +582,7 @@ public class MoviesController {
 			String str2 = request.getParameter("review_content");
 			
 			System.out.println("");
-			System.out.println("ReviewBoardVO 맵 : " + dbReview);
+//			System.out.println("ReviewBoardVO 맵 : " + dbReview);
 //        System.out.println("무비아이디" +map.get("movie_id"));
         
         return "movie/detail"+ movie_id;

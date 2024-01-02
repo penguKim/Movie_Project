@@ -155,8 +155,8 @@ public class LoginController {
 		return"login/Mypage_Refund_BoardList";
 	}
 	
-	@GetMapping("Mypage_ReviewList")
-	public String mypage_ReviewList(HttpSession session, Model model, ReviewsVO review) { // 리뷰 게시판으로 이동
+	@GetMapping("Mypage_ReviewList")// 리뷰 게시판으로 이동
+	public String mypage_ReviewList(HttpSession session, Model model, ReviewsVO review) { 
 		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
 		review.setMember_id(sId);
 //		System.out.println(sId);
@@ -165,25 +165,56 @@ public class LoginController {
 		return "login/Mypage_ReviewList";
 	}
 	
-	@GetMapping("reviewDelete") //리뷰 삭제
-	public String mypage_reviewDelete(HttpSession session, Model model, ReviewsVO review) {
-		String sId = (String)session.getAttribute("sId"); //세션 id를 sId 저장
+	@GetMapping("reviewDelete")
+	public String reviewDelete(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
+		review.setMember_id(sId);
+		
+	
+		if(sId == null) { // sId가 null일때 로그인창으로 보내기
+			model.addAttribute("msg","로그인이 필요합니다");
+			model.addAttribute("targetURL","memberLogin");
+			return "forward";
+		}	
+			int deleteCount = service.reviewBoard(review);//리뷰삭제
+			System.out.println(deleteCount);
+			
+			if(deleteCount > 0) {
+				
+				//삭제 성공
+				return "redirect:/Mypage_ReviewList";
+			}else {
+				//삭제 실패
+				model.addAttribute("msg", "글 삭제 실패!");
+				return "fail_back";
+			}
+			
+		
+	}
+	
+	@GetMapping("reviewDetail")//리뷰 상세 페이지로 이동
+	public String reviewDetail(HttpSession session, Model model, ReviewsVO review ) {
+		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
+		review.setMember_id(sId);
+		
+	
 		if(sId == null) { // sId가 null일때 로그인창으로 보내기
 			model.addAttribute("msg","로그인이 필요합니다");
 			model.addAttribute("targetURL","memberLogin");
 			return "forward";
 		}
-		int deleteCount = service.reviewBoard(review);
 		
-		if(deleteCount > 0) {
-			//삭제 성공
-			return "redirect:/Mypage_ReviewList";
-		}else {
-			//삭제 실패
-			model.addAttribute("msg", "글 삭제 실패!");
-			return "fail_back";
-		}
+
+	
+		List<ReviewsVO> myreview = service.getReviewList(review); //리뷰조회
 		
+		List<ReviewsVO> myreview2 = service.getReviewList2(review); //리뷰 상세조회
+		
+		model.addAttribute("reviewBoardDetail", myreview);
+		
+		return "login/Mypage_ReviewDetail";
+		
+//		System.out.println(sId);
 	}
 	
 	

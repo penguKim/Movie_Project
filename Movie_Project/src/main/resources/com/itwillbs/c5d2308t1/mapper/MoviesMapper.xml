@@ -114,14 +114,14 @@
 	</insert>
 	
 	<!-- 리뷰 조회 -->
-    <select id="selectReview" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO">
-        SELECT *
-        FROM reviews
-        WHERE member_id = #{sId}
-    </select>
+<!--     <select id="selectReview" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO"> -->
+<!--         SELECT * -->
+<!--         FROM reviews -->
+<!--         WHERE member_id = #{sId} -->
+<!--     </select> -->
     
 	<!-- 리뷰 조회2 -->
-    <select id="selectReview2" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO">
+    <select id="selectReview" resultType="com.itwillbs.c5d2308t1.vo.ReviewBoardVO">
         SELECT *
         FROM reviews
         WHERE member_id = #{member_id}
