@@ -832,6 +832,7 @@
 					</c:forEach>
 				</table>
 			</div>
+			<br><br><br><br><br>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
 			</footer>
