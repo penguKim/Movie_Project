@@ -78,7 +78,6 @@ public class MoviesController {
 		}
 		map.put("movieList", movieList);
 		ModelAndView mav = new ModelAndView("movie/release", map);
-		
 		return mav;
 	}
 	

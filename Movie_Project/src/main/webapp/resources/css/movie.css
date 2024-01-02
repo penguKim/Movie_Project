@@ -21,7 +21,7 @@
 
 .movie-menu input {
 	border: none;
-	border-bottom: 3px solid #e50914;
+	border-bottom: 3px solid #433581;
 	height: 50px;
 	color: #000000; /* 글자 색상 */
 	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
@@ -57,7 +57,7 @@
 
 .sort-menu input {
 	border: none;
-	border-bottom: 2px solid #e50914;
+	border-bottom: 2px solid #433581;
 	height: 25px;
 	color: #000000; /* 글자 색상 */
 	padding: 5px 15px; /* 영역의 상하 좌우 크기 */
@@ -194,7 +194,7 @@
 .reserve_area input {
 	border: 1px solid;
 	height: 40px;
-	background-color: #e50914; /* 버튼 색상 */
+	background-color: #433581; /* 버튼 색상 */
 	color: #fff; /* 글자 색상 */
 	padding: 10px 30px; /* 영역의 상하 좌우 크기 */
 	margin-top: 10px;
@@ -204,7 +204,7 @@
 }
 
 .reserve_area input:hover {
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 
 
@@ -220,13 +220,13 @@
 }
 
 .likeBtn:hover {
-	background-color: #ce0912;
+	background-color: #331f62;
 	color: #fff;
 }
 
 .likeCheck {
 	border: 1px solid;
-	background-color: #e50914; /* 버튼 색상 */
+	background-color: #433581; /* 버튼 색상 */
 	color: #fff; /* 글자 색상 */
 	padding: 10px; /* 영역의 상하 좌우 크기 */
 	border-radius: 5px; /* 모서리 라운드처리 */
@@ -237,7 +237,7 @@
 
 .likeCheck:hover {
 	border: none;
-	background-color: #ce0912;
+	background-color: #331f62;
 	color: #000;
 }
 
@@ -314,7 +314,7 @@
 /* 예매 버튼 */
 .detail_reserve_clear input {
 	border: 1px solid;
-	background-color: #e50914; /* 버튼 색상 */
+	background-color: #433581; /* 버튼 색상 */
 	color: #fff; /* 글자 색상 */
 	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
 	margin-top: 10px;
@@ -326,7 +326,7 @@
 }
 
 .reserve_area input:hover {
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 
 /* 예매버튼의 텍스트 조절 */
@@ -361,7 +361,7 @@
 
 .click_link input {
 	border: none;
-	border-bottom: 3px solid #e50914;
+	border-bottom: 3px solid #433581;
 	color: #000000; /* 글자 색상 */
 	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
 	margin-top: 10px;
@@ -448,14 +448,14 @@
 
 .review input[type="button"] { /* 모든 버튼에 */
 	padding: 6px 15px; /* 안쪽 여백 */
-    background-color: #e50914; /* 배경색 빨간색 */
+    background-color: #433581; /* 배경색 빨간색 */
     color: white; /* 글씨색 흰색*/
     border: none; /* 테두리 없음 */
     cursor: pointer; /* 커서 변경 */
 }
 
 .review input[type="button"]:hover {  /* 모든 버튼에 마우스오버 시 */
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 
 #movie_story, #movie_trailer, #movie_cut {

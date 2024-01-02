@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>분실물 문의 상세</title>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
@@ -25,19 +24,15 @@
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">분실물 문의 상세 조회페이지</h1>
 			<hr>		
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
-
 			<div id="admin_sub">
 				<form action="" method="post">
 					<table border="1">
@@ -93,9 +88,6 @@
 					</div>
 				</form>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>			
 </body>

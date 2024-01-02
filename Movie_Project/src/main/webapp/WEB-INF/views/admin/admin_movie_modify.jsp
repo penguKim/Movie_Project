@@ -8,10 +8,8 @@
 <meta charset="UTF-8">
 <title>영화 수정</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script>
 <script type="text/javascript">
 	$(function() {
 		// ======== 개봉일과 상영상태를 비교하는 변수 목록 ========
@@ -130,123 +128,118 @@
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-						
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-	<section id="content">
-	<h1 id="h01">영화수정</h1>
-	<hr>
-	<div id="admin_nav">
-		<jsp:include page="admin_menubar.jsp"></jsp:include>
-	</div>
-	<div id="admin_main">
-		<form action="" method="post">
-			<table id="movieTable">
-	            <colgroup> 
-	                <col style="width: 20%;">
-	                <col style="width: 20%;">   
-	                <col style="width: 20%;"> 
-	                <col style="width: 40%;">   
-	            </colgroup> 
-				<tr>
-					<td rowspan="5" colspan="2" id="posterArea">
-						<img src="${movie.movie_poster }" id="posterThumnail"><br>
-					</td>
-					<th width="100px">영화코드</th>
-					<td><input type="text" name="movie_id" value="${movie.movie_id }" id="movie_id" class="shortInput" readonly></td>
-				</tr>
-				<tr>
-					<th width="100px">영화제목</th>
-					<td><input type="text" name="movie_title" value="${movie.movie_title }" id="movie_title" class="shortInput"></td>
-				</tr>
-				<tr>
-					<th width="100px">감독</th>
-					<td><input type="text" name="movie_director" value="${movie.movie_director }" id="movie_director" class="shortInput"></td>
-				</tr>
-				<tr>
-					<th>제작년도</th>
-					<td >
-						<input type="text" name="movie_prdtYear" value="${movie.movie_prdtYear }" id="movie_prdtYear" class="shortInput" maxlength="4">
-						<div id="checkMovie_prdtYearResult"></div>
-					</td>
-				</tr>
-				<tr>
-					<th>제작국가</th>
-					<td ><input type="text" name="movie_nation" value="${movie.movie_nation }" id="movie_nation" class="shortInput"></td>
-					
-				</tr>
-				<tr>
-					<th>배우</th>
-					<td><input type="text" name="movie_actor" value="${movie.movie_actor }" id="movie_actor" class="shortInput"></td>
-					<th>장르</th>
-					<td><input type="text" name="movie_genre" value="${movie.movie_genre }" id="movie_genre" class="shortInput"></td>
-				</tr>
-				<tr>
-					<th>관람객수</th>
-					<td>
-						<input type="text" name="movie_audience" value="${movie.movie_audience }" id="movie_audience" class="shortInput">
-						<div id="checkMovie_audienceResult"></div>
-					</td>
-					<th>상영시간</th>
-					<td>
-						<input type="text" name="movie_runtime" value="${movie.movie_runtime }" id="movie_runtime" class="shortInput" maxlength="4">
-						<div id="checkMovie_runtimeResult"></div>
-					</td>
-				</tr>
-				<tr>
-					<th>관람등급</th>
-					<td><input type="text" name="movie_rating" value="${movie.movie_rating }" id="movie_rating" class="shortInput"></td>
-					<th>상영 상태</th>
-					<td>
-						<select name="movie_status" id="movie_status">
-							<option disabled>상영 상태</option>
-							<option value="0" id="comming" <c:if test="${movie.movie_status eq 0 }">selected</c:if>>개봉 예정</option>
-							<option value="1" id="release" <c:if test="${movie.movie_status eq 1 }">selected</c:if>>개봉</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>상영일</th>
-					<td><input type="date" name="movie_release_date" value="${movie.movie_release_date }" id="movie_release_date" class="shortInput"></td>
-					<th>종영일</th>
-					<td><input type="date" name="movie_close_date" value="${movie.movie_close_date}" id="movie_close_date" class="shortInput"></td>
-				</tr>
-				<tr>
-					<th>포스터</th>
-					<td colspan="3"><input type="text" name="movie_poster" value="${movie.movie_poster }" id="movie_poster" class="longInput"></td>
-				</tr>
-				<tr>
-					<th>스틸컷1</th>
-					<td colspan="3"><input type="text" name="movie_still1" value="${movie.movie_still1 }" class="still longInput"></td>
-				</tr>
-				<tr>
-					<th>스틸컷2</th>
-					<td colspan="3"><input type="text" name="movie_still2" value="${movie.movie_still2 }" class="still longInput"></td>
-				</tr>
-				<tr>
-					<th>스틸컷3</th>
-					<td colspan="3"><input type="text" name="movie_still3" value="${movie.movie_still3 }" class="still longInput"></td>
-				</tr>
-				<tr>
-					<th>트레일러</th>
-					<td colspan="3"><input type="text" name="movie_trailer" value="${movie.movie_trailer }" id="movie_trailer" class="longInput"></td>
-				</tr>
-				<tr>
-					<th>줄거리</th>
-					<td colspan="3"><input type="text" name="movie_plot" value="${movie.movie_plot }" id="movie_plot" class="longInput"></td>
-				</tr>
-			</table>
-			<input type="submit" value="수정" id="movieMod" formaction="movieMod">
-			<input type="submit" value="삭제" id="movieDlt" formaction="adminMovieDlt">
-			<input type="button" value="창닫기" onclick="history.back();">
-		</form>
-	</div>
-	</section>
-		<footer>
-			<jsp:include page="../inc/bottom.jsp"></jsp:include>	
-		</footer>
+		<section id="content">
+		<h1 id="h01">영화수정</h1>
+		<hr>
+			<div id="admin_main">
+				<form action="" method="post">
+					<table id="movieTable">
+			            <colgroup> 
+			                <col style="width: 20%;">
+			                <col style="width: 20%;">   
+			                <col style="width: 20%;"> 
+			                <col style="width: 40%;">   
+			            </colgroup> 
+						<tr>
+							<td rowspan="5" colspan="2" id="posterArea">
+								<img src="${movie.movie_poster }" id="posterThumnail"><br>
+							</td>
+							<th width="100px">영화코드</th>
+							<td><input type="text" name="movie_id" value="${movie.movie_id }" id="movie_id" class="shortInput" readonly></td>
+						</tr>
+						<tr>
+							<th width="100px">영화제목</th>
+							<td><input type="text" name="movie_title" value="${movie.movie_title }" id="movie_title" class="shortInput"></td>
+						</tr>
+						<tr>
+							<th width="100px">감독</th>
+							<td><input type="text" name="movie_director" value="${movie.movie_director }" id="movie_director" class="shortInput"></td>
+						</tr>
+						<tr>
+							<th>제작년도</th>
+							<td >
+								<input type="text" name="movie_prdtYear" value="${movie.movie_prdtYear }" id="movie_prdtYear" class="shortInput" maxlength="4">
+								<div id="checkMovie_prdtYearResult"></div>
+							</td>
+						</tr>
+						<tr>
+							<th>제작국가</th>
+							<td ><input type="text" name="movie_nation" value="${movie.movie_nation }" id="movie_nation" class="shortInput"></td>
+							
+						</tr>
+						<tr>
+							<th>배우</th>
+							<td><input type="text" name="movie_actor" value="${movie.movie_actor }" id="movie_actor" class="shortInput"></td>
+							<th>장르</th>
+							<td><input type="text" name="movie_genre" value="${movie.movie_genre }" id="movie_genre" class="shortInput"></td>
+						</tr>
+						<tr>
+							<th>관람객수</th>
+							<td>
+								<input type="text" name="movie_audience" value="${movie.movie_audience }" id="movie_audience" class="shortInput">
+								<div id="checkMovie_audienceResult"></div>
+							</td>
+							<th>상영시간</th>
+							<td>
+								<input type="text" name="movie_runtime" value="${movie.movie_runtime }" id="movie_runtime" class="shortInput" maxlength="4">
+								<div id="checkMovie_runtimeResult"></div>
+							</td>
+						</tr>
+						<tr>
+							<th>관람등급</th>
+							<td><input type="text" name="movie_rating" value="${movie.movie_rating }" id="movie_rating" class="shortInput"></td>
+							<th>상영 상태</th>
+							<td>
+								<select name="movie_status" id="movie_status">
+									<option disabled>상영 상태</option>
+									<option value="0" id="comming" <c:if test="${movie.movie_status eq 0 }">selected</c:if>>개봉 예정</option>
+									<option value="1" id="release" <c:if test="${movie.movie_status eq 1 }">selected</c:if>>개봉</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>상영일</th>
+							<td><input type="date" name="movie_release_date" value="${movie.movie_release_date }" id="movie_release_date" class="shortInput"></td>
+							<th>종영일</th>
+							<td><input type="date" name="movie_close_date" value="${movie.movie_close_date}" id="movie_close_date" class="shortInput"></td>
+						</tr>
+						<tr>
+							<th>포스터</th>
+							<td colspan="3"><input type="text" name="movie_poster" value="${movie.movie_poster }" id="movie_poster" class="longInput"></td>
+						</tr>
+						<tr>
+							<th>스틸컷1</th>
+							<td colspan="3"><input type="text" name="movie_still1" value="${movie.movie_still1 }" class="still longInput"></td>
+						</tr>
+						<tr>
+							<th>스틸컷2</th>
+							<td colspan="3"><input type="text" name="movie_still2" value="${movie.movie_still2 }" class="still longInput"></td>
+						</tr>
+						<tr>
+							<th>스틸컷3</th>
+							<td colspan="3"><input type="text" name="movie_still3" value="${movie.movie_still3 }" class="still longInput"></td>
+						</tr>
+						<tr>
+							<th>트레일러</th>
+							<td colspan="3"><input type="text" name="movie_trailer" value="${movie.movie_trailer }" id="movie_trailer" class="longInput"></td>
+						</tr>
+						<tr>
+							<th>줄거리</th>
+							<td colspan="3"><input type="text" name="movie_plot" value="${movie.movie_plot }" id="movie_plot" class="longInput"></td>
+						</tr>
+					</table>
+					<input type="submit" value="수정" id="movieMod" formaction="movieMod">
+					<input type="submit" value="삭제" id="movieDlt" formaction="adminMovieDlt">
+					<input type="button" value="창닫기" onclick="history.back();">
+				</form>
+			</div>
+		</section>
 	</div>
 </body>
 </html>

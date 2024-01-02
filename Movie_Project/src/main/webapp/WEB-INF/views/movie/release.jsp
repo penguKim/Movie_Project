@@ -134,7 +134,7 @@
 <!-- 							</div> -->
 							<div class="reserve_area">
 								<button id="likeBtn${status.index}" class="likeBtn" data-id="${movie.movie_id }" data-title="${movie.movie_title }" onclick="likeBtnClick(${status.index})"><i class="fa fa-heart-o"></i>찜하기</button>
-	 							<a href="movie_select?movie_id=${movie.movie_id }" class="rel_reservBtn">
+	 							<a href="movie_select?movie_title=${movie.movie_title }" class="rel_reservBtn">
 									<input type="button" value="예매하기"></a>
 							</div>
 						</div>

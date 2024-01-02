@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>회원정보 상세</title>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
@@ -31,22 +30,22 @@
 		let iscorrectBirth = true; <%-- 생일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
 
 		<%-- 이름 확인 --%>
-		$("#member_name").on("blur", function() {	
-			if(member_name == $("#member_name").val()) { // 기존 이름과 동일할 경우
-				$("#checkNameResult").text("기존과 동일한 이름입니다").css("color", "blue");
-				iscorrectName = true;
-			} else { 
-				let regName = /^[가-힣]{2,5}$/; <%-- 한글 2~5글자 --%>
-				if(!regName.test($("#member_name").val())){
-					$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
-					iscorrectName = false;
-				} else if(regName.test($("#member_name").val())){
-					$("#checkNameResult").text("사용 가능한 이름입니다").css("color", "blue");
-					iscorrectName = true;
-		        }
-			}
+// 		$("#member_name").on("blur", function() {	
+// 			if(member_name == $("#member_name").val()) { // 기존 이름과 동일할 경우
+// 				$("#checkNameResult").text("기존과 동일한 이름입니다").css("color", "blue");
+// 				iscorrectName = true;
+// 			} else { 
+<%-- 				let regName = /^[가-힣]{2,5}$/; 한글 2~5글자 --%>
+// 				if(!regName.test($("#member_name").val())){
+// 					$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
+// 					iscorrectName = false;
+// 				} else if(regName.test($("#member_name").val())){
+// 					$("#checkNameResult").text("사용 가능한 이름입니다").css("color", "blue");
+// 					iscorrectName = true;
+// 		        }
+// 			}
 			
-		});	
+// 		});	
 		
 		<%-- 패스워드 확인 --%>
 		$("#newPasswd").blur(function() {	
@@ -247,10 +246,10 @@
 			} else if(!isSamePasswd) { <%-- 비밀번호 불일치 시 --%>
 				$("#newPasswd2").focus();
 				return false; // submit 동작 취소
-			} else if(!iscorrectName) { <%-- 이름 미입력 시 --%>
-				$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
-				$("#member_name").focus();
-				return false; // submit 동작 취소
+<%-- 			} else if(!iscorrectName) { 이름 미입력 시 --%>
+// 				$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
+// 				$("#member_name").focus();
+// 				return false; // submit 동작 취소
 			} else if(!iscorrectPhone) {  <%-- 휴대폰번호 미입력 시 --%>
 				$("#checkPhoneResult").text("휴대폰번호를 확인해주세요").css("color", "red");
 				$("#member_phone").focus();
@@ -291,26 +290,22 @@
 		<c:set var="pageNum" value="${param.pageNum }" />
 	</c:if>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">${member.member_name }의 회원정보</h1>
 			<hr>		
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
-
 			<div id="admin_sub">
 				<form action="memberModOrDlt" method="post">
 					<table border="1" id="modify_table">
 						<tr>
 							<th>이름</th>	
 							<td colspan="2">
-								<input type="text" name="member_name" value="${member.member_name }" id="member_name" required>
+								<input type="text" name="member_name" value="${member.member_name }" id="member_name" readonly>
 								<div id="checkNameResult"></div>
 							</td>
 						</tr>
@@ -364,7 +359,7 @@
 						<tr>
 							<th>이메일</th>
 							<td colspan="2">
-								<input type="text" name="member_email" value="${member.member_email }" id="member_email">
+								<input type="text" name="member_email" value="${member.member_email }" id="member_email" <c:if test="${member.member_id ne 'admin' }">readonly</c:if>>
 								<div id="checkEmailResult"></div>
 							</td>
 						</tr>
@@ -386,9 +381,6 @@
 					</div>
 				</form>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>			
 </body>

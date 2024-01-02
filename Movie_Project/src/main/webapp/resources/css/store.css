@@ -62,7 +62,7 @@
 
 .menubtn input {
 	border: none;
-	border-bottom: 3px solid #e50914;
+	border-bottom: 3px solid #433581;
 	color: #000000; /* 글자 색상 */
 	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
 	margin-top: 10px;
@@ -193,14 +193,14 @@
 
 #btn_buy button {
 	padding: 6px 15px; /* 안쪽 여백 */
-    background-color: #e50914; /* 배경색 빨간색 */
+    background-color: #433581; /* 배경색 빨간색 */
     color: white; /* 글씨색 흰색*/
     border: none; /* 테두리 없음 */
     cursor: pointer; /* 커서 변경 */
 }
 
 #btn_buy button:hover { 
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 
 #sum {
@@ -417,14 +417,14 @@
 
 .paybtn input {
 	padding: 6px 15px; /* 안쪽 여백 */
-    background-color: #e50914; /* 배경색 빨간색 */
+    background-color: #433581; /* 배경색 빨간색 */
     color: white; /* 글씨색 흰색*/
     border: none; /* 테두리 없음 */
     cursor: pointer; /* 커서 변경 */
 }
 
 .paybtn input:hover {
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 
 
@@ -498,7 +498,7 @@
 /* 장바구니 모든 버튼에 */
 .store_basket input[type="button"], .store_basket input[type="submit"] {
 	padding: 6px 15px; /* 안쪽 여백 */
-    background-color: #e50914; /* 배경색 빨간색 */
+    background-color: #433581; /* 배경색 빨간색 */
     color: white; /* 글씨색 흰색*/
     border: none; /* 테두리 없음 */
     cursor: pointer; /* 커서 변경 */
@@ -506,7 +506,7 @@
 }
 
 .store_basket input[type="button"], .store_basket input[type="submit"]:hover {
-	background-color: #ce0912;
+	background-color: #331f62;
 }
 a:not(#menu_nav a){
  text-decoration-line: none;

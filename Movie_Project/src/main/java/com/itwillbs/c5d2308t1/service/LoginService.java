@@ -115,5 +115,24 @@ public class LoginService {
 		return mapper.selectMyreview2(review);
 	}
 
+	// 아이디 찾기 수행
+	public MemberVO findMember(MemberVO member) {
+		if(member.getMember_passwd() == null) {
+			member = mapper.selectFindId(member);
+		} else {
+			member = mapper.selectFindPasswd(member);
+		}
+		return member;
+	}
+
+	public MemberVO selectMemberPs(MemberVO member) {
+		
+		return mapper.selectMemberPs(member);
+	}
+	// 회원상태 업데이터
+	public int statusMember(MemberVO member) {
+		
+		return mapper.statusMember(member);
+	}
 	
 }

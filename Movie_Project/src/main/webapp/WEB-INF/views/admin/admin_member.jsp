@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>회원정보 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 </head>
@@ -20,19 +19,15 @@
 		<c:set var="pageNum" value="${param.pageNum }" />
 	</c:if>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-	
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">회원정보관리</h1>
 			<hr>
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
-			
 			<div id="admin_main">
 				<table border="1" width="1000">
 					<div id="member_Search">
@@ -65,6 +60,9 @@
 									<td>${member.member_email}</td>
 									<td class="member_status">
 									<c:choose>
+										<c:when test="${member.member_status eq 0 }">
+										<span id="admin_Bmember">관리자</span>
+										</c:when>
 										<c:when test="${member.member_status eq 1 }">
 										<span id="admin_member">회원</span>
 										</c:when>
@@ -119,32 +117,9 @@
 								<a href="adminMember?pageNum=${pageNum+1}" >&raquo;</a>
 							</c:otherwise>				
 						</c:choose>
-			</div>
+					</div>
 				</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>
-<!-- 					<section class="pagination"> -->
-<!-- 					<input type="button" value="이전"  -->
-<%-- 						onclick="location.href='adminMember?pageNum=${pageNum - 1}'" --%>
-<%-- 						<c:if test="${pageNum <= 1 }">disabled</c:if> --%>
-<!-- 					> -->
-<%-- 					<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }"> --%>
-<%-- 						<c:choose> --%>
-<%-- 							<c:when test="${pageNum eq i }"> --%>
-<%-- 								<b>${i }</b> --%>
-<%-- 							</c:when> --%>
-<%-- 							<c:otherwise> --%>
-<%-- 								<a href="adminMember?pageNum=${i }">${i }</a> --%>
-<%-- 							</c:otherwise> --%>
-<%-- 						</c:choose> --%>
-<%-- 					</c:forEach> --%>
-<!-- 					<input type="button" value="다음"  -->
-<%-- 						onclick="location.href='adminMember?pageNum=${pageNum + 1}'" --%>
-<%-- 						<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if> --%>
-<!-- 					> -->
-<!-- 					</section> -->
 </body>
 </html>
