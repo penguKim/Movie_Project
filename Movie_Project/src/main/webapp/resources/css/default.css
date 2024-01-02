@@ -80,7 +80,8 @@ header {
 
 /* 메뉴영역<div id="menu_nav"> 배경색과 글자 정렬*/
 #navbar {
-	background-color: #e50914;
+	background-image: linear-gradient(to right, rgb(145, 131, 204), rgb(68, 53, 131) 59%, rgb(44, 34, 85));
+/* 					   linear-gradient(to right, rgb(215, 67, 87), rgb(241,79,58) 59%, rgb(239, 100, 47)) */
 	text-align: center;
 	position: sticky;
 	top: -1px;
