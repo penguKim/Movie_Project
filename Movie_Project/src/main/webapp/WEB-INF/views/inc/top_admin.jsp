@@ -18,8 +18,6 @@
 			<a href="./"><img src="${pageContext.request.contextPath }/resources/img/logo2.png" height="60" width="200"></a>
 		</div>
 		<div id="member">
-			<%-- 작업의 편리성을 위해 일반 페이지에서 관리자페이지로의 전환을 용이하게 해줄 연결 버튼(임시) --%>
-			<a href="adminMovie"><input type="button" value="관리자페이지"></a><%-- 관리자페이지는 메인페이지가 없으므로 영화관리 페이지가 연결되도록 지정(임시) --%>
 			<c:choose>
 				<c:when test="${empty sessionScope.sId }">
 					<a href="memberLogin"><input type="button" value="로그인"></a>
@@ -29,7 +27,7 @@
 					<a href="Mypage"><input type="button" value="${sessionScope.sId }"></a>
 					<a href="javascript:confirmLogout()"><input type="button" value="로그아웃"></a>
 					<c:if test="${sessionScope.sId eq 'admin'}">
-						<a href="adminMovie"><input type="button" value="관리자페이지"></a><%-- 관리자페이지는 메인페이지가 없으므로 영화관리 페이지가 연결되도록 지정(임시) --%>
+						<a href="${pageContext.request.contextPath }"><input type="button" value="메인페이지"></a><%-- 관리자페이지는 메인페이지가 없으므로 영화관리 페이지가 연결되도록 지정(임시) --%>
 					</c:if>
 				</c:otherwise>
 			</c:choose>
