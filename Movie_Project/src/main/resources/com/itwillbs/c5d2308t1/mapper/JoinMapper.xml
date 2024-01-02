@@ -36,6 +36,12 @@
 		WHERE member_id = #{member_id} OR member_email = #{member_email} OR member_phone = #{member_phone}
 	</select>
 	
+	<select id="selectMember" resultType="int">
+		SELECT *
+		FROM members
+		WHERE member_id = #{member_id}
+	</select>
+	
 </mapper>
 
 

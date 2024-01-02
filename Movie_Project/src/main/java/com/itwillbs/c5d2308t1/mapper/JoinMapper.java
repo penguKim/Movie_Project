@@ -12,5 +12,8 @@ public interface JoinMapper {
 
 	// 중복체크 - 추상메서드 정의
 	MemberVO selectDup(MemberVO member);
+	
+	// 회원정보 불러오기
+	Integer selectMember(MemberVO member);
 
 }

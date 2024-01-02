@@ -18,7 +18,7 @@ import lombok.Data;
 회원비밀번호(member_pass) - VARCHAR(20), NN		
 회원선호장르(member_like_genre) - VARCHAR(20)			
 극장코드(theater_id) - INT, FK(theaters)
-회원성별(member_gender) - INT
+회원성별(member_gender) - VARCHAR(5)	
 -----------------------------------------
 create table members (
 	member_id VARCHAR(20) PRIMARY key,
@@ -31,7 +31,7 @@ create table members (
 	member_pass VARCHAR(20) not null,
 	member_like_genre VARCHAR(20),
 	theater_id INT,
-	member_gender INT, -- 1 남자 2 여자
+	member_gender VARCHAR(5),
 	FOREIGN KEY(theater_id) REFERENCES theaters(theater_id)
 )
 */
@@ -50,7 +50,7 @@ public class MemberVO {
 	private String member_passwd;
 	private String member_like_genre;
 	private int theater_id;
-	private int member_gender;
+	private String member_gender;
 	
 }
 

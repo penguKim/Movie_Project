@@ -355,9 +355,9 @@
 					<div id="checkBirthResult" class="resultArea"></div>
 					<label for="gender"><b>성별</b></label>
 					<div id="gender">
-                        <input type="radio" id="identityGender1" name="member_gender" value="1" class="blind">
+                        <input type="radio" id="identityGender1" name="member_gender" value="M" class="blind">
                         <label for="identityGender1">남자</label>
-                        <input type="radio" id="identityGender2" name="member_gender" value="2" class="blind">
+                        <input type="radio" id="identityGender2" name="member_gender" value="F" class="blind">
                         <label for="identityGender2">여자</label>
                     </div>
 					<div id="checkGenderResult" class="resultArea"></div>
