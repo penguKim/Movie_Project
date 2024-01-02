@@ -160,7 +160,6 @@ public class LoginController {
 	        return "fail_back";
 	    }
 	}
-	
 
 		
 	// 회원 탈퇴를 위한 회원조회
@@ -206,30 +205,65 @@ public class LoginController {
 			    return "forward";
 			}
 		}
+		
+	@GetMapping("Mypage_ReviewList")//리뷰 페이지로 이동
+	public String Mypage_ReviewList(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId");
+		review.setMember_id(sId); //현재 세션에 저장된 Id를 가져와서 review 객체의 member_id에 설정
+		if (sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다");
+			model.addAttribute("targetURL","memberLogin");
+			return "forward";
+		}		
+		
+		List<ReviewsVO> myReview = service.getReviewList(review);
+		
+		model.addAttribute("reviewBoard", myReview);
+		return "login/Mypage_ReviewList";		
+	}
+	
 	
 	@GetMapping("reviewDetail")//리뷰 상세 페이지로 이동
-	public String reviewDetail(HttpSession session, Model model, ReviewsVO review ) {
+	public String reviewDetail(HttpSession session, Model model, ReviewsVO review) {
 		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
 		review.setMember_id(sId);
 		
-	
 		if(sId == null) { // sId가 null일때 로그인창으로 보내기
 			model.addAttribute("msg","로그인이 필요합니다");
 			model.addAttribute("targetURL","memberLogin");
 			return "forward";
 		}
 		
-
-	
-		List<ReviewsVO> myreview = service.getReviewList(review); //리뷰조회
+		List<ReviewsVO> myReviewDetail = service.getReviewDetailList(review); //리뷰 상세조회
 		
-		List<ReviewsVO> myreview2 = service.getReviewList2(review); //리뷰 상세조회
-		
-		model.addAttribute("reviewBoardDetail", myreview);
+		model.addAttribute("myReviewDetail",myReviewDetail);
 		
 		return "login/Mypage_ReviewDetail";
 		
-//		System.out.println(sId);
+	}
+	
+	@GetMapping("reviewDelete")
+	public String reviewDelete(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
+		review.setMember_id(sId);
+		
+		if(sId == null) { // sId가 null일때 로그인창으로 보내기
+			model.addAttribute("msg","로그인이 필요합니다");
+			model.addAttribute("targetURL","memberLogin");
+			return "forward";
+		}
+		
+		int deleteCount = service.deleteReview(review);
+		
+		if(deleteCount > 0) {
+			//삭제 성공
+			return "redirect:/Mypage_ReviewList";
+		}else {
+			//삭제 실패
+			model.addAttribute("msg","리뷰글 삭제 실패");
+			return "fail_back";
+		}
+		
 	}
 	
 	

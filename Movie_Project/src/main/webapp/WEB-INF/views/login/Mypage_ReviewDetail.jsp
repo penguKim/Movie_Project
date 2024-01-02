@@ -47,30 +47,30 @@ $(function() {
 				<div id="my_list">
 					<h2>리뷰 상세정보 게시판</h2>
 					<table id="my_table1">
-						<c:forEach var="reviewBoardDetail" items="${reviewBoardDetail}" varStatus="status">
+						<c:forEach var="myReviewDetail" items="${myReviewDetail}" varStatus="status">
 						<tr>
 							<th>번호</th>
-							<td>${reviewBoardDetail.review_id}</td>
+							<td>${myReviewDetail.review_id}</td>
 						</tr>
 						<tr>
 							<th>영화제목</th>
-							<td>${reviewBoardDetail.movie_title }</td>
+							<td>${myReviewDetail.movie_title }</td>
 						</tr>
 						<tr>
 							<th>평점</th>
-							<td>${reviewBoardDetail.review_rating }</td>
+							<td>${myReviewDetail.review_rating }</td>
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td>${reviewBoardDetail.member_id }</td>
+							<td>${myReviewDetail.member_id }</td>
 						</tr>
 						<tr>
 							<th>작성일</th>
-							<td>${reviewBoardDetail.review_date }</td>
+							<td>${myReviewDetail.review_date }</td>
 						</tr>
 						<tr>
 							<th height="200">영화 리뷰 내용</th>
-							<td>${reviewBoardDetail.review_content }</td>
+							<td>${myReviewDetail.review_content }</td>
 						</tr>
 						</c:forEach>
 					</table><br>

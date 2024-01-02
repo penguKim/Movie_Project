@@ -110,9 +110,9 @@ public class LoginService {
 	}
 
 
-	public List<ReviewsVO> getReviewList2(ReviewsVO review) {
+	public List<ReviewsVO> getReviewDetailList(ReviewsVO review) {
 		
-		return mapper.selectMyreview2(review);
+		return mapper.selectMyreviewDetail(review);
 	}
 
 	// 아이디 찾기 수행
@@ -133,6 +133,10 @@ public class LoginService {
 	public int statusMember(MemberVO member) {
 		
 		return mapper.statusMember(member);
+	}
+
+	public int deleteReview(ReviewsVO review) {
+		return mapper.deleteMyreview(review);
 	}
 	
 }

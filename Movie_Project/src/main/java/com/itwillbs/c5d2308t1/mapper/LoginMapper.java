@@ -71,7 +71,8 @@ public interface LoginMapper {
 	// 회원정보 수정을 위한 업데이트
 	int checkMember(@Param("sId") String sId, @Param("newPasswd")String newPasswd);
 
-	List<ReviewsVO> selectMyreview2(ReviewsVO review);
+	//마이페이지 리뷰상세정보
+	List<ReviewsVO> selectMyreviewDetail(ReviewsVO review);
 	
 	MemberVO selectMemberPs(MemberVO member);
 

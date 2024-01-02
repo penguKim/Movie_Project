@@ -145,6 +145,7 @@ public class MoviesController {
 		ModelAndView mav = new ModelAndView("movie/detail", map);
 		
 		List<ReviewsVO> reviewSelect = service.getreview(review);
+		//문제점 : 세션아이디랑 member_id랑 비교없이 값을 뿌렸는데 새로고침하면 select가 날라감
 		
 		model.addAttribute("movieReview",reviewSelect );
 		return mav;
@@ -568,22 +569,13 @@ public class MoviesController {
     public String reviewBoard(HttpSession session, Model model, Map<String, String> map, @RequestParam String movie_id, @RequestParam String review_content, HttpServletRequest request) {
 			String sId = (String)session.getAttribute("sId"); //현재 로그인 중인 아이디 sId 저장
 			model.addAttribute("sId",sId);
-//			map.put("sId",sId); //map에 현재 로그인 중인 아이디 저장
-//			map.put("movie_id", movie_id); //map에 무비아이디 저장
-//			List<ReviewsVO> dbReview = service.getreview(map);
-//			System.out.println(movie_id);
-				
 			
 			int insertCount = service.registReview(sId, review_content, movie_id);
 			
 			model.addAttribute("reviews", insertCount);
-			String str1 = request.getParameter("movie_id");
-			String str2 = request.getParameter("review_content");
+//			String str1 = request.getParameter("movie_id");
+//			String str2 = request.getParameter("review_content");
 			
-			System.out.println("");
-//			System.out.println("ReviewBoardVO 맵 : " + dbReview);
-//        System.out.println("무비아이디" +map.get("movie_id"));
-        
         return "movie/detail"+ movie_id;
     }//reviewPro 끝 
 
