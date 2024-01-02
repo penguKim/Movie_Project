@@ -109,7 +109,7 @@ header {
 
 /* 메뉴(nav) 영역 마우스 후버시 색상 변경 */
 #menu_nav a:hover {
-	background-color: #ce0912;
+	background-color: rgb(68, 53, 131);
 }
 
 #main_p {
