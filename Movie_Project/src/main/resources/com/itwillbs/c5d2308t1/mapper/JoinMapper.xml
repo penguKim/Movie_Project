@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id="selectMember" resultType="int">
-		SELECT *
+		SELECT count(*)
 		FROM members
 		WHERE member_id = #{member_id}
 	</select>

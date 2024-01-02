@@ -22,7 +22,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.itwillbs.c5d2308t1.service.JoinService;
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
-import com.itwillbs.c5d2308t1.vo.NaverLoginBO;
+import com.itwillbs.c5d2308t1.vo.NaverLoginVO;
 
 @Controller
 public class JoinController {
@@ -31,13 +31,13 @@ public class JoinController {
 	@Autowired
 	private JoinService service;
 	
-	 /* NaverLoginBO */
-    private NaverLoginBO naverLoginBO;
+	 /* NaverLoginVO */
+    private NaverLoginVO NaverLoginVO;
     private String apiResult = null;
     
     @Autowired
-    private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-        this.naverLoginBO = naverLoginBO;
+    private void setNaverLoginVO(NaverLoginVO NaverLoginVO) {
+        this.NaverLoginVO = NaverLoginVO;
     }
 
 	
@@ -45,11 +45,9 @@ public class JoinController {
 	@GetMapping("memberJoin")
 	public String memberJoin(HttpSession session, Model model) {
 
-        /* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
-        String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+        /* 네이버아이디로 인증 URL을 생성하기 위하여 NaverLoginVO클래스의 getAuthorizationUrl메소드 호출 */
+        String naverAuthUrl = NaverLoginVO.getAuthorizationUrl(session);
         
-        //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-        //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
         System.out.println("네이버:" + naverAuthUrl);
         
         //네이버 
@@ -59,18 +57,17 @@ public class JoinController {
 	}
 	
 
-	 
     //네이버 로그인 성공시 callback호출 메소드
-    @RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping("callback")
     public String callback(MemberVO member, Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
             throws IOException {
-        System.out.println("여기는 callback");
         OAuth2AccessToken oauthToken;
-        oauthToken = naverLoginBO.getAccessToken(session, code, state);
+        oauthToken = NaverLoginVO.getAccessToken(session, code, state);
         //로그인 사용자 정보를 읽어온다.
-        apiResult = naverLoginBO.getUserProfile(oauthToken);
+        apiResult = NaverLoginVO.getUserProfile(oauthToken);
         model.addAttribute("result", apiResult);
         
+        // json에 담긴 정보를 파싱하여 변수에 저장
         JSONParser parser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(apiResult);
@@ -79,7 +76,6 @@ public class JoinController {
             String email = (String) responseObj.get("email");
             String phone = (String) responseObj.get("mobile");
             String birth = (String) responseObj.get("birthyear") + "-" + responseObj.get("birthday");
-  
             String gender = (String) responseObj.get("gender");
 
             member.setMember_id(email);
@@ -89,8 +85,8 @@ public class JoinController {
             member.setMember_birth(birth.replace("-", "."));
             member.setMember_gender(gender);
             
-            Integer dbMember = service.getMember(member);
-            if(dbMember == null || dbMember.equals("") || dbMember == 0) { // 이미 가입한 아이디
+            Integer memberCount = service.getMember(member);
+            if(memberCount == null || memberCount == 0) { // 새로 가입한 아이디
             	int insertCount = service.registMember(member);
             	
             	if(insertCount > 0) { // 등록 성공
@@ -101,7 +97,7 @@ public class JoinController {
             		model.addAttribute("msg", "네이버 회원가입 실패!");
             		return "fail_back";
             	}	
-            } else { // 새로 가입한 아이디
+            } else { // 이미 가입한 아이디
             	session.setAttribute("sId", member.getMember_id());
             	return "main";            	
             }
