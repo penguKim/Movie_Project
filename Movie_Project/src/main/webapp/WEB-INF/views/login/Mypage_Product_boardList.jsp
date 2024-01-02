@@ -36,6 +36,7 @@ $(function(){
 	  });
 	});
 	
+	// ajax 처리시 사용
 	
 // 	function storeX(payment_id) {
 // 		$.ajax({
