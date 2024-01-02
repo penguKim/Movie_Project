@@ -101,105 +101,111 @@ public class LoginController {
 		return "login/editmember";
 	}
 	
-	@GetMapping("Editmember") //회원수정 페이지 이동
-	public String Editmember(MemberVO member, HttpSession session, Model model, String newPasswd) {
-		// 세션 아이디가 없을 경우 "fail_back" 페이지를 통해 "잘못된 접근입니다" 출력 처리
-		String sId = (String) session.getAttribute("sId");
-		if (sId == null) {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			return "fail_back";
-		}
-		//(memberid가 null 또는 널스트링이고 세션Id가 admin이거나),sId가 admin이 아닐때
-		//id를 세션아이디로 봐꾸기
-		if(!sId.equals("admin") || (sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals("")))) {
-			member.setMember_id(sId);
-		}
-		
-		// 새 비밀번호가 있을 경우 암호화 처리
-		BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
-		if(newPasswd != null && !newPasswd.equals("")) {
-			newPasswd = passwoedEncoder.encode(newPasswd);
-		}
-		
-		member.setMember_id(sId);
-		
-		int checkMember = service.checkMember(sId, newPasswd);
-		
-		model.addAttribute("member",checkMember);
-		
-		if(checkMember > 0) {
-			model.addAttribute("msg", "수정이 완료되었습니다.");
-			model.addAttribute("targetURL", "Mypage");
-			return "forward";
-//			return "login/Mypage_Product_boardList";
-//			return "";
-		}else {
-			model.addAttribute("msg", "정보수정실패!");
-			return "fail_back";
-		}
-//			return "false";
-	}
-	
-	
-	
-	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
-	public String mypage_Refund_BoardList(HttpSession session,Model model, RefundVO refund) {
-		// 세션 아이디를 판별
-		String sId = (String) session.getAttribute("sId");
-		
-		refund.setMember_id(sId);
-		
-		List<RefundVO> reserveList = service.getReserveList(refund);
-		
-		// DecimalFormat을 사용하여 payment_total_price를 30,000 형식으로 변환
-	    DecimalFormat decimalFormat = new DecimalFormat("###,###");
+	@GetMapping("Editmember") // 회원수정 페이지 이동
+	public String Editmember(MemberVO member, HttpSession session, Model model, String newPasswd, String oldPasswd) {
+	    // 세션 아이디가 없을 경우 "fail_back" 페이지를 통해 "잘못된 접근입니다" 출력 처리
+	    String sId = (String) session.getAttribute("sId");
+	    if (sId == null) {
+	        model.addAttribute("msg", "잘못된 접근입니다");
+	        return "fail_back";
+	    }
 	    
-		System.out.println("지금 내아이디다 : " + refund.getMember_id());
-		
-		model.addAttribute("reserveList", reserveList);
-		
-		System.out.println("지금나는뭘까요 :" +  reserveList);
-		
-		
-		return"login/Mypage_Refund_BoardList";
+	    // (memberid가 null 또는 널스트링이고 세션Id가 admin이거나),sId가 admin이 아닐때
+	    // id를 세션아이디로 변경하기
+	    if (!sId.equals("admin") || (sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals("")))) {
+	        member.setMember_id(sId);
+	    }
+	    member.setMember_id(sId);
+
+	    // 기존에 있던 회원 비밀번호 조회
+	    MemberVO dbmember = service.selectMemberPs(member);
+	    // 기존 비밀번호 저장
+	    // oldPasswd와 기존 패스워드 비교하여 일치할 경우에만 정보 수정 또는 회원 탈퇴 기능 실행
+	    // 새 비밀번호가 있을 경우 암호화 처리
+	    BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
+	    if (newPasswd != null && !newPasswd.equals("")) {
+	        newPasswd = passwoedEncoder.encode(newPasswd);
+	    }
+	    
+	    // 기존 비밀번호 확인하기
+	    member.setMember_id(sId);
+	    int checkMember = service.checkMember(sId, newPasswd);
+	    member.setMember_passwd(dbmember.getMember_passwd());
+	    
+	    System.out.println("내가 현재 가진 비밀번호: " + dbmember.getMember_passwd());
+	    System.out.println("내가 입력한 비밀번호: " + oldPasswd);
+	    
+	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	    if (oldPasswd == null || oldPasswd.equals("")) {
+	        model.addAttribute("msg", "기존 비밀번호를 입력하세요.");
+	        return "fail_back";
+	    }
+
+	    if (newPasswd == null || newPasswd.equals("")) {
+	        model.addAttribute("msg", "새 비밀번호를 입력하세요.");
+	        return "fail_back";
+	    }
+
+	    if (oldPasswd != null && passwordEncoder.matches(oldPasswd, dbmember.getMember_passwd())) {
+	        if (checkMember > 0) {
+	            model.addAttribute("msg", "수정이 완료되었습니다.");
+	            model.addAttribute("targetURL", "Mypage");
+	            return "forward";
+	        } else {
+	            model.addAttribute("msg", "수정에 실패했습니다.");
+	            return "fail_back";
+	        }
+	    } else {
+	        model.addAttribute("msg", "기존 비밀번호가 틀렸습니다.");
+	        return "fail_back";
+	    }
 	}
 	
-	@GetMapping("Mypage_ReviewList")// 리뷰 게시판으로 이동
-	public String mypage_ReviewList(HttpSession session, Model model, ReviewsVO review) { 
-		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
-		review.setMember_id(sId);
-//		System.out.println(sId);
-		List<ReviewsVO> myreview = service.getReviewList(review);
-		model.addAttribute("myreview", myreview);
-		return "login/Mypage_ReviewList";
-	}
 	
-	@GetMapping("reviewDelete")
-	public String reviewDelete(HttpSession session, Model model, ReviewsVO review) {
-		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
-		review.setMember_id(sId);
-		
 	
-		if(sId == null) { // sId가 null일때 로그인창으로 보내기
-			model.addAttribute("msg","로그인이 필요합니다");
-			model.addAttribute("targetURL","memberLogin");
-			return "forward";
-		}	
-			int deleteCount = service.reviewBoard(review);//리뷰삭제
-			System.out.println(deleteCount);
-			
-			if(deleteCount > 0) {
-				
-				//삭제 성공
-				return "redirect:/Mypage_ReviewList";
-			}else {
-				//삭제 실패
-				model.addAttribute("msg", "글 삭제 실패!");
+	// 회원 탈퇴를 위한 회원조회
+		@GetMapping("memberDie")
+		public String memberDie(HttpSession session ,Model model, MemberVO member, String oldPasswd) {
+			String sId = (String) session.getAttribute("sId");
+			if (sId == null) {
+				model.addAttribute("msg", "잘못된 접근입니다");
 				return "fail_back";
 			}
+			member.setMember_id(sId);
 			
-		
-	}
+			
+			System.out.println("현재 내아이디 : " + member.getMember_id());
+			// 기존에 있던 회원 비밀번호 조회
+			MemberVO dbmemberPs = service.selectMemberPs(member);
+			// 기존 비밀번호 저장
+			member.setMember_passwd(dbmemberPs.getMember_passwd());
+			
+			// 입력받는 비밀번호
+			System.out.println("현재 나의 비밀번호 :" + member.getMember_passwd());
+			System.out.println("내가 입력받은 비밀번호 :" +  oldPasswd);
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			int dbmember = service.statusMember(member); 
+			if (oldPasswd != null && passwordEncoder.matches(oldPasswd, dbmemberPs.getMember_passwd())) {
+			    if (dbmember > 0) {
+			        model.addAttribute("msg", "회원탈퇴가 완료되었습니다.");
+			        model.addAttribute("targetURL", "main");
+			        session.invalidate();
+			        return "forward";
+			    } else {
+			        model.addAttribute("msg", "회원탈퇴에 실패했습니다.");
+			        model.addAttribute("targetURL", "SideEditmember");
+			        return "forward";
+			    }
+			} else {
+			    if (oldPasswd == null || oldPasswd.equals("")) {
+			        model.addAttribute("msg", "기존 비밀번호를 입력하세요.");
+			    } else {
+			        model.addAttribute("msg", "비밀번호가 틀렸습니다.");
+			    }
+			    model.addAttribute("targetURL", "SideEditmember");
+			    return "forward";
+			}
+		}
 	
 	@GetMapping("reviewDetail")//리뷰 상세 페이지로 이동
 	public String reviewDetail(HttpSession session, Model model, ReviewsVO review ) {

@@ -72,6 +72,10 @@ public interface LoginMapper {
 	int checkMember(@Param("sId") String sId, @Param("newPasswd")String newPasswd);
 
 	List<ReviewsVO> selectMyreview2(ReviewsVO review);
+	
+	MemberVO selectMemberPs(MemberVO member);
+
+	int statusMember(MemberVO member);
 
 	// 회원 아이디 찾기
 	MemberVO selectFindId(MemberVO member);

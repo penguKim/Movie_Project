@@ -125,5 +125,14 @@ public class LoginService {
 		return member;
 	}
 
+	public MemberVO selectMemberPs(MemberVO member) {
+		
+		return mapper.selectMemberPs(member);
+	}
+	// 회원상태 업데이터
+	public int statusMember(MemberVO member) {
+		
+		return mapper.statusMember(member);
+	}
 	
 }

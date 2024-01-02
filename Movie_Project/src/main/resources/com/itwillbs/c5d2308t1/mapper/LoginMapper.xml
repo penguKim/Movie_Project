@@ -165,6 +165,19 @@
 		WHERE member_name = #{member_name}
 		AND member_email = #{member_email}
 	</select>
+	
+	<select id="selectMemberPs">
+    SELECT member_passwd
+    FROM members
+    WHERE member_id = #{member_id}
+	</select>
+
+	<update id="statusMember">
+	    UPDATE members
+	    SET member_status = 0
+	    WHERE member_id = #{member_id}
+	</update>
+	
 </mapper>
 
 
