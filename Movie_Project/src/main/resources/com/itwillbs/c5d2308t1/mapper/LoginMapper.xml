@@ -167,7 +167,13 @@
 		WHERE member_name = #{member_name}
 		AND member_email = #{member_email}
 	</select>
-	
+	<!-- 회원 비밀번호 찾기 -->
+	<select id="selectFindPasswd" resultType="member">
+		SELECT *
+		FROM members
+		WHERE member_id = #{member_id}
+	</select>
+
 	<select id="selectMemberPs">
     SELECT member_passwd
     FROM members
@@ -179,7 +185,6 @@
 	    SET member_status = 0
 	    WHERE member_id = #{member_id}
 	</update>
-	
 </mapper>
 
 

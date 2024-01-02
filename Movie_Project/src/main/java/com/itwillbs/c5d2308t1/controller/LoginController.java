@@ -472,7 +472,7 @@ public class LoginController {
 			return "fail_back";
 		} else {
 			model.addAttribute("member", member);
-			return "login/find_success";
+			return "redirect:/findMemberInfo";
 		}
 	}
 	
@@ -485,16 +485,26 @@ public class LoginController {
 	// 비밀번호 찾기 비즈니스 로직 수행 - 처리중
 	@PostMapping("pwFindPro")
 	public String passwdFindPro(MemberVO member, Model model) {
-		// 이름과 이메일이 일치하는 회원 검색
-		member = service.findMember(member);
+		// 아이디가 일치하는 회원 검색
+		MemberVO dbMember = service.findMember(member);
 		
-		if(member == null) { // 일치하는 회원이 없을 경우
+		if(dbMember == null) { // 일치하는 회원이 없을 경우
 			model.addAttribute("msg", "일치하는 회원이 없습니다!");
+			return "fail_back";
+		} else if(!dbMember.getMember_name().equals(member.getMember_name()) ||
+				!dbMember.getMember_email().equals(member.getMember_email())) { // 입력한 이름이나 이메일이 다를 경우
+			model.addAttribute("msg", "입력하신 회원 정보를 확인해주세요.");
 			return "fail_back";
 		} else {
 			model.addAttribute("member", member);
-			return "login/find_success";
+			return "redirect:/findMemberInfo";
 		}
+	}
+	
+	// 조회 결과 페이지
+	@GetMapping("findMemberInfo")
+	public String findMemberInfo() {
+		return "login/find_success";
 	}
 		
 }

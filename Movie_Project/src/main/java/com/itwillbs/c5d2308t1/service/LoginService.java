@@ -115,14 +115,15 @@ public class LoginService {
 		return mapper.selectMyreviewDetail(review);
 	}
 
-	// 아이디 찾기 수행
+	// 아이디, 비밀번호 찾기 수행
 	public MemberVO findMember(MemberVO member) {
-		if(member.getMember_passwd() == null) {
-			member = mapper.selectFindId(member);
+		MemberVO dbMember = null;
+		if(member.getMember_id() == null) {
+			dbMember = mapper.selectFindId(member);
 		} else {
-			member = mapper.selectFindPasswd(member);
+			dbMember = mapper.selectFindPasswd(member);
 		}
-		return member;
+		return dbMember;
 	}
 
 	public MemberVO selectMemberPs(MemberVO member) {
