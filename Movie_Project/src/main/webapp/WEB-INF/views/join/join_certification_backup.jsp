@@ -10,7 +10,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/join.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <!-- 네이버 api를 위한 script -->
-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <!-- 카카오 api를 위한 script -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
@@ -126,10 +126,7 @@
 					<!-- 카카오 로그인 버튼 노출 영역 -->
 					<a href="#" id="kakao-login-btn"></a>					
 					<!-- 네이버 로그인 버튼 노출 영역 -->
-<!-- 					<div id="naver_id_login"></div> -->
-					<!-- 네이버 로그인 화면으로 이동 시키는 URL -->
-					<!-- 네이버 로그인 화면에서 ID, PW를 올바르게 입력하면 callback 메소드 실행 요청 -->
-					<div id="naver_id_login" style="text-align:center"><a href="${url}"><img width="223" src="${pageContext.request.contextPath}/resources/img/naver_Bn_Green.PNG"/></a></div>
+					<div id="naver_id_login"></div>
 				</section>
 				
 				<hr>
@@ -159,6 +156,39 @@
 	</div>
 	
 	
+	
+	<!-- 네이버아디디로로그인 초기화 Script -->
+	<script type="text/javascript">
+ 		var naver_id_login = new naver_id_login("nr_LTg68QmTdiTdj7ult", "http://localhost:8081/c5d2308t1");
+ 		var state = naver_id_login.getUniqState();
+		naver_id_login.setButton("green", 3,40);
+		naver_id_login.setDomain(".service.com");
+		naver_id_login.setState(state);
+		naver_id_login.setPopup();
+		naver_id_login.init_naver_id_login();
+ 	</script>
+	<!-- // 네이버 로그인 초기화 Script -->
+	
+	<!-- 네이버아디디로로그인 Callback페이지 처리 Script -->
+	<script type="text/javascript">
+		// 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+		function naverSignInCallback() {
+			// naver_id_login.getProfileData('프로필항목명');
+			// 프로필 항목은 개발가이드를 참고하시기 바랍니다.
+			alert(naver_id_login.getProfileData('id'));
+			alert(naver_id_login.getProfileData('name'));
+			alert(naver_id_login.getProfileData('email'));
+			alert(naver_id_login.getProfileData('gender'));
+// 			alert(naver_id_login.getProfileData('age'));
+// 			alert(naver_id_login.getProfileData('birthday'));
+			alert(naver_id_login.getProfileData('mobile'));
+		}
+	
+	
+		// 네이버 사용자 프로필 조회
+		naver_id_login.get_naver_userprofile("naverSignInCallback()");
+ 	</script>
+	<!-- //네이버아디디로로그인 Callback페이지 처리 Script -->
 	
 	
 	

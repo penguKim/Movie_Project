@@ -32,6 +32,8 @@
 	</beans:bean>
 	<context:component-scan base-package="com.itwillbs.c5d2308t1" />
 	
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<beans:bean id="naverLoginBO" class="com.itwillbs.c5d2308t1.vo.NaverLoginBO" />
 	
 	
 </beans:beans>

@@ -57,11 +57,10 @@ public class JoinService {
 		return mapper.selectDup(member);
 	}
 
-	// 네이버 로그인
-	public int naverLogin(MemberVO member) {
-		return mapper.insertMember(member);
+	// 회원 정보 불러오기
+	public Integer getMember(MemberVO member) {
+		return mapper.selectMember(member);
 	}
-
 
 	
 }
