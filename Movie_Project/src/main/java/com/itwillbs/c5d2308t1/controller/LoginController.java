@@ -92,6 +92,46 @@ public class LoginController {
 		return "login/editmember";
 	}
 	
+	@GetMapping("Editmember") //회원수정 페이지 이동
+	public String Editmember(MemberVO member, HttpSession session, Model model, String newPasswd) {
+		// 세션 아이디가 없을 경우 "fail_back" 페이지를 통해 "잘못된 접근입니다" 출력 처리
+		String sId = (String) session.getAttribute("sId");
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			return "fail_back";
+		}
+		//(memberid가 null 또는 널스트링이고 세션Id가 admin이거나),sId가 admin이 아닐때
+		//id를 세션아이디로 봐꾸기
+		if(!sId.equals("admin") || (sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals("")))) {
+			member.setMember_id(sId);
+		}
+		
+		// 새 비밀번호가 있을 경우 암호화 처리
+		BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
+		if(newPasswd != null && !newPasswd.equals("")) {
+			newPasswd = passwoedEncoder.encode(newPasswd);
+		}
+		
+		member.setMember_id(sId);
+		
+		int checkMember = service.checkMember(sId, newPasswd);
+		
+		model.addAttribute("member",checkMember);
+		
+		if(checkMember > 0) {
+			model.addAttribute("msg", "수정이 완료되었습니다.");
+			model.addAttribute("targetURL", "Mypage");
+			return "forward";
+//			return "login/Mypage_Product_boardList";
+//			return "";
+		}else {
+			model.addAttribute("msg", "정보수정실패!");
+			return "fail_back";
+		}
+//			return "false";
+	}
+	
+	
 	@GetMapping("Mypage_Refund_BoardList") //취소내역 페이지 이동
 	public String mypage_Refund_BoardList(HttpSession session,Model model, RefundVO refund) {
 		// 세션 아이디를 판별

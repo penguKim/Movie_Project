@@ -141,6 +141,15 @@
 		SET payment_status = 0
 		WHERE payment_id = #{payment_id}
 	</update>
+	
+	<update id="checkMember">
+	UPDATE members
+	SET
+		member_passwd = #{newPasswd} -- 새 패스워드가 존재할 경우 기존 패스워드 변경
+	WHERE
+		member_id = #{sId}
+	</update>
+	
 </mapper>
 
 

@@ -103,6 +103,12 @@ public class LoginService {
 		
 		return mapper.updateMyStore(refund);
 	}
+	
+	// 회원정보 수정 업데이트
+	public int checkMember(String sId, String newPasswd) {
+		return mapper.checkMember(sId,newPasswd);
+	}
+
 
 	
 }

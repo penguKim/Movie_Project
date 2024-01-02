@@ -67,6 +67,9 @@ public interface LoginMapper {
 	
 	// 마이페이지 상품구매내역 업데이트
 	int updateMyStore(RefundVO refund);
+	
+	// 회원정보 수정을 위한 업데이트
+	int checkMember(@Param("sId") String sId, @Param("newPasswd")String newPasswd);
 
 
 }
