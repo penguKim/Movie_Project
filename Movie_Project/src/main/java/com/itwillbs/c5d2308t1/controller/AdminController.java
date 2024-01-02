@@ -311,6 +311,7 @@ public class AdminController {
 	@GetMapping("getRoom")
 	public List<HashMap<String, Object>> roomList(@RequestParam String theater_id) {
 		List<HashMap<String, Object>> roomList = service.getRoomList(theater_id);
+		System.out.println(roomList);
 		return roomList;
 	}
 	
@@ -402,6 +403,7 @@ public class AdminController {
         int updateCount = service.modifySchedule(play);
         
         if(updateCount == 0) {
+        	model.addAttribute("msg", "상영 일정 수정에 실패했습니다!");
         	return "fail_back";
         } else {
         	return "formData";
