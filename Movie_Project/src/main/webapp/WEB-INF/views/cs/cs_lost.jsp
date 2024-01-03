@@ -28,10 +28,10 @@
 			url: "getTheater",
 			success: function(result) {
 				for(let theater of result) {
-				$("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
+					$("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
 				}
 			},
-			error: function(xhr, textStatus, errorThrown) {
+			error: function(request,status,error) {
 				alert("지점명 로딩 오류입니다.");
 			}
 			

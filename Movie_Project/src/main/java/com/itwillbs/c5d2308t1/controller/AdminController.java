@@ -983,7 +983,7 @@ public class AdminController {
 		
 		if(deleteCount > 0) { // 삭제 성공
 			
-			return "redirect:/adminNotice?pageNum=" + pageNum;
+			return "redirect:/adminFaq?pageNum=" + pageNum;
 			
 		} else { // 삭제 실패
 			// "글 삭제 실패!" 메세지 처리

@@ -38,7 +38,7 @@
 				$.ajax({
 					url: "checkDup",
 					data: {
-						member_id : member_id
+						"member_id" : member_id
 					},
 					dataType: "json",
 					success: function(checkDupId) {
@@ -53,7 +53,7 @@
 						}
 							
 					},
-					error: function(xhr, status, error) {
+					error: function(request,status,error) {
 					      // 요청이 실패한 경우 처리할 로직
 					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 					}
@@ -148,43 +148,6 @@
 	        }
 		});		
 		
-		
-		<%-- 이메일주소 확인 --%>
-// 		$("#email").blur(function() {			
-// 			let member_email = $("#email").val();
-// 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-			
-// 			if(!regEmail.exec(member_email)){
-// 				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
-// 				iscorrectEmail = false;
-// 			} else {
-<%-- 				AJAX를 통해 이메일 중복값 확인 --%>
-// 				$.ajax({
-// 					url: "checkDup",
-// 					data: {
-// 						member_email : member_email
-// 					},
-// 					dataType: "json",
-// 					success: function(checkDupEmail) {
-// 						if(checkDupEmail) { // 중복
-//  							$("#checkEmailResult").text("이미 사용중인 이메일입니다").css("color", "red");
-//  							iscorrectEmail = false;
-//  							isDuplicateEmail = true;
-// 						} else { // 사용가능
-// 							$("#checkEmailResult").text("사용 가능한 이메일입니다").css("color", "blue");
-// 							isDuplicateEmail = false;
-// 							iscorrectEmail = true;
-// 						}
-							
-// 					},
-// 					error: function(xhr, status, error) {
-// 					      // 요청이 실패한 경우 처리할 로직
-// 					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
-// 					}
-// 				});
-// 	        }
-// 		});	
-		
 		<%-- 휴대폰번호 확인 --%>
 		$("#phone").on("blur", function() {	
 			let member_phone = $("#phone").val();
@@ -213,7 +176,7 @@
 						}
 							
 					},
-					error: function(xhr, status, error) {
+					error: function(request,status,error) {
 					      // 요청이 실패한 경우 처리할 로직
 					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 					}

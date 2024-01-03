@@ -32,7 +32,7 @@
 				$.ajax({
 					url: "checkDup",
 					data: {
-						member_email : member_email
+						"member_email" : member_email
 					},
 					dataType: "json",
 					success: function(checkDupEmail) {
@@ -63,7 +63,7 @@
 						}
 							
 					},
-					error: function(xhr, status, error) {
+					error: function(request,status,error) {
 					      // 요청이 실패한 경우 처리할 로직
 					      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 					}

@@ -12,13 +12,11 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
-	$(function() {
-		$("#deleteBtn").click(function() {
-			if(confirm("삭제하시겠습니까?")) {
-				location.href="adminNoticeDelete?cs_type=${noticeDetail.cs_type}&cs_type_list_num=${noticeDetail.cs_type_list_num}&pageNum=${param.pageNum}";
-			}
-		})
-	});
+	function confirmDelete() {
+		if(confirm("삭제하시겠습니까?")) {
+			location.href="adminNoticeDelete?cs_type=${noticeDetail.cs_type}&cs_type_list_num=${noticeDetail.cs_type_list_num}&pageNum=${param.pageNum}";
+		}
+	}
 </script>
 </head>
 <body>
@@ -75,7 +73,7 @@
 					<div id="admin_writer">
 						<input type="submit" value="수정">
 						<a href="adminNotice?pageNum=${param.pageNum}"><input type="button" value="돌아가기"></a>
-						<input type="button" value="삭제" id="deleteBtn">
+						<a href="javascript:confirmDelete()"><input type="button" value="삭제"></a>
 					</div>
 				</form>
 			</div>

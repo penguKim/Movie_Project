@@ -82,7 +82,7 @@ navbar {
 #content {
 	display: inline-block;
 	margin: 0 auto;
-	width: 1240px;
+	width: 100%;
 }
 
 #top_area_admin {
@@ -149,10 +149,6 @@ a {
 	border: none;
 }
 
-#admin_sub textarea {
-	border: none;
-}
-
 /* 검색창 div영역 오른쪽정렬 */
 #admin_search {
 	text-align: right;
@@ -183,13 +179,13 @@ a {
 }
 
 #subject {
-	width: 670px;
+	width: 1100px;
 }
 
 textarea {
 	resize: none; /* 크기고정 */
-	width: 670px; /* 너비지정 */
-	height: 250px; /* 높이지정 */
+	width: 1100px; /* 너비지정 */
+	min-height: 250px; /* 높이지정 */
 	margin: 5px;
 	font-family: sans-serif;
 	font-size: 15px;

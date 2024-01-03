@@ -45,7 +45,7 @@
 				<hr>
 				<div id="main_shortcuts"><%-- 바로가기 --%>
 					<b>자주 찾는 서비스</b><br>
-					<a href="memberLogin">
+					<a href="idFind">
 						<img src="${pageContext.request.contextPath}/resources/img/id-card.png" alt="1:1 이미지">
 						<span>아이디/<br>비밀번호<br>찾기</span>
 					</a>
@@ -89,7 +89,7 @@
 								<c:otherwise>
 									<c:forEach begin="0" end="4" var="notice" items="${noticeMainList}">
 										<li><img src="${pageContext.request.contextPath}/resources/img/megaphone.png">
-											<a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=1"><span id="cs_subject">${notice.cs_subject}</span><a>
+											<a href="csNoticeDetail?cs_type=${notice.cs_type}&cs_type_list_num=${notice.cs_type_list_num}&pageNum=1"><span id="cs_subject">${notice.cs_subject}</span></a>
 										</li> <%-- 자주묻는질문 최신 5개만 보여주기 --%>
 									</c:forEach>
 								</c:otherwise>

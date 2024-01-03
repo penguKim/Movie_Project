@@ -32,8 +32,8 @@
 						$("#theater_id").append(option);
 				      }
 				},
-				error: function(xhr, textStatus, errorThrown) {
-					alert("지점명 로딩 오류입니다.");
+				error: function(request,status,error) {
+					alert("지점명 로딩 오류입니다:", error);
 				}
 				
 			});

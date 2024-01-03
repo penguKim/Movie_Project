@@ -26,7 +26,7 @@
 				<span id="this">가입완료</span>		
 			</section>
 			
-			<form action="" method="" name="" id="completion_msg">
+			<form id="completion_msg">
 				<hr>
 				<h2>회원가입을 축하합니다</h2>
 				<p>[ ${param.member_id} ] 님의 회원가입을 축하합니다. <br>

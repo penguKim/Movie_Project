@@ -9,14 +9,12 @@
 <title>자주 묻는 질문 관리</title>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<script>
-	$(function() {
-		$("#deleteBtn").click(function() {
-			if(confirm("삭제하시겠습니까?")) {
-				location.href="adminFaqDelete?cs_type=${faqDetail.cs_type}&cs_type_list_num=${faqDetail.cs_type_list_num}&pageNum=${param.pageNum}";
-			}
-		})
-	});
+<script>	
+	function confirmDelete() {
+		if(confirm("삭제하시겠습니까?")) {
+			location.href="adminFaqDelete?cs_type=${faqDetail.cs_type}&cs_type_list_num=${faqDetail.cs_type_list_num}&pageNum=${param.pageNum}";
+		}
+	}
 </script>
 </head>
 <body>
@@ -62,7 +60,7 @@
 					<div id="admin_writer"> 
 						<input type="submit" value="수정">
 						<a href="adminFaq?pageNum=${param.pageNum}"><input type="button" value="돌아가기"></a>
-						<input type="button" value="삭제" id="deleteBtn">
+						<a href="javascript:confirmDelete()"><input type="button" value="삭제"></a>
 					</div>
 				</form>
 			</div>

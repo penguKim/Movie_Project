@@ -20,7 +20,7 @@
 
 			$.ajax({
 				url: "faqDetail",
-				data: { buttonName: buttonName },
+				data: { "buttonName": buttonName },
 				success: function(data) {
 					$("#faq_button input").removeClass("btn-active").addClass("btn-inactive");
 					$(".faqButton[name='" + buttonName +"']").removeClass("btn-inactive").addClass("btn-active");
@@ -72,7 +72,7 @@
 			
 			$.ajax({
 				url: "faqSearch",
-				data: { searchValue: searchValue },
+				data: { "searchValue": searchValue },
 				success: function(data) {
 
 					$("#faq_list").empty();
@@ -112,7 +112,7 @@
 					
 					
 				},
-				error: function(xhr, status, error) {
+				error: function(request,status,error) {
 			      // 요청이 실패한 경우 처리할 로직
 			      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 				}

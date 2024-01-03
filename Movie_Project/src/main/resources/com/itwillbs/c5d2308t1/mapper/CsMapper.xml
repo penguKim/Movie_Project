@@ -125,7 +125,7 @@
 	<insert id="insertBoard">
 		<!-- cs_type_list_num 계산하여 넣기 -->
 		<selectKey keyProperty="cs_type_list_num" resultType="int" order="BEFORE">
-			SELECT MAX(cs_type_list_num)
+			SELECT IFNULL(MAX(cs_type_list_num), 0)
 			FROM cs
 			WHERE cs_type = #{cs_type}
 		</selectKey>
