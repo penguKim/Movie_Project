@@ -182,7 +182,7 @@
 
 	<update id="statusMember">
 	    UPDATE members
-	    SET member_status = 0
+	    SET member_status = 2
 	    WHERE member_id = #{member_id}
 	</update>
 </mapper>

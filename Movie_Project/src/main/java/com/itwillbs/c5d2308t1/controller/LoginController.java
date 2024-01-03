@@ -85,11 +85,12 @@ public class LoginController {
 	@GetMapping("SideEditmember") //회원수정 페이지 이동
 	public String sideEditmember(MemberVO member, HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 "fail_back" 페이지를 통해 "잘못된 접근입니다" 출력 처리
-		String sId = (String) session.getAttribute("sId");
-		if (sId == null) {
-			model.addAttribute("msg", "잘못된 접근입니다");
-			return "fail_back";
-		}
+	    String sId = (String) session.getAttribute("sId");
+	    if (sId == null) {
+	        model.addAttribute("msg", "로그인이 필요합니다");
+	        model.addAttribute("targetURL", "memberLogin");
+	        return "forward";
+	    } 
 		//(memberid가 null 또는 널스트링이고 세션Id가 admin이거나),sId가 admin이 아닐때
 		//id를 세션아이디로 봐꾸기
 		if(!sId.equals("admin") || (sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals("")))) {
@@ -129,7 +130,6 @@ public class LoginController {
 	    
 	    // 기존 비밀번호 확인하기
 	    member.setMember_id(sId);
-	    int checkMember = service.checkMember(sId, newPasswd);
 	    member.setMember_passwd(dbmember.getMember_passwd());
 	    
 	    System.out.println("내가 현재 가진 비밀번호: " + dbmember.getMember_passwd());
@@ -145,6 +145,8 @@ public class LoginController {
 	        model.addAttribute("msg", "새 비밀번호를 입력하세요.");
 	        return "fail_back";
 	    }
+	    
+	    int checkMember = service.checkMember(sId, newPasswd);
 
 	    if (oldPasswd != null && passwordEncoder.matches(oldPasswd, dbmember.getMember_passwd())) {
 	        if (checkMember > 0) {
