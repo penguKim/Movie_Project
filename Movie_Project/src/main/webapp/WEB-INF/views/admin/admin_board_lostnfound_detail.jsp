@@ -34,11 +34,11 @@
 			<h1 id="h01">분실물 문의 상세 조회페이지</h1>
 			<hr>		
 			<div id="admin_sub">
-				<form action="" method="post">
+				<form action="LostNFoundMoveToModify?pageNum=${param.pageNum }" method="post">
 					<table border="1">
 						<tr>
 							<th>번호</th>
-							<td>223</td>
+							<td>${lostnfound.cs_id }</td>
 						</tr>
 						<tr>
 							<th>분실장소</th>
@@ -66,6 +66,7 @@
 								<div class = "file">
 									<c:if test="${not empty lostnfound.cs_file}">
 										<c:set var="original_file_name" value="${fn:substringAfter(lostnfound.cs_file, '_')}"/>
+										<img alt="" src="${pageContext.request.contextPath }/resources/upload/${lostnfound.cs_file}" height="300px">
 										${original_file_name}
 										<a href="${pageContext.request.contextPath }/resources/upload/${lostnfound.cs_file}" download="${original_file_name}"><input type="button" value="다운로드"></a>
 									</c:if>
@@ -82,9 +83,15 @@
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${lostnfound.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
-						<input type="submit" value="답변 수정" formaction="LostNFoundMoveToModify?pageNum=${param.pageNum }" id="modify">
-<!-- 						<input type="submit" value="답변 삭제" formaction=""> -->
-						<input type="button" value="돌아가기" onclick="history.back();">
+						<c:choose>
+							<c:when test="${empty lostnfound.cs_reply }">
+								<a href="LostNFoundMoveToRegister?cs_id=${lostnfound.cs_id }&pageNum=${param.pageNum}"><input type="button" value="답변하기"></a>
+							</c:when>
+							<c:otherwise>
+								<input type="submit" value="답변 수정/삭제">
+							</c:otherwise>
+						</c:choose>	
+						<input type="button" value="돌아가기" onclick="history.back()">
 					</div>
 				</form>
 			</div>

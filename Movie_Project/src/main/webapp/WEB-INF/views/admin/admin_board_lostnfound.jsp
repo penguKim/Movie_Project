@@ -54,7 +54,7 @@
 									<tr>
 										<td>${lnf.cs_id }</td>
 										<td>${lnf.theater_name }</td>
-										<td>${lnf.cs_subject }</td>
+										<td class="post_name"><a href="LostNFoundDetail?cs_id=${lnf.cs_id }&pageNum=${pageNum }">${lnf.cs_subject }</a></td>
 										<td>${lnf.member_id }</td>
 										<td>${lnf.cs_date }</td>
 										<c:choose>

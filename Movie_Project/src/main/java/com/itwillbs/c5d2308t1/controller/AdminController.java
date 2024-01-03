@@ -125,6 +125,18 @@ public class AdminController {
 	}
 	
 	
+	// 영화 차트 조회
+	@ResponseBody
+	@GetMapping("movieChart")
+	public List<Map<String, String>> movieChart() {
+		
+		// 영화 제목과 예매된 횟수를 7일 단위로 조회
+		List<Map<String, String>> movies = service.getMovieChart();
+		
+		return movies;
+	}
+	
+	
 	// ===========================================================================================
 	// *********************** 영화관리 페이지 *************
 	// 관리자페이지 영화 정보 관리 페이지로 이동
