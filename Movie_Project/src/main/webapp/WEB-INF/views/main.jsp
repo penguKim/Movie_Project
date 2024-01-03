@@ -11,6 +11,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/autoSlide.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript">
@@ -122,7 +123,7 @@
 				}
 			});
 		});
-		
+				
 		// 메인페이지의 이벤트 목록 
 		$.ajax({
 			url: "eventList",
@@ -197,6 +198,21 @@
 			}
 		});
 	}
+	
+		
+	
+	function pageMove(move_num, pro_id) {
+		
+		<%-- 페이지 이동용 번호 --%>
+		let move = move_num;
+		<%-- 상품 아이디 지정 --%>
+		let pro = pro_id;
+		
+		<%-- 상세페이지로 이동--%>
+		if(move == 1 ) {
+			location.href = "http://localhost:8081/c5d2308t1/storeDetail?product_id=" + pro;
+		}
+	}
 </script>
 </head>
 <body>
@@ -226,10 +242,41 @@
 			<div id="main_store">
 				<hr>
 				<h2>스토어 베스트 상품</h2>
-				<img alt="" src="img/짜파게티팝콘패키지.jpg" width="250" height="200">
-				<img alt="" src="img/팝콘패키지.jpg" width="250" height="200">
-				<img alt="" src="img/맥주패키지.jpg" width="250" height="200">
+			<div id="storeArea">
+				<div id=storePage><a href="http://localhost:8081/c5d2308t1/store"><input type="button" value="전체보기"></a></div>
 			</div>
+					<div class="snack_menu">
+						<!-- 상품 상세 페이지 바로가기 -->
+						<a id="storeDetail" href="#" onclick="pageMove(1, 'P005')">
+							<img alt="" src="${pageContext.request.contextPath}/resources/img/snack/우리패키지.jpg" width="310" height="250" ><br>
+							<span>우리패키지</span><br>
+							<span class="snack_detail">영화관람권 4매+더블콤보 1개</span><br><br>
+							<span>61,000<span id="won">원&nbsp;&nbsp;</span></span>
+							<span style="text-decoration: line-through;" class="snack_detail">65,000
+								<span id="won">원</span>
+							</span>
+						</a>
+						<!-- 장바구니에 담고 버튼 클릭 시 모달창 확인 -->
+					</div>
+					<div class="snack_menu">
+						<a href="#" onclick="pageMove(1, 'P002')">
+						<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/나랑너패키지.jpg" width="310" height="250"><br>
+						<span>나랑너패키지</span><br>
+						<span class="snack_detail">영화관람권 2매+스위트콤보 1개</span><br><br>
+							<span>34,000<span id="won">원&nbsp;&nbsp;</span>
+						</span>
+						<span style="text-decoration: line-through;" class="snack_detail">36,000
+							<span id="won">원</span>
+						</span></a>
+					</div>
+					<div class="snack_menu">
+						<a href="#" onclick="pageMove(1, 'P003')">
+							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/시네마패키지.jpg" width="310" height="250"><br>
+							<span>시네마패키지</span><br>
+							<span class="snack_detail">미니 시네마+팝콘L1개+콜라M2개</span><br><br>
+							<span>31,000<span id="won">원&nbsp;&nbsp;</span></span><span style="text-decoration: line-through;" class="snack_detail">36,000<span id="won">원</span></span>
+						</a>
+					</div>
 			 <div class="container">
 				 <hr>
 		        <h2>진행 중인 이벤트</h2>
