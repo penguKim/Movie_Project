@@ -301,17 +301,17 @@
 			<hr>		
 			<div id="admin_sub">
 				<form action="memberModOrDlt" method="post">
-					<table border="1" id="modify_table">
+					<table border="1" id="modify_table" class="member_modify_table">
 						<tr>
 							<th>이름</th>	
-							<td colspan="2">
+							<td>
 								<input type="text" name="member_name" value="${member.member_name }" id="member_name" readonly>
 								<div id="checkNameResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>계정</th>
-							<td colspan="2">
+							<td>
 								<input type="text" name="member_id" value="${member.member_id }" id="mamber_id" readonly>
 							</td>
 						</tr>
@@ -329,38 +329,38 @@
 								<div id="checkNewPasswd2Result"></div>
 							</td>
 						</tr>
-						<!-- 멤버십(회원등급)은 부기능이므로 제외시켜놓음 -->
-	<!-- 						<tr> -->
-	<!-- 							<th>멤버십</th> -->
-	<!-- 							<td> -->
-	<!-- 								<select> -->
-	<!-- 									<option selected>BRONZE</option> -->
-	<!-- 									<option>SILVER</option> -->
-	<!-- 									<option>GOLD</option> -->
-	<!-- 									<option>PLATINUM</option> -->
-	<!-- 								</select> -->
-	<!-- 							</td> -->
-	<!-- 						</tr> -->
-
 						<tr>
 							<th>생년월일</th>
-							<td colspan="2">
+							<td>
 								<input type="text" id="member_birth" name="member_birth" value="${member.member_birth }" placeholder="생년월일" maxlength="10">
 								<div id="checkBirthResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>휴대폰번호</th>
-							<td colspan="2">
+							<td>
 								<input type="text" id="member_phone" name="member_phone" value="${member.member_phone }" placeholder="휴대폰번호"  maxlength="13">
 								<div id="checkPhoneResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>이메일</th>
-							<td colspan="2">
+							<td>
 								<input type="text" name="member_email" value="${member.member_email }" id="member_email" <c:if test="${member.member_id ne 'admin' }">readonly</c:if>>
 								<div id="checkEmailResult"></div>
+							</td>
+						</tr>
+						<tr>
+							<th>성별</th>
+							<td>
+								<c:choose>
+									<c:when test="${member.member_gender eq 'F' }">
+										<input type="text" name="member_gender" value="여성" id="member_gender">
+									</c:when>
+									<c:when test="${member.member_gender eq 'M' }">
+										<input type="text" name="member_gender" value="남성" id="member_gender">
+									</c:when>
+								</c:choose>
 							</td>
 						</tr>
 						<tr>

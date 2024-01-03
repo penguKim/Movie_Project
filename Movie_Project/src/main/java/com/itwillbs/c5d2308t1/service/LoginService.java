@@ -125,7 +125,12 @@ public class LoginService {
 		}
 		return dbMember;
 	}
-
+	
+	// 비밀번호 찾기를 통한 비밀번호 수정
+	public int modifyMemberPw(MemberVO member, String newPasswd) {
+		return mapper.updateMemberPw(member, newPasswd);
+	}
+	
 	public MemberVO selectMemberPs(MemberVO member) {
 		
 		return mapper.selectMemberPs(member);
@@ -139,5 +144,6 @@ public class LoginService {
 	public int deleteReview(ReviewsVO review) {
 		return mapper.deleteMyreview(review);
 	}
+
 	
 }

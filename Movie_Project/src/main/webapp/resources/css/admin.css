@@ -325,6 +325,14 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 
 
 /* =============== 회원 관리 페이지 =================== */
+/* #modify_table { */
+/* 	width: 600px; */
+/* } */
+#modify_table th {
+	width: 150px;
+}
+
+
 /* 폼의 div 영역 폰트와 높이 조절 */
 #modify_table div {
 	font-size: 14px;
@@ -367,7 +375,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 /* 박스오피스를 조회할 날짜 입력창 */
 #searchArea #dateSelect {
 /* 	border: none; */
-	width: 90px; /* 너비 */
+	width: 100px; /* 너비 */
 	font-weight: 500;
 }
 /* 박스오피스의 영화 표시 셀렉트박스 */

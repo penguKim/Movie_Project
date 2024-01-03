@@ -463,18 +463,12 @@ public class LoginController {
 	}
 		
 	// 아이디 찾기 비즈니스 로직 수행
-	@PostMapping("idFindPro")
-	public String idFindPro(MemberVO member, Model model) {
+	@ResponseBody
+	@GetMapping("idFindPro")
+	public MemberVO idFindPro(MemberVO member, Model model) {
 		// 이름과 이메일이 일치하는 회원 검색
-		member = service.findMember(member);
-		
-		if(member == null) { // 일치하는 회원이 없을 경우
-			model.addAttribute("msg", "일치하는 회원이 없습니다!");
-			return "fail_back";
-		} else {
-			model.addAttribute("member", member);
-			return "redirect:/findMemberInfo";
-		}
+		MemberVO dbMember = service.findMember(member);
+		return dbMember;
 	}
 	
 	// 비밀번호 찾기
@@ -483,29 +477,47 @@ public class LoginController {
 		return "login/pw_find";
 	}
 	
-	// 비밀번호 찾기 비즈니스 로직 수행 - 처리중
-	@PostMapping("pwFindPro")
-	public String passwdFindPro(MemberVO member, Model model) {
-		// 아이디가 일치하는 회원 검색
-		MemberVO dbMember = service.findMember(member);
+	// 비밀번호 찾기 비즈니스 로직 수행
+	@ResponseBody
+	@GetMapping("memberCheck")
+	public boolean memberCheck(MemberVO member) {
 		
-		if(dbMember == null) { // 일치하는 회원이 없을 경우
-			model.addAttribute("msg", "일치하는 회원이 없습니다!");
-			return "fail_back";
-		} else if(!dbMember.getMember_name().equals(member.getMember_name()) ||
-				!dbMember.getMember_email().equals(member.getMember_email())) { // 입력한 이름이나 이메일이 다를 경우
-			model.addAttribute("msg", "입력하신 회원 정보를 확인해주세요.");
-			return "fail_back";
-		} else {
-			model.addAttribute("member", member);
-			return "redirect:/findMemberInfo";
+		MemberVO dbMember = service.getMember(member);
+		
+		// 없는 아이디거나 회원의 이름을 잘못입력한 경우
+		if(dbMember == null || !dbMember.getMember_name().equals(member.getMember_name())) {
+			return false;
+		} else { // 입력한 정보와 일치하는 경우
+			return true;			
 		}
+		
 	}
 	
-	// 조회 결과 페이지
-	@GetMapping("findMemberInfo")
-	public String findMemberInfo() {
-		return "login/find_success";
+	// 비밀번호 수정 페이지로 이동
+	@PostMapping("modifyMemberPw")
+	public String findMemberInfo(MemberVO member, Model model) {
+		model.addAttribute("member", member);
+		return "login/pw_modify";
 	}
 		
+	// 비밀번호 수정 비즈니스 로직 수행
+	@ResponseBody
+	@PostMapping("modifyMemberPwPro")
+	public boolean modifyMemberPwPro(MemberVO member, String newPasswd) {
+		System.out.println("새로운 비밀번호 : " + newPasswd);
+		
+		// 새로운 비밀번호의 암호화 처리
+		BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
+		if(newPasswd != null && !newPasswd.equals("")) {
+			newPasswd = passwoedEncoder.encode(newPasswd);
+		}
+		// 회원 아이디와 새로운 비밀번호로 수정 작업 요청
+		int updateCount = service.modifyMemberPw(member, newPasswd);
+		
+		if(updateCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

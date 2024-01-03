@@ -83,6 +83,9 @@ public interface LoginMapper {
 
 	// 회원 비밀번호 찾기
 	MemberVO selectFindPasswd(MemberVO member);
+	
+	// 회원 비밀번호 찾기를 통한 비밀번호 수정
+	int updateMemberPw(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
 
 
 }
