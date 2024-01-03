@@ -347,10 +347,11 @@ public class AdminController {
 	@ResponseBody
 	@GetMapping("getPlayTimeInfo")
 	public List<HashMap<String, Object>> playTimeInfo(PlayVO play) {
-//		System.out.println("상영관 = " + play.getRoom_id());
-//		System.out.println("일자 = " + play.getPlay_date());
+		System.out.println("상영관 = " + play.getRoom_id());
+		System.out.println("일자 = " + play.getPlay_date());
 		
 		List<HashMap<String, Object>> playTimeInfo = service.playTimeInfo(play);
+		System.out.println(playTimeInfo);
 		
 		return playTimeInfo;
 	}

@@ -446,6 +446,7 @@
 		WHERE movie_id = #{movie_id}
 	</select>
 	
+	<!-- 상영시간 조회 ajax -->
 	<select id="selectPlayTimeInfo" resultType="hashmap">
 		SELECT *
 		FROM plays

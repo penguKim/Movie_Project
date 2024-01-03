@@ -99,10 +99,13 @@
 		// 해당 일자의 해당하는 상영관의 스캐줄 가져와서
 		// 중복되는 시간에 상영일정 잡지 못하게 막기
 		// 해당 상영관, 해당 일자 필요함(지점은 X)
+// 		$("#play_date").on("blur", function() { // blur 이벤트는 불가능.. why?
 		$("#play_start_time").click(function() {
 			let room_id = $("#room_id").val();
 			let play_date = $("#play_date").val();
-			console.log(room_id + play_date)
+			console.log(room_id +", "+ play_date);
+			
+		    let selectedValue = $("#play_start_time").val(); // 현재 선택된 옵션값 저장
 			
 			$.ajax({
 				type: "GET",
@@ -112,15 +115,73 @@
 					play_date : play_date
 				},
 				success: function(result) {
-					for(let time of result) {
-						console.log(time.play_start_time);
-						console.log(time.play_end_time);
-					}
-				},
+ 					if(result == "") { // 이전 등록한 상영 일정이 없는 경우
+ 						$("#play_start_time").html(
+ 								"<option value=''>시작 시간 선택</option><option value='09:00'>09:00</option><option value='10:00'>10:00</option>"
+ 								+ "<option value='11:00'>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>"
+ 								+ "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>"
+								+ "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>"
+								+ "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>");
+ 					} else { // 이전 등록한 상영 일정이 있는 경우
+		                let optionsHtml = "<option value=''>시작 시간 선택</option>";
+		                
+		                
+						for(let time of result) {
+
+							let endTimeHour = time.play_end_time.split(":")[0];
+							
+							if(time.play_start_time == "09:00") { // 9시 시작 영화
+								 if (endTimeHour == "10") { // 종료 시간 10시대
+			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+			                                "<option value='11:00'>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
+			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+			                        } else if (endTimeHour == "11") { // 종료 시간 11시대
+			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+			                                "<option value='11:00' disabled>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
+			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+			                        }
+							}
+							if(time.play_start_time == "10:00") { // 10시 시작 영화
+								 if (endTimeHour == "11") { // 종료시간 11시대
+			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+			                                "<option value='11:00' disabled>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
+			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+			                        } else if (endTimeHour == "12") { // 종료시간 12시대
+			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+			                                "<option value='11:00' disabled>11:00</option><option value='12:00' disabled>12:00</option><option value='13:00'>13:00</option>" +
+			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+			                        }
+							}
+
+							// 11시 시작부터 세부 판별.. 일단 중간 푸시합니다
+							
+							
+							
+
+							
+							
+						}// for문 끝
+						
+		                // Update the options without resetting the selected value
+		                $("#play_start_time").html(optionsHtml);
+							
+					} // if-else문 끝 
+	 				// Set back the selected value
+ 		            $("#play_start_time").val(selectedValue);
+ 						
+				}, // success 끝
 				error: function(xhr, textStatus, errorThrown) {
 					alert("종료 시간 출력 오류입니다.");
 				}
-			})
+			});
 			
 		});
 		
@@ -274,8 +335,8 @@
 	        roomName.append("<option value='" + $("#room_id").val() + "'>" + $(row).find('#room_name_mod').attr("data-room_name") + "</option>");
 			// 선행되는 값을 선택했을 때 나타나는 값 ajax
 	        // 지점 선택에 따른 상영관 출력
-// 		    var theater_id = $("#modifyTheater").val();
-// 		    console.log("theater_id = " + theater_id); // blur 이벤트 발생 이전엔 null
+		    var theater_id = $("#modifyTheater").val();
+		    console.log("theater_id = " + theater_id); // blur 이벤트 발생 이전엔 null
 			$("#modifyTheater").blur(function() {
 			    var theater_id = $("#modifyTheater").val();
 			    console.log("theater_id = " + theater_id);
@@ -345,13 +406,7 @@
 			var playDate = $("<input type='date' id='modifyDate'>");
 			playDate.val($(row).find("#play_date_mod").text());
 			$(row).find("#play_date_mod").html(playDate);
-			
-			$("#modifyMovie").on("blur", function() {
-				var pDate = $("#modifyDate").val();
-				console.log("playdate = " + pDate);
-				
 					
-			});
 	        
 	        // 상영 시작 시간 선택
 	        var startTime = $("<select id='modifyStart'></select>");
@@ -402,14 +457,14 @@
 // 					success: function(result) {
 // 						roomName.html("<option value='0'>상영관 선택</option>");
 // 						for(let room of result) {
-							// 
-// 							if() { // 지점 선택 변경이 없을 경우에 해당되는 판별식 자리
-// 								roomName.append("<option value='" + room.room_id + "' selected>" + room.room_name + "</option>");
+							
+// // 							if() { // 지점 선택 변경이 없을 경우에 해당되는 판별식 자리
+// // 								roomName.append("<option value='" + room.room_id + "' selected>" + room.room_name + "</option>");
 								
-// 							} else {
-// 								roomName.append("<option value='" + room.room_id + "'>" + room.room_name + "</option>");
+// // 							} else {
+// // 								roomName.append("<option value='" + room.room_id + "'>" + room.room_name + "</option>");
 								
-// 							}
+// // 							}
 // 							roomName.append("<option value='" + room.room_id + "' >" + room.room_name + "</option>");
 // 						}
 // 					},
@@ -880,7 +935,7 @@
 							<td id="theater_name_mod" data-theater-name="${play.theater_name}">${play.theater_name}</td>
 							<td id="room_name_mod" data-room_name="${play.room_name}">${play.room_name}</td>
 							<td id="movie_title_mod" data-movie_title="${play.movie_title}">${play.movie_title}</td>
-							<td id="play_date_mod">${play.play_date}</td>
+							<td id="play_date_mod" data-play_date="${play.play_date}">${play.play_date}</td>
 							<td id="play_start_time_mod">${fn:substring(play.play_start_time, 0, 5)}</td>
 							<td id="play_end_time_mod">${fn:substring(play.play_end_time, 0, 5)}</td>
 							<td>
