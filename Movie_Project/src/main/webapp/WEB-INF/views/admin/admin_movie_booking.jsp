@@ -10,9 +10,18 @@
 <meta charset="UTF-8">
 <title>영화 예매 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+	$(function(){
+		$(".false").children().hide();
+	});
+	
+	function cancle(){
+		$(".false").children().show();
+		$(".true").children().hide();
+	}
+			
 	function popUp(payment_id) {
 		window.open("adminMovieBookingMod?payment_id="+payment_id, "_blank", "width=579, height=500, left=550, top=100"); 
 		return false;
@@ -25,25 +34,26 @@
 		<c:set var="pageNum" value="${param.pageNum }" />
 	</c:if>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-	
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 		
 		<section id="content">
 			<h1 id="h01">영화 예매 관리</h1>
 			<hr>
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
 			<div id="admin_sub">
 				<form action="">
 					<table border="1">
 						<tr>
 							<form action="adminMovieBooking">
-							<td colspan="8"><input type="text" name="searchKeyword" placeholder="회원ID를 입력하세요">
-											<input type="submit" value="검색"></td>
+								<td colspan="9" style="text-align: right;">
+									<input type="text" name="searchKeyword" placeholder="회원ID를 입력하세요">
+									<input type="submit" value="검색">
+									<a href="javascript:cancle()"><input type="button" value="취소내역조회"></a>
+								</td>
 							</form>
 						</tr>
 						<tr>
@@ -54,19 +64,44 @@
 							<th>상영관명</th>
 							<th>날짜</th>
 							<th>좌석</th>
-							<th>수정/삭제</th>
+							<th>상태</th>
+							<th>비고</th>
 						</tr>
 						<c:forEach var="resList" items="${resList}">
-							<tr>
-								<td>${resList.payment_id}</td>
-								<td>${resList.movie_title}</td>
-								<td>${resList.member_id}</td>
-								<td>${resList.theater_name}</td>
-								<td>${resList.room_name}</td>
-								<td>${resList.play_date}</td>
-								<td>${resList.seat_name}</td>
-								<td><input type="button" value="MORE" onclick = "popUp(${resList.payment_id})"></td>
-							</tr>
+						<c:choose>
+							<c:when test="${resList.payment_status eq 0}">
+								<tr class="false">
+									<td>${resList.payment_id}</td>
+									<td>${resList.movie_title}</td>
+									<td>${resList.member_id}</td>
+									<td>${resList.theater_name}</td>
+									<td>${resList.room_name}</td>
+									<td>${resList.play_date}</td>
+									<td>${resList.seat_name}</td>
+									<td>
+										<c:if test="${resList.payment_status eq 0}">결제취소</c:if>
+										<c:if test="${resList.payment_status eq 1}">결제완료</c:if>
+									</td>
+									<td><input type="button" value="상세보기" onclick = "popUp(${resList.payment_id})"></td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr class="true">
+									<td>${resList.payment_id}</td>
+									<td>${resList.movie_title}</td>
+									<td>${resList.member_id}</td>
+									<td>${resList.theater_name}</td>
+									<td>${resList.room_name}</td>
+									<td>${resList.play_date}</td>
+									<td>${resList.seat_name}</td>
+									<td>
+										<c:if test="${resList.payment_status eq 0}">결제취소</c:if>
+										<c:if test="${resList.payment_status eq 1}">결제완료</c:if>
+									</td>
+									<td><input type="button" value="상세보기" onclick = "popUp(${resList.payment_id})"></td>
+								</tr>
+							</c:otherwise>							
+						</c:choose>
 						</c:forEach>
 					</table>
 					<div class="pagination">
@@ -108,9 +143,6 @@
 				</div>
 				</form>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>
 </body>

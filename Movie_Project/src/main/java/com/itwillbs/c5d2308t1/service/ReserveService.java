@@ -32,7 +32,7 @@ public class ReserveService {
 		return mapper.selectSchedule(reserveVO);
 	}
 	// 영화선택 페이지 ajax2
-	public List<HashMap<String, String>> getMTDList(Map<String, String> map) {
+	public List<ReserveVO> getMTDList(Map<String, String> map) {
 		return mapper.selectMTB(map);
 	}
 	public String getEndTime(ReserveVO reserveVO) {
@@ -54,19 +54,24 @@ public class ReserveService {
 		return mapper.selectresInfoDetail(payment_id);
 	}
 	
-//	 payment table insert
+	// payment table insert
 	public int getPaymentInsert(Map<String, String> map) {
 		return mapper.insertPayment(map);
 	}
-//	
-//	// seats table insert
+
+	// seats table insert
 	public int getSeatInsert(Map<String, String> map) {
 		return mapper.insertSeats(map);
 	}
-//	
-//	// reserve table insert
+	
+	// reserve table insert
 	public int getReserveInsert(Map<String, String> map) {
 		return mapper.insertReserve(map);
+	}
+	
+	// 예매완료 step2페이지에서 결제 정보 출
+	public ReserveVO getPayment(Map<String, String> map) {
+		return mapper.selectPayment(map);
 	}
 
 }
