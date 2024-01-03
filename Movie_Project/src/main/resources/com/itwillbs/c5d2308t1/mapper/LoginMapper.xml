@@ -141,7 +141,7 @@
 	<!-- 리뷰 삭제 -->
 	<delete id="deleteMyreview">
 		DELETE FROM reviews
-		WHERE review_id = #{review_id} and member_id = #{member_id}
+		WHERE review_id = #{review_id}
 		<!-- 문제점 : 하나의 값만 지우고싶은데 다수의 데이터가 한번에 삭제됨 -->
 	</delete>
 		

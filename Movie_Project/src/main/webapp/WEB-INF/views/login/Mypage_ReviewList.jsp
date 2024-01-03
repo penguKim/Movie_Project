@@ -59,7 +59,6 @@ $(document).ready(function(){
 	}); //click 이벤트 끝
 });
 
-
 </script>
 </head>
 <body>
@@ -81,7 +80,7 @@ $(document).ready(function(){
 				
 			<!-- 바디부분 시작 -->
 			
-			<form action="reviewDetail" method="get">
+<!-- 			<form action="reviewDetail" method="get"> -->
 				<div id="my_list">
 					<h2>나의 리뷰</h2>
 					<table id="my_table1">
@@ -93,23 +92,24 @@ $(document).ready(function(){
 							<th>상세정보</th>
 						</tr>
 						
-						<c:forEach var="reviewBoard" items="${reviewBoard}" varStatus="status">
+						<c:forEach var="reviewBoard" items="${reviewBoard}">
 						<tr>
 							<td>${reviewBoard.review_id}</td>
 							<td>${reviewBoard.movie_title}</td>
 							<td>${reviewBoard.review_content}</td>
 							<td>${reviewBoard.review_date}</td>
-							<td><input type="submit" value="상세페이지"></td>
+							<td><form action="reviewDetail" method="get" id="reviewDetail">
+								<input type="hidden" name="review_id" value="${reviewBoard.review_id}">
+								<input type="submit" value="상세페이지">
+								</form>
+							</td>
 						</tr>
-							<!-- 문제점 : ${reviewBoard.review_id} 이렇게 하니깐 모든 review_id가 다 조회가됨(주소값에 reivew_id가 여러개임) -->
-							<!-- 여러개의 게시글중에 review_id가 일치하는 데이터들만 가져오고싶음  -->
-							<input type="hidden" name="review_id" value="${reviewBoard.review_id}">
 						</c:forEach>
 					</table><br>
 								
 				</div>
 							
-			</form>
+<!-- 			</form> -->
 		</section>
 	
 		<footer>

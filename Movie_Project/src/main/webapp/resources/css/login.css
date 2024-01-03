@@ -14,13 +14,17 @@
 	vertical-align: top;
 }
 
-
-#my_list, #buy_list, #refund_list {
-	width: 800px;
-	margin: 10px auto;
-	padding-bottom: 30px;
+#buy_list, #my_list{
+	display: inline-block;
 	position: relative;
 }
+
+/* #my_list, #buy_list, #refund_list { */
+/* 	width: 800px; */
+/* 	margin: 10px auto; */
+/* 	padding-bottom: 30px; */
+/* 	position: relative; */
+/* } */
 
 
 h1:not(#popup1_wrapper>h1) { /* 제목영역 */
@@ -36,7 +40,7 @@ h2 {
 	text-align: left; /* 가운데정렬 */
 }
 
-form:not(#popup1_form, #sideEdit, #product_X) { /* 정보 입력창 */
+form:not(#popup1_form, #sideEdit, #product_X, #reviewDetail) { /* 정보 입력창 */
 	vertical-align: top;
 	display: inline-block;
 	width: 800px; /* 너비 800지정 */

@@ -47,7 +47,7 @@ $(function() {
 				<div id="my_list">
 					<h2>리뷰 상세정보 게시판</h2>
 					<table id="my_table1">
-						<c:forEach var="myReviewDetail" items="${myReviewDetail}" varStatus="status">
+						<c:forEach var="myReviewDetail" items="${myReviewDetail}">
 						<tr>
 							<th>번호</th>
 							<td>${myReviewDetail.review_id}</td>

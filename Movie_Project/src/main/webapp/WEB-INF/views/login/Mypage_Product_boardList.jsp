@@ -11,17 +11,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <style>
-	#resCancleBtn{
-		background-color: gray;
-	}
-	.sidenav{
-		display: inline-block;
-		position: relative;
-	}
-	#buy_list{
-		display: inline-block;
-		position: relative;
-	}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
@@ -97,7 +86,7 @@ $(function(){
 						<tr>
 							<td>${myStore.payment_id }</td>
 							<td>${myStore.product_name }</td>
-							<td>${fn:replace(myStore.payment_datetime,'T',' ')}</td>
+							<td>${fn:replace(myStore.payment_datetime,'T',' ')}<	/td>
 							<td>
 								<c:if test="${myStore.payment_status eq 1}">결제완료</c:if>
 								<c:if test="${myStore.payment_status eq 0}">취소완료</c:if>
