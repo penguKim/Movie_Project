@@ -251,10 +251,6 @@ public class AdminService {
 		return mapper.selectReviewList(review);
 	}
 
-	//리뷰 삭제
-	public int deleteReview(ReviewsVO review) {
-		return mapper.deleteReview(review);
-	}
 	
 	// 관리자 예매내역을 위한 페이징 처리 
 	public int getReserveListCount(String searchKeyword) {
@@ -263,6 +259,11 @@ public class AdminService {
 	// 관리자 한 페이지에 표시할 예매내역 검색을 위한 처리
 	public List<HashMap<String, String>> getReserveList(String searchKeyword, PageDTO page) {
 		return mapper.selectReserveList(searchKeyword, page);
+	}
+
+	//리뷰 상세정보
+	public List<ReviewsVO> getReviewDetailList(ReviewsVO review) {
+		return mapper.selectReviewDlt(review);
 	}
 
 

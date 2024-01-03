@@ -488,17 +488,20 @@
 
 	<!-- 리뷰 조회 -->
 	<select id="selectReviewList" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">
-		SELECT m.movie_title, r.review_rating, r.member_id, r.review_content 
+		SELECT review_id , m.movie_title, r.review_rating, r.member_id, r.review_content , review_date
 		FROM reviews r JOIN movies m
 		ON r.movie_id = m.movie_id 
 	</select>
+	
+	<!-- 리뷰상세 조회 -->
+	<select id="selectReviewDlt">
+		SELECT r.review_id, review_content, review_date, r.movie_id, r.member_id, m.movie_title
+		FROM reviews r JOIN movies m
+		ON r.movie_id = m.movie_id
+		WHERE review_id = #{review_id}
+	</select>
 
 	
-	<!-- 관리자 리뷰삭제 -->
-	<delete id="deleteReview">
-		FROM reviews
-		WHERE member_id = #{member_id}
-	</delete>
 	
 <!-- ============================관리자 예매내역 조회 시작=============================== -->	
 	<!-- 페이징 처리를 위한 게시물 개수 조회 작업 -->

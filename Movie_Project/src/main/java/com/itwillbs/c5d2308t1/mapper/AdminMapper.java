@@ -151,14 +151,15 @@ public interface AdminMapper {
 	//리뷰 조회
 	List<ReviewsVO> selectReviewList(ReviewsVO review);
 
-	//리뷰 삭제
-	int deleteReview(ReviewsVO review);
 
 	// 관리자 예매내역 조회를 위한 페이징 처리
 	int selectReserveListCount(String searchKeyword);
 
 	// 한 페이지에 표시할 예매 목록 조회 작업
 	List<HashMap<String, String>> selectReserveList(@Param("searchKeyword") String searchKeyword, @Param("page") PageDTO page);
+
+	//상세리뷰 조회
+	List<ReviewsVO> selectReviewDlt(ReviewsVO review);
 		
 
 

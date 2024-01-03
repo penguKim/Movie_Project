@@ -11,60 +11,59 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+</style>
 <script src="../js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 
 
-$(document).ready(function() { //리뷰
-	.ajax({
-		url:"adminReview",
-		type:"GET",
-		data:{
-        	review_content : review_content,
-        	member_id : member_id,
-        	movie_id : movie_id
-		},
-		success: function(data){
-			$("#review_no").append(
-				+ "<td>" + movie_title + "</td>"	
-				+ "<td>" + review_rating + "</td>"	
-				+ "<td>" + member_id  + "</td>"	
-				+ "<td>" + review_content  + "</td>"	
-		},
-		error: function() {
-			${"#review_no"}.html("AJAX 요청 실패");
-		}
-	});//ajax 끝
-	
-});//ready 끝
-	$(function() { //일치하는 단어 검색 기능
-		$('#searchButton').on('click', function() {
+$(document).ready(function(){
+	var member_id = "<%= session.getAttribute("sId") %>";
+    	
+	$("#submitReview").click(function(){
+//     if(member_id != "null" && currentDateTime > play_data && currentDateTime > play_endTime){
+//			var play_data = reviewr1.play_data; // 영화상영일
+//	        var play_endTime = reviewr1.play_end_time; // 영화끝나는시간
+			var review_content = $("#review_content").val(); // 'review_content'라는 id를 가진 요소의 값을 가져옴
+			var movie_id = ${param.movie_id};
+			var formattedTime = year + '-' + // 현재 연도
+				month + '-' + // 현재 월
+				date + ' ' + // 현재 일
+				hours + ':' + // 현재 시간
+				minutes; // 현재 분
+    
+//				alert(movie_id);
+				console.log(member_id);
+		$.ajax({
+			url: "reviewPro", // 요청을 보낼 URL
+			type: "POST",
+			data: {
+				review_content : review_content,
+				member_id : member_id,
+				movie_id : movie_id
+			},
 			
-		var searchKeyword = $('#searchInput').val(); // 입력된 단어 가져오기
-			$('#review_SearchTable tr').each(function(index, element) {
-			var rowText = $(element).text().toLowerCase(); // 행의 텍스트 가져오기
-			
-				if (rowText.includes(searchKeyword.toLowerCase())) {
-					$(element).show(); // 일치하는 단어가 포함된 행 보이기
-					alert("일치하는 단어");
-				} else {
-					$(element).hide(); // 일치하지 않는 단어가 포함된 행 숨기기
-					alert("일치하는 단어가 없습니다");
-				}
-			});
+			datatype: "json",
+			success: function(data) { // 요청 성공
+				$("#review_no").append(
+					"<tr>"	
+					+ "<td>" + member_id + "</td>"	
+					+ "<td>" + review_content + "</td>"	
+					+ "<td>" + formattedTime  + "</td>"	
+					+ "</tr>"	
+				);
+				console.log("성공");
+			},
+			error: function(request, status, error) { // 요청 실패
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
 		});
-	});
-	
-$(function() {
-	$("#reviewDelete").on("click", function() {
-		if(confirm("글을 삭제하시겠습니까?")) {
-			return true;
-		} else {
-			return false;
-		}
-	}); //on click 끝
-	
-}); //function 끝	
+// }else{ // 실패시 
+// alert("로그인 후 작성이 가능합니다");
+// location.href = "memberLogin";
+// } //if
+	}); //click 이벤트 끝
+});
 </script>
 </head>
 <body>
@@ -90,35 +89,33 @@ $(function() {
 					<input type="text" id="searchInput" placeholder="아이디 또는 영화명 입력">
 					<input type="button" id="searchButton" value="조회">
 				</div>
-				<form action="reviewDlt" method="post">
+<!-- 				<form action="reviewDlt" method="get"> -->
 					<table border="1" width="1100">
 						<tr>
+							<th>No</th>
 							<th>영화명</th>
-							<th>평점</th>
-							<th>아이디</th>
 							<th>내용</th>
-							<th>리뷰 삭제하기</th>
+							<th>아이디</th>
+							<th>작성일</th>
+							<th>리뷰 상세정보</th>
 						</tr>
-						<c:forEach var="adminReview" items="${adminReview}" varStatus="status">
+						<c:forEach var="adminReview" items="${adminReview}">
 							<tr>
+								<td>${adminReview.review_id}</td>
 								<td>${adminReview.movie_title}</td>
-								<td>${adminReview.review_rating}</td>
-								<td>${adminReview.member_id}</td>
 								<td>${adminReview.review_content}</td>
-								<td><input type="submit" id="reviewDelete" value="삭제"></td>
+								<td>${adminReview.member_id}</td>
+								<td>${adminReview.review_date}</td>
+<!-- 								<td><input type="submit" id="reviewDlt" value="상세정보"></td> -->
+								<td><form action="reviewDlt" method="get" id="reviewDlt">
+									<input type="hidden" name="review_id" value="${adminReview.review_id}">
+									<input type="submit" id="adminDlt" value="상세정보">
+									</form>
+								</td>
 							</tr>
 						</c:forEach>
 					</table>
-					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1</a>
-						<a class="active" href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">&raquo;</a>
-					</div>
-				</form>
+<!-- 				</form> -->
 			</div>
 		</section>
 	</div>

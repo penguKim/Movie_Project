@@ -145,7 +145,6 @@ public class MoviesController {
 		ModelAndView mav = new ModelAndView("movie/detail", map);
 		
 		List<ReviewsVO> reviewSelect = service.getreview(review);
-		//문제점 : 세션아이디랑 member_id랑 비교없이 값을 뿌렸는데 새로고침하면 select가 날라감
 		
 		model.addAttribute("movieReview",reviewSelect );
 		return mav;

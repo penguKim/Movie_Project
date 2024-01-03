@@ -77,10 +77,8 @@ $(document).ready(function(){
 				<jsp:include page="mypage_menubar.jsp"></jsp:include>
 			</div>
 			
-				
 			<!-- 바디부분 시작 -->
 			
-<!-- 			<form action="reviewDetail" method="get"> -->
 				<div id="my_list">
 					<h2>나의 리뷰</h2>
 					<table id="my_table1">
@@ -109,7 +107,6 @@ $(document).ready(function(){
 								
 				</div>
 							
-<!-- 			</form> -->
 		</section>
 	
 		<footer>

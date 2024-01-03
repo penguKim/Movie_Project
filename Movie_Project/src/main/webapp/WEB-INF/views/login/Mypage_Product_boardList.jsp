@@ -86,7 +86,7 @@ $(function(){
 						<tr>
 							<td>${myStore.payment_id }</td>
 							<td>${myStore.product_name }</td>
-							<td>${fn:replace(myStore.payment_datetime,'T',' ')}<	/td>
+							<td>${fn:replace(myStore.payment_datetime,'T',' ')}</td>
 							<td>
 								<c:if test="${myStore.payment_status eq 1}">결제완료</c:if>
 								<c:if test="${myStore.payment_status eq 0}">취소완료</c:if>

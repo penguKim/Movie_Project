@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.itwillbs.c5d2308t1.service.AdminService;
+import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
 import com.itwillbs.c5d2308t1.service.StoreService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
@@ -57,6 +58,9 @@ public class AdminController {
 	
 	@Autowired
 	ReserveService reserve;
+	
+	@Autowired
+	LoginService login;
 	
 	// =============== 2023.12.19 임은령 주석 ============================
 	// 1. 자바스크립트 처리가 동일하여 서블릿 매핑을 모듈화 하였으나 사용하는 것이 적합하지않다고 판명되어 
@@ -1530,29 +1534,49 @@ public class AdminController {
 		
 		model.addAttribute("adminReview",adminReview);
 		
-		System.out.println(adminReview);
+		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + adminReview);
 		return "admin/admin_review";
 	}
 
-	@PostMapping("reviewDlt") // 리뷰 삭제 : admin_review.jsp
-	public String reviewDlt(HttpSession session, Model model, ReviewsVO review) {
-		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
-			model.addAttribute("msg","잘못된 접근입니다");
+	@GetMapping("reviewDlt")//리뷰 상세 페이지로 이동
+	public String reviewDetail(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
+		review.setMember_id(sId);
+		
+		if(sId == null || !sId.equals("admin")) { // sId가 null일때 로그인창으로 보내기
+			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
 		
-		int deleteCount = service.deleteReview(review);
+		List<ReviewsVO> adminReviewDlt = service.getReviewDetailList(review); //리뷰 상세조회
+		System.out.println(review);
+		model.addAttribute("adminReviewDlt",adminReviewDlt);
+		
+		return "admin/admin_review_detail";
+		
+	}
+	
+	@GetMapping("adminReviewDelete")
+	public String adminReviewDelete(HttpSession session, Model model, ReviewsVO review) {
+		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
+		review.setMember_id(sId);
+		
+		if(sId == null || !sId.equals("admin")) { // sId가 null일때 로그인창으로 보내기
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}		
+		
+		int deleteCount = login.deleteReview(review);
 		
 		if(deleteCount > 0) {
 			//삭제 성공
 			return "redirect:/adminReview";
 		}else {
 			//삭제 실패
-			model.addAttribute("msg","삭제 실패");
+			model.addAttribute("msg","리뷰글 삭제 실패");
 			return "fail_back";
 		}
+		
 	}
-	
 
 }
