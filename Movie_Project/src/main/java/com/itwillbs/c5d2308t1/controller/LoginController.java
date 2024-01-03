@@ -38,7 +38,17 @@ public class LoginController {
 	ReserveService reserve;
 	
 	@GetMapping("memberLogin") //메인화면에서 로그인 버튼 클릭시 이동
-	public String memberLogin() {
+	public String memberLogin(HttpServletRequest request, HttpSession session, Model model) {
+		// "REFERER" 헤더는 현재 요청을 보내는 페이지의 URL을 가리킨다.
+		String prevPage  = request.getHeader("REFERER");
+		System.out.println("이전페이지는 어디인가요????? : " + prevPage);
+		
+		// 이전 페이지가 null이 아닐 경우 서블릿 주소만 잘라내서 세션에 저장한다.
+		if(prevPage != null) {
+			prevPage = prevPage.substring(prevPage.lastIndexOf("/") + 1);
+			System.out.println("구분자로 잘라놓은 페이지를 보여주세요 : " + prevPage);
+			session.setAttribute("prevPage", prevPage);			
+		}
 //		System.out.println("memberLogin");
 		return "login/login";
 	}
@@ -48,7 +58,11 @@ public class LoginController {
 	}
 	
 	@PostMapping("MemberLoginPro") // 로그인 클릭 시 메인페이지로 이동
-	public String memberLoginPro(MemberVO member,String rememberId, HttpSession session,HttpServletResponse response,  Model model) {
+	public String memberLoginPro(MemberVO member,String rememberId, HttpSession session, HttpServletResponse response,  Model model) {
+		// 세션에 저장된 로그인창 이전 페이지를 변수로 저장
+		String prevPage = (String)session.getAttribute("prevPage");
+		System.out.println("이전 이전 페이지는 어디인가요????? : " + prevPage);
+		
 	    MemberVO dbMember = service.getMember(member);
 	    Cookie cookie = new Cookie("cookieId", dbMember.getMember_id()); // 쿠키에 아이디 저장
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -69,8 +83,13 @@ public class LoginController {
 	    	model.addAttribute("dbMember", dbMember);
 	    	session.setAttribute("sId", member.getMember_id());
 	    	System.out.println("로그인 성공: " + dbMember);
-	    	//주소값 뒤에 파라미터값을 판별해서 각 페이지로 이동한다.
-	    	return "redirect:/";
+	    		//주소값 뒤에 파라미터값을 판별해서 각 페이지로 이동한다.
+	    		if(prevPage.equals("")) { // 이전 페이지가 메인페이지일 경우
+	    			return "redirect:/";
+	    		} else {
+	    			// 메인페이지가 아닐 경우 해당 페이지로 리다이렉트한다.
+	    			return "redirect:/" + prevPage;
+	    		}
 	    }
 	}
 	

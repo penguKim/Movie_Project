@@ -225,7 +225,9 @@
 		
 		<%-- 오토슬라이드 인클루드 --%>
 		<jsp:include page="inc/autoSlide.jsp"></jsp:include>
-		
+<!-- 		<div class="slideshow"> -->
+<!-- 		<video class="main_trailer" src="https://www.kmdb.or.kr/trailer/play/MK036259_P02.mp4" controls autoplay muted></video> -->
+<!-- 		</div> -->
 			
 		<div id="main_page">
 			<div id="Sort">
