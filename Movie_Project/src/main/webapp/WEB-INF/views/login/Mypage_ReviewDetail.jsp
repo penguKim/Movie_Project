@@ -77,6 +77,7 @@ $(function() {
 								
 				</div>
 					<input type="submit" id="reviewDelete" value="삭제">
+					<input type="hidden" id="reviewDelete" name="review_id" value="${param.review_id}">
 			</form>
 		</section>
 	

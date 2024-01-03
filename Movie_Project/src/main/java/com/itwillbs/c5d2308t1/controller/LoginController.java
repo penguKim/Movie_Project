@@ -248,7 +248,6 @@ public class LoginController {
 	public String reviewDelete(HttpSession session, Model model, ReviewsVO review) {
 		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
 		review.setMember_id(sId);
-		
 		if(sId == null) { // sId가 null일때 로그인창으로 보내기
 			model.addAttribute("msg","로그인이 필요합니다");
 			model.addAttribute("targetURL","memberLogin");
