@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 <title>상영 일정 등록</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources//js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
@@ -835,18 +834,17 @@
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+			<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+		</nav>
+	
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
 	
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">상영 일정 등록</h1>
 			<hr>
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
 			
 			<div id="admin_main">
 				<a href="adminMovieSchedule"><input type="button" value="상영일정조회"></a>
@@ -854,9 +852,14 @@
 				<form action="registPlay" method="post" id="registForm">
 					<table border="1">
 						<tr>
-							<th width="170px">지점명</th>
-							<th width="170px">상영관명</th>
-							<th colspan="3">영화제목</th>
+							<th width="140px">지점명</th>
+							<th width="140px">상영관명</th>
+							<th>영화제목</th>
+							<th width="140px">상영날짜</th>
+							<th width="140px">상영시작시간</th>
+							<th width="140px">상영종료시간</th>
+							<th width="90px">등록</th>
+							<th width="90px">초기화</th>
 						</tr>
 						<tr>
 							<td>
@@ -869,20 +872,11 @@
 									<option value="">상영관 선택</option>
 								</select>
 							</td>
-							<td colspan="3">
+							<td>
 								<select id="movie_id" name="movie_id">
 									<option value="">영화 선택</option>
 								</select>
 							</td>
-						</tr>
-						<tr>
-							<th width="170px">상영날짜</th>
-							<th width="170px">상영시작시간</th>
-							<th width="170px">상영종료시간</th>
-							<th width="140px">등록</th>
-							<th width="140px">초기화</th>
-						</tr>
-						<tr>
 							<td id="date">
 								<input type="date" id="play_date" name="play_date">
 							</td>
@@ -921,14 +915,14 @@
 				
 				<table border="1" class="modifyForm">
 					<tr>
-						<th>지점명</th>
-						<th>상영관명</th>
+						<th width="140px">지점명</th>
+						<th width="140px">상영관명</th>
 						<th>영화제목</th>
-						<th>상영날짜</th>
-						<th>시작</th>
-						<th>종료</th>
-						<th>수정</th>
-						<th>삭제</th>
+						<th width="140px">상영날짜</th>
+						<th width="140px">상영시작시간</th>
+						<th width="140px">상영종료시간</th>
+						<th width="90px">수정</th>
+						<th width="90px">삭제</th>
 					</tr>
 					<c:forEach var="play" items="${playRegistList}">
 						<tr>
@@ -953,9 +947,6 @@
 				</table>
 			</div>
 			<br><br><br><br><br>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>
 </body>

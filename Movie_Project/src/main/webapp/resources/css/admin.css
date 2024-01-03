@@ -155,21 +155,27 @@ a {
 }
 
 /* 글쓰기 영역에 적용 */
-#select, #theater_id, #room_id, #play_start_time, #play_date {
+#select, #theater_id, #room_id, #play_date {
 	text-align: center;
-	width: 160px;
+	width: 130px;
+	height: 25px;
+}
+
+#play_start_time {
+	text-align: center;
+	width: 120px;
 	height: 25px;
 }
 
 #play_end_time {
 	text-align: center;
-	width: 160px;
-	height: 20px;
+	width: 120px;
+	height: 26px;
 }
 
 #movie_id {
 	text-align: center;
-	width: 400px;
+	width: 300px;
 	height: 25px;	
 }
 
