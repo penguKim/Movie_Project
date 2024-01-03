@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Enumeration;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,21 +17,18 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.itwillbs.c5d2308t1.service.AdminService;
+import com.itwillbs.c5d2308t1.service.JoinService;
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
 import com.itwillbs.c5d2308t1.service.StoreService;
@@ -45,7 +41,6 @@ import com.itwillbs.c5d2308t1.vo.PageInfo;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 import com.itwillbs.c5d2308t1.vo.StoreVO;
-import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Controller
 public class AdminController {
@@ -61,6 +56,9 @@ public class AdminController {
 	
 	@Autowired
 	LoginService login;
+	
+	@Autowired
+	JoinService join;
 	
 	// =============== 2023.12.19 임은령 주석 ============================
 	// 1. 자바스크립트 처리가 동일하여 서블릿 매핑을 모듈화 하였으나 사용하는 것이 적합하지않다고 판명되어 
@@ -92,11 +90,39 @@ public class AdminController {
 	//	  급하게 서블릿 매핑을 몇 번씩 갈아엎다보니 중복되거나 누락되는 부분이 많을 것으로 예상됩니다.
 	//	  필요 시 코드는 편하게 수정하시면 됩니다. 협조 감사 드립니다.
 
+
 	@GetMapping("adminMain")
-	public String adminMain() {
+	public String adminMain(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
 		return "admin/admin_main";
 	}
 	
+
+	@ResponseBody
+	@GetMapping("joinCount")
+	public int[] joinCount(@RequestParam("formattedDate") List<String> formattedDate, Model model) {
+		
+		System.out.println(formattedDate);
+		int[] counts = new int[formattedDate.size()];
+		
+		for (int i = 0; i < formattedDate.size(); i++)  {
+			String date = formattedDate.get(i);
+			int count = join.getJoinCount(date);
+			
+			counts[i] = count;
+			
+		}
+		System.out.println("counts: " + Arrays.toString(counts));
+		
+		model.addAttribute("counts", counts);
+		
+		return counts;
+	}
 	
 	
 	// ===========================================================================================

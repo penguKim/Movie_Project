@@ -184,13 +184,17 @@ th {
 	display: inline-block; /* 나란히 배치하기 위해 변경 */
 	margin: 10px; /* 바깥여백주기 */
 	border: 2px solid #9d9d9d;
-	border-radius: 5%;
+	border-radius: 3%;
 	color: #000000;
 	text-decoration: none;
 	width: 220px;
 	height: 120px;
 	padding: 20px 20px;
 	box-sizing: border-box;
+}
+
+#main_shortcuts>a:hover {
+	background-color: #eeeeee;
 }
 
 #main_shortcuts img {
@@ -396,7 +400,7 @@ input[type="search"] {
 
 /* Style the active/current link */
 .pagination a.active {
-  background-color: dodgerblue;
+  background-color: #433581;
   color: white;
 }
 

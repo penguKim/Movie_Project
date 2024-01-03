@@ -49,7 +49,7 @@ input[type="button"], input[type="submit"] { /* 모든 버튼에 */
 }
 
 input[type="button"]:hover, input[type="submit"]:hover {
-	background-color: #c90711;
+	background-color: #331f62;
 }	
 
 input[type="submit"] { /* 등록 버튼에 */

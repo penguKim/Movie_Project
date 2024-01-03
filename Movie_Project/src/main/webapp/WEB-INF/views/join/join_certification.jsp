@@ -17,6 +17,7 @@
 	$(function() {
 		// 인증여부를 저장할 변수 선언
 		var isChecked = false;
+		var isSuccess = false;
 		
 		<%-- 이메일주소 중복 확인 --%>
 		// 인증번호 발송 버튼을 클릭했을 때
@@ -53,6 +54,7 @@
 								},
 								success: function(data) {
 									checkCNum(data);
+									isSuccess = true;
 								},
 								error: function(xhr, status, error) {
 								      // 요청이 실패한 경우 처리할 로직
@@ -80,6 +82,10 @@
 			} else if($("#cNum").val() == '') {
 				alert("인증번호를 입력해주세요");
 				$("#cNum").focus();
+				return false; // submit 동작 취소
+			} else if(!isSuccess) {
+				alert("인증번호 발송중입니다");
+				$("#code").focus();
 				return false; // submit 동작 취소
 			}
 		});
@@ -140,7 +146,7 @@
 						<input type="button" id="sendMail" value="인증번호발송"><br>
 						<div id="checkResult"></div>
 						<input type="text" placeholder="인증번호" id="cNum">
-						<input type="submit" value="인증번호확인">
+						<input type="submit" value="인증번호확인" id="code">
 					</span>
 				 </section>
 				
