@@ -27,13 +27,42 @@
 		AND play_start_time = #{play_start_time}
 		AND seat_status = 1
 	</select>
-	
+	<!--  movie_select ajax1 -->
 	<select id="selectSchedule" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT room_name, play_start_time, play_end_time
 		FROM MPRT
 		WHERE play_date = #{play_date}
 		AND movie_title =#{movie_title}
 		AND theater_name = #{theater_name}
+	</select>
+	<!--  movie_select ajax2 -->
+	<select id="selectMTB" resultType="map">
+		SELECT *
+		FROM MPRT
+		WHERE
+		<choose>
+			<when test="movie_title != null and theater_name != null">
+				movie_title = #{movie_title}
+				AND theater_name = #{theater_name}
+			</when>
+			<when test="movie_title != null and play_date != null">
+				movie_title = #{movie_title}
+				AND play_date = #{play_date}
+			</when>
+			<when test="play_date != null and theater_name != null">
+				theater_name = #{theater_name}
+				AND play_date = #{play_date}
+			</when>
+			<when test="movie_title != null">
+				movie_title = #{movie_title}
+			</when>
+			<when test="theater_name != null">
+				theater_name = #{theater_name}
+			</when>
+			<when test="play_date != null">
+				play_date = #{play_date}
+			</when>
+		</choose>		
 	</select>
 	
 	<select id="selectPlayEndTime" resultType="String">

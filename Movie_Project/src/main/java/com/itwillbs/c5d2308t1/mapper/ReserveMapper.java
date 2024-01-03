@@ -26,4 +26,5 @@ public interface ReserveMapper {
 	int insertSeats(Map<String, String> map);
 	int insertReserve(Map<String, String> map);
 	Map<String, String> selectresInfoDetail(String payment_id);
+	List<HashMap<String, String>> selectMTB(Map<String, String> map);
 }

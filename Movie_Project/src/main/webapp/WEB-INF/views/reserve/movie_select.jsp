@@ -20,8 +20,21 @@
 			$(this).addClass('selected');
 		    $('#Result_M').text($('.btnMovie.selected').val());
 			param();
-			M=1;
-			if((M+T+D)==6){ajax();}
+			M = true;
+			let ajaxNum = M+T+D;
+			
+			if(M == true && D == true && T==true){
+				alert('MTD true');
+				MTD_Ajax();
+			}else if(M == true && D == true){
+				alert('MD true');
+			}else if(M == true && T == true){
+				alert('MT true');
+			}else if(M == true){
+				alert('M true');
+				M_Ajax();
+			}
+			
 		});
 		
 		$(".btnTheater").click(function(){
@@ -29,8 +42,17 @@
 			$(this).addClass('selected');
 			theaterInfo();
 			param();
-			T=2;
-			if((M+T+D)==6){ajax();}
+			T = true;
+			if(M == true && D == true && T==true){
+				alert('MTD true');
+				MTD_Ajax();
+			}else if(M == true && T == true){
+				alert('MT true');
+			}else if(T == true && D == true){
+				alert('TD true');
+			}else if(T == true){
+				alert('T true');
+			}
 			$("#endParamTd2").html("<td>극장<br>일시<br>상영관<br>인원<br></td>");
 		});
 		$(".btnDate").click(function(){
@@ -38,10 +60,58 @@
 			$(this).addClass('selected');
 			theaterInfo();
 			param();
-			D=3;
-			if((M+T+D)==6){ajax();}
+			D = true;
+			if(M == true && D == true && T==true){
+				alert('MTD true');
+				MTD_Ajax();
+			}else if(M == true && D == true){
+				alert('MD true');
+			}else if(T == true && D == true){
+				alert('TD true');
+			}else if(D == true){
+				alert('D true');
+			}
 		});
-		function ajax(){
+		
+		function M_Ajax(){
+			$.ajax({
+				url: "MTDAjax",
+				data: {
+					movie_title: $('.btnMovie.selected').val()
+				},
+				dataType: "json",
+			    success: function(data) {
+			    	$(".overflow.theater").html("<b>극장</b>");
+			    	$(".overflow.date").html("<b>날짜</b>");
+			     	for(let theater of data){
+				    	$(".overflow.theater").append("<input type ='button' value="+ theater.theater_name +"class='btnTheater'><br>");
+			     	}
+			     	for(let date of data ){
+				    	$(".overflow.date").append("<input type ='button' value="+ date.play_date +"class='btnDate'><br>");
+			     	}
+
+   				}//success end
+			    
+			});//ajax end
+				
+		}// M_Ajax
+		function T_Ajx(){
+			
+		}
+		function D_Ajx(){
+			
+		}
+		function MT_Ajx(){
+			
+		}
+		function MD_Ajx(){
+			
+		}
+		function TD_Ajx(){
+			
+		}
+		
+		function MTD_Ajax(){
 			$.ajax({
 				url: "reserveAjax",
 				data: {
@@ -49,7 +119,7 @@
 					,theater_name: $('.btnTheater.selected').val()
 					,play_date: $('.btnDate.selected').val()
 				},
-				dataType: "json",
+				dataType: "JSON",
 			    success: function(data) {
 			    	console.log(data)
 			    	// 이전에 있던 데이터 제거

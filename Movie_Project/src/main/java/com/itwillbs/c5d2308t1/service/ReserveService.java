@@ -27,8 +27,13 @@ public class ReserveService {
 	public List<ReserveVO> getSeatList(ReserveVO reserveVO) {
 		return mapper.selectSeatName(reserveVO);
 	}
+	// 영화선택 페이지 ajax1
 	public List<ReserveVO> getScheduleList(ReserveVO reserveVO) {
 		return mapper.selectSchedule(reserveVO);
+	}
+	// 영화선택 페이지 ajax2
+	public List<HashMap<String, String>> getMTDList(Map<String, String> map) {
+		return mapper.selectMTB(map);
 	}
 	public String getEndTime(ReserveVO reserveVO) {
 		return mapper.selectPlayEndTime(reserveVO);

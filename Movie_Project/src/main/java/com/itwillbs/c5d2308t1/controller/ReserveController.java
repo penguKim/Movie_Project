@@ -49,13 +49,20 @@ public class ReserveController {
 		return "reserve/DiscountInfo";
 	}
 	
-	// 영화 선택페이지의 Ajax
+	// 영화 선택페이지의 Ajax1
 	@ResponseBody
 	@GetMapping("reserveAjax")
 	public List<ReserveVO> ScheduleCheck(ReserveVO reserveVO, Model model) {
 		List<ReserveVO> ScheduleList = reserve.getScheduleList(reserveVO);
 		System.out.println("ajax연결성공!");
 		return ScheduleList;
+	}
+	// 영화 선택페이지의 Ajax2
+	@ResponseBody
+	@GetMapping("MTDAjax")
+	public List<HashMap<String, String>> MTDAjax(@RequestParam Map<String, String> map, Model model){
+		List<HashMap<String, String>> MTD = reserve.getMTDList(map);
+		return MTD;
 	}
 	
 	// 좌석선택 페이지
