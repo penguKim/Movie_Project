@@ -8,7 +8,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/theater.css" rel="stylesheet" type="text/css">
 <head>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	
 </head>
@@ -29,39 +29,21 @@
 			<hr>
 			<div class="menu" >
 				<nav class="theater1">
-					<input type="button" id="서면CGV" value="서면CGV점">
 					<input type="button" id="삼정타워" value="삼정타워점">
+					<input type="button" id="서면CGV" value="서면CGV점">
 					<input type="button" id="상상마당점" value="상상마당점">
-					<input type="button" id="동래" value="동래점">
-				</nav>
-				<nav class="theater2">
-					<input type="button" id="CGV대연" value="CGV대연">
-					<input type="button" id="CGV아시아드" value="CGV아시아드">
-					<input type="button" id="CGV센텀시티" value="CGV센텀시티">
-					<input type="button" id="CGV울산동구" value="CGV울산동구">
-				</nav>
-				<nav class="theater3">
-					<input type="button" id="CGV정관" value="CGV정관">
-					<input type="button" id="CGV울산신천" value="CGV울산신천">
-					<input type="button" id="CGV울산삼산" value="CGV울산삼산">
-					<input type="button" id="CGV부산명지" value="CGV부산명지">
-				</nav>
-				<nav class="theater4">
+					<input type="button" id="CGV아시아드" value="CGV아시아드"><br>
 					<input type="button" id="CGV화명" value="CGV화명">
-					<input type="button" id="CGV해운대" value="CGV해운대">
-					<input type="button" id="CGV대구" value="CGV대구">
-					<input type="button" id="CGV대구수성" value="CGV대구수성">
-				</nav>
-				<nav class="theater5">
-					<input type="button" id="CGV대구아카데미" value="CGV대구아카데미">
-					<input type="button" id="CGV대구스타디움" value="CGV대구스타디움">
-					<input type="button" id="CGV대구연경" value="CGV대구연경">
-					<input type="button" id="CGV대구한일" value="CGV대구한일">
+					<input type="button" id="CGV울산동구" value="하단아트몰링">
+					<input type="button" id="CGV센텀시티" value="CGV센텀시티">
+					<input type="button" id="CGV해운대" value="CGV해운대"><br>
+					<input type="button" id="동래" value="동래점">
+					<input type="button" id="CGV부산명지" value="CGV부산명지">
 				</nav>
 			</div>
 			<hr>
 			<div id="theater_event">
-				<a href="../event/event_detail.jsp">
+				<a href="http://localhost:8081/c5d2308t1/detail?movie_id=20203702">
 				<img src="${pageContext.request.contextPath}/resources/img/이벤트.jpg" alt="cgv" id="image">
 				</a>
 			</div>
@@ -254,28 +236,6 @@
 						// 마커가 지도 위에 표시되도록 설정합니다
 						marker.setMap(map);
 					  }
-					  // 클릭 이벤트에 함수 연결
-					  function changeImage5() {
-					    var image = document.getElementById("image");
-					    image.src = "${pageContext.request.contextPath}/resources/img/대연점.png";
-					    var maps = document.getElementById("map");
-						var container = document.getElementById('map');
-						var options = {
-							center: new kakao.maps.LatLng(35.13736147621278, 129.09906942841351 ),
-							level: 2
-						};
-						var map = new kakao.maps.Map(container, options);
-						// 마커가 표시될 위치 
-						var markerPosition  = new kakao.maps.LatLng(35.13736147621278, 129.09906942841351 ); 
-					
-						// 마커를 생성
-						var marker = new kakao.maps.Marker({
-						    position: markerPosition
-						});
-						marker.setMap(map);
-					  }
-				  
-				  
 						  function changeImage6() {
 						    var image = document.getElementById("image");
 						    image.src = "${pageContext.request.contextPath}/resources/img/아시아드점.png";
@@ -345,74 +305,6 @@
 							// 마커가 지도 위에 표시되도록 설정합니다
 							marker.setMap(map);
 						  }
-						  // 클릭 이벤트에 함수 연결
-						  function changeImage9() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/정관점.png";
-						    var maps = document.getElementById("map");
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.32141718176421, 129.17843458395896 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-							// 마커가 표시될 위치 
-							var markerPosition  = new kakao.maps.LatLng(35.32141718176421, 129.17843458395896 ); 
-						
-							// 마커를 생성
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-							marker.setMap(map);
-						  }
-						  
-						  
-						  function changeImage10() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/울산신천.png";
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.63497085947518, 129.3557985601116 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-						
-							
-							// 마커가 표시될 위치입니다 
-							var markerPosition  = new kakao.maps.LatLng(35.63497085947518, 129.3557985601116 ); 
-						
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-						
-							// 마커가 지도 위에 표시되도록 설정합니다
-							marker.setMap(map);
-						  }
-						  
-						  function changeImage11() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/울산삼산.png";
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.54124734903711, 129.33896396513606 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-						
-							
-							// 마커가 표시될 위치입니다 
-							var markerPosition  = new kakao.maps.LatLng(35.54124734903711, 129.33896396513606 ); 
-						
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-						
-							// 마커가 지도 위에 표시되도록 설정합니다
-							marker.setMap(map);
-						    
-						  }
 						  
 						  function changeImage12() {
 						    var image = document.getElementById("image");
@@ -481,145 +373,6 @@
 							marker.setMap(map);
 						  }
 						  
-						  function changeImage15() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/CGV대구.png";
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.8699247159092, 128.59426921010606 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-						
-							
-							// 마커가 표시될 위치입니다 
-							var markerPosition  = new kakao.maps.LatLng(35.8699247159092, 128.59426921010606 ); 
-						
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-						
-							// 마커가 지도 위에 표시되도록 설정합니다
-							marker.setMap(map);
-						    
-						  }
-						  
-						  function changeImage16() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/대구수성.png";
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.831384441489035, 128.6868725440225 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-						
-							
-							// 마커가 표시될 위치입니다 
-							var markerPosition  = new kakao.maps.LatLng(35.831384441489035, 128.6868725440225 ); 
-						
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-						
-							// 마커가 지도 위에 표시되도록 설정합니다
-							marker.setMap(map);
-						  }
-						  // 클릭 이벤트에 함수 연결
-						  function changeImage17() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/대구아카데미.png";
-						    var maps = document.getElementById("map");
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.86992486283135, 128.5942581416202 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-							// 마커가 표시될 위치 
-							var markerPosition  = new kakao.maps.LatLng(35.86992486283135, 128.5942581416202 ); 
-						
-							// 마커를 생성
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-							marker.setMap(map);
-						  }
-						  
-						  
-						  function changeImage18() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/대구스타디움.png";
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.83141651543073, 128.6868344923691 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-						
-							
-							// 마커가 표시될 위치입니다 
-							var markerPosition  = new kakao.maps.LatLng(35.83141651543073, 128.6868344923691 ); 
-						
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-						
-							// 마커가 지도 위에 표시되도록 설정합니다
-							marker.setMap(map);
-						  }
-						  
-						  function changeImage19() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/대구연경.png";
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.94146987572242, 128.62289343513828),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-						
-							
-							// 마커가 표시될 위치입니다 
-							var markerPosition  = new kakao.maps.LatLng(35.94146987572242, 128.62289343513828); 
-						
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-						
-							// 마커가 지도 위에 표시되도록 설정합니다
-							marker.setMap(map);
-						    
-						  }
-						  
-						  function changeImage20() {
-						    var image = document.getElementById("image");
-						    image.src = "${pageContext.request.contextPath}/resources/img/대구한일.png";
-							var container = document.getElementById('map');
-							var options = {
-								center: new kakao.maps.LatLng(35.87062755958917, 128.59529080175332 ),
-								level: 2
-							};
-							var map = new kakao.maps.Map(container, options);
-						
-							
-							// 마커가 표시될 위치입니다 
-							var markerPosition  = new kakao.maps.LatLng(35.87062755958917, 128.59529080175332 ); 
-						
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-							    position: markerPosition
-							});
-						
-							// 마커가 지도 위에 표시되도록 설정합니다
-							marker.setMap(map);
-						  }
-						  // 클릭 이벤트에 함수 연결
-						  
 						
 						  var container = document.getElementById("동래");
 						  container.onclick = changeImage;
@@ -629,38 +382,18 @@
 						  container.onclick = changeImage3;
 						  var container = document.getElementById("서면CGV");
 						  container.onclick = changeImage4;
-						  var container = document.getElementById("CGV대연");
-						  container.onclick = changeImage5;
 						  var container = document.getElementById("CGV아시아드");
 						  container.onclick = changeImage6;
 						  var container = document.getElementById("CGV센텀시티");
 						  container.onclick = changeImage7;
 						  var container = document.getElementById("CGV울산동구");
 						  container.onclick = changeImage8;
-						  var container = document.getElementById("CGV정관");
-						  container.onclick = changeImage9;
-						  var container = document.getElementById("CGV울산신천");
-						  container.onclick = changeImage10;
-						  var container = document.getElementById("CGV울산삼산");
-						  container.onclick = changeImage11;
 						  var container = document.getElementById("CGV부산명지");
 						  container.onclick = changeImage12;
 						  var container = document.getElementById("CGV화명");
 						  container.onclick = changeImage13;
 						  var container = document.getElementById("CGV해운대");
 						  container.onclick = changeImage14;
-						  var container = document.getElementById("CGV대구");
-						  container.onclick = changeImage15;
-						  var container = document.getElementById("CGV대구수성");
-						  container.onclick = changeImage16;
-						  var container = document.getElementById("CGV대구아카데미");
-						  container.onclick = changeImage17;
-						  var container = document.getElementById("CGV대구스타디움");
-						  container.onclick = changeImage18;
-						  var container = document.getElementById("CGV대구연경");
-						  container.onclick = changeImage19;
-						  var container = document.getElementById("CGV대구한일");
-						  container.onclick = changeImage20;
 					 </script>
 					 </div>
 				</div>
