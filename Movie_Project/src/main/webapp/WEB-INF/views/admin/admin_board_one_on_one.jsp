@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>1 : 1 문의 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -21,19 +20,16 @@
 	
 	
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-	
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 		
 		<section id="content">
 			<h1 id="h01">1 : 1 문의 관리</h1>
 			<hr>
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
-			
 			<div id="admin_main">
 				<div id="admin_search">
 					<form>
@@ -117,9 +113,6 @@
 						</c:choose>
 					</div>
 				</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>
 </body>

@@ -624,3 +624,7 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
     background-color: #eeeeee;
     color: #000;
 }
+
+#oneOnOneReplyArea {
+    color: #AFAFB2;
+}

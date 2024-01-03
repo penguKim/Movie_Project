@@ -90,9 +90,21 @@
 						</tr>
 						<tr>
 							<th height="300">답변 내용</th>
-							<td>
-								${oneOnOne.cs_reply }
-							</td>
+							<c:choose>
+								<c:when test="${empty oneOnOne.cs_reply}">
+									<td id="oneOnOneReplyArea">
+										더 나은 고객 응대를 위해<br>
+										고객님의 문의를 꼼꼼히 확인하고 있습니다.<br>
+										답변을 조금만 더 기다려주세요.<br>
+										- 아이티켓
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td>
+										${oneOnOne.cs_reply }
+									</td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 					</table><br>
 					<input type="submit" value="문의 삭제" id="oneOnOneDelete"><br><br>
