@@ -222,12 +222,12 @@
 // 						}// for문 끝
 						
 		                // 셀렉트박스 값 리셋하지 않고 ajax로 불러온 이후에 선택한 옵션 값을 저장
-		                $("#play_start_time").html(optionsHtml);
+// 		                $("#play_start_time").html(optionsHtml);
 							
 					} // if-else문 끝 
 					
 	 				// 현재 선택한 옵션값 표시
-//  		            $("#play_start_time").val(selectedValue);
+ 		            $("#play_start_time").val(selectedValue);
  						
 				}, // success 끝
 				error: function(xhr, textStatus, errorThrown) {
