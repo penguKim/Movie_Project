@@ -349,7 +349,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	background-color: #C4C4C4;
 	color: #000000;
 }
-/* =============== 영화 조회, 등록, 수정 페이지 정보 표시 =================== */
+/* =============== 영화 조회, 등록, 수정,검색 페이지 정보 표시 =================== */
 /* 영화 목록조회 게시판의 제목 */
 #movieList #movieTitle {
 	max-width: 200px; /* 최대 길이 */
@@ -417,6 +417,10 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	/* => 텍스트 출력창 표시하기 위해 임시로 색상 설정 X */
 	height: 50px; /* 높이 */
 	width: 250px; /* 너비 */
+}
+
+#adminSearch{
+	margin-left: 50px;
 }
 
 /* =============== 예매 상세 페이지의 정보를 표시할 회색 블럭 =================== */

@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 <title>영화 등록</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script>
@@ -44,50 +43,67 @@ $(document).ready(function(){
 			} //error 끝
 		}); //ajax 끝
 	}); // submit 끝
-}); //ready 끝
+	
+	
+	/*
+	박스오피스 API는 줄거리랑 포스터 정보가 없음
+	KMDb는 진짜 영화정보만 있음
+	해결법
+	- 박스오피스 데이터(제목, 개봉일, 감독)를 먼저 받아와서
+	- 응답데이터 중 KMDb요청인자로 사용할수 있는것 뽑아내기
+	- 뽑아낸 데이터를 KMDb 요청인자로 넣어서 영화 정보를 검색
+	
+	
+	*/
+	
+	$("#searchFormDetail").on("submit", function(data){
+// 		alert("submit버튼확인");
+		let title = $("#movieTitle").val();
+		let kmdbKey = C7643LD2JV0X8LAV20YO;
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=" + kmdbKey + "&title=" + title,
+			data:{
+				
+			},
+			success: function(data){
+				
+			}, //success 끝
+			error: function(){
+				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
+			} //error 끝
+		}); //ajax 끝
 
-// $(function(){
-// 	$("#searchForm1").on("submit", function(data1){
-// 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수	
-// 		let title = $("#movieTitle").val();
-		
-// });
+
+	}); // submit 끝
+}); //ready 끝
 
 
 </script>
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
-			<jsp:include page="../inc/top.jsp"></jsp:include>
+			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
 						
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
 	<section id="content">
 	
 	<h1 id="h01">영화검색</h1>
 	<hr>
-	
-	<div id="admin_nav">
-		<jsp:include page="admin_menubar.jsp"></jsp:include>
-	</div>
-	
+	<div id="adminSearch">
 		<form id="searchForm">
-			<input type="text" id="movieTitle" placeholder="제목을 입력하세요">
-			<input type="submit" value="검색">
+			<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="submit" value="검색">
 		</form>
-	<div id="movieInfo"></div>
-	
-		<form id="searchForm1">
-			<input type="text" id="movieTitle1" placeholder="제목을 입력하세요">
-			<input type="submit" value="검색">
+		<form id="searchFormDetail">
+			<input type="text" id="movieTitleDetail" placeholder="제목을 입력하세요"><input type="submit" value="검색">
 		</form>
-	<div id="movieInfo1"></div>
-
 	</section>
-		<footer>
-			<jsp:include page="../inc/bottom.jsp"></jsp:include>	
-		</footer>
+	</div>
 	</div>
 </body>
 </html>
