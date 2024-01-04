@@ -9,6 +9,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.itwillbs.c5d2308t1.service.JoinService;
-import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.NaverLoginVO;
 
@@ -39,8 +42,13 @@ public class JoinController {
     private void setNaverLoginVO(NaverLoginVO NaverLoginVO) {
         this.NaverLoginVO = NaverLoginVO;
     }
+    
+    /* GoogleLogin */
+	@Autowired
+	private GoogleConnectionFactory googleConnectionFactory;
+	@Autowired
+	private OAuth2Parameters googleOAuth2Parameters;
 
-	
 	// 회원가입(인증) 페이지로 이동
 	@GetMapping("memberJoin")
 	public String memberJoin(HttpSession session, Model model) {
@@ -52,6 +60,16 @@ public class JoinController {
         
         //네이버 
         model.addAttribute("url", naverAuthUrl);
+        
+        
+        /* 구글code 발행 */
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+
+		System.out.println("구글:" + url);
+
+		model.addAttribute("google_url", url);
+        
 		
 		return "join/join_certification";
 	}
@@ -108,7 +126,14 @@ public class JoinController {
 		return "";
     }
 	
-	
+	// 구글 Callback호출 메소드
+	@RequestMapping(value = "/oauth2callback", method = { RequestMethod.GET, RequestMethod.POST })
+	public String googleCallback(Model model, @RequestParam String code) throws IOException {
+		System.out.println("여기는 googleCallback");
+
+		return "join/googleSuccess";
+	}
+
 	// 이메일 인증
 	@ResponseBody
 	@GetMapping("authEmail")

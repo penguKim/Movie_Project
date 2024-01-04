@@ -36,9 +36,9 @@
 				<table border="1">
 					<tr>
 						<th width="60">번호</th>
-						<th width="120">지점</th>
+						<th width="150">지점</th>
 						<th>제목</th>
-						<th width="120">등록일</th>
+						<th width="150">등록일</th>
 					</tr>
 					<c:choose>
 						<c:when test="${empty NoticeList}">

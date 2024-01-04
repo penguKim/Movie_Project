@@ -80,9 +80,9 @@
 					<thead>
 						<tr>
 							<th width="50">번호</th>
-							<th width="100">유형</th>
+							<th width="150">유형</th>
 							<th>제목</th>
-							<th width="120">등록일</th>
+							<th width="150">등록일</th>
 						</tr>
 					</thead>					
 					<tbody>	

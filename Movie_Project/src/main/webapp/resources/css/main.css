@@ -8,7 +8,10 @@
 	background-color: black;	
 }
 
-body {font-family: Verdana, sans-serif; margin:0}
+body {
+/* 	font-family: Verdana, sans-serif;  */
+	margin:0
+}
 
 .mySlides {
 	display: none;

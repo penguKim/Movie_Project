@@ -7,6 +7,7 @@
 	text-align: center;
 	
 }
+
 .movie-menu ul {
     list-style: none;
     padding: 0;
@@ -33,6 +34,16 @@
 .movie-menu input:hover {
 	background-color: #eeeeee;
 	border-bottom: 3px solid #000000;
+}
+
+/* 상영작 표시중인 버튼 */
+.movie-menu li .active {
+	background-color: #eeeeee;
+    border: none;
+    border-bottom: 3px solid #000000;
+    color: #000000;
+    padding: 10px 40px;
+    cursor: pointer;
 }
 
 .movie-menu a {
