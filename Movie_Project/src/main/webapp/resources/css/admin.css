@@ -24,19 +24,18 @@ body {
 	width: 100%;
 }
 
-/* 내비게이션바에 */
+/* ------------- 관리자페이지 네비바 부분 -------------- */
 navbar { 
 	display: inline-block;
 	width: 200px;
 	margin: 0;
 }
 
-#nav_logo {
-	width: 200px;
-	height: 60px;
-	text-align: center;
-	margin: 10px auto;	
-	color: white;
+#side_logo {
+	width: 180px;
+	height: 70px;
+	display: inline-block;
+	margin: 20px 5px;
 }
 
 .admin_nav_title {
@@ -46,38 +45,39 @@ navbar {
 	font-size: 16px;
 }
 
-/* Fixed sidenav, full height */
 .sidenav {
-  height: 100%;
-  width: 200px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  padding-top: 20px;
+	height: 100%;
+	width: 200px;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	padding-top: 20px;
 }
 
-/* Style the sidenav links and the dropdown button */
-.sidenav a {
-  padding: 6px 8px 6px 20px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #818181;
-  display: block;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
+.sidenav a:not(#side_logo) {
+	padding: 6px 8px 6px 20px;
+	text-decoration: none;
+	font-size: 18px;
+	color: #818181;
+	display: block;
+	border: none;
+	background: none;
+	width: 100%;
+	text-align: left;
+	cursor: pointer;
+	outline: none;
 }
 
-/* On mouse-over */
 .sidenav a:hover {
-  color: #f1f1f1;
+	color: #f1f1f1;
+	font-weight: bolder;
 }
+
+/* ------------- 관리자페이지 네비바 끝 -------------- */
+
 
 #content {
 	display: inline-block;
@@ -86,14 +86,78 @@ navbar {
 }
 
 #top_area_admin {
-	height: 50px;
+	height: 60px;
 	text-align: right;
+	background-color: #111;
 }
 
-#top_area_admin input[type="button"] {
-	margin-right: 5px;
-	margin-top: 10px;
+#top_button {
+	padding-right: 20px;
 }
+
+#top_area_admin a {
+	display: inline-block;
+	margin: 5px;
+	width: 45px;
+	height: 45px;
+}
+
+#top_area_admin button {
+	background-color: #c0c0c0;
+	margin: 0;
+	text-align: center;
+	padding: 5px;
+	width: 45px;
+	height: 45px;
+}
+
+#top_area_admin img {
+	width: 30px;
+	height: 30px;
+}
+
+#top_area_admin img:hover {
+	 cursor: pointer; /* 커서 변경 */
+}
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: 150%;
+	left: 50%;
+	margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent black transparent;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+/* ------------ 툴팁 끝 -------------- */
+
 
 #h01 {
 	margin: 30px 0 0 20px;
@@ -477,3 +541,70 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	height: 65px; /* 높이 */
 	width: 650px; /* 너비 */
 }
+
+
+/* =========================================== 관리자페이지 상단 버튼 영역 설정 ======================================== */
+/* 관리자페이지 상단 영역 색상 별도 지정 */
+#top_area_admin {
+	background-color: #ffffff;
+	padding-top: 15px;
+}
+
+#member_area_admin input[type="button"] { /* 관리자 페이지 로그인, 회원가입 버튼에 */
+	padding: 6px 15px; /* 안쪽 여백 */
+    background-color: #505050; /* 배경색 진한 회색 */
+    color: white; /* 글씨색 흰색*/
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 커서 변경 */
+}
+
+#member_area_admin input[type="button"]:hover { /* 관리자 페이지 로그인, 회원가입 버튼에 마우스오버 시 */
+	background-color: #141414;
+}
+
+#member_area_admin {
+	display: inline-block;
+}
+
+/* ========================================= 관리자 페이지 메뉴(nav) 영역 설정 ============================================================ */
+
+/* 관리자 페이지 메뉴영역<div id="menu_nav_admin"> 배경색과 글자 정렬*/
+#menu_nav_admin {
+	background-color: #505050;
+	text-align: center;
+	margin-top: 50px;
+}
+
+/* 관리자 페이지 메뉴<nav> 영역 안의 태그<a>에 대한 정렬 */
+#menu_nav_admin nav {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center; /* 양 끝을 기준으로 정렬 */
+}
+
+/* 관리자 페이지 메뉴(nav)영역 안의 <a>태그 글자에 대한 색 설정 밑 글자 크기 설정*/
+#menu_nav_admin a {
+	color: #fff;
+	text-decoration: none; /* 밑줄 없애는 설정 */
+	font-size: 17px;
+	padding: 20px 60px;
+}
+
+
+/* 관리자페이지 메뉴(nav) 영역 마우스 후버시 색상 변경 */
+#menu_nav_admin a:hover {
+	background-color: #141414;
+}
+
+#menu_nav_admin {
+	position: sticky;
+	top: -1px;
+	width: 100%;
+	z-index: 9999;
+}
+
+/* 관리자 페이지 메뉴(nav) 영역 아래 수평선 색상 지정 */
+#top_hr_admin {
+	border: 1px solid #505050;
+}
+/* ================================================================================================================================== */

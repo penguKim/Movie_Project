@@ -79,21 +79,21 @@
 				alert("인증번호를 발송해주세요");
 				$("#email").focus();
 				return false; // submit 동작 취소
-			} else if($("#cNum").val() == '') {
-				alert("인증번호를 입력해주세요");
-				$("#cNum").focus();
-				return false; // submit 동작 취소
 			} else if(!isSuccess) {
 				alert("인증번호 발송중입니다");
 				$("#code").focus();
 				return false; // submit 동작 취소
-			}
+			} else if(!isSuccess && $("#cNum").val() == '') {
+				alert("인증번호를 입력해주세요");
+				$("#cNum").focus();
+				return false; // submit 동작 취소
+			} 
 		});
 		
 		// 인증번호 대조
 		function checkCNum(data) {
 			$("form").on("submit", function() {
-				if($("#cNum").val() == '') {
+				if(isSuccess && $("#cNum").val() == '') {
 					alert("인증번호를 입력해주세요");
 					$("#cNum").focus();
 					return false; // submit 동작 취소
