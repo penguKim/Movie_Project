@@ -24,8 +24,6 @@
 					, ''
 				</otherwise>
 			</choose>
-			, null
-			, null
 			, #{member_gender}
 		)		
 	</insert>

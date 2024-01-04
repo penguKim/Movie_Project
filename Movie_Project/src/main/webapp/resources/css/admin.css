@@ -375,6 +375,15 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 .pagination a:hover:not(.active) {background-color: #ddd;}
 
 
+/*-------------------- 관리자 메인 -------------------------- */
+.chart {
+	width: 550px;
+	display: inline-block;
+}
+
+
+
+
 
 /* =============== 상영일정관리 ==================== */
 .schedule {

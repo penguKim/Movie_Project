@@ -18,7 +18,7 @@
 		const today = new Date();
 		const formattedDates = [];
 	
-			for (let i = 1; i <= 20; i++) {
+			for (let i = 1; i <= 30; i++) {
 				const pastDate = new Date(today.getTime() - (i * 24 * 60 * 60 * 1000));
 				const formattedDate = pastDate.toISOString().split('T')[0];
 				formattedDates.push(formattedDate);
@@ -54,9 +54,17 @@
 					legend: { display: false },
 					title: {
 						display: true,
-						text: "일일 가입자 수",
+						text: date[0] + " ~ " + date[29],
 						fontSize: 16,
 					},
+					scales : {
+						yAxes : [ {
+							ticks : {
+								beginAtZero : true, // 0부터 시작하게 합니다.
+								stepSize: 1   // 1 씩 증가하도록 설정합니다.
+							}
+						} ]
+					}
 				},
 			});
 		}
@@ -144,13 +152,12 @@
 				<div class="chart">
 					<h1>일일가입자수</h1>
 					<canvas id="joinCount" style="width:100%;max-width:550px"></canvas>
+				</div>
+				<div class="chart">
 					<h1>인기 영화 차트</h1>
 					<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-				</div>					
-
-				
-				
-			</div>
+				</div>
+			</div>					
 		</section>
 	</div>
 </body>
