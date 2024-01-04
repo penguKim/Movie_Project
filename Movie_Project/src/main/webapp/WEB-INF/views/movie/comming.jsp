@@ -94,10 +94,10 @@
 			<hr>
 			<nav class="movie-menu">
 				<ul>
-					<li class="active"><a href="release">
+					<li><a href="release">
 						<input type="button" value="현재상영작"></a></li>
 					<li><a href="comming">
-						<input type="button" value="상영예정작"></a></li>
+						<input type="button" class="active" value="상영예정작"></a></li>
 				</ul>
 			</nav>
 			<section class="movie-section">
@@ -106,6 +106,20 @@
 					<c:forEach var="commingList" items="${commingList}" varStatus="status">
 						<div class="movie">
 							<a href="detail?movie_id=${commingList.movie_id}">
+							<c:choose>
+								<c:when test="${commingList.movie_rating eq '12세' }">
+									<b class="movie-rating age12">12</b>
+								</c:when>
+								<c:when test="${commingList.movie_rating eq '15세' }">
+									<b class="movie-rating age15">15</b>
+								</c:when>
+								<c:when test="${commingList.movie_rating eq '18세' }">
+									<b class="movie-rating age18">18</b>
+								</c:when>
+								<c:when test="${commingList.movie_rating eq '전체' }">
+									<b class="movie-rating ageAll">ALL</b>
+								</c:when>
+							</c:choose>
 							<div class="movie-poster">
 								<div class="poster">
 									<img alt="" src="${commingList.movie_poster}">
@@ -114,11 +128,15 @@
 									<p class="title">${commingList.movie_title }</p>
 								</div>
 							</div>
-								<p class="date">${commingList.movie_release_date }</p>
+							
+								<p class="date">
+									${fn:replace(commingList.movie_release_date, "-", ".") }
+									<span class="release-type">개봉예정</span>
+								</p>
 							</a>
 							<div class="reserve_area">
 								<button id="likeBtn${status.index}" class="likeBtn" data-id="${commingList.movie_id }" data-title="${commingList.movie_title }" onclick="likeBtnClick(${status.index})"><i class="fa fa-heart-o"></i>찜하기</button>
-	 							<a href="movie_select?movie_title=${movie.movie_title }" class="rel_reservBtn">
+	 							<a href="movie_select?movie_title=${commingList.movie_title }" class="rel_reservBtn">
 								<input type="button" value="예매하기"></a>
 							</div>
 						</div>

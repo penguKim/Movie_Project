@@ -83,10 +83,16 @@ public class MoviesController {
 	
 	// 내가 만든 상영작
 	@GetMapping("comming")
-	public String comming(Model model, MoviesVO movie) {
+	public String comming(Model model) {
 		
 		List<MoviesVO> commingList = service.getAllMovie();
-		
+		// 상영작 페이지의 관람등급 표시를 위해 "관" 이전의 문자열 추출
+		for(MoviesVO movie : commingList) {
+			movie.setMovie_rating(movie.getMovie_rating()
+					.substring(0, movie.getMovie_rating()
+					.indexOf("관")));
+			System.out.println(movie.getMovie_rating());
+		}
 		model.addAttribute("commingList", commingList);
 		
 		return "movie/comming";
@@ -142,11 +148,11 @@ public class MoviesController {
 		
 		map = service.getMovieDetail(movie_id);
 		
-		ModelAndView mav = new ModelAndView("movie/detail", map);
-		
 		List<ReviewsVO> reviewSelect = service.getreview(review);
-		
+		System.out.println(reviewSelect);
 		model.addAttribute("movieReview",reviewSelect );
+		
+		ModelAndView mav = new ModelAndView("movie/detail", map);
 		return mav;
 	}
 	

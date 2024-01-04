@@ -125,6 +125,7 @@
         SELECT *
         FROM reviews
         WHERE member_id = #{member_id}
+        ORDER BY review_date DESC
     </select>
     
     <select id="selectAllMovie" resultType="movies">

@@ -82,8 +82,8 @@
 			<hr>
 			<nav class="movie-menu">
 				<ul>
-					<li class="active"><a href="release">
-						<input type="button" value="현재상영작"></a></li>
+					<li><a href="release">
+						<input type="button" class="active" value="현재상영작"></a></li>
 					<li><a href="comming">
 						<input type="button" value="상영예정작"></a></li>
 				</ul>
