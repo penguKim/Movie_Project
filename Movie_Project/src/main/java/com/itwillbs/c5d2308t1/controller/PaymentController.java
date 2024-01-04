@@ -17,25 +17,21 @@ public class PaymentController {
 	@Autowired
 	private PaymentService service;
 	
+	// 장바구니 결제 
+	// 단일결제 따로 만들어야하는 상황
 	// 결제 데이터 입력을 위한 ajax
 	@ResponseBody
 	@PostMapping("PaymentEndpoint")
-	public String paymentEndpoint(@RequestBody Map<String, String> map) {
+	public Map<String, String> paymentEndpoint(@RequestBody Map<String, String> map) {
 		System.out.println("맵 넘어온 고유번호" + map);
 		
 		int insertCount = service.registPayment(map);
-				
-		if(insertCount > 0) {
-			return "true";
-		} else {
-			return "false";
-		}
+		
+		return map;
 	}
 		
 	@GetMapping("PaymentSuccess")
 	public String paymentSuccess() {
-		
-//	
 		
 		return "store/payment_success";
 	}

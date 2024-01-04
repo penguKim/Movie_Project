@@ -242,4 +242,17 @@ public class StoreController {
 		return "store/store_pay";
 	}
 	
+	// 결제 완료 후 장바구니 LIST 삭제
+	@GetMapping("CartListDel")
+	public String cartListDel() {
+		
+		// 장바구니에서 넘어와서 결제했는지 
+		// 단일 결제 했는지 판별을 어떻게 하지??
+		// 이게 안되면 결국 나눌수 밖에 없는데 시간이없다 어쩐담
+		
+		return "store/payment_success";
+	}
+	
+	
+	
 }

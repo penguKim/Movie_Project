@@ -88,7 +88,7 @@ $(function() {
 	$(".product_name").each(function() {
 		product_name += $(this).val() + ",";
 	});
-	product_name = product_name.slice(0, -1); 
+	product_name = product_name.slice(0, -1);
 	<%-- 상품 수량 결제시 총 수량 --%> 
 	$(".product_count").each(function() {
 		quantity += parseInt($(this).val());
@@ -100,7 +100,7 @@ $(function() {
 	    
 	    product_total_price += (price * quantity);
 	});
-// 	alert("총금액 !!!: " + product_total_price);
+// 	alert("총금액 !!!: " + product_name);
 });	
 	
 	//*****************************************************
@@ -143,7 +143,7 @@ $(function() {
 		      }).done(function (data) {
 		        // 가맹점 서버 결제 API 성공시 로직
 		        alert("결제 성공");
-		        location.href="PaymentSuccess"
+		        location.href="CartListDel"
 		      })
 		    } else {
 		      alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
