@@ -12,8 +12,46 @@
 <!-- 네이버 api를 위한 script -->
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
 <!-- 카카오 api를 위한 script -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript">
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
+  integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
+<script>
+  Kakao.init('9ba6bc87f99afa1257d1e89fba2d1805'); // 사용하려는 앱의 JavaScript 키 입력
+</script>
+
+
+<script>
+  function loginWithKakao() {
+    Kakao.Auth.authorize({
+      redirectUri: 'http://localhost:8081/c5d2308t1/kakaocallback',
+    });
+  }
+
+  // 아래는 데모를 위한 UI 코드입니다.
+  displayToken()
+  function displayToken() {
+    var token = getCookie('authorize-access-token');
+
+    if(token) {
+      Kakao.Auth.setAccessToken(token);
+      Kakao.Auth.getStatusInfo()
+        .then(function(res) {
+          if (res.status === 'connected') {
+            document.getElementById('token-result').innerText
+              = 'login success, token: ' + Kakao.Auth.getAccessToken();
+          }
+        })
+        .catch(function(err) {
+          Kakao.Auth.setAccessToken(null);
+        });
+    }
+  }
+
+  function getCookie(name) {
+    var parts = document.cookie.split(name + '=');
+    if (parts.length === 2) { return parts[1].split(';')[0]; }
+  }
+</script>
+<script>
 	$(function() {
 		// 인증여부를 저장할 변수 선언
 		var isChecked = false;
@@ -127,6 +165,7 @@
 		
 	});
 </script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -150,8 +189,11 @@
 				<h3 id="join_top">회원가입을 위해 본인 인증을 해주세요.</h3>
 				<section id="api">
 					<!-- 카카오 로그인 버튼 노출 영역 -->
-					<a href="#" id="kakao-login-btn"></a>					
-					<!-- 네이버 로그인 버튼 노출 영역 -->
+					<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+					  <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+					    alt="카카오 로그인 버튼" />
+					</a>
+					<p id="token-result"></p>					
 					<div id="naver_id_login" style="text-align:center"><a href="${url}"><img width="223" src="${pageContext.request.contextPath}/resources/img/네이버버튼.png"/></a></div>
 					<!-- 구글 로그인 화면으로 이동 시키는 URL -->
 					<!-- 구글 로그인 화면에서 ID, PW를 올바르게 입력하면 oauth2callback 메소드 실행 요청-->
@@ -193,44 +235,7 @@
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>
 	</div>
-	
-	
-	
-	
-	
-	<script type="text/javascript">
-		$(function() {
-		
-			Kakao.init("7f2cbaab42a6ec66232f961c71c7350f");
-		
-			// 카카오 로그인 버튼을 생성
-			Kakao.Auth.createLoginButton({
-				container: '#kakao-login-btn',
-				success: function(authObj) {
-				// 로그인 성공시, API를 호출합니다.
-			Kakao.API.request({// 로그인한 사용자 정보 가져오기
-				url: '/v2/user/me',
-				success: function(res) {
-					console.log("사용자 정보 요청 실패", res);
-				},
-				fail: function(error) {
-					console.log("로그인 실패", error);
-					}
-			});
-				},
-				fail: function(err) {
-					console.log(err);
-				}
-			});
-			
-			document.addEventListener("DOMContentLoaded", function () { //웹 페이지의 HTML이 모두 로드되었을 때(DOMContentLoaded) 실행될 함수
-				document.getElementById("kakao-login-btn").addEventListener("click", function (a) { //카카오로그인 버튼클릭 시 실행되는 함수
-					a.preventDefault(); // 기본 동작인 페이지 이동을 막음
-				loginWithKakao();
-				});
-			});
-		});
-	</script>
+
 	
 	
 </body>

@@ -1,15 +1,14 @@
 package com.itwillbs.c5d2308t1.service;
 
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.c5d2308t1.handler.GenerateRandomCode;
+import com.itwillbs.c5d2308t1.handler.SendMailClient;
 import com.itwillbs.c5d2308t1.mapper.JoinMapper;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
-import com.itwillbs.c5d2308t1.handler.SendMailClient;
-import com.itwillbs.c5d2308t1.handler.GenerateRandomCode;
 
 @Service
 public class JoinService {
@@ -49,6 +48,7 @@ public class JoinService {
 		// 발송된 인증코드 리턴
 		return auth_code;
 	}
+	
 	
 	// 회원 정보 등록
 	public int registMember(MemberVO member) {
