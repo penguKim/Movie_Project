@@ -46,6 +46,114 @@
 	
 	
 </script>
+<%-- 결제 API 포트원 SDK 코드 --%>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script>
+$(function() {
+	
+});
+
+	<%-- 주문번호 생성을 위한 작업 --%>
+	var count = 0;
+	
+	function generateMerchantUid() {
+	  var now = new Date();
+	  var year = now.getFullYear().toString().substr(2, 2);
+	  var month = ('0' + (now.getMonth() + 1)).slice(-2);
+	  var date = ('0' + now.getDate()).slice(-2);
+	  var hours = ('0' + now.getHours()).slice(-2);
+	  var minutes = ('0' + now.getMinutes()).slice(-2);
+	  var seconds = ('0' + now.getSeconds()).slice(-2);
+	  var milliseconds = now.getMilliseconds().toString().padStart(3, '0');
+	  var randomString = Math.random().toString(36).substr(2, 3);
+	  var index = ('00000' + (++count)).slice(-6);
+	
+	  var merchantUid = "ORD" + year + month + date + hours + minutes + seconds + milliseconds + "-" + randomString + index;
+	  return merchantUid;
+	}
+	// ****************************************************
+	var merchantUid =  generateMerchantUid();
+	<%-- var product_id = "${storeList[0].product_id}"; --%>
+	var product_name = "";
+	var quantity = 0;
+	var product_total_price = 0;
+	var member_id = "${members.member_id}";
+	var member_email = "${members.member_email}";
+	var member_name = "${members.member_name}";
+	var member_phone = "${members.member_phone}";
+$(function() {
+	
+	
+	<%-- 상품명 결제시 문자열 결합 --%>
+	$(".product_name").each(function() {
+		product_name += $(this).val() + ",";
+	});
+	product_name = product_name.slice(0, -1); 
+	<%-- 상품 수량 결제시 총 수량 --%> 
+	$(".product_count").each(function() {
+		quantity += parseInt($(this).val());
+	});
+	
+	$(".product_price").each(function(index) {
+		var price = parseInt($(this).val());
+	    var quantity = parseInt($(".product_count").eq(index).val());
+	    
+	    product_total_price += (price * quantity);
+	});
+// 	alert("총금액 !!!: " + product_total_price);
+});	
+	
+	//*****************************************************
+	
+	console.log(merchantUid);
+	// API 초기화 : 포트원 API를 사용하기 위해 초기화
+	var IMP = window.IMP;
+	IMP.init("imp65336711");
+	
+	function requestPay() {
+		
+		IMP.request_pay({
+	      pg: "kakaopay",
+	      pay_method: "card",
+	      merchant_uid: merchantUid,   // 주문번호
+	      name: product_name,   // 결제 대상 제품명
+	      amount: product_total_price,  // 숫자 타입
+	      buyer_email: member_email, // 결제 email MemberVO
+	      buyer_name: member_name,  // 주문자 명 MemberVO 
+	      buyer_tel: member_phone // 연락처 MemberVO
+	    }, function (rsp) { // callback
+	      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+	      if (rsp.success) {
+		      // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+		      // jQuery로 HTTP 요청
+		      $.ajax({
+		    	<%-- 결제 정보 --%>
+		        url: "PaymentEndpoint", 
+		        type: "POST",
+		        headers: { "Content-Type": "application/json" },
+		        data: JSON.stringify({
+		          imp_uid: rsp.imp_uid,            // 결제 고유번호
+		          payment_name: rsp.merchant_uid,   // 주문번호
+		          payment_card_name: "kakaopay",
+		          payment_total_price: product_total_price,
+		          product_name: product_name,
+		          quantity: quantity,
+		          member_id: member_id
+		        })
+		      }).done(function (data) {
+		        // 가맹점 서버 결제 API 성공시 로직
+		        alert("결제 성공");
+		        location.href="PaymentSuccess"
+		      })
+		    } else {
+		      alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+		    }
+	      
+	    });
+	  }
+	
+	
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -83,18 +191,23 @@
 						<!-- 장바구니에서 넘어오는 경우 랑 단일인 경우 판별 -->
 						<!-- 장바구니에서 넘어오는 데이터 테이블화 시켜서 보여줄것 -->
 						<c:set var="store_pay_price" value="0"></c:set>
-						<c:forEach var="store" items="${storeList }">
+						<c:forEach var="store" items="${storeList }" varStatus="status">
+						
+						<input type="hidden" name="product_id" class="product_id" value="${store.product_id }">
+						<input type="hidden" name="product_name" class="product_name" value="${store.product_name }">
+						<input type="hidden" name="product_count" class="product_count" value="${store.product_count }">
+						<input type="hidden" name="product_count" class="product_price" value="${store.product_price }">
+						<input type="hidden" name="product_txt" class="product_txt" value="${store.product_txt  }">
 						
 						<c:set var="store_pay_price" value="${store_pay_price + (store.product_price * store.product_count)}"></c:set>
 						<c:set var="store_pay_count" value="${store.product_price * param.product_count}"></c:set>
 							<tr class="store_table_box02">
 								<td><img src="${store.product_img }"></td>
-								<td><span>${store.product_name }</span> <br> 
-									<span>${store.product_txt }</span></td>
-									
+								<td><span >${store.product_name }</span> 
+									<br> 
+									<span id="">${store.product_txt }</span></td>
 <%-- 								<td>${param.product_count }개</td> --%>
 <%-- 								<td>${store.product_price * param.product_count }원</td> --%>
-								
 								<c:choose>
 								  <c:when test="${param.product_count != null}">
 								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
@@ -108,10 +221,6 @@
 								    <td><fmt:formatNumber value="${store.product_price * store.product_count}" pattern="###,###"/>원</td>
 								  </c:otherwise>
 								</c:choose>
-								
-<%-- 								<td>${store.product_price }원</td> --%>
-<%-- 								<td>${store.product_count }개</td> --%>
-<%-- 								<td> ${store.product_price * store.product_count}원</td> --%>
 							</tr>
 						</c:forEach>
 					</table>
@@ -143,16 +252,6 @@
 									<td class="table_box_red"><fmt:formatNumber value="${store_pay_price}" pattern="###,###"/>원</td>
 								  </c:otherwise>
 								</c:choose>
-							
-							
-							
-<%-- 							<td> ${store_pay_price}원 </td> --%>
-<%-- 							<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td> --%>
-<!-- 							<td></td> -->
-<%-- 							<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td> --%>
-<%-- 							<td class="table_box_red"> ${store_pay_price} 원</td> --%>
-							
-							
 						</tr>
 					</table>
 				</div>
@@ -196,7 +295,7 @@
 				</div>
 				<div class="paybtn">
 					<a href="store_main.jsp"><input type="button" value="이전화면"></a>
-					<a href="ProductPayment" ><input type="button" value="결제하기"></a>
+					<a href="javascript:requestPay()" ><input type="button" value="결제하기"></a>
 				</div>
 			</div>
 		</section>

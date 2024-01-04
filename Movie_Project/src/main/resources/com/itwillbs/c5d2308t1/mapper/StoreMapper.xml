@@ -187,7 +187,7 @@
 	
 	<!--  결제 페이지용 멤버이름 / 번호를 SELECT 조회 -->
 	<select id="selectMemberInfo" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
-		SELECT member_name, member_phone
+		SELECT *
 		FROM members
 		WHERE member_id = #{member_id}
 	</select>
