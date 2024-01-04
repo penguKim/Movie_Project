@@ -213,6 +213,36 @@
 			location.href = "http://localhost:8081/c5d2308t1/storeDetail?product_id=" + pro;
 		}
 	}
+	
+	function trailerPlayBtn() {
+		let video = $("#main_trailer").get(0);
+		let icon = $(".playBtn i");
+		
+	    if (video.paused) {
+	        video.play();
+	        icon.removeClass('fa-play-circle-o');
+	        icon.addClass('fa-pause-circle-o');
+	    } else {
+	        video.pause();
+	        icon.removeClass('fa-pause-circle-o');
+	        icon.addClass('fa-play-circle-o');
+	    }
+	}
+	
+	function trailerMuteBtn() {
+		let video = $("#main_trailer").get(0);
+		let icon = $(".muteBtn i");
+		
+	    if (video.muted) {
+	        video.muted = false;
+	        icon.removeClass('fa-volume-off');
+	        icon.addClass('fa-volume-up');
+	    } else {
+	        video.muted = true;
+	        icon.removeClass('fa-volume-up');
+	        icon.addClass('fa-volume-off');
+	    }
+	}
 </script>
 </head>
 <body>
@@ -224,10 +254,20 @@
 		<jsp:include page="inc/menu_nav.jsp"></jsp:include>
 		
 		<%-- 오토슬라이드 인클루드 --%>
-		<jsp:include page="inc/autoSlide.jsp"></jsp:include>
-<!-- 		<div class="slideshow"> -->
-<!-- 		<video class="main_trailer" src="https://www.kmdb.or.kr/trailer/play/MK036259_P02.mp4" controls autoplay muted></video> -->
-<!-- 		</div> -->
+<%-- 		<jsp:include page="inc/autoSlide.jsp"></jsp:include> --%>
+		<div class="main_trailer_area">
+			<div class="trailer_wrap">
+				<div class="trailer_content">
+					<span id="trailer_title">${movie.movie_title }</span>
+					<video id="main_trailer" src="${movie.movie_trailer }" autoplay muted></video>
+					<div id="trailer_controller">
+						<a href="detail?movie_id=${movie.movie_id }" id="detailBtn">상세보기</a>
+						<a href="javascript:void(0)" class="playBtn" onclick="trailerPlayBtn()"><i class="fa fa-pause-circle-o"></i></a>
+						<a href="javascript:void(0)" class="muteBtn" onclick="trailerMuteBtn()"><i class="fa fa-volume-off"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
 			
 		<div id="main_page">
 			<div id="Sort">

@@ -3,7 +3,7 @@ package com.itwillbs.c5d2308t1.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +87,16 @@ public class MoviesService {
 	//리뷰 조회
 	public List<ReviewsVO> getreview(ReviewsVO review) {
 		return mapper.selectReview(review);
+	}
+
+	public MoviesVO getMovieTrailer() {
+		Random r = new Random();
+		// DB에서 영화의 트레일러를 모두 가져온다.
+		List<MoviesVO> movieTrailerList = mapper.selectMovieTrailerList();
+		// List의 길이를 최대값으로하는 난수 생성
+		int rNum = r.nextInt(movieTrailerList.size());
+		// 랜덤한 인덱스의 트레일러 리턴
+		return movieTrailerList.get(rNum);
 	}
 
 }

@@ -133,4 +133,10 @@
     	WHERE movie_status = 0
     </select>
     
+    <!-- 메인 페이지에 표시할 트레일러 가져오기 -->
+    <select id="selectMovieTrailerList" resultType="movies">
+    	SELECT *
+		FROM movies 
+		WHERE movie_trailer != "";
+    </select>
 </mapper>

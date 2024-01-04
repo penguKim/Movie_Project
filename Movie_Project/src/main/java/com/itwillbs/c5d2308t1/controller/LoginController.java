@@ -110,7 +110,7 @@ public class LoginController {
 	    	session.setAttribute("sId", member.getMember_id());
 	    	System.out.println("로그인 성공: " + dbMember);
 	    		//주소값 뒤에 파라미터값을 판별해서 각 페이지로 이동한다.
-	    		if(prevPage.equals("")) { // 이전 페이지가 메인페이지일 경우
+	    		if(prevPage.equals("") || prevPage.equals("idFind") || prevPage.equals("modifyMemberPw")) { // 이전 페이지가 메인페이지거나 돌아가면 안되는 페이지인 경우
 	    			return "redirect:/";
 	    		} else {
 	    			// 메인페이지가 아닐 경우 해당 페이지로 리다이렉트한다.
