@@ -109,6 +109,59 @@ textarea { /* 텍스트박스 */
 	padding-left: 20px;
 }
 
+/* ------------ 이메일 발송 모달창 -------------- */
+.modal {
+	display: none; /* 모달창 숨김 */
+	position: fixed; /* 화면 위치 고정 */
+	z-index: 9999; /* 내용 위에 표시 */
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 너비 */
+	height: 100%; /* 전체 높이 */
+	overflow: hidden;
+	background-color: rgba(0,0,0,0.4); /* 약간의 투명도 */
+	text-align: center;
+}
+
+/* 모달 컨텐츠 */
+.modal-content {
+	background-color: #fefefe;
+	margin: 20% auto; /* 페이지 중앙에 위치 */
+	padding: 20px;
+	border: 1px solid #888;
+	border-radius: 20px;
+	width: 300px; /* 모달창의 너비 */
+	height: 200px;
+}
+
+#modal-subject {
+	margin-top: 50px;
+	line-height: 30px;
+}
+
+/* 닫기 버튼 */
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* 모달창 띄웠을 시 body 영역의 스크롤바 삭제 */
+.not_scroll{
+   	overflow: hidden;
+}
+
+
+
+
+
 /* ======== 동의 페이지에 적용할 css ======== */
 #agree { /* 동의영역 */
 	margin-top: 30px; /* 상단여백 */

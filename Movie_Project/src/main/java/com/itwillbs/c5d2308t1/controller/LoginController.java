@@ -1,6 +1,6 @@
 package com.itwillbs.c5d2308t1.controller;
 
-import java.text.DecimalFormat;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -12,22 +12,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.itwillbs.c5d2308t1.service.JoinService;
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
-import com.itwillbs.c5d2308t1.vo.*;
-import com.mysql.cj.Session;
+import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.MemberVO;
+import com.itwillbs.c5d2308t1.vo.NaverLoginVO;
+import com.itwillbs.c5d2308t1.vo.PageCount;
+import com.itwillbs.c5d2308t1.vo.PageDTO;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
+import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 @Controller
 public class LoginController {
 
@@ -37,11 +44,28 @@ public class LoginController {
 	@Autowired
 	ReserveService reserve;
 	
+	 /* NaverLoginVO */
+	private NaverLoginVO NaverLoginVO;
+	
+	@Autowired
+    private void setNaverLoginVO(NaverLoginVO NaverLoginVO) {
+        this.NaverLoginVO = NaverLoginVO;
+    }
+	
 	@GetMapping("memberLogin") //메인화면에서 로그인 버튼 클릭시 이동
 	public String memberLogin(HttpServletRequest request, HttpSession session, Model model) {
 		// "REFERER" 헤더는 현재 요청을 보내는 페이지의 URL을 가리킨다.
 		String prevPage  = request.getHeader("REFERER");
 		System.out.println("이전페이지는 어디인가요????? : " + prevPage);
+		
+		 /* 네이버아이디로 인증 URL을 생성하기 위하여 NaverLoginVO클래스의 getAuthorizationUrl메소드 호출 */
+        String naverAuthUrl = NaverLoginVO.getAuthorizationUrl(session);
+        
+        System.out.println("네이버:" + naverAuthUrl);
+        
+        //네이버 
+        model.addAttribute("url", naverAuthUrl);
+		
 		
 		// 이전 페이지가 null이 아닐 경우 서블릿 주소만 잘라내서 세션에 저장한다.
 		if(prevPage != null) {
@@ -52,6 +76,7 @@ public class LoginController {
 //		System.out.println("memberLogin");
 		return "login/login";
 	}
+	
 	@GetMapping("Mypage") //메인화면에서 버튼 클릭시 mypage이동
 	public String mypage() {
 		return "login/Mypage";
@@ -62,6 +87,7 @@ public class LoginController {
 		// 세션에 저장된 로그인창 이전 페이지를 변수로 저장
 		String prevPage = (String)session.getAttribute("prevPage");
 		System.out.println("이전 이전 페이지는 어디인가요????? : " + prevPage);
+		
 		
 	    MemberVO dbMember = service.getMember(member);
 	    Cookie cookie = new Cookie("cookieId", dbMember.getMember_id()); // 쿠키에 아이디 저장

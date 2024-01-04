@@ -8,6 +8,8 @@
 <title>로그인</title>
 <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
+<!-- 네이버 api를 위한 script -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
@@ -91,7 +93,8 @@ $(function() {
 					<!-- 간편로그인 기능 API 참고  -->
 					<section id="api">
 						<a href="#" id="kakao-login-btn"><img src="${pageContext.request.contextPath}/resources/img/카카오버튼.png" value="${sessionScope.sId} width="150px" height="40px"></a>					
-						<a href="popup.jsp"><img src="${pageContext.request.contextPath}/resources/img/네이버버튼.png" width="222px" height="49px"></a>
+						<!-- 네이버 로그인 버튼 노출 영역 -->
+						<div id="naver_id_login" style="text-align:center"><a href="${url}"><img width="223" src="${pageContext.request.contextPath}/resources/img/네이버버튼.png"/></a></div>
 					</section>
 				</div>
 			</form>
