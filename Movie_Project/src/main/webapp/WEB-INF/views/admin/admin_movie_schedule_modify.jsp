@@ -114,7 +114,9 @@
 					play_date : play_date
 				},
 				success: function(result) {
- 					if(result == "") { // 이전 등록한 상영 일정이 없는 경우
+					console.log(JSON.stringify(result));
+					// 각 배열에 가지고 있는 값: movie_id, play_date, play_end_time, play_id, play_start_time, play_turn, room_id
+					if(result == "") { // 이전 등록한 상영 일정이 없는 경우
  						$("#play_start_time").html(
  								"<option value=''>시작 시간 선택</option><option value='09:00'>09:00</option><option value='10:00'>10:00</option>"
  								+ "<option value='11:00'>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>"
@@ -122,59 +124,110 @@
 								+ "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>"
 								+ "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>");
  					} else { // 이전 등록한 상영 일정이 있는 경우
-		                let optionsHtml = "<option value=''>시작 시간 선택</option>";
-		                
-		                
-						for(let time of result) {
+//  						for(let i = 0; i < result.length; i++ ){
+// 							console.log("result[" + i +"] : " + result[i]); 						
+//  						}
+// 						console.log(
+// 								"옵션 밸류값 : " 
+// 								+ $('#play_start_time option').map(function() {
+// 							  			return $(this).val();
+// 									}).get()); 
+ 								
+ 						let timeOption = 
+ 							$('#play_start_time option').map(function() {
+							  return $(this).val();
+							}).get();
+						// 옵션 밸류값 : ,09:00,10:00,11:00,12:00,13:00,14:00,15:00,16:00,17:00,18:00,19:00,20:00,21:00
 
-							let endTimeHour = time.play_end_time.split(":")[0];
 							
-							if(time.play_start_time == "09:00") { // 9시 시작 영화
-								 if (endTimeHour == "10") { // 종료 시간 10시대
-			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
-			                                "<option value='11:00'>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
-			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
-			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
-			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
-			                        } else if (endTimeHour == "11") { // 종료 시간 11시대
-			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
-			                                "<option value='11:00' disabled>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
-			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
-			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
-			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
-			                        }
-							}
-							if(time.play_start_time == "10:00") { // 10시 시작 영화
-								 if (endTimeHour == "11") { // 종료시간 11시대
-			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
-			                                "<option value='11:00' disabled>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
-			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
-			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
-			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
-			                        } else if (endTimeHour == "12") { // 종료시간 12시대
-			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
-			                                "<option value='11:00' disabled>11:00</option><option value='12:00' disabled>12:00</option><option value='13:00'>13:00</option>" +
-			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
-			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
-			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
-			                        }
-							}
+// 						console.log("시간 옵션 배열의 0번째 인덱스 : " + timeOption[0]);
+// 						console.log("시간 옵션 배열의 1번째 인덱스 : " + timeOption[1]);
+							
+ 						for(var i = 0; i < result.length; i++) { // 반복문을 통해 result 배열의 각 요소에 접근
+// 							let startTimeHour = result[i].play_start_time.split(":")[0];
+// 							let endTimeHour = result[i].play_end_time.split(":")[0];
+ 							let value = result[i].play_start_time;
+//  							console.log("시작시간 알려줘 : " + value);
+//  							console.log("timeOption : " + timeOption);
+// 							console.log("play_start_time[" + i +"] :" + result[i].play_start_time); 									
+// 							console.log("play_end_time[" + i +"] :" + result[i].play_end_time);
+// 							console.log("startTimeHour[" + i +"] :" + result[i].play_start_time.split(":")[0]); 									
+// 							console.log("endTimeHour[" + i +"] :" + result[i].play_end_time.split(":")[0]);
+// 							console.log(typeof(startTimeHour), typeof(endTimeHour)); // string, string
+// 							console.log(parseInt(startTimeHour), parseInt(endTimeHour));
+// 							console.log(typeof(parseInt(startTimeHour)), typeof(parseInt(endTimeHour))); // number, number
+							let intStartTimeHour = parseInt(result[i].play_start_time.split(":")[0]);
+							let intEndTimeHour = parseInt(result[i].play_end_time.split(":")[0]);
+							console.log(intStartTimeHour, intEndTimeHour);
+							console.log(typeof(intStartTimeHour), typeof(intEndTimeHour));
+							
+							// 스케쥴 한타임(단위 한 시간) 저장할 배열 변수 선언
+							let scheduleArr = [];
+							
+							// => 비교를 위해 변환 필요
+							for(var j = 0; j < timeOption.length; j++) {
+ 								if(value == timeOption[j]) { // 옵션의 value와 이미 등록된 영화의 시작 시간이 같을 경우
+	 								// 기본적으로 영화가 1시간 이상이므로 두 타임을 차지하고 있으므로
+	 								// j, j+1을 disabled 처리   
+	 								$("#play_start_time option").eq(j).attr("disabled", true);
+	 								$("#play_start_time option").eq(j+1).attr("disabled", true);
+									
+	 								if(intEndTimeHour - intStartTimeHour == 2) { // 이미 등록된 영화가 두시간 이상일 경우
+		 								$("#play_start_time option").eq(j+2).attr("disabled", true); // j+2도 disabled 처리
+									}
+								} 
+ 								
+ 							} // 안쪽 for문 끝
+ 						
+ 						} // 바깥쪽 for문 끝	
+ 						
+ 						
+ 						
+ 						
 
+// 		                let optionsHtml = "<option value=''>시작 시간 선택</option>";
+// 						for(let time of result) {
+// 							let endTimeHour = time.play_end_time.split(":")[0];
+// 							if(time.play_start_time == "09:00") { // 9시 시작 영화
+// 								 if (endTimeHour == "10") { // 종료 시간 10시대
+// 			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+// 			                                "<option value='11:00'>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
+// 			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+// 			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+// 			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+// 			                        } else if (endTimeHour == "11") { // 종료 시간 11시대
+// 			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+// 			                                "<option value='11:00' disabled>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
+// 			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+// 			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+// 			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+// 			                        }
+// 							}
+// 							if(time.play_start_time == "10:00") { // 10시 시작 영화
+// 								 if (endTimeHour == "11") { // 종료시간 11시대
+// 			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+// 			                                "<option value='11:00' disabled>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option>" +
+// 			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+// 			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+// 			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+// 			                        } else if (endTimeHour == "12") { // 종료시간 12시대
+// 			                            optionsHtml += "<option value='09:00' disabled>09:00</option><option value='10:00' disabled>10:00</option>" +
+// 			                                "<option value='11:00' disabled>11:00</option><option value='12:00' disabled>12:00</option><option value='13:00'>13:00</option>" +
+// 			                                "<option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option>" +
+// 			                                "<option value='17:00'>17:00</option><option value='18:00'>18:00</option><option value='19:00'>19:00</option>" +
+// 			                                "<option value='20:00'>20:00</option><option value='21:00'>21:00</option>";
+// 			                        }
+// 							}
 							// 11시 시작부터 세부 판별.. 일단 중간 푸시합니다
-							
-							
-							
-
-							
-							
-						}// for문 끝
+// 						}// for문 끝
 						
-		                // Update the options without resetting the selected value
+		                // 셀렉트박스 값 리셋하지 않고 ajax로 불러온 이후에 선택한 옵션 값을 저장
 		                $("#play_start_time").html(optionsHtml);
 							
 					} // if-else문 끝 
-	 				// Set back the selected value
- 		            $("#play_start_time").val(selectedValue);
+					
+	 				// 현재 선택한 옵션값 표시
+//  		            $("#play_start_time").val(selectedValue);
  						
 				}, // success 끝
 				error: function(xhr, textStatus, errorThrown) {
@@ -558,11 +611,22 @@
 		                    movie_id: movie
 		                },
 		                success: function(result) {
-		                    alert("수정 완료!");
-		                    location.href="movieScheduleMod";
+		                	
+							if(result == "formData") {
+			                    alert("수정 완료!");
+			                    location.href="movieScheduleMod";
+							} else if(result == "fail") {
+								alert("수정 실패!");
+			                    location.href="movieScheduleMod";
+							} else if(result == "invalidSession") {
+								alert("권한이 없습니다!");
+			                    location.href="memberLogin";
+							}
 		                },
 		                error: function(xhr, textStatus, errorThrown) {
-		                    alert("수정 실패! 항목을 다시 선택해보세요!");
+		                    alert("ajax 요청 실패! 항목을 처음부터 순서대로 다시 선택해보세요!");
+		                    // ajax 요청 실패 시 화면 전환 없이 다시 선택해도 수정 가능한지 확인하기
+		                    
 		                }
 		            });
 	            });

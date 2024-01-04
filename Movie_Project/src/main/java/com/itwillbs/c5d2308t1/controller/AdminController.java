@@ -60,37 +60,6 @@ public class AdminController {
 	@Autowired
 	JoinService join;
 	
-	// =============== 2023.12.19 임은령 주석 ============================
-	// 1. 자바스크립트 처리가 동일하여 서블릿 매핑을 모듈화 하였으나 사용하는 것이 적합하지않다고 판명되어 
-	// 이전처럼 개별 서블릿 주소를 이용하는 방식으로 수정해야할 것 같습니다.
-	// 기존에 만들어놓은 서블릿 이름은 아래에 있으므로 각 페이지 작업하실 때 매핑만 해주시면 됩니다.
-	
-	// 2. 공통되는 자바스크립트는
-	// 1) 등록
-	//	 	confirm() 등으로 "XXX를 등록하시겠습니까?" 모달창 띄운 후
-	//	    비즈니스 로직 처리를 위한 서블릿으로 넘어가기
-	// 2) 수정
-	//	 	confirm() 등으로 "XXX를 수정하시겠습니까?" 모달창 띄운 후
-	//	    비즈니스 로직 처리를 위한 서블릿으로 넘어가기
-	// 3) 삭제
-	//	 	confirm() 등으로 "XXX를 삭제하시겠습니까?" 모달창 띄운 후
-	//	    비즈니스 로직 처리를 위한 서블릿으로 넘어가기
-	//	    입니다. 지금 시점에서는 페이지별로 각자 작업하는 것이 효율적이라고 판단해 다시 수정하지 않았습니다.
-	//	    번거롭지만 추가 부탁 드립니다. 
-	// => XXX은 각 페이지 별 수행할 작업을 뜻합니다.
-	//	  예시) 상영스케쥴 페이지의 경우 : "상영 일정을 등록하시겠습니까?"
-	
-	// 3. 기본적으로 post 방식으로 매핑해두었으나 각 페이지별로 작업하시다가 
-	//	  적절한 방식으로 변경, 추가해주시면 됩니다
-	
-	// 4. 상영일정관리, 1대1문의 답변, 분실물 문의 답변, 영화 예매 팝업, 회원정보 상세
-	//	  자주묻는질문 상세, 공지사항 상세 페이지 등은 하나의 폼에서 여러개의 서브밋을 사용하는데
-	//	  따로 자료 링크를 보내드릴테니 참고해 작업하실 수 있을 것 같습니다
-	
-	//	  급하게 서블릿 매핑을 몇 번씩 갈아엎다보니 중복되거나 누락되는 부분이 많을 것으로 예상됩니다.
-	//	  필요 시 코드는 편하게 수정하시면 됩니다. 협조 감사 드립니다.
-
-
 	@GetMapping("adminMain")
 	public String adminMain(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -382,14 +351,33 @@ public class AdminController {
 	
 	
 	// ajax 이용하여 상영시간 정보 불러오기
+//	@ResponseBody
+//	@GetMapping("getPlayTimeInfo")
+//	public List<HashMap<String, Object>> playTimeInfo(PlayVO play) {
+//		System.out.println("상영관 = " + play.getRoom_id());
+//		System.out.println("일자 = " + play.getPlay_date());
+//		
+//		List<HashMap<String, Object>> playTimeInfo = service.playTimeInfo(play);
+//		System.out.println(playTimeInfo);
+//		
+//		return playTimeInfo;
+//	}
+	
 	@ResponseBody
 	@GetMapping("getPlayTimeInfo")
-	public List<HashMap<String, Object>> playTimeInfo(PlayVO play) {
+	public HashMap<String, Object>[] getPlayTimeInfo(PlayVO play) {
 		System.out.println("상영관 = " + play.getRoom_id());
 		System.out.println("일자 = " + play.getPlay_date());
 		
-		List<HashMap<String, Object>> playTimeInfo = service.playTimeInfo(play);
-		System.out.println(playTimeInfo);
+		List<HashMap<String, Object>> playTimeInfoList = service.playTimeInfo(play);
+		System.out.println(playTimeInfoList);
+		
+		int size = playTimeInfoList.size();
+		HashMap<String, Object>[] playTimeInfo = new HashMap[size];
+		
+		for (int i = 0; i < size; i++) {
+			playTimeInfo[i] = playTimeInfoList.get(i);
+		}
 		
 		return playTimeInfo;
 	}
@@ -445,16 +433,21 @@ public class AdminController {
 	// 상영일정 수정하기
 	@ResponseBody
 	@PostMapping("modifyPlay")
-	public String modifyPlay(PlayVO play, Model model) {
+	public String modifyPlay(PlayVO play, HttpSession session) {
 		//넘어온 전체 파라미터 확인: {play_id=22, theater_id=2, room_id=8, movie_id=20212866, play_date=Tue Jan 02 2024 09:00:00 GMT+0900 (한국 표준시), start_time=14:00, end_time=16:21}
 
 		System.out.println("넘어온 전체 파라미터 확인: " + play);
         
+		// 세션 아이디가 관리자가 아닐 경우 "invalidSession" 문자열 리턴
+		String sId = (String)session.getAttribute("sId");
+		if(!sId.equals("admin") || sId == null) {
+			return "invalidSession";
+		}
+		
         int updateCount = service.modifySchedule(play);
         
         if(updateCount == 0) {
-        	model.addAttribute("msg", "상영 일정 수정에 실패했습니다!");
-        	return "fail_back";
+        	return "fail";
         } else {
         	return "formData";
         }

@@ -394,8 +394,8 @@
 		ON r.theater_id = t.theater_id
 		JOIN movies m
 		ON p.movie_id = m.movie_id
-		WHERE t.theater_id = 1
-			AND p.play_date = curdate()
+		WHERE p.play_date = curdate()
+		ORDER BY t.theater_id ASC, r.room_id ASC, p.play_start_time ASC, m.movie_title ASC
 	</select>
 	
 <!-- 상영스케쥴 메인페이지 상영일정 조회 -->	
@@ -461,7 +461,6 @@
 		VALUES (
 			null
 			, #{play_date}
-			, 0
 			, #{play_start_time}
 			, #{play_end_time}
 			, #{room_id}
