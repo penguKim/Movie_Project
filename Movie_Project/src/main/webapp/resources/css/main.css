@@ -85,6 +85,96 @@ body {font-family: Verdana, sans-serif; margin:0}
   .prev, .next,.text {font-size: 11px}
 }
 
+/* =============== 영화 트레일러 ==================== */
+.main_trailer_area {
+	height: 465px;
+/* 	min-width: 960px; */
+	background: #000000;
+	overflow: hidden;
+	position: relative;
+	text-align: center;
+}
+/* 트레일러 배경안의 영역 지정 */
+.main_trailer_area .trailer_wrap {
+    width: 960px;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+}
+
+/* 트레일러의 타이틀 */
+.main_trailer_area #trailer_title {
+    position: absolute;
+    font-weight: 900;
+    font-size: 40px;
+    width: 500px;
+    max-height: 465px;
+    top: 55%;
+    left: 5%;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #ffffff;
+    z-index: 5;
+}
+
+/* 그라데이션 효과를 위한 영역 범위 지정 */
+.trailer_content {
+	width: 100%;
+	height: 100%;	
+	position: absolute;
+	overflow: hidden;
+}
+
+/* 트레일러 위에 그라데이션 효과 */
+.trailer_wrap .trailer_content::before {
+	content: '';
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-image: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.25) 25%, rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0.25) 75%, #000 100%);
+	z-index: 2;
+}
+
+/* 트레일러 영상 영역 */
+.main_trailer_area #main_trailer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transform: scale(1.35);
+}
+
+/* 트레일러 컨트롤러 */
+.main_trailer_area #trailer_controller {
+    position: absolute;
+    top: 70%;
+    left: 5%;
+    display: flex; /* flex 속성으로 만들기 */
+	align-items: center; /* flex 요소의 수평정렬 */
+	z-index: 5;
+}
+
+/* 트레일러 상세보기 아이콘 */
+#trailer_controller #detailBtn {
+	border: 3px solid;
+	border-radius: 10px;
+    color: #fff;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+/* 트레일러 컨트롤러 아이콘 */
+#trailer_controller i {
+    font-size: 30px;
+    color: #fff;
+    padding: 15px;
+    cursor: pointer;
+}
 
 /* =============== 본문 ==================== */
 

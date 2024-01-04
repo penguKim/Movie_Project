@@ -68,13 +68,6 @@
 			<hr>		
 			<div id="admin_sub">
 				<form action="" method="post">
-				<%-- 판별식을 이용해 action 속성값 변경할 예정 --%>
-<!-- 				<form action="boardRgst" method="post"> -->
-<!-- 				<form action="boardMod" method="post"> -->
-<!-- 				<form action="boardDlt" method="post"> -->
-				<!-- 서블릿 매핑 미완(등록 : boardRgst, 수정 : boardMod, 삭제 : boardDlt) -->
-				<!-- 폼태그 하나에 복수개의 submit 처리가 필요(등록, 수정, 삭제) -->
-				<!-- 임시로 action 속성은 boardRgst 로 지정(매핑 확인 용) -->
 					<table border="1">
 						<tr>
 							<th>번호</th>
@@ -106,6 +99,7 @@
 								<div class = "file">
 									<c:if test="${not empty lostnfound.cs_file}">
 										<c:set var="original_file_name" value="${fn:substringAfter(lostnfound.cs_file, '_')}"/>
+										<img alt="" src="${pageContext.request.contextPath }/resources/upload/${lostnfound.cs_file}" height="300px">
 										${original_file_name}
 										<a href="${pageContext.request.contextPath }/resources/upload/${lostnfound.cs_file}" download="${original_file_name}"><input type="button" value="다운로드"></a>
 									</c:if>

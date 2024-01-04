@@ -267,7 +267,11 @@ public class AdminService {
 	}
 
 
-
+	// ****************** 관리자 메인 차트 *********************
+	
+	public List<Map<String, String>> getMovieChart() {
+		return mapper.selectMovieChart();
+	}
 
 
 

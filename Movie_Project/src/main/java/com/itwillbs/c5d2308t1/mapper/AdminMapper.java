@@ -160,6 +160,9 @@ public interface AdminMapper {
 
 	//상세리뷰 조회
 	List<ReviewsVO> selectReviewDlt(ReviewsVO review);
+
+	// 관리자 페이지 영화 차트
+	List<Map<String, String>> selectMovieChart();
 		
 
 

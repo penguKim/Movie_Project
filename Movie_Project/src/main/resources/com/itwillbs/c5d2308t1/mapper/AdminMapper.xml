@@ -394,8 +394,8 @@
 		ON r.theater_id = t.theater_id
 		JOIN movies m
 		ON p.movie_id = m.movie_id
-		WHERE t.theater_id = 1
-			AND p.play_date = curdate()
+		WHERE p.play_date = curdate()
+		ORDER BY t.theater_id ASC, r.room_id ASC, p.play_start_time ASC, m.movie_title ASC
 	</select>
 	
 <!-- 상영스케쥴 메인페이지 상영일정 조회 -->	
@@ -461,7 +461,6 @@
 		VALUES (
 			null
 			, #{play_date}
-			, 0
 			, #{play_start_time}
 			, #{play_end_time}
 			, #{room_id}
@@ -527,4 +526,19 @@
 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 <!-- ============================관리자 예매내역 조회 끝=============================== -->	
+
+<!-- =============== 관리자 메인 페이지 차트 =============== -->
+	<!-- 7일 단위로 예매된 영화 조회하여 횟수 출력 -->
+	<select id="selectMovieChart">
+		SELECT movie_title, CAST(COUNT(movie_title) AS char) 'count'
+		FROM resView 
+		WHERE play_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND CURDATE()
+		GROUP BY movie_title
+		ORDER BY count DESC
+		LIMIT 0,5;
+	</select>
+
+
+
+
 </mapper>

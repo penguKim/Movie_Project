@@ -42,6 +42,13 @@
 		WHERE member_id = #{member_id}
 	</select>
 	
+	<select id="selectJoinCount" resultType="int">
+		SELECT count(*)
+		FROM members
+		WHERE member_date LIKE '${date}%'
+	</select>
+	
+	
 </mapper>
 
 

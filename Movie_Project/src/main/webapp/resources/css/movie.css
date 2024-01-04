@@ -220,13 +220,13 @@
 }
 
 .likeBtn:hover {
-	background-color: #331f62;
+	background-color: #e33c3c;
 	color: #fff;
 }
 
 .likeCheck {
 	border: 1px solid;
-	background-color: #433581; /* 버튼 색상 */
+	background-color: #e33c3c; /* 버튼 색상 */
 	color: #fff; /* 글자 색상 */
 	padding: 10px; /* 영역의 상하 좌우 크기 */
 	border-radius: 5px; /* 모서리 라운드처리 */
@@ -237,7 +237,7 @@
 
 .likeCheck:hover {
 	border: none;
-	background-color: #331f62;
+	background-color: #ffffff;
 	color: #000;
 }
 

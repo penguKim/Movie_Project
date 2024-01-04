@@ -14,23 +14,23 @@
 			<h1>상품 상세 페이지</h1>
 			<table border="1" id="popup1_table">
 				<tr>
-					<th width="150">예매 번호</th>
+					<th width="150">상품 번호</th>
 					<td></td>
 				</tr>
 				<tr>
-					<th>영화제목</th>
-					<td>주문자명입니다</td>
+					<th>상품명</th>
+					<td>상품명입니다</td>
 				</tr>
 				<tr>
-					<th>영화극장 정보</th>
+					<th>총 결제금액</th>
+					<td></td>
+				</tr>
+				<tr>
+					<th>구매일</th>
 					<td></td>
 				</tr>
 				<tr>
 					<th>상태</th>
-					<td></td>
-				</tr>
-				<tr>
-					<th>좌석 번호</th>
 					<td></td>
 				</tr>
 			</table>

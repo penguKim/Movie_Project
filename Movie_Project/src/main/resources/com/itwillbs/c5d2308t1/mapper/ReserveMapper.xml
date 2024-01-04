@@ -36,7 +36,7 @@
 		AND theater_name = #{theater_name}
 	</select>
 	<!--  movie_select ajax2 -->
-	<select id="selectMTB" resultType="map">
+	<select id="selectMTB" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT *
 		FROM MPRT
 		WHERE
@@ -144,22 +144,8 @@
 		)
 	</insert>
 	
-	<!-- reserve table insert -->
+		<!-- reserve table insert -->
 	<insert id="insertReserve">
-<!-- 		<selectKey keyColumn="payment_id" resultType="String" order="BEFORE"> -->
-<!-- 			(SELECT payment_id -->
-<!-- 			FROM payments -->
-<!-- 			WHERE payment_name = (SELECT CONCAT('P',prt.play_id ,'S',s.seat_id) -->
-<!-- 								  FROM PRT prt JOIN seats s -->
-<!-- 								  ON prt.play_id = s.play_id -->
-<!-- 								  WHERE s.seat_name = #{seat_name} -->
-<!-- 								  AND prt.play_date = #{play_date} -->
-<!-- 								  AND prt.play_start_time = #{play_start_time} -->
-<!-- 								) -->
-<!-- 			) -->
-			
-<!-- 		</selectKey> -->
-		
 		INSERT INTO reserve
 		VALUES(
 			(SELECT payment_id
@@ -182,32 +168,25 @@
 						    WHERE play_date = #{play_date}
 						    AND play_start_time = #{play_start_time}
 						    AND room_name = #{room_name}
+						    AND theater_name = #{theater_name}
 						    )
 			)
 		)
 	</insert>
 	
-	<!-- 페이징 처리를 위한 게시물 개수 조회 작업 -->
-	<select id="selectMovieListCount" resultType="int">
-		SELECT COUNT(*)
-		FROM movies
-		<if test="!searchKeyword.equals('')">
-			WHERE
-				movie_title LIKE '%${searchKeyword}%'
-		</if>
-	</select>
-	
-	<!-- 한 페이지에 표시할 영화 목록 조회 작업 -->
-	<select id="selectMovieList" resultType="movies">
+	<!-- 예매완료 Step02.페이지 결제정보출력 -->
+	<select id="selectPayment" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT *
-		FROM movies
-		<if test="!searchKeyword.equals('')">
-			WHERE
-				movie_title LIKE '%${searchKeyword}%'
-		</if>
-		ORDER BY movie_release_date DESC
-		LIMIT #{page.startRow}, #{page.listLimit}
-	
+		FROM resView
+		WHERE
+			movie_title = #{movie_title}
+			AND theater_name = #{theater_name}
+			AND room_name = #{room_name}
+			AND play_date = #{play_date}
+			AND play_start_time = #{play_start_time}
+			AND seat_name = #{seat_name}
+			AND payment_total_price = #{payment_total_price}
+			AND member_id = #{sId}
 	</select>
 	
 </mapper>

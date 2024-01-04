@@ -13,7 +13,6 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
-		
 		let M,T,D = null;
 		$(".btnMovie").click(function(){
 			$('.btnMovie').removeClass('selected');
@@ -21,17 +20,14 @@
 		    $('#Result_M').text($('.btnMovie.selected').val());
 			param();
 			M = true;
-			let ajaxNum = M+T+D;
 			
 			if(M == true && D == true && T==true){
-				alert('MTD true');
 				MTD_Ajax();
 			}else if(M == true && D == true){
-				alert('MD true');
+				MD_Ajax();
 			}else if(M == true && T == true){
-				alert('MT true');
+				MT_Ajax();
 			}else if(M == true){
-				alert('M true');
 				M_Ajax();
 			}
 			
@@ -44,14 +40,13 @@
 			param();
 			T = true;
 			if(M == true && D == true && T==true){
-				alert('MTD true');
 				MTD_Ajax();
 			}else if(M == true && T == true){
-				alert('MT true');
+				MT_Ajax();
 			}else if(T == true && D == true){
-				alert('TD true');
+				TD_Ajax();
 			}else if(T == true){
-				alert('T true');
+				T_Ajax();
 			}
 			$("#endParamTd2").html("<td>극장<br>일시<br>상영관<br>인원<br></td>");
 		});
@@ -62,14 +57,13 @@
 			param();
 			D = true;
 			if(M == true && D == true && T==true){
-				alert('MTD true');
 				MTD_Ajax();
 			}else if(M == true && D == true){
-				alert('MD true');
+				MD_Ajax();
 			}else if(T == true && D == true){
-				alert('TD true');
+				TD_Ajax();
 			}else if(D == true){
-				alert('D true');
+				D_Ajax();
 			}
 		});
 		
@@ -83,32 +77,343 @@
 			    success: function(data) {
 			    	$(".overflow.theater").html("<b>극장</b>");
 			    	$(".overflow.date").html("<b>날짜</b>");
-			     	for(let theater of data){
-				    	$(".overflow.theater").append("<input type ='button' value="+ theater.theater_name +"class='btnTheater'><br>");
-			     	}
-			     	for(let date of data ){
-				    	$(".overflow.date").append("<input type ='button' value="+ date.play_date +"class='btnDate'><br>");
-			     	}
+			    	
+			       	let theaterNameArr = [];
+			       	let playDateArr = [];
+			    	//선택한 영화에 해당하는 극장, 날짜의 배열생성
+			    	for(let result of data){
+			    		theaterNameArr.push(result.theater_name);
+			    	}
+			    	for(let result of data){
+			    		playDateArr.push(result.play_date);
+			    	}
+			    	//중복 제거를 위한 Set객체 사용
+			    	let uniqueTheaterNameData = new Set(theaterNameArr);
+			    	let uniquePlayDateData = new Set(playDateArr);
+			    	
+			    	
+			     	for(let theater of uniqueTheaterNameData){
+				    	$(".overflow.theater").append("<input type ='button' value="+ theater +" class='btnTheater'><br>");
 
-   				}//success end
-			    
+			     	}
+			     	for(let date of uniquePlayDateData ){
+				    	$(".overflow.date").append("<input type ='button' value="+ date +" class='btnDate'><br>");
+			     	}
+			     	$(".btnTheater").click(function(){
+						$('.btnTheater').removeClass('selected');
+						$(this).addClass('selected');
+						theaterInfo();
+						param();
+						T = true;
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && T == true){
+							MT_Ajax();
+						}else if(T == true && D == true){
+							TD_Ajax();
+						}else if(T == true){
+							T_Ajax();
+						}
+						$("#endParamTd2").html("<td>극장<br>일시<br>상영관<br>인원<br></td>");
+					});
+					$(".btnDate").click(function(){
+						$('.btnDate').removeClass('selected');
+						$(this).addClass('selected');
+						theaterInfo();
+						param();
+						D = true;
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && D == true){
+							MD_Ajax();
+						}else if(T == true && D == true){
+							TD_Ajax();
+						}else if(D == true){
+							D_Ajax();
+						}
+					});
+
+   				},//success end
+			    error:function(data){
+			    	alert("ajax실패!");
+			    }
 			});//ajax end
 				
 		}// M_Ajax
-		function T_Ajx(){
-			
+		function T_Ajax(){
+			$.ajax({
+				url: "MTDAjax",
+				data: {
+					theater_name: $('.btnTheater.selected').val()
+				},
+				dataType: "json",
+			    success: function(data) {
+			    	$(".overflow.movie").html("<b>영화</b>");
+			    	$(".overflow.date").html("<b>날짜</b>");
+			    	
+			       	let movieTitleArr = [];
+			       	let playDateArr = [];
+			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
+			    	for(let result of data){
+			    		movieTitleArr.push(result.movie_title);
+			    	}
+			    	for(let result of data){
+			    		playDateArr.push(result.play_date);
+			    	}
+			    	//중복 제거를 위한 Set객체 사용
+			    	let uniqueMovieTitleData = new Set(movieTitleArr);
+			    	let uniquePlayDateData = new Set(playDateArr);
+			    	
+			    	for (let movie_title of uniqueMovieTitleData) {
+			    		  $(".overflow.movie").append("<input type='button' value='" + movie_title + "' class='btnMovie'><br>");
+			    		}
+			     	for(let date of uniquePlayDateData ){
+				    	$(".overflow.date").append("<input type ='button' value="+ date +" class='btnDate'><br>");
+			     	}
+			     	$(".btnMovie").click(function(){
+						$('.btnMovie').removeClass('selected');
+						$(this).addClass('selected');
+					    $('#Result_M').text($('.btnMovie.selected').val());
+						param();
+						M = true;
+						
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && D == true){
+							MD_Ajax();
+						}else if(M == true && T == true){
+							MT_Ajax();
+						}else if(M == true){
+							M_Ajax();
+						}
+						
+					});
+			     	$(".btnDate").click(function(){
+						$('.btnDate').removeClass('selected');
+						$(this).addClass('selected');
+						theaterInfo();
+						param();
+						D = true;
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && D == true){
+							MD_Ajax();
+						}else if(T == true && D == true){
+							TD_Ajax();
+						}else if(D == true){
+							D_Ajax();
+						}
+					});
+				},//success end
+			    error:function(data){
+			    	alert("ajax실패!");
+			    }
+			});//ajax end
+				
 		}
-		function D_Ajx(){
-			
+		function D_Ajax(){
+			$.ajax({
+				url: "MTDAjax",
+				data: {
+					play_date: $('.btnDate.selected').val()
+				},
+				dataType: "json",
+			    success: function(data) {
+			    	$(".overflow.movie").html("<b>영화</b>");
+			    	$(".overflow.theater").html("<b>극장</b>");
+			    	
+			       	let movieTitleArr = [];
+			       	let theaterNameArr = [];
+			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
+			    	for(let result of data){
+			    		movieTitleArr.push(result.movie_title);
+			    	}
+			    	for(let result of data){
+			    		theaterNameArr.push(result.theater_name);
+			    	}
+			    	//중복 제거를 위한 Set객체 사용
+			    	let uniqueMovieTitleData = new Set(movieTitleArr);
+			    	let uniqueTheaterNameData = new Set(theaterNameArr);
+			    	for (let movie_title of uniqueMovieTitleData) {
+		    			$(".overflow.movie").append("<input type='button' value='" + movie_title + "' class='btnMovie'><br>");
+		    		}
+			     	for(let theater of uniqueTheaterNameData ){
+				    	$(".overflow.theater").append("<input type ='button' value="+ theater +" class='btnTheater'><br>");
+			     	}
+			     	
+			     	$(".btnMovie").click(function(){
+						$('.btnMovie').removeClass('selected');
+						$(this).addClass('selected');
+					    $('#Result_M').text($('.btnMovie.selected').val());
+						param();
+						M = true;
+						
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && D == true){
+							MD_Ajax();
+						}else if(M == true && T == true){
+							MT_Ajax();
+						}else if(M == true){
+							M_Ajax();
+						}
+						
+					});
+					
+					$(".btnTheater").click(function(){
+						$('.btnTheater').removeClass('selected');
+						$(this).addClass('selected');
+						theaterInfo();
+						param();
+						T = true;
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && T == true){
+							MT_Ajax();
+						}else if(T == true && D == true){
+							TD_Ajax();
+						}else if(T == true){
+							T_Ajax();
+						}
+						$("#endParamTd2").html("<td>극장<br>일시<br>상영관<br>인원<br></td>");
+					});
+			     	
+				},//success end
+				error:function(data){
+					alert()
+				}// error end
+			});// ajax end
 		}
-		function MT_Ajx(){
-			
+		function MT_Ajax(){
+			$.ajax({
+				url: "MTDAjax",
+				data: {
+					movie_title: $('.btnMovie.selected').val()
+					,theater_name: $('.btnTheater.selected').val()
+				},
+				dataType: "json",
+			    success: function(data) {
+					$(".overflow.date").html("<b>날짜</b>");
+			       	let playDateArr = [];
+			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
+			    	for(let result of data){
+			    		playDateArr.push(result.play_date);
+			    	}
+			    	//중복 제거를 위한 Set객체 사용
+			    	let uniquePlayDateData = new Set(playDateArr);
+			     	for(let date of uniquePlayDateData ){
+				    	$(".overflow.date").append("<input type ='button' value="+ date +" class='btnDate'><br>");
+			     	}
+			     	$(".btnDate").click(function(){
+						$('.btnDate').removeClass('selected');
+						$(this).addClass('selected');
+						theaterInfo();
+						param();
+						D = true;
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && D == true){
+							MD_Ajax();
+						}else if(T == true && D == true){
+							TD_Ajax();
+						}else if(D == true){
+							D_Ajax();
+						}
+					});
+			    },//success End
+			    error:function(data){
+			    	alert("ajax실패!");
+			    }//error End
+			});// ajax end
 		}
-		function MD_Ajx(){
-			
+		function MD_Ajax(){
+			$.ajax({
+				url: "MTDAjax",
+				data: {
+					movie_title: $('.btnMovie.selected').val()
+					,play_date: $('.btnDate.selected').val()
+				},
+				dataType: "json",
+			    success: function(data) {
+					$(".overflow.theater").html("<b>극장</b>");
+			       	let theaterNameArr = [];
+			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
+			    	for(let result of data){
+			    		theaterNameArr.push(result.theater_name);
+			    	}
+			    	//중복 제거를 위한 Set객체 사용
+			    	let uniqueTheaterNameData = new Set(theaterNameArr);
+			    	for(let theater of uniqueTheaterNameData ){
+				    	$(".overflow.theater").append("<input type ='button' value="+ theater +" class='btnTheater'><br>");
+			     	}
+			    	$(".btnTheater").click(function(){
+						$('.btnTheater').removeClass('selected');
+						$(this).addClass('selected');
+						theaterInfo();
+						param();
+						T = true;
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && T == true){
+							MT_Ajax();
+						}else if(T == true && D == true){
+							TD_Ajax();
+						}else if(T == true){
+							T_Ajax();
+						}
+						$("#endParamTd2").html("<td>극장<br>일시<br>상영관<br>인원<br></td>");
+					});
+			     	
+			    },//success End
+			    error:function(data){
+			    	alert("ajax실패!");
+			    }//error End
+			});// ajax end
 		}
-		function TD_Ajx(){
-			
+		function TD_Ajax(){
+			$.ajax({
+				url: "MTDAjax",
+				data: {
+					theater_name: $('.btnTheater.selected').val()
+					,play_date: $('.btnDate.selected').val()
+				},
+				dataType: "json",
+			    success: function(data) {
+			    	$(".overflow.movie").html("<b>영화</b>");
+			    	
+			       	let movieTitleArr = [];
+			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
+			    	for(let result of data){
+			    		movieTitleArr.push(result.movie_title);
+			    	}
+			    	//중복 제거를 위한 Set객체 사용
+			    	let uniqueMovieTitleData = new Set(movieTitleArr);
+			    	for (let movie_title of uniqueMovieTitleData) {
+		    			$(".overflow.movie").append("<input type='button' value='" + movie_title + "' class='btnMovie'><br>");
+		    		}
+			    	$(".btnMovie").click(function(){
+						$('.btnMovie').removeClass('selected');
+						$(this).addClass('selected');
+					    $('#Result_M').text($('.btnMovie.selected').val());
+						param();
+						M = true;
+						
+						if(M == true && D == true && T==true){
+							MTD_Ajax();
+						}else if(M == true && D == true){
+							MD_Ajax();
+						}else if(M == true && T == true){
+							MT_Ajax();
+						}else if(M == true){
+							M_Ajax();
+						}
+						
+					});
+			    },//success End
+			    error:function(data){
+			    	alert("ajax실패!");
+			    }//error End
+			});// ajax end
 		}
 		
 		function MTD_Ajax(){
@@ -125,7 +430,7 @@
 			    	// 이전에 있던 데이터 제거
 			    	$(".overflow.time").html("<b>시간</b>");
 			    	let roomNameArr = [];
-			    	//선택한 영화, 극장, 날짜의 상영관 배열생
+			    	//선택한 영화, 극장, 날짜의 상영관 배열생성
 			    	for(let rName of data){
 			    		roomNameArr.push(rName.room_name);
 			    	}
@@ -290,7 +595,29 @@
 				<div id = "reserve_parameter">
 						<div class="overflow movie"><b>영화</b>
 							<c:forEach var="movieList" items="${movieList}">
-								<input type ="button" value="${movieList.movie_title}" class="btnMovie"><br>
+								<c:choose>
+									<c:when test="${movieList.movie_title eq param_movie_title}">
+										<input type ="button" value="${movieList.movie_title}" id="selectedVal" class="btnMovie" >
+										<script>
+									        $(document).ready(function() {
+									            $("#selectedVal").click(function(){
+									                $('.btnMovie').removeClass('selected');
+									                $(this).addClass('selected');
+									                $('#Result_M').text($('.btnMovie.selected').val());
+									                param();
+									                M = true;
+								                    M_Ajax();
+									            });
+									
+									            // 조건을 만족할 경우 $(".btnMovie").click() 호출
+									            $("#selectedVal").click();
+									        });
+									    </script>
+									</c:when>
+									<c:otherwise>
+										<input type ="button" value="${movieList.movie_title}" class="btnMovie"><br>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</div> 
 						<div class="overflow theater"><b>극장</b>

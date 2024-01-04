@@ -17,6 +17,7 @@
 	$(function() {
 		// 인증여부를 저장할 변수 선언
 		var isChecked = false;
+		var isSuccess = false;
 		
 		<%-- 이메일주소 중복 확인 --%>
 		// 인증번호 발송 버튼을 클릭했을 때
@@ -40,10 +41,18 @@
  							$("#checkResult").text("이미 사용중인 이메일입니다").css("color", "red");
 						} else { // 사용가능
 							$("#checkResult").text("사용 가능한 이메일입니다").css("color", "blue");
-							alert("인증번호를 발송했습니다. \n인증번호를 확인하고 인증번호확인란에 입력해주세요.");
+						
+							// 모달창 띄우기
+							$("#modal-subject").html("<h3>입력하신 이메일로<br>인증코드를 발송했습니다.</h3>"
+							+ "<input type='button' value='확인' onclick='$(\"#myModal\").hide();'>"
+							);
+							$("#myModal").show();
+						
 							// 인증여부를 저장하는 변수 값을 true로 변경
 							isChecked = true;
+							
 							$("#sendMail").val("인증번호재발송");
+							
 							
 							// 인증번호 발송 요청
 							$.ajax({
@@ -53,6 +62,7 @@
 								},
 								success: function(data) {
 									checkCNum(data);
+									isSuccess = true;
 								},
 								error: function(xhr, status, error) {
 								      // 요청이 실패한 경우 처리할 로직
@@ -70,6 +80,18 @@
 				});
 	        }
 		});	
+		
+		// 모달 닫기 버튼 클릭 이벤트
+		$(".close").on("click", function() {
+		  $("#myModal").hide(); <%-- div 영역 숨김 --%>
+		});
+
+		// 모달 외부 영역 클릭 시 모달 닫기
+		$(window).on("click", function(event) {
+			if ($(event.target).is("#myModal")) { <%-- 클릭한 곳이 모달창 바깥 영역일 경우 --%>
+				$("#myModal").hide(); <%-- div 영역 숨김 --%>
+			}
+		});
 
 		// 인증번호발송을 누르지 않으면 submit 동작 취소
 		$("form").on("submit", function() {
@@ -77,17 +99,21 @@
 				alert("인증번호를 발송해주세요");
 				$("#email").focus();
 				return false; // submit 동작 취소
-			} else if($("#cNum").val() == '') {
+			} else if(!isSuccess) {
+				alert("인증번호 발송중입니다");
+				$("#code").focus();
+				return false; // submit 동작 취소
+			} else if(!isSuccess && $("#cNum").val() == '') {
 				alert("인증번호를 입력해주세요");
 				$("#cNum").focus();
 				return false; // submit 동작 취소
-			}
+			} 
 		});
 		
 		// 인증번호 대조
 		function checkCNum(data) {
 			$("form").on("submit", function() {
-				if($("#cNum").val() == '') {
+				if(isSuccess && $("#cNum").val() == '') {
 					alert("인증번호를 입력해주세요");
 					$("#cNum").focus();
 					return false; // submit 동작 취소
@@ -140,7 +166,7 @@
 						<input type="button" id="sendMail" value="인증번호발송"><br>
 						<div id="checkResult"></div>
 						<input type="text" placeholder="인증번호" id="cNum">
-						<input type="submit" value="인증번호확인">
+						<input type="submit" value="인증번호확인" id="code">
 					</span>
 				 </section>
 				
@@ -149,6 +175,16 @@
 				본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 <br>
 				이용 또는 저장되지 않습니다.</p>
 			</form>
+			
+			<!-- 모달 배경 -->
+			<div id="myModal" class="modal">
+				<!-- 모달 컨텐츠 -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<div id="modal-subject"></div>
+				</div>
+			</div>
+			
 		</section>
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>

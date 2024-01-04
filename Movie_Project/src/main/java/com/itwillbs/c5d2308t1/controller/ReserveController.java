@@ -31,8 +31,9 @@ public class ReserveController {
 	
 	// 영화선택 페이지
 	@GetMapping("movie_select")
-	public String movie_select(Model model) {
+	public String movie_select(Model model, @RequestParam(defaultValue = "") String movie_title) {
 		System.out.println("movie_select");
+		System.out.println("movie_title : " + movie_title);
 		
 		List<ReserveVO> movieList = reserve.getMovieList();
 		List<ReserveVO> theaterList = reserve.getTheaterList();
@@ -40,6 +41,8 @@ public class ReserveController {
 		model.addAttribute("movieList",movieList);
 		model.addAttribute("theaterList",theaterList);
 		model.addAttribute("playList",playList);
+		model.addAttribute("param_movie_title",movie_title);
+	
 		return "reserve/movie_select";
 	}
 	
@@ -60,8 +63,8 @@ public class ReserveController {
 	// 영화 선택페이지의 Ajax2
 	@ResponseBody
 	@GetMapping("MTDAjax")
-	public List<HashMap<String, String>> MTDAjax(@RequestParam Map<String, String> map, Model model){
-		List<HashMap<String, String>> MTD = reserve.getMTDList(map);
+	public List<ReserveVO> MTDAjax(@RequestParam Map<String, String> map, Model model){
+		List<ReserveVO> MTD = reserve.getMTDList(map);
 		return MTD;
 	}
 	
@@ -95,14 +98,12 @@ public class ReserveController {
 	public String competePayment(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		String sId = (String)session.getAttribute("sId");
 		map.put("sId", sId);
-		int insertSeatCount = reserve.getSeatInsert(map);
-		int insertPayCount = reserve.getPaymentInsert(map);
-//		map.put("payment_id", "");
-		int insertResCount = reserve.getReserveInsert(map);
+		int insertCount = reserve.getSeatInsert(map);
+		int insertCount2 = reserve.getPaymentInsert(map);
+		int insertCount3 = reserve.getReserveInsert(map);
+		ReserveVO reservevo = reserve.getPayment(map);
 		System.out.println("complete_pay_controller : " + map);
-//complete_pay_controller : {movie_title=3일의 휴가, theater_name=서면삼정타워, room_name=IMAX관, play_date=2023-01-15, play_start_time=11:00:00, typeCount=일반2, seat_name=A3,A4, payment_total_price=30000, sId=reserve}
-
-		model.addAttribute("map",map);
+		model.addAttribute("reservevo",reservevo);
 		
 		return "reserve/complete_pay";
 	}
@@ -129,7 +130,7 @@ public class ReserveController {
 	@ResponseBody
 	@GetMapping("resCancle")
 	public boolean resCancle(@RequestParam String payment_id,@RequestParam String seat_id, Model model) {
-		System.out.println(seat_id+" "+payment_id);
+		System.out.println("예매취소 : " + seat_id + ", " + payment_id);
 		int paymentUpdateCount = reserve.getresCancle(payment_id); //결제취소
 		int seatUpdateCount = reserve.getSeatCancle(seat_id); //좌석예매취소
 		if(paymentUpdateCount>0 && seatUpdateCount>0)  {

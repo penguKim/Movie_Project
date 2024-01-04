@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +37,7 @@
 	.effect{
 		color: green;
 		animation-name: example;
-		animation-duration: 2s;
+		animation-duration: 5s;
 	}
 	
 	@keyframes example {
@@ -77,16 +79,16 @@
 					<th>비고</th>
 				</tr>
 				<tr class="effect">
-					<td></td>
-					<td>${map.payment_total_price}</td>
-					<td>2</td>
-					<td>2</td>
+					<td>${reservevo.payment_id}</td>
+					<td>${reservevo.payment_datetime}</td>
+					<td>${reservevo.payment_total_price}</td>
+					<td>결제완료</td>
 				</tr>
 			</table>
 			<div class="paybtn">
 			<a href="movie_select"><input type="button" value="추가 예매하기 "></a>
 			<a href="./" ><input type="button" value="  홈으로  "></a>
-			<a href="movie_select"><input type="button" value="예매내역조회 "></a>
+			<a href="Mypage_Reserv_boardList"><input type="button" value="예매내역조회 "></a>
 			</div>
 			</div>
 			</section>
