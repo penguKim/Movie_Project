@@ -137,7 +137,7 @@ public class LoginController {
 	        return "forward";
 	    } 
 		//(memberid가 null 또는 널스트링이고 세션Id가 admin이거나),sId가 admin이 아닐때
-		//id를 세션아이디로 봐꾸기
+		//id를 세션아이디로 바꾸기
 		if(!sId.equals("admin") || (sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals("")))) {
 			member.setMember_id(sId);
 		}

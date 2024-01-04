@@ -16,8 +16,8 @@
 // input 텍스트창에 영화제목을 입력하고 검색버튼을 눌렀을때 영화정보를 보여주기
 
 $(document).ready(function(){
-	$("#adminMovieSearch").on("click", function(data){
-		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수
+	$("#adminMovieSearch").on("click", function(){
+// 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수 (submit 함수쓸때 기본동작 = 페이지 다시 불러오기 안함)
 		let title = $("#movieTitle").val();
 		var key = "e9ac77cb0a9e1fa7c1fe08d1ee002e3b";
 		$.ajax({
@@ -28,8 +28,8 @@ $(document).ready(function(){
 				let movies = data.movieListResult.movieList;
 				$("#movieInfo").empty();
 				//영화제목을 검색했을때 감독,상영일이 있으면 반복문 통해서 출력
-				for(let movie of movies) {
-					if(movie.openDt !== "" && movie.directors.length > 0) {
+				for(let movie of movies) { // movies배열에 값들을 movie변수에 저장
+					if(movie.openDt !== "" && movie.directors.length > 0) {//개봉일값이 ""가 아니고 감독명 길이가 0보다 클때
 						$("#movieInfo").append("<hr>제목: " + movie.movieNm + "</br>");
 						$("#movieInfo").append("감독: " + movie.directors[0].peopleNm + "</br>");
 						$("#movieInfo").append("개봉일: " + movie.openDt + "</br>");
@@ -57,17 +57,37 @@ $(document).ready(function(){
 	*/
 	
 	$("#adminMovieSearchDetail").on("click", function(){
-		let title = $("#movieTitle").val();
-// 		let kmdbKey = "C7643LD2JV0X8LAV20YO";
+		let kmdbKey = "C7643LD2JV0X8LAV20YO";
+		
+		let title_name = $("#movieTitlekmdb").val();
+		
 		$.ajax({
 			type: "GET",
 			dataType: "json",
-			url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=C7643LD2JV0X8LAV20YO&title=" + title,
+			url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=" + kmdbKey + "&title=" + title_name,
 			data:{
 				detail: "Y",
 			},
 			success: function(kmdb){
-					alert("해당 영화의 정보가 없습니다! \n직접 입력해주세요!");		
+				
+				var movieTotal = []; //영화 모든 정보들을 배열에 저장하기
+
+				let movieTitles = []; //movieTitles변수를 가진 배열에 kmdb.Data[0].Result배열 안에있는 영화제목을 저장
+				kmdb.Data[0].Result.forEach(function(movie) {
+					movieTitles.push(movie.title);
+				});
+				
+				let titleFormat = [];//title을 배열로 저장
+				movieTitles.forEach(function(title) {
+					title = title.replace(/!HS/g, "") //"!HS"를 ""으로 바꾸기
+							.replace(/!HE/g, "")//"!HE"를 ""으로 바꾸기
+							.replace(/^\s+|\s+$/g, "")//처음과 끝의 공백 제거
+							.replace(/ +/g, " ");//연속된 공백을 하나의 공백으로 바꾸기
+					titleFormat.push(title); // 변경된 title을 titleFormat저장
+				});
+
+					console.log(titleFormat); //영화제목 배열로 출력
+
 			}, //success 끝
 			error: function(){
 				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
@@ -98,7 +118,7 @@ $(document).ready(function(){
 			<form id="searchForm">
 				<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearch" value="검색">
 			</form>
-			<input type="text" id="movieTitleDetail" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearchDetail" value="검색">
+			<input type="text" id="movieTitlekmdb" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearchDetail" value="검색">
 		</div>
 <!-- 		<div id="movieInfo"> -->
 		<div id="movieInfo">
