@@ -314,7 +314,7 @@ function validateCheckbox() {
 									</tr>
 									
 									<c:if test="${not empty cartList}">
-										<c:forEach var="i" begin="0" end="${fn:length(cartList)-1}" >
+										<c:forEach var="i" begin="0" end="${fn:length(cartList)-1}">
 	<!-- 											총금액 계산을 위한 All_tatal_price 변수 정의 -->
 	<!-- 											반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 -->
 											<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>

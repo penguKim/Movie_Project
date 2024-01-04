@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.itwillbs.c5d2308t1.mapper.PaymentMapper">
+	<insert id="insertPaymentPro">
+		INSERT 
+		INTO payments
+		VALUES (
+			null
+			, #{payment_name}
+			, now()
+			, #{payment_card_name}
+			, null
+			, #{payment_total_price}
+			, 1
+		)
+	</insert>
+	
+<!-- 	<insert id="insertOrderPro"> -->
+<!-- 		<selectKey keyProperty="payment_id" resultType="int" order="BEFORE"> -->
+<!-- 			SELECT payment_id -->
+<!-- 			FROM payments -->
+<!-- 			WHERE payment_name = #{payment_name} -->
+<!-- 		</selectKey> -->
+<!-- 		INSERT  -->
+<!-- 		INTO orders_product -->
+<!-- 		VALUES( -->
+<!-- 			#{payment_id} -->
+<!-- 			, #{product_id} -->
+<!-- 			, #{quantity} -->
+<!-- 			, #{member_id} -->
+<!-- 		) -->
+<!-- 	</insert> -->
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
