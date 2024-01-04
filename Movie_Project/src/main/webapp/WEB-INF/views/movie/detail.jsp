@@ -59,7 +59,12 @@
 		});
 	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
 	
+//문제점 : 1. 등록버튼을 눌렀을때 insert가 되서 db에 저장과 동시에 값들이 뷰페이지에 출력이됨
+//			  새로고침을 했을때 insert된 값들이 사라짐. 기존에 등록이 되어있는 데이터만 출력이됨
 
+//		   2. 영화 판별을 해서 리뷰내용을 출력시켜야함. 현재는 로그인된 사람이면 그사람이 쓴 모든영화리뷰가 다 출력이됨
+//			  ex)노량은 노량의 리뷰만 출력이 되게해야함
+//		   3. 
 $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행됨
 	var member_id = "<%= session.getAttribute("sId") %>"; 
 	var movie_id = ${param.movie_id}; //영화 선택시 주소에 movie_id ="111"값을 movie_id에 저장 
@@ -194,7 +199,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			    			<th>내용</th>
 			    			<th>작성일</th>
 			    		</tr>
-			    		<c:forEach var="movieReview" items="${movieReview}" begin="1" end="5">
+			    		<c:forEach var="movieReview" items="${movieReview}" begin="0" end="4">
 						   	<tr>
 				    			<td>${movieReview.member_id}</td> <!-- 세션에 저장된 id  -->
 				    			<td>${movieReview.review_content}</td> <!-- insert로 생성된 내용 -->

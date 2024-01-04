@@ -10,26 +10,26 @@
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script> --%>
 <script type="text/javascript">
 // 여기 페이지에서 해야할것.
 // input 텍스트창에 영화제목을 입력하고 검색버튼을 눌렀을때 영화정보를 보여주기
 
 $(document).ready(function(){
-	$("#searchForm").on("submit", function(data){
+	$("#adminMovieSearch").on("click", function(data){
 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수
 		let title = $("#movieTitle").val();
-
+		var key = "e9ac77cb0a9e1fa7c1fe08d1ee002e3b";
 		$.ajax({
 			type: "GET",
-			url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=e9ac77cb0a9e1fa7c1fe08d1ee002e3b&movieNm=" + title,
+			url: "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=" + key + "&movieNm=" + title,
 			success: function(data){
 				
 				let movies = data.movieListResult.movieList;
 				$("#movieInfo").empty();
 				//영화제목을 검색했을때 감독,상영일이 있으면 반복문 통해서 출력
 				for(let movie of movies) {
-					if(movie.openDt !== "" && movie.directors[0].peopleNm !== "") {
+					if(movie.openDt !== "" && movie.directors.length > 0) {
 						$("#movieInfo").append("<hr>제목: " + movie.movieNm + "</br>");
 						$("#movieInfo").append("감독: " + movie.directors[0].peopleNm + "</br>");
 						$("#movieInfo").append("개봉일: " + movie.openDt + "</br>");
@@ -42,7 +42,7 @@ $(document).ready(function(){
 				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
 			} //error 끝
 		}); //ajax 끝
-	}); // submit 끝
+	}); // button 끝s
 	
 	
 	/*
@@ -56,19 +56,18 @@ $(document).ready(function(){
 	
 	*/
 	
-	$("#searchFormDetail").on("submit", function(data){
-// 		alert("submit버튼확인");
+	$("#adminMovieSearchDetail").on("click", function(){
 		let title = $("#movieTitle").val();
-		let kmdbKey = C7643LD2JV0X8LAV20YO;
+// 		let kmdbKey = "C7643LD2JV0X8LAV20YO";
 		$.ajax({
 			type: "GET",
 			dataType: "json",
-			url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=" + kmdbKey + "&title=" + title,
+			url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=C7643LD2JV0X8LAV20YO&title=" + title,
 			data:{
-				
+				detail: "Y",
 			},
-			success: function(data){
-				
+			success: function(kmdb){
+					alert("해당 영화의 정보가 없습니다! \n직접 입력해주세요!");		
 			}, //success 끝
 			error: function(){
 				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
@@ -76,7 +75,7 @@ $(document).ready(function(){
 		}); //ajax 끝
 
 
-	}); // submit 끝
+	}); // button 끝
 }); //ready 끝
 
 
@@ -93,17 +92,19 @@ $(document).ready(function(){
 						
 	<section id="content">
 	
-	<h1 id="h01">영화검색</h1>
-	<hr>
-	<div id="adminSearch">
-		<form id="searchForm">
-			<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="submit" value="검색">
-		</form>
-		<form id="searchFormDetail">
-			<input type="text" id="movieTitleDetail" placeholder="제목을 입력하세요"><input type="submit" value="검색">
-		</form>
+		<h1 id="h01">영화검색</h1>
+		<hr>
+		<div id="adminSearch">
+			<form id="searchForm">
+				<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearch" value="검색">
+			</form>
+			<input type="text" id="movieTitleDetail" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearchDetail" value="검색">
+		</div>
+<!-- 		<div id="movieInfo"> -->
+		<div id="movieInfo">
+		
+		</div>
 	</section>
-	</div>
 	</div>
 </body>
 </html>

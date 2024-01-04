@@ -168,7 +168,7 @@ public class AdminController {
 	}
 	
 	//영화검색 페이지에서 검색버튼 누를시 데이터 조회
-	@PostMapping("adminMovieDetails")
+	@GetMapping("adminMovieDetails")
 	public String adminMovieDetails(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
