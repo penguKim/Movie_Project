@@ -114,8 +114,11 @@
 				</table>
 			</div>
 			<div class="theater_right">
+			
 				<jsp:include page="../inc/theater_notice.jsp"></jsp:include>
+				
 			<script>
+			
 			function change12() {
 				
 			}
@@ -142,6 +145,7 @@
 				
 						// 마커가 지도 위에 표시되도록 설정합니다
 						marker.setMap(map);
+						
 					</script>
 	
 					<script>
@@ -164,6 +168,7 @@
 						    position: markerPosition
 						});
 						marker.setMap(map);
+						
 					  }
 					  
 					  

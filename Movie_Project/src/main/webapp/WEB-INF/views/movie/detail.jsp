@@ -86,15 +86,19 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				
 				
 				
-				$("#review_no").append( //id="review_no" 뒤에 데이터들 출력하기
+				$("#review_tr").after( //id="review_no" 뒤에 데이터들 출력하기
 					"<tr>"	
 					+ "<td>" + member_id + "</td>"	
 					+ "<td>" + review_content + "</td>"	
 					+ "<td>" + formattedDate  + "</td>"	
 					+ "</tr>"	
 				);
-            	
-			
+				
+				
+				// 리뷰가 5개 이상일 경우 가장 아래에 있는 리뷰 삭제
+	            if ($("#review_no tr").length > 5) {
+	                $("#review_no tr:last-child").remove();
+	            }
 			
 				console.log("성공");
 			},
@@ -181,7 +185,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				    	<br>
 						
 		    			<table id="review_no">
-		    			<tr>
+		    			<tr id="review_tr">
 			    			<td rowspan="6" width="200">
 			    				평점이 들어간다면<br>
 			    				넣을 자리
@@ -192,7 +196,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			    		</tr>
 			    		<c:forEach var="movieReview" items="${movieReview}" begin="1" end="5">
 						   	<tr>
-				    			<td id="review_no">${movieReview.member_id}</td> <!-- 세션에 저장된 id  -->
+				    			<td>${movieReview.member_id}</td> <!-- 세션에 저장된 id  -->
 				    			<td>${movieReview.review_content}</td> <!-- insert로 생성된 내용 -->
 				    			<td>${movieReview.review_date}</td> <!-- insert로 생성된 datetime -->
 				    		</tr>
