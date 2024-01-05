@@ -450,11 +450,10 @@
 	<select id="selectPlayTimeInfo" resultType="hashmap">
 		SELECT *
 		FROM plays
-		JOIN movies
-		ON plays.movie_id = movies.movie_id
 		WHERE 
 			room_id = #{room_id}
 			AND play_date = #{play_date}
+		ORDER BY play_start_time
 	</select>
 	
 	<!-- 상영 일정 등록 -->
