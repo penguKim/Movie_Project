@@ -2,6 +2,7 @@ package com.itwillbs.c5d2308t1.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.CsService;
 import com.itwillbs.c5d2308t1.service.JoinService;
+import com.itwillbs.c5d2308t1.service.MoviesService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
@@ -25,6 +27,8 @@ public class TheaterController {
 	@Autowired
 	CsService service;
 	
+	@Autowired
+	MoviesService movie;
 	// 위 메뉴바에서 극장 눌렀을때 극장페이지로 이동
 	@GetMapping("theater")
 	public String theater(CsVO cs, Model model, HttpServletRequest request,
@@ -63,6 +67,10 @@ public class TheaterController {
 		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "noticeList")
 		model.addAttribute("noticeList", noticeList);
 		System.out.println("noticeList : " +noticeList);
+		
+		List<Map<String, Object>> theaterNames = movie.getTheaterName();
+		
+		model.addAttribute("theaterNames", theaterNames);
 		return "theater/theater";
 	}
 	

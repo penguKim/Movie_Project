@@ -99,4 +99,9 @@ public class MoviesService {
 		return movieTrailerList.get(rNum);
 	}
 
+	public List<Map<String, Object>> getTheaterName() {
+		
+		return mapper.selectTheaterName();
+	}
+
 }

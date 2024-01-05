@@ -266,4 +266,6 @@ a {
 #parking{
 	color:blue;
 }
-
+.theater1 input[type="button"]{
+width: 18%;
+}

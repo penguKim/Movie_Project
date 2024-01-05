@@ -61,5 +61,7 @@ public interface MoviesMapper {
 	// 메인 페이지에 보여줄 트레일러 정보 가져오기
 	List<MoviesVO> selectMovieTrailerList();
 
+	List<Map<String, Object>> selectTheaterName();
+
 
 }

@@ -141,4 +141,11 @@
 		FROM movies 
 		WHERE movie_trailer != "";
     </select>
+    
+    <!-- 영화 목록 조회 -->
+    <select id="selectTheaterName">
+		SELECT theater_name
+		FROM theaters    
+    </select>
+    
 </mapper>
