@@ -52,8 +52,10 @@
 $(function() {
 	
 });
+
 	<%-- 주문번호 생성을 위한 작업 --%>
 	var count = 0;
+	
 	function generateMerchantUid() {
 	  var now = new Date();
 	  var year = now.getFullYear().toString().substr(2, 2);
@@ -65,6 +67,7 @@ $(function() {
 	  var milliseconds = now.getMilliseconds().toString().padStart(3, '0');
 	  var randomString = Math.random().toString(36).substr(2, 3);
 	  var index = ('00000' + (++count)).slice(-6);
+	
 	  var merchantUid = "ORD" + year + month + date + hours + minutes + seconds + milliseconds + "-" + randomString + index;
 	  return merchantUid;
 	}
@@ -72,33 +75,23 @@ $(function() {
 	var merchantUid =  generateMerchantUid();
 	<%-- var product_id = "${storeList[0].product_id}"; --%>
 	var product_name = "";
-	var quantity = [];
+	var quantity = 0;
 	var product_total_price = 0;
 	var member_id = "${members.member_id}";
 	var member_email = "${members.member_email}";
 	var member_name = "${members.member_name}";
 	var member_phone = "${members.member_phone}";
-	var product_id = [];
-	
 $(function() {
-	<%-- 상품 아이디 배열에 저장 --%>
-	$(".product_id").each(function() {
-	    product_id.push($(this).val()); 
-	});
-	<%-- 상품 수량 배열에 저장 --%>
-	$(".product_count").each(function() {
-		quantity.push($(this).val());
-	});
 	<%-- 상품명 결제시 문자열 결합 --%>
 	$(".product_name").each(function() {
 		product_name += $(this).val() + ",";
 	});
 	product_name = product_name.slice(0, -1);
 	<%-- 상품 수량 결제시 총 수량 --%> 
-// 	$(".product_count").each(function() {
-// 		quantity += $(this).val() + ",";
-// 	});
-// 	quantity = quantity.slice(0, -1);
+	$(".product_count").each(function() {
+		quantity += $(this).val() + ",";
+	});
+	quantity = quantity.slice(0, -1);
 	<%-- 총 금액 계산 --%>
 	$(".product_price").each(function(index) {
 		var price = parseInt($(this).val());
@@ -117,74 +110,72 @@ $(function() {
 	
 	function requestPay() {
 		
-		IMP.request_pay({
-	      pg: "kakaopay",
-	      pay_method: "card",
-	      merchant_uid: merchantUid,   // 주문번호
-	      name: product_name,   // 결제 대상 제품명
-	      amount: product_total_price,  // 숫자 타입
-	      buyer_email: member_email, // 결제 email MemberVO
-	      buyer_name: member_name,  // 주문자 명 MemberVO 
-	      buyer_tel: member_phone // 연락처 MemberVO
-	    }, function (rsp) { // callback
-	      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-	      if (rsp.success) {
-		      // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-		      // jQuery로 HTTP 요청
-		      $.ajax({
-		    	<%--결제 정보--%>
-		        url: "PaymentEndpoint", 
-		        type: "POST",
-		        headers: { "Content-Type": "application/json" },
-		        data: JSON.stringify({
-		          imp_uid: rsp.imp_uid,            // 결제 고유번호
-		          payment_name: rsp.merchant_uid,   // 주문번호
-		          payment_card_name: "kakaopay",
-		          product_id: product_id,
-		          payment_total_price: product_total_price,
-		          product_name: product_name,
-		          quantity: quantity,
-		          member_id: member_id,
-		          type: $(".type").val()
-		        })
-		      }).done(function (data) {
-		        // 가맹점 서버 결제 API 성공시 로직
-	        	 alert("결제 성공");
-                 location.href="PaymentSuccess";
-		        
-		      })
-		    } else {
-		    	alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-		    	location.href="PaymentFail";
-		    }
-	    });
-
-// 		$.ajax({
-<%--  			결제 정보 --%>
-// 	        url: "PaymentEndpoint", 
-// 	        type: "POST",
-// 	        headers: { "Content-Type": "application/json" },
-// 	        data: JSON.stringify({
-// // 	          imp_uid: imp_uid,            // 결제 고유번호
-// // 	          payment_name: rsp.merchant_uid,   // 주문번호
-// 	          "payment_card_name": "kakaopay",
-// 	          "payment_total_price": product_total_price,
-// 	          "product_id": product_id,
-// 	          "product_name": product_name,
-// 	          "quantity": quantity,
-// 	          "member_id": member_id,
-// 	          "type": $(".type").val()
-// 	        }),
-// 	        success: function(data) {
-// 				console.log("성공!");
-// 			},
-// 			error: function() {
-// 				console.log("실패")
-// 			}
+		$.ajax({
+			<%--결제 정보 --%>
+	        url: "PaymentEndpoint", 
+	        type: "POST",
+	        headers: { "Content-Type": "application/json" },
+	        data: JSON.stringify({
+// 	          imp_uid: imp_uid,            // 결제 고유번호
+// 	          payment_name: rsp.merchant_uid,   // 주문번호
+	          payment_card_name: "kakaopay",
+	          payment_total_price: product_total_price,
+	          product_name: product_name,
+	          quantity: quantity,
+	          member_id: member_id
+	        }),
+	        success: function(data) {
+				console.log("성공!");
+			},
+			error: function() {
+				console.log("실패")
+			}
 	        
-//         });
-	 }
-
+        });
+		
+		
+// 		IMP.request_pay({
+// 	      pg: "kakaopay",
+// 	      pay_method: "card",
+// 	      merchant_uid: merchantUid,   // 주문번호
+// 	      name: product_name,   // 결제 대상 제품명
+// 	      amount: product_total_price,  // 숫자 타입
+// 	      buyer_email: member_email, // 결제 email MemberVO
+// 	      buyer_name: member_name,  // 주문자 명 MemberVO 
+// 	      buyer_tel: member_phone // 연락처 MemberVO
+// 	    }, function (rsp) { // callback
+// 	      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+// 	      if (rsp.success) {
+// 		      // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+// 		      // jQuery로 HTTP 요청
+// 		      $.ajax({
+<%-- 		    	결제 정보 --%>
+// 		        url: "PaymentEndpoint", 
+// 		        type: "POST",
+// 		        headers: { "Content-Type": "application/json" },
+// 		        data: JSON.stringify({
+// 		          imp_uid: rsp.imp_uid,            // 결제 고유번호
+// 		          payment_name: rsp.merchant_uid,   // 주문번호
+// 		          payment_card_name: "kakaopay",
+// 		          payment_total_price: product_total_price,
+// 		          product_name: product_name,
+// 		          quantity: quantity,
+// 		          member_id: member_id
+// 		        })
+// 		      }).done(function (data) {
+// 		        // 가맹점 서버 결제 API 성공시 로직
+// 		        alert("결제 성공");
+// 		        location.href="CartListDel"
+// 		      })
+// 		    } else {
+// 		    	alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+// 		    	location.href="payment_fail";
+// 		    }
+	      
+// 	    });
+	  }
+	
+	
 </script>
 </head>
 <body>
@@ -192,7 +183,9 @@ $(function() {
 		<header>
 			<jsp:include page="../inc/top.jsp"></jsp:include>
 		</header>
+						
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>	
+		
 		<section id="content">
 			<h1 id="h01">결제하기</h1>
 			<hr>
@@ -203,38 +196,54 @@ $(function() {
 				<div> <span class="bracket"> > </span> </div>
 				<div id="prog_img"><img src="${pageContext.request.contextPath}/resources/img/finish1.png"></div><div><span class="step">STEP 03</span><br>결제완료</div>
 			</div>
+			
 			<!-- 구매 상품 정보 테이블 -->
 			<div class="store_pay">
 				<div class="store_pay_box">
 					<div class="store_subject">구매상품 정보</div>
 					<table class="store_pay_table">
 						<tr class="store_table_box01">
+							<!-- 이미지와 상품정보 두칸 합치기 위해 상품명 colspan2 사용 -->
 							<th colspan="2" class="store_table_box_td">상품명</th>
 							<th>판매금액</th>
 							<th>수량</th>
 							<th>구매금액</th>
 						</tr>
-						<c:set var="store_total_price" value="0"></c:set>
+						<!-- 이미지 가격표 없는 이미지로 편집 -->
+						<!-- 단일 구매 인 경우 바로 결제 페이지에 데이터 입력 -->
+						<!-- 장바구니에서 넘어오는 경우 랑 단일인 경우 판별 -->
+						<!-- 장바구니에서 넘어오는 데이터 테이블화 시켜서 보여줄것 -->
+						<c:set var="store_pay_price" value="0"></c:set>
 						<c:forEach var="store" items="${storeList }" varStatus="status">
-							<input type="hidden" name="product_id" class="product_id" value="${store.product_id }">
-							<input type="hidden" name="product_name" class="product_name" value="${store.product_name }">
-		<%-- 						<input type="hidden" name="product_count" class="product_count" value="${store.product_count }"> --%>
-							<input type="hidden" name="product_price" class="product_price" value="${store.product_price }">
-							<input type="hidden" name="product_txt" class="product_txt" value="${store.product_txt  }">
-							<input type="hidden" name="porudct_count" class="product_count" value="${paramValues.product_count[status.index]}">
-							<input type="hidden" name="type" class="type" value="${param.type}">
-							
-							<c:set var="store_total_price" value="${store_total_price + (store.product_price * paramValues.product_count[status.index])}"></c:set>
-							<c:set var="store_pay_price" value="${store.product_price * param.product_count}"></c:set>
+						
+						<input type="hidden" name="product_id" class="product_id" value="${store.product_id }">
+						<input type="hidden" name="product_name" class="product_name" value="${store.product_name }">
+						<input type="hidden" name="product_count" class="product_count" value="${store.product_count }">
+						<input type="hidden" name="product_price" class="product_price" value="${store.product_price }">
+						<input type="hidden" name="product_txt" class="product_txt" value="${store.product_txt  }">
+						
+						<c:set var="store_total_price" value="${store_pay_price + (store.product_price * store.product_count)}"></c:set>
+						<c:set var="store_pay_count" value="${store.product_price * param.product_count}"></c:set>
 							<tr class="store_table_box02">
 								<td><img src="${store.product_img }"></td>
-								<td>
-									<span >${store.product_name }</span><br> 
-									<span id="">${store.product_txt }</span>
-								</td>
-							    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원이야</td>
-							    <td>${paramValues.product_count[status.index]}개</td>
-							    <td><fmt:formatNumber value="${store.product_price * paramValues.product_count[status.index]}" pattern="###,###"/>원</td>
+								<td><span >${store.product_name }</span> 
+									<br> 
+									<span id="">${store.product_txt }</span></td>
+<%-- 								<td>${param.product_count }개</td> --%>
+<%-- 								<td>${store.product_price * param.product_count }원</td> --%>
+								<c:choose>
+								  <c:when test="${param.product_count != null}">
+								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
+								    <td>${param.product_count}개</td>
+								    <td><fmt:formatNumber value="${store.product_price * param.product_count}" pattern="###,###"/>원</td>
+								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
+								  </c:when>
+								  <c:otherwise>
+								    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
+								    <td>${store.product_count}개</td>
+								    <td><fmt:formatNumber value="${store.product_price * store.product_count}" pattern="###,###"/>원</td>
+								  </c:otherwise>
+								</c:choose>
 							</tr>
 						</c:forEach>
 					</table>
@@ -247,11 +256,23 @@ $(function() {
 							<th>총 결제 예정금액</th>
 						</tr>
 						<tr class="store_table_box04">
-						    <td><fmt:formatNumber value="${store_total_price}" pattern="###,###"/>원 </td>
-							<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
-							<td>0원</td>
-							<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
-							<td class="table_box_red"><fmt:formatNumber value="${store_total_price}" pattern="###,###"/>원</td>
+							<c:choose>
+								  <c:when test="${param.product_count != null}">
+								    <td><fmt:formatNumber value="${store_pay_count}" pattern="###,###"/>원 </td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
+									<td>0원</td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
+									<td class="table_box_red"><fmt:formatNumber value="${store_pay_count}" pattern="###,###"/>원</td>
+								    <c:set var="store_pay1" value="${store.product_price * param.product_count}"></c:set>
+								  </c:when>
+								  <c:otherwise>
+								    <td><fmt:formatNumber value="${store_total_price}" pattern="###,###"/>원 </td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/-.png" width="35px" height="35px"></img> </td>
+									<td>0원</td>
+									<td><img src="${pageContext.request.contextPath}/resources/img/=.png" width="35px" height="35px"></img></td>
+									<td class="table_box_red"><fmt:formatNumber value="${store_total_price}" pattern="###,###"/>원</td>
+								  </c:otherwise>
+							</c:choose>
 						</tr>
 					</table>
 				</div>
@@ -269,6 +290,7 @@ $(function() {
 					<div class="store_member_info_ex">* 구매하신 기프티콘은 주문자 정보에 입력된 휴대전화 번호로
 					MMS로 발송 됩니다. <br> &nbsp; 입력된 휴대전화 번호가 맞는지 꼭 확인하세요</div>
 				</div>
+				
 				<div class="store_payment">
 					<div class="store_subject">결제 수단</div>
 					<div class="store_payment_line">
@@ -278,10 +300,9 @@ $(function() {
 						</section>
 					</div>	
 				</div>
+			
 				<div class="store_pay_info">
-					<div class="store_pay_info_check">
-						<input type="checkbox" onclick="checkAll()">주문정보/결제 대행 서비스 약관 모두 동의
-					</div>
+					<div class="store_pay_info_check"><input type="checkbox" onclick="checkAll()">주문정보/결제 대행 서비스 약관 모두 동의</div>
 					<div class="store_pay_info_group">
 						<div class="info01"><input type="checkbox">기프트콘 구매 동의
 							<br> <span class="info01_01">&nbsp;&nbsp;&nbsp;기프트콘 발송 및 CS 처리 등을 이해 수신자로부터 영화관에 수신자의 전화번호를 제공하는 것에 대한 적합한 동의를 받습니다.</span>

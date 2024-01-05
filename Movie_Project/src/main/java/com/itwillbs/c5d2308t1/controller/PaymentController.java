@@ -22,19 +22,27 @@ public class PaymentController {
 	// 결제 데이터 입력을 위한 ajax
 	@ResponseBody
 	@PostMapping("PaymentEndpoint")
-	public Map<String, String> paymentEndpoint(@RequestBody Map<String, String> map) {
-		System.out.println("맵 넘어온 고유번호" + map);
+	public String paymentEndpoint(@RequestBody Map<String, Object> map) {
+		System.out.println("맵 넘어온 데이터" + map);
 		
-		int insertCount = service.registPayment(map);
+		service.registPayment(map);
 		
-		return map;
+		return "true";
+		
 	}
-		
+	
+	// 결제 성공 시
 	@GetMapping("PaymentSuccess")
 	public String paymentSuccess() {
 		
 		return "store/payment_success";
 	}
 	
+	// 결제 실패 시 
+	@GetMapping("PaymentFail")
+	public String paymentFail() {
+		
+		return "store/payment_fail";
+	}
 	
 }

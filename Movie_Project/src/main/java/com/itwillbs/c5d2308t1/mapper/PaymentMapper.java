@@ -8,9 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 public interface PaymentMapper {
 	
 	// 결제 성공시 결제 정보 등록 INSERT
-	int insertPaymentPro(Map<String, String> map);
+	int insertPaymentPro(Map<String, Object> map);
 	
 	// 결제 정보 등록 성공 시 주문 정보 등록 INSERT
-	int insertOrderPro(Map<String, String> map);
-	
+	int insertOrderPro(Map<String, Object> map);
+
+	void paymentAfterCartDel(Map<String, Object> map);
+		
 }

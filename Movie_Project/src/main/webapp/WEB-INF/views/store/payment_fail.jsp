@@ -45,13 +45,8 @@
 		to {color: green;}
 	}
 	
-	.store_table_box01{
-/* 		background-color: #17b75e!important; */
-	}
 </style>
-
 <script>
-
 </script>
 </head>
 <body>
@@ -69,31 +64,17 @@
 			</div>
 			<section id="sec01">
 			<div class ="cnt">
-			<i class="material-icons effect" style="font-size:40px;">check_circle</i><b style="font-size: 40px;">결제가 완료되었습니다.</b><br>
-			<b class="effect">Thank You for Your Order!</b><br>
-			<table class="store_pay_table">
-				<tr class="store_table_box01">
-					<th>예매번호</th>
-					<th>결제시간</th>
-					<th>결제금액</th>
-					<th>비고</th>
-				</tr>
-				<tr class="effect">
-<%-- 					<td>${reservevo.payment_id}</td> --%>
-					<td>ORD12345-1234-001</td>
-<%-- 					<td>${reservevo.payment_datetime}</td> --%>
-					<td>상품명</td>
-<%-- 					<td>${reservevo.payment_total_price}</td> --%>
-					<td>결제금액</td>
-<!-- 					<td>결제완료</td> -->
-					<td>결제시간</td>
-				</tr>
-			</table>
-			<div class="paybtn">
-			<a href="store"><input type="button" value="추가 구매하기"></a>
-			<a href="./" ><input type="button" value="  홈으로  "></a>
-			<a href="Mypage_Reserv_boardList"><input type="button" value="구매내역조회 "></a>
-			</div>
+				<table class="store_pay_table">
+					<tr class="store_table_box01">
+						<%-- 추후 꾸밀 예정 --%>
+						<h1>상품 결제가 실패되었습니다</h1>
+					</tr>
+				</table>
+				<div class="paybtn">
+					<a href="store"><input type="button" value="추가 구매하기"></a>
+					<a href="./" ><input type="button" value="  홈으로  "></a>
+					<a href="Mypage_Reserv_boardList"><input type="button" value="구매내역조회 "></a>
+				</div>
 			</div>
 			</section>
 		<footer>
