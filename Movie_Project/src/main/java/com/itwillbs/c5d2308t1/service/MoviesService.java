@@ -104,4 +104,8 @@ public class MoviesService {
 		return mapper.selectTheaterName();
 	}
 
+	public List<Map<String, Object>> getAgeGroupList(int movie_id) {
+		return mapper.selectAgeGroupList(movie_id);
+	}
+
 }

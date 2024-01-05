@@ -11,6 +11,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 
@@ -114,6 +115,67 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 	}); //click
 });
 </script>
+<script type="text/javascript">
+	$(function() {
+		const xValues = [];
+		const yValues = [];
+		const barColors = ["red", "green","blue","orange","brown"];
+		
+		$.ajax({
+			type: "GET",
+			url: "movieAgeGroup",
+			data: {
+				movie_id: ${param.movie_id}
+			},
+			success: function(result) {
+				console.log(result);
+				for(let ageGroup of result) {
+					xValues.push(ageGroup.age + "대");
+					yValues.push(ageGroup.count);
+				}
+				let total = yValues.reduce(function(sum, value) {
+				    return sum + value;
+				}, 0);
+				let percentData = yValues.map(function(value) {
+				    return Math.floor((value / total) * 100);
+				});
+				
+				new Chart("myChart", {
+				  type: "bar",
+				  data: {
+				    labels: xValues,
+				    datasets: [{
+				      backgroundColor: barColors,
+// 				      data: yValues
+				      data: percentData
+				    }]
+				  },
+				  options: {
+				    legend: {display: false},
+				    title: {
+				      display: true,
+				      text: "연령대별 예매 비율"
+				    },
+				    scales : {
+						yAxes : [ {
+							ticks : {
+								beginAtZero : true, // 0부터 시작하게 합니다.
+								callback: function(value) {
+			                        return value + '%';  // y축의 표시 형식을 퍼센트로 변경
+			                    }
+							}
+						} ]
+					}
+				  }
+				});
+			},
+			error : function() {
+				alert("차트 로딩 실패!");
+			}
+		});
+		
+	});
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -161,7 +223,10 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 					<li><a href="#review"><input type="button" value="리뷰"></a></li>	
 				</ul>
 			    <div class="movie_story" id="movie_story">
+		    	<hr>
+		    	<h2>줄거리</h2>
 			    ${movie_plot }
+			    <canvas id="myChart" style="width:100%;max-width:600px; height:50%;"></canvas>
 			    </div>
 				<c:if test="${not empty movie_trailer }">
 				    <div class="movie_trailer" id="movie_trailer">

@@ -63,5 +63,8 @@ public interface MoviesMapper {
 
 	List<Map<String, Object>> selectTheaterName();
 
+	// 상세 페이지에 출력할 연령대 차트 데이터
+	List<Map<String, Object>> selectAgeGroupList(int movie_id);
+
 
 }

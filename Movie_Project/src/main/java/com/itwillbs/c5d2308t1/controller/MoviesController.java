@@ -156,6 +156,20 @@ public class MoviesController {
 		return mav;
 	}
 	
+	// 상세 페이지의 연령대 차트
+	@ResponseBody
+	@GetMapping("movieAgeGroup")
+	public List<Map<String, Object>> movieAgeGroup(int movie_id, Map<String, List<Map<String, String>>> map) {
+		
+//		List<Map<String, Integer>> ageGroupList = service.getAgeGroupList(movie_id);
+		List<Map<String, Object>> ageGroupList = service.getAgeGroupList(movie_id);
+		System.out.println("값 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + ageGroupList);
+		
+//		map.put("ageGroupList", ageGroupList);
+		
+		return ageGroupList;
+	}
+	
 	// 찜하기 기능
 	@ResponseBody
 	@GetMapping("likeCheck")
