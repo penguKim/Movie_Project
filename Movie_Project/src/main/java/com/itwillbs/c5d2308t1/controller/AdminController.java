@@ -168,7 +168,7 @@ public class AdminController {
 	}
 	
 	//영화검색 페이지에서 검색버튼 누를시 데이터 조회
-	@GetMapping("adminMovieDetails")
+	@PostMapping("adminMovieDetails")
 	public String adminMovieDetails(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -462,7 +462,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 20);
+		PageDTO page = new PageDTO(pageNum, 5);
 		// 전체 게시글 갯수 조회
 		int listCount = service.getReserveListCount(searchKeyword);
 		System.out.println(listCount);
