@@ -60,6 +60,7 @@ public class AdminController {
 	@Autowired
 	JoinService join;
 	
+	// 메인 페이지로 이동하기
 	@GetMapping("adminMain")
 	public String adminMain(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -71,7 +72,7 @@ public class AdminController {
 		return "admin/admin_main";
 	}
 	
-
+	// 차트를 만들기 위해 회원정보 불러오기
 	@ResponseBody
 	@GetMapping("joinCount")
 	public int[] joinCount(@RequestParam("formattedDate") List<String> formattedDate, Model model) {

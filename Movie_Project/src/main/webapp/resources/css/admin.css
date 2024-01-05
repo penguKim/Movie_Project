@@ -219,25 +219,26 @@ a {
 }
 
 /* 글쓰기 영역에 적용 */
-#select, #theater_id, #room_id, #play_date {
+#select, #theater_id, #room_id, #play_date, 
+	#modifyTheater, #modifyRoom, #modifyDate {
 	text-align: center;
 	width: 130px;
 	height: 25px;
 }
 
-#play_start_time {
+#play_start_time, #modifyStart {
 	text-align: center;
 	width: 120px;
 	height: 25px;
 }
 
-#play_end_time {
+#play_end_time, #modifyEnd {
 	text-align: center;
 	width: 120px;
 	height: 26px;
 }
 
-#movie_id {
+#movie_id, #modifyMovie {
 	text-align: center;
 	width: 300px;
 	height: 25px;	
