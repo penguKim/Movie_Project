@@ -24,6 +24,10 @@ body {
 	width: 100%;
 }
 
+pre { /* pre 태그 기존 폰트와 동일하게 통일 */
+	font-family: "Malgun Gothic";
+}
+
 /* ------------- 관리자페이지 네비바 부분 -------------- */
 navbar { 
 	display: inline-block;
@@ -255,7 +259,7 @@ a {
 
 textarea {
 	resize: none; /* 크기고정 */
-	width: 1100px; /* 너비지정 */
+	width: 1000px; /* 너비지정 */
 	min-height: 250px; /* 높이지정 */
 	margin: 5px;
 	font-family: sans-serif;

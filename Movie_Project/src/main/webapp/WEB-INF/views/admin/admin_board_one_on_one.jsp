@@ -34,13 +34,13 @@
 				<div id="admin_search">
 					<form>
 						<select name="searchType">
-							<option value="">문의유형</option>
-							<option value="1">영화관</option>
-							<option value="2">영화</option>
-							<option value="3">예매/결제</option>
-							<option value="4">관람권/할인권</option>
-							<option value="5">개인정보</option>
-							<option value="6">칭찬/불만/제안</option>
+							<option value=""  <c:if test="${param.searchType eq '' }">selected</c:if>>문의유형</option>
+							<option value="영화관" <c:if test="${param.searchType eq '영화관' }">selected</c:if>>영화관</option>
+							<option value="영화" <c:if test="${param.searchType eq '영화' }">selected</c:if>>영화</option>
+							<option value="예매/결제" <c:if test="${param.searchType eq '예매/결제' }">selected</c:if>>예매/결제</option>
+							<option value="관람권/할인권" <c:if test="${param.searchType eq '관람권/할인권' }">selected</c:if>>관람권/할인권</option>
+							<option value="개인정보" <c:if test="${param.searchType eq '개인정보' }">selected</c:if>>개인정보</option>
+							<option value="칭찬/불만/제안" <c:if test="${param.searchType eq '칭찬/불만/제안' }">selected</c:if>>칭찬/불만/제안</option>
 						</select>
 						<input type="text" name="searchKeyword" value="${param.searchKeyword }" placeholder="제목, 내용으로 검색">
 						<input type="submit" value="검색">
@@ -50,7 +50,7 @@
 				<table border="1">
 					<tr>
 						<th width="60">번호</th>
-						<th width="120">유형</th>
+						<th width="150">유형</th>
 						<th>제목</th>
 						<th width="100">작성자</th>
 						<th width="120">등록일</th>
@@ -96,7 +96,7 @@
 									<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 								</c:when>
 								<c:otherwise>
-									<a href="adminOneOnOne?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+									<a href="adminOneOnOne?searchType=${param.searchType }&searchKeyword=${param.searchKeyword }&pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

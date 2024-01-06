@@ -243,6 +243,8 @@ public class CsController {
 		// resources 디렉토리 내에 upload 파일 생성
 		String uploadDir = "/resources/upload"; // 가상 디렉토리
 		String saveDir = session.getServletContext().getRealPath(uploadDir); // 실제 디렉토리
+//		System.out.println("실제디렉터리 : " + saveDir);
+		// D:\Spring\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Movie_Project\resources\ upload
 		String subDir = "";
 //		
 		// 날짜별로 서브디렉토리 생성하기

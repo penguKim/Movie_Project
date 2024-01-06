@@ -1,6 +1,9 @@
 package com.itwillbs.c5d2308t1.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -382,23 +385,44 @@ public class LoginController {
 	@GetMapping("MyPageOneOnOneDelete")
 	public String MyPageOneOnOneDelete(HttpSession session, Model model, CsVO cs) {
 		String sId = (String)session.getAttribute("sId");
-		cs.setMember_id(sId);
 		if(sId == null) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("msg", "로그인이 필요합니다!");
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
 		
+		// 해당 게시물 정보 조회
+		Map<String, Object> oneOnOne = service.getMyOneOnOneDetail(cs);
+		
+		if(!sId.equals(oneOnOne.get("member_id"))) {
+			model.addAttribute("msg", "삭제권한이 없습니다!");
+			return "fail_back";
+		}
+		
+		cs.setMember_id(oneOnOne.get("member_id").toString());
+
 		// LoginService - removeMyOneOnOne() 메서드 호출해 해당 글 상세 내용 조회
 		// 파라미터 : CsVO 객체(cs) 		리턴타입 : int (deleteCount) 
 		int deleteCount = service.removeMyOneOnOne(cs);
 		if(deleteCount > 0) {
+			// 서버에서 파일 삭제 작업
+			try {
+				String uploadDir = "/resources/upload";
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				String fileName = oneOnOne.get("cs_file").toString();
+				
+				if(!fileName.equals("")) {
+					Path path = Paths.get(saveDir + "/" + fileName);
+					Files.deleteIfExists(path);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return "redirect:/Mypage_OneOnOneList";
 		} else {
 			model.addAttribute("msg", "1대1문의 글 삭제에 실패했습니다!");
 			return "fail_back";
 		}
-		
 	}
 	
 	// ============================================================================	

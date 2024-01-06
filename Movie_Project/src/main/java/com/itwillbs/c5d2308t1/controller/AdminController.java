@@ -301,6 +301,7 @@ public class AdminController {
 		// System.out.println(theater_id);
 		// System.out.println(play_date);
 		List<Map<String, Object>> playList = service.getScheduleInfo(map);
+		System.out.println(playList);
 		
 		return playList;
 	}
@@ -1229,6 +1230,9 @@ public class AdminController {
 			@RequestParam(defaultValue = "") String searchType,
 			@RequestParam(defaultValue = "") String searchKeyword,
 			HttpSession session, Model model) {
+		
+		System.out.println("검색타입 : " + searchType);
+		System.out.println("검색어 : " + searchKeyword);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1242,14 +1246,14 @@ public class AdminController {
 		
 		// AdminService - getOneOnOneListCount() 메서드 호출해 전체 게시글 개수 조회
 		// => 파라미터 : 없음	 리턴타입 : int
-		int listCount = service.getOneOnOneListCount();
+		int listCount = service.getOneOnOneListCount(searchType, searchKeyword);
 
 		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		
 		// AdminService - getOneOnOnePosts() 메서드 호출해 글 목록 조회
 		// => 파라미터 : PageDTO 객체(page)	 리턴타입 : List<CsVO>(oneOnOneList)
-		List<CsVO> oneOnOneList = service.getOneOnOnePosts(page);
+		List<CsVO> oneOnOneList = service.getOneOnOnePosts(page, searchType, searchKeyword);
 		
 		
 		System.out.println(oneOnOneList);

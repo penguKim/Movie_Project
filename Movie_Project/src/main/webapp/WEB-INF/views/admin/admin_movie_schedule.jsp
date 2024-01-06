@@ -66,10 +66,15 @@
 							
 							if(result != "") {
 								for(let schedule of result) {
-									$("#scheduleTable>tbody").append("<tr><td>" + schedule.room_name + "</td><td>" + schedule.movie_title + "</td><td>" + schedule.play_start_time + "</td></tr>");
+									$("#scheduleTable>tbody").append(
+											"<tr><td>" + schedule.theater_name + "</td><td>" 
+											+ schedule.room_name + "</td><td>" 
+											+ schedule.movie_title + "</td><td>" 
+											+ schedule.play_start_time + " ~ " + schedule.play_end_time + "</td></tr>"
+											);
 								}
 							} else {
-								$("#scheduleTable>tbody").append("<tr><td colspan='3'>" + "상영일정이 존재하지 않습니다." + "</td></tr>");
+								$("#scheduleTable>tbody").append("<tr><td colspan='4'>" + "상영일정이 존재하지 않습니다." + "</td></tr>");
 							}
 								
 						},

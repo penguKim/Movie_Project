@@ -590,7 +590,7 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
 #MyOneOnOneTable td {
 	padding: 5px 10px; /* 안쪽 여백 지정 */
 	border-bottom: 1px solid #9d9d9d; /* 행마다 얇은 실선 */
-	text-align: left;
+	text-align: center;
 }
 #gender {
 	display: inline-block;
@@ -627,4 +627,8 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
 
 #oneOnOneReplyArea {
     color: #AFAFB2;
+}
+
+#MyOneOnOneSubject {
+	text-align: left !important;
 }

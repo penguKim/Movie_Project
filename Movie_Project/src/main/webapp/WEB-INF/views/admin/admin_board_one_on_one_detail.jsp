@@ -59,32 +59,36 @@
 							<td>${oneOnOne.member_id }</td>
 						</tr>
 						<tr>
-							<th height="300">문의 내용</th>
+							<th>문의 내용</th>
 							<td>${oneOnOne.cs_content }</td>
 						</tr>
 						<tr>
 							<th>첨부 사진</th>
-						
-							<c:choose>
-								<c:when test="${not empty oneOnOne.cs_file }">
-								<c:set var="original_file_name" value="${fn:substringAfter(oneOnOne.cs_file, '_') }"/>
-										<td>
-											${original_file_name }
-											<a href="${pageContext.request.contextPath}/resources/upload/${oneOnOne.cs_file }" download="${original_file_name }">
-												<input type="button" value="다운로드">
-											</a>
-										</td>
-								</c:when>
-								<c:otherwise>
-										<td>없음</td>
-								</c:otherwise>
-							</c:choose>
-
+								<td>
+								<c:choose>
+									<c:when test="${not empty oneOnOne.cs_file }">
+									<c:set var="original_file_name" value="${fn:substringAfter(oneOnOne.cs_file, '_') }"/>
+										<img alt="" src="${pageContext.request.contextPath }/resources/upload/${oneOnOne.cs_file}" height="300px">
+										<br>${original_file_name }
+										<a href="${pageContext.request.contextPath}/resources/upload/${oneOnOne.cs_file }" download="${original_file_name }">
+											<input type="button" value="다운로드">
+										</a>
+									</c:when>
+									<c:otherwise>
+										없음
+									</c:otherwise>
+								</c:choose>
+							</td>
 						</tr>
 						<tr>
 							<th height="300">답변 내용</th>
 							<td>
-								${oneOnOne.cs_reply }
+								<c:choose>
+									<c:when test="${empty oneOnOne.cs_reply }">답변 처리가 필요한 문의입니다.</c:when>
+									<c:otherwise>
+										${oneOnOne.cs_reply }
+									</c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 					</table>
