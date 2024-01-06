@@ -49,7 +49,7 @@ public class TheaterController {
 	//	System.out.println(noticeList);
 		
 		// ======================================================
-		int listCount = service.getCsNoticeCount(cs, theater, searchValue);
+		int listCount = service.getNoticeCount(cs, theater, searchValue);
 		int pageListLimit = 5;
 		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;

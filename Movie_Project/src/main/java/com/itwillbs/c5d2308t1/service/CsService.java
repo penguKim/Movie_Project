@@ -28,8 +28,8 @@ public class CsService {
 	}
 	
 	// 자주묻는질문 목록 조회 요청
-	public List<HashMap<String, Object>> getFaqList(CsVO cs) {
-		return mapper.selectFaqList(cs);
+	public List<HashMap<String, Object>> getFaqList(CsVO cs, int startRow, int listLimit, String searchValue, String buttonName) {
+		return mapper.selectFaqList(cs, startRow, listLimit, searchValue, buttonName);
 	}
 	
 	// 공지사항 목록 조회 요청 및 페이징
@@ -38,23 +38,18 @@ public class CsService {
 	}
 	
 	// 고객센터 항목별 목록 갯수 조회 요청
-	public int getCsNoticeCount(CsVO cs, int theater, String searchValue) {
+	public int getNoticeCount(CsVO cs, int theater, String searchValue) {
 		return mapper.selectNoticeCount(cs, theater, searchValue);
+	}
+	
+	// 자주묻는질문 항목별 목록 갯수 조회 요청
+	public int getFaqCount(CsVO cs, String searchValue, String buttonName) {
+		return mapper.selectFaqCount(cs, searchValue, buttonName);
 	}
 	
 	// 자주묻는질문 항목별로 모아보기 기능
 	public List<CsVO> getFaqDetail(CsVO cs, String buttonName) {
 		return mapper.selectFaqDetail(cs, buttonName);
-	}
-	
-	// 자주묻는질문 항목별로 목록 개수 조회 요청
-	public int getFaqDetailCount(CsVO cs, String buttonName) {
-		return mapper.selectFaqDetailCount(cs, buttonName);
-	}
-	
-	// 자주묻는질문 검색 기능
-	public List<CsVO> getFaqSearch(String searchValue) {
-		return mapper.selectFaqSearch(searchValue);
 	}
 	
 	// 공지사항 상세페이지 보기

@@ -20,11 +20,19 @@
 		LIMIT 5
 	</select>
 	
-	<!-- 자주묻는질문 출력 -->	
+	<!-- 자주묻는질문 출력 --> 
 	<select id="selectFaqList" resultType="hashmap">
 		SELECT * 
 		FROM cs 
-		WHERE cs_type = #{cs_type}
+		WHERE cs_type = #{cs.cs_type}
+		<if test="buttonName != ''">
+			AND cs_type_detail = #{buttonName}
+		</if>
+		<if test="searchValue != ''">
+			AND (cs_type_detail LIKE '%${searchValue}%'
+			OR cs_subject LIKE '%${searchValue}%')
+		</if>
+		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
 	<!-- 공지사항 출력 및 페이지번호 출력 -->	
@@ -34,17 +42,19 @@
 		LEFT OUTER JOIN theaters
 		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = #{cs.cs_type}
-			<if test="theater != ''">
-				AND cs.theater_id = #{theater}
-			</if>
-			<if test="searchValue != ''">
-				AND cs_subject LIKE '%${searchValue}%'
-			</if>
-		ORDER BY cs_date DESC
+		<if test="theater != ''">
+			AND cs.theater_id = #{theater}
+		</if>
+		<if test="searchValue != ''">
+			AND cs_subject LIKE '%${searchValue}%'
+		</if>
+		<if test="cs.cs_type = '공지사항'">
+			ORDER BY cs_date DESC
+		</if>
 		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
-	<!-- 고객센터 항목별 목록 갯수 세기 -->
+	<!-- 공지사항 항목별 목록 갯수 세기 -->
 	<select id="selectNoticeCount" resultType="int">
 		SELECT COUNT(*) 
 		FROM cs
@@ -57,19 +67,18 @@
 			</if>
 	</select>	
 	
-	<!--  자주묻는질문 세부항목별로 모아보기 -->
-	<select id="selectFaqDetail" resultType="cs">
-		SELECT * FROM cs
-		WHERE cs_type = '자주묻는질문'
-		<choose>
-			<when test="buttonName.equals('전체')">
-				AND 1=1	
-			</when>
-			<otherwise>
-				AND cs_type_detail = #{buttonName}		
-			</otherwise>
-		</choose>
-	</select>
+	<!-- 공지사항 항목별 목록 갯수 세기 -->
+	<select id="selectFaqCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM cs
+		WHERE cs_type = #{cs.cs_type}
+		<if test="buttonName != ''">
+			AND cs_type_detail = #{buttonName}
+		</if>
+		<if test="searchValue != ''">
+			AND cs_subject LIKE '%${searchValue}%'
+		</if>
+	</select>	
 
 	<!-- 고객센터 세부항목별 목록 갯수 세기 -->
 	<select id="selectFaqDetailCount" resultType="int">
@@ -85,14 +94,6 @@
 			</otherwise>
 		</choose>
 	</select>	
-	
-	<!--  자주묻는질문 검색 -->
-	<select id="selectFaqSearch" resultType="cs">
-		SELECT * FROM cs
-		WHERE cs_type = '자주묻는질문'
-			AND (cs_subject LIKE '%${searchValue}%'
-			OR cs_type_detail LIKE '%${searchValue}%')
-	</select>
 	
 	<!-- 공지사항 상세페이지 보기 -->
 	<select id="selectNoticeDetail" resultType="hashmap">

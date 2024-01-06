@@ -15,6 +15,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.c5d2308t1.service.CsService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
-import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 
 @Controller
@@ -65,36 +66,71 @@ public class CsController {
 		return "cs/cs_main";
 	}
 		
+	
 	// 고객센터 자주묻는질문 페이지로 이동
 	@GetMapping("csFaq")
-	public String csFaq(CsVO cs, Model model, HttpServletRequest request,
-			@RequestParam(defaultValue = "1") int pageNum) {
+	public String csFaq() {
+		
+		return "cs/cs_FAQ";
+	}
+	
+	// 무한스크롤 적용
+	@ResponseBody
+	@GetMapping("CsListJson")
+	public String CsListJson(CsVO cs, Model model,
+			@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "") String searchValue,
+			@RequestParam(defaultValue = "") String buttonName) {
+		
 		// 자주묻는질문 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
 		cs.setCs_type("자주묻는질문");
+		System.out.println("searchValue = " + searchValue);
+		// --------------------------------------------------
+		// 페이징
+		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
+		int listLimit = 5;
+		
+		// 조회 시작 행번호
+		int startRow = (pageNum - 1) * listLimit;
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<CsVO>(noticeList)
-		List<HashMap<String, Object>> faqList = service.getFaqList(cs);
+		List<HashMap<String, Object>> faqList = service.getFaqList(cs, startRow, listLimit, searchValue, buttonName);
 		
-		model.addAttribute("faqList", faqList);
+		// ======================================================
+		int listCount = service.getFaqCount(cs, searchValue, buttonName);
+		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
+		
+		// 게시물 목 조회 결과 Map 객체에 추가
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("faqList", faqList);
+//		System.out.println(map);
+		
+		// 마지막 페이지 번호 Map 객체에 추가
+		map.put("maxPage", maxPage);
+		
+		JSONObject jsonObject = new JSONObject(map);
+		System.out.println("jsonObject = " + jsonObject);
 			
-		return "cs/cs_FAQ";
+		return jsonObject.toString();
 	}
 	
 	
 	// 고객센터 공지사항 페이지로 이동
 	@GetMapping("csNotice")
-	public String csNotice(CsVO cs, Model model, HttpServletRequest request,
+	public String csNotice(CsVO cs, Model model,
 			@RequestParam(defaultValue = "1") int pageNum,
 			@RequestParam(defaultValue = "0") int theater,
 			@RequestParam(defaultValue = "") String searchValue) {
 		
+		// 공지사항 버튼을 눌렀을 때 cs_type을 공지사항으로 설정
 		cs.setCs_type("공지사항");
-		
+		System.out.println("searchValue = " + searchValue);
+
 		// --------------------------------------------------
 		// 페이징
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 5;
+		int listLimit = 10;
 		
 		// 조회 시작 행번호
 		int startRow = (pageNum - 1) * listLimit;
@@ -105,7 +141,7 @@ public class CsController {
 	//	System.out.println(noticeList);
 		
 		// ======================================================
-		int listCount = service.getCsNoticeCount(cs, theater, searchValue);
+		int listCount = service.getNoticeCount(cs, theater, searchValue);
 		int pageListLimit = 5;
 		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
@@ -125,42 +161,6 @@ public class CsController {
 		return "cs/cs_notice";
 	}
 	
-	// 자주묻는질문 항목별 모아보기 기능
-	@ResponseBody
-	@GetMapping("faqDetail")
-	public List<CsVO> faqDetail(CsVO cs, Model model, HttpServletRequest request, String buttonName) {
-		
-		// 자주묻는질문 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
-		cs.setCs_type("자주묻는질문");
-		
-		// CsService - getFaqDetail() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : cs, buttonName, startRow, listLimit   리턴타입 : List<CsVO>(faqDetail)
-		List<CsVO> faqDetail = service.getFaqDetail(cs, buttonName);
-		System.out.println(faqDetail);
-		
-		// 글목록(List 객체)과 페이징정보(pageInfo 객체) 를 request 객체에 저장
-		model.addAttribute("faqDetail", faqDetail);
-
-		return faqDetail;			
-		
-	}
-	
-	// 자주묻는질문 검색 기능
-	@ResponseBody
-	@GetMapping("faqSearch")
-	public List<CsVO> faqSearch(Model model, String searchValue) {
-		// CsService - getFaqSearch() 메서드 호출하여 자주 묻는 질문 출력
-		// => 파라미터 : searchValue   리턴타입 : List<CsVO>(faqSearch)
-		List<CsVO> faqSearch = service.getFaqSearch(searchValue);
-		System.out.println(faqSearch);
-		
-		// 리턴받은 List 객체를 Model 객체에 저장(속성명 : "faqSearch")
-		model.addAttribute("faqSearch", faqSearch);
-		
-		return faqSearch;			
-	
-	}
-	
 	// 고객센터 공지사항 상세 페이지로 이동
 	@GetMapping("csNoticeDetail")
 	public String csNoticeDetail(CsVO cs, Model model) {
@@ -170,7 +170,7 @@ public class CsController {
 		
 		// 공지사항 최대 수를 가져오기
 		// 다음 공지사항 최대 글번호 제한용
-		int maxCount = service.getCsNoticeCount(cs, 0, "");
+		int maxCount = service.getNoticeCount(cs, 0, "");
 		model.addAttribute("maxCount", maxCount);
 		
 		// 이전공지사항, 다음공지사항 제목 가져오기
@@ -308,6 +308,5 @@ public class CsController {
 		}
 
 	}
-	
 
 }
