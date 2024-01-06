@@ -455,52 +455,66 @@ public class LoginController {
 		return "login/Mypage_LostBoad";
 	}
 	
+	// ======================= 마이페이지 상품 구매 내역===============================================
+	// 마이페이지 상품 구매 내역
 	@GetMapping("Mypage_Product_boardList")
-	public String mypage_Product_boardList(HttpSession session, RefundVO refund, Model model) { // 상품내역 게시판
-		
+	public String mypage_Product_boardList(HttpSession session,RefundVO refund, Model model
+			, @RequestParam(defaultValue = "1")  int pageNum) { // 상품내역 게시판
 		// 세션 아이디 저장
 		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
 		// 세션 아이디 refund.member_id에 저장
 		refund.setMember_id(sId);
-		
-		List<RefundVO> myStoreList = service.getMyStoreSelect(refund);
-		// 모델 객체에 select한 결과값 저장
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 5);
+		int listCount = service.getStoreListCount(sId);
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+
+		List<RefundVO> myStoreList = service.getMyStoreList(sId, page);
 		model.addAttribute("myStoreList", myStoreList);
+		model.addAttribute("pageInfo", pageInfo);
 		
-//		int myStoreX = service.getMyStoreUpdate(refund);
-		
-		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ : " + myStoreList);
-		
-		
-		return "login/Mypage_Product_boardList";
+		return "login/Mypage_product_boardList";
 	}
 	
-	// 마이페이지 상품 구매 취소
-	@PostMapping("Mypage_Product_boardListX")
-	public String mypage_Product_boardListX(HttpSession session, RefundVO refund, Model model) { // 상품내역 게시판
-		
-		// 세션 아이디 저장
+	// 마이페이지 구매내역 상세 페이지
+	@GetMapping("MypageProductListDtail")
+	public String mypage_Product_boardListX(HttpSession session, RefundVO refund, Model model
+			,@RequestParam(defaultValue = "1") int pageNum) { // 상품내역 게시판
 		String sId = (String)session.getAttribute("sId");
-		// 세션 아이디 refund.member_id에 저장
+		if(sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
+		System.out.println("받아오는 데이터" + refund);
 		
+		refund = service.getMyStoreDetail(refund); 
 		
-		int myStoreX = service.getMyStoreUpdate(refund);
+		model.addAttribute("refund", refund);
 		
+		System.out.println("상품 상세 내역 : " + refund);
 		
+		return "login/Mypage_product_detail";
+	}
+	
+	// 마이페이지 상세 페이지 구매 취소
+	@ResponseBody
+	@PostMapping("MypageBuyCancel")
+	public boolean mypageProductDetailDel(@RequestParam Map<String, String> map) { // 상품내역 게시판
+		int myStoreX = service.getMyStoreBuyCancel(map);
 		
 		if(myStoreX > 0) {
-//			model.addAttribute("msg", "결제가 취소되었습니다");
-			model.addAttribute("targetURL", "Mypage_Product_boardList");
-			return "forward3";
-//			return "login/Mypage_Product_boardList";
-//			return "";
-		}else {
-			model.addAttribute("msg", "상품삭제실패!");
-			return "fail_back";
-//			return "false";
-			
+			return true;
+		} else {
+			return false;
 		}
 	}
+	// ======================================================================
 	
 	//마이페이지 예매 취소 상세내역 팝업창
 	@GetMapping("refundInfoDetailPro")

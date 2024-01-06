@@ -44,10 +44,7 @@ public class LoginService {
 		return mapper.getReserveList(refund);
 	}
 
-	public List<RefundVO> getMyStoreSelect(RefundVO refund) {
-		
-		return mapper.getMyStoreSelect(refund);
-	}
+	
 
 
 
@@ -98,11 +95,6 @@ public class LoginService {
 		return mapper.deleteMyreview(review);
 	}
 
-	// 마이페이지 상품구매내역 업데이트
-	public int getMyStoreUpdate(RefundVO refund) {
-		
-		return mapper.updateMyStore(refund);
-	}
 	
 	// 회원정보 수정 업데이트
 	public int checkMember(String sId, String newPasswd) {
@@ -144,6 +136,27 @@ public class LoginService {
 	public int deleteReview(ReviewsVO review) {
 		return mapper.deleteMyreview(review);
 	}
+	
+	// ====================== 마이 페이지 상품 구매 내역==================================================
+	// 마이페이지 상품 구매를 위한 페이지 수 조회
+	public int getStoreListCount(String sId) {
+		return mapper.getStoreListCount(sId);
+	}
+	
+	// 마이페이지 상품 구매 내역 리스트 조회
+	public List<RefundVO> getMyStoreList(String sId,PageDTO page) {
+		return mapper.getMyStoreSelect(sId, page);
+	}
+	
+	// 마이페이지 상품구매내역 업데이트
+	public int getMyStoreBuyCancel(Map<String, String> map) {
+		
+		return mapper.updateMyBuy(map);
+	}
+	public RefundVO getMyStoreDetail(RefundVO refund) {
+		return mapper.getMyStoreDetail(refund);
+	}
 
+	
 	
 }

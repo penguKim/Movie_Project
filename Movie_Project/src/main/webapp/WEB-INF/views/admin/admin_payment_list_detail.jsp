@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>스토어 결제 상세</title>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	function btnCcl() {
@@ -19,23 +18,19 @@
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">스토어 결제 상세 페이지</h1>
 			<hr>		
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
-
 			<div id="admin_main">
 				<table border="1">
 					<tr>
-						<th width="100">결제 번호</th>
+						<th width="100">주문 번호</th>
 						<td></td>
 					</tr>
 					<tr>
@@ -53,7 +48,6 @@
 						<th>결제일</th>
 						<td></td>
 					</tr>
-					</tr>
 					<tr>
 						<th>결제 방법</th>
 						<td></td>
@@ -68,9 +62,6 @@
 					<input type="button" value="뒤로가기" onclick="history.back()">
 				</div>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>			
 </body>

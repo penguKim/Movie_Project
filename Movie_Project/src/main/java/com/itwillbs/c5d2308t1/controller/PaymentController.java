@@ -2,8 +2,11 @@ package com.itwillbs.c5d2308t1.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +36,10 @@ public class PaymentController {
 	
 	// 결제 성공 시
 	@GetMapping("PaymentSuccess")
-	public String paymentSuccess() {
+	public String paymentSuccess(Model model, HttpSession session) {
+		
+		// 결제 성공 후 success 화면에 보여줄 결제 내역 조회
+		
 		
 		return "store/payment_success";
 	}

@@ -13,6 +13,7 @@ import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Service
@@ -79,6 +80,17 @@ public class AdminService {
 	public int getlostnfoundListCount(String searchValue) {
 		return mapper.selectLostnfoundListCount(searchValue);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// ================ 회원 관리 게시판 ================
 	// 회원 관리 게시판 페이징 처리를 위한 게시물 개수 조회 작업 요청
@@ -271,6 +283,32 @@ public class AdminService {
 		return mapper.selectMovieChart();
 	}
 
+	// ==================상품 결제 관리 게시판 ==================================
+	public int getPaymentListCount(String searchType, String searchKeyword) {
+		return mapper.selectPaymentListCount(searchType, searchKeyword);
+	}
+
+	public List<RefundVO> getPaymentList(String searchType, String searchKeyword, PageDTO page) {
+		return mapper.selectPaymentList(searchType, searchKeyword, page);
+	}
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

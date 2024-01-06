@@ -29,8 +29,6 @@ public interface LoginMapper {
 	// 마이페이지 예매취소내역 조회
 	List<RefundVO> getReserveList(RefundVO refund);
 
-	// 마이페이지 상품구매 내역 조회
-	List<RefundVO> getMyStoreSelect(RefundVO refund);
 
 
 
@@ -65,8 +63,6 @@ public interface LoginMapper {
 	//마이페이지 리뷰 삭제
 	int deleteMyreview(ReviewsVO review);
 	
-	// 마이페이지 상품구매내역 업데이트
-	int updateMyStore(RefundVO refund);
 	
 	// 회원정보 수정을 위한 업데이트
 	int checkMember(@Param("sId") String sId, @Param("newPasswd")String newPasswd);
@@ -86,6 +82,21 @@ public interface LoginMapper {
 	
 	// 회원 비밀번호 찾기를 통한 비밀번호 수정
 	int updateMemberPw(@Param("member") MemberVO member, @Param("newPasswd") String newPasswd);
+	
+	// =============================== 상품 구매 내역 =================================================
+	// 마이페이지 게시물 갯수 조회
+	int getStoreListCount(String sId);
+	
+	// 마이페이지 상품구매 내역 리스트
+	List<RefundVO> getMyStoreSelect(@Param("sId") String sId, @Param("page") PageDTO page);
+	
+	// 마이페이지 상품 구매 내역 상세 페이지
+	RefundVO getMyStoreDetail(RefundVO refund);
+	
+	// 마이페이지 상품구매내역 취소 요청 
+	int updateMyBuy(Map<String, String> map);
+	//=====================================================================================
 
+	
 
 }
