@@ -76,17 +76,21 @@
 						</tr>
 						<tr>
 							<th>첨부 사진</th>
-							<c:choose>
-								<c:when test="${not empty oneOnOne.cs_file }">
-								<c:set var="original_file_name" value="${fn:substringAfter(oneOnOne.cs_file, '_') }"/>
-										<td>
-											<a href="${pageContext.request.contextPath}/resources/upload/${oneOnOne.cs_file }" download="${original_file_name }">${original_file_name }</a>
-										</td>
-								</c:when>
-								<c:otherwise>
-										<td>없음</td>
-								</c:otherwise>
-							</c:choose>
+							<td>
+								<c:choose>
+									<c:when test="${not empty oneOnOne.cs_file }">
+									<c:set var="original_file_name" value="${fn:substringAfter(oneOnOne.cs_file, '_') }"/>
+										<img alt="" src="${pageContext.request.contextPath }/resources/upload/${oneOnOne.cs_file}" style= "max-width: 600px; height: 300px">
+										<br>${original_file_name }
+										<a href="${pageContext.request.contextPath}/resources/upload/${oneOnOne.cs_file }" download="${original_file_name }">
+											<input type="button" value="다운로드">
+										</a>
+									</c:when>
+									<c:otherwise>
+										없음
+									</c:otherwise>
+								</c:choose>
+							</td>
 						</tr>
 						<tr>
 							<th height="300">답변 내용</th>

@@ -411,28 +411,7 @@ public class AdminController {
 		
 	}
 	
-	// 상영일정 삭제하기
-	@PostMapping("deletePlay")
-	public String deletePlay(HttpSession session, Model model, @RequestParam int play_id) {
-		System.out.println("파라미터로 받아온 상영코드 : " + play_id);
-		// 관리자가 아니면 삭제 하지 못하도록 하기
-		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
-			return "forward";
-		}
-		
-		int deleteCount = service.removePlay(play_id);
-		
-		if(deleteCount == 0) {
-			model.addAttribute("msg", "상영 일정 삭제에 실패했습니다!");
-			return "fail_back";
-		} else {
-			return "redirect:/movieScheduleMod";
-		}
-	}
-	
+
 	// 상영일정 수정하기
 	@ResponseBody
 	@PostMapping("modifyPlay")
@@ -455,6 +434,54 @@ public class AdminController {
         	return "formData";
         }
 	}
+	
+	// 상영일정 삭제하기
+//	@PostMapping("deletePlay")
+//	public String deletePlay(HttpSession session, Model model, @RequestParam int play_id) {
+//		System.out.println("파라미터로 받아온 상영코드 : " + play_id);
+//		// 관리자가 아니면 삭제 하지 못하도록 하기
+//		String sId = (String)session.getAttribute("sId");
+//		if(sId == null || !sId.equals("admin")) {
+//			model.addAttribute("msg", "잘못된 접근입니다!");
+//			model.addAttribute("targetURL", "memberLogin");
+//			return "forward";
+//		}
+//		
+//		int deleteCount = service.removePlay(play_id);
+//		
+//		if(deleteCount == 0) {
+//			model.addAttribute("msg", "상영 일정 삭제에 실패했습니다!");
+//			return "fail_back";
+//		} else {
+//			return "redirect:/movieScheduleMod";
+//		}
+//	}
+	
+	// 상영일정 삭제하기
+	@ResponseBody
+	@PostMapping("deletePlay")
+	public String deletePlay(@RequestParam int play_id, HttpSession session) {
+		System.out.println("파라미터로 받아온 상영코드 : " + play_id);
+		
+		// 세션 아이디가 관리자가 아닐 경우 "invalidSession" 문자열 리턴
+		String sId = (String)session.getAttribute("sId");
+		if(!sId.equals("admin") || sId == null) {
+			return "invalidSession";
+		} else {
+			int deleteCount = service.removePlay(play_id);
+			
+			if(deleteCount > 0) {
+				return "success";
+				
+			} else {
+				return "fail";
+			}
+		}
+		
+		
+		
+	}
+	
 	// ===========================================================================================
 		// ******************** 영화 예매 관리 페이지 *************
 		// 관리자페이지 영화 예매 관리 페이지로 이동

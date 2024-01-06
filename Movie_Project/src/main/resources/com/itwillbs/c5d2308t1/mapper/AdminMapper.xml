@@ -374,33 +374,6 @@
 			<!-- 검색어가 있다면 -->
 			AND (cs_subject LIKE CONCAT('%', #{searchKeyword}, '%') OR cs_content LIKE CONCAT('%', #{searchKeyword}, '%'))
 		</if>
-	
-<!-- 	<if test="searchKeyword.equals('')"> -->
-		<!-- 검색어가 없다면 -->
-<!-- 		<choose> -->
-<!-- 			<when test="searchType.equals('영화관')"> -->
-<!-- 				AND cs_type_detail = '영화관' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('영화')"> -->
-<!-- 				AND cs_type_detail = '영화' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('예매/결제')"> -->
-<!-- 				AND cs_type_detail = '예매/결제' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('관람권/할인권')"> -->
-<!-- 				AND cs_type_detail = '관람권/할인권' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('개인정보')"> -->
-<!-- 				AND cs_type_detail = '개인정보' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('칭찬/불만/제안')"> -->
-<!-- 				AND cs_type_detail = '칭찬/불만/제안' -->
-<!-- 			</when> -->
-<!-- 			<otherwise> -->
-<!-- 				AND 1 = 1 -->
-<!-- 			</otherwise> -->
-<!-- 		</choose> -->
-<!-- 	</if> -->
 		ORDER BY cs_id DESC
  		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
