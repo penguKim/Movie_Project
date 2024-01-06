@@ -123,7 +123,7 @@
 									<input type="text" title="수량입력" id="product_count" name="product_count" value="1" min="1" max="99" class="input-text" readonly>
 									<button type="button" id="plus" class="btn_minus" title="수량증가">+</button>
 									<div class="money">
-									<fmt:formatNumber value="${store[0].product_price}" pattern="###,###"/>
+									<fmt:formatNumber value="${store[0].product_price}" pattern="###,###"/>원
 									</div>
 								</div>
 							</div>

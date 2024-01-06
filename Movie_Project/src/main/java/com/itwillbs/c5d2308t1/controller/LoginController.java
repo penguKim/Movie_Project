@@ -506,9 +506,9 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping("MypageBuyCancel")
 	public boolean mypageProductDetailDel(@RequestParam Map<String, String> map) { // 상품내역 게시판
-		int myStoreX = service.getMyStoreBuyCancel(map);
+		int updateCount = service.getMyStoreBuyCancel(map);
 		
-		if(myStoreX > 0) {
+		if(updateCount > 0) {
 			return true;
 		} else {
 			return false;

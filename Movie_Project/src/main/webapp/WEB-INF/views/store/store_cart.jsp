@@ -245,10 +245,7 @@ function validateCheckbox() {
     return true;
 }
 
-
-
 </script>
-
 </head>
 <body>
 	<div id="wrapper">
@@ -264,7 +261,6 @@ function validateCheckbox() {
 			<hr>
 			<form action="storePay2" method="post" >
 					<input type="hidden" name="type" value="cart">
-<!-- 				<form action="storePay2" method="GET" onsubmit="return submitForm()"> -->
 					<section id="content">
 						<!-- 상단 진행도 상태창 -->
 						<!-- 장바구니 페이지 에서는 STEP1 에 빨간색 처리  -->

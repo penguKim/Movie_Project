@@ -147,10 +147,10 @@
 	<!-- 나의 상품 구매내역 조회를 위한 작업 -->
 	<select id="getMyStoreSelect" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
 		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
-		, GROUP_CONCAT(product_name) AS product_name, payment_datetime
+		, GROUP_CONCAT(product_name) AS product_name, payment_card_name, payment_datetime
 		, sum(payment_total_price) AS payment_total_price, payment_status
 		FROM ordersView
-		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status
+		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
 		HAVING member_id = #{sId}
 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
@@ -158,10 +158,10 @@
 	<!-- 상품 구매내역 상세 페이지 -->
 	<select id="getMyStoreDetail" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
 		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
-		, GROUP_CONCAT(product_name) AS product_name, payment_datetime
+		, GROUP_CONCAT(product_name) AS product_name, payment_card_name, payment_datetime
 		, sum(payment_total_price) AS payment_total_price, payment_status
 		FROM ordersView
-		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status
+		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
 		HAVING payment_name = #{payment_name} 
 	</select>
 		

@@ -29,7 +29,7 @@
 			//    다음 페이지 게시물 목록 로딩하여 화면에 추가
 			if(scrollTop + windowHeight + 1 >= documentHeight) {
 				pageNum++;
-				if(maxPage != "" && page <= maxPage) {
+				if(maxPage != "" && pageNum <= maxPage) {
 					load_list();
 				}
 			}
@@ -51,12 +51,23 @@
 			dataType: "json",
 			success: function(data) {
 				for(let payment of data.paymentList) {
+					
+					var products = payment.product_name.split(",");
+					var firstProduct = products[0];
+					var endNumber = Number(products.length - 1);
+					var product_name = "";
+					if (endNumber > 0) {
+						product_name = products[0] + " 외 " + endNumber + "개";
+					} else {
+						product_name = products[0];
+					}
+					
 					$("table").append(function() {
 						var html = '<tr>'
 						+ '<td>' + payment.payment_name + '</td>'
-						+ '<td>' + payment.product_name + '</td>'
+						+ '<td>' + product_name + '</td>'
 						+ '<td>' + payment.member_id + '</td>'
-						+ '<td>' + payment.payment_datetime + '</td>'
+						+ '<td>' + payment.payment_datetime.substring(0, 10) + '</td>'
 						+ '<td class="payment_status">';
 						
 						if (payment.payment_status === 0) {
@@ -105,13 +116,15 @@
 			<hr>
 			<div id="admin_main">
 				<div id="pay_Search">
-						<select name="searchType">
-							<option value="name" <c:if test="${param.searchType eq 'name'}">selected</c:if>>상품이름</option> 
+					<form action="" >
+						<select name="searchType" id="searchType">
 							<option value="id" <c:if test="${param.searchType eq 'id'}">selected</c:if>>회원아이디</option>
+							<option value="name" <c:if test="${param.searchType eq 'name'}">selected</c:if>>상품이름</option> 
 						</select>
-						<input type="text" name="searchKeyword" placeholder="조회할 내용 입력" value="${param.searchKeyword }">
+						<input type="text" name="searchKeyword" id="searchKeyword" placeholder="조회할 내용 입력" value="${param.searchKeyword }">
 						<input type="submit" value="조회">
-					</div>
+					</form>
+				</div>
 				<table border="1" width="1000">
 					<tr>
 						<th>주문번호</th>

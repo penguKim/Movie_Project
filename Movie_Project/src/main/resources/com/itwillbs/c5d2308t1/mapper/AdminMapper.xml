@@ -154,7 +154,7 @@
 		<if test="!searchKeyword.equals('')">
 			WHERE
 			<choose>
-				<when test="searchType.equals('member')">
+				<when test="searchType.equals('id')">
 					member_id LIKE #{searchKeyword}
 				</when>
 				<when test="searchType.equals('name')">
@@ -170,13 +170,13 @@
 	<select id="selectPaymentList" resultType="refund">
 		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
 		, GROUP_CONCAT(product_name) AS product_name, payment_datetime
-		, sum(payment_total_price) AS payment_total_price, payment_status
+		, payment_card_name, sum(payment_total_price) AS payment_total_price, payment_status
 		FROM ordersView
-		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status
+		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
 		<if test="!searchKeyword.equals('')">
 			HAVING
 			<choose>
-				<when test="searchType.equals('member')">
+				<when test="searchType.equals('id')">
 					member_id LIKE #{searchKeyword}
 				</when>
 				<when test="searchType.equals('name')">
@@ -189,6 +189,24 @@
 		</if>
 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
+	
+	<select id="selectPaymentDetail" resultType="refund">
+		SELECT 
+			payment_name, member_name, member_id, sum(quantity) AS quantity
+			, GROUP_CONCAT(product_name) AS product_name, payment_datetime
+			, payment_card_name, sum(payment_total_price) AS payment_total_price, payment_status
+		FROM 
+			ordersView
+		GROUP BY 
+			payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
+		HAVING payment_name = #{payment_name}
+	</select>
+	
+	<update id="updatePaymentBuyCancel">
+		UPDATE payments
+		SET payment_status = 0
+		WHERE payment_name = #{payment_name}
+	</update>
 	
 	<!-- ================ 회원 관리 페이지 ==================== -->
 	

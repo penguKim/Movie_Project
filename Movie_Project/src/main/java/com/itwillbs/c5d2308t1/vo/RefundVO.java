@@ -22,6 +22,7 @@ public class RefundVO {
 	private int product_count; // 상품갯수
 	private int quantity; // 상품갯수
 	private int payment_status; // 결제상태
+	private String payment_card_name;
 	private String movie_title; // 영화제목
 	private LocalDateTime payment_datetime; // 예약시간? / 취소시간 
 	

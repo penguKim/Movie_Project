@@ -799,6 +799,8 @@ public class AdminController {
 	public String adminPaymentList(@RequestParam(defaultValue = "") String searchType,
 			  @RequestParam(defaultValue = "") String searchKeyword, 
 			  @RequestParam(defaultValue = "1") int pageNum) {
+		System.out.println("타입이랑 키워드랑 안넘어옴??" + searchType + ", 씨씨ㅣㅇ" + searchKeyword);
+		
 		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
 		PageDTO page = new PageDTO(pageNum, 15);
@@ -823,15 +825,31 @@ public class AdminController {
 		// 생성된 JSON 객체를 문자열로 리턴
 		return jsonObject.toString();
 	}
-	
-	
-	// 관리자페이지 스토어 결제 상세 조회 및 취소 페이지로 이동
+	// 관리자페이지 스토어 결제 상세 조회
 	@GetMapping("adminPaymentDtl")
-	public String adminPaymentDtl() {
-		
-		
+	public String adminPaymentDtl(HttpSession session, Model model,@RequestParam Map<String, String> map) {
+//		System.out.println("맵으로 들어온 데이터 " + map);
+		RefundVO payment = service.registPaymentDetail(map);
+		model.addAttribute("payment", payment);
+//		System.out.println("함볼까 먼지??" + payment);
 		return "admin/admin_payment_list_detail";
 	}
+	
+	// 관리자 페이지 스토어 결제 상세페이지 결제 취소 요청
+	@ResponseBody
+	@PostMapping("adminPaymentCancel")
+	public boolean adminPaymentCancel(@RequestParam Map<String, String> map) {
+		System.out.println("맵으로 받아오는 데이터 : " + map);
+		
+		int updateCount = service.getPaymentBuyCancel(map);
+		
+		if(updateCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	// ===========================================================================================
 	
 	// ===========================================================================================

@@ -178,7 +178,12 @@ public interface AdminMapper {
 	
 	// 결제 관리 게시물 목록 조회
 	List<RefundVO> selectPaymentList(@Param("searchType") String searchType,@Param("searchKeyword") String searchKeyword,@Param("page") PageDTO page);
-
+	
+	// 결제 관리 게시물 상세 페이지
+	RefundVO selectPaymentDetail(Map<String, String> map);
+	
+	// 결제 관리 상세페이지 결제취소 요청 작업
+	int updatePaymentBuyCancel(Map<String, String> map);
 		
 
 

@@ -294,12 +294,24 @@ public class AdminService {
 		return mapper.selectProducts();
 	}
 	// ==================상품 결제 관리 게시판 ==================================
+	// 결제 리스트 조회를 위한 리스트 카운트 조회
 	public int getPaymentListCount(String searchType, String searchKeyword) {
 		return mapper.selectPaymentListCount(searchType, searchKeyword);
 	}
-
+	
+	// 결제 리스트 조회 요청 작업
 	public List<RefundVO> getPaymentList(String searchType, String searchKeyword, PageDTO page) {
 		return mapper.selectPaymentList(searchType, searchKeyword, page);
+	}
+	
+	// 결제관리 상세페이지 요청 작업
+	public RefundVO registPaymentDetail(Map<String, String> map) {
+		return mapper.selectPaymentDetail(map);
+	}
+	
+	// 결제관리 상세페이지 결제취소 요청 작업
+	public int getPaymentBuyCancel(Map<String, String> map) {
+		return mapper.updatePaymentBuyCancel(map);
 	}
 
 
