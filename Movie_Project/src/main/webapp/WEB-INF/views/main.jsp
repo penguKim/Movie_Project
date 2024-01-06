@@ -175,6 +175,15 @@
 				$("#myModal").hide(); <%-- div 영역 숨김 --%>
 			}
 		});
+		
+		<%-- 트레일러 재생이 끝났을 경우 재생버튼으로 전환 --%>
+		let video = $("#main_trailer").get(0);
+		let icon = $(".playBtn i");
+		video.onended = function() {
+	        icon.removeClass('fa-pause-circle-o');
+	        icon.addClass('fa-play-circle-o');
+		};
+		
 	});
 	
 	// 모달 열기 버튼 클릭 이벤트
@@ -226,10 +235,11 @@
 		}
 	}
 	
+	
+	<%-- 트레일러 재생 버튼 --%>
 	function trailerPlayBtn() {
 		let video = $("#main_trailer").get(0);
 		let icon = $(".playBtn i");
-		
 	    if (video.paused) {
 	        video.play();
 	        icon.removeClass('fa-play-circle-o');
@@ -239,12 +249,13 @@
 	        icon.removeClass('fa-pause-circle-o');
 	        icon.addClass('fa-play-circle-o');
 	    }
+	    
 	}
 	
+	<%-- 트레일러 음소거 버튼 --%>
 	function trailerMuteBtn() {
 		let video = $("#main_trailer").get(0);
 		let icon = $(".muteBtn i");
-		
 	    if (video.muted) {
 	        video.muted = false;
 	        icon.removeClass('fa-volume-off');

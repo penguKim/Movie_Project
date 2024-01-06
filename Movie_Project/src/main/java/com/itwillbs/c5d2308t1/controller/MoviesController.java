@@ -98,46 +98,6 @@ public class MoviesController {
 		return "movie/comming";
 		}
 	
-//	// 상영 예정작
-//	@GetMapping("comming")
-//	public ModelAndView comming(Map<String, Object> map) {
-//		try {
-//			// 요청할 URL 주소
-//			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
-//			// 크롤링을 위한 Jsoup 객체에 url 전달하여 Connection 객체 생성
-//			Connection con = Jsoup.connect(url);
-//			// 가져온 데이터를 Document 객체로 저장
-//			Document doc = con.get();
-//			// 해당하는 요소를 Elements타입의 List로 저장
-//			Elements titleElements = doc.select("div.box-contents strong.title");
-//			Elements posterElements = doc.select("div.box-image span.thumb-image img");
-////			Elements detailElements = doc.select("div.box-image a");
-//			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
-//			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
-//			
-//			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
-//			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
-//			for(int i = 3; i < titleElements.size(); i++) {
-//				CrawlVO movie = new CrawlVO();
-//				movie.setTitle(titleElements.get(i).text());
-//				movie.setPoster(posterElements.get(i).attr("src"));
-//				movie.setPercent(percentElements.get(i).text());
-//				movie.setRelease(releaseElements.get(i).text());
-//				movieList.add(movie);
-//			}
-//			
-//			map.put("movieList", movieList);
-//		} catch (IOException e) {
-//			System.out.println("크롤링 실패");
-//			e.printStackTrace();
-//		}
-//		
-//		ModelAndView mav = new ModelAndView("movie/comming", map);
-//		
-//		return mav;
-//	}
-	
-	
 	// 영화 상세 페이지
 	@GetMapping("detail")
 	public ModelAndView detail(int movie_id, Map<String, String> map, ReviewsVO review, HttpSession session, Model model ) {
@@ -161,11 +121,7 @@ public class MoviesController {
 	@GetMapping("movieAgeGroup")
 	public List<Map<String, Object>> movieAgeGroup(int movie_id, Map<String, List<Map<String, String>>> map) {
 		
-//		List<Map<String, Integer>> ageGroupList = service.getAgeGroupList(movie_id);
 		List<Map<String, Object>> ageGroupList = service.getAgeGroupList(movie_id);
-		System.out.println("값 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + ageGroupList);
-		
-//		map.put("ageGroupList", ageGroupList);
 		
 		return ageGroupList;
 	}
@@ -246,6 +202,45 @@ public class MoviesController {
 //		return mav;
 //	}
 	
+//	// 상영 예정작
+//	@GetMapping("comming")
+//	public ModelAndView comming(Map<String, Object> map) {
+//		try {
+//			// 요청할 URL 주소
+//			String url = "http://www.cgv.co.kr/movies/pre-movies.aspx";
+//			// 크롤링을 위한 Jsoup 객체에 url 전달하여 Connection 객체 생성
+//			Connection con = Jsoup.connect(url);
+//			// 가져온 데이터를 Document 객체로 저장
+//			Document doc = con.get();
+//			// 해당하는 요소를 Elements타입의 List로 저장
+//			Elements titleElements = doc.select("div.box-contents strong.title");
+//			Elements posterElements = doc.select("div.box-image span.thumb-image img");
+////			Elements detailElements = doc.select("div.box-image a");
+//			Elements percentElements = doc.select("div.box-contents div.score strong.percent span");
+//			Elements releaseElements = doc.select("div.box-contents span.txt-info strong");
+//			
+//			List<CrawlVO> movieList = new ArrayList<CrawlVO>();
+//			// 상영 예정작의 0~2 인덱스는 이달의 추천영화이므로 실제 상영 예정작이랑 중복된다.
+//			for(int i = 3; i < titleElements.size(); i++) {
+//				CrawlVO movie = new CrawlVO();
+//				movie.setTitle(titleElements.get(i).text());
+//				movie.setPoster(posterElements.get(i).attr("src"));
+//				movie.setPercent(percentElements.get(i).text());
+//				movie.setRelease(releaseElements.get(i).text());
+//				movieList.add(movie);
+//			}
+//			
+//			map.put("movieList", movieList);
+//		} catch (IOException e) {
+//			System.out.println("크롤링 실패");
+//			e.printStackTrace();
+//		}
+//		
+//		ModelAndView mav = new ModelAndView("movie/comming", map);
+//		
+//		return mav;
+//	}
+	
 	// cgv에서 크롤링하여 현재상영작의 영화ID를 사용하여 크롤링한 상세페이지 뿌리기
 //	@GetMapping("detail")
 //	public ModelAndView detail(String detailNum, Model model) {
@@ -287,296 +282,6 @@ public class MoviesController {
 //		return mav;
 //	}
 	
-	// =====================================================================================
-	// 자바 코드로 API 정보 가져오는 테스트 ============================
-	
-	
-	@GetMapping("Test")
-	public ModelAndView test(Map<String, MoviesVO> map) {
-		System.out.println("kobis 일일 박스오피스");
-	    //발급키
-	    String key = "811a25b246549ad749b278bba8257502";
-	    //전날 박스오피스 조회
-	    String targetDt = "20231220";
-	    //ROW 개수
-//	    String itemPerPage = "10";
-	    //다양성영화(Y)/상업영화(N)/전체(default)
-//	    String multiMovieYn = "";
-	    //한국영화(K)/외국영화(F)/전체(default)
-//	    String repNationCd = "";
-	    //상영지역별 코드/전체(default)
-//	    String wideAreaCd = "";
-	    // 기본 요청 URL
-	    String url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=" + key + "&targetDt=" + targetDt;
-	    // ------------------------------------
-		// http 통신을 위한 클라이언트 RestTemplate 객체 생성
-	    RestTemplate restTemplate = new RestTemplate();
-	    // getForObject() 메서드를 호출하여 GET 방식으로 url 요청 후 String 타입으로 저장한다.
-	    String result = restTemplate.getForObject(url, String.class);
-	    
-        try {
-			// JSON 문자열을 파싱할 객체 생성
-			JSONParser jsonParser = new JSONParser();
-			// parse() 메서드로 읽어온 데이터를 JSONObject 타입으로 저장
-			JSONObject jsonobject = (JSONObject)jsonParser.parse(result);
-			// 박스오피스 결과를 JSON 객체로 저장
-			JSONObject json =  (JSONObject) jsonobject.get("boxOfficeResult");
-			// 영화 정보가 담긴 JSON 객체를 JSON 배열로 저장
-			JSONArray array = (JSONArray)json.get("dailyBoxOfficeList");
-			
-	    	List<MoviesVO> movies = new ArrayList<MoviesVO>();
-	    	for(int i = 0 ; i < array.size(); i++){
-	    		MoviesVO movie = new MoviesVO();
-	    		JSONObject entity = (JSONObject)array.get(i);
-	    		movie.setMovie_id(Integer.parseInt((String)entity.get("movieCd"))); // 영화코드
-	    		movie.setMovie_title((String)entity.get("movieNm")); // 영화 이름
-	    		movie.setMovie_release_date((String)entity.get("openDt")); // 개봉일
-	    		movie.setMovie_audience(Integer.parseInt((String)entity.get("audiAcc"))); // 관객수
-	    		movies.add(movie);
-	    		System.out.println(movie);
-	    	}
-	    	
-	    	int insupdCount = service.registMovieCd(movies);
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-	    
-		ModelAndView mav = new ModelAndView("", map);
-		
-		return mav;
-	}
-	
-	@GetMapping("Test2")
-	public ModelAndView test2(Map<String, MoviesVO> map) {
-		System.out.println("kobis 영화 상세 검색");
-		// http 통신을 위한 클라이언트 RestTemplate 객체 생성
-		RestTemplate restTemplate = new RestTemplate();
-	    //발급키
-	    String key = "811a25b246549ad749b278bba8257502";
-	    List<MoviesVO> movieList = service.getAllMovie();
-	    List<MoviesVO> movieDirectorList = new ArrayList<MoviesVO>();
-	    	try {
-	    		for(MoviesVO movie : movieList) {
-//	    			System.out.println(movie.getMovie_id());
-	    			// 기본 요청 URL
-	    			String url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=" + key + "&movieCd=" + movie.getMovie_id();
-	    			System.out.println(url);
-	    			// ------------------------------------
-		    		// getForObject() 메서드를 호출하여 GET 방식으로 url 요청 후 String 타입으로 저장한다.
-		    		String result = restTemplate.getForObject(url, String.class);
-		    		
-		    		// JSON 문자열을 파싱할 객체 생성
-		    		JSONParser jsonParser = new JSONParser();
-		    		// parse() 메서드로 읽어온 데이터를 JSONObject 타입으로 저장
-		    		JSONObject jsonobject = (JSONObject)jsonParser.parse(result);
-		    		// 박스오피스 결과를 JSON 객체로 저장
-		    		JSONObject json =  (JSONObject) jsonobject.get("movieInfoResult");
-		    		// 영화 정보가 담긴 JSON 객체를 JSON 배열로 저장
-		    		JSONObject movieInfo = (JSONObject)json.get("movieInfo");
-		    		System.out.println(movieInfo);
-	    		
-	    		
-	    		
-	    		
-	    		Thread.sleep(5000);
-	    		
-	    		
-	    		
-	    		}
-	    	} catch (ParseException e) {
-	    		e.printStackTrace();
-	    	} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-	    		
-//	    		List<MoviesVO> movies = new ArrayList<MoviesVO>();
-//	    		for(int i = 0 ; i < array.size(); i++){
-//	    			MoviesVO mv = new MoviesVO();
-//	    			JSONObject entity = (JSONObject)array.get(i);
-//	    			mv.setMovie_id(Integer.parseInt((String)entity.get("movieCd"))); // 영화코드
-//	    			mv.setMovie_title((String)entity.get("movieNm")); // 영화 이름
-//	    			mv.setMovie_release_date((String)entity.get("openDt")); // 개봉일
-//	    			mv.setMovie_audience(Integer.parseInt((String)entity.get("audiAcc"))); // 관객수
-//	    			movies.add(mv);
-//	    			System.out.println(mv);
-//	    		}
-//	    		
-//	    		int insupdCount = service.registMovieCd(movies);
-
-	    	
-
-	    
-		ModelAndView mav = new ModelAndView("", map);
-		
-		return mav;
-	}
-	
-	
-	@GetMapping("Test3")
-	public ModelAndView test3(Map<String, Object> map) {
-		System.out.println("kobis 영화 상세 검색");
-		// http 통신을 위한 클라이언트 RestTemplate 객체 생성
-		RestTemplate restTemplate = new RestTemplate();
-	    //발급키
-	    String key = "811a25b246549ad749b278bba8257502";
-		// 기본 요청 URL
-		String url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=" + key + "&movieCd=" + "서울의 봄";
-		System.out.println(url);
-		// ------------------------------------
-		// getForObject() 메서드를 호출하여 GET 방식으로 url 요청 후 String 타입으로 저장한다.
-		String result = restTemplate.getForObject(url, String.class);
-		
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			
-			map = mapper.readValue(url, Map.class);
-			
-			JsonNode root = mapper.readTree(result);
-			JsonNode data = root.path("Data");
-			
-			for (JsonNode node : data) {
-			    String title = node.path("title").asText();
-			    String director = node.path("director").asText();
-			    System.out.println("제목: " + title);
-			    System.out.println("감독: " + director);
-			}
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	    		
-//		Thread.sleep(5000);
-	    		
-	    
-		ModelAndView mav = new ModelAndView("", map);
-		
-		return mav;
-	}
-	
-	
-	@GetMapping("kmdbTest")
-	public String test2() {
-		System.out.println("kmdb 테스트");
-		String ServiceKey = "08P2788CP12T24B2US8F";
-		
-		// http 통신을 위한 클라이언트 RestTemplate 객체 생성
-		RestTemplate restTemplate = new RestTemplate();
-		List<MoviesVO> movieList = service.getAllMovie();
-		
-		 try {
-			 for(MoviesVO movie : movieList) {
-				 String url = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=" 
-						 + ServiceKey + "&detail=Y&title=" + movie.getMovie_title() + "&releaseDts=" + movie.getMovie_release_date().replace("-", ""); 
-				 System.out.println(url);
-	    		// getForObject() 메서드를 호출하여 GET 방식으로 url 요청 후 String 타입으로 저장한다.
-	    		String result = restTemplate.getForObject(url, String.class);
-		    	JSONParser jsonParser = new JSONParser();
-		    	JSONObject jsonobject = (JSONObject)jsonParser.parse(result);
-		    	JSONArray data =  (JSONArray) jsonobject.get("Data");
-		    	System.out.println(data);
-		    	JSONArray resultMovie = (JSONArray) data.get(0);
-		    	System.out.println(resultMovie);
-		    	
-//		    	List<MoviesVO> movies = new ArrayList<MoviesVO>();
-//		    	for(int i = 0 ; i < array.size(); i++){
-//		    		MoviesVO movie = new MoviesVO();
-//		    		JSONObject entity = (JSONObject)array.get(i);
-//		    		movie.setMovie_id(Integer.parseInt((String)entity.get("movieCd"))); // 영화코드
-//		    		movie.setMovie_title((String)entity.get("movieNm")); // 영화 이름
-//		    		movie.setMovie_release_date((String)entity.get("openDt")); // 개봉일
-//		    		movie.setMovie_audience(Integer.parseInt((String)entity.get("audiAcc"))); // 관객수
-//		    		movies.add(movie);
-//		    		
-//		    	}
-		    	
-		    	
-		    	Thread.sleep(5000);
-		    	
-		    	// 코드, 이름, 개봉일, 관객수를 DB에 등록한다.
-//		    	for(MoviesVO movie : movies) {
-//		    		this.movie.insertMovie(movie);
-//		    	}
-		    	
-			 	}
-		    } catch (ParseException e) {
-		    	e.printStackTrace();
-		    } catch (Exception e) {
-		    	e.printStackTrace();
-		    }
-		    
-		return "";
-	}
-	
-	@ResponseBody
-	@GetMapping("movieRegistTest")
-	public String movieRegist(@RequestParam Map<String, String> map) {
-		System.out.println(map);
-		
-		return "";
-	}
-
-	
-	
-//	@GetMapping("searchTest")
-//	public String searchTest() {
-//		
-//	    try {
-//	    	// DB에 저장된 영화정보 불러오기
-//	    	List<MoviesVO> movieList = movie.getMovieList();
-//	    	
-//	    	//발급키
-//	    	String key = "811a25b246549ad749b278bba8257502";
-//	    	
-//	    	//영화 ID
-//	    	int movie_id = 0;
-//	    	
-//	    	// 기본 요청 URL
-//	    	String url = "";
-//	    	
-//	    	for(MoviesVO movie : movieList) {
-//	    		// 영화별 영화 코드 불러와 저장
-//	    		movie_id = movie.getMovie_id();
-//	    		
-//	    		url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=" + key +  "&movieCd=" + movie_id;
-//	    	
-//	            URL urlObj = new URL(url);
-//	            HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
-//	            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-//	            String inputLine;
-//	            StringBuffer content = new StringBuffer();
-//	            while ((inputLine = br.readLine()) != null) {
-//	                content.append(inputLine);
-//	            }
-//	
-//	            // close connections
-//	            br.close();
-//	            con.disconnect();
-//		    	
-//		    	JSONParser jsonParser = new JSONParser();
-//		    	JSONObject jsonobject = (JSONObject)jsonParser.parse(content.toString());
-//		    	JSONObject movieInfoResult =  (JSONObject) jsonobject.get("movieInfoResult");
-//		    	JSONObject movieInfo =  (JSONObject) movieInfoResult.get("movieInfo");
-//		    	if(movieInfo.get("movieCd") != null) {
-//		    		JSONArray nation = (JSONArray) movieInfo.get("nation");
-//		    		
-//		    	}
-//		    	
-//	//	    	JSONArray array = (JSONArray)json.get("dailyBoxOfficeList");
-//		    
-//	    	}
-//	    	
-//	    	
-//	    } catch (Exception e) {
-//	    	e.printStackTrace();
-//	    }
-//		
-//		return "";
-//	}
 	
 	//리뷰-----
 	//member_id값이 있고 영화상영일 + 상영종료시간 이후에 리뷰작성이 가능함
@@ -601,18 +306,3 @@ public class MoviesController {
 
 	
 } //MoviesController 끝
-
-
-//class BoxOfficeResult {
-//    private List<KobisAPI> boxOfficeResult;
-//
-//	public List<KobisAPI> getBoxOfficeResult() {
-//		return boxOfficeResult;
-//	}
-//
-//	public void setBoxOfficeResult(List<KobisAPI> boxOfficeResult) {
-//		this.boxOfficeResult = boxOfficeResult;
-//	}
-    
-    
-//}
