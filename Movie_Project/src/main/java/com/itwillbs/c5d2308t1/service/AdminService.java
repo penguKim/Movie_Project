@@ -284,6 +284,11 @@ public class AdminService {
 		return mapper.selectJoinCount();
 	}
 	
+	// (차트)일별 매출 알아보기
+	public List<HashMap<String, Object>> getRevenue() {
+		return mapper.selectRevenue();
+	}
+	
 	// (차트)영화 예매 비율 알아보기
 	public List<Map<String, String>> getMovieChart() {
 		return mapper.selectMovieChart();

@@ -83,15 +83,30 @@ public class AdminController {
 		
 		// 일별 가입 회원 불러오기
 		List<HashMap<String, Object>> counts = service.getJoinCount();
-		System.out.println("counts 차트만드거임 = " + counts);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		// 마지막 페이지 번호 Map 객체에 추가
 		map.put("counts", counts);
 		
 		JSONObject jsonObject = new JSONObject(map);
-		System.out.println("jsonObject = " + jsonObject);
+//		System.out.println("jsonObject = " + jsonObject);
 
+		return jsonObject.toString();
+	}
+	
+	// 차트를 만들기 위해 매출정보 불러오기
+	@ResponseBody
+	@GetMapping("revenue")
+	public String revenue() {
+		
+		// 일별 매출 불러오기
+		List<HashMap<String, Object>> revenues = service.getRevenue();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("revenues", revenues);
+		
+		JSONObject jsonObject = new JSONObject(map);
+//		System.out.println("jsonObject = " + jsonObject);
+		
 		return jsonObject.toString();
 	}
 	

@@ -186,23 +186,24 @@
 			
 			<form action="memberJoinAgree" method="post" name="joinCertification">
 				<hr>		
-				<h3 id="join_top">회원가입을 위해 본인 인증을 해주세요.</h3>
+				<h2 id="join_top">회원가입을 위해 본인 인증을 해주세요.</h2>
+				<hr>		
 				<section id="api">
+					<h3>소셜계정으로 인증하기</h3>
 					<!-- 카카오 로그인 버튼 노출 영역 -->
-					<a id="kakao-login-btn" href="javascript:loginWithKakao()">
-					  <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
-					    alt="카카오 로그인 버튼" />
-					</a>
-					<p id="token-result"></p>					
-					<div id="naver_id_login" style="text-align:center"><a href="${url}"><img width="223" src="${pageContext.request.contextPath}/resources/img/네이버버튼.png"/></a></div>
+					<div id="kakao_id_login" style="text-align:center"><a id="kakao-login-btn" href="javascript:loginWithKakao()">
+					  <img src="${pageContext.request.contextPath}/resources/img/kakao.png" width="70px"/>
+					</a></div>
+					<div id="naver_id_login" style="text-align:center"><a href="${url}"><img src="${pageContext.request.contextPath}/resources/img/naver.png" width="70px"/></a></div>
 					<!-- 구글 로그인 화면으로 이동 시키는 URL -->
 					<!-- 구글 로그인 화면에서 ID, PW를 올바르게 입력하면 oauth2callback 메소드 실행 요청-->
-					<div id="google_id_login" style="text-align:center"><a href="${google_url}"><img width="230" src="${pageContext.request.contextPath}/resources/img/google.png"/></a></div>
+					<div id="google_id_login" style="text-align:center"><a href="${google_url}"><img src="${pageContext.request.contextPath}/resources/img/google.png" width="70px"/></a></div>
 				</section>
 				
 				<hr>
 					
 				<section id="email1">
+					<h3>이메일로 인증하기</h3>
 					<span id="email2">
 						<img src="${pageContext.request.contextPath}/resources/img/mail.png" width="80px" height="70px;"> <br>
 						이메일인증</span>

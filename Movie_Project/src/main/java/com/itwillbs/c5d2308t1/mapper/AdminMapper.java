@@ -165,6 +165,9 @@ public interface AdminMapper {
 	// 관리자 페이지 회원가입 차트
 	List<HashMap<String, Object>> selectJoinCount();
 	
+	// 관리자 페이지 일별매출 차트
+	List<HashMap<String, Object>> selectRevenue();
+	
 	// 관리자 페이지 영화 차트
 	List<Map<String, String>> selectMovieChart();
 	

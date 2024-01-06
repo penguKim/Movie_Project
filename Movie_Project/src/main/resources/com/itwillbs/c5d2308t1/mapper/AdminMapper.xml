@@ -617,7 +617,7 @@
 <!-- ============================관리자 예매내역 조회 끝=============================== -->	
 
 <!-- =============== 관리자 메인 페이지 차트 =============== -->
-	<!-- 30일 동안 가입한 회원 출력 -->
+	<!-- 20일 동안 가입한 회원 출력 -->
 	<select id="selectJoinCount" resultType="Map">
 	 	SELECT
 		    date_range.date AS date,
@@ -637,6 +637,32 @@
 		    members ON DATE(members.member_date) = DATE(date_range.date)
 		GROUP BY
 		    date_range.date
+		ORDER BY
+		    date_range.date ASC;
+	</select>
+	
+	<!-- 10일 동안 매출 출력 -->
+	<select id="selectRevenue" resultType="Map">
+	 	SELECT
+		    date_range.date AS date,
+		    IFNULL(sum(payments.payment_total_price), 0) AS revenue
+		FROM
+		    (
+		        SELECT
+		            DATE_SUB(CURDATE(), INTERVAL (ROW_NUMBER() OVER (ORDER BY payment_datetime ASC) - 1) DAY) AS date
+		        FROM
+		            payments
+		        WHERE
+		           payment_datetime BETWEEN DATE_SUB(CURDATE(), INTERVAL 10 DAY) AND CURDATE() 
+		        ORDER BY
+		            date ASC
+		    ) AS date_range
+		LEFT JOIN
+		    payments ON DATE(payments.payment_datetime) = DATE(date_range.date)
+		GROUP BY
+		    date_range.date
+		HAVING
+		    date_range.date >= DATE_SUB(CURDATE(), INTERVAL 10 DAY)
 		ORDER BY
 		    date_range.date ASC;
 	</select>

@@ -11,6 +11,69 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script>
+	// 일별 매출 차트
+	$(function() {
+		
+		const xValues = [];
+		const yValues = [];
+
+		// ajax를 이용하여 db에서 일별매출을 불러옴
+		$.ajax({
+			type: "GET",
+			url: "revenue",
+			dataType: "json",
+			success: function(result) {
+				
+				for(let i = 0; i < result.revenues.length-1; i++) {
+				    let date = result.revenues[i].date;
+				    let revenue = result.revenues[i].revenue;
+					
+				    xValues.push(date);
+				    yValues.push(revenue);
+				    
+				}
+// 				    console.log("xValues = " + xValues + ", yValues = " + yValues);
+
+				new Chart("revenue", {
+					type: "line",
+					data: {
+						labels: xValues, // 날짜
+						datasets: [
+							{
+								fill: false,
+								lineTension: 0,
+							    backgroundColor: "rgba(0,0,255,1.0)",
+							    borderColor: "rgba(0,0,255,0.1)",
+								data: yValues, // 매출
+							},
+						],
+					},
+					options: {
+						legend: { display: false },
+						title: {
+							display: true,
+							fontSize: 16
+// 						},
+// 						scales : {
+// 							yAxes : [ {
+// 								ticks : {
+// 									beginAtZero : true, // 0부터 시작하게 합니다.
+// 								}
+// 							} ]
+						}
+					},
+				});
+				
+			},
+			error: function(request, status, error) {
+				console.log("AJAX 요청 실패:", error);
+	    	},
+		});
+	});
+	
+</script>
+
+<script>
 	// 일일 가입자수 차트
 	$(function() {
 		
@@ -40,7 +103,7 @@
 							{
 								fill: false,
 								pointRadius: 1,
-								borderColor: "rgba(255,0,0,0.5)",
+								borderColor: "#39DB54",
 								data: yValues, //회원수
 							},
 						],
@@ -70,6 +133,7 @@
 	});
 	
 </script>
+
 <script type="text/javascript">
 	// 인기 상품 차트
 	$(function() {
@@ -114,6 +178,7 @@
 		});
 });
 </script>
+
 <script type="text/javascript">
 	$(function() {
 		var xValues = [];
@@ -177,6 +242,10 @@
 			<h1 id="h01">관리자페이지 메인</h1>
 			<hr>
 			<div id="admin_main">
+				<div class="chart">
+					<h2>일별 매출표</h2>
+					<canvas id="revenue" style="width:100%;max-width:550px"></canvas>
+				</div>
 				<div class="chart">
 					<h2>일일가입자수</h2>
 					<canvas id="joinCount" style="width:100%;max-width:550px"></canvas>
