@@ -13,125 +13,95 @@
 <%-- <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script> --%>
 <script type="text/javascript">
 // 여기 페이지에서 해야할것.
-// input 텍스트창에 영화제목을 입력하고 검색버튼을 눌렀을때 영화정보를 보여주기
+// input text에서 검색해서 버튼클릭했을때 selectBox로 입력받은 검색어에 관한 영화목록들을 조회(ajax)
+// selectBox 목록에서 영화제목을 클릭했을때 상세정보가 inputText에 출력되게 할거임.(ajax)
 
 $(document).ready(function(){
 	$("#adminMovieSearch").on("click", function(){
 // 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수 (submit 함수쓸때 기본동작 = 페이지 다시 불러오기 안함)
 		let title = $("#movieTitle").val();
-		var key = "e9ac77cb0a9e1fa7c1fe08d1ee002e3b";
+		let key = "e9ac77cb0a9e1fa7c1fe08d1ee002e3b";
 		$.ajax({
 			type: "GET",
-			url: "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=" + key + "&movieNm=" + title,
+			url: "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json",
+			data: {
+				movieNm : title, //title 값을 movieNm에 넣음
+				key : key
+			},
 			success: function(data){
 				
 				let movies = data.movieListResult.movieList;
+							
 				$("#movieInfo").empty();
 				//영화제목을 검색했을때 감독,상영일이 있으면 반복문 통해서 출력
 				for(let movie of movies) { // movies배열에 값들을 movie변수에 저장
 					if(movie.openDt !== "" && movie.directors.length > 0) {//개봉일값이 ""가 아니고 감독명 길이가 0보다 클때
-						$("#movieInfo").append("<hr>제목: " + movie.movieNm + "</br>");
-						$("#movieInfo").append("감독: " + movie.directors[0].peopleNm + "</br>");
-						$("#movieInfo").append("개봉일: " + movie.openDt + "</br>");
-						$("#movieInfo").append("국가: " + movie.nationAlt + "</br>");
+						console.log(movie.movieNm);
+						console.log(movie.directors[0].peopleNm);
 					}
 				} //for문 끝
 				
+				
 			}, //success 끝
 			error: function(){
 				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
 			} //error 끝
 		}); //ajax 끝
-	}); // button 끝s
-	
-	
-	/*
-	박스오피스 API는 줄거리랑 포스터 정보가 없음
-	KMDb는 진짜 영화정보만 있음
-	해결법
-	- 박스오피스 데이터(제목, 개봉일, 감독)를 먼저 받아와서
-	- 응답데이터 중 KMDb요청인자로 사용할수 있는것 뽑아내기
-	- 뽑아낸 데이터를 KMDb 요청인자로 넣어서 영화 정보를 검색
-	
-	
-	*/
-	
-	$("#adminMovieSearchDetail").on("click", function(){
-		let kmdbKey = "C7643LD2JV0X8LAV20YO";
-		
-		let title_name = $("#movieTitlekmdb").val();
-		
-		$.ajax({
-			type: "GET",
-			dataType: "json",
-			url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=" + kmdbKey + "&title=" + title_name,
-			data:{
-				detail: "Y",
-			},
-			success: function(kmdb){
-				
-// 				var movieTotal = []; //영화 모든 정보들을 배열에 저장하기
-//------------------------------------------------------------------------------------------------------------------------ 영화제목 박스오피스에서 가져오기
-// 				let movieTitles = []; //movieTitles변수를 가진 배열에 kmdb.Data[0].Result배열 안에있는 영화제목을 저장
-// 				kmdb.Data[0].Result.forEach(function(movie) {
-// 					movieTitles.push(movie.title);
-// 				});
-				
-// 				let titleFormat = [];//title을 배열로 저장
-// 				movieTitles.forEach(function(title) {
-// 					title = title.replace(/!HS/g, "") //"!HS"를 ""으로 바꾸기
-// 							.replace(/!HE/g, "")//"!HE"를 ""으로 바꾸기
-// 							.replace(/^\s+|\s+$/g, "")//처음과 끝의 공백 제거
-// 							.replace(/ +/g, " ");//연속된 공백을 하나의 공백으로 바꾸기
-// 					titleFormat.push(title); // 변경된 title을 titleFormat저장
-// 				});
-
-//  					console.log(titleFormat); //영화제목 배열로 출력
-//------------------------------------------------------------------------------------------------------------------------ 영화코드 박스오피스에서 가져오기
-// 				let movieCode = [];
-// 					kmdb.Data[0].Result.forEach(function(movie){
-// 						movieCode.push(movie.movieSeq);
-// 				});
-// 					console.log(kmdb.Data[0].Result.forEach); //영화제목 배열로 출력
-//------------------------------------------------------------------------------------------------------------------------ 					
-// 				let directorNm = [];
-// 					kmdb.Data[0].Result[0].directors.director[0].(function(movie) {
-// 						directorNm.push(movie.directorNm);
-// 					});
-					console.log(kmdb.Data[0].Result[0].prodYear); //제작년도
-					console.log(kmdb.Data[0].Result[0].nation); //제작국가
-					console.log(kmdb.Data[0].Result[0].genre); //장르
-					console.log(kmdb.Data[0].Result[0].runtime); //상영시간(분)
-					//상영상태(기본값을 0으로둔다?)
-					console.log(kmdb.Data[0].Result[0].ratings.rating[0].releaseDate); //상영일
-					//종영일
-					for(let i = 0; i < 3; i++) {
-						if(kmdb.Data[0].Result[0].actors.actor[i]) {
-							console.log(kmdb.Data[0].Result[0].actors.actor[i].actorNm); //배우 순서대로 3명 출력
-						}
-					}
-					console.log(kmdb.Data[0].Result[0].rating); //관람등급
-// 					console.log(kmdb.Data[0].Result[0].posters); //포스터
-					
-					let posters = kmdb.Data[0].Result[0].posters.split("|"); //포스터
-					let poster = posters[0];
-					$("#posterThumnail").attr("src", poster);
-					$("#movie_poster").val(poster);
-					
-					console.log(kmdb.Data[0].Result[0].vods.vod[0].vodUrl); //트레일러
-					console.log(kmdb.Data[0].Result[0].keywords); //줄거리
-					
-					
-			}, //success 끝
-			error: function(){
-				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
-			} //error 끝
-		}); //ajax 끝
-
-
+	    $("#selectBox").show(); // 클릭시 체크박스 보이기
 	}); // button 끝
-}); //ready 끝
+	
+	
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+// 	$("#adminMovieSearchDetail").on("click", function(){
+// 		let kmdbKey = "C7643LD2JV0X8LAV20YO";
+		
+// 		let title = $("#movieTitlekmdb").val();
+		
+// 		$.ajax({
+// 			type: "GET",
+// 			dataType: "json",
+// 			url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=" + kmdbKey + "&title=" + title,
+// 			data:{
+// 				detail: "Y",
+// 			},
+// 			success: function(kmdb){
+				
 
+// 					console.log(kmdb.Data[0].Result[0].prodYear); //제작년도
+// 					console.log(kmdb.Data[0].Result[0].nation); //제작국가
+// 					console.log(kmdb.Data[0].Result[0].genre); //장르
+// 					console.log(kmdb.Data[0].Result[0].runtime); //상영시간(분)
+// 					//상영상태(기본값을 0으로둔다?)
+// 					console.log(kmdb.Data[0].Result[0].ratings.rating[0].releaseDate); //상영일
+// 					//종영일
+// 					for(let i = 0; i < 3; i++) {
+// 						if(kmdb.Data[0].Result[0].actors.actor[i]) {
+// 							console.log(kmdb.Data[0].Result[0].actors.actor[i].actorNm); //배우 순서대로 3명 출력
+// 						}
+// 					}
+// 					console.log(kmdb.Data[0].Result[0].rating); //관람등급
+// // 					console.log(kmdb.Data[0].Result[0].posters); //포스터
+					
+// 					let posters = kmdb.Data[0].Result[0].posters.split("|"); //포스터
+// 					let poster = posters[0];
+// 					$("#posterThumnail").attr("src", poster);
+// 					$("#movie_poster").val(poster);
+					
+// 					console.log(kmdb.Data[0].Result[0].vods.vod[0].vodUrl); //트레일러
+// 					console.log(kmdb.Data[0].Result[0].keywords); //줄거리
+					
+					
+// 			}, //success 끝
+// 			error: function(){
+// 				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
+// 			} //error 끝
+// 		}); //ajax 끝
+
+
+// 	}); // button 끝
+
+}); //ready 끝
 
 </script>
 </head>
@@ -153,9 +123,15 @@ $(document).ready(function(){
 				<form id="searchForm">
 					<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearch" value="검색">
 				</form>
-				<input type="text" id="movieTitlekmdb" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearchDetail" value="검색">
+		<div>
+			<select name="selectBox" id="selectBox" style="display: none;">
+				<option selected disabled>영화를 선택해주세요</option>
+				<option value="option2">Option 1</option>
+				<option value="option3">Option 2</option>
+			</select>
+		</div>
+		
 			</div>
-<!-- 		<div id="movieInfo"> -->
 			<form action="movieRgst" method="post" id="movieRegist">
 				<table id="movieTable">
 		            <colgroup> 
@@ -256,6 +232,7 @@ $(document).ready(function(){
 				<input type="button" value="창닫기" onclick="history.back();">
 			</form>
 		</div>
+		
 	</section>
 	</div>
 </body>
