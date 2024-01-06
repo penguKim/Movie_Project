@@ -40,13 +40,6 @@
 		WHERE payment_status = 0 AND member_id = #{member_id}
 	</select>
 	
-	<!-- 나의 상품 구매내역 조회를 위한 작업 -->
-	<select id="getMyStoreSelect" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
-		SELECT payment_id , payment_status, quantity, member_name, product_name,payment_datetime, payment_total_price, member_id
-		FROM store_pay_detail
-		WHERE member_id = #{member_id}
-	</select>
-
 	<!-- 회원 정보 수정 -->
 	<update id="updateMember">
 		UPDATE member
@@ -143,13 +136,42 @@
 		DELETE FROM reviews
 		WHERE review_id = #{review_id}
 	</delete>
+
+	<!-- =============================  상품 구매 내역 ========================================================= -->
+	<select id="getStoreListCount" >
+		SELECT COUNT(DISTINCT payment_name)
+		FROM ordersView
+		WHERE member_id = #{sId}
+	</select>
+	
+	<!-- 나의 상품 구매내역 조회를 위한 작업 -->
+	<select id="getMyStoreSelect" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
+		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
+		, GROUP_CONCAT(product_name) AS product_name, payment_card_name, payment_datetime
+		, sum(payment_total_price) AS payment_total_price, payment_status
+		FROM ordersView
+		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
+		HAVING member_id = #{sId}
+		LIMIT #{page.startRow}, #{page.listLimit}
+	</select>
+	
+	<!-- 상품 구매내역 상세 페이지 -->
+	<select id="getMyStoreDetail" resultType="com.itwillbs.c5d2308t1.vo.RefundVO">
+		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
+		, GROUP_CONCAT(product_name) AS product_name, payment_card_name, payment_datetime
+		, sum(payment_total_price) AS payment_total_price, payment_status
+		FROM ordersView
+		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
+		HAVING payment_name = #{payment_name} 
+	</select>
 		
-	<!-- 상품 구매내역 업데이트 -->
-	<update id="updateMyStore">
-		UPDATE store_pay_detail
+	<!-- 상품 구매내역 구매 취소 요청 작업 -->
+	<update id="updateMyBuy">
+		UPDATE payments
 		SET payment_status = 0
-		WHERE payment_id = #{payment_id}
+		WHERE payment_name = #{payment_name}
 	</update>
+	<!-- ============================== 상품 구매 내역 ======================================== -->
 	
 	<update id="checkMember">
 	UPDATE members

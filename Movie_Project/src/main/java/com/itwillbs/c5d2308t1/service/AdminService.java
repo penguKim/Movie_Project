@@ -13,6 +13,7 @@ import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Service
@@ -79,6 +80,17 @@ public class AdminService {
 	public int getlostnfoundListCount(String searchValue) {
 		return mapper.selectLostnfoundListCount(searchValue);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// ================ 회원 관리 게시판 ================
 	// 회원 관리 게시판 페이징 처리를 위한 게시물 개수 조회 작업 요청
@@ -266,11 +278,64 @@ public class AdminService {
 
 
 	// ****************** 관리자 메인 차트 *********************
+
+	// (차트)일일 가입 회원수 알아보기
+	public List<HashMap<String, Object>> getJoinCount() {
+		return mapper.selectJoinCount();
+	}
 	
+	// (차트)일별 매출 알아보기
+	public List<HashMap<String, Object>> getRevenue() {
+		return mapper.selectRevenue();
+	}
+	
+	// (차트)영화 예매 비율 알아보기
 	public List<Map<String, String>> getMovieChart() {
 		return mapper.selectMovieChart();
+	}
+	
+	// (차트)상품 판매량 알아보기
+	public List<Map<String, String>> productCount() {
+		return mapper.selectProducts();
+	}
+	// ==================상품 결제 관리 게시판 ==================================
+	// 결제 리스트 조회를 위한 리스트 카운트 조회
+	public int getPaymentListCount(String searchType, String searchKeyword) {
+		return mapper.selectPaymentListCount(searchType, searchKeyword);
+	}
+	
+	// 결제 리스트 조회 요청 작업
+	public List<RefundVO> getPaymentList(String searchType, String searchKeyword, PageDTO page) {
+		return mapper.selectPaymentList(searchType, searchKeyword, page);
+	}
+	
+	// 결제관리 상세페이지 요청 작업
+	public RefundVO registPaymentDetail(Map<String, String> map) {
+		return mapper.selectPaymentDetail(map);
+	}
+	
+	// 결제관리 상세페이지 결제취소 요청 작업
+	public int getPaymentBuyCancel(Map<String, String> map) {
+		return mapper.updatePaymentBuyCancel(map);
 	}
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

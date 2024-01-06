@@ -293,7 +293,7 @@
 			
 			<form action="memberJoinPro" method="post" name="joinForm">
 				<hr>
-				<h3 id="join_top">회원정보입력</h3> <%-- 소제목 --%>
+				<h2 id="join_top">회원정보입력</h2> <%-- 소제목 --%>
 				<section id="join_center">
 					<label for="id"><b>아이디</b></label>
 					<input type="text" placeholder="5~20자의 영문 대/소문자, 숫자" name="member_id" id="id">
@@ -326,7 +326,7 @@
 					<div id="checkGenderResult" class="resultArea"></div>
 					<hr>
 					<div class="joinbtn">
-						<a href=""><input type="button" value="이전"></a>
+						<input type="button" value="이전" onclick="history.back()">
 						<input type="submit" value="가입완료">
 					</div>
 				</section>

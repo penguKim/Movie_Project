@@ -117,7 +117,7 @@ th {
 
 .login_center { /* 입력창부분 */
 	text-align: center; /* 가운데정렬 */
-	width: 350px;
+	width: 500px;
 	margin: 0 auto;
 }
 
@@ -161,17 +161,18 @@ th {
 
 #remember_id {
 	text-align: left;
-	margin-left: 20px;
+	margin-left: 90px;
 }
 
 #api { /* API 아이콘 */
 	text-align: center; /* 가운데정렬 */
-	margin: 10px; /* 주변 여백 */	
+	margin: 30px; /* 주변 여백 */
 }
 
-#api a {
+#api>div {
 	display: inline-block;
-	margin: 5px;	
+	margin-left: 20px;	
+	margin-right: 20px;
 }
 
 /* ----------------- login.jsp css 끝----------------------------- */

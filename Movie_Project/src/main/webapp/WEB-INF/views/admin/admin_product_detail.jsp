@@ -87,75 +87,70 @@ function deleteFile(product_id, product_img) {
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-						
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-	<section id="content">
-	<h1 id="h01">상품 상세 정보</h1>
-	<hr>
-	<div id="admin_nav">
-		<jsp:include page="admin_menubar.jsp"></jsp:include>
-	</div>
-	<div id="admin_main">
-			<form action="adminProductReply" method="post" id="movieRegist">
-				<table id="movieTable">
-		            <colgroup> 
-		                <col style="width: 20%;">
-		                <col style="width: 20%;">   
-		                <col style="width: 20%;"> 
-		                <col style="width: 40%;">   
-		            </colgroup> 
-					<tr>
-						<td rowspan="5" colspan="2" id="posterArea">
-							<img src="${product.product_img }" alt="상품이미지" id=""><br>
-						</td>
-						<!-- 상품 코드 수정 불가 -->
-						<th width="100px">상품코드</th>
-						<td><input type="text" name="product_id" id="product_id" class="shortInput" value="${product.product_id }" readonly ></td>
-					</tr>
-					<tr>
-						<th width="100px">상품이름</th>
-						<td><input type="text" name="product_name" id="product_name" class="shortInput" value="${product.product_name }"></td>
-					</tr>
-					<tr>
-						<th width="100px">상품설명</th>
-						<td><input type="text" name="product_txt" id="product_txt" class="shortInput" value="${product.product_txt }"></td>
-					</tr>
-					<tr>
-						<th>상품가격</th>
-						<td ><input type="text" name="product_price" id="product_price" class="shortInput" value="${product.product_price }원"></td>
-					</tr>
-					<tr>
-						<th><label for="product_img">이미지 첨부 파일</label></th>
-						<td>
-							<div class="file" id="imgFileArea">
-								<c:choose>
-									<c:when test="${not empty product.product_img}">
-										<c:set var="original_img_name" value="${fn:substringAfter(product.product_img, '_')}"/>
-										${original_img_name}
-										<a href="javascript:deleteFile('${product.product_id }','${product.product_img}', 1)">
-											<img src="${pageContext.request.contextPath }/resources/img/선택불가.png" class="img_btnDelete">
-										</a>
-									</c:when>
-									<c:otherwise>
-										<input type="file" name="imgFile" id="imgFile" class="shortInput">
-									</c:otherwise>
-								</c:choose>
-							</div>
-						</td>
-					</tr>
-				</table>
-				<input type="submit" value="변경" id="regist">
-				<input type="button" value="삭제" onclick="productDel('${product.product_id}')">
-				<input type="button" value="뒤로가기" onclick="history.back();">
-			</form>
-	</div>
-	</section>
-		<footer>
-			<jsp:include page="../inc/bottom.jsp"></jsp:include>	
-		</footer>
+		<section id="content">
+			<h1 id="h01">상품 상세 정보</h1>
+			<hr>
+			<div id="admin_main">
+				<form action="adminProductReply" method="post" id="movieRegist">
+					<table id="movieTable">
+			            <colgroup> 
+			                <col style="width: 20%;">
+			                <col style="width: 20%;">   
+			                <col style="width: 20%;"> 
+			                <col style="width: 40%;">   
+			            </colgroup> 
+						<tr>
+							<td rowspan="5" colspan="2" id="posterArea">
+								<img src="${product.product_img }" alt="상품이미지" id=""><br>
+							</td>
+							<!-- 상품 코드 수정 불가 -->
+							<th width="100px">상품코드</th>
+							<td><input type="text" name="product_id" id="product_id" class="shortInput" value="${product.product_id }" readonly ></td>
+						</tr>
+						<tr>
+							<th width="100px">상품이름</th>
+							<td><input type="text" name="product_name" id="product_name" class="shortInput" value="${product.product_name }"></td>
+						</tr>
+						<tr>
+							<th width="100px">상품설명</th>
+							<td><input type="text" name="product_txt" id="product_txt" class="shortInput" value="${product.product_txt }"></td>
+						</tr>
+						<tr>
+							<th>상품가격</th>
+							<td ><input type="text" name="product_price" id="product_price" class="shortInput" value="${product.product_price }원"></td>
+						</tr>
+						<tr>
+							<th><label for="product_img">이미지 첨부 파일</label></th>
+							<td>
+								<div class="file" id="imgFileArea">
+									<c:choose>
+										<c:when test="${not empty product.product_img}">
+											<c:set var="original_img_name" value="${fn:substringAfter(product.product_img, '_')}"/>
+											${original_img_name}
+											<a href="javascript:deleteFile('${product.product_id }','${product.product_img}', 1)">
+												<img src="${pageContext.request.contextPath }/resources/img/선택불가.png" class="img_btnDelete">
+											</a>
+										</c:when>
+										<c:otherwise>
+											<input type="file" name="imgFile" id="imgFile" class="shortInput">
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" value="변경" id="regist">
+					<input type="button" value="삭제" onclick="productDel('${product.product_id}')">
+					<input type="button" value="뒤로가기" onclick="history.back();">
+				</form>
+			</div>
+		</section>
 	</div>
 </body>
 </html>

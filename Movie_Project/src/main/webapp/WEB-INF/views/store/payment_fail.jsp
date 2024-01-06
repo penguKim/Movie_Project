@@ -71,9 +71,8 @@
 					</tr>
 				</table>
 				<div class="paybtn">
-					<a href="store"><input type="button" value="추가 구매하기"></a>
+					<a href="store"><input type="button" value="구매하러 가기"></a>
 					<a href="./" ><input type="button" value="  홈으로  "></a>
-					<a href="Mypage_Reserv_boardList"><input type="button" value="구매내역조회 "></a>
 				</div>
 			</div>
 			</section>

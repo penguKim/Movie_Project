@@ -53,14 +53,16 @@
 						<c:forEach var="ooo" items="${myOneOnOneList }">
 							<tr id="move_menu">
 								<c:set var="cs_subject" value="${ooo.cs_subject }"/>
-								<c:choose>
-									<c:when test="${fn:length(cs_subject) > 30 }">
-										<td><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">${fn:substring(cs_subject, 0, 28) }...</a></td>
-									</c:when>
-									<c:otherwise>
-										<td><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">${ooo.cs_subject }</a></td>
-									</c:otherwise>
-								</c:choose>
+								<td id="MyOneOnOneSubject"><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">
+									<c:choose>
+										<c:when test="${fn:length(cs_subject) > 30 }">
+											${fn:substring(cs_subject, 0, 28) }...
+										</c:when>
+										<c:otherwise>
+											${ooo.cs_subject }
+										</c:otherwise>
+									</c:choose>
+								</a></td>
 								<td>${ooo.cs_type_detail }</td>
 								<td>${ooo.cs_date }</td>
 							</tr>

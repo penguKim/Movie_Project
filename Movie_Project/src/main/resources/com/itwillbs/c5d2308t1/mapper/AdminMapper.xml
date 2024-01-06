@@ -146,6 +146,67 @@
 			OR theaters.theater_name LIKE '%${searchValue}%')
 		</if>
 	</select>
+	<!-- ================== 상품 결제 관리 게시판 ======================= -->
+	<!-- 결제 관리 게시판 결제 수 조회 -->
+	<select id="selectPaymentListCount" resultType="int">
+		SELECT COUNT(DISTINCT payment_name)
+		FROM ordersView
+		<if test="!searchKeyword.equals('')">
+			WHERE
+			<choose>
+				<when test="searchType.equals('id')">
+					member_id LIKE #{searchKeyword}
+				</when>
+				<when test="searchType.equals('name')">
+					product_name LIKE '%${searchKeyword}%'
+				</when>
+				<otherwise>
+					1=1
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="selectPaymentList" resultType="refund">
+		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
+		, GROUP_CONCAT(product_name) AS product_name, payment_datetime
+		, payment_card_name, sum(payment_total_price) AS payment_total_price, payment_status
+		FROM ordersView
+		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
+		<if test="!searchKeyword.equals('')">
+			HAVING
+			<choose>
+				<when test="searchType.equals('id')">
+					member_id LIKE #{searchKeyword}
+				</when>
+				<when test="searchType.equals('name')">
+					product_name LIKE '%${searchKeyword}%'
+				</when>
+				<otherwise>
+					1=1
+				</otherwise>
+			</choose>
+		</if>
+		LIMIT #{page.startRow}, #{page.listLimit}
+	</select>
+	
+	<select id="selectPaymentDetail" resultType="refund">
+		SELECT 
+			payment_name, member_name, member_id, sum(quantity) AS quantity
+			, GROUP_CONCAT(product_name) AS product_name, payment_datetime
+			, payment_card_name, sum(payment_total_price) AS payment_total_price, payment_status
+		FROM 
+			ordersView
+		GROUP BY 
+			payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
+		HAVING payment_name = #{payment_name}
+	</select>
+	
+	<update id="updatePaymentBuyCancel">
+		UPDATE payments
+		SET payment_status = 0
+		WHERE payment_name = #{payment_name}
+	</update>
 	
 	<!-- ================ 회원 관리 페이지 ==================== -->
 	
@@ -374,33 +435,6 @@
 			<!-- 검색어가 있다면 -->
 			AND (cs_subject LIKE CONCAT('%', #{searchKeyword}, '%') OR cs_content LIKE CONCAT('%', #{searchKeyword}, '%'))
 		</if>
-	
-<!-- 	<if test="searchKeyword.equals('')"> -->
-		<!-- 검색어가 없다면 -->
-<!-- 		<choose> -->
-<!-- 			<when test="searchType.equals('영화관')"> -->
-<!-- 				AND cs_type_detail = '영화관' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('영화')"> -->
-<!-- 				AND cs_type_detail = '영화' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('예매/결제')"> -->
-<!-- 				AND cs_type_detail = '예매/결제' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('관람권/할인권')"> -->
-<!-- 				AND cs_type_detail = '관람권/할인권' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('개인정보')"> -->
-<!-- 				AND cs_type_detail = '개인정보' -->
-<!-- 			</when> -->
-<!-- 			<when test="searchType.equals('칭찬/불만/제안')"> -->
-<!-- 				AND cs_type_detail = '칭찬/불만/제안' -->
-<!-- 			</when> -->
-<!-- 			<otherwise> -->
-<!-- 				AND 1 = 1 -->
-<!-- 			</otherwise> -->
-<!-- 		</choose> -->
-<!-- 	</if> -->
 		ORDER BY cs_id DESC
  		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
@@ -583,6 +617,56 @@
 <!-- ============================관리자 예매내역 조회 끝=============================== -->	
 
 <!-- =============== 관리자 메인 페이지 차트 =============== -->
+	<!-- 20일 동안 가입한 회원 출력 -->
+	<select id="selectJoinCount" resultType="Map">
+	 	SELECT
+		    date_range.date AS date,
+		    COUNT(members.member_date) AS count
+		FROM
+		    (
+		        SELECT
+		            DATE_SUB(CURDATE() - INTERVAL 1 DAY, INTERVAL (ROW_NUMBER() OVER (ORDER BY member_date ASC) - 1) DAY) AS date
+		        FROM
+		            members
+		        WHERE
+		           member_date BETWEEN CURDATE() - INTERVAL 20 DAY AND CURDATE() - INTERVAL 1 DAY
+		        ORDER BY
+		            date ASC
+		    ) AS date_range
+		LEFT JOIN
+		    members ON DATE(members.member_date) = DATE(date_range.date)
+		GROUP BY
+		    date_range.date
+		ORDER BY
+		    date_range.date ASC;
+	</select>
+	
+	<!-- 10일 동안 매출 출력 -->
+	<select id="selectRevenue" resultType="Map">
+	 	SELECT
+		    date_range.date AS date,
+		    IFNULL(sum(payments.payment_total_price), 0) AS revenue
+		FROM
+		    (
+		        SELECT
+		            DATE_SUB(CURDATE(), INTERVAL (ROW_NUMBER() OVER (ORDER BY payment_datetime ASC) - 1) DAY) AS date
+		        FROM
+		            payments
+		        WHERE
+		           payment_datetime BETWEEN DATE_SUB(CURDATE(), INTERVAL 10 DAY) AND CURDATE() 
+		        ORDER BY
+		            date ASC
+		    ) AS date_range
+		LEFT JOIN
+		    payments ON DATE(payments.payment_datetime) = DATE(date_range.date)
+		GROUP BY
+		    date_range.date
+		HAVING
+		    date_range.date >= DATE_SUB(CURDATE(), INTERVAL 10 DAY)
+		ORDER BY
+		    date_range.date ASC;
+	</select>
+
 	<!-- 7일 단위로 예매된 영화 조회하여 횟수 출력 -->
 	<select id="selectMovieChart">
 		SELECT movie_title, CAST(COUNT(movie_title) AS char) 'count'
@@ -591,6 +675,15 @@
 		GROUP BY movie_title
 		ORDER BY count DESC
 		LIMIT 0,5;
+	</select>
+	
+	<!-- 판매된 상품명과 개수 출력 -->
+	<select id="selectProducts" resultType="map">
+		SELECT product_name, CAST(SUM(quantity) AS CHAR) AS 'quantity'
+		FROM orders_product JOIN products
+		ON orders_product.product_id = products.product_id
+		GROUP BY product_name
+		ORDER BY SUM(quantity) DESC
 	</select>
 
 

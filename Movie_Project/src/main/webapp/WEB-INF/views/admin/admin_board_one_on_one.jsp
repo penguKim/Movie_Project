@@ -83,7 +83,7 @@
 								<a href="" >&laquo;</a>					
 							</c:when>
 							<c:otherwise>
-								<a href="adminOneOnOne?pageNum=${pageNum-1}" >&laquo;</a>
+								<a href="adminOneOnOne?searchType=${param.searchType }&searchKeyword=${param.searchKeyword }&pageNum=${pageNum-1}" >&laquo;</a>
 							</c:otherwise>				
 						</c:choose>
 						<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
@@ -108,7 +108,7 @@
 								<a href="" >&raquo;</a>					
 							</c:when>
 							<c:otherwise>
-								<a href="adminOneOnOne?pageNum=${pageNum+1}" >&raquo;</a>
+								<a href="adminOneOnOne?searchType=${param.searchType }&searchKeyword=${param.searchKeyword }&pageNum=${pageNum+1}" >&raquo;</a>
 							</c:otherwise>				
 						</c:choose>
 					</div>

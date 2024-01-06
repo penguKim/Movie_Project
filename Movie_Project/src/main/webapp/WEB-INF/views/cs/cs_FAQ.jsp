@@ -54,7 +54,11 @@
 			},
 			dataType: "json",
 			success: function(data) {
-				console.log(data.faqList);
+// 				console.log(data.faqList);
+
+				$("#faq_button input").removeClass("btn-active").addClass("btn-inactive");
+				$(".faqButton[name='" + buttonName +"']").removeClass("btn-inactive").addClass("btn-active");
+
 				for(let faq of data.faqList) {
 					let result = 
 						'<div class="faq_list">'
@@ -115,6 +119,8 @@
 		      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 			}
 		});
+		
+		
 
 		
 	}

@@ -88,7 +88,7 @@ public class CsController {
 		// --------------------------------------------------
 		// 페이징
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 5;
+		int listLimit = 10;
 		
 		// 조회 시작 행번호
 		int startRow = (pageNum - 1) * listLimit;
@@ -120,7 +120,7 @@ public class CsController {
 	@GetMapping("csNotice")
 	public String csNotice(CsVO cs, Model model,
 			@RequestParam(defaultValue = "1") int pageNum,
-			@RequestParam(defaultValue = "0") int theater,
+			@RequestParam(defaultValue = "0") int theater_id,
 			@RequestParam(defaultValue = "") String searchValue) {
 		
 		// 공지사항 버튼을 눌렀을 때 cs_type을 공지사항으로 설정
@@ -137,11 +137,11 @@ public class CsController {
 		
 		// CsService - getFaqList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 시작행번호, 목록갯수   리턴타입 : List<HashMap<String, Object>>(noticeList)
-		List<HashMap<String, Object>> noticeList = service.getNoticeList(cs, startRow, listLimit, theater, searchValue);
+		List<HashMap<String, Object>> noticeList = service.getNoticeList(cs, startRow, listLimit, theater_id, searchValue);
 	//	System.out.println(noticeList);
 		
 		// ======================================================
-		int listCount = service.getNoticeCount(cs, theater, searchValue);
+		int listCount = service.getNoticeCount(cs, theater_id, searchValue);
 		int pageListLimit = 5;
 		int maxPage = listCount / listLimit + ((listCount % listLimit) > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;

@@ -59,7 +59,12 @@ public class JoinController {
 	// 회원가입(인증) 페이지로 이동
 	@GetMapping("memberJoin")
 	public String memberJoin(HttpSession session, Model model) {
-
+		if(session.getAttribute("sId") != null) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "main");
+			return "forward";
+		}
+		
         /* 네이버아이디로 인증 URL을 생성하기 위하여 NaverLoginVO클래스의 getAuthorizationUrl메소드 호출 */
         String naverAuthUrl = NaverLoginVO.getAuthorizationUrl(session);
         

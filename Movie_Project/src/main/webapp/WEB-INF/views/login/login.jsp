@@ -10,7 +10,8 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <!-- 네이버 api를 위한 script -->
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<!-- 카카오 api를 위한 script -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -90,12 +91,21 @@ $(function() {
 						<a href="idFind">아이디찾기</a> |
 						<a href="pwFind">비밀번호찾기</a>
 					</div><br>
+					
+					<hr>
 					<!-- 간편로그인 기능 API 참고  -->
 					<section id="api">
-						<a href="#" id="kakao-login-btn"><img src="${pageContext.request.contextPath}/resources/img/카카오버튼.png" value="${sessionScope.sId} width="150px" height="40px"></a>					
-						<!-- 네이버 로그인 버튼 노출 영역 -->
-						<div id="naver_id_login" style="text-align:center"><a href="${url}"><img width="223" src="${pageContext.request.contextPath}/resources/img/네이버버튼.png"/></a></div>
+						<h3>소셜계정으로 로그인하기</h3>
+						<!-- 카카오 로그인 버튼 노출 영역 -->
+						<div id="kakao_id_login" style="text-align:center"><a id="kakao-login-btn" href="javascript:loginWithKakao()">
+						  <img src="${pageContext.request.contextPath}/resources/img/kakao.png" width="70px"/>
+						</a></div>
+						<div id="naver_id_login" style="text-align:center"><a href="${url}"><img src="${pageContext.request.contextPath}/resources/img/naver.png" width="70px"/></a></div>
+						<!-- 구글 로그인 화면으로 이동 시키는 URL -->
+						<!-- 구글 로그인 화면에서 ID, PW를 올바르게 입력하면 oauth2callback 메소드 실행 요청-->
+						<div id="google_id_login" style="text-align:center"><a href="${google_url}"><img src="${pageContext.request.contextPath}/resources/img/google.png" width="70px"/></a></div>
 					</section>
+					<hr>
 				</div>
 			</form>
 		</section>

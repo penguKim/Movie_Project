@@ -57,7 +57,7 @@
 	
 			<form  action="memberJoinForm" method="post" name="joinAgree">
 				<hr>
-				<h3 id="join_top">약관 및 정보활용 동의</h3>
+				<h2 id="join_top">약관 및 정보활용 동의</h2>
 				<label><input type="checkbox" id="agreeAll">전체동의</label> <br>
 				<hr>
 				<section id="agree" name="agree">
@@ -135,7 +135,7 @@
 ※ 일부 서비스의 경우, 수신에 대해 별도로 안내 드리며, 동의를 구합니다.</textarea> <br> <br>
 				</section>
 				<div class="joinbtn">
-					<a href="join_certification.jsp"><input type="button" value="이전"></a>
+					<input type="button" value="이전" onclick="history.back()">
 					<a href="join_form.jsp" ><input type="submit" value="다음"></a>
 				</div>
 				<hr>

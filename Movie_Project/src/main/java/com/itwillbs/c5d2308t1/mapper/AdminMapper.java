@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Mapper
@@ -160,8 +162,31 @@ public interface AdminMapper {
 	//상세리뷰 조회
 	List<ReviewsVO> selectReviewDlt(ReviewsVO review);
 
+	// 관리자 페이지 회원가입 차트
+	List<HashMap<String, Object>> selectJoinCount();
+	
+	// 관리자 페이지 일별매출 차트
+	List<HashMap<String, Object>> selectRevenue();
+	
 	// 관리자 페이지 영화 차트
 	List<Map<String, String>> selectMovieChart();
+	
+	// 관리자 페이지 상품 차트
+	List<Map<String, String>> selectProducts();
+	
+	
+	// =========================== 상품 결제 관리 게시판 ===========================
+	// 결제 관리 게시물 리스트 카운트
+	int selectPaymentListCount(@Param("searchType") String searchType,@Param("searchKeyword") String searchKeyword);
+	
+	// 결제 관리 게시물 목록 조회
+	List<RefundVO> selectPaymentList(@Param("searchType") String searchType,@Param("searchKeyword") String searchKeyword,@Param("page") PageDTO page);
+	
+	// 결제 관리 게시물 상세 페이지
+	RefundVO selectPaymentDetail(Map<String, String> map);
+	
+	// 결제 관리 상세페이지 결제취소 요청 작업
+	int updatePaymentBuyCancel(Map<String, String> map);
 		
 
 

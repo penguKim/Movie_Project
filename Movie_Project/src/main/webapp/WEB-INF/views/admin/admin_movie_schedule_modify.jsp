@@ -100,7 +100,7 @@
 									let play_date = $("#play_date").val();
 									console.log(room_id +", "+ play_date);
 									
-								    let timeOption = [];
+								    let timeOption = []; // 상영 시간 모든 옵션 담을 배열 생성
 								    
 								    
 									$.ajax({
@@ -161,18 +161,18 @@
 						 						// ---------- 선택한 영화를 남은 시간에 등록할 수 있는지 판단 ------
 						 						// disabled 여부를 true/false로 반환
 						 						// disabled면(선택불가능) true / 선택가능이면 false
-						 						let isdisabled = [];
+						 						let isDisabled = []; // 선택한 영화 등록 가능 여부 담을 배열 생성(true: 선택불가능 / false: 선택가능)
 						 						for(let i = 0; i < timeOption.length; i++) {
 						 							if($("#play_start_time option").eq(i).attr("disabled")) { // disabled가 맞으면
-						 								isdisabled.push(true);	
+						 								isDisabled.push(true);	
 						 							} else { // disabled가 아니면
-						 								isdisabled.push(false);	
+						 								isDisabled.push(false);	
 						 							}
 						 						}
 						 						// 시간이 겹쳐 선택할 수 없는 영화를 판별하는 함수 호출
 						 						$("#play_start_time").click(function() {
-						 							selecable(isdisabled);
-							 						console.log(isdisabled);
+						 							selectable(isDisabled);
+							 						console.log(isDisabled);
 						 						});				
 
 											} // if-else문 끝 
@@ -193,9 +193,9 @@
 					});
 				});
 			
-				
-				function selecable(isdisabled) {
-					console.log(isdisabled);
+				// 상영 시간이 겹쳐 선택할 수 없는 영화를 판별하는 함수 정의
+				function selectable(isDisabled) {
+					console.log(isDisabled);
 					// 선택한 영화의 러닝타임을 가져와서 시간 단위로 나누기
 					let movie_id = $("#movie_id").val();
 						
@@ -209,26 +209,26 @@
 							let movie_runtime = result.movie_runtime;
 								
 							// 러닝타임을 60분으로 나눈 다음 몫을 구한 다음 +1을 해주면
-							// 시간 셀렉트박에스에 몇 칸을 차지하는지 알 수 있다
+							// 시간 셀렉트박스에 몇 칸을 차지하는지 알 수 있다
 							// (78분 영화의 경우 1.xxx가 나오므로 2타임을 차지한다!)
 							let movieTime = Math.floor(movie_runtime / 60) + 1;
 							
 							// 선택한 영화가 차지하는 칸 movieTime (2 또는 3)
 							// disabled면(선택불가능) true / 선택가능이면 false인
-							// isdisabled 배열이 있음
-							// movieTime이 2인 경우 = isdisabled[i], isdisabled[i+1] 중 하나라도 선택 불가능하면 글자 색상 변경
-							// movieTime이 3인 경우 = isdisabled[i], isdisabled[i+1], isdisabled[i+2] 중 하나라도 선택 불가능하면 글자 색상 변경
+							// isDisabled 배열이 있음
+							// movieTime이 2인 경우 = isDisabled[i], isDisabled[i+1] 중 하나라도 선택 불가능하면 글자 색상 변경
+							// movieTime이 3인 경우 = isDisabled[i], isDisabled[i+1], isDisabled[i+2] 중 하나라도 선택 불가능하면 글자 색상 변경
 							console.log("몇타임인지 : " + movieTime);
 							
 							if(movieTime == 2) { // 0번 인덱스가 ''인데?
-								for(let i = 0; i < isdisabled.length; i++) {
-									if(isdisabled[i] || isdisabled[i+1]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
+								for(let i = 0; i < isDisabled.length; i++) {
+									if(isDisabled[i] || isDisabled[i+1]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
 										$("#play_start_time option").eq(i).attr("disabled", true);
 									}
 								}
 							} else if(movieTime == 3) {
-								for(let i = 0; i < isdisabled.length; i++) {
-									if(isdisabled[i] || isdisabled[i+1] || isdisabled[i+2]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
+								for(let i = 0; i < isDisabled.length; i++) {
+									if(isDisabled[i] || isDisabled[i+1] || isDisabled[i+2]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
 										$("#play_start_time option").eq(i).attr("disabled", true);
 									}
 								}
@@ -362,18 +362,6 @@
 			
 		});
 	});
-		
-	$(function() {		
-		// 삭제 버튼 클릭 시 이벤트 처리
-		$("#btnDelete").on("click", function() {
-			if(confirm("상영 일정을 삭제하시겠습니까?")) {
-				return true;
-			} else {
-				return false;
-			}
-		});		
-	});
-	
 	
 	$(function() {
 		// 수정 버튼을 클릭할 경우
@@ -605,18 +593,18 @@
 						 						// ---------- 선택한 영화를 남은 시간에 등록할 수 있는지 판단 ------
 						 						// disabled 여부를 true/false로 반환
 						 						// disabled면(선택불가능) true / 선택가능이면 false
-						 						let isdisabled = [];
+						 						let isDisabled = [];
 						 						for(let i = 0; i < timeOption.length; i++) {
 						 							if($("#play_start_time_mod option").eq(i).attr("disabled")) { // disabled가 맞으면
-						 								isdisabled.push(true);	
+						 								isDisabled.push(true);	
 						 							} else { // disabled가 아니면
-						 								isdisabled.push(false);	
+						 								isDisabled.push(false);	
 						 							}
 						 						}
 						 						// 시간이 겹쳐 선택할 수 없는 영화를 판별하는 함수 호출
 						 						$("#modifyStart").click(function() {
-						 							selecable(isdisabled);
-							 						console.log(isdisabled);
+						 							selectable(isDisabled);
+							 						console.log(isDisabled);
 						 						});				
 
 											}, // success 끝
@@ -638,8 +626,8 @@
 					
 					
 					
-					function selecable(isdisabled) {
-						console.log(isdisabled);
+					function selectable(isDisabled) {
+						console.log(isDisabled);
 						// 선택한 영화의 러닝타임을 가져와서 시간 단위로 나누기
 						let movie_id = $("#modifyMovie").val();
 							
@@ -659,20 +647,20 @@
 								
 								// 선택한 영화가 차지하는 칸 movieTime (2 또는 3)
 								// disabled면(선택불가능) true / 선택가능이면 false인
-								// isdisabled 배열이 있음
-								// movieTime이 2인 경우 = isdisabled[i], isdisabled[i+1] 중 하나라도 선택 불가능하면 글자 색상 변경
-								// movieTime이 3인 경우 = isdisabled[i], isdisabled[i+1], isdisabled[i+2] 중 하나라도 선택 불가능하면 글자 색상 변경
+								// isDisabled 배열이 있음
+								// movieTime이 2인 경우 = isDisabled[i], isDisabled[i+1] 중 하나라도 선택 불가능하면 글자 색상 변경
+								// movieTime이 3인 경우 = isDisabled[i], isDisabled[i+1], isDisabled[i+2] 중 하나라도 선택 불가능하면 글자 색상 변경
 								console.log("몇타임인지 : " + movieTime);
 								
 								if(movieTime == 2) { // 0번 인덱스가 ''인데?
-									for(let i = 0; i < isdisabled.length; i++) {
-										if(isdisabled[i] || isdisabled[i+1]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
+									for(let i = 0; i < isDisabled.length; i++) {
+										if(isDisabled[i] || isDisabled[i+1]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
 											$("#modifyStart option").eq(i).attr("disabled", true);
 										}
 									}
 								} else if(movieTime == 3) {
-									for(let i = 0; i < isdisabled.length; i++) {
-										if(isdisabled[i] || isdisabled[i+1] || isdisabled[i+2]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
+									for(let i = 0; i < isDisabled.length; i++) {
+										if(isDisabled[i] || isDisabled[i+1] || isDisabled[i+2]) { // 연달아 있는 2칸중 한 칸이라도 선택 불가능하면(true)
 											$("#modifyStart option").eq(i).attr("disabled", true);
 										}
 									}
@@ -768,7 +756,7 @@
 			var start = $("#modifyStart").val();
 			var end = $("#modifyEnd").val();
 			
-			// 다시 수정 버튼을 눌렀을 때 작동하는 ajax
+			// 완료 버튼(기존 수정 버튼)을 눌렀을 때 작동하는 ajax
 			$(".btnModify").on("click", function() {
 				
 				console.log(play_id + ", " + room + ", " + movie + ", " + date + ", " + start + ", " + end)
@@ -804,8 +792,46 @@
 			
 		});// 수정 버튼을 클릭할 경우 끝
 
-	
 	});	
+	
+
+	// 삭제 버튼 클릭 시	
+	function confirmDelete(play_id) {
+		if(confirm("상영 일정을 삭제하시겠습니까?")) {
+			console.log(play_id);
+
+			// 확인 클릭 시 ajax 요청을 통해 삭제 작업 처리
+	        $.ajax({
+	        	type: "post",
+	        	url: "deletePlay",
+	        	data: {
+	        		play_id: play_id
+	        	},
+	        	success: function(result) {
+	        		console.log(result);
+	        		if(result == "success") {
+        				alert("상영 일정 삭제에 성공했습니다!");
+        				location.href = location.href;
+        				
+	        		} else if(result == "fail") {
+        				alert("상영 일정 삭제에 실패했습니다!");
+        				location.href = location.href;
+	        		} else if(result == "invalidSession") {
+        				alert("상영 일정 삭제 권한이 없습니다!");
+	        			location.href = "memberLogin";
+	        		}
+	        	},
+	        	error: function(xhr, textStatus, errorThrown) {
+	        		alert("ajax 삭제 요청 실패!");
+	        	}
+	        });
+			
+		} else {
+			return;
+		}
+		
+	}
+
 	
 </script>
 </head>
@@ -915,10 +941,8 @@
 								<input type="button" value="수정" class="btnModify">
 							</td>
 							<td>
-								<form action="deletePlay" method="post" id="deletePlay">
-									<input type="hidden" value="${play.play_id}" name="play_id" id="play_id">
-									<input type="submit" value="삭제" id="btnDelete">
-								</form>	
+								<input type="hidden" value="${play.play_id}" name="play_id" id="play_id">
+								<input type="button" value="삭제" id="btnDelete_${play.play_id }" onclick="confirmDelete(${play.play_id })">
 							</td>
 						</tr>
 					</c:forEach>
