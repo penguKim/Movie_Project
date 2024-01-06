@@ -278,11 +278,21 @@ public class AdminService {
 
 
 	// ****************** 관리자 메인 차트 *********************
+
+	// (차트)일일 가입 회원수 알아보기
+	public List<HashMap<String, Object>> getJoinCount() {
+		return mapper.selectJoinCount();
+	}
 	
+	// (차트)영화 예매 비율 알아보기
 	public List<Map<String, String>> getMovieChart() {
 		return mapper.selectMovieChart();
 	}
-
+	
+	// (차트)상품 판매량 알아보기
+	public List<Map<String, String>> productCount() {
+		return mapper.selectProducts();
+	}
 	// ==================상품 결제 관리 게시판 ==================================
 	public int getPaymentListCount(String searchType, String searchKeyword) {
 		return mapper.selectPaymentListCount(searchType, searchKeyword);

@@ -33,13 +33,13 @@ public class CsService {
 	}
 	
 	// 공지사항 목록 조회 요청 및 페이징
-	public List<HashMap<String, Object>> getNoticeList(CsVO cs, int startRow, int listLimit, int theater, String searchValue) {
-		return mapper.selectNoticeList(cs, startRow, listLimit, theater, searchValue);
+	public List<HashMap<String, Object>> getNoticeList(CsVO cs, int startRow, int listLimit, int theater_id, String searchValue) {
+		return mapper.selectNoticeList(cs, startRow, listLimit, theater_id, searchValue);
 	}
 	
 	// 고객센터 항목별 목록 갯수 조회 요청
-	public int getNoticeCount(CsVO cs, int theater, String searchValue) {
-		return mapper.selectNoticeCount(cs, theater, searchValue);
+	public int getNoticeCount(CsVO cs, int theater_id, String searchValue) {
+		return mapper.selectNoticeCount(cs, theater_id, searchValue);
 	}
 	
 	// 자주묻는질문 항목별 목록 갯수 조회 요청

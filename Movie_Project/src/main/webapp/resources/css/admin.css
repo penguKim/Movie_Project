@@ -399,10 +399,9 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 .chart {
 	width: 550px;
 	display: inline-block;
+	margin: 20px;
+	margin-bottom: 40px;
 }
-
-
-
 
 
 /* =============== 상영일정관리 ==================== */

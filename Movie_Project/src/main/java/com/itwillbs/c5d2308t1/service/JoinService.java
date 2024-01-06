@@ -1,6 +1,8 @@
 package com.itwillbs.c5d2308t1.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,10 +67,6 @@ public class JoinService {
 		return mapper.selectMember(member);
 	}
 
-	// (차트)일일 가입 회원수 알아보기
-	public int getJoinCount(String date) {
-		return mapper.selectJoinCount(date);
-	}
 
 	
 }

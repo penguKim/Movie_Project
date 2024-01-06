@@ -20,6 +20,4 @@ public interface JoinMapper {
 	// 회원정보 불러오기
 	Integer selectMember(MemberVO member);
 
-	int selectJoinCount(@RequestParam("date") String date);
-
 }

@@ -13,71 +13,55 @@
 <script>
 	// 일일 가입자수 차트
 	$(function() {
-		// 10일 간의 날짜를 계산하기
-		function getFormattedDates() {
-		const today = new Date();
-		const formattedDates = [];
-	
-			for (let i = 1; i <= 30; i++) {
-				const pastDate = new Date(today.getTime() - (i * 24 * 60 * 60 * 1000));
-				const formattedDate = pastDate.toISOString().split('T')[0];
-				formattedDates.push(formattedDate);
-			}
-	
-			return formattedDates;
-		}
-	
-		const formattedDates = getFormattedDates().reverse();
-		const queryString = "formattedDate=" + formattedDates.join(",");
-	
-		function drawChart(counts) {
-			const date = [];
-	
-			for (let i = 0; i < counts.length; i++) {
-				date.push(formattedDates[i]);
-			}
-	
-			new Chart("joinCount", {
-				type: "line",
-				data: {
-					labels: date,
-					datasets: [
-						{
-							fill: false,
-							pointRadius: 1,
-							borderColor: "rgba(255,0,0,0.5)",
-							data: counts,
-						},
-					],
-				},
-				options: {
-					legend: { display: false },
-					title: {
-						display: true,
-						text: date[0] + " ~ " + date[29],
-						fontSize: 16,
-					},
-					scales : {
-						yAxes : [ {
-							ticks : {
-								beginAtZero : true, // 0부터 시작하게 합니다.
-								stepSize: 1   // 1 씩 증가하도록 설정합니다.
-							}
-						} ]
-					}
-				},
-			});
-		}
-	
+		
+		const xValues = [];
+		const yValues = [];
+
 		// ajax를 이용하여 db에서 일일가입자수를 불러옴
 		$.ajax({
 			type: "GET",
 			url: "joinCount",
-			data: {
-				"formattedDate": queryString,
-			},
+			dataType: "json",
 			success: function(result) {
-				drawChart(result);
+				
+				for(let i = 0; i < result.counts.length-1; i++) {
+				    let date = result.counts[i].date;
+				    let count = result.counts[i].count;
+				
+				    xValues.push(date);
+				    yValues.push(count);
+				}
+
+				new Chart("joinCount", {
+					type: "line",
+					data: {
+						labels: xValues, //날짜
+						datasets: [
+							{
+								fill: false,
+								pointRadius: 1,
+								borderColor: "rgba(255,0,0,0.5)",
+								data: yValues, //회원수
+							},
+						],
+					},
+					options: {
+						legend: { display: false },
+						title: {
+							display: true,
+							fontSize: 16
+						},
+						scales : {
+							yAxes : [ {
+								ticks : {
+									beginAtZero : true, // 0부터 시작하게 합니다.
+									stepSize: 1   // 1 씩 증가하도록 설정합니다.
+								}
+							} ]
+						}
+					},
+				});
+				
 			},
 			error: function(request, status, error) {
 				console.log("AJAX 요청 실패:", error);
@@ -85,6 +69,50 @@
 		});
 	});
 	
+</script>
+<script type="text/javascript">
+	// 인기 상품 차트
+	$(function() {
+		const xValues = [];
+		const yValues = [];
+		const barColors = ["#FF4633", "#39DB54","#009CF7","#F99E27","#FC4E7C"];
+		
+		// ajax를 이용하여 db에서 상품종류/판매수량 불러오기
+		$.ajax({
+			type: "GET",
+			url: "productCount",
+			success: function(result) {
+				for(let i = 0; i < result.length; i++) {
+					xValues.push(result[i].product_name);
+					yValues.push(result[i].quantity);
+				}
+				
+				new Chart("productCount", {
+					type: "bar",
+					data: {
+						labels: xValues, //상품명
+						datasets: [{
+							backgroundColor: barColors,
+							data: yValues //구매 횟수
+						}]
+					},
+					options: {
+						legend: {display: false},
+						title: {
+							display: false,
+							text: "현재까지 팔린 상품",
+							fontSize: 16
+						}
+					}
+				});
+				
+				
+			},
+			error: function(request, status, error) {
+				console.log("AJAX 요청 실패:", error);
+	    	},
+		});
+});
 </script>
 <script type="text/javascript">
 	$(function() {
@@ -115,7 +143,7 @@
 					xValues.push(result[i].movie_title);
 					yValues.push(result[i].count);
 				}
-				new Chart("myChart", {
+				new Chart("movieCount", {
 					type: "pie",
 					data: {
 						labels: xValues, <%-- 영화 제목 배열 --%>
@@ -150,12 +178,16 @@
 			<hr>
 			<div id="admin_main">
 				<div class="chart">
-					<h1>일일가입자수</h1>
+					<h2>일일가입자수</h2>
 					<canvas id="joinCount" style="width:100%;max-width:550px"></canvas>
 				</div>
 				<div class="chart">
-					<h1>인기 영화 차트</h1>
-					<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+					<h2>인기 영화 차트</h2>
+					<canvas id="movieCount" style="width:100%;max-width:550px"></canvas>
+				</div>
+				<div class="chart">
+					<h2>인기 상품 차트</h2>
+					<canvas id="productCount" style="width:100%;max-width:550px"></canvas>
 				</div>
 			</div>					
 		</section>

@@ -69,7 +69,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		return "admin/admin_main";
@@ -78,25 +79,31 @@ public class AdminController {
 	// 차트를 만들기 위해 회원정보 불러오기
 	@ResponseBody
 	@GetMapping("joinCount")
-	public int[] joinCount(@RequestParam("formattedDate") List<String> formattedDate, Model model) {
+	public String joinCount() {
 		
-		System.out.println(formattedDate);
-		int[] counts = new int[formattedDate.size()];
+		// 일별 가입 회원 불러오기
+		List<HashMap<String, Object>> counts = service.getJoinCount();
+		System.out.println("counts 차트만드거임 = " + counts);
 		
-		for (int i = 0; i < formattedDate.size(); i++)  {
-			String date = formattedDate.get(i);
-			int count = join.getJoinCount(date);
-			
-			counts[i] = count;
-			
-		}
-		System.out.println("counts: " + Arrays.toString(counts));
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 마지막 페이지 번호 Map 객체에 추가
+		map.put("counts", counts);
 		
-		model.addAttribute("counts", counts);
-		
-		return counts;
+		JSONObject jsonObject = new JSONObject(map);
+		System.out.println("jsonObject = " + jsonObject);
+
+		return jsonObject.toString();
 	}
 	
+	// 차트를 만들기 위해 상품종류/판매량 불러오기
+	@ResponseBody
+	@GetMapping("productCount")
+	public List<Map<String, String>> products() {
+		// 상품명과 판매수량을 7일 단위로 조회
+		List<Map<String, String>> products = service.productCount();
+		
+		return products;
+	}
 	
 	// 영화 차트 조회
 	@ResponseBody
@@ -955,14 +962,15 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// 자주묻는질문 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
 		cs.setCs_type("자주묻는질문");
 		
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 5;
+		int listLimit = 15;
 		
 		// 조회 시작 행번호
 		int startRow = (pageNum - 1) * listLimit;
@@ -1000,7 +1008,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		return "admin/admin_board_faq_write";
@@ -1013,7 +1022,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		int insertCount = service.registBoard(cs);
@@ -1040,7 +1050,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 
 		HashMap<String, Object> faqDetail = service.boardfaqDetailPage(cs);
@@ -1056,7 +1067,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// DB에 등록되어있는 값 가져오기
@@ -1074,7 +1086,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// AdminService - registBoard() 메서드 호출하여 문의글 수정 요청
@@ -1102,7 +1115,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		HashMap<String, Object> board = service.boardfaqDetailPage(cs);
@@ -1133,14 +1147,15 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// 공지사항 버튼을 눌렀을 때 cs_type을 자주묻는질문으로 설정
 		cs.setCs_type("공지사항");
 		
 		// 한 페이지에서 표시할 글 목록 갯수 지정 (테스트)
-		int listLimit = 5;
+		int listLimit = 15;
 		
 		// 조회 시작 행번호
 		int startRow = (pageNum - 1) * listLimit;
@@ -1179,7 +1194,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		return "admin/admin_board_notice_write";
@@ -1191,7 +1207,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// CsService - registBoard() 메서드 호출하여 문의글 등록 요청
@@ -1219,7 +1236,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 
 		HashMap<String, Object> noticeDetail = service.boardNoticeDetailPage(cs);
@@ -1237,7 +1255,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// DB에 등록되어있는 값 가져오기
@@ -1255,7 +1274,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 
 		int updateCount = service.updateBoard(cs);
@@ -1279,7 +1299,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		HashMap<String, Object> board = service.boardfaqDetailPage(cs);

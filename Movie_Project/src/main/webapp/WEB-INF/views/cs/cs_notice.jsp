@@ -15,12 +15,19 @@
 	
 	// 지점명 불러오기
 	$(function() {
+		let urlParams = new URL(location.href).searchParams;
+		let theater_id = urlParams.get('theater_id');
+// 		console.log(theater_id);
 		$.ajax({
 			type: "GET",
 			url: "getTheater",
 			success: function(result) {
 				for(let theater of result) {
-				$("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
+					if(theater_id != 0 && theater.theater_id == theater_id) {
+	                    $("#theater_id").append("<option value='" + theater.theater_id + "' selected>" + theater.theater_name + "</option>");
+	                } else {
+	                    $("#theater_id").append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
+	                }
 				}
 			},
 			error: function(request,status,error) {
@@ -55,7 +62,7 @@
 			
 			<section id="notice_main">
 				<form action="csNotice" id="search">
-					<select id="theater_id" name="theater">
+					<select id="theater_id" name="theater_id">
 						<option value="0">전체</option> <%-- 전체 지점 공지사항 보기 --%>
 					</select>
 					<input type="search" placeholder="제목으로 검색하기" id="searchValue" name="searchValue" value="${param.searchValue}"> <%-- 검색어 입력창 --%>

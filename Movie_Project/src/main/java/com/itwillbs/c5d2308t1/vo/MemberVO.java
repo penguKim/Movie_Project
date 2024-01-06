@@ -16,8 +16,6 @@ import lombok.Data;
 회원전화번호(member_phone) - VARCHAR(11),NN		
 회원상태(member_status) - INT			
 회원비밀번호(member_pass) - VARCHAR(20), NN		
-회원선호장르(member_like_genre) - VARCHAR(20)			
-극장코드(theater_id) - INT, FK(theaters)
 회원성별(member_gender) - VARCHAR(5)	
 -----------------------------------------
 create table members (
@@ -29,8 +27,6 @@ create table members (
 	member_phone VARCHAR(11) not null,
 	member_status INT,
 	member_pass VARCHAR(20) not null,
-	member_like_genre VARCHAR(20),
-	theater_id INT,
 	member_gender VARCHAR(5),
 	FOREIGN KEY(theater_id) REFERENCES theaters(theater_id)
 )

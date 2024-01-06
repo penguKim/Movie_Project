@@ -599,6 +599,30 @@
 <!-- ============================관리자 예매내역 조회 끝=============================== -->	
 
 <!-- =============== 관리자 메인 페이지 차트 =============== -->
+	<!-- 30일 동안 가입한 회원 출력 -->
+	<select id="selectJoinCount" resultType="Map">
+	 	SELECT
+		    date_range.date AS date,
+		    COUNT(members.member_date) AS count
+		FROM
+		    (
+		        SELECT
+		            DATE_SUB(CURDATE() - INTERVAL 1 DAY, INTERVAL (ROW_NUMBER() OVER (ORDER BY member_date ASC) - 1) DAY) AS date
+		        FROM
+		            members
+		        WHERE
+		           member_date BETWEEN CURDATE() - INTERVAL 20 DAY AND CURDATE() - INTERVAL 1 DAY
+		        ORDER BY
+		            date ASC
+		    ) AS date_range
+		LEFT JOIN
+		    members ON DATE(members.member_date) = DATE(date_range.date)
+		GROUP BY
+		    date_range.date
+		ORDER BY
+		    date_range.date ASC;
+	</select>
+
 	<!-- 7일 단위로 예매된 영화 조회하여 횟수 출력 -->
 	<select id="selectMovieChart">
 		SELECT movie_title, CAST(COUNT(movie_title) AS char) 'count'
@@ -607,6 +631,15 @@
 		GROUP BY movie_title
 		ORDER BY count DESC
 		LIMIT 0,5;
+	</select>
+	
+	<!-- 판매된 상품명과 개수 출력 -->
+	<select id="selectProducts" resultType="map">
+		SELECT product_name, CAST(SUM(quantity) AS CHAR) AS 'quantity'
+		FROM orders_product JOIN products
+		ON orders_product.product_id = products.product_id
+		GROUP BY product_name
+		ORDER BY SUM(quantity) DESC
 	</select>
 
 

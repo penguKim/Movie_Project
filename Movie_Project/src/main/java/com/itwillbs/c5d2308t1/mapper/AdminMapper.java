@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.vo.CsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
@@ -161,8 +162,14 @@ public interface AdminMapper {
 	//상세리뷰 조회
 	List<ReviewsVO> selectReviewDlt(ReviewsVO review);
 
+	// 관리자 페이지 회원가입 차트
+	List<HashMap<String, Object>> selectJoinCount();
+	
 	// 관리자 페이지 영화 차트
 	List<Map<String, String>> selectMovieChart();
+	
+	// 관리자 페이지 상품 차트
+	List<Map<String, String>> selectProducts();
 	
 	
 	// =========================== 상품 결제 관리 게시판 ===========================
@@ -171,6 +178,7 @@ public interface AdminMapper {
 	
 	// 결제 관리 게시물 목록 조회
 	List<RefundVO> selectPaymentList(@Param("searchType") String searchType,@Param("searchKeyword") String searchKeyword,@Param("page") PageDTO page);
+
 		
 
 

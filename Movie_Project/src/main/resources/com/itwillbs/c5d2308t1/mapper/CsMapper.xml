@@ -42,8 +42,8 @@
 		LEFT OUTER JOIN theaters
 		ON cs.theater_id = theaters.theater_id
 		WHERE cs_type = #{cs.cs_type}
-		<if test="theater != ''">
-			AND cs.theater_id = #{theater}
+		<if test="theater_id != ''">
+			AND cs.theater_id = #{theater_id}
 		</if>
 		<if test="searchValue != ''">
 			AND cs_subject LIKE '%${searchValue}%'
@@ -59,8 +59,8 @@
 		SELECT COUNT(*) 
 		FROM cs
 		WHERE cs_type = #{cs.cs_type}
-			<if test="theater != 0">
-				AND cs.theater_id = #{theater}
+			<if test="theater_id != 0">
+				AND theater_id = #{theater_id}
 			</if>
 			<if test="searchValue != ''">
 				AND cs_subject LIKE '%${searchValue}%'
