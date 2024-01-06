@@ -35,7 +35,7 @@
 			<div id="admin_main">
 				<table border="1">
 					<tr>
-						<th width="100">결제 번호</th>
+						<th width="100">주문 번호</th>
 						<td></td>
 					</tr>
 					<tr>
@@ -52,7 +52,6 @@
 					<tr>
 						<th>결제일</th>
 						<td></td>
-					</tr>
 					</tr>
 					<tr>
 						<th>결제 방법</th>

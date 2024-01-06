@@ -61,6 +61,7 @@ public class AdminController {
 	@Autowired
 	JoinService join;
 	
+	
 	// 메인 페이지로 이동하기
 	@GetMapping("adminMain")
 	public String adminMain(HttpSession session, Model model) {
@@ -492,13 +493,16 @@ public class AdminController {
 		public String movieBooking() {
 			return "";
 		}
+		
+	
+		
+	
 	// ===========================================================================================
-	// ******************** 스토어 결제 관리 페이지 *************
+	// ********************************* 관리자 페이지 스토어 상품 관리 페이지***********************
 	// 관리자페이지 스토어 상품 관리 페이지로 이동
 	@GetMapping("adminProduct")
 	public String adminProduct(HttpSession session, Model model, 
 			@RequestParam(defaultValue = "1") int pageNum,
-			@RequestParam(defaultValue = "") String searchType,
 			@RequestParam(defaultValue = "") String searchKeyword) {
 		
 		// 관리자가 아니면 등록을 하지 못하도록 하기
@@ -508,13 +512,17 @@ public class AdminController {
 			return "fail_back";
 		}
 		
+		System.out.println("올라가라 너는~~~~~~~~~~~~~~~~~" + searchKeyword);
+		
 		PageDTO page = new PageDTO(pageNum, 5);
 		// 전체 게시글 갯수 조회
 		int listCount = storeService.getProductListCount(searchKeyword);
+		
+		System.out.println("listCount ~~~~~~~~~~~~~~~~~~~ " + listCount);
 		// 페이징 처리
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		// 모든 상품 조회
-		List<StoreVO> storeList = storeService.getStoreList(searchType, searchKeyword, page);
+		List<StoreVO> storeList = storeService.getStoreList(searchKeyword, page);
 		
 		model.addAttribute("storeList", storeList);
 		model.addAttribute("pageInfo", pageInfo);
@@ -551,6 +559,11 @@ public class AdminController {
 	// 관리자페이지 스토어상품 관리 상품 등록
 	@PostMapping("adminProductInsert")
 	public String productInsert(HttpSession session, StoreVO store, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
 		
 		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
 		String saveDir = session.getServletContext().getRealPath(uploadDir); // 세션도 가능(마침 request 객체 호출해서 사용했음)
@@ -606,6 +619,11 @@ public class AdminController {
 	// 관리자페이지 스토어 상품관리 상품 상세페이지로 이동
 	@GetMapping("adminProductDtl")
 	public String adminProductDtl(HttpSession session, Model model, StoreVO store) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
 		
 		// 관리자 페이지 상품 조회를 위한 SELECT
 		StoreVO product = storeService.getStore(store.getProduct_id());
@@ -624,19 +642,13 @@ public class AdminController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
-		
 		StoreVO product = storeService.getStore(store.getProduct_id());
-		
 		int resultDel = storeService.adminProductDel(store); 
-//		int resultDel = 1; 
 		if(resultDel > 0) {
 			try {
-				// [ 서버에서 파일 삭제 ]
-				// 실제 업로드 경로 알아내기
 				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
 				String saveDir = session.getServletContext().getRealPath(uploadDir);
 				String fileName = product.getProduct_img();
-				
 				if(!fileName.equals("")) {
 					Path path = Paths.get(saveDir + "/" + fileName);
 					Files.deleteIfExists(path);
@@ -654,13 +666,13 @@ public class AdminController {
 	
 	@ResponseBody
 	@PostMapping("ProductDeleteFile")
-	public String deleteFile(StoreVO store, HttpSession session) {
-//		System.out.println(board.getBoard_num() + ", " + board.getBoard_file1());
-		
-		// BoardService - removeBoardFile() 메서드 호출하여 지정된 파일명 삭제 요청
-		// => 파라미터 : BoardVO 객체   리턴타입 : int(removeCount)
+	public String deleteFile(StoreVO store, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
 		int removeCount = storeService.removeProductImg(store);
-//		System.out.println(removeCount);
 		try {
 			if(removeCount > 0) { // 레코드의 파일명 삭제(수정) 성공 시
 				// 서버에 업로드 된 실제 파일 삭제
@@ -724,8 +736,6 @@ public class AdminController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			
 			// 글목록(BoardList) 서블릿 리다이렉트
 			return "redirect:/adminProduct";
 		} else {
@@ -734,20 +744,25 @@ public class AdminController {
 			return "fail_back";
 		}
 	}
-	
+	// ******************** 스토어 결제 관리 페이지 ************************************
 	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")
-	public String adminPayment() {
-		return "admin/admin_payment";
+	public String adminPayment(HttpSession session, Model model, 
+			@RequestParam(defaultValue = "1") int pageNum) {
+		
+		
+		return "admin/admin_payment_list";
 	}
 	
 	// 관리자페이지 스토어 결제 상세 조회 및 취소 페이지로 이동
 	@GetMapping("adminPaymentDtl")
 	public String adminPaymentDtl() {
-		return "admin/admin_payment_detail";
+		
+		
+		return "admin/admin_payment_list_detail";
 	}
-	
+	// ===========================================================================================
 	
 	
 	

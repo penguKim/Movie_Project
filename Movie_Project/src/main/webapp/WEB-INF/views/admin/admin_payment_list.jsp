@@ -35,13 +35,19 @@
 			
 			<div id="admin_main">
 				<div id="pay_Search">
-					<input type="text" placeholder="조회할 아이디 입력">
-					<input type="button" value="조회" onclick="btnLookup()">
-				</div>
+						<select name="searchType">
+							<option value="pro_id" <c:if test="${param.searchType eq 'pro_id'}">selected</c:if>>상품번호</option> 
+							<option value="pro_name" <c:if test="${param.searchType eq 'pro_name'}">selected</c:if>>상품명</option>
+						</select>
+						<input type="text" name="searchKeyword" placeholder="조회할 내용 입력" >
+						<input type="submit" value="조회">
+						<input type="button" value="상품 등록" onclick = "location.href='adminProductWrite'">
+					</div>
 				<table border="1" width="1100">
 					<tr>
-						<th>결제번호</th>
-						<th>아이디</th>
+						<th>주문번호</th>
+						<th>상품이름</th>
+						<th>회원ID</th>
 						<th>결제일시</th>
 						<th>결제상태</th>
 						<th>결제내역 상세보기</th>
@@ -50,50 +56,9 @@
 						
 <%-- 					</c:forEach> --%>
 					<tr>
-						<td>13251245</td>
-						<td>member_id</td>
-						<td>payment_datetime</td>
-						<td>payment_status</td>
-						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
-					</tr>
-					<tr>
-						<td>13251245</td>
-						<td>member_id</td>
-						<td>payment_datetime</td>
-						<td>payment_status</td>
-						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
-					</tr>
-					<tr>
-						<td>13251245</td>
-						<td>member_id</td>
-						<td>payment_datetime</td>
-						<td>payment_status</td>
-						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
-					</tr>
-					<tr>
-						<td>13251245</td>
-						<td>member_id</td>
-						<td>payment_datetime</td>
-						<td>payment_status</td>
-						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
-					</tr>
-					<tr>
-						<td>13251245</td>
-						<td>member_id</td>
-						<td>payment_datetime</td>
-						<td>payment_status</td>
-						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
-					</tr>
-					<tr>
-						<td>13251245</td>
-						<td>member_id</td>
-						<td>payment_datetime</td>
-						<td>payment_status</td>
-						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
-					</tr>
-					<tr>
-						<td>13251245</td>
-						<td>A영화</td>
+						<td>ORD13251245</td>
+						<td>오리지날L</td>
+						<td>admin</td>
 						<td>coming</td>
 						<td>payment_status</td>
 						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>

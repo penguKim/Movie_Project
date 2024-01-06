@@ -33,11 +33,7 @@
 			<div id="admin_main">
 				<form action="">
 					<div id="pay_Search">
-						<select name="searchType">
-							<option value="pro_id" <c:if test="${param.searchType eq 'pro_id'}">selected</c:if>>상품번호</option> 
-							<option value="pro_name" <c:if test="${param.searchType eq 'pro_name'}">selected</c:if>>상품명</option>
-						</select>
-						<input type="text" name="searchKeyword" placeholder="조회할 내용 입력">
+						<input type="text" name="searchKeyword" placeholder="상품명을 입력하세요" value="${param.searchKeyword }">
 						<input type="submit" value="조회">
 						<input type="button" value="상품 등록" onclick = "location.href='adminProductWrite'">
 					</div>
@@ -60,25 +56,38 @@
 						</tr>
 					</c:forEach>
 				</table>
-				<input type="button" value="이전"
-					onclick="location.href = 'adminProduct?pageNum=${pageNum - 1}'"
-					<c:if test="${pageNum <= 1 }">disabled</c:if>>
-				<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-					<%-- 각 페이지마다 하이퍼링크 설정(페이지번호를 pageNum 파라미터로 전달) --%>
-					<%-- 단, 현재 페이지는 하이퍼링크 제거하고 굵게 표시 --%>
+				<c:set var="pageNum" value="1" />
+				<c:if test="${not empty param.pageNum }">
+					<c:set var="pageNum" value="${param.pageNum }" />
+				</c:if>
+				<div class="pagination">
 					<c:choose>
-						<%-- 현재 페이지번호와 표시될 페이지번호가 같을 경우 판별 --%>
-						<c:when test="${pageNum eq i }">
-							<b>${i }</b> <%-- 현재 페이지 번호 --%>
+						<c:when test="${pageNum eq 1}">
+							<a href="" >&laquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="adminProduct?pageNum=${i }">${i }</a> <%-- 다른 페이지 번호 --%>
-						</c:otherwise>
+							<a href="adminProduct?pageNum=${pageNum-1}" >&laquo;</a>
+						</c:otherwise>				
 					</c:choose>
-				</c:forEach>
-				<input type="button" value="다음" 
-					onclick="location.href = 'adminProduct?pageNum=${pageNum + 1}'"
-					<c:if test="${pageNum >= pageInfo.maxPage }">disabled</c:if>>
+					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						<c:choose>
+							<c:when test="${pageNum eq i}">
+								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+							</c:when>
+							<c:otherwise>
+								<a href="adminProduct?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${pageNum eq pageInfo.maxPage}">
+							<a href="" >&raquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="adminProduct?pageNum=${pageNum+1}" >&raquo;</a>
+						</c:otherwise>				
+					</c:choose>
+				</div>
 			</div>
 			<footer>
 				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>

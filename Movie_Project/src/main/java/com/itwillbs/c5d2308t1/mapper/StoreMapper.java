@@ -43,7 +43,7 @@ public interface StoreMapper {
 	int selectProductListCount(String searchKeyword);
 	
 	// 관리자 페이지 상품 리스트 조회
-	List<StoreVO> selectStoreList(@Param("searchKeyword") String searchKeyword,@Param("searchType") String searchType, @Param("page") PageDTO page);
+	List<StoreVO> selectStoreList(@Param("searchKeyword") String searchKeyword,@Param("page") PageDTO page);
 	
 	// 스토어 페이지
 	// ===================================================================

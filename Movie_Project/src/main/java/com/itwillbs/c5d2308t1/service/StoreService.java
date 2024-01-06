@@ -61,18 +61,19 @@ public class StoreService {
 		return mapper.updateProduct(store);
 	}
 
-	
 	// 페이징 처리를 위한 게시글 카운트 조회
 	public int getProductListCount(String searchKeyword) {
 		return mapper.selectProductListCount(searchKeyword);
 	}
 	
-	public List<StoreVO> getStoreList(String searchType, String searchKeyword, PageDTO page) {
-		return mapper.selectStoreList(searchType, searchKeyword, page);
+	// 관리자 페이지 상품 리스트 조회
+	public List<StoreVO> getStoreList(String searchType, PageDTO page) {
+		return mapper.selectStoreList(searchType, page);
 	}
 
-	// ========================= 스토어 페이지 
+	// ========================= 스토어 페이지 =================================================
 	//-----------------------------
+	// 메인스토어에서 장바구니 선택시 사항
 	// 장바구니 판별후 UPDATE
 	public int updateCart(String sId, String product_id) {
 		
