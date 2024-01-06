@@ -134,10 +134,10 @@
 						 							let value = result[i].play_start_time;
 													let intStartTimeHour = parseInt(result[i].play_start_time.split(":")[0]);
 													let intEndTimeHour = parseInt(result[i].play_end_time.split(":")[0]);
+													// => 비교를 위해 변환 필요
 // 													console.log(intStartTimeHour, intEndTimeHour);
 // 													console.log(typeof(intStartTimeHour), typeof(intEndTimeHour));
 													
-													// => 비교를 위해 변환 필요
 													for(var j = 0; j < timeOption.length; j++) {
 						 								if(value == timeOption[j]) { // 옵션의 value와 이미 등록된 영화의 시작 시간이 같을 경우
 							 								// 기본적으로 영화가 1시간 이상이므로 두 타임을 차지하고 있으므로
@@ -373,6 +373,9 @@
 	        // 버튼 이름 변경 (수정->완료)
 	        $(row).find(".btnModify").val("완료");
 	        
+	        // 버튼 클래스 선택자 변경
+	        $(row).find(".btnModify").attr("class", "btnModifyComplete");
+	        
 	        // 해당하는 행의 play_id 가져오기
 	        var play_id = row.find("#play_id").val();
 	        console.log("play_id = " + play_id);
@@ -446,6 +449,7 @@
 			                theaterName.append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
 			            }
 					}
+					$("#modifyTheater").trigger("click");
 					
 					 // 지점 선택에 따른 상영관 출력
 					$("#modifyTheater").blur(function() {
@@ -468,6 +472,8 @@
 									}
 //		 							roomName.append("<option value='" + room.room_id + "' >" + room.room_name + "</option>");
 								}
+								$("#modifyRoom").trigger("click");
+
 							},
 							error: function(xhr, textStatus, errorThrown) {
 								alert("상영관 로딩 오류입니다.");
@@ -498,6 +504,8 @@
 			                movieTitle.append("<option value='" + movie.movie_id + "'>" + movie.movie_title + "</option>");
 			            }
 					}
+					$("#modifyMovie").trigger("click");
+
 				
 						
 					// 선택 가능한 날짜 불러오기
@@ -527,6 +535,9 @@
 									}
 									playDate.attr("max", f_close_date); // 상영종영일
 									// 날짜선택에 최소값과 최대값 주기
+									
+									$("#modifyDate").trigger("click");
+
 									// 해당 일자의 해당하는 상영관의 스캐줄 가져와서
 									// 중복되는 시간에 상영일정 잡지 못하게 막기
 									// 해당 상영관, 해당 일자 필요함(지점은 X)
@@ -606,6 +617,8 @@
 						 							selectable(isDisabled);
 							 						console.log(isDisabled);
 						 						});				
+
+												$("#modifyStart").trigger("click");
 
 											}, // success 끝
 											error: function(xhr, textStatus, errorThrown) {
@@ -757,7 +770,7 @@
 			var end = $("#modifyEnd").val();
 			
 			// 완료 버튼(기존 수정 버튼)을 눌렀을 때 작동하는 ajax
-			$(".btnModify").on("click", function() {
+			$(".btnModifyComplete").on("click", function() {
 				
 				console.log(play_id + ", " + room + ", " + movie + ", " + date + ", " + start + ", " + end)
 	            $.ajax({
@@ -928,23 +941,25 @@
 						<th width="90px">삭제</th>
 					</tr>
 					<c:forEach var="play" items="${playRegistList}">
-						<tr>
-							<td id="theater_name_mod" data-theater-name="${play.theater_name}">${play.theater_name}</td>
-							<td id="room_name_mod" data-room_name="${play.room_name}">${play.room_name}</td>
-							<input type="hidden" value="${play.room_id}" id="room_id">
-							<td id="movie_title_mod" data-movie_title="${play.movie_title}">${play.movie_title}</td>
-							<input type="hidden" value="${play.movie_id}" id="movie_id">
-							<td id="play_date_mod">${play.play_date}</td>
-							<td id="play_start_time_mod" data-play_start_time="${fn:substring(play.play_start_time, 0, 5)}">${fn:substring(play.play_start_time, 0, 5)}</td>
-							<td id="play_end_time_mod">${fn:substring(play.play_end_time, 0, 5)}</td>
-							<td>
-								<input type="button" value="수정" class="btnModify">
-							</td>
-							<td>
-								<input type="hidden" value="${play.play_id}" name="play_id" id="play_id">
-								<input type="button" value="삭제" id="btnDelete_${play.play_id }" onclick="confirmDelete(${play.play_id })">
-							</td>
-						</tr>
+						<div>
+							<tr>
+								<td id="theater_name_mod" data-theater-name="${play.theater_name}">${play.theater_name}</td>
+								<td id="room_name_mod" data-room_name="${play.room_name}">${play.room_name}</td>
+								<input type="hidden" value="${play.room_id}" id="room_id">
+								<td id="movie_title_mod" data-movie_title="${play.movie_title}">${play.movie_title}</td>
+								<input type="hidden" value="${play.movie_id}" id="movie_id">
+								<td id="play_date_mod">${play.play_date}</td>
+								<td id="play_start_time_mod" data-play_start_time="${fn:substring(play.play_start_time, 0, 5)}">${fn:substring(play.play_start_time, 0, 5)}</td>
+								<td id="play_end_time_mod">${fn:substring(play.play_end_time, 0, 5)}</td>
+								<td>
+									<input type="button" value="수정" class="btnModify">
+								</td>
+								<td>
+									<input type="hidden" value="${play.play_id}" name="play_id" id="play_id">
+									<input type="button" value="삭제" id="btnDelete_${play.play_id }" onclick="confirmDelete(${play.play_id })">
+								</td>
+							</tr>
+						</div>
 					</c:forEach>
 				</table>
 			</div>
