@@ -146,6 +146,49 @@
 			OR theaters.theater_name LIKE '%${searchValue}%')
 		</if>
 	</select>
+	<!-- ================== 상품 결제 관리 게시판 ======================= -->
+	<!-- 결제 관리 게시판 결제 수 조회 -->
+	<select id="selectPaymentListCount" resultType="int">
+		SELECT COUNT(DISTINCT payment_name)
+		FROM ordersView
+		<if test="!searchKeyword.equals('')">
+			WHERE
+			<choose>
+				<when test="searchType.equals('member')">
+					member_id LIKE #{searchKeyword}
+				</when>
+				<when test="searchType.equals('name')">
+					product_name LIKE '%${searchKeyword}%'
+				</when>
+				<otherwise>
+					1=1
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="selectPaymentList" resultType="refund">
+		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
+		, GROUP_CONCAT(product_name) AS product_name, payment_datetime
+		, sum(payment_total_price) AS payment_total_price, payment_status
+		FROM ordersView
+		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status
+		<if test="!searchKeyword.equals('')">
+			HAVING
+			<choose>
+				<when test="searchType.equals('member')">
+					member_id LIKE #{searchKeyword}
+				</when>
+				<when test="searchType.equals('name')">
+					product_name LIKE '%${searchKeyword}%'
+				</when>
+				<otherwise>
+					1=1
+				</otherwise>
+			</choose>
+		</if>
+		LIMIT #{page.startRow}, #{page.listLimit}
+	</select>
 	
 	<!-- ================ 회원 관리 페이지 ==================== -->
 	

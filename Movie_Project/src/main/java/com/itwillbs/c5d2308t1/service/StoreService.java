@@ -70,7 +70,7 @@ public class StoreService {
 	public List<StoreVO> getStoreList(String searchType, PageDTO page) {
 		return mapper.selectStoreList(searchType, page);
 	}
-
+	
 	// ========================= 스토어 페이지 =================================================
 	//-----------------------------
 	// 메인스토어에서 장바구니 선택시 사항

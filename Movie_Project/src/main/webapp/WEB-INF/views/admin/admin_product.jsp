@@ -17,12 +17,12 @@
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-	
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">스토어 상품 관리</h1>
 			<hr>
@@ -89,9 +89,6 @@
 					</c:choose>
 				</div>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>
 </body>

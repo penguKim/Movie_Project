@@ -343,6 +343,21 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	font-size: 15px;
 }
 
+#payment_Cstatus{
+	color: black;
+	background-color: #FFCCCC; /* 회원일때 색깔 */
+	padding: 2px 3px;
+	border-radius: 2px;
+	font-size: 15px;
+}
+
+#payment_Bstatus{
+	color: black;
+	background-color: #CCCCFF; /* 탈퇴 일때 색깔 */
+	padding: 2px 3px;
+	border-radius: 2px;
+	font-size: 15px;
+}
 
 #movie_update, #schedule_search, #pay_Search, #member_Search, #review_Search, #movie_Search {
 	text-align: right;

@@ -12,6 +12,7 @@ import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 
 @Mapper
@@ -162,6 +163,14 @@ public interface AdminMapper {
 
 	// 관리자 페이지 영화 차트
 	List<Map<String, String>> selectMovieChart();
+	
+	
+	// =========================== 상품 결제 관리 게시판 ===========================
+	// 결제 관리 게시물 리스트 카운트
+	int selectPaymentListCount(@Param("searchType") String searchType,@Param("searchKeyword") String searchKeyword);
+	
+	// 결제 관리 게시물 목록 조회
+	List<RefundVO> selectPaymentList(@Param("searchType") String searchType,@Param("searchKeyword") String searchKeyword,@Param("page") PageDTO page);
 		
 
 

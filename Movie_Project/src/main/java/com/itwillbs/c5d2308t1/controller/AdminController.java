@@ -40,6 +40,7 @@ import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PageInfo;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 import com.itwillbs.c5d2308t1.vo.StoreVO;
 
@@ -748,12 +749,47 @@ public class AdminController {
 	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")
-	public String adminPayment(HttpSession session, Model model, 
-			@RequestParam(defaultValue = "1") int pageNum) {
-		
+	public String adminPayment(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
 		
 		return "admin/admin_payment_list";
 	}
+	
+	// 관리자페이지 스토어 페이지 스크롤뷰 처리를 위한 AJAX 
+	@ResponseBody
+	@GetMapping("adminPaymentList") 
+	public String adminPaymentList(@RequestParam(defaultValue = "") String searchType,
+			  @RequestParam(defaultValue = "") String searchKeyword, 
+			  @RequestParam(defaultValue = "1") int pageNum) {
+		
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 15);
+		// 결제 관리 전체 게시글 갯수 조회
+		int listCount = service.getPaymentListCount(searchType, searchKeyword);
+		
+		System.out.println("리스트 카운트 !!!!!!!!!!!!!!!!!" + listCount);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		// 한 페이지에 표시할 결제 목록 조회
+		List<RefundVO> paymentList = service.getPaymentList(searchType, searchKeyword, page);
+		System.out.println("페이먼트리스트@@@@@@@@@@@@@@" + paymentList);
+		// 게시물 목록 조회 결과를 Map 객체에 추가
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("paymentList", paymentList);
+		// 페이징 처리 결과 중 마지막 페이지 번호(maxPage)도 Map 객체에 추가(키 : "maxPage")
+		map.put("maxPage", pageInfo.getMaxPage());
+		
+		System.out.println("맵 데이터는???????" + map);
+		// 대량의 데이터를 JSON 객체로 변환하기
+		JSONObject jsonObject = new JSONObject(map);
+		// 생성된 JSON 객체를 문자열로 리턴
+		return jsonObject.toString();
+	}
+	
 	
 	// 관리자페이지 스토어 결제 상세 조회 및 취소 페이지로 이동
 	@GetMapping("adminPaymentDtl")
@@ -763,8 +799,6 @@ public class AdminController {
 		return "admin/admin_payment_list_detail";
 	}
 	// ===========================================================================================
-	
-	
 	
 	// ===========================================================================================
 	// ******************** 회원 정보 관리 페이지 *************

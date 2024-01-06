@@ -11,10 +11,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<%-- <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script> --%>
-<script type="text/javascript"> <!-- 연습 -->
-
-</script>
 <script>
 $(function() {
 	let isDuplicateMovie = false;
@@ -74,64 +70,57 @@ $(function() {
 	});
 	
 }); // $(document).ready() 끝
-
-
 </script>
 </head>
 <body>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-						
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-	<section id="content">
-	<h1 id="h01">상품 등록</h1>
-	<hr>
-	<div id="admin_nav">
-		<jsp:include page="admin_menubar.jsp"></jsp:include>
-	</div>
-	<div id="admin_main">
-			<form action="adminProductInsert" method="post" id="movieRegist" enctype="multipart/form-data">
-				<table id="movieTable">
-		            <colgroup> 
-		                <col style="width: 20%;">
-		                <col style="width: 20%;">   
-		                <col style="width: 20%;"> 
-		                <col style="width: 40%;">   
-		            </colgroup> 
-					<tr>
-						<td rowspan="5" colspan="2" id="posterArea">
-							<img src="" id="posterThumnail"><br>
-						</td>
-						<th width="100px">상품코드</th>
-						<td><input type="text" name="product_id" id="product_id" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th width="100px">상품이름</th>
-						<td><input type="text" name="product_name" id="product_name" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th width="100px">상품설명</th>
-						<td><input type="text" name="product_txt" id="product_txt" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th>상품가격</th>
-						<td ><input type="text" name="product_price" id="product_price" class="shortInput"></td>
-					</tr>
-					<tr>
-						<th>이미지 파일 첨부</th>
-						<td ><input type="file" name="imgFile" id="imgFile" class="shortInput"></td>
-					</tr>
-				</table>
-				<input type="submit" value="등록" id="regist">
-				<input type="button" value="창닫기" onclick="history.back();">
-			</form>
-	</div>
-	</section>
-		<footer>
-			<jsp:include page="../inc/bottom.jsp"></jsp:include>	
-		</footer>
+		<section id="content">
+			<h1 id="h01">상품 등록</h1>
+			<hr>
+			<div id="admin_main">
+					<form action="adminProductInsert" method="post" id="movieRegist" enctype="multipart/form-data">
+						<table id="movieTable">
+				            <colgroup> 
+				                <col style="width: 20%;">
+				                <col style="width: 20%;">   
+				                <col style="width: 20%;"> 
+				                <col style="width: 40%;">   
+				            </colgroup> 
+							<tr>
+								<td rowspan="5" colspan="2" id="posterArea">
+									<img src="" id="posterThumnail"><br>
+								</td>
+								<th width="100px">상품코드</th>
+								<td><input type="text" name="product_id" id="product_id" class="shortInput"></td>
+							</tr>
+							<tr>
+								<th width="100px">상품이름</th>
+								<td><input type="text" name="product_name" id="product_name" class="shortInput"></td>
+							</tr>
+							<tr>
+								<th width="100px">상품설명</th>
+								<td><input type="text" name="product_txt" id="product_txt" class="shortInput"></td>
+							</tr>
+							<tr>
+								<th>상품가격</th>
+								<td ><input type="text" name="product_price" id="product_price" class="shortInput"></td>
+							</tr>
+							<tr>
+								<th>이미지 파일 첨부</th>
+								<td ><input type="file" name="imgFile" id="imgFile" class="shortInput"></td>
+							</tr>
+						</table>
+					<input type="submit" value="등록" id="regist">
+					<input type="button" value="창닫기" onclick="history.back();">
+				</form>
+			</div>
+		</section>
 	</div>
 </body>
 </html>

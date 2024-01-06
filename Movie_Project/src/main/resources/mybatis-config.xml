@@ -14,5 +14,6 @@
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.StoreVO" alias="store"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.TheaterVO" alias="theater"/>
 		<typeAlias type="com.itwillbs.c5d2308t1.vo.PlayVO" alias="play"/>
+		<typeAlias type="com.itwillbs.c5d2308t1.vo.RefundVO" alias="refund"/>
 	</typeAliases>
 </configuration>

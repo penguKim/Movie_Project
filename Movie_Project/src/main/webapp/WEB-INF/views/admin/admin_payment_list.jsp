@@ -10,40 +10,109 @@
 <meta charset="UTF-8">
 <title>스토어 결제 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	function btnLookup() {
-		location.reload();
-	}
+	//무한스크롤 기능에 활용될 페이지번호 변수 선언(초기값 1)
+	let pageNum = "1";
+	let maxPage = "";
+	
+	$(function() {
+		
+		load_list();
+		$(window).scroll(function() {
+			// 1. window 객체와 document 객체를 활용하여 스크롤 관련 값 가져오기
+			let scrollTop = $(window).scrollTop(); // 스크롤바 현재 위치
+			let windowHeight = $(window).height(); // 브라우저 창높이
+			let documentHeight = $(document).height(); // 문서 높이
+			// 2. 스크롤 바 위치값  + 창 높이 + X 값이 문서 전체 높이 이상일 경우
+			//    다음 페이지 게시물 목록 로딩하여 화면에 추가
+			if(scrollTop + windowHeight + 1 >= documentHeight) {
+				pageNum++;
+				if(maxPage != "" && page <= maxPage) {
+					load_list();
+				}
+			}
+		});
+	});
+	
+	function load_list() {
+		let searchType = $("#searchType").val();
+		let searchKeyword = $("#searchKeyword").val();
+		
+		$.ajax({
+			type: "GET",
+			url: "adminPaymentList",
+			data: {
+				searchType: searchType,
+				searchKeyword: searchKeyword,
+				pageNum: pageNum
+			},
+			dataType: "json",
+			success: function(data) {
+				for(let payment of data.paymentList) {
+					$("table").append(function() {
+						var html = '<tr>'
+						+ '<td>' + payment.payment_name + '</td>'
+						+ '<td>' + payment.product_name + '</td>'
+						+ '<td>' + payment.member_id + '</td>'
+						+ '<td>' + payment.payment_datetime + '</td>'
+						+ '<td class="payment_status">';
+						
+						if (payment.payment_status === 0) {
+						  html += '<span id="payment_Cstatus">결제취소</span>';
+						} else if (payment.payment_status === 1) {
+						  html += '<span id="payment_Bstatus">결제완료</span>';
+						} 
+						
+						html += '</td>'
+						  + '<td>'
+						  + '<a href="adminPaymentDtl?payment_name=' + payment.payment_name + '" id="ok">'
+						  + '<input type="button" value="상세보기" id="ok">'
+						  + '</a>'
+						  + '</td>'
+						  + '</tr>';
+						  
+						return html;
+					});
+				}
+				// 끝페이지 번호(maxPage) 값을 변수에 저장
+				maxPage = data.maxPage;
+			},
+			error: function() {
+				alert("게시물 요청 실패!");
+			}
+		}); // ajax 끝
+	} // load_list() 함수 끝
+	
 </script>
 </head>
 <body>
+	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1 로 저장) --%>
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
 	<div id="wrapper">
+		<nav id="navbar">
+            <jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
+        </nav>
 		<header>
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
-	
-		<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
-		
 		<section id="content">
 			<h1 id="h01">스토어 결제 관리</h1>
 			<hr>
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
-			
 			<div id="admin_main">
 				<div id="pay_Search">
 						<select name="searchType">
-							<option value="pro_id" <c:if test="${param.searchType eq 'pro_id'}">selected</c:if>>상품번호</option> 
-							<option value="pro_name" <c:if test="${param.searchType eq 'pro_name'}">selected</c:if>>상품명</option>
+							<option value="name" <c:if test="${param.searchType eq 'name'}">selected</c:if>>상품이름</option> 
+							<option value="id" <c:if test="${param.searchType eq 'id'}">selected</c:if>>회원아이디</option>
 						</select>
-						<input type="text" name="searchKeyword" placeholder="조회할 내용 입력" >
+						<input type="text" name="searchKeyword" placeholder="조회할 내용 입력" value="${param.searchKeyword }">
 						<input type="submit" value="조회">
-						<input type="button" value="상품 등록" onclick = "location.href='adminProductWrite'">
 					</div>
-				<table border="1" width="1100">
+				<table border="1" width="1000">
 					<tr>
 						<th>주문번호</th>
 						<th>상품이름</th>
@@ -52,31 +121,8 @@
 						<th>결제상태</th>
 						<th>결제내역 상세보기</th>
 					</tr>
-<%-- 					<c:forEach var="" items=""> --%>
-						
-<%-- 					</c:forEach> --%>
-					<tr>
-						<td>ORD13251245</td>
-						<td>오리지날L</td>
-						<td>admin</td>
-						<td>coming</td>
-						<td>payment_status</td>
-						<td><a href="adminPaymentDtl"><input type="button" value="상세보기"></a></td>
-					</tr>
 				</table>
-				<div class="pagination">
-					<a href="#">&laquo;</a>
-					<a href="#">1</a>
-					<a class="active" href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">&raquo;</a>
-				</div>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>
 </body>
