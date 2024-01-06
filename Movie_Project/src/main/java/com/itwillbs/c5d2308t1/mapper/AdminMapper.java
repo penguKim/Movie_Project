@@ -13,7 +13,6 @@ import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
-import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Mapper
 public interface AdminMapper {
@@ -99,10 +98,10 @@ public interface AdminMapper {
 	
 	// =================== 1대1문의 게시판 ==========================
 	// 1대1 문의 관리 게시판 조회 작업
-	List<CsVO> selectOneOnOneList(PageDTO page);
+	List<CsVO> selectOneOnOneList(@Param("page") PageDTO page, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
 
 	// 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업
-	int selectOneOnOneListCount();
+	int selectOneOnOneListCount(@Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
 
 //	// 1대1문의 관리 게시판 상세 조회 작업
 	HashMap<String, Object> selectOneOnOne(CsVO cs);

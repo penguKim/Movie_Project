@@ -150,6 +150,14 @@
 		    <version>1.1.1</version>
 		</dependency>
 		
+		<!-- 11. JSON 데이터 처리 라이브러리(JSON, Gson, Jackson 등) -->
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20231013</version>
+		</dependency>
+		
 		<!-- json-simple - JSON 파싱 라이브러리 -->	
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>

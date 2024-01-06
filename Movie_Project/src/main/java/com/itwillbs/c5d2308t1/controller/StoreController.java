@@ -236,7 +236,7 @@ public class StoreController {
 			storeList.addAll(arrProductId);
 		}
 		model.addAttribute("storeList", storeList);
-//		System.out.println("내 상품 정보는 뭐지? " + storeList);
+		System.out.println("내 상품 정보는 뭐지? " + storeList);
 		
 		
 		return "store/store_pay";

@@ -57,10 +57,42 @@
 						$("#dailyBox").empty();
 						let boxOfficeResult = result.boxOfficeResult;
 						let dailyBoxOfficeList = boxOfficeResult.dailyBoxOfficeList;
+						// 기본으로 표시된 안내 멘트 출력
 						$("#dailyBox").append("<option value='movieValue' selected disabled class='defaultValue'>영화를 선택하세요.</option>");
+						// 박스오피스의 목록의 영화 수만큼 감독정보를 검색한다.
 						for(let movie of dailyBoxOfficeList) {
-							// data 속성 알아보기
-							$("#dailyBox").append("<option data-audiacc='" + movie.audiAcc + "' data-moviecd='" + movie.movieCd + "' data-opendt='" + movie.openDt + "'>" + movie.movieNm + "</option>");
+							$.ajax({
+								// 영화 상세정보
+								url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json",
+								data: {
+									key: key,
+									movieCd: movie.movieCd
+								},
+								dataType: "json",
+								success: function(result) { // 감독만 가져오기
+									let movieInfoResult = result.movieInfoResult;
+									let movieInfo = movieInfoResult.movieInfo;
+									// 감독은 배열로 전달되므로 문자열 결합을 한다.
+									let arrDirectors = movieInfo.directors;
+// 			 						console.log(arrDirectors);
+									let directors = "";
+									for(let as of arrDirectors) {
+										directors += as.peopleNm + "/" 
+									}
+								// 가져온 관객수, 영화코드, 감독명, 개봉일은 data 속성으로 각각 넣어주고 제목을 출력한다.
+								$("#dailyBox").append(
+									"<option data-audiacc='" + movie.audiAcc 
+									+ "'data-moviecd='" + movie.movieCd 
+									+ "' data-director='" + directors.substring(0, directors.length - 1) 
+									+ "' data-opendt='" + movie.openDt + "'>" 
+									+ movie.movieNm 
+									+ "</option>"
+								);
+								},
+								error: function(xhr, textStatus, errorThrown) {
+									alert("박스오피스 로딩중입니다.");
+								}
+							});
 						}
 					},
 					error: function(xhr, textStatus, errorThrown) {
@@ -70,7 +102,6 @@
 			}
 		});
 		
-		// 감독 정보를 가져오기 위한 kobis 상세검색
 		// 영화 상세정보는 kobis에서 관리하는 영화코드로 검색한다.
 		$("#boxofficeSelect").on("click", function() {
 			if($("#dailyBox option:selected").val() == "dateValue") { // 날짜를 고르지 않았을 경우
@@ -78,54 +109,12 @@
 			} else if($("#dailyBox option:selected").val() == "movieValue") { // 영화를 고르지 않았을 경우
 				alert("영화를 선택하세요!");
 			} else {
-				let movieCd = $("#dailyBox option:selected").data("moviecd");
-				let movieNm = $("#dailyBox option:selected").val();
-// 				console.log(movieNm);
-				$.ajax({
-					// 영화 상세정보
-					url: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json",
-					data: {
-						key: key,
-						movieCd: $("#dailyBox option:selected").data("moviecd")
-					},
-					dataType: "json",
-	//	 			async: false,
-					success: function(result) { // 감독만 가져오기
-						let movieInfoResult = result.movieInfoResult;
-						let movieInfo = movieInfoResult.movieInfo;
-						// 감독은 배열로 전달되므로 문자열 결합을 한다.
-						let arrDirectors = movieInfo.directors;
-// 						console.log(arrDirectors);
-						let directors = "";
-						for(let as of arrDirectors) {
-							directors += as.peopleNm + "/" 
-						}
-						// 영화 코드 입력
-						$("#movie_id").val(movieCd);
-						// 영화 제목 입력
-						$("#movie_title").val(movieNm);
-						// 감독 정보 입력
-						$("#movie_director").val(directors.substring(0, directors.length - 1));
-					},
-					error: function(xhr, textStatus, errorThrown) {
-						alert("박스오피스 로딩중입니다.");
-					}
-				});
-			}
-		});
-		
-		// 셀렉트 박스의 영화를 골라서 kmdb api를 이용해 상세정보 출력
-		$("#movieDetail").on("click", function() {
-			if($("#dailyBox option:selected").val() == "dateValue") { // 날짜를 고르지 않았을 경우
-				alert("조회할 날짜를 선택하세요!");
-			} else if($("#dailyBox option:selected").val() == "movieValue") { // 영화를 고르지 않았을 경우
-				alert("영화를 선택하세요!");
-			} else {
 				let ServiceKey = "08P2788CP12T24B2US8F"; // kmdb 발급 키
+				let movieCd = $("#dailyBox option:selected").data("moviecd"); //영화 코드
 				let title = $("#dailyBox option:selected").val(); // 영화 제목
-				let director = $("#movie_director").val(); // 감독명
+				let director = $("#dailyBox option:selected").data("director"); // 감독명
 				let releaseDts = $("#dailyBox option:selected").data("opendt").replace(/[-]/g, ''); // 개봉일
-				
+				// 상세정보 검색을 위한 ajax 처리
 				$.ajax({
 					type: "GET",
 					url: "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2",
@@ -134,26 +123,24 @@
 						title: title,
 						// kobis와 kmdb에서 감독명이 미세하게 다를 수 있으므로 공백 기준 처음 문자열로 검색한다.
 						director: director.split(" ")[0],
-						detail: "Y",
+// 						director: director,
+						detail: "Y", // 상세검색을 위한 파라미터
 						releaseDts: releaseDts
 					},
 					dataType: "json",
 					success: function(kmdb) {
 						if(kmdb.Data[0].TotalCount == 0) { // 조회 결과가 0인 경우
 							alert("해당 영화의 정보가 없습니다! \n직접 입력해주세요!");
+							return;
 						}
-						
-// 						let movieList = kmdb.Data[0].Result;
-// 						for(let movie of movieList) {
-// 							// 타이틀
-// 							let rawTitle = movie.title;
-// 							// 타이틀 특문 수정
-// 						  	let title = rawTitle.replace(/!HS/g, "")
-// 												    .replace(/!HE/g, "")
-// 												    .replace(/^\s+|\s+$/g, "")
-// 												    .replace(/ +/g, " ");
-// 							console.log(title);
-// 						}
+
+						// 테이블의 input 태그에 출력하기
+						// 영화 코드
+						$("#movie_id").val(movieCd);
+						// 영화 제목
+						$("#movie_title").val(title);
+						// 감독 정보
+						$("#movie_director").val(director);
 						// 배우 배열
 						// 배우가 3명보다 작을 경우 그대로 가져오고 3명보다 많을 경우 3명으로 제한한다.
 						let actors = kmdb.Data[0].Result[0].actors.actor.length < 3 
@@ -383,8 +370,7 @@
 						<option value="dateValue" selected disabled class="dateValue">날짜를 조회하세요.</option>
 						<%-- 일일 박스오피스 조회한 영화 제목 정보 표시 --%>
 					</select>
-					<input type="button" value="선택" id="boxofficeSelect">
-					<input type="button" value="상세조회" id="movieDetail"><br><br>
+					<input type="button" value="선택" id="boxofficeSelect"><br><br>
 				</div>
 				<form action="movieRgst" method="post" id="movieRegist">
 					<table id="movieTable">

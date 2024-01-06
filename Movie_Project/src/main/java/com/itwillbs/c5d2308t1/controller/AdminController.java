@@ -17,6 +17,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -60,6 +61,7 @@ public class AdminController {
 	@Autowired
 	JoinService join;
 	
+	// 메인 페이지로 이동하기
 	@GetMapping("adminMain")
 	public String adminMain(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -71,7 +73,7 @@ public class AdminController {
 		return "admin/admin_main";
 	}
 	
-
+	// 차트를 만들기 위해 회원정보 불러오기
 	@ResponseBody
 	@GetMapping("joinCount")
 	public int[] joinCount(@RequestParam("formattedDate") List<String> formattedDate, Model model) {
@@ -299,6 +301,7 @@ public class AdminController {
 		// System.out.println(theater_id);
 		// System.out.println(play_date);
 		List<Map<String, Object>> playList = service.getScheduleInfo(map);
+		System.out.println(playList);
 		
 		return playList;
 	}
@@ -752,18 +755,25 @@ public class AdminController {
 	// ******************** 회원 정보 관리 페이지 *************
 	// 관리자페이지 회원정보 관리 페이지로 이동
 	@GetMapping("adminMember")
-	public String adminMember(@RequestParam(defaultValue = "") String searchType,
-							  @RequestParam(defaultValue = "") String searchKeyword, 
-							  @RequestParam(defaultValue = "1") int pageNum, 
-							  MemberVO member, HttpSession session, Model model) {
+	public String adminMember(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";
 		}
 		
+		return "admin/admin_member";
+	}
+	
+	// 무한 스크롤을 위한 AJAX 처리
+	@ResponseBody
+	@GetMapping("adminMemberJoin")
+	public String adminMember(@RequestParam(defaultValue = "") String searchType,
+							  @RequestParam(defaultValue = "") String searchKeyword, 
+							  @RequestParam(defaultValue = "1") int pageNum) {
+		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 5);
+		PageDTO page = new PageDTO(pageNum, 15);
 		// 전체 게시글 갯수 조회
 		int listCount = service.getMemberListCount(searchType, searchKeyword);
 		// 페이징 처리
@@ -771,10 +781,16 @@ public class AdminController {
 		// 한 페이지에 표시할 회원 목록 조회
 		List<MemberVO> memberList = service.getMemberList(searchType, searchKeyword, page);
 		
-		model.addAttribute("memberList", memberList);
-		model.addAttribute("pageInfo", pageInfo);
+		// 게시물 목록 조회 결과를 Map 객체에 추가
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberList", memberList);
+		// 페이징 처리 결과 중 마지막 페이지 번호(maxPage)도 Map 객체에 추가(키 : "maxPage")
+		map.put("maxPage", pageInfo.getMaxPage());
 		
-		return "admin/admin_member";
+		// 대량의 데이터를 JSON 객체로 변환하기
+		JSONObject jsonObject = new JSONObject(map);
+		// 생성된 JSON 객체를 문자열로 리턴
+		return jsonObject.toString();
 	}
 	
 //	@PostMapping("memberDlt") // 회원 정보 관리 메인(탈퇴, 비회원) : admin_member.jsp
@@ -1214,6 +1230,9 @@ public class AdminController {
 			@RequestParam(defaultValue = "") String searchType,
 			@RequestParam(defaultValue = "") String searchKeyword,
 			HttpSession session, Model model) {
+		
+		System.out.println("검색타입 : " + searchType);
+		System.out.println("검색어 : " + searchKeyword);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -1227,14 +1246,14 @@ public class AdminController {
 		
 		// AdminService - getOneOnOneListCount() 메서드 호출해 전체 게시글 개수 조회
 		// => 파라미터 : 없음	 리턴타입 : int
-		int listCount = service.getOneOnOneListCount();
+		int listCount = service.getOneOnOneListCount(searchType, searchKeyword);
 
 		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		
 		// AdminService - getOneOnOnePosts() 메서드 호출해 글 목록 조회
 		// => 파라미터 : PageDTO 객체(page)	 리턴타입 : List<CsVO>(oneOnOneList)
-		List<CsVO> oneOnOneList = service.getOneOnOnePosts(page);
+		List<CsVO> oneOnOneList = service.getOneOnOnePosts(page, searchType, searchKeyword);
 		
 		
 		System.out.println(oneOnOneList);

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.c5d2308t1.mapper.AdminMapper;
 import com.itwillbs.c5d2308t1.vo.CsVO;
@@ -15,7 +14,6 @@ import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.PlayVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
-import com.itwillbs.c5d2308t1.vo.TheaterVO;
 
 @Service
 public class AdminService {
@@ -155,13 +153,13 @@ public class AdminService {
 
 	// ****************** 1대1문의 게시판 *********************
 	// 1대1문의 관리 게시판 글 목록 조회 작업 요청
-	public List<CsVO> getOneOnOnePosts(PageDTO page) {
-		return mapper.selectOneOnOneList(page);
+	public List<CsVO> getOneOnOnePosts(PageDTO page, String searchType, String searchKeyword) {
+		return mapper.selectOneOnOneList(page, searchType, searchKeyword);
 	}
 
 	// 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업 요청
-	public int getOneOnOneListCount() {
-		return mapper.selectOneOnOneListCount();
+	public int getOneOnOneListCount(String searchType, String searchKeyword) {
+		return mapper.selectOneOnOneListCount(searchType, searchKeyword);
 	}
 
 //	// 1대1문의 관리 게시판 상세 조회 작업 요청

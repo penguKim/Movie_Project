@@ -18,22 +18,28 @@
 		)
 	</insert>
 	
-<!-- 	<insert id="insertOrderPro"> -->
-<!-- 		<selectKey keyProperty="payment_id" resultType="int" order="BEFORE"> -->
-<!-- 			SELECT payment_id -->
-<!-- 			FROM payments -->
-<!-- 			WHERE payment_name = #{payment_name} -->
-<!-- 		</selectKey> -->
-<!-- 		INSERT  -->
-<!-- 		INTO orders_product -->
-<!-- 		VALUES( -->
-<!-- 			#{payment_id} -->
-<!-- 			, #{product_id} -->
-<!-- 			, #{quantity} -->
-<!-- 			, #{member_id} -->
-<!-- 		) -->
-<!-- 	</insert> -->
+	<insert id="insertOrderPro">
+		<selectKey keyProperty="payment_id" resultType="int" order="BEFORE">
+			SELECT payment_id
+			FROM payments
+			WHERE payment_name = #{payment_name}
+		</selectKey>
+		INSERT 
+		INTO orders_product
+		VALUES(
+			#{payment_id}
+			, #{product_id}
+			, #{quantity}
+			, #{member_id}
+		)
+	</insert>
 
+	<delete id="paymentAfterCartDel">
+		DELETE 
+		FROM carts
+		WHERE product_id = #{product_id}
+		AND member_id = #{member_id}	
+	</delete>
 </mapper>
 
 

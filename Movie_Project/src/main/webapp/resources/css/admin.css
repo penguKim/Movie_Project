@@ -24,6 +24,10 @@ body {
 	width: 100%;
 }
 
+pre { /* pre 태그 기존 폰트와 동일하게 통일 */
+	font-family: "Malgun Gothic";
+}
+
 /* ------------- 관리자페이지 네비바 부분 -------------- */
 navbar { 
 	display: inline-block;
@@ -219,25 +223,26 @@ a {
 }
 
 /* 글쓰기 영역에 적용 */
-#select, #theater_id, #room_id, #play_date {
+#select, #theater_id, #room_id, #play_date, 
+	#modifyTheater, #modifyRoom, #modifyDate {
 	text-align: center;
 	width: 130px;
 	height: 25px;
 }
 
-#play_start_time {
+#play_start_time, #modifyStart {
 	text-align: center;
 	width: 120px;
 	height: 25px;
 }
 
-#play_end_time {
+#play_end_time, #modifyEnd {
 	text-align: center;
 	width: 120px;
 	height: 26px;
 }
 
-#movie_id {
+#movie_id, #modifyMovie {
 	text-align: center;
 	width: 300px;
 	height: 25px;	
@@ -254,7 +259,7 @@ a {
 
 textarea {
 	resize: none; /* 크기고정 */
-	width: 1100px; /* 너비지정 */
+	width: 1000px; /* 너비지정 */
 	min-height: 250px; /* 높이지정 */
 	margin: 5px;
 	font-family: sans-serif;

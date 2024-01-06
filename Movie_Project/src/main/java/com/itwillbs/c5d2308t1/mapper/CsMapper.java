@@ -17,23 +17,20 @@ public interface CsMapper {
 	List<CsVO> selectNoticeMainList();
 	
 	// 고객센터 자주묻는질문 조회 - 추상메서드 정의
-	List<HashMap<String, Object>> selectFaqList(CsVO cs);
+	List<HashMap<String, Object>> selectFaqList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit, @Param("searchValue") String searchValue, @Param("buttonName") String buttonName);
 	
 	// 고객센터 공지사항 조회 - 추상메서드 정의
 	List<HashMap<String, Object>> selectNoticeList(@Param("cs") CsVO cs, @Param("startRow") int startRow, @Param("listLimit") int listLimit, @Param("theater") int theater, @Param("searchValue") String searchValue);
 	
-	// 고객센터 항목별 목록 갯수 조회 - 추상메서드 정의
+	// 공지사항 항목별 목록 갯수 조회 - 추상메서드 정의
 	int selectNoticeCount(@Param("cs") CsVO cs, @Param("theater") int theater, @Param("searchValue") String searchValue);
+	
+	// 자주묻는질문 항목별 목록 갯수 조회 - 추상메서드 정의
+	int selectFaqCount(@Param("cs") CsVO cs, @Param("searchValue") String searchValue, @Param("buttonName") String buttonName);
 	
 	// 자주묻는질문 세부항목별 조회 - 추상메서드 정의
 	List<CsVO> selectFaqDetail(@Param("cs") CsVO cs, @Param("buttonName") String buttonName);
-	
-	// 고객센터 세부항목별 목록 갯수 조회 - 추상메서드 정의
-	int selectFaqDetailCount(@Param("cs") CsVO cs, @Param("buttonName") String buttonName);
-	
-	// 자주묻는질문 검색
-	List<CsVO> selectFaqSearch(@Param("searchValue") String searchValue);
-	
+
 	// 공지사항 상세페이지 보기
 	HashMap<String, Object> selectNoticeDetail(CsVO cs);
 	

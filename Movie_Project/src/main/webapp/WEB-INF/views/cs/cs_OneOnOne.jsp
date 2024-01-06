@@ -165,7 +165,7 @@
 									<option value="문의유형 선택">문의유형 선택</option>
 									<option value="영화관">영화관</option>
 									<option value="영화">영화</option>
-									<option value="예매">예매/결제</option>
+									<option value="예매/결제">예매/결제</option>
 									<option value="관람권/할인권">관람권/할인권</option>
 									<option value="개인정보">개인정보</option>
 									<option value="칭찬/불만/제안">칭찬/불만/제안</option>
