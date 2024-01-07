@@ -33,10 +33,10 @@ public interface AdminMapper {
 	MoviesVO selectMovie(MoviesVO movie);
 	
 	// 페이징 처리를 위한 게시물 개수 조회 작업
-	int selectMovieListCount(String searchKeyword);
+	int selectMovieListCount(@Param("searchKeyword") String searchKeyword,@Param("sortMovie") String sortMovie);
 	
 	// 한 페이지에 표시할 영화 목록 조회 작업
-	List<MoviesVO> selectMovieList(@Param("searchKeyword") String searchKeyword, @Param("page") PageDTO page);
+	List<MoviesVO> selectMovieList(@Param("searchKeyword") String searchKeyword,@Param("sortMovie") String sortMovie, @Param("page") PageDTO page);
 	
 	// ================ 분실물 게시판 ================
 	// 분실물 문의 관리 게시판 조회 작업

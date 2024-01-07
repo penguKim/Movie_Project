@@ -12,26 +12,11 @@
 <script type="text/javascript">
 	$(function() {
 		// 변수 선언
-		let iscorrectId = false;
 		let iscorrectName = false;
 		let iscorrectEmail = false;
 		let isSended = false;
 		let isChecked = false;
 		let authCode = '';
-		
-		
-		$("#id").blur(function() {
-			let member_id = $("#id").val();
-			<%-- 아이디 길이, 문자 종류 확인 --%>
-			let regId = /^[A-Za-z0-9]{5,20}$/; <%-- 5~20자의 영문(대소문자), 숫자 --%>
-			if(!regId.exec(member_id)) {
-				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
-				iscorrectId = false;
-			} else {
-				$("#checkIdResult").text("사용 가능한 아이디입니다").css("color", "blue");
-				iscorrectId = true;
-			}
-		});
 		
 		<%-- 이름 확인 --%>
 		$("#name").on("blur", function() {		
@@ -156,11 +141,7 @@
 		
 		// 인증번호발송을 누르지 않으면 submit 동작 취소
 		$("form").on("submit", function() {
-			if(!iscorrectId) { <%-- 아이디가 정규표현식에 적합하지 않을 경우(미입력 포함) --%>
-				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
-				$("#id").focus();
-			return false; // submit 동작 취소
-			} else if(!iscorrectName) {
+			if(!iscorrectName) {
 				$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
 				$("#name").focus();
 				return false;

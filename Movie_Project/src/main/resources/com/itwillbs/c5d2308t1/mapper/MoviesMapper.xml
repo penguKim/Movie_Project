@@ -158,5 +158,13 @@
 		ORDER BY age ASC
     </select>
     
+    <!-- 종영작으로 수정하는 작업 -->
+    <update id="updateMovieEndingStatus">
+    	UPDATE movies
+    	SET
+    		movie_status = 2
+    	WHERE 
+    		movie_id = #{movie_id}
+    </update>
     
 </mapper>

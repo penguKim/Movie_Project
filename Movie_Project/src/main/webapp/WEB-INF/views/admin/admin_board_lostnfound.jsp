@@ -78,7 +78,7 @@
 								<a href="" >&laquo;</a>					
 							</c:when>
 							<c:otherwise>
-								<a href="adminLostNFound?pageNum=${pageNum-1}" >&laquo;</a>
+								<a href="adminLostNFound?searchValue=${param.searchValue }&pageNum=${pageNum-1}" >&laquo;</a>
 							</c:otherwise>				
 						</c:choose>
 						<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
@@ -91,7 +91,7 @@
 									<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 								</c:when>
 								<c:otherwise>
-									<a href="adminLostNFound?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+									<a href="adminLostNFound?searchValue=${param.searchValue }&pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -102,7 +102,7 @@
 								<a href="" >&raquo;</a>					
 							</c:when>
 							<c:otherwise>
-								<a href="adminLostNFound?pageNum=${pageNum+1}" >&raquo;</a>
+								<a href="adminLostNFound?searchValue=${param.searchValue }&pageNum=${pageNum+1}" >&raquo;</a>
 							</c:otherwise>				
 						</c:choose>
 					</div>

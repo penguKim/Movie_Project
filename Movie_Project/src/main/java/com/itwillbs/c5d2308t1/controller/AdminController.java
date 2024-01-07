@@ -137,23 +137,28 @@ public class AdminController {
 	// 관리자페이지 영화 정보 관리 페이지로 이동
 	@GetMapping("adminMovie")
 	public String adminMovie(@RequestParam(defaultValue = "") String searchKeyword, 
+							 @RequestParam(defaultValue = "allMovie") String sortMovie,
 						     @RequestParam(defaultValue = "1") int pageNum, 
 						     MemberVO member, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
+		System.out.println("선택한 영화 검색어 >>>>>>>>>>>>>>>>>> " + searchKeyword);
+		System.out.println("선택한 영화 타입 >>>>>>>>>>>>>>>>>> " + sortMovie);
+		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 5);
+		PageDTO page = new PageDTO(pageNum, 15);
 		// 전체 게시글 갯수 조회
-		int listCount = service.getMovieListCount(searchKeyword);
+		int listCount = service.getMovieListCount(searchKeyword, sortMovie);
 		System.out.println(listCount);
 		// 페이징 처리
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		// 한 페이지에 불러올 영화 목록 조회
-		List<MoviesVO> movieList = service.getMovieList(searchKeyword, page);
+		List<MoviesVO> movieList = service.getMovieList(searchKeyword, sortMovie, page);
 		
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("pageInfo", pageInfo);
@@ -165,7 +170,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		return "admin/admin_movie_regist";
 	}
@@ -177,7 +183,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		return "admin/admin_movie_update";
 	}
@@ -188,7 +195,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		return "admin/admin_movie_search";
 	}
@@ -199,7 +207,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";		
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";	
 		}
 		return "admin/admin_movie_search";
 	}	
@@ -239,7 +248,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		MoviesVO dbMovie = service.getMovie(movie);
@@ -261,7 +271,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		int deleteCount = service.deleteMovie(movie);
@@ -280,7 +291,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		// 영화 DB 수정
 		int updateCount = service.modifyMovie(movie);
@@ -569,7 +581,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(!sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		System.out.println("올라가라 너는~~~~~~~~~~~~~~~~~" + searchKeyword);
@@ -596,7 +609,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		return "admin/admin_product_write";
 	}
@@ -622,7 +636,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
@@ -682,7 +697,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// 관리자 페이지 상품 조회를 위한 SELECT
@@ -730,7 +746,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		int removeCount = storeService.removeProductImg(store);
 		try {
@@ -812,7 +829,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		return "admin/admin_payment_list";
@@ -885,7 +903,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		return "admin/admin_member";
@@ -893,13 +912,13 @@ public class AdminController {
 	
 	// 무한 스크롤을 위한 AJAX 처리
 	@ResponseBody
-	@GetMapping("adminMemberJoin")
+	@GetMapping("adminMemberList")
 	public String adminMember(@RequestParam(defaultValue = "") String searchType,
 							  @RequestParam(defaultValue = "") String searchKeyword, 
 							  @RequestParam(defaultValue = "1") int pageNum) {
 		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 15);
+		PageDTO page = new PageDTO(pageNum, 30);
 		// 전체 게시글 갯수 조회
 		int listCount = service.getMemberListCount(searchType, searchKeyword);
 		// 페이징 처리
@@ -930,7 +949,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		if(!sId.equals("admin") || sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals(""))) {
@@ -951,7 +971,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		if(sId.equals("admin") && (member.getMember_id() == null || member.getMember_id().equals(""))) {
@@ -1382,7 +1403,7 @@ public class AdminController {
 		
 		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 5);
+		PageDTO page = new PageDTO(pageNum, 15);
 		
 		// AdminService - getOneOnOneListCount() 메서드 호출해 전체 게시글 개수 조회
 		// => 파라미터 : 없음	 리턴타입 : int
@@ -1568,10 +1589,11 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 5);
+		PageDTO page = new PageDTO(pageNum, 15);
 		// 전체 게시글 갯수 조회
 		int listCount = service.getlostnfoundListCount(searchValue);
 		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
@@ -1599,7 +1621,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
@@ -1619,7 +1642,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		// 분실물 문의 답변 등록 작업
 		int updateCount = service.LostnfoundReply(cs);
@@ -1638,7 +1662,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
@@ -1658,7 +1683,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
 		Map<String, Object> lostnfound = service.getlostnfound(cs);
@@ -1677,7 +1703,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		// 분실물 문의 답변 등록 작업
 		int updateCount = service.LostnfoundReply(cs);
@@ -1697,7 +1724,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		// 분실물 문의 답변 삭제 작업 요청
 		int updateCount = service.lostnfoundDlt(cs);
@@ -1718,7 +1746,8 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		List<ReviewsVO> adminReview = service.getReviewLiset(review);
@@ -1736,7 +1765,8 @@ public class AdminController {
 		
 		if(sId == null || !sId.equals("admin")) { // sId가 null일때 로그인창으로 보내기
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}
 		
 		List<ReviewsVO> adminReviewDlt = service.getReviewDetailList(review); //리뷰 상세조회
@@ -1754,7 +1784,8 @@ public class AdminController {
 		
 		if(sId == null || !sId.equals("admin")) { // sId가 null일때 로그인창으로 보내기
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
 		}		
 		
 		int deleteCount = login.deleteReview(review);

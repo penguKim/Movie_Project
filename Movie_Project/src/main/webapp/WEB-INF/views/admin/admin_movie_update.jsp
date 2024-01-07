@@ -469,7 +469,7 @@
 						</tr>
 					</table>
 					<input type="submit" value="등록" id="regist">
-					<input type="button" value="창닫기" onclick="history.back();">
+					<input type="button" value="돌아가기" onclick="history.back();">
 				</form>
 			</div>
 		</section>
