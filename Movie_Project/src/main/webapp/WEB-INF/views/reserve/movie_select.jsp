@@ -23,8 +23,8 @@
 		            $(this).addClass('selected');
 		            $('#Result_T').text($('.btnTheater.selected').val());
 		            param();
-	                T = true;
-                    T_Ajax();
+	                T = true; // 선택된 상태로 표시하기
+                    T_Ajax(); 
 		        }
 		    });
 		});

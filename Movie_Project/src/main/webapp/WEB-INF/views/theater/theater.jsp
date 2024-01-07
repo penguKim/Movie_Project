@@ -30,8 +30,8 @@
 		<div id="content">
 			<h1 id="h01">극장정보</h1>
 			<hr>
-						<input type="hidden" value="${theaterName}">
-					<c:set var="theaterName" value="${theaterName.theater_name}"></c:set>
+			<input type="hidden" value="${theaterName}">
+				<c:set var="theaterName" value="${theaterName.theater_name}"></c:set>
 			<div id="img_div">
 				<img src="${pageContext.request.contextPath}/resources/img/CGV서면.png" alt="cgv" id="image">
 			</div>
