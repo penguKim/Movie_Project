@@ -30,11 +30,11 @@
 		<div id="content">
 			<h1 id="h01">극장정보</h1>
 			<hr>
-			<input type="hidden" value="${theaterName}">
-				<c:set var="theaterName" value="${theaterName.theater_name}"></c:set>
-			<div id="img_div">
-				<img src="${pageContext.request.contextPath}/resources/img/CGV서면.png" alt="cgv" id="image">
-			</div>
+				<input type="hidden" value="${theaterName}">
+					<c:set var="theaterName" value="${theaterName.theater_name}"></c:set>
+				<div id="img_div">
+					<img src="${pageContext.request.contextPath}/resources/img/CGV서면.png" alt="cgv" id="image">
+				</div>
 			<hr>
 			<div class="menu" >
 					<nav class="theater1">
@@ -45,7 +45,7 @@
 			</div>
 			<hr>
 			<div id="theater_event">
-				<a href="http://localhost:8081/c5d2308t1/detail?movie_id=20203702">
+				<a href="http://localhost:8080/c5d2308t1/detail?movie_id=20203702">
 				<img src="${pageContext.request.contextPath}/resources/img/이벤트.jpg" alt="cgv" id="image">
 				</a>
 			</div>
@@ -153,7 +153,7 @@
 							
 							var selectedId;
 // 								이미지 지도로 변경 및 마커스 찍기
-										 function changeImage(imageSrc, lat, lng) {
+							 function changeImage(imageSrc, lat, lng) {
 							  var image = document.getElementById("image");
 							  image.src = imageSrc;
 							  

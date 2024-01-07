@@ -76,7 +76,14 @@ public class TheaterController {
 	
 	// 극장페이지에서 위치/주차 눌렀을때 주차페이지로 이동
 	@GetMapping("theater_parking")
-	public String theater_parking() {
+	public String theater_parking(CsVO cs, Model model, HttpServletRequest request,
+			@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "0") int theater,
+			@RequestParam(defaultValue = "") String searchValue) {
+		
+		List<Map<String, Object>> theaterNames = movie.getTheaterName();
+		
+		model.addAttribute("theaterNames", theaterNames);
 		return "theater/theater_parking";
 	}
 	

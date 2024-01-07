@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -9,6 +11,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/theater.css" rel="stylesheet" type="text/css">
 <head>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 </head>
 <body>
  	<div id="wrapper">
@@ -26,29 +29,22 @@
 			</div>
 			<hr>
 			<div class="menu" >
-				<nav class="theater1">
-					<input type="button" id="삼정타워" value="서면삼정타워">
-					<input type="button" id="서면CGV" value="서면">
-					<input type="button" id="상상마당점" value="서면상상마당">
-					<input type="button" id="CGV아시아드" value="아시아드">
-					<input type="button" id="CGV화명" value="화명"><br>
-					<input type="button" id="CGV울산동구" value="하단아트몰링">
-					<input type="button" id="CGV센텀시티" value="센텀시티">
-					<input type="button" id="CGV해운대" value="해운대">
-					<input type="button" id="동래" value="동래">
-					<input type="button" id="CGV부산명지" value="부산명지"><br>
+					<nav class="theater1">
+				<c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
+					<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
+				</c:forEach>
 				</nav>
 			</div>
 			<hr>
 			<div id="theater_event">
-				<a href="http://localhost:8081/c5d2308t1/detail?movie_id=20203702">
+				<a href="http://localhost:8080/c5d2308t1/detail?movie_id=20203702">
 				<img src="${pageContext.request.contextPath}/resources/img/이벤트.jpg" alt="cgv" id="image">
 				</a>
 			</div>
 			
 			<ul class="tab-menu" id="menu">
 		        <li><a href="theater" >관람료안내</a></li>
-		        <li class="on"><a href="movie_select" title="현재 선택됨">예매하기</a></li>
+		        <li class="on"><a href="movie_select?theater_name=${theaterName.theater_name}" title="현재 선택됨">예매하기</a></li>
 		        <li><a href="#sec01">위치/주차안내</a></li>
 		    </ul>
 
@@ -108,68 +104,119 @@
 		</section>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9f6c3bc1e6871394d3b26ee55215784"></script>
 				<script>
-				  function changeImage() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/삼정타워점.JPG";
+				var selectedId;
+//					이미지 지도로 변경 및 마커스 찍기
+			 function changeImage(imageSrc, lat, lng) {
+			  var image = document.getElementById("image");
+			  image.src = imageSrc;
+			  
+			  var container = document.getElementById('map');
+			  var options = {
+			    center: new kakao.maps.LatLng(lat, lng),
+			    level: 2
+			  };
+			  var map = new kakao.maps.Map(container, options);
+			  
+			  var markerPosition = new kakao.maps.LatLng(lat, lng);
+			  var marker = new kakao.maps.Marker({
+			    position: markerPosition
+			  });
+			  marker.setMap(map);
+			}
+				
+				
+			 var locations = [
+				  {
+				    id: "서면삼정타워",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/삼정타워점.JPG",
+				    lat: 35.15301369233767,
+				    lng: 129.05962274791744
+				  },
+				  {
+				    id: "동래",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/동래.JPG",
+				    lat: 35.221414075646194,
+				    lng: 129.0855232950597
+				  },
+				  {
+				    id: "서면상상마당",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/상상마당.JPG",
+				    lat: 35.15423948976798,
+				    lng: 129.05748931736966
+				  },
+				  {
+				    id: "부산명지",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/명지점.png",
+				    lat: 35.09440141296223,
+				    lng: 128.90351489468253
+				  },
+				  {
+				    id: "아시아드",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/아시아드점.png",
+				    lat: 35.19154582406568,
+				    lng: 129.06328187601284
+				  },
+				  {
+				    id: "센텀시티",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/센텀점.png",
+				    lat: 35.1691119842877,
+				    lng: 129.13038331260668
+				  },
+				  {
+				    id: "하단아트몰링",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/동구점.png",
+				    lat: 35.489848332547005,
+				    lng: 129.43101483150292
+				  },
+				  {
+				    id: "서면",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/CGV서면.png",
+				    lat: 35.149278694688036,
+				    lng: 129.06357447166218
+				  },
+				  {
+				    id: "화명",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/화명점.png",
+				    lat: 35.23471793459627,
+				    lng: 129.00987511366884
+				  },
+				  {
+				    id: "해운대",
+				    imageSrc: "${pageContext.request.contextPath}/resources/img/해운대점.png",
+				    lat: 35.1628435626128,
+				    lng: 129.1584244156929
 				  }
-				  function changeImage2() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/CGV서면.png";
-				  }					
-				  function changeImage3() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/상상마당.JPG";
+				];
+			 
+			 locations.forEach(function(location) {
+				  var container = document.getElementById(location.id);
+				  if (container) { 
+				    container.onclick = function() {
+				      changeImage(location.imageSrc, location.lat, location.lng);
+				      selectedId = location.id; // 클릭한 위치의 ID를 변수에 저장합니다.
+				      console.log("Selected ID: " + selectedId); // 선택된 ID를 콘솔에 출력합니다.
+				    };
 				  }
-				  function changeImage4() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/아시아드점.png";
-				  }
-				  function changeImage5() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/화명점.png";
-				  }
-				  function changeImage6() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/동구점.png";
-				  }
-				  function changeImage7() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/센텀점.png";
-				  }
-				  function changeImage8() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/해운대점.png";
-				  }
-				  // 클릭 이벤트에 함수 연결
-				  function changeImage9() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/동래.JPG";
-				  }
-				  function changeImage10() {
-				    var image = document.getElementById("image");
-				    image.src = "${pageContext.request.contextPath}/resources/img/명지점.png";
-				  }
+				});
+			    
+			    var buttons = document.querySelectorAll('input[type="button"]');
+			    buttons.forEach(function(button) {
+			      button.addEventListener('click', function(event) {
+			        // 선택된 버튼의 아이디 값을 가져와서 변수에 저장
+			        selectedId = event.target.id;
+			        console.log("Selected ID: " + selectedId); // 선택된 아이디 값을 콘솔에 출력
+			      });
+			    });
 
-					var container = document.getElementById("삼정타워");
-					container.onclick = changeImage;
-					var container = document.getElementById("서면CGV");
-					container.onclick = changeImage2;
-					var container = document.getElementById("상상마당점");
-					container.onclick = changeImage3;
-					var container = document.getElementById("CGV아시아드");
-					container.onclick = changeImage4;
-					var container = document.getElementById("CGV화명");
-					container.onclick = changeImage5;
-					var container = document.getElementById("CGV울산동구");
-					container.onclick = changeImage6;
-					var container = document.getElementById("CGV센텀시티");
-					container.onclick = changeImage7;
-					var container = document.getElementById("CGV해운대");
-					container.onclick = changeImage8;
-					var container = document.getElementById("동래");
-					container.onclick = changeImage9;
-					var container = document.getElementById("CGV부산명지");
-					container.onclick = changeImage10;
+				document.querySelector('.on a').addEventListener('click', function(event) {
+					  event.preventDefault();
+					  var url = event.target.href;
+					  if (selectedId) {
+					    url += selectedId;
+					    console.log("Redirecting to: " + url); // 이동할 URL을 콘솔에 출력합니다.
+					  }
+					  window.location.href = url;
+					});
 			 </script>
 			</div>
 		</div>

@@ -97,6 +97,8 @@ public interface LoginMapper {
 	int updateMyBuy(Map<String, String> map);
 	//=====================================================================================
 
+	int getLostBoardCount(String sId);
+
 
 
 

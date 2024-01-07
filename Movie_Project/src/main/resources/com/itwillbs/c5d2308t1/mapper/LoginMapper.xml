@@ -115,6 +115,16 @@
 	
 	<!-- 분실물 페이징 처리를 위한 게시물 개수 조회 -->
 	
+		<select id="getLostBoardCount" resultType="int">
+		SELECT COUNT(*)
+		FROM members m
+		JOIN cs c
+		ON m.member_id = c.member_id
+		WHERE cs_type = '분실물문의'
+		and c.member_id = #{sId}
+		</select>
+	
+	
 		<select id="selectLostListCount" resultType="hashmap">
 		SELECT *
 		FROM members m

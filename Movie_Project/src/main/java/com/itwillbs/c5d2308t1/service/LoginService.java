@@ -158,6 +158,11 @@ public class LoginService {
 		return mapper.getMyStoreDetail(refund);
 	}
 
+	public int getLostBoardCount(String sId) {
+		
+		return mapper.getLostBoardCount(sId);
+	}
+
 
 
 	
