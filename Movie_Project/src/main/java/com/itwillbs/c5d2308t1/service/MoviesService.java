@@ -1,5 +1,8 @@
 package com.itwillbs.c5d2308t1.service;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +10,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.c5d2308t1.mapper.MoviesMapper;
 import com.itwillbs.c5d2308t1.vo.LikesVO;
@@ -20,7 +24,7 @@ public class MoviesService {
 	MoviesMapper mapper;
 	
 	// DB에 저장된 영화 목록 리스트 조회 작업 요청
-	public List<Map<String, String>> getMovieList(int sortType) {
+	public List<Map<String, Object>> getMovieList(int sortType) {
 		return mapper.selectMoviesList(sortType);
 	}
 
@@ -104,6 +108,7 @@ public class MoviesService {
 		return mapper.selectTheaterName();
 	}
 
+	// 영화 상세페이지에 사용할 연령 통계
 	public List<Map<String, Object>> getAgeGroupList(int movie_id) {
 		return mapper.selectAgeGroupList(movie_id);
 	}

@@ -27,7 +27,7 @@
 			let documentHeight = $(document).height(); // 문서 높이
 			// 2. 스크롤바 위치값 + 창 높이 + x 값이 문서 전체 높이 이상일 경우
 			//    다음 페이지 게시물 목록 로딩하여 화면에 추가
-			if(scrollTop + windowHeight + 1 >= documentHeight) {
+			if(scrollTop + windowHeight + 100 >= documentHeight) {
 				pageNum++; // 다음 목록 조회를 위해 현재 페이지번호 1증가
 				if(maxPage != "" && pageNum <= maxPage) {
 					load_list(); // 다음 페이지 로딩을 위해 load_list() 함수 호출
@@ -42,7 +42,7 @@
 		
 		$.ajax({
 			type: "GET",
-			url: "adminMemberJoin",
+			url: "adminMemberList",
 			data: {
 				searchType: searchType,
 				searchKeyword: searchKeyword,

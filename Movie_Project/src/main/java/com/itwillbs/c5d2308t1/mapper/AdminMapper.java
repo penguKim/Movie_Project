@@ -33,10 +33,10 @@ public interface AdminMapper {
 	MoviesVO selectMovie(MoviesVO movie);
 	
 	// 페이징 처리를 위한 게시물 개수 조회 작업
-	int selectMovieListCount(String searchKeyword);
+	int selectMovieListCount(@Param("searchKeyword") String searchKeyword,@Param("sortMovie") String sortMovie);
 	
 	// 한 페이지에 표시할 영화 목록 조회 작업
-	List<MoviesVO> selectMovieList(@Param("searchKeyword") String searchKeyword, @Param("page") PageDTO page);
+	List<MoviesVO> selectMovieList(@Param("searchKeyword") String searchKeyword,@Param("sortMovie") String sortMovie, @Param("page") PageDTO page);
 	
 	// ================ 분실물 게시판 ================
 	// 분실물 문의 관리 게시판 조회 작업
@@ -149,6 +149,12 @@ public interface AdminMapper {
 	int updateSchedule(PlayVO play);
 //	int updateSchedule(@Param("playId") String playId, @Param("theaterId") String theaterId, @Param("roomId") String roomId, @Param("movieId") String movieId, @Param("playDate") String playDate, @Param("playStartTime") String playStartTime, @Param("playEndTime") String playEndTime);
 
+	
+	// 상영 일정 수정 버튼 클릭 시 기존 일정 조회
+	Map<String, Object> selectpreviousScheduleInfo(String previousTrId);
+	
+	
+	// ==========================================================================
 	//리뷰 조회
 	List<ReviewsVO> selectReviewList(ReviewsVO review);
 
@@ -187,6 +193,7 @@ public interface AdminMapper {
 	
 	// 결제 관리 상세페이지 결제취소 요청 작업
 	int updatePaymentBuyCancel(Map<String, String> map);
+
 		
 
 

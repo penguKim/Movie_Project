@@ -353,14 +353,18 @@
 						<tr>
 							<th>성별</th>
 							<td>
-								<c:choose>
-									<c:when test="${member.member_gender eq 'F' }">
-										<input type="text" name="member_gender" value="여성" id="member_gender">
-									</c:when>
-									<c:when test="${member.member_gender eq 'M' }">
-										<input type="text" name="member_gender" value="남성" id="member_gender">
-									</c:when>
-								</c:choose>
+								<select>
+									<c:choose>
+										<c:when test="${member.member_gender eq 'M' }">
+											<option value="M" selected>남성</option>
+											<option value="F" disabled>여성</option>
+										</c:when>
+										<c:when test="${member.member_gender eq 'F' }">
+											<option value="M"disabled>남성</option>
+											<option value="F" selected>여성</option>
+										</c:when>
+									</c:choose>
+								</select>
 							</td>
 						</tr>
 						<tr>

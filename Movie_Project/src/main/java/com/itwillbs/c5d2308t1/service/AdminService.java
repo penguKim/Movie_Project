@@ -46,13 +46,13 @@ public class AdminService {
 	}
 	
 	// 페이징 처리를 위한 게시물 개수 조회 작업 요청
-	public int getMovieListCount(String searchKeyword) {
-		return mapper.selectMovieListCount(searchKeyword);
+	public int getMovieListCount(String searchKeyword, String sortMovie) {
+		return mapper.selectMovieListCount(searchKeyword, sortMovie);
 	}
 	
 	// 한 페이지에 표시할 영화 목록 조회 작업 요청
-	public List<MoviesVO> getMovieList(String searchKeyword, PageDTO page) {
-		return mapper.selectMovieList(searchKeyword, page);
+	public List<MoviesVO> getMovieList(String searchKeyword, String sortMovie, PageDTO page) {
+		return mapper.selectMovieList(searchKeyword,sortMovie, page);
 	}
 	
 	// ================ 분실물 게시판 ================
@@ -255,6 +255,14 @@ public class AdminService {
 		return mapper.updateSchedule(play);
 
 	}
+	
+	// 상영일정 수정 버튼 클릭 시 기존 상영일정 조회 작업
+	public Map<String, Object> getpreviousScheduleInfo(String previousTrId) {
+		return mapper.selectpreviousScheduleInfo(previousTrId);
+	}
+	
+	
+	// ========================================================================
 
 	//리뷰 조회
 	public List<ReviewsVO> getReviewLiset(ReviewsVO review) {
@@ -318,6 +326,8 @@ public class AdminService {
 	public int getPaymentBuyCancel(Map<String, String> map) {
 		return mapper.updatePaymentBuyCancel(map);
 	}
+
+
 
 
 

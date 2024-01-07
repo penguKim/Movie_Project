@@ -73,5 +73,10 @@ public class ReserveService {
 	public ReserveVO getPayment(Map<String, String> map) {
 		return mapper.selectPayment(map);
 	}
+	
+	//결제페이지 회원정보 조회
+	public Map<String, String> getmemberInfo(String sId) {
+		return mapper.selectMemberInfo(sId);
+	}
 
 }

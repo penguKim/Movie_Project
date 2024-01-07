@@ -11,6 +11,19 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+	$(function() {
+		$("#sortMovie").on("change", function() {
+			 $("#status_submit").submit();
+		});
+		
+		$("#search_submit").on("submit", function() {
+		    var sortMovie = $("#sortMovie").val();
+		    console.log(sortMovie);
+		    $(this).find("input[name='sortMovie']").val(sortMovie);
+		});
+		
+	});
+
 </script>
 </head>
 <body>
@@ -34,11 +47,22 @@
 					<input type="button" value="인기 영화 등록" onclick = "location.href='adminMovieUdt'">
 					<input type="button" value="영화 검색" onclick = "location.href='adminMovieSearch'">
 				</div>
+				<div id="status_select">
+					<form action="adminMovie" id="status_submit">
+						<select name="sortMovie" id="sortMovie">
+							<option value="allMovie" <c:if test="${param.sortMovie eq 'allMovie' }">selected</c:if>>모든 영화</option>
+							<option value="release" <c:if test="${param.sortMovie eq 'release' }">selected</c:if>>상영작</option>
+							<option value="comming" <c:if test="${param.sortMovie eq 'comming' }">selected</c:if>>상영예정작</option>
+							<option value="ending" <c:if test="${param.sortMovie eq 'ending' }">selected</c:if>>종영작</option>
+						</select>
+					</form>
+				</div>
 				<div id="movie_Search">
 					<%-- 검색 기능을 위한 폼 생성 --%>
-					<form action="adminMovie">
-						<input type="text" name="searchKeyword" placeholder="제목을 입력하세요">
-						<input type="submit" value="검색">
+					<form action="adminMovie" id="search_submit">
+						<input type="text" name="searchKeyword" placeholder="제목을 입력하세요" value="${param.searchKeyword }">
+						<input type="hidden" name="sortMovie" value="">
+						<input type="submit" value="조회">
 					</form>
 				</div>
 				<table id="movieList">
@@ -58,11 +82,14 @@
 							<td id="movieTitle">${movie.movie_title }</td>
 							<td class="movie_status">
 								<c:choose>
+									<c:when test="${movie.movie_status eq 2 }">
+									<span id="admin_Cmember">종영작</span>
+									</c:when>
 									<c:when test="${movie.movie_status eq 1 }">
-									<span id="admin_member">상영중</span>
+									<span id="admin_member">상영작</span>
 									</c:when>
 									<c:when test="${movie.movie_status eq 0 }">
-									<span id="admin_Bmember">상영예정</span>
+									<span id="admin_Bmember">상영예정작</span>
 									</c:when>
 								</c:choose>
 								</td>
@@ -83,7 +110,7 @@
 							<a href="" >&laquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="adminMovie?pageNum=${pageNum-1}" >&laquo;</a>
+							<a href="adminMovie?searchKeyword=${param.searchKeyword }&sortMovie=${param.sortMovie }&pageNum=${pageNum-1}" >&laquo;</a>
 						</c:otherwise>				
 					</c:choose>
 					<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
@@ -96,7 +123,7 @@
 								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 							</c:when>
 							<c:otherwise>
-								<a href="adminMovie?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+								<a href="adminMovie?searchKeyword=${param.searchKeyword }&sortMovie=${param.sortMovie }&pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
@@ -108,7 +135,7 @@
 							<a href="" >&raquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="adminMovie?pageNum=${pageNum+1}" >&raquo;</a>
+							<a href="adminMovie?searchKeyword=${param.searchKeyword }&sortMovie=${param.sortMovie }&pageNum=${pageNum+1}" >&raquo;</a>
 						</c:otherwise>				
 					</c:choose>
 				</div>

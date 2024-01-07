@@ -191,7 +191,7 @@ a {
 }
 
 #admin_main th, #admin_main td {
-	height: 30px;
+	height: 40px;
 }
 
 #admin_main a:not(.pagination a) {
@@ -359,7 +359,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	font-size: 15px;
 }
 
-#movie_update, #schedule_search, #pay_Search, #member_Search, #review_Search, #movie_Search {
+#movie_update, #schedule_search, #pay_Search, #member_Search, #review_Search {
 	text-align: right;
 	margin-bottom: 20px;
 }
@@ -466,6 +466,17 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	height: 15px;
 }
 
+/* 상영상태 셀렉트 박스 */
+#status_select {
+	float: left; /* 왼쪽으로 이동 */
+}
+
+/* 검색창 */
+#movie_Search {
+	float: right; /* 오른쪽으로 이동 */
+}
+
+/* ----------------- 박스오피스 영화 페이지 ----------------- */
 /* 영화 검색창 영역 */
 #searchArea {
 	text-align: center;

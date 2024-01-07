@@ -18,7 +18,7 @@ public interface MoviesMapper {
 	
 	
 	// DB에 저장된 영화 목록 리스트 조회 작업
-	List<Map<String, String>> selectMoviesList(int sortType);
+	List<Map<String, Object>> selectMoviesList(int sortType);
 
 	// 요청한 movie_id에 해당하는 영화정보 조회 작업 요청
 	HashMap<String, String> selectMovieDetail(int movie_id);
@@ -65,6 +65,9 @@ public interface MoviesMapper {
 
 	// 상세 페이지에 출력할 연령대 차트 데이터
 	List<Map<String, Object>> selectAgeGroupList(int movie_id);
+
+	// 종영작으로 수정하는 작업
+	void updateMovieEndingStatus(Map<String, Object> movie);
 
 
 }

@@ -70,6 +70,11 @@
 			}
 		});
 		
+		// 종영 처리 시 수행할 동작
+		$("#ending").on("click", function() {
+			
+		});
+		
 		// submit 시 수행할 동작
 		$("#movieMod").on("click", function() {
 			if($("#movie_title").val() == '') {
@@ -116,7 +121,11 @@
 				return false;
 			}
 			
-			return confirm("영화를 수정하시겠습니까?");
+			if($("#movie_status").val() == '2') {
+				return confirm("영화를 종영처리하시겠습니까?");
+			} else {
+				return confirm("영화를 수정하시겠습니까?");
+			}
 		});
 		
 		$("#movieDlt").on("click", function() {
@@ -200,6 +209,7 @@
 									<option disabled>상영 상태</option>
 									<option value="0" id="comming" <c:if test="${movie.movie_status eq 0 }">selected</c:if>>개봉 예정</option>
 									<option value="1" id="release" <c:if test="${movie.movie_status eq 1 }">selected</c:if>>개봉</option>
+									<option value="2" id="ending" <c:if test="${movie.movie_status eq 2 }">selected</c:if>>종영</option>
 								</select>
 							</td>
 						</tr>

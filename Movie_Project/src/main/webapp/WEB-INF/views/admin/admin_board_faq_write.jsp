@@ -32,8 +32,8 @@
 								<select id="select" name="cs_type_detail">
 									<option value="">유형선택</option>
 									<option value="예매">예매</option>
-									<option value="관람권">관람권</option>
-									<option value="할인혜택">할인혜택</option>
+									<option value="스토어">스토어</option>
+									<option value="홈페이지">홈페이지</option>
 									<option value="영화관이용">영화관이용</option>
 								</select>
 							</td>

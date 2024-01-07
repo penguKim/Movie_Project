@@ -14,6 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -66,15 +67,15 @@ public class MoviesController {
 	
 	// DB에 저장된 영화정보 가져와서 현재상영작에 뿌리기
 	@GetMapping("release")
-	public ModelAndView release(Map<String, List<Map<String, String>>> map, 
+	public ModelAndView release(Map<String, List<Map<String, Object>>> map, 
 							@RequestParam(defaultValue = "1") int sortType) {
 		
 		// DB에 저장된 영화정보를 HashMap 객체의 List로 리턴
-		List<Map<String, String>> movieList = service.getMovieList(sortType);
+		List<Map<String, Object>> movieList = service.getMovieList(sortType);
 		// 상영작 페이지의 관람등급 표시를 위해 "관" 이전의 문자열 추출
-		for(Map<String, String> movie : movieList) {
-			movie.put("movie_rating", movie.get("movie_rating")
-					.substring(0, movie.get("movie_rating").indexOf("관")));
+		for(Map<String, Object> movie : movieList) {
+			movie.put("movie_rating", movie.get("movie_rating").toString()
+					.substring(0, movie.get("movie_rating").toString().indexOf("관")));
 		}
 		map.put("movieList", movieList);
 		ModelAndView mav = new ModelAndView("movie/release", map);
