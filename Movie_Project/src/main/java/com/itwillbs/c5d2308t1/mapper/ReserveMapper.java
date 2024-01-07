@@ -28,4 +28,5 @@ public interface ReserveMapper {
 	Map<String, String> selectresInfoDetail(String payment_id);
 	List<ReserveVO> selectMTB(Map<String, String> map);
 	ReserveVO selectPayment(Map<String, String> map);
+	Map<String, String> selectMemberInfo(String sId);
 }

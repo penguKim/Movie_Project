@@ -593,12 +593,23 @@
 					<input type="button" value="&#x1F504; 다시 예매하기" class="btnReset">
 				</div>
 				<div id = "reserve_parameter">
-						<div class="overflow movie"><b>영화</b>
+						<div class="overflow movie" ><b>영화</b>
 							<c:forEach var="movieList" items="${movieList}">
 								<c:choose>
 									<c:when test="${movieList.movie_title eq param_movie_title}">
 										<input type ="button" value="${movieList.movie_title}" id="selectedVal" class="btnMovie" >
 										<script>
+											// 스크롤 이벤트 핸들러
+											function handleScroll(event) {
+											  event.preventDefault();
+											}
+	
+											// 스크롤 이벤트 리스너 등록
+											window.addEventListener('scroll', handleScroll, { passive: false });
+	
+											// 선택된 영역으로 스크롤 이동
+											location.href = "#selectedVal";
+
 									        $(document).ready(function() {
 									            $("#selectedVal").click(function(){
 									                $('.btnMovie').removeClass('selected');

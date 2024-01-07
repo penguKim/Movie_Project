@@ -114,6 +114,7 @@ $(function() {
 	// API 초기화 : 포트원 API를 사용하기 위해 초기화
 	var IMP = window.IMP;
 	IMP.init("imp65336711");
+	var selectedValue = $('input[type="radio"]:checked').val();
 	
 	function requestPay() {
 		

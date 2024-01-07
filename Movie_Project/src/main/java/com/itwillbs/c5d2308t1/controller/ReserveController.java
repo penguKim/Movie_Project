@@ -87,8 +87,13 @@ public class ReserveController {
 	
 	// 결제하기 페이지
 	@PostMapping("reserve_pay")
-	public String ReservationComplete(@RequestParam Map<String, String> map, Model model){
+	public String ReservationComplete(@RequestParam Map<String, String> map, Model model, HttpSession session){
+		String sId = (String)session.getAttribute("sId");
+		Map<String, String> members = reserve.getmemberInfo(sId);
+		System.out.println("조회한 회원 정보 : " + members);
+		model.addAttribute("members", members);
 		model.addAttribute("map", map);
+		System.out.println(map);
 		return "reserve/reserve_pay";
 	}
 	

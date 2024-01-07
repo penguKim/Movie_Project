@@ -189,6 +189,12 @@
 			AND member_id = #{sId}
 	</select>
 	
+	<select id="selectMemberInfo" resultType="map">
+		SELECT *
+		FROM members
+		WHERE member_id = #{sId}
+	</select>
+	
 </mapper>
 
 
