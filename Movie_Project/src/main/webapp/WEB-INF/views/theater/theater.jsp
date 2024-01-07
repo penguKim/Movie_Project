@@ -30,16 +30,16 @@
 		<div id="content">
 			<h1 id="h01">극장정보</h1>
 			<hr>
+						<input type="hidden" value="${theaterName}">
+					<c:set var="theaterName" value="${theaterName.theater_name}"></c:set>
 			<div id="img_div">
 				<img src="${pageContext.request.contextPath}/resources/img/CGV서면.png" alt="cgv" id="image">
 			</div>
 			<hr>
 			<div class="menu" >
 					<nav class="theater1">
-					<c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
-						<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
-						<input type="hidden" value="${theaterName.theater_name}">
-					<c:set var="theaterName.theater_name" value="${theaterName.theater_name}"></c:set>
+				<c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
+					<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
 				</c:forEach>
 				</nav>
 			</div>
@@ -54,7 +54,6 @@
 		        <li class="on"><a href="movie_select?theater_name=${theaterName.theater_name}" title="현재 선택됨">예매하기</a></li>
 		        <li class="last" onclick=""><a href="theater_parking">위치/주차안내</a></li>
 		    </ul>
-		    
 		    
 		    
 		    
@@ -125,6 +124,10 @@
 						<div id="map">
 							<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7f2cbaab42a6ec66232f961c71c7350f"></script>
 							<script>
+							
+							
+							
+							
 								var container = document.getElementById('map');
 								var options = {
 									center: new kakao.maps.LatLng(35.149236094733254, 129.0635624238869),
@@ -146,6 +149,9 @@
 							</script>
 		
 							<script>
+							
+							
+							var selectedId;
 // 								이미지 지도로 변경 및 마커스 찍기
 										 function changeImage(imageSrc, lat, lng) {
 							  var image = document.getElementById("image");
@@ -229,15 +235,46 @@
 								  }
 								];
 							 
-								locations.forEach(function(location) {
+							 locations.forEach(function(location) {
 								  var container = document.getElementById(location.id);
-								  if (container) { // 컨테이너 ID가 존재하는 경우에만 클릭 이벤트를 할당합니다.
+								  if (container) { 
 								    container.onclick = function() {
 								      changeImage(location.imageSrc, location.lat, location.lng);
-// 								      changeNotice(location.id);
+								      selectedId = location.id; // 클릭한 위치의 ID를 변수에 저장합니다.
+								      console.log("Selected ID: " + selectedId); // 선택된 ID를 콘솔에 출력합니다.
 								    };
 								  }
 								});
+							    
+							    var buttons = document.querySelectorAll('input[type="button"]');
+							    buttons.forEach(function(button) {
+							      button.addEventListener('click', function(event) {
+							        // 선택된 버튼의 아이디 값을 가져와서 변수에 저장
+							        selectedId = event.target.id;
+							        console.log("Selected ID: " + selectedId); // 선택된 아이디 값을 콘솔에 출력
+							      });
+							    });
+
+								document.querySelector('.on a').addEventListener('click', function(event) {
+									  event.preventDefault();
+									  var url = event.target.href;
+									  if (selectedId) {
+									    url += selectedId;
+									    console.log("Redirecting to: " + url); // 이동할 URL을 콘솔에 출력합니다.
+									  }
+									  window.location.href = url;
+									});
+								
+							 
+// 								locations.forEach(function(location) {
+// 								  var container = document.getElementById(location.id);
+// 								  if (container) { // 컨테이너 ID가 존재하는 경우에만 클릭 이벤트를 할당합니다.
+// 								    container.onclick = function() {
+// 								      changeImage(location.imageSrc, location.lat, location.lng);
+// // 								      changeNotice(location.id);
+// 								    };
+// 								  }
+// 								});
 							</script>
 						</div>
 					</div>

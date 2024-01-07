@@ -55,6 +55,7 @@ public class LoginService {
 	public List<HashMap<String, Object>> getMyOneOnOnePosts(String sId, PageDTO page) {
 		return mapper.selectMyOneOnOneList(sId, page);
 	}
+	
 //	public List<HashMap<String, Object>> getMyOneOnOnePosts(String sId) {
 //		return mapper.selectMyOneOnOneList(sId);
 //	}
@@ -156,6 +157,7 @@ public class LoginService {
 	public RefundVO getMyStoreDetail(RefundVO refund) {
 		return mapper.getMyStoreDetail(refund);
 	}
+
 
 
 	

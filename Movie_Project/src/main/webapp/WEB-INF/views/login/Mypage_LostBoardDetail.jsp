@@ -38,7 +38,7 @@
 			<jsp:include page="../inc/top.jsp"></jsp:include>
 		</header>
 
-		
+		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		<section id="content">
 			<h1 id="h01">분실물 문의 상세 조회페이지</h1>
 			<hr>		

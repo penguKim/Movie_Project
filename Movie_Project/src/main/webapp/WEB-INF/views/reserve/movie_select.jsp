@@ -13,6 +13,21 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
+		$(document).ready(function() {
+		    // 파라미터로 넘어온 theater_name 값 저장
+		    var urlParams = new URLSearchParams(window.location.search);
+		    var theaterName = urlParams.get('theater_name');
+		    // 극장 버튼들을 순회하며 theater_name과 일치하는 버튼을 선택
+		    $('.btnTheater').each(function() {
+		        if ($(this).val() === theaterName) {
+		            $(this).addClass('selected');
+		            $('#Result_T').text($('.btnTheater.selected').val());
+		            param();
+	                T = true;
+                    T_Ajax();
+		        }
+		    });
+		});
 		let M,T,D = null;
 		$(".btnMovie").click(function(){
 			$('.btnMovie').removeClass('selected');
@@ -622,7 +637,11 @@
 									
 									            // 조건을 만족할 경우 $(".btnMovie").click() 호출
 									            $("#selectedVal").click();
+									            
+									            
 									        });
+									        
+									        
 									    </script>
 									</c:when>
 									<c:otherwise>
@@ -632,6 +651,7 @@
 							</c:forEach>
 						</div> 
 						<div class="overflow theater"><b>극장</b>
+
 							<c:forEach var="theaterList" items="${theaterList}">
 								<input type ="button" value="${theaterList.theater_name}" class="btnTheater"><br>
 							</c:forEach>
