@@ -97,6 +97,7 @@ public interface LoginMapper {
 	int updateMyBuy(Map<String, String> map);
 	//=====================================================================================
 
+
 	
 
 }

@@ -97,6 +97,9 @@ th {
 	width: 800px;
 }
 
+#my_table2 tr:nth-child(odd) { /* 홀수줄에만 */
+	background-color: #eeeeee; /* 배경색 넣기 */
+}
 #my_table1 tr:nth-child(odd) { /* 홀수줄에만 */
 	background-color: #eeeeee; /* 배경색 넣기 */
 }
@@ -632,4 +635,8 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
 
 #MyOneOnOneSubject {
 	text-align: left !important;
+}
+#my_table1 a {
+  text-decoration: none;
+  color: black;
 }

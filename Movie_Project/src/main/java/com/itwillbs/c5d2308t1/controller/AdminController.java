@@ -194,6 +194,7 @@ public class AdminController {
 	}
 	
 	//영화검색 페이지에서 검색버튼 누를시 데이터 조회
+//	@ResponseBody
 	@PostMapping("adminMovieDetails")
 	public String adminMovieDetails(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -201,7 +202,7 @@ public class AdminController {
 			model.addAttribute("msg", "잘못된 접근입니다!");
 			return "fail_back";		
 		}
-		return "admin/admin_movie_search";
+		return "true";
 	}	
 	
 

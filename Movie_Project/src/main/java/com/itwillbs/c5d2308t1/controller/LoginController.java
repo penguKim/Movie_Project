@@ -96,9 +96,9 @@ public class LoginController {
 	    Cookie cookie = new Cookie("cookieId", dbMember.getMember_id()); // 쿠키에 아이디 저장
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    
-//	    if(dbMember == null) {//로그인 실패시
+	    
 	    if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
-
+	    
 	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
 	    	return "fail_back";
 	    	
@@ -257,7 +257,7 @@ public class LoginController {
 		}
 		
 	@GetMapping("Mypage_ReviewList")//리뷰 페이지로 이동
-	public String Mypage_ReviewList(HttpSession session, Model model, ReviewsVO review) {
+	public String Mypage_ReviewList(@RequestParam(defaultValue = "1") int pageNum ,HttpSession session, Model model, ReviewsVO review) {
 		String sId = (String)session.getAttribute("sId");
 		review.setMember_id(sId); //현재 세션에 저장된 Id를 가져와서 review 객체의 member_id에 설정
 		if (sId == null) {
@@ -265,6 +265,7 @@ public class LoginController {
 			model.addAttribute("targetURL","memberLogin");
 			return "forward";
 		}		
+		
 		
 		List<ReviewsVO> myReview = service.getReviewList(review);
 		
@@ -431,7 +432,7 @@ public class LoginController {
 	
 	// 분실물 문의 게시판으로 이동
 	@GetMapping("Mypage_LostBoard_List")
-	public String LostBoard(Model model, HttpSession session, CsVO myCs) { 
+	public String LostBoard(@RequestParam(defaultValue = "1") int pageNum,Model model, HttpSession session, CsVO myCs) { 
 		
 		String sId = (String)session.getAttribute("sId");
 		
@@ -442,6 +443,32 @@ public class LoginController {
 //		Map<String, Object> myLost2 = service.getlostnfound(myCs);
 		
 //		myLost2.put("myLost2", myLost2);
+		
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+				PageDTO page = new PageDTO(pageNum, 3);
+				
+				// LoginService - getMyOneOnOnePostsCount() 메서드 호출해 전체 게시글 개수 조회
+				// => 파라미터 : 세션 아이디(sId)	 리턴타입 : int
+				int listCount = service.getMyOneOnOnePostsCount(sId);
+				
+				// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
+				PageCount pageInfo = new PageCount(page, listCount, 3);
+				
+				// LoginService - getMyOneOnOnePosts() 메서드 호출해 글 목록 조회
+				// => 파라미터 : 세션 아이디(sId), PageDTO 객체(page) 	 리턴 타입 : List<HashMap<String, Object>>(myOneOnOneList)
+				List<HashMap<String, Object>> myOneOnOneList = service.getMyOneOnOnePosts(sId, page);
+//				List<HashMap<String, Object>> myOneOnOneList = service.getMyOneOnOnePosts(sId);
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				for(HashMap<String, Object> map : myOneOnOneList) {
+					// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+					LocalDateTime date = (LocalDateTime)map.get("cs_date");
+					map.put("cs_date", date.format(dtf));
+				}
+//				System.out.println("myOneOnOneList : " + myOneOnOneList);
+				model.addAttribute("myOneOnOneList", myOneOnOneList);
+				model.addAttribute("sId", sId);
+				model.addAttribute("pageInfo", pageInfo);
+		
 		
 		model.addAttribute("myLost", myLost);
 		

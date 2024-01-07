@@ -79,6 +79,7 @@
 		AND m.member_id = #{sId}
 	</select>
 	
+	
 	<!-- 1대1문의 글 상세 조회 -->
 	<select id="selectMyOneOnOneDetail" resultType="hashmap">
 		SELECT *

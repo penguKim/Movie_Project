@@ -13,10 +13,12 @@
 	position: relative;
 	left: 6em;
 }
+
 </style>
 <title>분실물 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<%-- <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css"> --%>
+<link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -36,15 +38,17 @@
 			<jsp:include page="../inc/top.jsp"></jsp:include>
 		</header>
 
-		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content">
 			<h1 id="h01">분실물 문의 상세 조회페이지</h1>
 			<hr>		
 
+			<div id="mypage_nav"> <%-- 사이드 메뉴바 --%>
+				<jsp:include page="mypage_menubar.jsp"></jsp:include>
+			</div>
 			<div id="admin_sub" align="center">
 				<form action="" method="post">
-					<table border="1">
+					<table border="1" id="my_table2">
 						<tr>
 							<th>번호</th>
 							<td>${myLostDetail.cs_id}</td>

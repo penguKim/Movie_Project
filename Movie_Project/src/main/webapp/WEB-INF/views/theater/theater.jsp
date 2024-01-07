@@ -14,23 +14,9 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	
 <script type="text/javascript">
-var selectedTheater; // 선택한 영화관 값을 저장할 변수ddddd
-
-// 영화관 버튼을 클릭했을 때 호출되는 함수
-document.querySelectorAll('.theater-button').forEach(function(button) {
-    button.addEventListener('click', function() {
-        selectedTheater = this.getAttribute('data-theater');
-    });
-});
-
-// 예매하기 버튼을 클릭했을 때 호출되는 함수
-function goToReservation() {
-    if (!selectedTheater) {
-        alert("영화관을 선택해주세요.");
-    } else {
-        window.location.href = "movie_select?theater_name=" + selectedTheater;
-    }
-}
+	
+	
+	
 	</script>
 </head>
 <body>
@@ -50,9 +36,9 @@ function goToReservation() {
 			<hr>
 			<div class="menu" >
 					<nav class="theater1">
-						<c:forEach var="theaterName" items="${ theaterNames}" varStatus="status">
-							<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}" onclick="selectTheater('${theaterName.theater_name}')">
-							<input type="hidden" value="${theaterName.theater_name}">
+					<c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
+						<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
+						<input type="hidden" value="${theaterName.theater_name}">
 					<c:set var="theaterName.theater_name" value="${theaterName.theater_name}"></c:set>
 				</c:forEach>
 				</nav>
@@ -70,24 +56,6 @@ function goToReservation() {
 		    </ul>
 		    
 		    
-<div class="menu">
-    <nav class="theater1">
-        <c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
-            <input type="button" class="theater-button" data-theater="${theaterName.theater_name}" value="${theaterName.theater_name}">
-        </c:forEach>
-    </nav>
-</div>
-<hr>
-<div id="theater_event">
-    <a href="http://localhost:8081/c5d2308t1/detail?movie_id=20203702">
-        <img src="${pageContext.request.contextPath}/resources/img/이벤트.jpg" alt="cgv" id="image">
-    </a>
-</div>
-
-<ul class="tab-menu" id="menu">
-    <li class="on"><a href="javascript:void(0)" onclick="goToReservation()" title="현재 선택됨">예매하기</a></li>
-    <li class="last" onclick=""><a href="theater_parking">위치/주차안내</a></li>
-</ul>
 		    
 		    
 		    
@@ -178,7 +146,7 @@ function goToReservation() {
 							</script>
 		
 							<script>
-								// 이미지 지도로 변경 및 마커스 찍기
+// 								이미지 지도로 변경 및 마커스 찍기
 										 function changeImage(imageSrc, lat, lng) {
 							  var image = document.getElementById("image");
 							  image.src = imageSrc;
@@ -196,6 +164,8 @@ function goToReservation() {
 							  });
 							  marker.setMap(map);
 							}
+								
+								
 							 var locations = [
 								  {
 								    id: "서면삼정타워",
@@ -258,14 +228,6 @@ function goToReservation() {
 								    lng: 129.1584244156929
 								  }
 								];
-							 
-// 								 function changeNotice(locationId) {
-// 								  var noticeContainer = document.getElementById('theater-notice');
-// 								  if (noticeContainer) {
-// 								    var noticePage = '../inc/' + 동래_ + '_notice.jsp';
-// 								    noticeContainer.innerHTML = '<jsp:include page="' + noticePage + '"></jsp:include>';
-// 								  }
-// 								}
 							 
 								locations.forEach(function(location) {
 								  var container = document.getElementById(location.id);
