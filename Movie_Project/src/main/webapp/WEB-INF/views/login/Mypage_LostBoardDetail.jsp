@@ -21,7 +21,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	$(function() { // 테스트
+	$(function() { 
 		$("#modify").on("click", function() {
 			if(confirm("답변을 수정하시겠습니까?")) {
 				return true;
