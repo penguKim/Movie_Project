@@ -394,10 +394,15 @@
 	padding: 10px;
 }
 
+/* 차트 */
+.chart {
+	display: inline-block;
+}
+
 /* 트레일러 */
 .movie_trailer {
 	width: 600px;
-	height: 400px;
+	height: 450px;
 	text-align: center;
 	margin: 20px auto;
 	padding: 10px;

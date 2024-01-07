@@ -11,6 +11,13 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
+		<%-- 뒤로가기 방지 --%>
+		window.addEventListener('pageshow', function(event) { <%-- 페이지가 로드되거나 새로고침 발생 이벤트 --%>
+			if (event.persisted) { <%-- 뒤로가기나 앞으로가기로 이동했을 시 true 리턴 --%>
+			    location.reload(); <%-- 페이지 새로고침 --%>
+			}
+		});
+
 		// 변수 선언
 		let iscorrectName = false;
 		let iscorrectEmail = false;

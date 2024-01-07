@@ -180,6 +180,7 @@
 </script>
 
 <script type="text/javascript">
+	// 예매 순위 차트
 	$(function() {
 		var xValues = [];
 		var yValues = [];

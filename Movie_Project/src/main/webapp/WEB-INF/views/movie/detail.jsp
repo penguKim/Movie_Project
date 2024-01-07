@@ -116,6 +116,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 });
 </script>
 <script type="text/javascript">
+	<%-- 연령대 차트 --%>
 	$(function() {
 		const xValues = [];
 		const yValues = [];
@@ -128,7 +129,6 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				movie_id: ${param.movie_id}
 			},
 			success: function(result) {
-				console.log(result);
 				for(let ageGroup of result) {
 					xValues.push(ageGroup.age + "대");
 					yValues.push(ageGroup.count);
@@ -140,38 +140,107 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				    return Math.floor((value / total) * 100);
 				});
 				
-				new Chart("myChart", {
+				new Chart("ageGroupChart", {
 				  type: "bar",
 				  data: {
 				    labels: xValues,
 				    datasets: [{
-				      backgroundColor: barColors,
-// 				      data: yValues
+			        backgroundColor: function(context) {
+			            var index = context.dataIndex; // 데이터 항목
+			            var value = context.dataset.data[index]; // 데이터 배열에서 해당 항목을 value로 저장
+			            // ... 연산자를 사용하여 배열의 모든 항목을 꺼내서 비교한다.
+			            return value === Math.max(...percentData) ? '#FF0000' : '#9E9E9E'; 
+			          },
 				      data: percentData
 				    }]
 				  },
-				  options: {
-				    legend: {display: false},
-				    title: {
-				      display: true,
-				      text: "연령대별 예매 비율"
-				    },
-				    scales : {
+				options: {
+					legend: {display: false},
+					title: {
+						display: true,
+						text: "연령대별 예매 분포"
+					},
+					scales : {
 						yAxes : [ {
 							ticks : {
 								beginAtZero : true, // 0부터 시작하게 합니다.
 								callback: function(value) {
-			                        return value + '%';  // y축의 표시 형식을 퍼센트로 변경
-			                    }
+								return value + '%';  // y축의 표시 형식을 퍼센트로 변경
+								}
 							}
 						} ]
+					},
+					tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+								var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+								return value + '%'; // 툴팁에 표시되는 데이터 형식을 퍼센트로 변경
+							}
+						}
 					}
-				  }
+				}
 				});
 			},
 			error : function() {
 				alert("차트 로딩 실패!");
 			}
+		});
+		
+		$(function() {
+			const xValues = ["남성", "여성"];
+			const yValues = [];
+			const barColors = [
+			  "#b91d47",
+			  "#00aba9"
+			];
+			
+			
+			$.ajax({
+				url: "movieGenderGroup",
+				data: {
+					movie_id: ${param.movie_id}
+				},
+				success: function(result) {
+					for(let genderGroup of result) {
+						yValues.push(genderGroup.count);
+					}
+					
+					let total = yValues.reduce(function(sum, value) {
+					    return sum + value;
+					}, 0);
+					let percentData = yValues.map(function(value) {
+					    return Math.floor((value / total) * 100);
+					});
+					
+					new Chart("genderChart", {
+						type: "pie",
+						data: {
+							labels: xValues,
+							datasets: [{
+								backgroundColor: barColors,
+								data: percentData
+							}]
+						},
+						options: {
+							title: {
+								display: true,
+								text: "성별 예매 분포"
+							},
+							tooltips: {
+								callbacks: {
+									label: function(tooltipItem, data) {
+										var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+										return value + '%'; // 툴팁에 표시되는 데이터 형식을 퍼센트로 변경
+									}
+								}
+							}
+						}
+					});
+					
+				}
+			});
+
+
 		});
 		
 	});
@@ -207,7 +276,6 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 						</ul>
 					</div>
 					<div class="detail_reserve_clear">
-					<!-- 					<div class="reserve_area"> -->
 						<button id="likeBtn" class="detail_likeBtn likeBtn" data-id="${movie_id }" data-title="${movie_title }" onclick="likeBtnClick(this)"><i class="fa fa-heart-o"></i>찜하기</button>
 						<a href="movie_select?movie_title=${movie_title}">
 							<input type="button" value="예매하기"></a>
@@ -225,8 +293,17 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			    <div class="movie_story" id="movie_story">
 		    	<hr>
 		    	<h2>줄거리</h2>
-			    ${movie_plot }
-			    <canvas id="myChart" style="width:100%;max-width:600px; height:50%;"></canvas>
+		    	<div>
+				    ${movie_plot }
+		    	</div>
+		    	<div>
+				    <div class="chart">
+					    <canvas id="genderChart" style="width:100%;max-width:290px; height:50%;"></canvas>
+				    </div>
+				    <div class="chart">
+					    <canvas id="ageGroupChart" style="width:100%;max-width:290px; height:100%;"></canvas>
+				    </div>
+		    	</div>
 			    </div>
 				<c:if test="${not empty movie_trailer }">
 				    <div class="movie_trailer" id="movie_trailer">
@@ -238,7 +315,6 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			    <div class="movie_cut" id="movie_cut">
 			    	<hr>
 			    	<h2>스틸컷</h2>
-<!-- 			    	<img alt="" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000087/87596/87596220582_727.jpg" width="600px" height="350px"> -->
 						<c:if test="${not empty movie_still1 }"><img src="${movie_still1 }"></c:if>
 						<c:if test="${not empty movie_still2 }"><img src="${movie_still2 }"></c:if>
 						<c:if test="${not empty movie_still3 }"><img src="${movie_still3 }"></c:if>
@@ -253,7 +329,6 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 					    	<input type="hidden" name="movie_id" value="${movie_id}">
 						</form>
 				    	<br>
-						
 		    			<table id="review_no">
 		    			<tr id="review_tr">
 			    			<td rowspan="6" width="200">

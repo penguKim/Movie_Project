@@ -568,7 +568,13 @@ public class LoginController {
 		
 	// 아이디 찾기
 	@GetMapping("idFind")
-	public String idFind() {
+	public String idFind(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId != null) { // 로그인한 경우
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
 		return "login/id_find";
 	}
 		
@@ -583,7 +589,13 @@ public class LoginController {
 	
 	// 비밀번호 찾기
 	@GetMapping("pwFind")
-	public String passwdFind() {
+	public String passwdFind(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId != null) { // 로그인한 경우
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
 		return "login/pw_find";
 	}
 	
@@ -591,7 +603,6 @@ public class LoginController {
 	@ResponseBody
 	@GetMapping("memberCheck")
 	public boolean memberCheck(MemberVO member) {
-		
 		MemberVO dbMember = service.getMember(member);
 		
 		// 없는 아이디거나 회원의 이름을 잘못입력한 경우
@@ -605,7 +616,13 @@ public class LoginController {
 	
 	// 비밀번호 수정 페이지로 이동
 	@PostMapping("modifyMemberPw")
-	public String findMemberInfo(MemberVO member, Model model) {
+	public String findMemberInfo(MemberVO member, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId != null) { // 로그인한 경우
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
 		model.addAttribute("member", member);
 		return "login/pw_modify";
 	}

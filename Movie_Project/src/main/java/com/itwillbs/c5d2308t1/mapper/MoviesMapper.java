@@ -66,8 +66,12 @@ public interface MoviesMapper {
 	// 상세 페이지에 출력할 연령대 차트 데이터
 	List<Map<String, Object>> selectAgeGroupList(int movie_id);
 
+	// 영화 상세페이지에 사용할 성별 통계
+	List<Map<String, Object>> selectGenderGroupList(int movie_id);
+	
 	// 종영작으로 수정하는 작업
 	void updateMovieEndingStatus(Map<String, Object> movie);
+
 
 
 }

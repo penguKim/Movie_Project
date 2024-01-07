@@ -127,6 +127,16 @@ public class MoviesController {
 		return ageGroupList;
 	}
 	
+	// 상세 페이지의 성별 차트
+	@ResponseBody
+	@GetMapping("movieGenderGroup")
+	public List<Map<String, Object>> movieGenderGroup(int movie_id, Map<String, List<Map<String, String>>> map) {
+		
+		List<Map<String, Object>> genderGroupList = service.getGenderGroupList(movie_id);
+		
+		return genderGroupList;
+	}
+	
 	// 찜하기 기능
 	@ResponseBody
 	@GetMapping("likeCheck")

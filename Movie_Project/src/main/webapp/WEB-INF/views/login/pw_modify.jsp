@@ -10,7 +10,14 @@
 <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+
 	$(function() {
+		<%-- 뒤로가기 방지 --%>
+		if (performance.navigation.type === 2) { <%-- 0 : 처음 로딩/새로고침, 1 : 페이지가 앞/뒤로 이동, 2 : 페이지가 뒤로 이동  --%>
+			alert('비정상적인 접근입니다.\n메인페이지로 이동합니다.');
+			location.href = './'; //다른 페이지로 이동
+		}		
+		
 		// 변수 선언
 		isSafePasswd = false;
 		iscorrectPasswd = false;
@@ -113,6 +120,7 @@
 							alert("비밀번호 수정을 실패했습니다.");
 						} else {
 							$("#modal-subject").html("<h3>비밀번호를 수정했습니다.</h3><br><br>"
+// 									+ "<a href='javascript:location.replace(\"memberLogin\")'><input type='button' value='로그인하기'></a>"
 									+ "<a href='memberLogin'><input type='button' value='로그인하기'></a>"
 									+ "&nbsp;<a href='./'><input type='button' value='메인으로 이동'></a>"
 								);

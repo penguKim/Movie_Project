@@ -113,4 +113,9 @@ public class MoviesService {
 		return mapper.selectAgeGroupList(movie_id);
 	}
 
+	// 영화 상세페이지에 사용할 성별 통계
+	public List<Map<String, Object>> getGenderGroupList(int movie_id) {
+		return mapper.selectGenderGroupList(movie_id);
+	}
+
 }
