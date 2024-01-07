@@ -574,6 +574,21 @@
 			, movie_id = #{movie_id}
 		WHERE play_id = #{play_id}
 	</update>
+	
+	<!-- 상영 일정 수정 버튼 클릭 시 기존 일정 조회 -->
+	<select id="selectpreviousScheduleInfo" resultType="hashmap">
+		SELECT *
+		FROM plays JOIN movies
+		ON plays.movie_id = movies.movie_id 
+		JOIN rooms
+		ON plays.room_id = rooms.room_id
+		JOIN theaters
+		ON rooms.theater_id = theaters.theater_id
+		WHERE plays.play_id = #{previousTrId}
+	</select>
+	
+	
+	<!-- ==================================================================  -->
 
 	<!-- 리뷰 조회 -->
 	<select id="selectReviewList" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">

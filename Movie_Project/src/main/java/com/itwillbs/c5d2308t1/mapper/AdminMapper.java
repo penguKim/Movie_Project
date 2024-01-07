@@ -149,6 +149,12 @@ public interface AdminMapper {
 	int updateSchedule(PlayVO play);
 //	int updateSchedule(@Param("playId") String playId, @Param("theaterId") String theaterId, @Param("roomId") String roomId, @Param("movieId") String movieId, @Param("playDate") String playDate, @Param("playStartTime") String playStartTime, @Param("playEndTime") String playEndTime);
 
+	
+	// 상영 일정 수정 버튼 클릭 시 기존 일정 조회
+	Map<String, Object> selectpreviousScheduleInfo(String previousTrId);
+	
+	
+	// ==========================================================================
 	//리뷰 조회
 	List<ReviewsVO> selectReviewList(ReviewsVO review);
 
@@ -187,6 +193,7 @@ public interface AdminMapper {
 	
 	// 결제 관리 상세페이지 결제취소 요청 작업
 	int updatePaymentBuyCancel(Map<String, String> map);
+
 		
 
 

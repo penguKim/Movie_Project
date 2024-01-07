@@ -255,6 +255,14 @@ public class AdminService {
 		return mapper.updateSchedule(play);
 
 	}
+	
+	// 상영일정 수정 버튼 클릭 시 기존 상영일정 조회 작업
+	public Map<String, Object> getpreviousScheduleInfo(String previousTrId) {
+		return mapper.selectpreviousScheduleInfo(previousTrId);
+	}
+	
+	
+	// ========================================================================
 
 	//리뷰 조회
 	public List<ReviewsVO> getReviewLiset(ReviewsVO review) {
@@ -318,6 +326,8 @@ public class AdminService {
 	public int getPaymentBuyCancel(Map<String, String> map) {
 		return mapper.updatePaymentBuyCancel(map);
 	}
+
+
 
 
 

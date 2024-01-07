@@ -502,8 +502,18 @@ public class AdminController {
 			}
 		}
 		
+	}
+	
+	// 상영 딜정 수정 버튼 클릭 시 기존 상영일정 정보 조회 작업
+	@ResponseBody
+	@PostMapping("previousScheduleInfo")
+	public Map<String, Object> previousScheduleInfo(@RequestParam String previousTrId) {
+		System.out.println("파라미터로 받아온 previousTrId : " + previousTrId);
 		
+		Map<String, Object> map = service.getpreviousScheduleInfo(previousTrId);
+		System.out.println("셀렉트한 기존 상영일정 데이터 : " + map);
 		
+		return map;
 	}
 	
 	// ===========================================================================================
