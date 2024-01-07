@@ -1,7 +1,11 @@
 package com.itwillbs.c5d2308t1.controller;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -10,8 +14,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.GrantType;
@@ -20,7 +23,6 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +30,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UrlPathHelper;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.itwillbs.c5d2308t1.service.JoinService;
+import com.itwillbs.c5d2308t1.vo.CommonData;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.NaverLoginVO;
 
@@ -147,39 +151,45 @@ public class JoinController {
 	}
 
 	// 카카오 api
-	@ResponseBody
+//	@ResponseBody
 	@GetMapping("kakaocallback")
-    public String kakaocallback(String code) {
-
-		// POST 방식으로 key=value 데이터를 요청 (카카오쪽으로)
-		// 이 때 필요한 라이브러리가 RestTemplate, 얘를 쓰면 http 요청을 편하게 할 수 있다.
-		RestTemplate rt = new RestTemplate();
-
-		// HTTP POST를 요청할 때 보내는 데이터(body)를 설명해주는 헤더도 만들어 같이 보내줘야 한다.
+		public String kakao_callback(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, Model model) throws Exception {
+		
+		UrlPathHelper urlPathHelper = new UrlPathHelper();
+		String originalURL = urlPathHelper.getOriginatingRequestUri(request);
+		Map<String, String[]> paramMap = request.getParameterMap();
+		Iterator keyData = paramMap.keySet().iterator();
+		CommonData dto = new CommonData();
+		
+		while (keyData.hasNext()) {
+			String key = ((String)keyData.next());
+			String[] value = paramMap.get(key);
+			dto.put(key, value[0].toString());
+		}
+		
+		// 토큰을 받을 주소 요청
+		String url = "https://kauth.kakao.com/oauth/token";
+		RestTemplate restTemplate = new RestTemplate();
+		
+		
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-
-		// body 데이터를 담을 오브젝트인 MultiValueMap를 만들어보자
-		// body는 보통 key, value의 쌍으로 이루어지기 때문에 자바에서 제공해주는 MultiValueMap 타입을 사용한다.
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("grant_type", "authorization_code");
-		params.add("client_id", "f165f9545708875e8004b990573d1f65");
-		params.add("redirect_uri", "http://localhost:8081/c5d2308t1/kakaocallback");
-		params.add("code", code);
-
-		// 요청하기 위해 헤더(Header)와 데이터(Body)를 합친다.
-		// kakaoTokenRequest는 데이터(Body)와 헤더(Header)를 Entity가 된다.
-		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
-
-		// POST 방식으로 Http 요청한다. 그리고 response 변수의 응답 받는다.
-		ResponseEntity<String> response = rt.exchange(
-				"https://kauth.kakao.com/oauth/token", // https://{요청할 서버 주소}
-				HttpMethod.POST, // 요청할 방식
-				kakaoTokenRequest, // 요청할 때 보낼 데이터
-				String.class // 요청 시 반환되는 데이터 타입
-		);
-		return "카카오 토큰 요청 완료 : 토큰 요청에 대한 응답 : "+response;
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		map.add("client_id", "f165f9545708875e8004b990573d1f65");
+		map.add("redirect_uri", "http://localhost:8081/c5d2308t1/kakaocallback");
+		map.add("grant_type", "authorization_code");
+		map.add("code", dto.get("code"));
+        
+		HttpEntity<LinkedMultiValueMap<String, String>> request2 = 
+				new HttpEntity<LinkedMultiValueMap<String, String>>(map, headers);
+		CommonData response2 = restTemplate.postForObject(url, request2, CommonData.class);
+		map.clear();
+		model.addAttribute("access_token", response2.get("access_token"));
+		System.out.println("카카오 토큰 = " + response2.get("access_token"));
+		return "join/kakaocallback";
 	}
+	
 	
 	// 이메일 인증
 	@ResponseBody
