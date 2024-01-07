@@ -358,7 +358,7 @@
 	<insert id="insertBoard">
 		<!-- cs_type_list_num 계산하여 넣기 -->
 		<selectKey keyProperty="cs_type_list_num" resultType="int" order="BEFORE">
-			SELECT MAX(cs_type_list_num)
+			SELECT IFNULL(MAX(cs_type_list_num), 0)
 			FROM cs
 			WHERE cs_type = #{cs_type}
 		</selectKey>
@@ -380,7 +380,7 @@
 					, #{theater_id}
 				</when>
 				<otherwise>
-					, theater_id = null		
+					, theater_id = null
 				</otherwise>
 			</choose>
 		)		
@@ -391,7 +391,7 @@
 		UPDATE cs
 			SET
 				<choose>
-					<when test="theater_id != null">
+					<when test="theater_id != 0">
 						theater_id = #{theater_id}
 					</when>
 					<otherwise>

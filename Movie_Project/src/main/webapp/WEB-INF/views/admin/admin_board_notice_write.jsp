@@ -52,7 +52,7 @@
 							<th width="90px">지점</th>
 							<td>
 								<select name="theater_id" id="theater_id">
-									<option value="">전체</option>
+									<option value="0">전체</option>
 								</select>
 							</td>
 						</tr>

@@ -32,8 +32,8 @@
 								<select id="select" name="cs_type_detail">
 									<option value="">유형선택</option>
 									<option value="예매" <c:if test="${faqDetail.cs_type_detail eq '예매'}">selected</c:if>>예매</option>
-									<option value="관람권" <c:if test="${faqDetail.cs_type_detail eq '관람권'}">selected</c:if>>관람권</option>
-									<option value="할인혜택" <c:if test="${faqDetail.cs_type_detail eq '할인혜택'}">selected</c:if>>할인혜택</option>
+									<option value="스토어" <c:if test="${faqDetail.cs_type_detail eq '스토어'}">selected</c:if>>스토어</option>
+									<option value="홈페이지" <c:if test="${faqDetail.cs_type_detail eq '홈페이지'}">selected</c:if>>홈페이지</option>
 									<option value="영화관이용"  <c:if test="${faqDetail.cs_type_detail eq '영화관이용'}">selected</c:if>>영화관이용</option>
 								</select>
 							</td>

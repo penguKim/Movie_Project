@@ -25,7 +25,7 @@
 			let documentHeight = $(document).height(); // 문서 높이
 // 			console.log("scrollTop : " + scrollTop + ", windowHeight : " + windowHeight + ", documentHeight : "+ documentHeight);
 			
-			if(scrollTop + windowHeight + 50 >= documentHeight) {
+			if(scrollTop + windowHeight + 10 >= documentHeight) {
 				pageNum++; // 페이지번호 1 층가
 				
 				// 페이지 번호를 계속 불러오는 현상 막기
@@ -184,8 +184,8 @@
 					<ul>
 						<li><input type="button" value="전체" class="faqButton btn-active" name=""></li> <%-- 전체 질문 보기 --%>
 						<li><input type="button" value="예매" class="faqButton btn-inactive" name="예매"></li> <%-- 예매 관련 질문 모아보기 --%>
-						<li><input type="button" value="관람권" class="faqButton btn-inactive" name="관람권"></li> <%-- 관람권 관련 질문 모아보기 --%>
-						<li><input type="button" value="할인혜택" class="faqButton btn-inactive" name="할인혜택"></li> <%-- 할인 관련 질문 모아보기 --%>
+						<li><input type="button" value="스토어" class="faqButton btn-inactive" name="스토어"></li> <%-- 스토어 관련 질문 모아보기 --%>
+						<li><input type="button" value="홈페이지" class="faqButton btn-inactive" name="홈페이지"></li> <%-- 홈페이지 관련 질문 모아보기 --%>
 						<li><input type="button" value="영화관이용" class="faqButton btn-inactive" name="영화관이용"></li> <%-- 영화관 관련 질문 모아보기 --%>
 					</ul>
 				</nav>
