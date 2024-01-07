@@ -129,10 +129,10 @@
 				<table border="1" width="1100" id="scheduleTable">
 					<thead>
 						<tr>
-							<th>지점</th>
-							<th>상영관</th>
-							<th>영화명</th>
-							<th>상영시간</th>
+							<th width="200">지점</th>
+							<th width="150">상영관</th>
+							<th width="600">영화명</th>
+							<th width="150">상영시간</th>
 						</tr>
 					</thead>
 <!-- 					<tbody> -->

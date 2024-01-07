@@ -405,6 +405,7 @@ public class AdminController {
 //		return playTimeInfo;
 //	}
 	
+	// ajax 이용하여 상영시간 정보 불러오기
 	@ResponseBody
 	@GetMapping("getPlayTimeInfo")
 	public HashMap<String, Object>[] getPlayTimeInfo(PlayVO play) {
