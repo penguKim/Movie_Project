@@ -124,16 +124,18 @@
 		and c.member_id = #{sId}
 		</select>
 	
-	
+	<!-- 분실물 페이징 처리를 위한 게시물 조회 -->
 		<select id="selectLostListCount" resultType="hashmap">
-		SELECT *
-		FROM members m
-		JOIN cs c
-		ON m.member_id = c.member_id
-		WHERE cs_type = '분실물문의'
-		and c.member_id = #{sId}
-	</select>
-	
+			SELECT *
+			FROM members m
+			JOIN cs c ON m.member_id = c.member_id
+			JOIN theaters t ON t.theater_id = c.theater_id
+			WHERE c.cs_type = '분실물문의'
+			AND m.member_id = #{sId}
+			ORDER BY cs_date DESC
+			LIMIT #{page.startRow}, #{page.listLimit}
+		</select>
+		
 	<!-- 리뷰 조회 -->
 	<select id="selectMyreview" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">
 	    SELECT review_id, review_content, review_date, r.movie_id, r.member_id, m.movie_title

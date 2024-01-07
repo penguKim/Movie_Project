@@ -99,6 +99,8 @@ public interface LoginMapper {
 
 	int getLostBoardCount(String sId);
 
+	List<HashMap<String, Object>> selectLostListCount(@Param("sId") String sId, @Param("page") PageDTO page);
+
 
 
 

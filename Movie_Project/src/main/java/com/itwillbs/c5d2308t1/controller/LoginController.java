@@ -353,7 +353,6 @@ public class LoginController {
 		model.addAttribute("myOneOnOneList", myOneOnOneList);
 		model.addAttribute("sId", sId);
 		model.addAttribute("pageInfo", pageInfo);
-
 		
 		return "login/Mypage_OneOnOneList";
 	}
@@ -438,7 +437,7 @@ public class LoginController {
 		
 		myCs.setMember_id(sId);
 		
-		List<CsVO> myLost = service.getLostBoardList(myCs);
+//		List<CsVO> myLost = service.getLostBoardList(myCs);
 		
 		PageDTO page = new PageDTO(pageNum, 5);
 		
@@ -447,13 +446,23 @@ public class LoginController {
 		
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		
+		List<HashMap<String, Object>> myLostBoardList = service.selectLostListCount(sId, page);
 		
-		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		for(HashMap<String, Object> map : myLostBoardList) {
+			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+			LocalDateTime date = (LocalDateTime)map.get("cs_date");
+			map.put("cs_date", date.format(dtf));
+		}
+		model.addAttribute("myOneOnOneList", myLostBoardList);
+		model.addAttribute("sId", sId);
+		model.addAttribute("pageInfo", pageInfo);
 		
 		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ " + listCount);
-		model.addAttribute("myLost", myLost);
+//		model.addAttribute("myLost", myLost);
+		model.addAttribute("myLostBoardList", myLostBoardList);
 		
-		System.out.println("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ + " + myLost);
+		System.out.println("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ + " + myLostBoardList);
 		
 		return "login/Mypage_LostBoard_List";
 	}

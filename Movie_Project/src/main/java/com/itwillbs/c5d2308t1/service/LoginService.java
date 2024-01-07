@@ -163,6 +163,12 @@ public class LoginService {
 		return mapper.getLostBoardCount(sId);
 	}
 
+	// 분실물 페이지 페이징 처리
+	public List<HashMap<String, Object>> selectLostListCount(String sId, PageDTO page) {
+		
+		return mapper.selectLostListCount(sId,page);
+	}
+
 
 
 	

@@ -44,18 +44,50 @@
 							<th>등록일</th>
 						</tr>
 						
-					<c:forEach var="myLost" items="${myLost}" varStatus="status">
+					<c:forEach var="myLostBoardList" items="${myLostBoardList}" varStatus="status">
 						<tr>
-							<td>${myLost.cs_id}</td>
-							<td><a href="Mypage_LostBoardDetail?cs_id=${myLost.cs_id }">${myLost.cs_subject }</a></td>
-							<td>${myLost.theater_name }</td>
-							<td>${myLost.cs_date }</td>
+							<td>${myLostBoardList.cs_id}</td>
+							<td><a href="Mypage_LostBoardDetail?cs_id=${myLostBoardList.cs_id }">${myLostBoardList.cs_subject }</a></td>
+							<td>${myLostBoardList.theater_name }</td>
+							<td>${myLostBoardList.cs_date }</td>
 						</tr>
-					</c:forEach>						
+					</c:forEach>				
+
 					</table><br>
+					
+			<c:set var="pageNum" value="1" />
+				<c:if test="${not empty param.pageNum }">
+					<c:set var="pageNum" value="${param.pageNum }" />
+				</c:if>
+				<div class="pagination">
+					<c:choose>
+						<c:when test="${pageNum eq 1}">
+							<a href="" >&laquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="Mypage_LostBoard_List?pageNum=${pageNum-1}" >&laquo;</a>
+						</c:otherwise>				
+					</c:choose>
+					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						<c:choose>
+							<c:when test="${pageNum eq i}">
+								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+							</c:when>
+							<c:otherwise>
+								<a href="Mypage_LostBoard_List?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${pageNum eq pageInfo.maxPage}">
+							<a href="" >&raquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="Mypage_LostBoard_List?pageNum=${pageNum+1}" >&raquo;</a>
+						</c:otherwise>				
+					</c:choose>
 				</div>
-							
-							
+				</div>
 			</form>
 		</section>
 	

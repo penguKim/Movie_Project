@@ -11,7 +11,8 @@
 #admin_sub {
 	display: inline-block;
 	position: relative;
-	left: 6em;
+	margin: auto;
+/* 	left: 6em; */
 }
 
 </style>
@@ -87,9 +88,21 @@
 						</tr>
 						<tr>
 							<th height="300">답변 내용</th>
-							<td>
-								${myLostDetail.cs_reply }
-							</td>
+							<c:choose>
+								<c:when test="${empty myLostDetail.cs_reply}">
+									<td id="oneOnOneReplyArea" align="center"> 
+										더 나은 고객 응대를 위해<br>
+										고객님의 문의를 꼼꼼히 확인하고 있습니다.<br>
+										답변을 조금만 더 기다려주세요.<br>
+										- 아이티켓
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td>
+										${myLostDetail.cs_reply }
+									</td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 					</table>
 					<div id="admin_writer"> 

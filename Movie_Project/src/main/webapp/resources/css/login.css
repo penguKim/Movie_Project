@@ -97,10 +97,7 @@ th {
 	width: 800px;
 }
 
-#my_table2 tr:nth-child(odd) { /* 홀수줄에만 */
-	background-color: #eeeeee; /* 배경색 넣기 */
-}
-#my_table1 tr:nth-child(odd) { /* 홀수줄에만 */
+#my_table2 th {
 	background-color: #eeeeee; /* 배경색 넣기 */
 }
 
@@ -113,6 +110,7 @@ th {
 #my_table1 td { /* 자주묻는질문, 공지사항 테이블 내용에 */
 	padding: 5px 10px; /* 안쪽 여백 지정 */
 	border: none;
+	border-bottom: 1px solid #9d9d9d;
 	text-align: center;
 }
 
