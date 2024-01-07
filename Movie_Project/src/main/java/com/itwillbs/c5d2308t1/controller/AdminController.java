@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -516,13 +518,22 @@ public class AdminController {
 		
 	}
 	
-	// 상영 딜정 수정 버튼 클릭 시 기존 상영일정 정보 조회 작업
+	// 상영 일정 수정 버튼 클릭 시 기존 상영일정 정보 조회 작업
 	@ResponseBody
 	@PostMapping("previousScheduleInfo")
 	public Map<String, Object> previousScheduleInfo(@RequestParam String previousTrId) {
 		System.out.println("파라미터로 받아온 previousTrId : " + previousTrId);
 		
 		Map<String, Object> map = service.getpreviousScheduleInfo(previousTrId);
+		// Map 객체로 받아온 play_date 형변환
+		Long timestamp = ((Date) map.get("play_date")).getTime() / 1000L;
+		Instant instant = Instant.ofEpochSecond(timestamp);
+		LocalDate date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedDate = date.format(formatter);
+
+	    map.put("play_date", formattedDate);
+		
 		System.out.println("셀렉트한 기존 상영일정 데이터 : " + map);
 		
 		return map;

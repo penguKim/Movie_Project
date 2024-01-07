@@ -818,11 +818,30 @@
 	// 이전에 선택한 tr의 id 값 저장할 변수 설정
 	let previousTrId = null;
 
-	function CannotDuplicateModify(currentTrId) {
+	function CannotDuplicateModify(currentTrId, play_date) {
+		console.log(play_date);
+		
 		console.log("이전 tr : " + previousTrId);
 		console.log("파라미터로 넘어온 현재 tr :" + currentTrId);
-
-
+		
+// 		console.log(play_start_time);
+// 		console.log(typeof(play_start_time)); //
+		// => 시간 판별은 오류로 나중에.. 일단 날짜까지만ㅇㅇ
+		
+		// 문자열 날짜를 정수형으로 변환
+		let intPlayDate = convertStringDateToInt(play_date);
+		
+		// 오늘 날짜 가져오기
+		var today = getToday();
+		
+		// 오늘 날짜와 비교
+		if(intPlayDate < today) {
+			alert("이전 상영일정은 삭제할 수 없습니다!");
+			
+		} else {
+			
+			
+		
 		// 클릭한 버튼이 속한 행을 선택합니다.
      	var row = $(".btnModify_" + currentTrId).closest("tr");
 
@@ -841,9 +860,6 @@
 
 
 			// 등록하기 이후 조회 처리와 동일 -> 이전 tr태그의 내용을 db에 등록된 정보로 덮어쓴다
-// 			<div id="modifyArea">안의 <tr> 내용을 일단 초기화(기존 선택 되어있던 값 조회모드로)
-// 			html(기존선택<td>태그들띄우기);
-			// 새로운 ajax 요청으로 정보 뿌리기?, 기존 ajax 요청 재활용?
 			// 기존 play_id를 넘겨줘서 아래의 데이터들을 받아온다 
 			// => 받아올 데이터 : theater_name, room_name, room_id, movie_title, movie_id, play_date, play_start_time, play_end_time
 			$.ajax({
@@ -861,7 +877,7 @@
 							+ '<input type="hidden" value="' + result.room_id+ '" id="room_id">'
 							+ '<td id="movie_title_mod" data-movie_title="' + result.movie_title + '">' + result.movie_title + '</td>'
 							+ '<input type="hidden" value="' + result.movie_id + '" id="movie_id">'
-							+ '<td id="play_date_mod">' + result.play_date + '</td>' // 형식 변형 필요
+							+ '<td id="play_date_mod">' + result.play_date + '</td>' // 포맷 완료
 							+ '<td id="play_start_time_mod" data-play_start_time="' + result.play_start_time + '">' + result.play_start_time + '</td>'
 							+ '<td id="play_end_time_mod">' + result.play_end_time + '</td>'
 							+ '<td><input type="button" value="수정" class="btnModify_' + result.play_id + '" onclick="CannotDuplicateModify(' + result.play_id + ')">'
@@ -1306,6 +1322,7 @@
 	                    alert("ajax 요청 실패! 항목을 처음부터 순서대로 다시 선택해보세요!");
 	                    location.reload();
 	                    // ajax 요청 실패 시 화면 전환 없이 다시 선택해도 수정 가능한지 확인하기
+	                    // => 일단 불가능해서 현재는 reload() 처리
 	                    
 	                }
 	            });
@@ -1324,47 +1341,93 @@
 				previousTrId = currentTrId; // 현재 tr 아이디를 기존 tr 아이디로 덮어씀
 				console.log("이전tr로 변경될 id : " + previousTrId);
 			}
-		
+		}
 	
 	} // 수정버튼 클릭 이벤트 처리 끝
 	// ********************************************************** 2안 끝 ****************************************************************
 	
 
 	// 삭제 버튼 클릭 시	
-	function confirmDelete(play_id) {
-		if(confirm("상영 일정을 삭제하시겠습니까?")) {
-			console.log(play_id);
-
-			// 확인 클릭 시 ajax 요청을 통해 삭제 작업 처리
-	        $.ajax({
-	        	type: "post",
-	        	url: "deletePlay",
-	        	data: {
-	        		play_id: play_id
-	        	},
-	        	success: function(result) {
-	        		console.log(result);
-	        		if(result == "success") {
-        				alert("상영 일정 삭제에 성공했습니다!");
-        				location.href = location.href;
-        				
-	        		} else if(result == "fail") {
-        				alert("상영 일정 삭제에 실패했습니다!");
-        				location.href = location.href;
-	        		} else if(result == "invalidSession") {
-        				alert("상영 일정 삭제 권한이 없습니다!");
-	        			location.href = "memberLogin";
-	        		}
-	        	},
-	        	error: function(xhr, textStatus, errorThrown) {
-	        		alert("ajax 삭제 요청 실패!");
-	        	}
-	        });
+	function confirmDelete(play_id, play_date) {
+		console.log(play_id);
+		console.log(play_date);
+		console.log(typeof(play_date)); // 
+// 		console.log(play_start_time);
+// 		console.log(typeof(play_start_time)); //
+		// => 시간 판별은 오류로 나중에.. 일단 날짜까지만ㅇㅇ
+		
+		// 문자열 날짜를 정수형으로 변환
+		let intPlayDate = convertStringDateToInt(play_date);
+		
+		// 오늘 날짜 가져오기
+		var today = getToday();
+		
+		// 오늘 날짜와 비교
+		if(intPlayDate < today) {
+			alert("이전 상영일정은 삭제할 수 없습니다!");
 			
 		} else {
-			return;
+			if(confirm("상영 일정을 삭제하시겠습니까?")) {
+				console.log(play_id);
+	
+				// 확인 클릭 시 ajax 요청을 통해 삭제 작업 처리
+		        $.ajax({
+		        	type: "post",
+		        	url: "deletePlay",
+		        	data: {
+		        		play_id: play_id
+		        	},
+		        	success: function(result) {
+		        		console.log(result);
+		        		if(result == "success") {
+	        				alert("상영 일정 삭제에 성공했습니다!");
+	        				location.href = location.href;
+	        				
+		        		} else if(result == "fail") {
+	        				alert("상영 일정 삭제에 실패했습니다!");
+	        				location.href = location.href;
+		        		} else if(result == "invalidSession") {
+	        				alert("상영 일정 삭제 권한이 없습니다!");
+		        			location.href = "memberLogin";
+		        		}
+		        	},
+		        	error: function(xhr, textStatus, errorThrown) {
+		        		alert("ajax 삭제 요청 실패!");
+		        	}
+		        });
+				
+			} else {
+				return;
+			}
+			
+			
 		}
 		
+		
+		
+		
+	} // 삭제버튼 클릭 시 이벤트 처리 끝
+	
+	
+	// "yyyy-MM-dd" 형식의 문자열 날짜를 정수형으로 변환하는 함수
+	function convertStringDateToInt(play_date) {
+		var parts = play_date.split("-"); // -를 델리미터로 쪼갬
+		
+		var year = parseInt(parts[0]);
+		var month = parseInt(parts[1]);
+		var day = parseInt(parts[2]);
+		
+		var date = new Date(year, month - 1, day);
+		// => JavaScript의 Date 객체에서 월(Month)은 0부터 시작하기 때문에 month - 1 처리
+		
+		return date.getTime();
+	}
+	
+	// 오늘 날짜를 가져오는 함수
+	function getToday() {
+		var today = new Date();
+		today.setHours(0, 0, 0, 0);
+		return today.getTime();
 	}
 
 	
@@ -1475,11 +1538,11 @@
 								<td id="play_end_time_mod">${fn:substring(play.play_end_time, 0, 5)}</td>
 								<td>
 <!-- 									<input type="button" value="수정" class="btnModify"> -->
-									<input type="button" value="수정" class="btnModify_${play.play_id}" onclick="CannotDuplicateModify(${play.play_id})">
+									<input type="button" value="수정" class="btnModify_${play.play_id}" onclick="CannotDuplicateModify(${play.play_id}, '${play.play_date }')">
 								</td>
 								<td>
 									<input type="hidden" value="${play.play_id}" name="play_id" id="play_id">
-									<input type="button" value="삭제" id="btnDelete_${play.play_id }" onclick="confirmDelete(${play.play_id })">
+									<input type="button" value="삭제" id="btnDelete_${play.play_id }" onclick="confirmDelete(${play.play_id }, '${play.play_date }')">
 								</td>
 							</tr>
 						</div>
