@@ -231,7 +231,7 @@
 		
 		<%-- 상세페이지로 이동--%>
 		if(move == 1 ) {
-			location.href = "http://localhost:8081/c5d2308t1/storeDetail?product_id=" + pro;
+			location.href = "http://localhost:8080/c5d2308t1/storeDetail?product_id=" + pro;
 		}
 	}
 	
