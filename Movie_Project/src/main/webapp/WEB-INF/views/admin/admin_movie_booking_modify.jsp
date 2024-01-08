@@ -26,13 +26,24 @@
 		}
 		
 		td, th {
+		  width:auto!important;
 		  padding: 10px;
 		  border: 1px solid black;
 		}
 		#btnArea input {
-		  width: 70px;
-		  height: 40px;
+		  width: 90px;
+		  height: 30px;
 		  margin-top: 10px;
+		}
+		input[type="button"]:hover{
+    		background-color: #331f62;
+		}
+		input[type="button"], input[type="submit"] {
+		    padding: 5px 15px;
+		    background-color: #433581;
+		    color: white;
+		    border: none;
+		    cursor: pointer;
 		}
 </style>
 <script type="text/javascript">

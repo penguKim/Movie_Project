@@ -658,6 +658,27 @@
 		ORDER BY payment_datetime DESC
 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
+	<!--예매취소 페이징 처리를 위한 게시물 개수 조회 작업 -->
+	<select id="selectCancleReserveListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM resView
+		WHERE payment_status = 0
+		<if test="!searchKeyword.equals('')">
+			AND member_id LIKE '%${searchKeyword}%'
+		</if>
+	</select>
+	
+	<!-- 한 페이지에 표시할 예매취소 목록 조회 작업 -->
+	<select id="selectCancleReserveList" resultType="map">
+		SELECT *
+		FROM resView
+		WHERE payment_status = 0
+		<if test="!searchKeyword.equals('')">
+			AND member_id LIKE '%${searchKeyword}%'
+		</if>
+		ORDER BY payment_datetime DESC
+		LIMIT #{page.startRow}, #{page.listLimit}
+	</select>
 <!-- ============================관리자 예매내역 조회 끝=============================== -->	
 
 <!-- =============== 관리자 메인 페이지 차트 =============== -->

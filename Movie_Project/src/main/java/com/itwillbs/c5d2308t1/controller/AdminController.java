@@ -582,6 +582,27 @@ public class AdminController {
 		model.addAttribute("resList", resList);
 			return "admin/admin_movie_booking";
 		}
+		@GetMapping("cancleBooking")
+		public String cancleBooking(@RequestParam(defaultValue = "") String searchKeyword, 
+													@RequestParam(defaultValue = "1") int pageNum,
+													HttpSession session, Model model) {
+			String sId = (String)session.getAttribute("sId");
+			
+			// 페이지 번호와 글의 개수를 파라미터로 전달
+			PageDTO page = new PageDTO(pageNum, 30);
+			// 전체 게시글 갯수 조회
+			int listCount = service.getCancleReserveListCount(searchKeyword);
+			System.out.println(listCount);
+			// 페이징 처리
+			PageCount pageInfo = new PageCount(page, listCount, 5);
+			// 한 페이지에 불러올 영화 목록 조회
+			List<HashMap<String, String>> resList = service.getCancleReserveList(searchKeyword, page);
+//		List<HashMap<String, String>> resList = reserve.getReserveList(sId);
+			
+			model.addAttribute("pageInfo", pageInfo);
+			model.addAttribute("resList", resList);
+			return "admin/admin_movie_cancleBooking";
+		}
 
 		// 관리자페이지 영화 예매 정보 상세 조회 및 수정/삭제 페이지로 이동
 		@GetMapping("adminMovieBookingMod")

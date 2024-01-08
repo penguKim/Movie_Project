@@ -285,7 +285,14 @@ public class AdminService {
 	public List<HashMap<String, String>> getReserveList(String searchKeyword, PageDTO page) {
 		return mapper.selectReserveList(searchKeyword, page);
 	}
-
+	//예매취소내역 조회
+	public int getCancleReserveListCount(String searchKeyword) {
+		return mapper.selectCancleReserveListCount(searchKeyword);
+	}
+	//한 페이지에 불러올 예매취소내역 조회
+	public List<HashMap<String, String>> getCancleReserveList(String searchKeyword, PageDTO page) {
+		return mapper.selectCancleReserveList(searchKeyword, page);
+	}
 	//리뷰 상세정보
 	public List<ReviewsVO> getReviewDetailList(ReviewsVO review) {
 		return mapper.selectReviewDlt(review);
@@ -333,6 +340,7 @@ public class AdminService {
 	public int getPaymentBuyCancel(Map<String, String> map) {
 		return mapper.updatePaymentBuyCancel(map);
 	}
+
 
 
 

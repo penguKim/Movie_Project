@@ -167,7 +167,13 @@ public interface AdminMapper {
 
 	// 한 페이지에 표시할 예매 목록 조회 작업
 	List<HashMap<String, String>> selectReserveList(@Param("searchKeyword") String searchKeyword, @Param("page") PageDTO page);
-
+	
+	// 예매취소 내역 조회 페이징 처리
+	int selectCancleReserveListCount(String searchKeyword);
+	
+	// 한 페이지에 표시할 예매 취소 목록 조회 작업
+	List<HashMap<String, String>> selectCancleReserveList(@Param("searchKeyword") String searchKeyword, @Param("page") PageDTO page);
+	
 	//상세리뷰 조회
 	List<ReviewsVO> selectReviewDlt(ReviewsVO review);
 
@@ -196,6 +202,7 @@ public interface AdminMapper {
 	
 	// 결제 관리 상세페이지 결제취소 요청 작업
 	int updatePaymentBuyCancel(Map<String, String> map);
+
 
 
 		
