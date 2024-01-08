@@ -18,6 +18,7 @@
 	<select id="selectPlayDate" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT DISTINCT play_date
 		FROM plays
+		ORDER BY play_date ASC;
 	</select>
 	
 	
@@ -64,7 +65,9 @@
 				play_date = #{play_date}
 			</when>
 		</choose>
-		AND movie_status != 2		
+		AND movie_status != 2
+		AND play_date >  Date(now())	
+		ORDER BY play_date ASC	
 	</select>
 	
 	<select id="selectPlayEndTime" resultType="String">
@@ -87,6 +90,7 @@
 			<when test="sId.equals('admin')"></when>
 			<otherwise>WHERE member_id = #{sId}</otherwise>
 		</choose>
+		ORDER BY payment_id DESC;
 	</select>
 	
 	<!-- 마이페이지에서 예매상세정보 조회 -->

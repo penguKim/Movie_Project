@@ -48,22 +48,22 @@ public class ReserveController {
 	
 	// 할인정보
 	@GetMapping("DiscountInfo")
-	public String DiscountInfo() {
+	public String discountInfo() {
 		return "reserve/DiscountInfo";
 	}
 	
 	// 영화 선택페이지의 Ajax1
 	@ResponseBody
 	@GetMapping("reserveAjax")
-	public List<ReserveVO> ScheduleCheck(ReserveVO reserveVO, Model model) {
-		List<ReserveVO> ScheduleList = reserve.getScheduleList(reserveVO);
+	public List<ReserveVO> scheduleCheck(ReserveVO reserveVO, Model model) {
+		List<ReserveVO> scheduleList = reserve.getScheduleList(reserveVO);
 		System.out.println("ajax연결성공!");
-		return ScheduleList;
+		return scheduleList;
 	}
 	// 영화 선택페이지의 Ajax2
 	@ResponseBody
 	@GetMapping("MTDAjax")
-	public List<ReserveVO> MTDAjax(@RequestParam Map<String, String> map, Model model){
+	public List<ReserveVO> mtdAjax(@RequestParam Map<String, String> map, Model model){
 		List<ReserveVO> MTD = reserve.getMTDList(map);
 		return MTD;
 	}
@@ -87,7 +87,7 @@ public class ReserveController {
 	
 	// 결제하기 페이지
 	@PostMapping("reserve_pay")
-	public String ReservationComplete(@RequestParam Map<String, String> map, Model model, HttpSession session){
+	public String reservationComplete(@RequestParam Map<String, String> map, Model model, HttpSession session){
 		String sId = (String)session.getAttribute("sId");
 		Map<String, String> members = reserve.getmemberInfo(sId);
 		System.out.println("조회한 회원 정보 : " + members);
