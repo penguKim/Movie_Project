@@ -62,6 +62,13 @@ public class LoginController {
 	
 	@GetMapping("memberLogin") //메인화면에서 로그인 버튼 클릭시 이동
 	public String memberLogin(HttpServletRequest request, HttpSession session, Model model) {
+	    String sId = (String) session.getAttribute("sId");
+	    if (sId != null) {
+	        model.addAttribute("msg", "이미 로그인되어 있습니다");
+	        return "fail_back";
+	    }	
+		
+		
 		// "REFERER" 헤더는 현재 요청을 보내는 페이지의 URL을 가리킨다.
 		String prevPage  = request.getHeader("REFERER");
 		System.out.println("이전페이지는 어디인가요????? : " + prevPage);
@@ -125,6 +132,8 @@ public class LoginController {
 	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
 	    	return "fail_back";
 	    }
+	    
+	    
 	    
 	   if(dbMember.getMember_status() == 2) { //탈퇴한 회원은 로그인 불가
 		   model.addAttribute("msg", "이미 탈퇴한 회원입니다");
