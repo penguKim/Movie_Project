@@ -64,7 +64,7 @@ $(function() {
 	  var seconds = ('0' + now.getSeconds()).slice(-2);
 	  var milliseconds = now.getMilliseconds().toString().padStart(3, '0');
 	  var randomString = Math.random().toString(36).substr(2, 3);
-	  var index = ('00000' + (++count)).slice(-6);
+	  var index = ('000' + (++count)).slice(-6);
 	  var merchantUid = "ORD" + year + month + date + hours + minutes + seconds + milliseconds + "-" + randomString + index;
 	  return merchantUid;
 	}
@@ -295,7 +295,7 @@ $(function() {
 					</div>
 				</div>
 				<div class="paybtn">
-					<a href="store_main.jsp"><input type="button" value="이전화면"></a>
+					<a href="javascript:history.back()"><input type="button" value="이전화면"></a>
 					<a href="javascript:requestPay()" ><input type="button" value="결제하기"></a>
 				</div>
 			</div>

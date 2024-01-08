@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>스토어 상품 상세 페이지</title>
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <%-- <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script> --%>
@@ -46,7 +45,7 @@ $(function() {
 
 function productDel(id) {
 	if(confirm("상품을 삭제하시겠습니까")) {
-		location.href="adminProductDel?product_id=" + id
+		location.href="adminProductDel?product_id="+id;
 	}
 }
 
@@ -73,7 +72,8 @@ function deleteFile(product_id, product_img) {
 					// => ID 선택자 "fileItemAreaX" 인 요소 지정(X 는 index 값 활용)
 					// => 표시할 태그 요소 : <input type="file" name="file1" />
 					//    => name 속성값도 index 값을 활용하여 각 파일마다 다른 name 값 사용
-					$("#imgFileArea").html('<input type="file" name="imgFile" id="imgFile" class="shortInput"/>');
+					$("#imgArea").html("이미지가 없습니다");
+					$("#imgFileArea").html('<input type="file" name="imgFile" id="imgFile" class="shortInput">');
 				} else if(result == "false") {
 					console.log("파일 삭제 실패!");
 				}
@@ -84,6 +84,11 @@ function deleteFile(product_id, product_img) {
 
 
 </script>
+<style type="text/css">
+	input[type=text] {
+		width: 50px;
+	}
+</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -97,7 +102,7 @@ function deleteFile(product_id, product_img) {
 			<h1 id="h01">상품 상세 정보</h1>
 			<hr>
 			<div id="admin_main">
-				<form action="adminProductReply" method="post" id="movieRegist">
+				<form action="adminProductModify" method="post" id="movieRegist" enctype="multipart/form-data">
 					<table id="movieTable">
 			            <colgroup> 
 			                <col style="width: 20%;">
@@ -106,8 +111,15 @@ function deleteFile(product_id, product_img) {
 			                <col style="width: 40%;">   
 			            </colgroup> 
 						<tr>
-							<td rowspan="5" colspan="2" id="posterArea">
-								<img src="${product.product_img }" alt="상품이미지" id=""><br>
+							<td rowspan="5" colspan="2" id="imgArea">
+								<c:choose>
+									<c:when test="${not empty product.product_img }">
+										<img src="${pageContext.request.contextPath }/resources/upload/${product.product_img }" alt="상품이미지" id="">
+									</c:when>
+									<c:otherwise>
+										이미지가 없습니다
+									</c:otherwise>
+								</c:choose>
 							</td>
 							<!-- 상품 코드 수정 불가 -->
 							<th width="100px">상품코드</th>
@@ -123,7 +135,8 @@ function deleteFile(product_id, product_img) {
 						</tr>
 						<tr>
 							<th>상품가격</th>
-							<td ><input type="text" name="product_price" id="product_price" class="shortInput" value="${product.product_price }원"></td>
+							<td ><input type="text" name="product_price" id="product_price" class="shortInput" value="${product.product_price }" >원</td>
+							
 						</tr>
 						<tr>
 							<th><label for="product_img">이미지 첨부 파일</label></th>
@@ -134,7 +147,7 @@ function deleteFile(product_id, product_img) {
 											<c:set var="original_img_name" value="${fn:substringAfter(product.product_img, '_')}"/>
 											${original_img_name}
 											<a href="javascript:deleteFile('${product.product_id }','${product.product_img}', 1)">
-												<img src="${pageContext.request.contextPath }/resources/img/선택불가.png" class="img_btnDelete">
+												<img src="${pageContext.request.contextPath }/resources/img/선택불가.png" class="img_btnDelete" width="20" height="20">
 											</a>
 										</c:when>
 										<c:otherwise>

@@ -604,7 +604,6 @@ public class AdminController {
 	public String adminProduct(HttpSession session, Model model, 
 			@RequestParam(defaultValue = "1") int pageNum,
 			@RequestParam(defaultValue = "") String searchKeyword) {
-		
 		// 관리자가 아니면 등록을 하지 못하도록 하기
 		String sId = (String)session.getAttribute("sId");
 		if(!sId.equals("admin")) {
@@ -612,17 +611,9 @@ public class AdminController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
-		
-		System.out.println("올라가라 너는~~~~~~~~~~~~~~~~~" + searchKeyword);
-		
 		PageDTO page = new PageDTO(pageNum, 5);
-		// 전체 게시글 갯수 조회
 		int listCount = storeService.getProductListCount(searchKeyword);
-		
-		System.out.println("listCount ~~~~~~~~~~~~~~~~~~~ " + listCount);
-		// 페이징 처리
 		PageCount pageInfo = new PageCount(page, listCount, 3);
-		// 모든 상품 조회
 		List<StoreVO> storeList = storeService.getStoreList(searchKeyword, page);
 		
 		model.addAttribute("storeList", storeList);
@@ -647,10 +638,7 @@ public class AdminController {
 	@ResponseBody
 	@GetMapping("productDupl")
 	public String productDupl(StoreVO store, Model model) {
-		
-		System.out.println("상품 아이디 " + store);
 		store = storeService.adminProductSelect(store);
-		
 		if(store != null) {
 			return "true";
 		} else {
@@ -667,7 +655,6 @@ public class AdminController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
-		
 		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
 		String saveDir = session.getServletContext().getRealPath(uploadDir); // 세션도 가능(마침 request 객체 호출해서 사용했음)
 		String subDir = "";
@@ -682,38 +669,25 @@ public class AdminController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		MultipartFile imgFile = store.getImgFile();
-		System.out.println("원본파일명1 : " + imgFile.getOriginalFilename());
-		
 		store.setProduct_img("");
+		String fileName = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
 		
-		String fileName1 = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
-		if(!imgFile.getOriginalFilename().equals("")) store.setProduct_img(subDir + "/" + fileName1);
-		System.out.println("실제 업로드 파일명1 : " + store.getProduct_img()); // ba278eaa_1.jpg
-		
+		if(!imgFile.getOriginalFilename().equals("")) {
+			store.setProduct_img(subDir + "/" + fileName);
+		}
 		int insertCount = storeService.productInsert(store);
 		
 		if(insertCount > 0) {
 			try {
-				// 업로드 된 파일들은 MultipartFile 객체에 의해 임시 디렉토리에 저장되며
-				// 글쓰기 작업 성공 시 임시 디렉토리 -> 실제 디렉토리 이동 작업 필요
-				// => MultipartFile 객체의 transferTo() 메서드를 호출하여 실제 위치로 이동(=업로드)
-				// => 파일이 선택되지 않은 경우(파일명이 널스트링) 이동이 불가능(예외 발생)하므로 제외
-				// => transfetTo() 메서드 파라미터로 java.io.File 타입 객체 전달
-				
-				if(!imgFile.getOriginalFilename().equals("")) imgFile.transferTo(new File(saveDir, fileName1));
+				if(!imgFile.getOriginalFilename().equals("")) imgFile.transferTo(new File(saveDir, fileName));
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-				
-				
-				// 글목록(BoardList) 서블릿 리다이렉트
 				return "redirect:/adminProduct";
 			} else {
-				// "글쓰기 실패!" 메세지 처리(fail_back)
 				model.addAttribute("msg", "글쓰기 실패!");
 				return "fail_back";
 			}
@@ -728,10 +702,7 @@ public class AdminController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
-		
-		// 관리자 페이지 상품 조회를 위한 SELECT
 		StoreVO product = storeService.getStore(store.getProduct_id());
-		
 		model.addAttribute("product", product);
 		return "admin/admin_product_detail";
 	}
@@ -768,6 +739,7 @@ public class AdminController {
 		
 	}
 	
+	// 상품 상세 페이지 이미지 파일 삭제
 	@ResponseBody
 	@PostMapping("ProductDeleteFile")
 	public String deleteFile(StoreVO store, HttpSession session, Model model) {
@@ -795,14 +767,12 @@ public class AdminController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// DB 파일명 삭제 실패 또는 서버 업로드 파일 삭제 실패 등의 문제 발생 시 "false" 리턴
 		return "false";
 	}
 	
 	// 관리자 페이지 상품 상세페이지 싱픔 정보 수정
-	@PostMapping("adminProductReply")
+	@PostMapping("adminProductModify")
 	public String adminProductReply(StoreVO store, HttpSession session, Model model) {
-		
 		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
 		String saveDir = session.getServletContext().getRealPath(uploadDir); // 세션도 가능(마침 request 객체 호출해서 사용했음)
 		String subDir = "";
@@ -818,22 +788,20 @@ public class AdminController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		MultipartFile imgFile = store.getImgFile();
-		
 		store.setProduct_img("");
+		String fileName = "";
 		
-		System.out.println("22222222222222222222222222222222222222222222222222222222222222222222");
-		String fileName = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
-		if(!imgFile.getOriginalFilename().equals("")) store.setProduct_img(subDir + "/" + fileName);
+		if(imgFile != null && !imgFile.getOriginalFilename().equals("")) {
+			fileName = UUID.randomUUID().toString().substring(0, 8) + "_" + imgFile.getOriginalFilename();
+			store.setProduct_img(subDir + "/" + fileName);
+		}
 		
-		System.out.println("33333333333333333333333333333333333333333333333333333333333333333333333333333");
 		int updateCount = storeService.productReply(store);
 		
-		System.out.println("4444444444444444444444444444444444444444444444444444444444444");
 		if(updateCount > 0) {
 			try {
-				if(!imgFile.getOriginalFilename().equals("")) {
+				if(!store.getProduct_img().equals("")) {
 					imgFile.transferTo(new File(saveDir, fileName));
 				}
 			} catch (IllegalStateException e) {
@@ -841,16 +809,13 @@ public class AdminController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// 글목록(BoardList) 서블릿 리다이렉트
 			return "redirect:/adminProduct";
 		} else {
-			// "답글 쓰기 실패!" 메세지 처리(fail_back)
 			model.addAttribute("msg", "답글 쓰기 실패!");
 			return "fail_back";
 		}
 	}
 	// ******************** 스토어 결제 관리 페이지 ************************************
-	
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")
 	public String adminPayment(HttpSession session, Model model) {
@@ -860,7 +825,6 @@ public class AdminController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
-		
 		return "admin/admin_payment_list";
 	}
 	
@@ -870,39 +834,23 @@ public class AdminController {
 	public String adminPaymentList(@RequestParam(defaultValue = "") String searchType,
 			  @RequestParam(defaultValue = "") String searchKeyword, 
 			  @RequestParam(defaultValue = "1") int pageNum) {
-		System.out.println("타입이랑 키워드랑 안넘어옴??" + searchType + ", 씨씨ㅣㅇ" + searchKeyword);
-		
-		
-		// 페이지 번호와 글의 개수를 파라미터로 전달
 		PageDTO page = new PageDTO(pageNum, 15);
-		// 결제 관리 전체 게시글 갯수 조회
 		int listCount = service.getPaymentListCount(searchType, searchKeyword);
-		
-		System.out.println("리스트 카운트 !!!!!!!!!!!!!!!!!" + listCount);
-		// 페이징 처리
 		PageCount pageInfo = new PageCount(page, listCount, 3);
-		// 한 페이지에 표시할 결제 목록 조회
 		List<RefundVO> paymentList = service.getPaymentList(searchType, searchKeyword, page);
-		System.out.println("페이먼트리스트@@@@@@@@@@@@@@" + paymentList);
-		// 게시물 목록 조회 결과를 Map 객체에 추가
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("paymentList", paymentList);
-		// 페이징 처리 결과 중 마지막 페이지 번호(maxPage)도 Map 객체에 추가(키 : "maxPage")
 		map.put("maxPage", pageInfo.getMaxPage());
 		
-		System.out.println("맵 데이터는???????" + map);
-		// 대량의 데이터를 JSON 객체로 변환하기
 		JSONObject jsonObject = new JSONObject(map);
-		// 생성된 JSON 객체를 문자열로 리턴
+
 		return jsonObject.toString();
 	}
 	// 관리자페이지 스토어 결제 상세 조회
 	@GetMapping("adminPaymentDtl")
 	public String adminPaymentDtl(HttpSession session, Model model,@RequestParam Map<String, String> map) {
-//		System.out.println("맵으로 들어온 데이터 " + map);
 		RefundVO payment = service.registPaymentDetail(map);
 		model.addAttribute("payment", payment);
-//		System.out.println("함볼까 먼지??" + payment);
 		return "admin/admin_payment_list_detail";
 	}
 	
@@ -910,10 +858,7 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("adminPaymentCancel")
 	public boolean adminPaymentCancel(@RequestParam Map<String, String> map) {
-		System.out.println("맵으로 받아오는 데이터 : " + map);
-		
 		int updateCount = service.getPaymentBuyCancel(map);
-		
 		if(updateCount > 0) {
 			return true;
 		} else {

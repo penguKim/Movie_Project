@@ -13,10 +13,8 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
 $(function() {
-	let isDuplicateMovie = false;
+	let isDuplicateProudct = false;
 	$("#product_id").on("change", function() {
-		alert($("#product_id").val());
-		
 		$.ajax({
 			type:"GET",
 			url:"productDupl",
@@ -27,10 +25,10 @@ $(function() {
 				// 중복 결과를 "true", "false" 문자열로 반환
 				if(result == 'true') {
 					alert("이미 등록된 상품입니다!");
-					isDuplicateMovie = true;
+					isDuplicateProudct = true;
 					$("#product_id").focus();
 				} else {
-					isDuplicateMovie = false;
+					isDuplicateProudct = false;
 				}
 			},
 			error: function() {
@@ -41,7 +39,7 @@ $(function() {
 	
 	// submit 시 수행할 동작
 	$("form").on("submit", function() {
-		if(isDuplicateMovie) { // 등록된 영화인지 판별
+		if(isDuplicateProudct) { // 등록된 영화인지 판별
 			alert("이미 등록된 상품입니다!");
 			return false;
 		} else if($("#product_id").val() == '') {
@@ -86,16 +84,7 @@ $(function() {
 			<div id="admin_main">
 					<form action="adminProductInsert" method="post" id="movieRegist" enctype="multipart/form-data">
 						<table id="movieTable">
-				            <colgroup> 
-				                <col style="width: 20%;">
-				                <col style="width: 20%;">   
-				                <col style="width: 20%;"> 
-				                <col style="width: 40%;">   
-				            </colgroup> 
 							<tr>
-								<td rowspan="5" colspan="2" id="posterArea">
-									<img src="" id="posterThumnail"><br>
-								</td>
 								<th width="100px">상품코드</th>
 								<td><input type="text" name="product_id" id="product_id" class="shortInput"></td>
 							</tr>
