@@ -49,7 +49,7 @@
    let Count4;
    let isAlone = false; // 1명인지 판별하는 변수
    var selectPeopleArr; //선택한 인원 타입 배열
-
+	
    function toggleNum(num) {
 	    // 클릭된 요소가 속한 행을 찾음
 	    var row = $(num).closest('tr');
@@ -139,22 +139,25 @@
     	}else{
     	  isAlone = false;
     	}
-   	   if(isAlone){
-   		    $("div.seat.2").addClass("alone");
-   		    $("div.seat.3").addClass("alone");
-   		    $("div.seat.6").addClass("alone");
-   		    $("div.seat.11").addClass("alone");
-   		    $("div.seat.14").addClass("alone");
-   		    $("div.seat.15").addClass("alone");
+    	let changeDate;
+   	  	if(isAlone){
+ 			$("div.seat.2, div.seat.3, div.seat.6, div.seat.11, div.seat.14, div.seat.15, .btnMovie").addClass('alone');
+   		    var selectedCount = $("div.seat.2, div.seat.3, div.seat.6, div.seat.11, div.seat.14, div.seat.15, .btnMovie").filter('.selected').length;
+//    		    alert("제거할 갯수 : " + selectedCount);
+	   		NumberOfSeatsCurrentlySelected -= selectedCount;
+	   		NumberOfSeatsToChoose = 1;
+	   		$(".selected:not(.alone)").each(function() {
+	   			changeDate = $(this).text();
+	   		})
+	   		// 아래메뉴영역에 선택된 좌석 표시
+	        $("#selected_seats").text(changeDate+ " 선택됨");
+	        // 선택된 좌석 값을 숨겨진 input 요소에 할당
+	        $("#hidden_select_seat").val(changeDate);
+	   		$("div.seat.2, div.seat.3, div.seat.6, div.seat.11, div.seat.14, div.seat.15, .btnMovie").removeClass('selected');
    		}else if(isAlone == false || isAlone == null){
-   		    $("div.seat.2").removeClass("alone");
-   		    $("div.seat.3").removeClass("alone");
-   		    $("div.seat.6").removeClass("alone");
-   		    $("div.seat.11").removeClass("alone");
-   		    $("div.seat.14").removeClass("alone");
-   		    $("div.seat.15").removeClass("alone");
+   		 	$("div.seat.2, div.seat.3, div.seat.6, div.seat.11, div.seat.14, div.seat.15, .btnMovie").removeClass('alone');
    		}
-   	   	
+//    	   	alert(changeDate);
 		/*
 		일반 15000
 		청소년 11000
@@ -239,7 +242,7 @@
    
    $(function(){
 	   $(".subBtn").click(function(){
-		   if(selectNumArr==null){
+		   if(selectPeopleArr==""){
 			   alert("인원선택 필수!")
 			   return false;
 			}
@@ -250,6 +253,7 @@
 		   
 		   if(NumberOfSeatsCurrentlySelected != NumberOfSeatsToChoose){
 			   alert("인원수와 좌석수가 일치하지 않습니다!")
+// 			   alert("골라야하는갯수 : " +NumberOfSeatsToChoose+ " 고른수 : " + NumberOfSeatsCurrentlySelected);
 			   return false;
 			}
 		});

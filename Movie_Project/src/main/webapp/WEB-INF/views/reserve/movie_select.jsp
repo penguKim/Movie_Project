@@ -725,7 +725,7 @@
 						<td class="Result_S">좌석선택</td>
 						<td class="Result_P">결제</td>
 						<td id="selectSeatBtn">
-							<form action="seat_select" onsubmit="return subBtn()" method="post">
+							<form action="seat_select" onsubmit="return subBtn()" method="get">
 							    <input type="hidden" name="movie_title" id="movie_name" value="">
 							    <input type="hidden" name="theater_name" id="theater_name" value="">
 							    <input type="hidden" name="play_date" id="play_date" value="">

@@ -69,7 +69,7 @@ public class ReserveController {
 	}
 	
 	// 좌석선택 페이지
-	@PostMapping("seat_select")
+	@GetMapping("seat_select")
 	public String seat_select(ReserveVO reserveVO, Model model, HttpSession session, String play_end_time) {
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
