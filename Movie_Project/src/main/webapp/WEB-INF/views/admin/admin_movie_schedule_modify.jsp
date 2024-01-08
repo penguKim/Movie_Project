@@ -6,7 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상영 일정 등록</title>
+<title>iTicket 관리자 페이지</title>
+<%-- 글씨체 --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources//js/jquery-3.7.1.js"></script>
@@ -28,6 +32,13 @@
 			
 			if (endTime < currentTime) { // 시간 비교해 현재 이전인 경우 
 				$(this).css("background-color", "lightgray"); // 배경색 지정해 음영처리
+				$(this).find("input[type='button']").css({
+					"background-color": "lightgray", 
+					"border": "1px dotted #a6a6a6", 
+					"color": "black"
+				}); // 버튼 css 변경
+					
+				
 			}
 		});
 		
@@ -87,7 +98,7 @@
 				}
 				
 				// 선택 가능한 날짜 불러오기
-				$("#movie_id").change(function() {
+				$("#movie_id").blur(function() {
 					let movie_id = $("#movie_id").val();
 					$.ajax({
 						type: "GET",
@@ -96,21 +107,22 @@
 							movie_id : movie_id
 						},
 						success: function(result) {
-							if(movie_id != '') {						
+							if(movie_id != '') { // 영화 정보가 존재하는 경우					
 								let release_date = new Date(result.movie_release_date + 86400000); // 밀리초단위를 날짜로 변환
 								let f_release_date = release_date.toISOString().split('T')[0]; // 날짜의 형태를 0000-00-00으로 변환
 								let close_date = new Date(result.movie_close_date + 86400000); // 밀리초단위를 날짜로 변환
 								let f_close_date = close_date.toISOString().split('T')[0]; // 날짜의 형태를 0000-00-00으로 변환
+								
 								let now = new Date();  // 현재 날짜와 시간을 가져옵니다.
 								now.setDate(now.getDate() + 1);  // 현재 날짜에 1일을 더합니다.
 								let tomorrow = now.toISOString().split('T')[0];
+								
 								// 일정을 미리 등록하는 것이므로 오늘 날짜 이전은 등록할 수 없음
 								if(now > release_date) { // 오늘 이전에 개봉해도 오늘 날짜 이전은 선택할 수 없다(내일것부터 일정 정할 수 있음)
 									$("#date").html("<input type='date' id='play_date' name='play_date' min='" + tomorrow + "' max='" + f_close_date + "'>");									
 								} else { // 오늘 이후에 개봉하는 것은 미리 등록해둘 수 있음
 									$("#date").html("<input type='date' id='play_date' name='play_date' min='" + f_release_date + "' max='" + f_close_date + "'>");									
 								}
-								
 								
 								
 								// 해당 일자의 해당하는 상영관의 스캐줄 가져와서
@@ -267,6 +279,41 @@
 				
 				// 영화 종료 시간 자동으로 계산
 				$("#play_start_time").change(function() {
+					let movie_id = $("#movie_id").val();
+					let start_time = $("#play_start_time").val().split(":")[0];
+					
+					$.ajax({
+						type: "GET",
+						url: "getMovieInfo",
+						data: {
+							movie_id : movie_id
+						},
+						success: function(result) {
+							if(start_time == '') {
+								$("#play_end_time").val('');
+							} else {
+								let end_time = (start_time * 60) + parseInt(result.movie_runtime)
+								
+								let hours = Math.floor(end_time / 60); // 시간 계산
+								let minutes = end_time % 60; // 분 계산
+								
+								// 시간과 분이 한 자리 수인 경우 0으로 채우기
+								let formatted_hours = hours < 10 ? "0" + hours : hours;
+								let formatted_minutes = minutes < 10 ? "0" + minutes : minutes;
+								
+								let formatted_end_time = formatted_hours + ":" + formatted_minutes; // "00:00" 형식으로 변환된 종료 시간
+								
+								$("#play_end_time").val(formatted_end_time);						
+							}
+						},
+						error: function(xhr, textStatus, errorThrown) {
+							alert("종료 시간 출력 오류입니다.");
+						}
+					});
+				});
+				
+				// 영화 종료 시간 자동으로 계산2
+				$("#movie_id").blur(function() {
 					let movie_id = $("#movie_id").val();
 					let start_time = $("#play_start_time").val().split(":")[0];
 					

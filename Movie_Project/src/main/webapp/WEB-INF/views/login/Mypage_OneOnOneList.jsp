@@ -6,7 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
+<title>iTicket 마이페이지</title>
+<%-- 글씨체 --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
@@ -49,24 +53,32 @@
 							<th width="150">문의 유형</th>
 							<th width="100">등록일</th>
 						</tr>
-						
-						<c:forEach var="ooo" items="${myOneOnOneList }">
-							<tr id="move_menu">
-								<c:set var="cs_subject" value="${ooo.cs_subject }"/>
-								<td id="MyOneOnOneSubject"><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">
-									<c:choose>
-										<c:when test="${fn:length(cs_subject) > 30 }">
-											${fn:substring(cs_subject, 0, 28) }...
-										</c:when>
-										<c:otherwise>
-											${ooo.cs_subject }
-										</c:otherwise>
-									</c:choose>
-								</a></td>
-								<td>${ooo.cs_type_detail }</td>
-								<td>${ooo.cs_date }</td>
-							</tr>
-						</c:forEach>
+							<c:choose>
+								<c:when test="${empty myOneOnOneList }">
+									<tr>
+										<td colspan="3">1대1문의 내역이 존재하지 않습니다.</td>
+									</tr>								
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="ooo" items="${myOneOnOneList }">
+										<tr id="move_menu">
+											<c:set var="cs_subject" value="${ooo.cs_subject }"/>
+											<td id="MyOneOnOneSubject"><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">
+												<c:choose>
+													<c:when test="${fn:length(cs_subject) > 30 }">
+														${fn:substring(cs_subject, 0, 28) }...
+													</c:when>
+													<c:otherwise>
+														${ooo.cs_subject }
+													</c:otherwise>
+												</c:choose>
+											</a></td>
+											<td>${ooo.cs_type_detail }</td>
+											<td>${ooo.cs_date }</td>
+										</tr>
+									</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</table><br><br>
 					
 					<div class="pagination">

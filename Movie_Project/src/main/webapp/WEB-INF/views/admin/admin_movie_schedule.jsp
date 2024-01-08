@@ -10,7 +10,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상영일정 조회 페이지</title>
+<title>iTicket 관리자 페이지</title>
+<%-- 글씨체 --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
@@ -75,6 +79,47 @@
 		
 // 	}
 
+	
+	// 데이터 조회해 상영 일시를 판별해 음영처리
+	$(function(){
+		// 현재 시간 가져오기
+		let currentTime = new Date();
+		
+		// 각 tr 태그 반복해 상영 종료 시간과 상영 날짜 가져옴
+		$("tr").each(function() {
+			// 상영일자 변수에 저장
+			let playDate = $(this).find("#play_date").val();
+			console.log(playDate);
+			console.log(typeof(playDate)); // string
+			
+			// 영화 상영 시간 전체 문자열 가져오기
+			let playTime = $(this).find("#play_time").text();
+			console.log(playTime);
+			
+			// ~을 델리미터로 나눠서 배열에 저장
+			let playTimeArr = playTime.split("~");
+			console.log(playTimeArr);
+						
+			// 값이 undefined가 아니라면 1번 인덱스 공백 제거하고 변수에 저장하고
+			// 상영 종료 시간과 상영 날짜를 합친 문자열 new Date() 함수에 전달하여 
+			// 자바스크립트의 Date 객체로 변환
+			if(playTimeArr[1] != undefined) {
+				let playEndTime = playTimeArr[1].trim();
+				console.log(playEndTime);
+				let endTime = new Date(playDate + " " + playEndTime);
+				console.log(endTime);
+				if (endTime < currentTime) { // 시간 비교해 현재 이전인 경우 
+					$(this).css("background-color", "lightgray"); // 배경색 지정해 음영처리
+				}
+			} else {
+				console.log("배열 인덱스 1의 값 없음");
+			}
+			
+			
+		});
+		
+	});
+	
 
 	// 지점명 불러오기
 	$(function() {
@@ -240,7 +285,8 @@
 								<td>${play.theater_name }</td>
 								<td>${play.room_name }</td>
 								<td>${play.movie_title }</td>
-								<td>${play.play_start_time } ~ ${play.play_end_time }</td>
+								<td id="play_time">${play.play_start_time } ~ ${play.play_end_time }</td>
+								<input type="hidden" id="play_date" value="${play.play_date }">
 							</tr>
 						</c:forEach>
 					<%-- ******************************************************** --%>
