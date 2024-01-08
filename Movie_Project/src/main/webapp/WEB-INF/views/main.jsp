@@ -57,8 +57,8 @@
 				$.ajax({
 					url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
 					dataType: "json",
-					async: "false",
 					success: function(result) { <%-- List 타입으로 찜 데이터 응답 --%>
+						console.log(result);
 						for(let i = 0; i < 5; i++) { // <%-- 상영작 페이지의 목록만큼 반복 --%>
 							let movie_id = $("#likeBtn" + i).data("id");
 							for(let like of result) { <%-- 하나의 찜 데이터와 영화 코드 비교 --%>
@@ -113,7 +113,6 @@
 					$.ajax({
 						url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
 						dataType: "json",
-						async: "false",
 						success: function(result) { <%-- List 타입으로 찜 데이터 응답 --%>
 							for(let i = 0; i < 5; i++) { // <%-- 상영작 페이지의 목록만큼 반복 --%>
 								let movie_id = $("#likeBtn" + i).data("id");

@@ -27,14 +27,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -120,32 +113,41 @@ public class MoviesController {
 	// 상세 페이지의 연령대 차트
 	@ResponseBody
 	@GetMapping("movieAgeGroup")
-	public List<Map<String, Object>> movieAgeGroup(int movie_id, Map<String, List<Map<String, String>>> map) {
+	public String movieAgeGroup(int movie_id) {
 		
 		List<Map<String, Object>> ageGroupList = service.getAgeGroupList(movie_id);
 		
-		return ageGroupList;
+		System.out.println(ageGroupList);
+		
+		JSONArray jsonArray = new JSONArray(ageGroupList);
+		
+		return jsonArray.toString();
 	}
 	
 	// 상세 페이지의 성별 차트
 	@ResponseBody
 	@GetMapping("movieGenderGroup")
-	public List<Map<String, Object>> movieGenderGroup(int movie_id, Map<String, List<Map<String, String>>> map) {
+	public String movieGenderGroup(int movie_id) {
 		
 		List<Map<String, Object>> genderGroupList = service.getGenderGroupList(movie_id);
 		
-		return genderGroupList;
+		JSONArray jsonArray = new JSONArray(genderGroupList);
+		
+		return jsonArray.toString();
 	}
 	
 	// 찜하기 기능
 	@ResponseBody
 	@GetMapping("likeCheck")
 	public String likeCheck(LikesVO like, HttpSession session) {
-		System.out.println(like);
+//		System.out.println(like);
+		
 		String sId = (String)session.getAttribute("sId");
+		
 		if(sId == null) {
 			return "login";
 		}
+		
 		like.setMember_id(sId);
 		// 찜 정보가 있을 경우와 없을 경우의 "true"/"false" 문자열 반환
 		return service.getLike(like);
@@ -154,15 +156,20 @@ public class MoviesController {
 	// 찜하기 불러오기
 	@ResponseBody
 	@GetMapping("likeShow")
-	public List<LikesVO> likeShow(HttpSession session) {
+	public String likeShow(HttpSession session) {
+		
 		String sId = (String)session.getAttribute("sId");
+		
 		if(sId != null) {
-			System.out.println("세션아이디가 있어서 찜정보를 불러와요");
+//			System.out.println("세션아이디가 있어서 찜정보를 불러와요");
 			List<LikesVO> likeList = service.getLikeList(sId);
-			return likeList;
+			
+			JSONArray jsonArray = new JSONArray(likeList);
+			
+			return jsonArray.toString();
 		}
-		System.out.println("세션아이디가 없어서 빈 배열이 넘어가요");
-		return new ArrayList<LikesVO>();
+//		System.out.println("세션아이디가 없어서 빈 배열이 넘어가요");
+		return "[]";
 	}
 	
 	// =========================================================================================

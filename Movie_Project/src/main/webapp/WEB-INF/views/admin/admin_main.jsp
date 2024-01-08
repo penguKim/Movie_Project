@@ -201,6 +201,7 @@
 		$.ajax({
 			type: "GET",
 			url: "movieChart",
+			dataType: "json",
 			success: function(result) {
 				for(let i = 0; i < result.length; i++) {
 					xValues.push(result[i].movie_title);
@@ -222,6 +223,9 @@
 						}
 					}
 				});
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert("영화차트 불러오기를 실패했습니다.\n새로고침을 해주세요.");
 			}
 		});
 	});

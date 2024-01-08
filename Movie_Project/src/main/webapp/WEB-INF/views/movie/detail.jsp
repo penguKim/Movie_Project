@@ -20,6 +20,7 @@
 			url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
 			dataType: "json",
 			success: function(result) { <%-- List 타입으로 찜 데이터 응답 --%>
+				console.log(result);
 				for(let like of result) {
 					if(like.movie_id == ${movie_id}) { <%-- 찜한 영화가 상영작 페이지에 있을 경우 --%>
 						$("#likeBtn").addClass("likeCheck");
@@ -128,6 +129,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			data: {
 				movie_id: ${param.movie_id}
 			},
+			dataType: "json",
 			success: function(result) {
 				for(let ageGroup of result) {
 					xValues.push(ageGroup.age + "대");
@@ -200,6 +202,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				data: {
 					movie_id: ${param.movie_id}
 				},
+				dataType: "json",
 				success: function(result) {
 					for(let genderGroup of result) {
 						yValues.push(genderGroup.count);

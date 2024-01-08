@@ -120,12 +120,14 @@ public class AdminController {
 	// 영화 차트 조회
 	@ResponseBody
 	@GetMapping("movieChart")
-	public List<Map<String, String>> movieChart() {
+	public String movieChart() {
 		
 		// 영화 제목과 예매된 횟수를 7일 단위로 조회
 		List<Map<String, String>> movies = service.getMovieChart();
 		
-		return movies;
+		JSONArray jsonArray = new JSONArray(movies);
+		
+		return jsonArray.toString();
 	}
 	
 	

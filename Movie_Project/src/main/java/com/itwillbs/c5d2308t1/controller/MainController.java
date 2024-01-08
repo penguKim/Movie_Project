@@ -3,6 +3,7 @@ package com.itwillbs.c5d2308t1.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class MainController {
 	// 메인페이지 영화목록 출력
 	@ResponseBody
 	@GetMapping("mainMovieChart")
-	public List<MoviesVO> movieChart(String status, String sort) {
+	public String movieChart(String status, String sort) {
 		List<MoviesVO> movieList = null;
 		if(status.equals(MainMovieType.RELEASE) && sort.equals(MainMovieType.DATE_SORT)) {
 			// 현재 상영작 조회
@@ -34,7 +35,10 @@ public class MainController {
 			// 관객수순 조회
 			movieList = service.getMainMovieList(MainMovieType.STATUS_RELEASE, MainMovieType.AUDIENCE_SORT);
 		} 
-		return movieList;			
+		
+		JSONArray jsonArray = new JSONArray(movieList);
+		
+		return jsonArray.toString();			
 	}
 	
 	
@@ -42,13 +46,13 @@ public class MainController {
 	// 메인페이지 이벤트목록 출력
 	@ResponseBody
 	@GetMapping("eventList")
-	public List<EventsVO> eventList(Map<String, String> map) {
-		map = null;
+	public String eventList() {
 		
 		List<EventsVO> eventList = service.getEventList();
 		
-		System.out.println(eventList);
-		return eventList;
+		JSONArray jsonArray = new JSONArray(eventList);
+		
+		return jsonArray.toString();
 	}
 	
 	
