@@ -191,7 +191,7 @@
 						 								isDisabled.push(false);	
 						 							}
 						 						}
-						 						// 시간이 겹쳐 선택할 수 없는 영화를 판별하는 함수 호출
+						 						// 러닝타임에 따라 영화를 비어있는 중간시간에 상영할수있는지 없는지를 판별하는 함수 호출
 						 						$("#play_start_time").click(function() {
 						 							selectable(isDisabled);
 							 						console.log(isDisabled);
@@ -215,7 +215,7 @@
 					});
 				});
 			
-				// 상영 시간이 겹쳐 선택할 수 없는 영화를 판별하는 함수 정의
+				// 러닝타임에 따라 영화를 비어있는 중간시간에 상영할수있는지 없는지를 판별하는 함수 정의
 				function selectable(isDisabled) {
 					console.log(isDisabled);
 					// 선택한 영화의 러닝타임을 가져와서 시간 단위로 나누기
@@ -393,7 +393,6 @@
 	// 수정 버튼 클릭 시
 	function CannotDuplicateModify(currentTrId, play_start_time, play_date) {
 
-		
 		console.log(play_date);
 		
 		console.log("이전 tr : " + previousTrId);
@@ -454,9 +453,9 @@
 								+ '<td id="play_date_mod">' + result.play_date + '</td>' // 포맷 완료
 								+ '<td id="play_start_time_mod" data-play_start_time="' + result.play_start_time + '">' + result.play_start_time + '</td>'
 								+ '<td id="play_end_time_mod">' + result.play_end_time + '</td>'
-								+ '<td><input type="button" value="수정" class="btnModify_' + result.play_id + '" onclick="CannotDuplicateModify(' + result.play_id + ')">'
+								+ '<td><input type="button" value="수정" class="btnModify_' + result.play_id + '" onclick="CannotDuplicateModify(' + result.play_id + ', \'' + result.play_start_time + '\', \'' + result.play_date + '\')">'
 								+ '</td><td><input type="hidden" value="' + result.play_id + '" name="play_id" id="play_id">'
-								+ '<input type="button" value="삭제" id="btnDelete_' + result.play_id + '" onclick="confirmDelete(' + result.play_id + ')">'
+								+ '<input type="button" value="삭제" id="btnDelete_' + result.play_id + '" onclick="confirmDelete(' + result.play_id + ', \'' + result.play_start_time + '\', \'' + result.play_date + '\')">'
 								+ '</td>'
 						);
 					},
@@ -467,6 +466,8 @@
 					
 				});
 				
+// 				// 이전에 선택한 tr을 다시 null로 초기화
+// 				previousTrId = null;
 				
 	        } // 이전에 선택한 tr이 있는 경우 끝
 	        
@@ -476,7 +477,7 @@
 	
 	        // 수정폼 띄우기
 				
-				 // 해당하는 행의 play_id 가져오기
+				// 해당하는 행의 play_id 가져오기
 		        var play_id = row.find("#play_id").val();
 		        console.log("play_id = " + play_id);
 	
