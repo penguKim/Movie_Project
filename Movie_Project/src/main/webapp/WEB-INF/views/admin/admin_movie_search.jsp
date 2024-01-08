@@ -17,6 +17,10 @@
 // selectBox 목록에서 영화제목을 클릭했을때 상세정보가 inputText에 출력되게 할거임.(ajax)
 
 $(document).ready(function(){
+	// ======== 개봉일과 상영상태를 비교하는 변수 목록 ========
+	let nowTime = new Date().getTime(); // 계산의 기준이 될 날짜를 밀리초 단위로 리턴
+	let movieReleaseTime = ''; // 계산의 대상이 될 날짜를 밀리초 단위로 리턴
+	let differenceTime = ''; // 기준 날짜와 대상 날짜의 차이
 	$("#adminMovieSearch").on("click", function(){
 // 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수 (submit 함수쓸때 기본동작 = 페이지 다시 불러오기 안함)
 		let title = $("#movieTitle").val();
@@ -41,10 +45,8 @@ $(document).ready(function(){
 // 					$("#movie_id").val(movie.movieCd);
 // 					$("#movie_director").val(movie.directors[0].peopleNm);
 // 					$("#movie_audience").val('0');
-                        $("#selectBox").append('<option value="' + movie.movieNm + '">' + movie.movieNm + '</option>');// selectBox에 영화 제목 넣기
+                        $("#selectBox").append('<option data-moviecd="' + movie.movieCd + '"data-director="' + movie.directors[0].peopleNm +'">' + movie.movieNm + '</option>');// selectBox에 영화 제목 넣기
 					}
-				
-				
 				
 			    $("#selectBox").show(); // 클릭시 체크박스 보이기
 				}; //for문 끝
@@ -57,10 +59,12 @@ $(document).ready(function(){
 	
 	
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+			
 		$("#selectBox").on("click", function(){
 			let kmdbKey = "C7643LD2JV0X8LAV20YO";
 			let title = $("#selectBox option:selected").text(); // 선택된 영화의 제목을 가져옵니다.
+			let movieCd = $("#selectBox option:selected").data("moviecd");
+			let director = $("#selectBox option:selected").data("director");
 // 			let movieCd = 
 			$.ajax({
 				type: "get",
@@ -68,13 +72,16 @@ $(document).ready(function(){
 				url: "https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=" + kmdbKey +"&title="+ title,
 				data:{
 					detail: "Y",
-					
+					movieCd : movieCd,
+					director : director,
 					
 				},
 				success: function(kmdb){
-					
-					
-					
+					  
+					//영화 감독
+					$("#movie_director").val(director);
+					//영화 코드
+					$("#movie_id").val(movieCd);
 					// 영화 제목
 					$("#movie_title").val(title);
 					// 제작국가
@@ -96,8 +103,9 @@ $(document).ready(function(){
 				  	let repRlsDate = kmdb.Data[0].Result[0].repRlsDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
 					$("#movie_release_date").val(repRlsDate);
 					
+					//배우 순서대로 3명
 					let actors = "";
-					for(let i = 0; i < 3; i++) {//배우 순서대로 3명 출력
+					for(let i = 0; i < 3; i++) {
 						if(kmdb.Data[0].Result[0].actors.actor[i]) {
 // 							console.log(kmdb.Data[0].Result[0].actors.actor[i].actorNm); //배우 순서대로 3명 출력
 							let actor = kmdb.Data[0].Result[0].actors.actor[i].actorNm;
@@ -108,28 +116,36 @@ $(document).ready(function(){
 						$("#movie_actor").val(actors);
 						};
 					};
-						// 마지막 구분자 제거
-// 						console.log(kmdb.Data[0].Result[0].rating); //관람등급
-// 						console.log(kmdb.Data[0].Result[0].posters); //포스터
-						
-						let posters = kmdb.Data[0].Result[0].posters.split("|"); //포스터
+						//포스터
+						let posters = kmdb.Data[0].Result[0].posters.split("|"); 
 						let poster = posters[0];
 						$("#posterThumnail").attr("src", poster);
 						$("#movie_poster").val(poster);
 						
-						console.log(kmdb.Data[0].Result[0].vods.vod[0].vodUrl); //트레일러
-						console.log(kmdb.Data[0].Result[0].keywords); //줄거리
-						
+						//스틸컷
 						let stills = kmdb.Data[0].Result[0].stlls.split("|").slice(0, $('.still').length);
 						$(".still").each(function(index) {
 							$(this).val(stills[index]);
 						});
 						
+						// 자동 선택 이후 개봉일을 변경할 경우 종영일의 최소값을 변경한다.
+						// 영화 조회시 상영 상태를 날짜 기준으로 기본값 정하기
+						movieReleaseTime = new Date(repRlsDate).getTime(); // 계산의 대상이 될 날짜를 밀리초 단위로 리턴
+						// 두 날짜의 차이를 초 -> 분 -> 시 -> 일 비교값으로 나타내기
+						differenceTime = Math.round((nowTime - movieReleaseTime) / 1000 / 60 / 60 / 24);
+						// 개봉상태 지정
+						if(differenceTime> 0) { // 오늘보다 개봉일이 이전인 경우
+							$("#release").prop("selected", true);
+						} else { // 오늘보다 개봉일이 이후인 경우
+							$("#comming").prop("selected", true);
+						}
+						
+						//트레일러
 						let vod = kmdb.Data[0].Result[0].vods.vod[0].vodUrl;
 						$("#movie_trailer").val(vod);
 						
 						// 줄거리
-					  	let plot = kmdb.Data[0].Result[0].keywords;
+					  	let plot = kmdb.Data[0].Result[0].plots.plot[0].plotText;
 						$("#movie_plot").val(plot);
 						
 				}, //success 끝
@@ -138,8 +154,7 @@ $(document).ready(function(){
 				} //error 끝
 			}); //ajax 끝
 	
-	
-		}); // button 끝
+		});
 	
 	}); //ready 끝
 
