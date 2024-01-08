@@ -17,37 +17,27 @@
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
-/* 새로 갱신된 파일 */	
-	// 선택된 라디오 버튼 이외의 다른 라디오 버튼을 선택 해제
-	function check(checkedRadio) {
-	// name이 'radiocheck'인 모든 라디오 버튼을 가져옴
-	  var radio = document.getElementsByName('radiocheck');
-	// 반복문으로 라디오 버튼들 반복하면서 선택된 버튼 이외의 버튼을 선택 해제
-	  for (var i = 0; i < radio.length; i++) {
-	    if (radio[i] !== checkedRadio) {
-	      radio[i].checked = false;
-    }
+// 약관 동의 체크박스 부분 처리
+function checkAll() {
+  var Checkbox = document.querySelector('.store_pay_info_check input[type="checkbox"]');
+  var Checkboxes = document.querySelectorAll('.store_pay_info_group input[type="checkbox"]');
+  
+  for (var i = 0; i < Checkboxes.length; i++) {
+    Checkboxes[i].checked = Checkbox.checked;
   }
 }
-	// 약관 동의 체크박스 부분 처리
-	function checkAll() {
-	  var Checkbox = document.querySelector('.store_pay_info_check input[type="checkbox"]');
-	  var Checkboxes = document.querySelectorAll('.store_pay_info_group input[type="checkbox"]');
+// 아래쪽 약관 동의 체크박스 부분 처리
+function checkAll2() {
+	  var Checkbox2 = document.querySelector('.info02 input[type="checkbox"]');
+	  var Checkboxes2 = document.querySelectorAll('.info02 input[type="checkbox"]:not(:first-child)');
 	  
-	  for (var i = 0; i < Checkboxes.length; i++) {
-	    Checkboxes[i].checked = Checkbox.checked;
+	  for (var i = 0; i < Checkboxes2.length; i++) {
+	    Checkboxes2[i].checked = Checkbox2.checked;
 	  }
-	}
-	// 아래쪽 약관 동의 체크박스 부분 처리
-	function checkAll2() {
-		  var Checkbox2 = document.querySelector('.info02 input[type="checkbox"]');
-		  var Checkboxes2 = document.querySelectorAll('.info02 input[type="checkbox"]:not(:first-child)');
-		  
-		  for (var i = 0; i < Checkboxes2.length; i++) {
-		    Checkboxes2[i].checked = Checkbox2.checked;
-		  }
-		}
-	
+}
+
+
+
 	
 </script>
 <%-- 결제 API 포트원 SDK 코드 --%>
@@ -56,6 +46,7 @@
 $(function() {
 	
 });
+
 	<%-- 주문번호 생성을 위한 작업 --%>
 	var count = 0;
 	function generateMerchantUid() {
@@ -84,35 +75,62 @@ $(function() {
 	var member_phone = "${members.member_phone}";
 	var product_id = [];
 	
-$(function() {
-	<%-- 상품 아이디 배열에 저장 --%>
-	$(".product_id").each(function() {
-	    product_id.push($(this).val()); 
-	});
-	<%-- 상품 수량 배열에 저장 --%>
-	$(".product_count").each(function() {
-		quantity.push($(this).val());
-	});
-	<%-- 상품명 결제시 문자열 결합 --%>
-	$(".product_name").each(function() {
-		product_name += $(this).val() + ",";
-	});
-	product_name = product_name.slice(0, -1);
-	<%-- 상품 수량 결제시 총 수량 --%> 
-// 	$(".product_count").each(function() {
-// 		quantity += $(this).val() + ",";
-// 	});
-// 	quantity = quantity.slice(0, -1);
-	<%-- 총 금액 계산 --%>
-	$(".product_price").each(function(index) {
-		var price = parseInt($(this).val());
-	    var quantity = parseInt($(".product_count").eq(index).val());
-	    product_total_price += (price * quantity);
-	});
-// 	alert("총금액 !!!: " + quantity);
-});	
-	
+	$(function() {
+		<%-- 상품 아이디 배열에 저장 --%>
+		$(".product_id").each(function() {
+		    product_id.push($(this).val()); 
+		});
+		<%-- 상품 수량 배열에 저장 --%>
+		$(".product_count").each(function() {
+			quantity.push($(this).val());
+		});
+		<%-- 상품명 결제시 문자열 결합 --%>
+		$(".product_name").each(function() {
+			product_name += $(this).val() + ",";
+		});
+		product_name = product_name.slice(0, -1);
+		<%-- 상품 수량 결제시 총 수량 --%> 
+		<%-- 총 금액 계산 --%>
+		$(".product_price").each(function(index) {
+			var price = parseInt($(this).val());
+		    var quantity = parseInt($(".product_count").eq(index).val());
+		    product_total_price += (price * quantity);
+		});
+	// 	alert("총금액 !!!: " + quantity);
+	});	
+	// 결제 수단 변수
+	var selectedPgValue;
 	//*****************************************************
+	function check(pg) {
+		selectedPgValue = pg.value;
+		console.log(selectedPgValue);
+		console.log(selectedPgValue);
+	}
+	
+	
+	function subBtnClick(){
+		if(selectedPgValue==null){
+			alert("결제수단 선택 필수!");
+		}
+		// 체크박스 상태 확인
+	    var terms1Checked = $("#terms1").is(":checked");
+	    var terms2Checked = $("#terms2").is(":checked");
+	    var terms3Checked = $("#terms3").is(":checked");
+
+	    // 결제연동 준비상태를 표시하는 변
+	    var requestReady = null;
+
+	    // 체크 여부 확인 및 포커스 설정
+	    if (terms1Checked && terms2Checked && terms3Checked) {
+	    	requestReady = true;
+	    } else{
+	    	alert("결제 대행 서비스 약관 동의 필수!");
+	    }
+	    
+	    if(selectedPgValue != null && requestReady == true){
+	    	requestPay();
+	    }
+	}
 	
 	console.log(merchantUid);
 	// API 초기화 : 포트원 API를 사용하기 위해 초기화
@@ -123,7 +141,7 @@ $(function() {
 	function requestPay() {
 		
 		IMP.request_pay({
-	      pg: "kakaopay",
+	      pg: selectedPgValue,
 	      pay_method: "card",
 	      merchant_uid: merchantUid,   // 주문번호
 	      name: product_name,   // 결제 대상 제품명
@@ -253,11 +271,12 @@ $(function() {
 					<div class="store_subject">결제 수단</div>
 					<div class="store_payment_line">
 						<section>
-							<span><input type="radio" value="신용카드"  name=radiocheck onclick="check(this)"><b>신용카드</b></span>
-							<span><input type="radio" value="kakaoPay" name=radiocheck onclick="check(this)">kakao<b>Pay</b></span>
+							<span><input type="radio" value="html5_inicis"  name=radiocheck onclick="check(this)"><b>신용카드</b></span>
+							<span><input type="radio" value="kakaopay" name=radiocheck onclick="check(this)">kakao<b>Pay</b></span>
 						</section>
 					</div>	
 				</div>
+				
 				<div class="store_pay_info">
 					<div class="store_pay_info_check">
 						<input type="checkbox" onclick="checkAll()">주문정보/결제 대행 서비스 약관 모두 동의
@@ -267,15 +286,15 @@ $(function() {
 							<br> <span class="info01_01">&nbsp;&nbsp;&nbsp;기프트콘 발송 및 CS 처리 등을 이해 수신자로부터 영화관에 수신자의 전화번호를 제공하는 것에 대한 적합한 동의를 받습니다.</span>
 						</div>
 						<div class="info02"><input type="checkbox" onclick="checkAll2()">결제 대행 서비스 약관 모두 동의 
-							<br>&nbsp;&nbsp;<input type="checkbox">전자금융거래 이용약관
-							<br>&nbsp;&nbsp;<input type="checkbox">개인정보 수집 이용약관
-							<br>&nbsp;&nbsp;<input type="checkbox">개인정보 제공 및 위탁안내
+							<br>&nbsp;&nbsp;<input type="checkbox" id="terms1">전자금융거래 이용약관
+							<br>&nbsp;&nbsp;<input type="checkbox" id="terms2">개인정보 수집 이용약관
+							<br>&nbsp;&nbsp;<input type="checkbox" id="terms3">개인정보 제공 및 위탁안내
 						</div>
 					</div>
 				</div>
 				<div class="paybtn">
 					<a href="javascript:history.back()"><input type="button" value="이전화면"></a>
-					<a href="javascript:requestPay()" ><input type="button" value="결제하기"></a>
+					<input type="button" value="결제하기" onclick="subBtnClick()">
 				</div>
 			</div>
 		</section>
