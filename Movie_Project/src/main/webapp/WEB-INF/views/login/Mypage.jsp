@@ -36,34 +36,32 @@
 <!-- 			<form action="Mypage" method="get" name="checkform"> -->
 			<div class="mapage_table">
 				<div id="my_list">
-					<h2>나의 예매내역</h2>
+					<h2>최근 예매내역</h2>
 					<table id="my_table1">
 						<tr>
-							<th>No.</th>
+							<th style="width: 80px;">No.</th>
 							<th>영화제목</th>
 							<th>영화극장 정보</th>
 							<th>상태</th>
 						</tr>
-						
+						<c:forEach var="res" items="${resMap}">
 						<tr>
-							<td>[예매순번]</td>
-							<td>[영화제목]</td>
-							<td>[영화관 / 좌석번호]</td>
-							<td>[예매완료]</td>
+							<td>${res.payment_id}</td>
+							<td>${res.movie_title}</td>
+							<td>${res.theater_name}${res.room_name} / ${res.seat_name}</td>
+							<c:choose>
+								<c:when test="${payment_status eq 0}"><td>취소완료</td></c:when>
+								<c:otherwise><td>결제완료</td></c:otherwise>
+							</c:choose>
 						</tr>
 						
-						<tr>
-							<td>[예매순번]</td>
-							<td>[영화제목]</td>
-							<td>[영화관 / 좌석번호]</td>
-							<td>[예매완료]</td>
-						</tr>
+						</c:forEach>
 					</table><br>
 								
 				</div>
 				
 				<div id="buy_list">
-					<h2>상품 구매내역</h2>
+					<h2>최근 상품 구매내역</h2>
 					<table id="my_table1">
 						<tr>
 							<th>No.</th>

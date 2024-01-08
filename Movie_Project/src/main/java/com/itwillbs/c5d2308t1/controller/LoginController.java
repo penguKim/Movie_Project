@@ -37,6 +37,7 @@ import com.itwillbs.c5d2308t1.vo.NaverLoginVO;
 import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.RefundVO;
+import com.itwillbs.c5d2308t1.vo.ReserveVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 @Controller
 public class LoginController {
@@ -81,7 +82,11 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage") //메인화면에서 버튼 클릭시 mypage이동
-	public String mypage() {
+	public String mypage(Model model) {
+		
+		List<Map<String, String>> resMap = reserve.getMypage(); 
+		System.out.println(resMap);
+		model.addAttribute("resMap",resMap);
 		return "login/Mypage";
 	}
 	

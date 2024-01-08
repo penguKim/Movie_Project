@@ -202,6 +202,17 @@
 		WHERE member_id = #{sId}
 	</select>
 	
+	<select id="selectMypageInfo" resultType="map">
+		SELECT *
+		FROM resView 
+		WHERE payment_name LIKE 'P%'
+		AND payment_id IN (
+		    SELECT MAX(payment_id) FROM resView WHERE payment_name LIKE 'P%'
+		    UNION
+		    SELECT MAX(payment_id) - 1 FROM resView WHERE payment_name LIKE 'P%'
+		);
+	</select>
+	
 </mapper>
 
 

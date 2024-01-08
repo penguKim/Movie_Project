@@ -78,5 +78,10 @@ public class ReserveService {
 	public Map<String, String> getmemberInfo(String sId) {
 		return mapper.selectMemberInfo(sId);
 	}
+	
+	//마이페이지 홈 정보 최신 2개 조회
+	public List<Map<String, String>> getMypage() {
+		return mapper.selectMypageInfo();
+	}
 
 }
