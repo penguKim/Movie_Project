@@ -509,6 +509,12 @@
 		ORDER BY t.theater_id ASC, r.room_id ASC, p.play_start_time ASC, m.movie_title ASC
 	</select>
 	
+<!-- 무한스크롤을 위한 전체 게시글 갯수 조회 -->
+<!-- 	<select id="selectMovieScheduleListCount" resultType="int"> -->
+<!-- 		SELECT COUNT(*) -->
+		
+<!-- 	</select>	 -->
+	
 <!-- 상영스케쥴 메인페이지 상영일정 조회 -->	
 	<select id="selectScheduleInfo" resultType="hashmap">
 		SELECT r.room_name, m.movie_title, p.play_start_time, p.play_end_time, t.theater_name
