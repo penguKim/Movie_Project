@@ -497,7 +497,7 @@
 <!-- 1) 상영스케쥴 메인 페이지 -->
 <!-- 상영스케쥴 메인 페이지 기본 정보 조회-->
 	<select id="selectMainScheduleInfo" resultType="hashmap">
-		SELECT t.theater_name, r.room_name, m.movie_title, p.play_start_time, p.play_end_time
+		SELECT t.theater_name, r.room_name, m.movie_title, p.play_start_time, p.play_end_time, p.play_date
 		FROM plays p
 		JOIN rooms r
 		ON p.room_id = r.room_id
@@ -517,7 +517,7 @@
 	
 <!-- 상영스케쥴 메인페이지 상영일정 조회 -->	
 	<select id="selectScheduleInfo" resultType="hashmap">
-		SELECT r.room_name, m.movie_title, p.play_start_time, p.play_end_time, t.theater_name
+		SELECT r.room_name, m.movie_title, p.play_start_time, p.play_end_time, t.theater_name, p.play_date
 		FROM plays p
 		JOIN rooms r
 		ON p.room_id = r.room_id
