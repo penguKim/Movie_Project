@@ -28,7 +28,6 @@ public class PaymentService {
 //			mapper.insertOrderPro(map);
 //		}
 		
-		
 		// 결제 성공 시 결제 테이블 인설트 요청
 		mapper.insertPaymentPro(map);
 		
