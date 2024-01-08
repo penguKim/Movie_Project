@@ -218,16 +218,38 @@ public class LoginController {
 
 		
 	// 회원 탈퇴를 위한 회원조회
-		@GetMapping("memberDie")
-		public String memberDie(HttpSession session ,Model model, MemberVO member, String oldPasswd) {
-			String sId = (String) session.getAttribute("sId");
-			if (sId == null) {
-				model.addAttribute("msg", "잘못된 접근입니다");
-				return "fail_back";
-			}
-			member.setMember_id(sId);
+	@GetMapping("memberDie")
+	public String memberDie(HttpSession session ,Model model, MemberVO member, String oldPasswd) {
+		String sId = (String) session.getAttribute("sId");
+		if (sId == null) {
+			model.addAttribute("msg", "잘못된 접근입니다");
+			return "fail_back";
+		}
+		member.setMember_id(sId);
+		
+		if(sId.contains("@")) { // 네이버 이메일 아이디의 경우
+			System.out.println("네이버 이메일 아이디");
+			String access_token = (String) session.getAttribute("access_token");
+			System.out.println(access_token);
 			
+			NaverLoginVO naverLoginVO = new com.itwillbs.c5d2308t1.vo.NaverLoginVO();
+			String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+ naverLoginVO.CLIENT_ID +
+					"&client_secret="+naverLoginVO.CLIENT_SECRET+"&access_token="+access_token+"&service_provider=NAVER";
 			
+			int dbmember = service.statusMember(member); 
+			
+			if (dbmember > 0) {
+				model.addAttribute("msg", "회원탈퇴가 완료되었습니다.");
+				model.addAttribute("targetURL", "main");
+				session.invalidate();
+				return "forward";
+			} else {
+				model.addAttribute("msg", "회원탈퇴에 실패했습니다.");
+				model.addAttribute("targetURL", "SideEditmember");
+				return "forward";
+			}		
+			
+		} else { // 일반 회원일 경우
 			System.out.println("현재 내아이디 : " + member.getMember_id());
 			// 기존에 있던 회원 비밀번호 조회
 			MemberVO dbmemberPs = service.selectMemberPs(member);
@@ -240,26 +262,29 @@ public class LoginController {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			int dbmember = service.statusMember(member); 
 			if (oldPasswd != null && passwordEncoder.matches(oldPasswd, dbmemberPs.getMember_passwd())) {
-			    if (dbmember > 0) {
-			        model.addAttribute("msg", "회원탈퇴가 완료되었습니다.");
-			        model.addAttribute("targetURL", "main");
-			        session.invalidate();
-			        return "forward";
-			    } else {
-			        model.addAttribute("msg", "회원탈퇴에 실패했습니다.");
-			        model.addAttribute("targetURL", "SideEditmember");
-			        return "forward";
-			    }
+				if (dbmember > 0) {
+					model.addAttribute("msg", "회원탈퇴가 완료되었습니다.");
+					model.addAttribute("targetURL", "main");
+					session.invalidate();
+					return "forward";
+				} else {
+					model.addAttribute("msg", "회원탈퇴에 실패했습니다.");
+					model.addAttribute("targetURL", "SideEditmember");
+					return "forward";
+				}
 			} else {
-			    if (oldPasswd == null || oldPasswd.equals("")) {
-			        model.addAttribute("msg", "기존 비밀번호를 입력하세요.");
-			    } else {
-			        model.addAttribute("msg", "비밀번호가 틀렸습니다.");
-			    }
-			    model.addAttribute("targetURL", "SideEditmember");
-			    return "forward";
+				if (oldPasswd == null || oldPasswd.equals("")) {
+					model.addAttribute("msg", "기존 비밀번호를 입력하세요.");
+				} else {
+					model.addAttribute("msg", "비밀번호가 틀렸습니다.");
+				}
+				model.addAttribute("targetURL", "SideEditmember");
+				return "forward";
 			}
+			
+		
 		}
+	}
 		
 	@GetMapping("Mypage_ReviewList")//리뷰 페이지로 이동
 	public String Mypage_ReviewList(@RequestParam(defaultValue = "1") int pageNum ,HttpSession session, Model model, ReviewsVO review) {

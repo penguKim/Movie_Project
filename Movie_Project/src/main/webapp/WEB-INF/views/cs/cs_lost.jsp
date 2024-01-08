@@ -48,18 +48,14 @@
 					alert("개인정보 수집에 대한 동의를 선택해 주세요");
 					return false;
 					// 분실장소 미선택시 
-				} else if($("select[name=theater_id]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+				} else if($("#theater_id").val() == "") {
 					alert("분실장소 선택은 필수입니다");
-					$("select[name=theater_id]").focus();
+					$("#theater_id").focus();
 					return false;
-					// 분실물 일시 내용 없을 시 
-					// 시간 선택을 입력 없이 캘린더 선택만 하는건 어떤지?
-				} else if($("input[name=lost_datetime]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+				} else if($("#lost_datetime").val() == "") {
 					alert("분실일시 선택은 필수입니다");
-					$("input[name=lost_datetime]").focus();
+					$("#lost_datetime").focus();
 					return false;
-					// id 세션값으로 가져올 예정임
-					// 현재 세션 값이 없어서 하나 만들어둠
 				} else if($("#id").val() == "") { 
 					alert("로그인을 해주세요");
 					return false;

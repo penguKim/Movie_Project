@@ -1054,7 +1054,7 @@ public class AdminController {
 		return "admin/admin_board_faq_write";
 	}
 
-	// 관리자페이지 자주묻는질문 글 등록하기
+	// 관리자페이지 자주묻는질문 글 등록 작업
 	@PostMapping("adminFaqWritePro") // 자주묻는 질문 글쓰기 : admin_board_faq_write.jsp
 	public String boardFaqWritePro(CsVO cs, HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
@@ -1081,7 +1081,6 @@ public class AdminController {
 				
 	}
 
-	
 	// 관리자페이지 자주묻는질문 상세 조회 페이지로 이동
 	@GetMapping("adminFaqView")
 	public String adminFaqView(CsVO cs, HttpSession session, Model model) {
@@ -1100,7 +1099,8 @@ public class AdminController {
 		return "admin/admin_board_faq_view";
 	}
 	
-	@PostMapping("adminFaqModifyForm") // 자주 묻는 질문 수정 : admin_board_faq_write.jsp 재사용
+	// 관리자페이지 자주묻는질문 글 수정 페이지로 이동
+	@PostMapping("adminFaqModifyForm")
 	public String adminFaqModifyForm(CsVO cs, HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
 		String sId = (String)session.getAttribute("sId");
@@ -1118,7 +1118,7 @@ public class AdminController {
 		return "admin/admin_board_faq_modify";
 	}
 	
-	// 관리자페이지 자주묻는질문 글 수정하기
+	// 관리자페이지 자주묻는질문 글 수정 작업
 	@PostMapping("adminFaqModifyPro") // 자주묻는 질문 글쓰기 : admin_board_faq_write.jsp
 	public String boardFaqModifyPro(CsVO cs, HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
@@ -1147,7 +1147,7 @@ public class AdminController {
 			
 	}
 	
-	
+	// 관리자페이지 자주묻는질문 글 삭제 작업
 	@GetMapping("adminFaqDelete")
 	public String adminFaqDelete(CsVO cs, @RequestParam(defaultValue = "1") int pageNum, Model model, HttpSession session) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
@@ -1226,7 +1226,7 @@ public class AdminController {
 		return "admin/admin_board_notice";
 	}
 
-	// 관리자페이지 공지사항 글등록 페이지로 이동
+	// 관리자페이지 공지사항 글쓰기 페이지로 이동
 	@GetMapping("adminNoticeWriteForm")
 	public String adminNoticeWriteForm(HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
@@ -1240,7 +1240,8 @@ public class AdminController {
 		return "admin/admin_board_notice_write";
 	}
 
-	@PostMapping("adminNoticeWritePro") // 공지사항 글쓰기 : admin_board_notice_write.jsp
+	// 관리자페이지 공지사항 글 등록 작업
+	@PostMapping("adminNoticeWritePro")
 	public String adminNoticeWritePro(CsVO cs, HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
 		String sId = (String)session.getAttribute("sId");
@@ -1287,7 +1288,7 @@ public class AdminController {
 		return "admin/admin_board_notice_view";
 	}
 	
-	// 공지사항 수정
+	// 관리자페이지 공지사항 글 수정 페이지로 이동
 	@PostMapping("adminNoticeModifyForm")
 	public String adminNoticeModifyForm(CsVO cs, HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
@@ -1306,8 +1307,8 @@ public class AdminController {
 		return "admin/admin_board_notice_modify";
 	}
 	
-	
-	@PostMapping("adminNoticeModifyPro") // 공지사항 글쓰기 : admin_board_notice_write.jsp
+	// 관리자페이지 공지사항 글 수정 작업
+	@PostMapping("adminNoticeModifyPro")
 	public String adminNoticeModifyPro(CsVO cs, HttpSession session, Model model) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기
 		String sId = (String)session.getAttribute("sId");
@@ -1332,6 +1333,7 @@ public class AdminController {
 		}
 	}
 	
+	// 관리자페이지 공지사항 글 삭제ㄴ 작업
 	@GetMapping("adminNoticeDelete")
 	public String adminNoticeDelete(CsVO cs, @RequestParam(defaultValue = "1") int pageNum, Model model, HttpSession session) {
 		// 세션아이디 판별하여 관리자(admin)가 아니면 접근을 막기

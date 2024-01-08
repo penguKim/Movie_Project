@@ -219,10 +219,14 @@ public class CsController {
 	}
 	
 	// 문의글 영화관 이름 전송
+	// JSONArray로 수정 필요 -> ajax 전반 수정 필요해서 보류
 	@ResponseBody
 	@GetMapping("getTheater")
 	public List<HashMap<String, Object>> getTheater(Model model) {
 		List<HashMap<String, Object>> theaterList = service.getTheaterList();
+		
+		System.out.println(theaterList);
+		
 		return theaterList;
 	}
 	

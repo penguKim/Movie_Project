@@ -97,6 +97,10 @@ public class JoinController {
             throws IOException {
         OAuth2AccessToken oauthToken;
         oauthToken = NaverLoginVO.getAccessToken(session, code, state);
+        
+        String access_token = oauthToken.getAccessToken(); //토큰
+//        System.out.println("access_token = " + access_token);
+        session.setAttribute("access_token", access_token);
         //로그인 사용자 정보를 읽어온다.
         apiResult = NaverLoginVO.getUserProfile(oauthToken);
         model.addAttribute("result", apiResult);
