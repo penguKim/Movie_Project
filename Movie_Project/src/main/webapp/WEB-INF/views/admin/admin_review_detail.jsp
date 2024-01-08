@@ -33,10 +33,6 @@ $(function() {
 		<section id="content">
 			<h1 id="h01">리뷰 상세 페이지</h1>
 			<hr>		
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
-
 			<div id="admin_main">
 				<table border="1">
 				<c:forEach var="adminReviewDlt" items="${adminReviewDlt }">
@@ -74,9 +70,6 @@ $(function() {
 				</div>
 			</form>
 			</div>
-			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
-			</footer>
 		</section>
 	</div>			
 </body>

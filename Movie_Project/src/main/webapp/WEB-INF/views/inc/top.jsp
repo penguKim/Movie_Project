@@ -30,7 +30,7 @@
 			</c:choose>
 		</div>
 		<div id="logo">
-			<a href="./"><img src="${pageContext.request.contextPath}/resources/img/logo3.png" height="80" width="250"></a>
+			<a href="./"><img src="${pageContext.request.contextPath}/resources/img/logo.png" height="80" width="250"></a>
 		</div>
 	</div>	
 </div>

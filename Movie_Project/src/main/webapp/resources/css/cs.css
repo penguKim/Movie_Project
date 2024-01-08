@@ -123,7 +123,7 @@ th {
 #menubar { /* 메뉴바 전체에 */
 	text-align: center; /* 가운데정렬 */
 	width: 160px; /* 넓이지정 */
-	height: 342px; /* 높이지정 */
+	height: 350px; /* 높이지정 */
  	border-radius: 3px; /* 모서리 둥글게 */
  	background-color: #ffffff; /* 배경색 */
 	border: 2px solid #9d9d9d; /* 테두리 */

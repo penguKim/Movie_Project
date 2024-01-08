@@ -25,9 +25,6 @@
 		<section id="content">
 			<h1 id="h01">스토어 상품 관리</h1>
 			<hr>
-			<div id="admin_nav">
-				<jsp:include page="admin_menubar.jsp"></jsp:include>
-			</div>
 			
 			<div id="admin_main">
 				<form action="">

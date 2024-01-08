@@ -114,7 +114,7 @@
 				</form>
 			</div>
 			<footer>
-				<jsp:include page="../inc/bottom_admin.jsp"></jsp:include>
+				<jsp:include page="../inc/bottom.jsp"></jsp:include>
 			</footer>
 		</section>
 	</div>			

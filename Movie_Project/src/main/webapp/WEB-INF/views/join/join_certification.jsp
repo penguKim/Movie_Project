@@ -4,7 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>iTicket</title>
+<%-- 글씨체 --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/join.css" rel="stylesheet" type="text/css">
@@ -27,9 +31,17 @@
 			redirectUri: 'http://localhost:8081/c5d2308t1/kakaocallback',
 		});
 	}
-
-	
 </script>
+<script>
+	$(function() {
+		<%-- 뒤로가기 방지 --%>
+		window.addEventListener('pageshow', function(event) { <%-- 페이지가 로드되거나 새로고침 발생 이벤트 --%>
+			if (event.persisted) { <%-- 뒤로가기나 앞으로가기로 이동했을 시 true 리턴 --%>
+			    location.reload(); <%-- 페이지 새로고침 --%>
+			}
+		});
+	});
+</script>	
 <script>
 	$(function() {
 		// 인증여부를 저장할 변수 선언
@@ -171,12 +183,12 @@
 					<h3>소셜계정으로 인증하기</h3>
 					<!-- 카카오 로그인 버튼 노출 영역 -->
 					<div id="kakao_id_login" style="text-align:center"><a id="kakao-login-btn" href="javascript:loginWithKakao()">
-					  <img src="${pageContext.request.contextPath}/resources/img/kakao.png" width="70px"/>
+					  <img src="${pageContext.request.contextPath}/resources/img/kakao.png" width="60px"/>
 					</a></div>
-					<div id="naver_id_login" style="text-align:center"><a href="${url}"><img src="${pageContext.request.contextPath}/resources/img/naver.png" width="70px"/></a></div>
+					<div id="naver_id_login" style="text-align:center"><a href="${url}"><img src="${pageContext.request.contextPath}/resources/img/naver.png" width="60px"/></a></div>
 					<!-- 구글 로그인 화면으로 이동 시키는 URL -->
 					<!-- 구글 로그인 화면에서 ID, PW를 올바르게 입력하면 oauth2callback 메소드 실행 요청-->
-					<div id="google_id_login" style="text-align:center"><a href="${google_url}"><img src="${pageContext.request.contextPath}/resources/img/google.png" width="70px"/></a></div>
+					<div id="google_id_login" style="text-align:center"><a href="${google_url}"><img src="${pageContext.request.contextPath}/resources/img/google.png" width="60px"/></a></div>
 				</section>
 				
 				<hr>

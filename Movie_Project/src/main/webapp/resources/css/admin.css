@@ -56,7 +56,7 @@ navbar {
 	z-index: 1;
 	top: 0;
 	left: 0;
-	background-color: #111;
+	background-color: #242424;
 	overflow-x: hidden;
 	padding-top: 20px;
 }
@@ -92,7 +92,7 @@ navbar {
 #top_area_admin {
 	height: 60px;
 	text-align: right;
-	background-color: #111;
+	background-color: #242424;
 }
 
 #top_button {
@@ -607,7 +607,7 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	padding: 6px 8px 6px 20px;
 	text-decoration: none;
 	font-size: 18px;
-	color: #818181;
+	color: #9b9b9b;
 	display: block;
 	border: none;
 	background: none;
