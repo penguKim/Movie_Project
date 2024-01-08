@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -211,22 +213,6 @@
 		});
 	}
 	
-		
-	
-	function pageMove(move_num, pro_id) {
-		
-		<%-- 페이지 이동용 번호 --%>
-		let move = move_num;
-		<%-- 상품 아이디 지정 --%>
-		let pro = pro_id;
-		
-		<%-- 상세페이지로 이동--%>
-		if(move == 1 ) {
-			location.href = "http://localhost:8080/c5d2308t1/storeDetail?product_id=" + pro;
-		}
-	}
-	
-	
 	<%-- 트레일러 재생 버튼 --%>
 	function trailerPlayBtn() {
 		let video = $("#main_trailer").get(0);
@@ -256,6 +242,11 @@
 	        icon.removeClass('fa-volume-up');
 	        icon.addClass('fa-volume-off');
 	    }
+	}
+	
+	<%-- 상품 상세페이지로 이동 --%>
+	function pageMove(pro_id) {
+		location.href="storeDetail?product_id=" + pro_id;
 	}
 </script>
 </head>
@@ -297,47 +288,26 @@
 			</div>
 			<div id="main_store">
 				<hr>
-				<h2>스토어 베스트 상품</h2>
-			<div id="storeArea">
-				<div id=storePage><a href="http://localhost:8081/c5d2308t1/store"><input type="button" value="전체보기"></a></div>
+				<h2>스토어 패키지 상품</h2>
+				<div id="storeArea">
+					<div id=storePage><a href="store"><input type="button" value="전체보기"></a></div>
+				</div>
+				<div class="store_pakage">
+					<c:forEach var="i" begin="0" end="2">
+						<div class="snack_menu">
+							<a id="storeDetail" href="javascript:void(0)" onclick="pageMove('P00${i+1}')">
+								<img alt="" src="${pageContext.request.contextPath }/resources/upload/${productList[i].product_img}" width="310" height="250"><br>
+								<span>${productList[i].product_name}</span>
+							</a>
+						</div>
+					</c:forEach>
+				</div>
 			</div>
-					<div class="snack_menu">
-						<!-- 상품 상세 페이지 바로가기 -->
-						<a id="storeDetail" href="#" onclick="pageMove(1, 'P005')">
-							<img alt="" src="${pageContext.request.contextPath}/resources/img/snack/우리패키지.jpg" width="310" height="250" ><br>
-							<span>우리패키지</span><br>
-							<span class="snack_detail">영화관람권 4매+더블콤보 1개</span><br><br>
-							<span>61,000<span id="won">원&nbsp;&nbsp;</span></span>
-							<span style="text-decoration: line-through;" class="snack_detail">65,000
-								<span id="won">원</span>
-							</span>
-						</a>
-						<!-- 장바구니에 담고 버튼 클릭 시 모달창 확인 -->
-					</div>
-					<div class="snack_menu">
-						<a href="#" onclick="pageMove(1, 'P002')">
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/나랑너패키지.jpg" width="310" height="250"><br>
-						<span>나랑너패키지</span><br>
-						<span class="snack_detail">영화관람권 2매+스위트콤보 1개</span><br><br>
-							<span>34,000<span id="won">원&nbsp;&nbsp;</span>
-						</span>
-						<span style="text-decoration: line-through;" class="snack_detail">36,000
-							<span id="won">원</span>
-						</span></a>
-					</div>
-					<div class="snack_menu">
-						<a href="#" onclick="pageMove(1, 'P003')">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/시네마패키지.jpg" width="310" height="250"><br>
-							<span>시네마패키지</span><br>
-							<span class="snack_detail">미니 시네마+팝콘L1개+콜라M2개</span><br><br>
-							<span>31,000<span id="won">원&nbsp;&nbsp;</span></span><span style="text-decoration: line-through;" class="snack_detail">36,000<span id="won">원</span></span>
-						</a>
-					</div>
-			 <div class="container">
-				 <hr>
-		        <h2>진행 중인 이벤트</h2>
-		        <div class="event-grid">
-					<!-- 모달 배경 -->
+			<div class="container">
+			   <hr>
+		       <h2>진행 중인 이벤트</h2>
+		       <div class="event-grid">
+				<!-- 모달 배경 -->
 					<div id="myModal" class="modal">
 						<!-- 모달 컨텐츠 -->
 						<div class="modal-content">
@@ -345,8 +315,8 @@
 							<img src="">
 						</div>
 					</div>
-				</div>
-	     	</div>
+			  </div>
+		    </div>
 		</div>
 		<footer>
 			<jsp:include page="inc/bottom.jsp"></jsp:include>

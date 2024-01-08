@@ -8,6 +8,12 @@
 	text-align: left;
 }
 
+.store_pakage {
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 20px;
+} 
+
 /* ------------------------스토어 메인 페이지--------------------------- */
 /* 각 카테고리별(베스트, 영화관람권, 스낵)중앙 정렬  */
 #div01 {
