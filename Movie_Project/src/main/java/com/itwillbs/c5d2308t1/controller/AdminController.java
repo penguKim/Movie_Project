@@ -488,7 +488,7 @@ public class AdminController {
         if(updateCount == 0) {
         	return "fail";
         } else {
-        	return "formData";
+        	return "success";
         }
 	}
 	

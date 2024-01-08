@@ -392,6 +392,8 @@
 
 	// 수정 버튼 클릭 시
 	function CannotDuplicateModify(currentTrId, play_start_time, play_date) {
+
+		
 		console.log(play_date);
 		
 		console.log("이전 tr : " + previousTrId);
@@ -425,11 +427,6 @@
 	        // 버튼 이름 변경 (수정->완료)
 	        $(row).find(".btnModify_" + currentTrId).val("완료");
 	        
-	        // 버튼 클래스 선택자 변경
-	        $(row).find(".btnModify_" + currentTrId).attr("class", "btnModifyComplete_" + currentTrId);
-	        
-	        
-			
 	
 	        // 이전에 선택한 <tr>이 있을 때의 처리
 	        if(previousTrId && previousTrId !== currentTrId) {
@@ -475,6 +472,8 @@
 	        
 			
 	        // 이전에 선택한 tr이 없는 경우 시작
+	        
+	
 	        // 수정폼 띄우기
 				
 				 // 해당하는 행의 play_id 가져오기
@@ -536,8 +535,7 @@
 		        endTime.val($(row).find("#play_end_time_mod").text());
 		        $(row).find("#play_end_time_mod").html(endTime);
 	
-// 				// 셀렉트박스의 값 변경 여부 나타내는 변수 설정
-// 				let isUnchanged = true;
+
 		        
 		     	// 지점 불러오기
 		        $.ajax({
@@ -552,21 +550,14 @@
 				                theaterName.append("<option value='" + theater.theater_id + "' selected>" + theater.theater_name + "</option>");
 				            } else {
 				                theaterName.append("<option value='" + theater.theater_id + "'>" + theater.theater_name + "</option>");
-// 								isUnchanged = false; // 셀렉트박스 값 변경됨 
 				            }
 						}
-						$("#modifyTheater").trigger("click");
 
 						
 
 						
 						 // 지점 선택에 따른 상영관 출력
 						$("#modifyTheater").blur(function() {
-// 							if(isUnchanged) { // 값이 변경되지않았을 경우
-// 								console.log("지점 셀렉트박스 값 변경 안됨");
-// 								$("#modifyTheater").trigger("click");
-// 								console.log("셀렉트박스 클릭 이벤트 일으킴");
-// 							}
 							
 						    var theater_id = $("#modifyTheater").val();
 						    console.log("theater_id = " + theater_id);
@@ -588,7 +579,6 @@
 										}
 									}
 									
-									$("#modifyRoom").trigger("click");
 
 	
 								},
@@ -621,7 +611,6 @@
 				                movieTitle.append("<option value='" + movie.movie_id + "'>" + movie.movie_title + "</option>");
 				            }
 						}
-						$("#modifyMovie").trigger("click");
 	
 					
 							
@@ -654,7 +643,6 @@
 										playDate.attr("max", f_close_date); // 상영종영일
 										// 날짜선택에 최소값과 최대값 주기
 										
-										$("#modifyDate").trigger("click");
 	
 										// 해당 일자의 해당하는 상영관의 스캐줄 가져와서
 										// 중복되는 시간에 상영일정 잡지 못하게 막기
@@ -735,7 +723,6 @@
 								 						console.log(isDisabled);
 							 						});				
 	
-													$("#modifyStart").trigger("click");
 	
 												}, // success 끝
 												error: function(xhr, textStatus, errorThrown) {
@@ -880,49 +867,52 @@
 						alert("상영중인 영화 로딩 오류입니다.");
 					}
 				});
-	
-				var room = $("#modifyRoom").val();
-				var movie = $("#modifyMovie").val();
-				var date = $("#modifyDate").val();
-				var start = $("#modifyStart").val();
-				var end = $("#modifyEnd").val();
+		    	
+				// 새로운 버튼 생성하고 기존 버튼 없애기
+		    	$(".btnModify_" + currentTrId).after("<input type='button' value='완료' class='btnModifyComplete_" + currentTrId +"'>");
+		    	$(".btnModify_" + currentTrId).remove();
 				
-				// 완료 버튼(기존 수정 버튼)을 눌렀을 때 작동하는 ajax
-				$(".btnModifyComplete_" + currentTrId).on("click", function() {
+				// 새로 만든 완료 버튼을 클릭할 경우
+				$(".btnModifyComplete_" + currentTrId).on("click", function(){
+						
+						var room = $("#modifyRoom").val();
+						var movie = $("#modifyMovie").val();
+						var date = $("#modifyDate").val();
+						var start = $("#modifyStart").val();
+						var end = $("#modifyEnd").val();
+						
+						console.log(play_id + ", " + room + ", " + movie + ", " + date + ", " + start + ", " + end)
+			            $.ajax({
+			                type: "POST",
+			                url: "modifyPlay",
+			                dataType: "text",
+			                data: {
+			                	play_id : play_id,
+			                    play_date: date,
+			                    play_start_time: start,
+			                    play_end_time: end,
+			                    room_id: room,
+			                    movie_id: movie
+			                },
+			                success: function(result) {
+								
+			                	console.log("db업데이트 성공 여부 : " + result);
+								location.reload();
+			                },
+			                error: function(xhr, textStatus, errorThrown) {
+			                    alert("ajax 요청 실패! 항목을 처음부터 순서대로 다시 선택해 수정해보세요!" + xhr + ", " + textStatus);
+			                    location.reload();
+			                    // ajax 요청 실패 시 화면 전환 없이 다시 선택해도 수정 가능한지 확인하기
+			                    // => 일단 불가능해서 현재는 reload() 처리
+			                    
+			                }
+			            });
 					
-					console.log(play_id + ", " + room + ", " + movie + ", " + date + ", " + start + ", " + end)
-		            $.ajax({
-		                type: "POST",
-		                url: "modifyPlay",
-		                dataType: "json",
-		                data: {
-		                	play_id : play_id,
-		                    play_date: date,
-		                    play_start_time: start,
-		                    play_end_time: end,
-		                    room_id: room,
-		                    movie_id: movie
-		                },
-		                success: function(result) {
-		                	
-							if(result == "formData") {
-			                    alert("수정 완료!");
-							} else if(result == "fail") {
-								alert("수정 실패!");
-							} 
-							location.reload();
-		                },
-		                error: function(xhr, textStatus, errorThrown) {
-		                    alert("ajax 요청 실패! 항목을 처음부터 순서대로 다시 선택해 수정해보세요!");
-		                    // 현재 alert() 메서드가 두번 호출되는 오류가 발생.. 수정이 두번으로 잡히고있다
-		                    location.reload();
-		                    // ajax 요청 실패 시 화면 전환 없이 다시 선택해도 수정 가능한지 확인하기
-		                    // => 일단 불가능해서 현재는 reload() 처리
-		                    
-		                }
-		            });
 					
-		        }); // 완료버튼 클릭시 이벤트 처리 끝
+				}); // 클릭 이벤트				
+				
+        
+	
 			
 		
 				console.log("기존 tr: " + previousTrId);
@@ -937,12 +927,15 @@
 					console.log("이전tr로 변경될 id : " + previousTrId);
 				}
 		}
+				
+				
 	
 	} // 수정버튼 클릭 이벤트 처리 끝
 	
 
 	// 삭제 버튼 클릭 시	
 	function confirmDelete(play_id, play_start_time, play_date) {
+		
 		console.log(play_id);
 		console.log(play_date);
 		console.log(typeof(play_date)); 
