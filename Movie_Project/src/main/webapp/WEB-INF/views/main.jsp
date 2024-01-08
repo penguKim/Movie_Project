@@ -40,7 +40,7 @@
 										+ "<button id='likeBtn" + i + "' class='likeBtn' data-id='" 
 										+ result[i].movie_id + "' data-title='" + result[i].movie_title 
 										+ "' onclick='likeBtnClick(" + i + ")'><i class='fa fa-heart-o'></i>찜하기</button>"
-										+ "<a href='movie_select?movie_title=" +  result[i].movie_title + "' class='rel_reservBtn'>"
+										+ "<a href='movieSelect?movie_title=" +  result[i].movie_title + "' class='rel_reservBtn'>"
 										+ "<input type='button' value='예매하기'></a></div>"		
 								+ "</div>"
 								);
@@ -96,7 +96,7 @@
 										+ "<button id='likeBtn" + i + "' class='likeBtn' data-id='" 
 										+ result[i].movie_id + "' data-title='" + result[i].movie_title 
 										+ "' onclick='likeBtnClick(" + i + ")'><i class='fa fa-heart-o'></i>찜하기</button>"
-										+ "<a href='movie_select?movie_title=" +  result[i].movie_title + "' class='rel_reservBtn'>"
+										+ "<a href='movieSelect?movie_title=" +  result[i].movie_title + "' class='rel_reservBtn'>"
 										+ "<input type='button' value='예매하기'></a></div>"		
 								+ "</div>"
 								);

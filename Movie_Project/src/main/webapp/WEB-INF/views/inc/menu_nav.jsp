@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div id="navbar">
 	<nav id="menu_nav">
-		<a href="movie_select">예매</a>
+		<a href="movieSelect">예매</a>
 		<a href="release">영화</a>
 		<a href="theater">극장정보</a>
 		<a href="store">스토어</a>

@@ -51,7 +51,7 @@
 			</div>
 			
 			<ul class="tab-menu" id="menu">
-		        <li class="on"><a href="movie_select?theater_name=${theaterName.theater_name}" title="현재 선택됨">예매하기</a></li>
+		        <li class="on"><a href="movieSelect?theater_name=${theaterName.theater_name}" title="현재 선택됨">예매하기</a></li>
 		        <li class="last" onclick=""><a href="theater_parking">위치/주차안내</a></li>
 		    </ul>
 		    

@@ -217,7 +217,7 @@
 					</div>
 				</div>
 				<div class="paybtn">
-					<form action="complete_pay" method="get" id="reservePayForm">
+					<form action="completePay" method="get" id="reservePayForm">
 						<input type="button" value="이전화면" class="back">
 						<input type="hidden" name="movie_title" id="movie_title" value="${map.movie}">
 						<input type="hidden" name="theater_name" value="${map.Theater}">

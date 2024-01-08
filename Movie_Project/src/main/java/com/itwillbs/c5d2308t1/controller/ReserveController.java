@@ -30,7 +30,7 @@ public class ReserveController {
 	
 	
 	// 영화선택 페이지
-	@GetMapping("movie_select")
+	@GetMapping("movieSelect")
 	public String movie_select(Model model, @RequestParam(defaultValue = "") String movie_title) {
 		System.out.println("movie_select");
 		System.out.println("movie_title : " + movie_title);
@@ -69,7 +69,7 @@ public class ReserveController {
 	}
 	
 	// 좌석선택 페이지
-	@GetMapping("seat_select")
+	@GetMapping("seatSelect")
 	public String seat_select(ReserveVO reserveVO, Model model, HttpSession session, String play_end_time) {
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
@@ -86,7 +86,7 @@ public class ReserveController {
 	}
 	
 	// 결제하기 페이지
-	@PostMapping("reserve_pay")
+	@PostMapping("reservePay")
 	public String reservationComplete(@RequestParam Map<String, String> map, Model model, HttpSession session){
 		String sId = (String)session.getAttribute("sId");
 		Map<String, String> members = reserve.getmemberInfo(sId);
@@ -99,7 +99,7 @@ public class ReserveController {
 	
 	
 	// 결제(예매)완료 <실제 데이터 insert 위치>
-	@GetMapping("complete_pay")
+	@GetMapping("completePay")
 	public String competePayment(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		String sId = (String)session.getAttribute("sId");
 		map.put("sId", sId);
