@@ -16,6 +16,66 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 
 <script type="text/javascript">
+// 	// 무한 스크롤 기능(미완)
+	
+// 	// 페이지 번호 변수 선언(초기값 1)
+// 	let pageNum = "1";
+	
+// 	// 끝페이지 번호 변수 선언(초기값 "")
+// 	let maxPage = "";
+	
+// 	$(function() {
+		
+// 		// 게시물 목록 조회 수행을 위해 load_list() 함수 호출
+// 		load_list(); 
+		
+// 		// 윈도우 스크롤 이벤트 핸들링
+// 		// 무한 스크롤 기능을 통해 다음 글 목록 자동으로 로딩
+// 		$(window).scroll(function() {
+			
+// 			// window 객체, document 객체 활용해 스크롤 관련 값 가져오기
+// 			let scrollTop = $(window).scrollTop(); // 스크롤바 현재 위치
+// 			let windowHeight = $(window).height(); // 브라우저 창 높이
+// 			let documentHeight = $(document).height(); // 문서 높이
+			
+			
+// 			// 스크롤바 위치값 + 창 높이 + x 값이 문서 전체 높이 이상일 경우
+// 			// 다음 페이지 게시물 목록 로딩하여 화면에 추가
+// 			if(scrollTop + windowHeight + 50 >= documentHeight){
+// 				pageNum++; // 다음 목록 조회를 위해 현재 페이지 번호 증가
+				
+// 				// 끝 페이지 번호가 널스트링이 아니고, 증가한 페이지번호보다 크거나 같을 경우에만 다음 페이지 로딩
+// 				if(maxPage != "" && pageNum <= maxPage) {
+// 					load_list(); // 다음 페이지 로딩을 위해 load_list() 함수 호출
+// 				}
+				
+// 			}
+			
+// 		});
+		
+// 	});
+	
+// 	// load_list() 함수 정의
+// 	// ajax를 이용해 게시물 목록 조회
+// 	function load_list() {
+// 		$.ajax({
+// 			type: "get",
+// 			url: "adminMovieScheduleList",
+// 			data: {
+// 				pageNum: pageNum
+// 			},
+// 			dataType: "json",
+// 			success: function(result) {
+				
+// 			},
+// 			error: function() {
+// 				alert("게시물 목록 조회 요청 실패!");
+// 			}
+// 		});
+		
+// 	}
+
+
 	// 지점명 불러오기
 	$(function() {
 		$.ajax({
@@ -100,6 +160,11 @@
 </script>
 </head>
 <body>
+	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1 로 저장) --%>
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
 	<div id="wrapper">
 		<nav id="navbar">
 			<jsp:include page="../inc/menu_nav_admin.jsp"></jsp:include>
@@ -298,24 +363,8 @@
 <%-- 						<c:set var="status.index" value="${status.index + count - 1 }"/> --%>
 <%-- 					</c:if> --%>
 <%-- 				</c:forEach> --%>
-
-
-					
-					
-					
-					
 					</tbody>
-					
 				</table>
-				<div class="pagination">
-					<a href="#">&laquo;</a>
-					<a href="#">1</a>
-					<a class="active" href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">&raquo;</a>
-				</div>
 			</div>
 		</section>
 	</div>

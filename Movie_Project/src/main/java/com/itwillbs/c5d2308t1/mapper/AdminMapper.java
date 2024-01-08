@@ -119,6 +119,9 @@ public interface AdminMapper {
 	// 상영일정 메인페이지로 이동 시 정보 조회 작업
 	List<Map<String, Object>> selectMainScheduleInfo();
 
+	// 무한스크롤을 위한 전체 게시글 갯수 조회
+	int selectMovieScheduleListCount();
+
 	// 상영일정 메인페이지 상영일정 조회 작업
 	List<Map<String, Object>> selectScheduleInfo(Map<String, String> map);
 
@@ -193,6 +196,7 @@ public interface AdminMapper {
 	
 	// 결제 관리 상세페이지 결제취소 요청 작업
 	int updatePaymentBuyCancel(Map<String, String> map);
+
 
 		
 

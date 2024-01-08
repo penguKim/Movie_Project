@@ -199,6 +199,13 @@ public class AdminService {
 		return mapper.selectMainScheduleInfo();
 	}
 	
+	
+	// 무한스크롤을 위한 전체 게시글 갯수 조회
+	public int getMovieScheduleListCount() {
+		return mapper.selectMovieScheduleListCount();
+	}
+	
+	
 	// 상영 일정 메인 페이지 상영일정 조회 작업 요청 
 	public List<Map<String, Object>> getScheduleInfo(Map<String, String> map) {
 		return mapper.selectScheduleInfo(map);
@@ -326,6 +333,8 @@ public class AdminService {
 	public int getPaymentBuyCancel(Map<String, String> map) {
 		return mapper.updatePaymentBuyCancel(map);
 	}
+
+
 
 
 

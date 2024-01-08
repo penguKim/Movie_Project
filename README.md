@@ -35,7 +35,10 @@
 * Apache Commons FileUpload - 파일 업로드를 위한 라이브러리
 * javax.mail - 자바 메일 발송 라이브러리
 * javax.activation - 자바 메일 발송 라이브러리
+* JSON In Java - JSON 데이터 처리 라이브러리
 * JSON.simple - JSON 파싱 라이브러리
 * Jsoup Java HTML Parser - 크롤링 라이브러리
+* naver API - 네이버 로그인 API
+* google API - 구글 로그인 API
 
 
