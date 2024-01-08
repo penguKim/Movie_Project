@@ -72,7 +72,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -142,7 +142,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -169,7 +169,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		return "admin/admin_movie_regist";
@@ -182,7 +182,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		return "admin/admin_movie_update";
@@ -194,7 +194,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		return "admin/admin_movie_search";
@@ -207,7 +207,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";	
 		}
 		return "true";
@@ -248,7 +248,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -271,7 +271,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -291,7 +291,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		// 영화 DB 수정
@@ -317,7 +317,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -370,7 +370,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -450,7 +450,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		System.out.println("play_Date = " + play.getPlay_date());
@@ -628,7 +628,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(!sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		PageDTO page = new PageDTO(pageNum, 5);
@@ -648,7 +648,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		return "admin/admin_product_write";
@@ -672,7 +672,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		String uploadDir = "/resources/upload"; // 가상의 경로 지정(이클립스 프로젝트 상에 생성한 경로)
@@ -719,7 +719,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		StoreVO product = storeService.getStore(store.getProduct_id());
@@ -766,7 +766,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		int removeCount = storeService.removeProductImg(store);
@@ -842,7 +842,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		return "admin/admin_payment_list";
@@ -896,7 +896,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -942,7 +942,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -964,7 +964,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1019,7 +1019,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1065,7 +1065,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1079,7 +1079,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1106,7 +1106,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 
@@ -1124,7 +1124,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1143,7 +1143,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1172,7 +1172,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1204,7 +1204,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1251,7 +1251,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1265,7 +1265,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1294,7 +1294,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 
@@ -1313,7 +1313,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1332,7 +1332,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 
@@ -1358,7 +1358,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1392,7 +1392,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1428,7 +1428,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1454,7 +1454,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 //		// AdminService - getOneOnOnePostById() 메서드 호출해 글 목록 조회
@@ -1478,7 +1478,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1504,7 +1504,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1528,7 +1528,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		System.out.println(cs_id);
@@ -1557,7 +1557,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1584,7 +1584,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		// 페이지 번호와 글의 개수를 파라미터로 전달
@@ -1616,7 +1616,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1637,7 +1637,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		// 분실물 문의 답변 등록 작업
@@ -1657,7 +1657,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1678,7 +1678,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
@@ -1698,7 +1698,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		// 분실물 문의 답변 등록 작업
@@ -1719,7 +1719,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		// 분실물 문의 답변 삭제 작업 요청
@@ -1741,7 +1741,7 @@ public class AdminController {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1760,7 +1760,7 @@ public class AdminController {
 		
 		if(sId == null || !sId.equals("admin")) { // sId가 null일때 로그인창으로 보내기
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
@@ -1779,7 +1779,7 @@ public class AdminController {
 		
 		if(sId == null || !sId.equals("admin")) { // sId가 null일때 로그인창으로 보내기
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "memberLogin");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}		
 		
