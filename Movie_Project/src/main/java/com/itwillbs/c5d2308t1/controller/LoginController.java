@@ -82,9 +82,9 @@ public class LoginController {
 	}
 	
 	@GetMapping("Mypage") //메인화면에서 버튼 클릭시 mypage이동
-	public String mypage(Model model) {
-		
-		List<Map<String, String>> resMap = reserve.getMypage(); 
+	public String mypage(Model model,HttpSession session) {
+		String sId = (String)session.getAttribute("sId");
+		List<Map<String, String>> resMap = reserve.getMypage(sId); 
 		System.out.println(resMap);
 		model.addAttribute("resMap",resMap);
 		return "login/Mypage";

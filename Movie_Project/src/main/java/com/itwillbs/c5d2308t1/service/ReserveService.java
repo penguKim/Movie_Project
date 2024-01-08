@@ -80,8 +80,8 @@ public class ReserveService {
 	}
 	
 	//마이페이지 홈 정보 최신 2개 조회
-	public List<Map<String, String>> getMypage() {
-		return mapper.selectMypageInfo();
+	public List<Map<String, String>> getMypage(String sId) {
+		return mapper.selectMypageInfo(sId);
 	}
 
 }

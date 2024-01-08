@@ -29,5 +29,5 @@ public interface ReserveMapper {
 	List<ReserveVO> selectMTB(Map<String, String> map);
 	ReserveVO selectPayment(Map<String, String> map);
 	Map<String, String> selectMemberInfo(String sId);
-	List<Map<String, String>> selectMypageInfo();
+	List<Map<String, String>> selectMypageInfo(String sId);
 }
