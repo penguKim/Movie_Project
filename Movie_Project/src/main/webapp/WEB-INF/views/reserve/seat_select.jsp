@@ -390,7 +390,7 @@
 				      <span class="modal-close">X</span>
 				    </div>
 				    <c:choose>
-				    	<c:when test="${reserveVO.movie_rating eq 'ALL'}"><div class="ageInfoArea sallUsers">ALL</div></c:when>
+				    	<c:when test="${reserveVO.movie_rating eq 'ALL'}"><script>$(function(){$(".modal-close").click();})</script></c:when>
 				    	<c:when test="${reserveVO.movie_rating eq '12'}"><div class="ageInfoArea stwelveYearsOld">12</div></c:when>
 				    	<c:when test="${reserveVO.movie_rating eq '15'}"><div class="ageInfoArea sfifteenYearsOld">15</div></c:when>
 				    	<c:when test="${reserveVO.movie_rating eq '18'}"><div class="ageInfoArea seighteenYearsOld">18</div></c:when>
