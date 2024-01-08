@@ -6,7 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>영화관리</title>
+<title>iTicket 영화 관리</title>
+<%-- 글씨체 --%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
@@ -60,7 +64,7 @@
 				<div id="movie_Search">
 					<%-- 검색 기능을 위한 폼 생성 --%>
 					<form action="adminMovie" id="search_submit">
-						<input type="text" name="searchKeyword" placeholder="제목을 입력하세요" value="${param.searchKeyword }">
+						<input type="text" name="searchKeyword" placeholder="영화코드/제목으로 입력" value="${param.searchKeyword }">
 						<input type="hidden" name="sortMovie" value="">
 						<input type="submit" value="조회">
 					</form>
