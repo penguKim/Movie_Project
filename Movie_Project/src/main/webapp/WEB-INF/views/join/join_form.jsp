@@ -127,9 +127,12 @@
 
 		<%-- 비밀번호와 비밀번호 확인이 같은지 체크하기 --%>
 		$("#passwd").on("keyup", function() {	
-		    if($("#passwd").val() == $("#passwd2").val()) { // 일치
+		    if(iscorrectPasswd && $("#passwd").val() == $("#passwd2").val()) { // 일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치합니다").css("color", "blue");
 		    	isSamePasswd = true;
+		    } else if(!iscorrectPasswd && $("#passwd").val() == $("#passwd2").val()) { // 불일치
+		    	$("#checkPasswd2Result").text("비밀번호가 올바른지 확인해주세요").css("color", "red");		     	
+		    	isSamePasswd = false;
 		    } else { // 불일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치하지 않습니다").css("color", "red");		     	
 		    	isSamePasswd = false;
@@ -138,10 +141,13 @@
 		});
 		
 		$("#passwd2").on("keyup", function() {	
-		    if($("#passwd").val() == $("#passwd2").val()) { // 일치
+		    if(iscorrectPasswd && $("#passwd").val() == $("#passwd2").val()) { // 일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치합니다").css("color", "blue");
 		    	isSamePasswd = true;
-		    } else { // 불일치
+		    } else if(!iscorrectPasswd && $("#passwd").val() == $("#passwd2").val()) { // 불일치
+		    	$("#checkPasswd2Result").text("비밀번호가 올바른지 확인해주세요").css("color", "red");		     	
+		    	isSamePasswd = false;
+		    }  else { // 불일치
 		    	$("#checkPasswd2Result").text("비밀번호가 일치하지 않습니다").css("color", "red");		     	
 		    	isSamePasswd = false;
 		    }

@@ -693,7 +693,7 @@
 		        FROM
 		            members
 		        WHERE
-		           member_date BETWEEN CURDATE() - INTERVAL 20 DAY AND CURDATE() - INTERVAL 1 DAY
+		           member_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE() - INTERVAL 1 DAY
 		        ORDER BY
 		            date ASC
 		    ) AS date_range
@@ -713,11 +713,11 @@
 		FROM
 		    (
 		        SELECT
-		            DATE_SUB(CURDATE(), INTERVAL (ROW_NUMBER() OVER (ORDER BY payment_datetime ASC) - 1) DAY) AS date
+		            DATE_SUB(CURDATE()-INTERVAL 1 DAY, INTERVAL (ROW_NUMBER() OVER (ORDER BY payment_datetime ASC) - 1) DAY) AS date
 		        FROM
 		            payments
 		        WHERE
-		           payment_datetime BETWEEN DATE_SUB(CURDATE(), INTERVAL 10 DAY) AND CURDATE() 
+		           payment_datetime BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND CURDATE()-INTERVAL 1 DAY
 		        ORDER BY
 		            date ASC
 		    ) AS date_range
@@ -726,7 +726,7 @@
 		GROUP BY
 		    date_range.date
 		HAVING
-		    date_range.date >= DATE_SUB(CURDATE(), INTERVAL 10 DAY)
+		    date_range.date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
 		ORDER BY
 		    date_range.date ASC;
 	</select>
