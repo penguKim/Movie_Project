@@ -25,7 +25,7 @@
 			let documentHeight = $(document).height(); // 문서 높이
 // 			console.log("scrollTop : " + scrollTop + ", windowHeight : " + windowHeight + ", documentHeight : "+ documentHeight);
 			
-			if(scrollTop + windowHeight + 10 >= documentHeight) {
+			if(scrollTop + windowHeight + 1 >= documentHeight) {
 				pageNum++; // 페이지번호 1 층가
 				
 				// 페이지 번호를 계속 불러오는 현상 막기

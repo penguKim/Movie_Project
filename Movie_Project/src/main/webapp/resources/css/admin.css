@@ -218,11 +218,11 @@ a {
 }
 
 /* 검색창 div영역 오른쪽정렬 */
-#admin_search {
+#admin_search, #admin_writer {
 	text-align: right;
 }
 
-#serch_submit, #admin_writer {
+#serch_submit, #admin_writer2 {
 	display: inline-block;
 }
 

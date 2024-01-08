@@ -74,7 +74,7 @@
 						<input type="text" name="searchValue" placeholder="유형, 제목으로 검색">
 						<input type="submit" value="검색">
 					</form>
-					<div id="admin_writer">
+					<div id="admin_writer2">
 						<a href="adminFaqWriteForm"><input type="button" value="글쓰기"></a>
 					</div>				
 				</div>
