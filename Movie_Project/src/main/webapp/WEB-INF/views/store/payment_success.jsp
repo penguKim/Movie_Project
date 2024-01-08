@@ -77,26 +77,22 @@
 			<b class="effect">Thank You for Your Order!</b><br>
 			<table class="store_pay_table">
 				<tr class="store_table_box01">
-					<th>예매번호</th>
-					<th>결제시간</th>
+					<th>결제번호</th>
+					<th>상품명</th>
 					<th>결제금액</th>
-					<th>비고</th>
+					<th>결제일</th>
 				</tr>
 				<tr class="effect">
-<%-- 					<td>${reservevo.payment_id}</td> --%>
-					<td>ORD12345-1234-001</td>
-<%-- 					<td>${reservevo.payment_datetime}</td> --%>
-					<td>상품명</td>
-<%-- 					<td>${reservevo.payment_total_price}</td> --%>
-					<td>결제금액</td>
-<!-- 					<td>결제완료</td> -->
-					<td>결제시간</td>
+					<td>${payment.payment_name }</td>
+					<td>${payment.product_name }</td>
+					<td><fmt:formatNumber value="${payment.payment_total_price}" pattern="###,###" />원</td>
+					<td>${fn:substring(payment.payment_datetime, '0', '10')}</td>
 				</tr>
 			</table>
 			<div class="paybtn">
-			<a href="store"><input type="button" value="추가 구매하기"></a>
-			<a href="./" ><input type="button" value="  홈으로  "></a>
-			<a href="Mypage_Reserv_boardList"><input type="button" value="구매내역조회 "></a>
+				<a href="store"><input type="button" value="추가 구매하기"></a>
+				<a href="./" ><input type="button" value="  홈으로  "></a>
+				<a href="Mypage_Reserv_boardList"><input type="button" value="구매내역조회 "></a>
 			</div>
 			</div>
 			</section>

@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.c5d2308t1.service.PaymentService;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 
 @Controller
 public class PaymentController {
@@ -27,23 +29,15 @@ public class PaymentController {
 	@ResponseBody
 	@PostMapping("PaymentEndpoint")
 	public String paymentEndpoint(@RequestBody Map<String, Object> map) {
-		System.out.println("맵 넘어온 데이터" + map);
-		
 		service.registPayment(map);
-		System.out.println(map.get("payment_name"));
-		
-		JSONObject jsonObject = new JSONObject(map);
-		
-		return jsonObject.toString();
+		return new JSONObject(map).toString();
 	}
 	
 	// 결제 성공 시
 	@GetMapping("PaymentSuccess")
-	public String paymentSuccess(Model model, HttpSession session) {
-		
-		// 결제 성공 후 success 화면에 보여줄 결제 내역 조회
-		
-		
+	public String paymentSuccess(Model model, HttpSession session, @RequestParam Map<String, String> map) {
+		RefundVO payment = service.selectPaymentSuccess(map);
+		model.addAttribute("payment", payment);
 		return "store/payment_success";
 	}
 	

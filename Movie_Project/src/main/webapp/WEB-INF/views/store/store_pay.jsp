@@ -171,9 +171,7 @@ $(function() {
 		          type: $(".type").val()
 		        })
 		      }).done(function (data) {
-		        // 가맹점 서버 결제 API 성공시 로직
-	        	 alert("결제 성공");
-                 location.href="PaymentSuccess?payment_name=" + data.payment_name;
+                 location.href="PaymentSuccess?payment_name="+ merchantUid;
 		        
 		      })
 		    } else {
@@ -293,8 +291,8 @@ $(function() {
 					</div>
 				</div>
 				<div class="paybtn">
-					<a href="javascript:history.back()"><input type="button" value="이전화면"></a>
-					<input type="button" value="결제하기" onclick="subBtnClick()">
+						<a href="javascript:history.back()"><input type="button" value="이전화면"></a>
+						<input type="button" value="결제하기" onclick="subBtnClick()">
 				</div>
 			</div>
 		</section>

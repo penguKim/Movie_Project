@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.c5d2308t1.mapper.PaymentMapper;
+import com.itwillbs.c5d2308t1.vo.RefundVO;
 
 @Service
 public class PaymentService {
@@ -18,15 +19,6 @@ public class PaymentService {
 	@Transactional
 	public void registPayment(Map<String, Object> map) {
 		System.out.println("이다음부터 왜안돼!");
-		
-//		String[] productIdArr = (String[]) map.get("product_id");
-//		String[] productQuanArr = (String[]) map.get("quantity");
-//		// 결제 테이블 insert 성공 시 주문테이블 insert 요청
-//		for(int i = 0; i < productIdArr.length; i++) {
-//			map.put("product_id", productIdArr[i]);
-//			map.put("quantity", productQuanArr[i]);
-//			mapper.insertOrderPro(map);
-//		}
 		
 		// 결제 성공 시 결제 테이블 인설트 요청
 		mapper.insertPaymentPro(map);
@@ -55,6 +47,11 @@ public class PaymentService {
 	            mapper.paymentAfterCartDel(map);
 		    }
 		 }
+	}
+	
+	// 결제 성공후 조회할 데이터
+	public RefundVO selectPaymentSuccess(Map<String, String> map) {
+		return mapper.selectPaymentSuccess(map);
 	}
 
 }

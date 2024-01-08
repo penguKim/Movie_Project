@@ -40,6 +40,15 @@
 		WHERE product_id = #{product_id}
 		AND member_id = #{member_id}	
 	</delete>
+	
+	<select id="selectPaymentSuccess" resultType="refund">
+		SELECT payment_id, payment_name, member_name, member_id, sum(quantity) AS quantity
+		, GROUP_CONCAT(product_name) AS product_name, payment_datetime
+		, sum(payment_total_price) AS payment_total_price, payment_status
+		FROM ordersView
+		GROUP BY payment_id, payment_name, member_name, member_id, payment_datetime, payment_status
+		HAVING payment_name = #{payment_name}
+	</select>
 </mapper>
 
 
