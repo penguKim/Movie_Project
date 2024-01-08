@@ -22,18 +22,25 @@
   border-collapse: collapse;
   border: 1px solid black;
   margin: auto;
+  border-right: none;
+  border-left: none;
 }
 
 .styled-table td {
   border: 1px solid black;
   padding: 8px;
 }
+.dI{
+  background-color: black;
+  color:#fff;
+
+}
 </style>
 </head>
 <body>
 	<div class="table-container">
   	<table class="styled-table">
-  	<caption class="discount-info">할인 안내</caption>
+  	<caption class="discount-info"><h1 id="dI">할인 안내</h1></caption>
 		<tr>
 			<td>장애우대할인</td>
 			<td>현장에서 복지카드를 소지한 장애인<br>

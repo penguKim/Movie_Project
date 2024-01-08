@@ -68,53 +68,37 @@
 							<th colspan="4" id="table_name">일반 2D</th>
 						</tr>
 						<tr>
-							<th>요일</th>
-							<th>시간대</th>
-							<th>일반</th>
-							<th>청소년</th>
+							<th>구분</th>
+							<th>타입</th>
+							<th>금액</th>
+						</tr>
+					
+						<tr>
+							<th rowspan="4">인원</th>
+							<td>일반</td>
+							<td>15,000</td>
 						</tr>
 						<tr>
-							<td rowspan="4">월~목</td>
-							<td>모닝(06:00~ )</td>
-							<td>10,000</td>
-							<td>8,000</td>
-						</tr>
-						<tr>
-							<td>브런치(10:01~ )</td>
-							<td>13,000</td>
-							<td>10,000</td>
-						</tr>
-						<tr>
-							<td>일반(13:01~ )</td>
-							<td>14,000</td>
+							<td>청소년</td>
 							<td>11,000</td>
 						</tr>
 						<tr>
-							<td>심야(24:00~ )</td>
-							<td>9,000</td>
-							<td>9,000</td>
+							<td>경로</td>
+							<td>7,000</td>
+						</tr>
+						<tr>
+							<td>우대</td>
+							<td>5,000</td>
 						</tr>
 				
 						<tr>
-							<td rowspan="4">금~일<br>(공휴일)</td>
-							<td>모닝(06:00~ )</td>
-							<td>11,000</td>
-							<td>8,000</td>
+							<th rowspan="4">좌석<br></th>
+							<td>right석</td>
+							<td>6,000</td>
 						</tr>
 						<tr>
-							<td>브런치(10:01~ )</td>
-							<td>15,000</td>
-							<td>12,000</td>
-						</tr>
-						<tr>
-							<td>일반(13:01~ )</td>
-							<td>15,000</td>
-							<td>9,000</td>
-						</tr>
-						<tr>
-							<td>심야(24:00~ )</td>
-							<td>9,000</td>
-							<td>9,000</td>
+							<td>장애인석</td>
+							<td>3,000</td>
 						</tr>
 					</table>
 				</div>				

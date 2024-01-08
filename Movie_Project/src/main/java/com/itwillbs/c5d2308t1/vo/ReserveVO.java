@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class ReserveVO {
+	//영화 나이제한
+	private String movie_rating;
 	
 	//resView 컬럼
 	private String payment_name;

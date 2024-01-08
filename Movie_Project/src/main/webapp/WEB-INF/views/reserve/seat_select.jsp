@@ -44,6 +44,31 @@
 	    margin-bottom: 40px;
 	    margin-top: -18.72px;
     }
+    .stwelveYearsOld,.sfifteenYearsOld,.seighteenYearsOld,.sallUsers{
+        width: 60px;
+	    height: 60px;
+	    font-size: 45px;
+	    line-height: 60px;
+	    font-weight: 800;
+	    color: #fff;
+	    text-align: center;
+	    border-radius: 7px;
+	   
+    }
+    
+    .stwelveYearsOld{
+		background-color:#d9a92b; 
+	}
+	.sfifteenYearsOld{
+		background-color:#cd6b2a; 
+	}
+	.seighteenYearsOld{
+		background-color:#ca2731; 
+	}
+	.sallUsers{
+		background-color:#228f4e;
+		font-size: 2em; 
+	}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
@@ -245,6 +270,19 @@
    
    
    $(function(){
+		//====================모달===================
+	   var modalContainer = $('.modal-container');
+	  var modalClose = $('.modal-close');
+	  var modalButton = $('.modal-button');
+	
+	  modalClose.click(closeModal);
+	  modalButton.click(closeModal);
+	
+	  function closeModal() {
+	    modalContainer.hide();
+	  }
+		//====================모달===================	   
+	   
 	   $(".subBtn").click(function(){
 		   if(selectPeopleArr==""){
 			   alert("인원선택 필수!")
@@ -262,10 +300,10 @@
 			}
 		});
 	   $("#DiscountInfo").click(function(){
-			   var width = 700; // 팝업 창의 가로 크기
-			   var height = 500; // 팝업 창의 세로 크기
-			   var left = (window.innerWidth - width) / 2; // 화면가로중앙에 위치
-			   var top = (window.innerHeight - height) / 2; // 화면세로중앙에 위치
+			   var width = 500; // 팝업 창의 가로 크기
+			   var height = 400; // 팝업 창의 세로 크기
+			   var left = (window.innerWidth / 2) - (width / 2); // 화면 가로 중앙에 위치
+		       var top = (window.innerHeight / 2) - (height / 2); // 화면 세로 중앙에 위치
 
 			   var options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
 
@@ -333,7 +371,9 @@
 								</th>
 							<td id="DiscountInformation">
 								<div>*최대 8명 선택 가능</div>
+								<div id="popup">
 								<input type="button" id="DiscountInfo" value="관람할인안내">
+								</div>
 							</td>
 							<th colspan="3" class="header_box_Runtime">
 								${reserveVO.theater_name } ${reserveVO.room_name} 남은좌석 ${176-fn:length(SeatList)}/176<br>
@@ -342,6 +382,33 @@
 						</tr>
 					</table>
 				</div>
+				<!-- 모달 창 -->
+				<div class="modal-container">
+				  <div class="modal-content">
+				    <div class="modal-header">
+				      <span>관람등급 안내</span>
+				      <span class="modal-close">X</span>
+				    </div>
+				    <c:choose>
+				    	<c:when test="${reserveVO.movie_rating eq 'ALL'}"><div class="ageInfoArea sallUsers">ALL</div></c:when>
+				    	<c:when test="${reserveVO.movie_rating eq '12'}"><div class="ageInfoArea stwelveYearsOld">12</div></c:when>
+				    	<c:when test="${reserveVO.movie_rating eq '15'}"><div class="ageInfoArea sfifteenYearsOld">15</div></c:when>
+				    	<c:when test="${reserveVO.movie_rating eq '18'}"><div class="ageInfoArea seighteenYearsOld">18</div></c:when>
+				    </c:choose>
+				    <div class="modal-body">
+				      <p>본 영화는 [${reserveVO.movie_rating}세 이상 관람가]입니다.</p>
+				      <p>만 ${reserveVO.movie_rating}세 미만 고객은 만 19세 이상 성인 보호자 동반 시 관람이 가능합니다.</p>
+				      <p>연령확인 불가 시 입장이 제한될 수 있습니다.</p>
+				      <p>※생년월일 확인 수단 지참: 학생증, 모바일 학생증, 청소년증, 여권</p>
+				      <p>(사진, 캡쳐본 불가)</p>
+				    </div>
+				    <div class="modal-footer">
+				      <button class="modal-button">동의하고 예매하기</button>
+				    </div>
+				  </div>
+				</div>
+				<!-- 모달 창 -->
+
 				<c:forEach var="SeatList" items="${SeatList}">
 				<!-- 예매된 좌석을 하나의 변수에 저장하는 반복문 -->
 					<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
@@ -409,7 +476,10 @@
 			<table id="end_param" class="center">
 				<tr>
 					<td class="button_area"><input type="button" value="영화선택" onclick="back()" class="button"></td>
-					<td class="seatSelectPage_Result_M">${reserveVO.movie_title}</td>
+					<td class="seatSelectPage_Result_M">
+						<img src="${reserveVO.movie_poster}" width="75" height="95"><span class="endparamMoviename">${reserveVO.movie_title}</span>
+					
+					</td>
 					<td class="seatSelectPage_Result_T">
 						<table>
 							<tr>
@@ -449,6 +519,7 @@
 					</td>
 				</tr>
 			</table>
+			
 		</article>		
 		
 		<footer>

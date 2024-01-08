@@ -44,7 +44,7 @@
 		$(".btnMovie").click(function(){
 			$('.btnMovie').removeClass('selected');
 			$(this).addClass('selected');
-		    $('#Result_M').text($('.btnMovie.selected').val());
+		    $('#Result_M').html('<img src='+ $('.btnMovie.selected').data('movie_poster') +' alt="이미지 예시" width="75" height="95">'+ '<span class="endparamMoviename">'+$('.btnMovie.selected').data('movie_title')+'</span>');
 		    $('#Result_M').css('font-size', '12px');
             $('#Result_M').css('color', 'white');
 			param();
@@ -100,14 +100,14 @@
 			$.ajax({
 				url: "MTDAjax",
 				data: {
-					movie_title: $('.btnMovie.selected').val()
+					movie_title: $('.btnMovie.selected').data('movie_title')
 				},
 				dataType: "json",
 			    success: function(data) {
 			    	$(".overflow.theater").html("<b>극장</b>");
 			    	$(".overflow.date").html('<b>날짜</b><span>2024<b style="background: transparent; color: black; font-size: 30px;" >1</b></span>');
 			    	
-			       	let theaterNameArr = [];
+			    	let theaterNameArr = [];
 			       	let playDateArr = [];
 			    	//선택한 영화에 해당하는 극장, 날짜의 배열생성
 			    	for(let result of data){
@@ -186,22 +186,42 @@
 			    	$(".overflow.movie").html("<b>영화</b>");
 			    	$(".overflow.date").html('<b>날짜</b><span>2024<b style="background: transparent; color: black; font-size: 30px;" >1</b></span>');
 			    	
-			       	let movieTitleArr = [];
+			       	let movieArr = [];
 			       	let playDateArr = [];
 			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
 			    	for(let result of data){
-			    		movieTitleArr.push(result.movie_title);
+			    		const movieObj = {
+		    				movie_title: result.movie_title,
+	    			        movie_rating: result.movie_rating,
+	    			        movie_poster: result.movie_poster
+	    			    };
+		    			movieArr.push(movieObj);
 			    	}
 			    	for(let result of data){
 			    		playDateArr.push(result.play_date);
 			    	}
+			    	console.log(movieArr);
 			    	//중복 제거를 위한 Set객체 사용
-			    	let uniqueMovieTitleData = new Set(movieTitleArr);
+			    	let uniqueMovieData = new Set(movieArr);
 			    	let uniquePlayDateData = new Set(playDateArr);
 			    	
-			    	for (let movie_title of uniqueMovieTitleData) {
-			    		  $(".overflow.movie").append("<input type='button' value='" + movie_title + "' class='btnMovie'><br>");
+			    	let uniqueTitles = [];
+			    	for (let movie of uniqueMovieData) {
+			    		if (uniqueTitles.includes(movie.movie_title)) {
+			    	        continue; // 이미 출력된 영화인 경우 반복문 건너뛰기
+			    	    }
+			    	    uniqueTitles.push(movie.movie_title); // 출력된 영화 제목 저장
+			    	    
+			    		if (movie.movie_rating == "12세관람가") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="twelveYearsOld">12</span>' + movie.movie_title + "</button><br>");
+			    		} else if (movie.movie_rating == "15세관람가") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="fifteenYearsOld">15</span>' + movie.movie_title + "</button><br>");
+			    		} else if (movie.movie_rating == "18세관람가(청소년관람불가)") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="eighteenYearsOld">18</span>' + movie.movie_title + "</button><br>");
+			    		} else {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="allUsers">ALL</span>' + movie.movie_title + "</button><br>");
 			    		}
+			    	}								
 			    	for (let date of uniquePlayDateData) {
 			     	    let viewDate = formatDate(date);
 			     	    var week = viewDate.charAt(0);
@@ -212,7 +232,7 @@
 			     	$(".btnMovie").click(function(){
 						$('.btnMovie').removeClass('selected');
 						$(this).addClass('selected');
-					    $('#Result_M').text($('.btnMovie.selected').val());
+					    $('#Result_M').html('<img src='+ $('.btnMovie.selected').data('movie_poster') +' alt="이미지 예시" width="75" height="95">'+ '<span class="endparamMoviename">'+$('.btnMovie.selected').data('movie_title')+'</span>');
 					    $('#Result_M').css('font-size', '12px');
 			            $('#Result_M').css('color', 'white');
 						param();
@@ -263,21 +283,41 @@
 			    	$(".overflow.movie").html("<b>영화</b>");
 			    	$(".overflow.theater").html("<b>극장</b>");
 			    	
-			       	let movieTitleArr = [];
+			    	let movieArr = [];
 			       	let theaterNameArr = [];
 			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
-			    	for(let result of data){
-			    		movieTitleArr.push(result.movie_title);
+			       	for(let result of data){
+			    		const movieObj = {
+		    				movie_title: result.movie_title,
+	    			        movie_rating: result.movie_rating,
+	    			        movie_poster: result.movie_poster
+	    			    };
+		    			movieArr.push(movieObj);
 			    	}
 			    	for(let result of data){
 			    		theaterNameArr.push(result.theater_name);
 			    	}
 			    	//중복 제거를 위한 Set객체 사용
-			    	let uniqueMovieTitleData = new Set(movieTitleArr);
+			    	let uniqueMovieData = new Set(movieArr);
 			    	let uniqueTheaterNameData = new Set(theaterNameArr);
-			    	for (let movie_title of uniqueMovieTitleData) {
-		    			$(".overflow.movie").append("<input type='button' value='" + movie_title + "' class='btnMovie'><br>");
-		    		}
+			    	
+			    	let uniqueTitles = [];
+			    	for (let movie of uniqueMovieData) {
+			    		if (uniqueTitles.includes(movie.movie_title)) {
+			    	        continue; // 이미 출력된 영화인 경우 반복문 건너뛰기
+			    	    }
+			    	    uniqueTitles.push(movie.movie_title); // 출력된 영화 제목 저장
+			    		if (movie.movie_rating == "12세관람가") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="twelveYearsOld">12</span>' + movie.movie_title + "</button><br>");
+			    		} else if (movie.movie_rating == "15세관람가") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="fifteenYearsOld">15</span>' + movie.movie_title + "</button><br>");
+			    		} else if (movie.movie_rating == "18세관람가(청소년관람불가)") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="eighteenYearsOld">18</span>' + movie.movie_title + "</button><br>");
+			    		} else {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="allUsers">ALL</span>' + movie.movie_title + "</button><br>");
+			    		}
+			    		
+			    	}		
 			     	for(let theater of uniqueTheaterNameData ){
 				    	$(".overflow.theater").append("<input type ='button' value="+ theater +" class='btnTheater'><br>");
 			     	}
@@ -285,7 +325,7 @@
 			     	$(".btnMovie").click(function(){
 						$('.btnMovie').removeClass('selected');
 						$(this).addClass('selected');
-					    $('#Result_M').text($('.btnMovie.selected').val());
+					    $('#Result_M').html('<img src='+ $('.btnMovie.selected').data('movie_poster') +' alt="이미지 예시" width="75" height="95">'+ '<span class="endparamMoviename">'+$('.btnMovie.selected').data('movie_title')+'</span>');
 					    $('#Result_M').css('font-size', '12px');
 			            $('#Result_M').css('color', 'white');
 						param();
@@ -331,7 +371,7 @@
 			$.ajax({
 				url: "MTDAjax",
 				data: {
-					movie_title: $('.btnMovie.selected').val()
+					movie_title: $('.btnMovie.selected').data('movie_title')
 					,theater_name: $('.btnTheater.selected').val()
 				},
 				dataType: "json",
@@ -377,7 +417,7 @@
 			$.ajax({
 				url: "MTDAjax",
 				data: {
-					movie_title: $('.btnMovie.selected').val()
+					movie_title: $('.btnMovie.selected').data('movie_title')
 					,play_date: $('.btnDate.selected').data('date')
 				},
 				dataType: "json",
@@ -428,20 +468,41 @@
 			    success: function(data) {
 			    	$(".overflow.movie").html("<b>영화</b>");
 			    	
-			       	let movieTitleArr = [];
+			       	let movieArr = [];
 			    	//선택한 극장에 해당하는 영화, 날짜의 배열생성
-			    	for(let result of data){
-			    		movieTitleArr.push(result.movie_title);
+			       	for(let result of data){
+			    		const movieObj = {
+		    				movie_title: result.movie_title,
+	    			        movie_rating: result.movie_rating,
+	    			        movie_poster: result.movie_poster
+	    			    };
+		    			movieArr.push(movieObj);
 			    	}
 			    	//중복 제거를 위한 Set객체 사용
-			    	let uniqueMovieTitleData = new Set(movieTitleArr);
-			    	for (let movie_title of uniqueMovieTitleData) {
-		    			$(".overflow.movie").append("<input type='button' value='" + movie_title + "' class='btnMovie'><br>");
-		    		}
+			    	let uniqueMovieData = new Set(movieArr);
+			    	
+			    	
+			    	let uniqueTitles = [];
+			    	for (let movie of uniqueMovieData) {
+			    		if (uniqueTitles.includes(movie.movie_title)) {
+			    	        continue; // 이미 출력된 영화인 경우 반복문 건너뛰기
+			    	    }
+			    	    uniqueTitles.push(movie.movie_title); // 출력된 영화 제목 저장
+			    	    if (movie.movie_rating == "12세관람가") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="twelveYearsOld">12</span>' + movie.movie_title + "</button><br>");
+			    		} else if (movie.movie_rating == "15세관람가") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="fifteenYearsOld">15</span>' + movie.movie_title + "</button><br>");
+			    		} else if (movie.movie_rating == "18세관람가(청소년관람불가)") {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="eighteenYearsOld">18</span>' + movie.movie_title + "</button><br>");
+			    		} else {
+			    		    $(".overflow.movie").append("<button type='button' class='btnMovie' data-movie_title='" + movie.movie_title + "' data-movie_poster='" + movie.movie_poster + "'>" + '<span class="allUsers">ALL</span>' + movie.movie_title + "</button><br>");
+			    		}
+			    		
+			    	}	
 			    	$(".btnMovie").click(function(){
 						$('.btnMovie').removeClass('selected');
 						$(this).addClass('selected');
-					    $('#Result_M').text($('.btnMovie.selected').val());
+					    $('#Result_M').html('<img src='+ $('.btnMovie.selected').data('movie_poster') +' alt="이미지 예시" width="75" height="95">'+ '<span class="endparamMoviename">'+$('.btnMovie.selected').data('movie_title')+'</span>');
 					    $('#Result_M').css('font-size', '12px');
 			            $('#Result_M').css('color', 'white');
 						param();
@@ -469,7 +530,7 @@
 			$.ajax({
 				url: "reserveAjax",
 				data: {
-					movie_title: $('.btnMovie.selected').val()
+					movie_title: $('.btnMovie.selected').data('movie_title')
 					,theater_name: $('.btnTheater.selected').val()
 					,play_date: $('.btnDate.selected').data('date')
 				},
@@ -613,7 +674,9 @@
 		
 		function param() {
 			// selectedValues의 각 속성을 각각의 hidden input 태그에 설정
-			$("#movie_name").val($('.btnMovie.selected').val()); 
+			$("#movie_name").val($('.btnMovie.selected').data('movie_title')); 
+			$("#movie_poster").val($('.btnMovie.selected').data('movie_poster')); 
+			$("#movie_rating").val($('.btnMovie.selected span').text()); 
 			$("#theater_name").val($('.btnTheater.selected').val());
 			$("#play_date").val($('.btnDate.selected').data('date'));
 			$("#room_name").val($('.btnTime.selected').prop('id'));
@@ -665,14 +728,22 @@
 			<hr>
 			<article>
 				<div id="reserve_nav">
-					<input type="button" value="&#x1F504; 다시 예매하기" class="btnReset">
+					<button class="btnReset" style="border: none;"><img src="${pageContext.request.contextPath }/resources/img/reserveReset.jpg"></button>
 				</div>
 				<div id = "reserve_parameter">
 						<div class="overflow movie" id="movie_title"><b>영화</b>
 							<c:forEach var="movieList" items="${movieList}">
 								<c:choose>
 									<c:when test="${movieList.movie_title eq param_movie_title}">
-										<input type ="button" value="${movieList.movie_title}" id="selectedVal" class="btnMovie" >
+										<button type="button" class="btnMovie" id="selectedVal" data-movie_title="${movieList.movie_title}" data-movie_poster="${movieList.movie_poster}" data-movie_rating="${movieList.movie_rating}">
+										 	<c:choose>
+											<c:when test="${movieList.movie_rating eq '12세관람가'}"><span class="twelveYearsOld">12</span></c:when>
+											<c:when test="${movieList.movie_rating eq '15세관람가'}"><span class="fifteenYearsOld">15</span></c:when>
+											<c:when test="${movieList.movie_rating eq '18세관람가(청소년관람불가)'}"><span class="eighteenYearsOld">18</span></c:when>
+											<c:otherwise><span class="allUsers">ALL</span></c:otherwise>
+											</c:choose>
+										 	${movieList.movie_title}
+										</button><br>
 										<script>
 									        $(document).ready(function() {
 									            $("#selectedVal").click(function(){
@@ -696,7 +767,16 @@
 								<c:choose>
 									<c:when test="${movieList.movie_title eq param_movie_title}"></c:when>
 									<c:otherwise>
-										<input type ="button" value="${movieList.movie_title}" class="btnMovie"><br>
+										<button type="button" class="btnMovie" data-movie_title="${movieList.movie_title}" data-movie_poster="${movieList.movie_poster}" data-movie_rating="${movieList.movie_rating}">
+										 	<c:choose>
+											<c:when test="${movieList.movie_rating eq '12세관람가'}"><span class="twelveYearsOld">12</span></c:when>
+											<c:when test="${movieList.movie_rating eq '15세관람가'}"><span class="fifteenYearsOld">15</span></c:when>
+											<c:when test="${movieList.movie_rating eq '18세관람가(청소년관람불가)'}"><span class="eighteenYearsOld">18</span></c:when>
+											<c:otherwise><span class="allUsers">ALL</span></c:otherwise>
+											</c:choose>
+										 	${movieList.movie_title}
+										 </button><br>
+
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -731,6 +811,8 @@
 						<td id="selectSeatBtn">
 							<form action="seatSelect" onsubmit="return subBtn()" method="get">
 							    <input type="hidden" name="movie_title" id="movie_name" value="">
+							    <input type="hidden" name="movie_poster" id="movie_poster" value="">
+							    <input type="hidden" name="movie_rating" id="movie_rating" value="">
 							    <input type="hidden" name="theater_name" id="theater_name" value="">
 							    <input type="hidden" name="play_date" id="play_date" value="">
 							    <input type="hidden" name="room_name" id="room_name" value="">

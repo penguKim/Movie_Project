@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +80,7 @@ public class ReserveController {
 		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
 		play_end_time = reserve.getEndTime(reserveVO);
 		reserveVO.setPlay_end_time(play_end_time);
-		
+		System.out.println("test : " + reserveVO);
 		model.addAttribute("SeatList",SeatList);
 		model.addAttribute("reserveVO",reserveVO);
 		return "reserve/seat_select";
