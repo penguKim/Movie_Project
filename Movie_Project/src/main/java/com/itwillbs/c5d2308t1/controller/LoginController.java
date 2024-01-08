@@ -46,7 +46,7 @@ public class LoginController {
 	private LoginService service;
 	
 	@Autowired
-	ReserveService reserve;
+	private ReserveService reserve;
 	
 	 /* NaverLoginVO */
 	private NaverLoginVO NaverLoginVO;
@@ -84,9 +84,17 @@ public class LoginController {
 	@GetMapping("Mypage") //메인화면에서 버튼 클릭시 mypage이동
 	public String mypage(Model model,HttpSession session) {
 		String sId = (String)session.getAttribute("sId");
-		List<Map<String, String>> resMap = reserve.getMypage(sId); 
+		// 마이페이지 최근 예매 내역 
+		List<Map<String, String>> resMap = reserve.getMypage(sId);
 		System.out.println(resMap);
+		// 마이페이지 최근 상품 구매 내역
+		List<RefundVO> productList = service.getMypageProductList(sId);
+		System.out.println(productList);
+		
+		model.addAttribute("productList", productList);
 		model.addAttribute("resMap",resMap);
+		
+		
 		return "login/Mypage";
 	}
 	

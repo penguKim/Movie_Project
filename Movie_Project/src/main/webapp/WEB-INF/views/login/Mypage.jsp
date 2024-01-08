@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +58,6 @@
 						
 						</c:forEach>
 					</table><br>
-								
 				</div>
 				
 				<div id="buy_list">
@@ -69,19 +69,31 @@
 							<th>구매일</th>
 							<th>상태</th>
 						</tr>
-						<tr>
-							<td>[구매순번 최신순]</td>
-							<td>[상품명]</td>
-							<td>[구매일]</td>
-							<td>[구매완료]</td>
-							
-						</tr>
-						<tr>
-							<td>[구매순번 최신순]</td>
-							<td>[상품명]</td>
-							<td>[구매일]</td>
-							<td>[구매완료]</td>
-						</tr>
+						<c:forEach var="product" items="${productList}">
+							<tr>
+								<td>${product.payment_name}</td>
+								<c:set var="productNames" value="${fn:split(product.product_name, ',')}" />
+								<td>
+									<c:choose>
+									    <c:when test="${fn:length(productNames) eq 1}">
+									        <p>${product.product_name}</p>
+									    </c:when>
+									    <c:otherwise>
+									        <p>${productNames[0]} 외 ${fn:length(productNames) - 1}개</p>
+									    </c:otherwise>
+									</c:choose>
+								</td>
+								<td>${fn:substring(product.payment_datetime, 0, 10)}</td>
+								<c:choose>
+									<c:when test="${payment_status eq 0}">
+										<td>취소완료</td>
+									</c:when>
+									<c:otherwise>
+										<td>결제완료</td>
+									</c:otherwise>
+								</c:choose>
+							</tr>
+						</c:forEach>
 					</table><br>
 				</div>
 			</div>

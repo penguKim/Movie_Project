@@ -95,11 +95,15 @@ public interface LoginMapper {
 	
 	// 마이페이지 상품구매내역 취소 요청 
 	int updateMyBuy(Map<String, String> map);
+	
+	// 마이페이지 최근 구매내역 조회
+	List<RefundVO> selectMypageProductList(String sId);
 	//=====================================================================================
 
 	int getLostBoardCount(String sId);
 
 	List<HashMap<String, Object>> selectLostListCount(@Param("sId") String sId, @Param("page") PageDTO page);
+
 
 
 

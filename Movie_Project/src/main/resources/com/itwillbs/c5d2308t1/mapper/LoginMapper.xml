@@ -195,6 +195,22 @@
 		SET payment_status = 0
 		WHERE payment_name = #{payment_name}
 	</update>
+	
+	<!-- 최근 상품 구매내역 조회 -->
+	<select id="selectMypageProductList" resultType="refund">
+		SELECT payment_name, member_name, member_id, sum(quantity) AS quantity
+        , GROUP_CONCAT(product_name) AS product_name, payment_datetime
+        , sum(payment_total_price) AS payment_total_price, payment_status
+        FROM ordersView
+        GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status
+        HAVING payment_name LIKE 'ORD%'
+        <choose>
+			<when test="sId.equals('admin')"></when>
+			<otherwise>AND member_id = #{sId}</otherwise>
+		</choose>
+        ORDER BY payment_datetime DESC
+        LIMIT 2
+	</select>
 	<!-- ============================== 상품 구매 내역 ======================================== -->
 	
 	<update id="checkMember">

@@ -154,10 +154,18 @@ public class LoginService {
 		
 		return mapper.updateMyBuy(map);
 	}
+	
+	// 마이페이지 상품 구매내역 상세 정보 조회
 	public RefundVO getMyStoreDetail(RefundVO refund) {
 		return mapper.getMyStoreDetail(refund);
 	}
-
+	
+	// 마이페이지 최근 구매내역 조회
+	public List<RefundVO> getMypageProductList(String sId) {
+		return mapper.selectMypageProductList(sId);
+	}
+	
+	// ========================마이페이지 상품 구매내역 ==================
 	public int getLostBoardCount(String sId) {
 		
 		return mapper.getLostBoardCount(sId);
@@ -168,6 +176,8 @@ public class LoginService {
 		
 		return mapper.selectLostListCount(sId,page);
 	}
+
+	
 
 
 
