@@ -931,7 +931,7 @@ public class AdminController {
 							  @RequestParam(defaultValue = "1") int pageNum) {
 		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 30);
+		PageDTO page = new PageDTO(pageNum, 25);
 		// 전체 게시글 갯수 조회
 		int listCount = service.getMemberListCount(searchType, searchKeyword);
 		// 페이징 처리

@@ -370,10 +370,20 @@
 						<tr>
 							<th>활동상태</th>
 							<td>
-								<select name="member_status" id="member_status">
-									<option value="1" id="active" <c:if test="${member.member_status eq 1 }">selected</c:if>>활동</option>
-									<option value="2" id="withdraw" <c:if test="${member.member_status eq 2 }">selected</c:if>>탈퇴</option>
-								</select>
+								<c:choose>
+									<c:when test="${member.member_id eq 'admin' }">
+										<select name="member_status" id="member_status">
+											<option value="0" id="active" selected>관리자</option>
+										</select>
+									</c:when>
+									<c:otherwise>
+										<select name="member_status" id="member_status">
+											<option value="1" id="active" <c:if test="${member.member_status eq 1 }">selected</c:if>>활동</option>
+											<option value="2" id="withdraw" <c:if test="${member.member_status eq 2 }">selected</c:if>>탈퇴</option>
+										</select>
+									</c:otherwise>
+								</c:choose>
+							
 							</td>
 						</tr>
 					</table>
