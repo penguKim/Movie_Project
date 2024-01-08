@@ -263,10 +263,14 @@
 			} else if(!$('input[name=member_gender]:checked').is(":checked")) {  <%-- 성별 미선택 시 --%>
 				$("#checkGenderResult").text("성별을 선택해주세요").css("color", "red");
 				$("#identityGender1").focus();
-			return false; // submit 동작 취소
-		}
+				return false; // submit 동작 취소
+			} else if(confirm("확인을 누르시면 회원가입이 완료됩니다")) {
+				return true; 
+			} else {
+				return false;
+			}	
+			
 			return true; // submit 동작 수행(생략 가능)
-	
 		});
 		
 	});
@@ -305,7 +309,7 @@
 					<input type="password" placeholder="비밀번호를 다시 입력해주세요" name="passwd2" id="passwd2">
 					<div id="checkPasswd2Result" class="resultArea"></div>
 					<label for="name"><b>이름</b></label>
-					<input type="text" placeholder="2~5글자의 한글" name="member_name" id="name" required>
+					<input type="text" placeholder="2~5글자의 한글" name="member_name" id="name">
 					<div id="checkNameResult" class="resultArea"></div>
 					<label for="phone"><b>휴대폰번호</b></label>
 					<input type="tel" placeholder="숫자만 입력해주세요" name="member_phone" id="phone" maxlength="13">

@@ -24,51 +24,52 @@
 			}
 		});
 		
-		
 		// id 선택자 없는 경우 name 속성 지정하여 설정함. id 선택자 추가 가능(css 꼬일까봐 안했습니다) 
 		$("form").submit(function() {
-				//
-			if(!$("#checkbox").prop("checked")) {	// 단일 체크 박스여서 인덱스 설정 하지 않았고 checked 속성이 아닐 경우 이므로 not 사용!
-				alert("개인정보 수집에 대한 동의를 선택해 주세요");
-				return false;
+			if(confirm("문의를 등록하시겠습니까?")) {
+				if(!$("#checkbox").prop("checked")) {	// 단일 체크 박스여서 인덱스 설정 하지 않았고 checked 속성이 아닐 경우 이므로 not 사용!
+					alert("개인정보 수집에 대한 동의를 선택해 주세요");
+					return false;
+					
+					// id 세션값으로 가져올 예정임
+					// 현재 세션 값이 없어서 하나 만들어둠
+				} else if($("#id").val() == "") { 
+					alert("로그인을 해주세요");
+					return false;
+					
+					// 1:1 문의 유형 미선택시
+				} else if($("select[name=cs_type_detail]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+					alert("문의유형 선택은 필수입니다");
+					$("select[name=type]").focus();
+					return false;
+					
+					// 1:1 문의 지점 미선택시 메세지 출력
+				} else if($("input[type=radio]").eq(1).prop("checked")) { // id 선택자 값 없어서 타입 속성으로 지정
+						if($("select[name=theater_id]").val() == "") { // id 선택자 값 없어서 name 속성 지정
+							alert("지점명 선택은 필수입니다");
+							$("select[name=theater_id]").focus();
+							return false;
+						}
+					
+					
+				} 
+				// 아래문장은 선택안함일때 작동이 되는데 선택함일 때만 작동이안됨
+				// 1:1 문의 제목 입력 내용 없을 시 메시지 출력	
+				if($("#title").val() == "") {  
+					alert("문의 제목 입력은 필수입니다");
+					$("#title").focus();
+					return false;
+					
+				}	
+				// 1:1 문의 입력 내용 없을 시 메시지 출력
+				if($("textarea[name=cs_content]").val() == "") {  // id 선택자 값 없어서 name 속성 지정
+					alert("문의 내용은 필수입니다");
+					$("textarea[name=cs_content]").focus();
+					return false;
+				}
+				return true;
 				
-				// id 세션값으로 가져올 예정임
-				// 현재 세션 값이 없어서 하나 만들어둠
-			} else if($("#id").val() == "") { 
-				alert("로그인을 해주세요");
-				return false;
-				
-				// 1:1 문의 유형 미선택시
-			} else if($("select[name=cs_type_detail]").val() == "") { // id 선택자 값 없어서 name 속성 지정
-				alert("문의유형 선택은 필수입니다");
-				$("select[name=type]").focus();
-				return false;
-				
-				// 1:1 문의 지점 미선택시 메세지 출력
-			} else if($("input[type=radio]").eq(1).prop("checked")) { // id 선택자 값 없어서 타입 속성으로 지정
-					if($("select[name=theater_id]").val() == "") { // id 선택자 값 없어서 name 속성 지정
-						alert("지점명 선택은 필수입니다");
-						$("select[name=theater_id]").focus();
-						return false;
-					}
-				
-				
-			} 
-			// 아래문장은 선택안함일때 작동이 되는데 선택함일 때만 작동이안됨
-			// 1:1 문의 제목 입력 내용 없을 시 메시지 출력	
-			if($("#title").val() == "") {  
-				alert("문의 제목 입력은 필수입니다");
-				$("#title").focus();
-				return false;
-				
-			}	
-			// 1:1 문의 입력 내용 없을 시 메시지 출력
-			if($("textarea[name=cs_content]").val() == "") {  // id 선택자 값 없어서 name 속성 지정
-				alert("문의 내용은 필수입니다");
-				$("textarea[name=cs_content]").focus();
-				return false;
-			}
-			return true;
+					
 		});
 	});
 	
@@ -107,6 +108,17 @@
 				}
 			}
 		});
+	});
+	
+	$(function() {
+		$("#cancel").on("click", function() {
+			if(confirm("문의 작성을 취소하시겠습니까?")) {
+				location.href="http://localhost:8081/c5d2308t1/csMain";
+			} else {
+				return false;
+			}
+		});
+		
 	});
 	
 </script>
@@ -197,8 +209,8 @@
 						</tr>
 					</table>
 					<div id="cs_button">
-						<input type="button" value="취소"> <%-- 취소하시겠습니까? 메세지 출력 후 고객센터 메인 페이지로 바로 이동 --%>
-						<input type="submit" value="등록"> <%-- 문의가 접수되고 고객센터 메인 페이지로 이동 --%>
+						<input type="button" value="취소" id="cancel"> <%-- 취소하시겠습니까? 메세지 출력 후 고객센터 메인 페이지로 바로 이동 --%>
+						<input type="submit" value="등록" id="regist"> <%-- 문의가 접수되고 고객센터 메인 페이지로 이동 --%>
 					</div>
 				</section>
 			</form>

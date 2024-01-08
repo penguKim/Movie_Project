@@ -8,6 +8,46 @@
 <meta charset="UTF-8">
 <title>자주 묻는 질문 관리</title>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/resources//js/jquery-3.7.1.js"></script>
+<script type="text/javascript">
+
+	$(function() {
+		$("form").submit(function() {
+			if(confirm("문의를 등록하시겠습니까?")) {
+				if($("#select").val() == "") {
+					alert("문의 유형을 선택해주세요");
+					$("#select").focus();
+					return false;
+				} else if($("#subject").val() == "") {
+					alert("제목을 입력해주세요");
+					$("#subject").focus();
+					return false;
+				} else if($("#textarea").val() == "") { 
+					alert("내용을 입력해주세요");
+					$("#textarea").focus();
+					return false;
+				}
+				return true;
+				
+			} else {
+				return false;
+			}	
+		});
+	});
+
+
+	$(function() {
+		$("#cancel").on("click", function() {
+			if(confirm("작성을 취소하시겠습니까?")) {
+				location.href="http://localhost:8081/c5d2308t1/adminFaq";
+			} else {
+				return false;
+			}
+		});
+		
+	});
+
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -55,7 +95,7 @@
 					</table>
 					<div id="admin_writer"> 
 						<input type="submit" value="등록">
-						<input type="button" value="돌아가기" onclick="history.back()">
+						<input type="button" value="돌아가기" id="cancel">
 					</div>
 				</form>
 			</div>

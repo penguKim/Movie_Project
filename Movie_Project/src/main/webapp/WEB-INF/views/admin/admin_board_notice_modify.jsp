@@ -39,6 +39,38 @@
 			});
 		});
 	});
+	
+	$(function() {
+		$("form").submit(function() {
+			if(confirm("문의를 등록하시겠습니까?")) {
+				if($("#subject").val() == "") { 
+					alert("제목을 입력해주세요");
+					$("#subject").focus();
+					return false;
+				} else if($("#textarea").val() == "") { 
+					alert("내용을 입력해주세요");
+					$("#textarea").focus();
+					return false;
+				}
+				return true;
+				
+			} else {
+				return false;
+			}	
+		});
+	});
+	
+	$(function() {
+		$("#cancel").on("click", function() {
+			if(confirm("작성을 취소하시겠습니까?")) {
+				location.href="http://localhost:8081/c5d2308t1/adminNotice";
+			} else {
+				return false;
+			}
+		});
+		
+	});
+	
 		
 </script>
 </head>
@@ -84,7 +116,7 @@
 					</table>
 					<div id="admin_writer"> 
 						<input type="submit" value="등록">
-						<input type="button" value="돌아가기" onclick="history.back()">
+						<input type="button" value="돌아가기" id="cancel">
 					</div>
 				</form>			
 			</div>
