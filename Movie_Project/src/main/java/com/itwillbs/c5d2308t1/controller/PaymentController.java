@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +30,11 @@ public class PaymentController {
 		System.out.println("맵 넘어온 데이터" + map);
 		
 		service.registPayment(map);
+		System.out.println(map.get("payment_name"));
 		
-		return "true";
+		JSONObject jsonObject = new JSONObject(map);
 		
+		return jsonObject.toString();
 	}
 	
 	// 결제 성공 시

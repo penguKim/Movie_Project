@@ -216,7 +216,6 @@ function checkAll() {
 /* 체크박스 체크되어있지 않은 상품 데이터 제외 하고 전달 */
 $(function() {
 	$("form").on("submit", function() {
-		alert("서브밋");
 		
 		$("input[name='cartCheckbox']").each(function(i) {
 	        if (!$(this).is(":checked")) {
@@ -288,8 +287,6 @@ function validateCheckbox() {
 									
 									<c:if test="${not empty cartList}">
 										<c:forEach var="i" begin="0" end="${fn:length(cartList)-1}" varStatus="status">
-	<!-- 											총금액 계산을 위한 All_tatal_price 변수 정의 -->
-	<!-- 											반복문을 통한 모든 상품의 금액을 더하기 위해 반복문 내부에 정의함 -->
 											<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>
 											<fmt:formatNumber var="formatted_price" value="${All_total_price}" pattern="###,###,###"/>
 <%-- 											<input type="checkbox" id="product_id${i}" name="product_id" value="${storeList[i].product_id}"> --%>
@@ -297,15 +294,14 @@ function validateCheckbox() {
 											<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox${i}" checked onclick="addPrice(${i})"></td>
 <%-- 												<td><input type="checkbox" name="cartCheckbox${i}" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked></td> --%>
 												<td>
-													<img src="${storeList[i].product_img}">
+													<img src="${pageContext.request.contextPath}/resources/upload/${storeList[i].product_img}">
 												</td>
 												<td>
 													<input type="hidden" id="product_id${i}" name="product_id" value="${storeList[i].product_id}">
-													<span>${storeList[i].product_name }</span><br>
-													<span>${storeList[i].product_txt }</span>
+													<span><strong>${storeList[i].product_name }</strong></span><br>
+													<span class="cartTxt">${storeList[i].product_txt }</span>
 												</td>
 												<td><fmt:formatNumber value="${storeList[i].product_price }" pattern="###,###"/>원</td>
-	<!-- 												상품 갯수 = 수량 선택 + 누르면 증가 - 누르면 감소 -->
 												<td class="product_quantity">
 													<button type="button" id="minus${i}" class="btn_minus" title="수량감소" onclick="decreaseQuantity(${i})">-</button>
 													<input type="text" size="1" title="수량입력" id="product_count${i}" name="product_count" value="${cartList[i].product_count }" min="1" max="99" class="input-text" readonly>
@@ -330,10 +326,9 @@ function validateCheckbox() {
 								<div id="msg">
 									장바구니에 담긴 상품은 30일까지 보관됩니다.
 								</div>
-								<div id="del_btn">
-									<!-- 삭제할 체크박스 선택 시 추가 될 때 마다 숫자 추가 -->
-									<input type="button" value="선택상품 삭제">
-								</div>
+<!-- 								<div id="del_btn"> -->
+<!-- 									<input type="button" value="선택상품 삭제"> -->
+<!-- 								</div> -->
 								<br id="clear">
 								<br><br>
 								<!-- 상품 결제예정 정보 화면 -->

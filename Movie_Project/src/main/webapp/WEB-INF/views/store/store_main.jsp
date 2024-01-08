@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,173 +80,61 @@
 				<!-- 클릭시 상세페이지로 전환 -->
 				<div id="div01">
 					<h2>패키지</h2>
-					<div class="snack_menu">
-						<!-- 상품 상세 페이지 바로가기 -->
-						<a id="storeDetail" href="#none" onclick="pageMove(1, 'P005')">
-							<img alt="" src="${pageContext.request.contextPath}/resources/img/snack/우리패키지.jpg" width="310" height="250" ><br>
-							<span>우리패키지</span><br>
-							<span class="snack_detail">영화관람권 4매+더블콤보 1개</span><br><br>
-							<span>61,000<span id="won">원&nbsp;&nbsp;</span></span>
-							<span style="text-decoration: line-through;" class="snack_detail">65,000
-								<span id="won">원</span>
-							</span>
-						</a>
-						<!-- 장바구니에 담고 버튼 클릭 시 모달창 확인 -->
-						<a href="#none" onclick="pageMove(2, 'P005')">
-							<img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn">
-						</a>
-						<!-- 결제 바로가기 -->
-						<a href="#none" onclick="pageMove(3, 'P005')">
-							<img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn">
-						</a>
-					</div>
-					<div class="snack_menu">
-						<a href="#none" onclick="pageMove(1, 'P002')">
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/나랑너패키지.jpg" width="310" height="250"><br>
-						<span>나랑너패키지</span><br>
-						<span class="snack_detail">영화관람권 2매+스위트콤보 1개</span><br><br>
-							<span>34,000<span id="won">원&nbsp;&nbsp;</span>
-						</span>
-						<span style="text-decoration: line-through;" class="snack_detail">36,000
-							<span id="won">원</span>
-						</span></a>
-						<a href="#none" onclick="pageMove(2, 'P002')"><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href="#none" onclick="pageMove(3, 'P002')"><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="#none" onclick="pageMove(1, 'P003')">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/시네마패키지.jpg" width="310" height="250"><br>
-							<span>시네마패키지</span><br>
-							<span class="snack_detail">미니 시네마+팝콘L1개+콜라M2개</span><br><br>
-							<span>31,000<span id="won">원&nbsp;&nbsp;</span></span><span style="text-decoration: line-through;" class="snack_detail">36,000<span id="won">원</span></span>
-						</a>
-						<a href="#none" onclick="pageMove(2, 'P003')"><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href="#none" onclick="pageMove(3, 'P003')"><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
+					<c:forEach var="i" begin="0" end="2">
+						<div class="snack_menu">
+							<a id="storeDetail" href="javascript:void(0)" onclick="pageMove(1, 'P00${i+1}')">
+								<img alt="" src="${pageContext.request.contextPath }/resources/upload/${productList[i].product_img}" width="310" height="250"><br>
+								<span>${productList[i].product_name}</span><br>
+								<span class="snack_detail">${productList[i].product_txt}</span><br><br>
+								<span>
+									<fmt:formatNumber value="${productList[i].product_price}" pattern="###,###" /><span id="won">원&nbsp;&nbsp;</span>
+								</span>
+								<span style="text-decoration: line-through;" class="snack_detail">
+									<fmt:formatNumber value="${productList[i].product_price * 1.025}" pattern="###,###" /><span id="won">원</span>
+								</span>
+							</a>
+							<!-- 장바구니에 담고 버튼 클릭 시 모달창 확인 -->
+							<a href="javascript:void(0)" onclick="pageMove(2, 'P00${i+1}')"><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
+							<!-- 결제 바로가기 -->
+							<a href="javascript:void(0)" onclick="pageMove(3, 'P00${i+1}')"><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
+						</div>
+					</c:forEach>
 				</div>
 				<br>
 				<div id="div02">
 					<hr>
 					<h2>영화관람권</h2>
-					<!-- 가격까지 이미지로 다 넣어서 해야할듯 이미지 파일 편집 -->
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/일반관람권.jpg" width="310" height="250"><br>
-							<span>일반관람권</span><br>
-							<span class="snack_detail">일반 관람권 1매</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/vip관람권.jpg" width="310" height="250"><br>
-							<span>VIP관람권</span><br>
-							<span class="snack_detail">VIP 관람권 1매</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>	
+					<c:forEach var="i" begin="3" end="4">
+						<div class="snack_menu">
+							<a href="javascript:void(0)" onclick="pageMove(1, 'P00${i+1}')">
+								<img alt="" src="${pageContext.request.contextPath }/resources/upload/${productList[i].product_img}" width="310" height="250"><br>
+								<span>${productList[i].product_name}</span><br>
+								<span class="snack_detail">${productList[i].product_txt }</span><br><br>
+								<span>
+									<fmt:formatNumber value="${productList[i].product_price}" pattern="###,###" /><span id="won">원</span>
+								</span></a>
+							<a href="javascript:void(0)" onclick="pageMove(2, 'P0${i < 9 ? '0' : ''}${i+1}')"><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
+							<a href="javascript:void(0)" onclick="pageMove(3, 'P0${i < 9 ? '0' : ''}${i+1}')"><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
+						</div>
+					</c:forEach>
 				</div>
 				<br>
 				<div id="div03">
 					<hr>
 					<h2>스낵/음료</h2>
-					<!-- 가격까지 이미지로 다 넣어서 해야할듯 이미지 파일 편집 -->
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/스위트콤보.jpg" width="310" height="250"><br>
-							<span>스위트콤보</span><br>
-							<span class="snack_detail">오리지널L + 탄산음료M2</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/더블콤보.jpg" width="310" height="250"> <br>
-							<span>더블콤보</span><br>
-							<span class="snack_detail">오리지널팝콘M + 탄산음료M2</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/콜라M.jpg" width="310" height="250"> <br>
-							<span>콜라M</span><br>
-							<span class="snack_detail">콜라M</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
+					<c:forEach var="i" begin="5" end="16">
 						<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-						<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/콜라L.jpg" width="310" height="250"><br>
-							<span>콜라L</span><br>
-							<span class="snack_detail">콜라L</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a> 
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/오리지널M.jpg" width="310" height="250"><br>
-							<span>오리지날팝콘 M</span><br>
-							<span class="snack_detail">오리지날팝콘 M</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/오리지널L.jpg" width="310" height="250"><br>
-							<span>오리지날팝콘 L</span><br>
-							<span class="snack_detail">오리지널팝콘 L</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/카라멜M.jpg" width="310" height="250"><br>
-							<span>캬라멜팝콘 M</span><br>
-							<span class="snack_detail">카라멜팝콘 M</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/카라멜L.jpg" width="310" height="250"><br>
-							<span>캬라멜팝콘 L</span><br>
-							<span class="snack_detail">카라멜팝콘 L</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
-					<div class="snack_menu">
-						<a href="storeDetail?product_id=P001">
-							<img alt="" src="${pageContext.request.contextPath }/resources/img/snack/반반.jpg" width="310" height="250"><br>
-							<span>반반팝콘(오리지널/카라멜)L</span><br>
-							<span class="snack_detail">반반팝콘(오리지널+카라멜)L</span><br><br>
-							<span>10,000<span id="won">원</span></span>
-						</a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
-						<a href=""><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
-					</div>
+							 <a href="javascript:void(0)" onclick="pageMove(1, 'P0${i < 9 ? '0' : ''}${i+1}')">
+								<img alt="" src="${pageContext.request.contextPath }/resources/upload/${productList[i].product_img}" width="310" height="250"><br>
+								<span>${productList[i].product_name}</span><br>
+								<span class="snack_detail">${productList[i].product_txt }</span><br><br>
+								<span><fmt:formatNumber value="${productList[i].product_price}" pattern="###,###" /><span id="won">원</span></span>
+							</a>
+							<a href="javascript:void(0)" onclick="pageMove(2, 'P0${i < 9 ? '0' : ''}${i+1}')"><img src="${pageContext.request.contextPath }/resources/img/cart2.png" width="60px" height="60px" class="cart_btn"></a>
+							<a href="javascript:void(0)" onclick="pageMove(3, 'P0${i < 9 ? '0' : ''}${i+1}')"><img src="${pageContext.request.contextPath }/resources/img/pay2.png" width="60px" height="60px" class="pay_btn"></a>
+						</div>
+					</c:forEach>
 				</div>
-				
 				<%-- 폰트사이즈 조절 및 위지 조절 --%>
 				<div id="store_notice">
 					<hr>
@@ -253,10 +144,10 @@
 					<hr>
 				</div>
 			</div>
-		</div>
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>
+		</div>
 	</div>
 </body>
 </html>

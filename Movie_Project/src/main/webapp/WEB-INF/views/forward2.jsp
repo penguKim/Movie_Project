@@ -4,6 +4,6 @@
 	if(confirm("${msg}")) {
 		location.href='${targetURL}';
 	} else {
-		history.back();
+		location.href="store";
 	}
 </script>

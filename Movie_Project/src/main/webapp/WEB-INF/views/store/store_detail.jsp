@@ -95,7 +95,7 @@
 					<div class="left">
 							<%-- 상품 이미지 DB에서 직접 꺼내오는 방법 고민 --%>
 							<%-- 이미지 절대경로 설정하는 법 익히기 --%>
-						<p><img src="${store[0].product_img}" alt="우리패키지"></p>
+						<p><img src="${pageContext.request.contextPath}/resources/upload/${store[0].product_img}" alt="상품 이미지" width="310" height="250"></p>
 					</div>
 					<div class="right">
 						<div class="goods_info">
@@ -135,7 +135,7 @@
 						<div id="btn_buy">
 						<%-- 장바구니 이미지로 교체할지 말지 부기능으로 --%>
 						<%-- 구매 버튼 submit으로 교체 예정 --%>
-		                	<a  href="#none" onclick="move_cart(2, 'P002')"><button type="button">장바구니</button></a>
+		                <a  href="#none" onclick="move_cart(2, 'P002')"><button type="button">장바구니</button></a>
 		                <button type="button" onclick="redirectToStorePay()">구매</button>
 		               	</div>
 					</div>	

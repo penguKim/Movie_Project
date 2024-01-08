@@ -40,8 +40,8 @@
 				<table border="1" width="1100">
 					<tr>
 						<th>상품번호</th>
-						<th>상품명</th>
-						<th>상품설명</th>
+						<th width="250">상품명</th>
+						<th width="500">상품설명</th>
 						<th>상품가격</th>
 						<th>상품 상세보기</th>
 					</tr>
@@ -50,7 +50,7 @@
 							<td>${store.product_id}</td>
 							<td>${store.product_name}</td>
 							<td>${store.product_txt}</td>
-							<td>${store.product_price}원</td>
+							<td><fmt:formatNumber value="${store.product_price}" pattern="#,##0" />원</td>
 							<td><a href="adminProductDtl?product_id=${store.product_id}"><input type="button" value="상세보기"></a></td>
 						</tr>
 					</c:forEach>

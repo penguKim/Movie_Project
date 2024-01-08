@@ -151,40 +151,15 @@ $(function() {
 		      }).done(function (data) {
 		        // 가맹점 서버 결제 API 성공시 로직
 	        	 alert("결제 성공");
-                 location.href="PaymentSuccess";
+                 location.href="PaymentSuccess?payment_name=" + data.payment_name;
 		        
 		      })
 		    } else {
 		    	alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
 		    	location.href="PaymentFail";
 		    }
-	    });
-
-// 		$.ajax({
-<%--  			결제 정보 --%>
-// 	        url: "PaymentEndpoint", 
-// 	        type: "POST",
-// 	        headers: { "Content-Type": "application/json" },
-// 	        data: JSON.stringify({
-// // 	          imp_uid: imp_uid,            // 결제 고유번호
-// // 	          payment_name: rsp.merchant_uid,   // 주문번호
-// 	          "payment_card_name": "kakaopay",
-// 	          "payment_total_price": product_total_price,
-// 	          "product_id": product_id,
-// 	          "product_name": product_name,
-// 	          "quantity": quantity,
-// 	          "member_id": member_id,
-// 	          "type": $(".type").val()
-// 	        }),
-// 	        success: function(data) {
-// 				console.log("성공!");
-// 			},
-// 			error: function() {
-// 				console.log("실패")
-// 			}
-	        
-//         });
-	 }
+	    }); // AJAX 끝
+	 }  // function requestPay() 끝
 
 </script>
 </head>
@@ -228,12 +203,12 @@ $(function() {
 							<c:set var="store_total_price" value="${store_total_price + (store.product_price * paramValues.product_count[status.index])}"></c:set>
 							<c:set var="store_pay_price" value="${store.product_price * param.product_count}"></c:set>
 							<tr class="store_table_box02">
-								<td><img src="${store.product_img }"></td>
+								<td><img src="${pageContext.request.contextPath}/resources/upload/${store.product_img }"></td>
 								<td>
 									<span >${store.product_name }</span><br> 
 									<span id="">${store.product_txt }</span>
 								</td>
-							    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원이야</td>
+							    <td><fmt:formatNumber value="${store.product_price}" pattern="###,###"/>원</td>
 							    <td>${paramValues.product_count[status.index]}개</td>
 							    <td><fmt:formatNumber value="${store.product_price * paramValues.product_count[status.index]}" pattern="###,###"/>원</td>
 							</tr>

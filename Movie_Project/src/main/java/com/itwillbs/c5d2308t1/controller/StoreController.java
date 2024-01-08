@@ -29,7 +29,11 @@ public class StoreController {
 	
 	// 스토어 페이지 이동
 	@GetMapping("store")
-	public String store() {
+	public String store(Model model) {
+		
+		List<StoreVO> productList = service.allSelectStore();
+		
+		model.addAttribute("productList", productList);
 		
 		return "store/store_main";
 	}
@@ -37,9 +41,7 @@ public class StoreController {
 	// 스토어 상세페이지 매핑
 	@GetMapping("storeDetail")
 	public String storeDetail(HttpSession session, StoreVO store, Model model) {
-		System.out.println("상품 ID : " + store.getProduct_id());
 		List<StoreVO> dbStore = service.selectStore(store.getProduct_id());
-		System.out.println("상품 정보 : " + dbStore);
 		model.addAttribute("store", dbStore);
 		
 		return "store/store_detail";
