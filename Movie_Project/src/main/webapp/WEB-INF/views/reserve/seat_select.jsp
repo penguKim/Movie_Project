@@ -24,6 +24,22 @@
     	background-color: black;
     	color: white; 
     }
+    .seatSelectPage_Result_M,.seatSelectPage_Result_T{
+    	color: #fff;
+    	font-size: 12px;
+    }
+    #seat_select {
+    	background-color: #f1f0e5;
+   		padding-bottom: 20px;
+    }
+    #titleArea h3{
+   	    background-color: #323232;
+	    color: #bababb;
+	    height: 50px;
+	    line-height: 50px;
+	    margin-bottom: 40px;
+	    margin-top: -18.72px;
+    }
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
@@ -153,6 +169,10 @@
    let NumberOfSeatsCurrentlySelected = 0 ; // 현재 선택한 좌석 수
    let NumberOfSeatsToChoose; //선택할 좌석 수 (선택한 인원 수)
    function toggleSeat(seat) {
+	   $('#total_Payment').css('font-size', '12px');
+       $('#total_Payment').css('color', 'white');
+	   $('.seatSelectPage_Result_S').css('font-size', '12px');
+       $('.seatSelectPage_Result_S').css('color', 'white');
    	   NumberOfSeatsToChoose = 0; //선택할 좌석 수 
 //        NumberOfSeatsCurrentlySelected++;
    	  if (seat.classList.contains('selected')) {
@@ -282,7 +302,7 @@
 				<div id="header_box">
 					<table class="header_box">
 						<tr>
-							<td colspan="6"><h3>인원 / 좌석</h3></td>
+							<td colspan="6" id="titleArea" style="height: 45px;"><h3>인원 / 좌석</h3></td>
 						<tr>	
 						<tr id="height50">
 							<th colspan="2" id="peoSelTableTh">
@@ -382,7 +402,7 @@
 				<tr>
 					<td class="button_area"><input type="button" value="영화선택" onclick="back()" class="button"></td>
 					<td class="seatSelectPage_Result_M">${reserveVO.movie_title}</td>
-					<td class="">
+					<td class="seatSelectPage_Result_T">
 						<table>
 							<tr>
 								<td class="widthSmall">극장</td>
