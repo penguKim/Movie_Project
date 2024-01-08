@@ -139,7 +139,6 @@
 			, #{cs_type}
 			, #{cs_type_detail}
 			, #{cs_file}
-			, null
 			, #{cs_type_list_num} + 1
 			, null
 			, #{member_id}

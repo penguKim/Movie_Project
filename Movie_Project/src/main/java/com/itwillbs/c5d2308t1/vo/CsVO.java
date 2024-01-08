@@ -15,8 +15,7 @@ cs 테이블 정의
 문의일시(cs_date) - DATETIME	
 문의유형(cs_type) - VARCHAR(20)			
 문의세부유형(cs_type_detail) - VARCHAR(20)			
-첨부파일(cs_file) - VARCHAR(200)
-새첨부파일(cs_file_renew) - VARCHAR(200)		
+첨부파일(cs_file) - VARCHAR(200)	
 글번호(cs_type_list_num) - INT
 문의답변(cs_reply) - VARCHAR(1000)			
 회원아이디(member_id) - VARCHAR(20), FK(members)
@@ -29,8 +28,7 @@ create table cs (
 	cs_date DATETIME,	
 	cs_type VARCHAR(20),			
 	cs_type_detail VARCHAR(20),			
-	cs_file VARCHAR(200),
-	cs_file_renew VARCHAR(200),		
+	cs_file VARCHAR(200),	
 	cs_type_list_num INT,
 	cs_reply VARCHAR(1000),			
 	member_id VARCHAR(20),
@@ -51,7 +49,6 @@ public class CsVO {
 	private String cs_type;
 	private String cs_type_detail;
 	private String cs_file;
-	private String cs_file_renew;
 	private int cs_type_list_num;
 	private String cs_reply;
 	private String member_id;

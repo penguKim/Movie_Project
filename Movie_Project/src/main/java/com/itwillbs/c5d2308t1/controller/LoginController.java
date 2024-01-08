@@ -15,11 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.itwillbs.c5d2308t1.service.JoinService;
 import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
@@ -37,7 +36,6 @@ import com.itwillbs.c5d2308t1.vo.NaverLoginVO;
 import com.itwillbs.c5d2308t1.vo.PageCount;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.RefundVO;
-import com.itwillbs.c5d2308t1.vo.ReserveVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 @Controller
 public class LoginController {
@@ -56,6 +54,12 @@ public class LoginController {
         this.NaverLoginVO = NaverLoginVO;
     }
 	
+	/* GoogleLogin */
+	@Autowired
+	private GoogleConnectionFactory googleConnectionFactory;
+	@Autowired
+	private OAuth2Parameters googleOAuth2Parameters;
+	
 	@GetMapping("memberLogin") //메인화면에서 로그인 버튼 클릭시 이동
 	public String memberLogin(HttpServletRequest request, HttpSession session, Model model) {
 		// "REFERER" 헤더는 현재 요청을 보내는 페이지의 URL을 가리킨다.
@@ -69,6 +73,14 @@ public class LoginController {
         
         //네이버 
         model.addAttribute("url", naverAuthUrl);
+        
+        /* 구글code 발행 */
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+
+		System.out.println("구글:" + url);
+
+		model.addAttribute("google_url", url);
 		
 		
 		// 이전 페이지가 null이 아닐 경우 서블릿 주소만 잘라내서 세션에 저장한다.

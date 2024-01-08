@@ -11,40 +11,21 @@
 <!-- 네이버 api를 위한 script -->
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
 <!-- 카카오 api를 위한 script -->
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<script type="text/javascript">
-$(function() {
-
-	Kakao.init("7f2cbaab42a6ec66232f961c71c7350f");
-
-	// 카카오 로그인 버튼을 생성
-	Kakao.Auth.createLoginButton({
-		container: '#kakao-login-btn',
-		success: function(authObj) {
-		// 로그인 성공시, API를 호출합니다.
-	Kakao.API.request({// 로그인한 사용자 정보 가져오기
-		url: '/v2/user/me',
-		success: function(res) {
-			console.log("사용자 정보 요청 실패", res);
-		},
-		fail: function(error) {
-			console.log("로그인 실패", error);
-			}
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
+  integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
+<script>
+	$(function() {
+  		Kakao.init('9ba6bc87f99afa1257d1e89fba2d1805'); // 사용하려는 앱의 JavaScript 키 입력
+  		Kakao.isInitialized();
 	});
-		},
-		fail: function(err) {
-			console.log(err);
-		}
-	});
-	
-	document.addEventListener("DOMContentLoaded", function () { //웹 페이지의 HTML이 모두 로드되었을 때(DOMContentLoaded) 실행될 함수
-		document.getElementById("kakao-login-btn").addEventListener("click", function (a) { //카카오로그인 버튼클릭 시 실행되는 함수
-			a.preventDefault(); // 기본 동작인 페이지 이동을 막음
-		loginWithKakao();
+</script>
+
+<script>
+	function loginWithKakao() {
+		Kakao.Auth.authorize({
+			redirectUri: 'http://localhost:8081/c5d2308t1/kakaocallback',
 		});
-	});
-});
+	}
 </script>
 
 </head>
@@ -87,7 +68,7 @@ $(function() {
 					<div id="move_menu"><br>
 						
 						<!-- 회원 가입, 아이디 찾기, 비밀번호 찾기 주소 연결 -->
-						<a href="${pageContext.request.contextPath}/join/join_certification.jsp">회원가입</a> |
+						<a href="memberJoin">회원가입</a> |
 						<a href="idFind">아이디찾기</a> |
 						<a href="pwFind">비밀번호찾기</a>
 					</div><br>
