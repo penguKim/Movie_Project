@@ -7,9 +7,10 @@
 	<!-- 회원 정보 조회 -->
 	<select id="selectMember" resultType="com.itwillbs.c5d2308t1.vo.MemberVO">
 	    SELECT *
-	    FROM members
-	    WHERE member_id = #{member_id}
+	    FROM members m
+	    WHERE m.member_id = #{member_id}
 	</select>
+	
 
 	<select id="selectMovieListCount" resultType="int">
 	SELECT COUNT(*)

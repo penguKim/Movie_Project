@@ -315,8 +315,7 @@ public class MoviesController {
 			int insertCount = service.registReview(sId, review_content, movie_id);
 			
 			model.addAttribute("reviews", insertCount);
-//			String str1 = request.getParameter("movie_id");
-//			String str2 = request.getParameter("review_content");
+			
 			
         return "movie/detail"+ movie_id;
     }//reviewPro 끝 

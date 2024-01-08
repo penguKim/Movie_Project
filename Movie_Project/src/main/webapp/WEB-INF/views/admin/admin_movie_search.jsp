@@ -31,20 +31,20 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				let movies = data.movieListResult.movieList;
-							
 				$("#movieInfo").empty();
 				$("#selectBox").empty().append("<option selected disabled>영화를 선택해주세요</option>");
 				//영화제목을 검색했을때 감독,상영일이 있으면 반복문 통해서 출력
 				for(let movie of movies) { // movies배열에 값들을 movie변수에 저장
 					if(movie.openDt !== "" && movie.directors.length > 0) {//개봉일값이 ""가 아니고 감독명 길이가 0보다 클때
-						console.log(movie.movieNm);
-						console.log(movie.directors[0].peopleNm);
-						console.log(movie.directors[0].peopleNm);
-						console.log(movie.movieCd);
-						
-						 
+// 						console.log(movie.directors[0].peopleNm);
+// 						console.log(movie.movieCd);
+// 					$("#movie_id").val(movie.movieCd);
+// 					$("#movie_director").val(movie.directors[0].peopleNm);
+// 					$("#movie_audience").val('0');
                         $("#selectBox").append('<option value="' + movie.movieNm + '">' + movie.movieNm + '</option>');// selectBox에 영화 제목 넣기
 					}
+				
+				
 				
 			    $("#selectBox").show(); // 클릭시 체크박스 보이기
 				}; //for문 끝
@@ -61,6 +61,7 @@ $(document).ready(function(){
 		$("#selectBox").on("click", function(){
 			let kmdbKey = "C7643LD2JV0X8LAV20YO";
 			let title = $("#selectBox option:selected").text(); // 선택된 영화의 제목을 가져옵니다.
+// 			let movieCd = 
 			$.ajax({
 				type: "get",
 				dataType: "json",
@@ -68,8 +69,12 @@ $(document).ready(function(){
 				data:{
 					detail: "Y",
 					
+					
 				},
 				success: function(kmdb){
+					
+					
+					
 					// 영화 제목
 					$("#movie_title").val(title);
 					// 제작국가
@@ -157,7 +162,6 @@ $(document).ready(function(){
 			<div id="adminSearch">
 				<form id="searchForm">
 					<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearch" value="검색">
-					<input type="text" id="movieTitlekmdb" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearchDetail" value="검색">
 				</form>
 		<div>
 			<select name="selectBox" id="selectBox" style="display: none;">

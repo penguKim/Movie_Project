@@ -247,6 +247,10 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 		});
 		
 	});
+	
+	java.util.Date now = new java.util.Date();
+	long nowTime = now.getTime();
+	pageContext.setAttribute("nowTime", nowTime);
 </script>
 </head>
 <body>
@@ -327,17 +331,15 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			    	<hr>
 				    	<h2>리뷰</h2>
 						<form action="reviewPro" method="post">
-					    	<input type="text" name="review_content" placeholder="리뷰 입력" size="50" id="review_content">
+						
+						<c:if test="${not empty sessionScope.sId and (sessionScope.sId eq member.member_id) and (reviewr1.play_date > nowTime)}"></c:if>
+					    	<input type="text" name="review_content" placeholder="리뷰 입력" id="review_content">
 					    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
 					    	<input type="hidden" name="movie_id" value="${movie_id}">
 						</form>
 				    	<br>
 		    			<table id="review_no">
 		    			<tr id="review_tr">
-			    			<td rowspan="6" width="200">
-			    				평점이 들어간다면<br>
-			    				넣을 자리
-			    			</td>
 			    			<th>아이디</th>
 			    			<th>내용</th>
 			    			<th>작성일</th>

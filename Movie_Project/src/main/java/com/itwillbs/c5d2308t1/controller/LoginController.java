@@ -98,16 +98,26 @@ public class LoginController {
 		
 		
 	    MemberVO dbMember = service.getMember(member);
-	    Cookie cookie = new Cookie("cookieId", dbMember.getMember_id()); // 쿠키에 아이디 저장
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	    
+	    if(dbMember == null || !member.getMember_id().equals(dbMember.getMember_id())){ //로그인 아이디판별
+	    	System.out.println("확인" + dbMember);
+	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
+	    	return "fail_back";
+	    }
+	    
+	   if(dbMember.getMember_status() == 2) { //탈퇴한 회원은 로그인 불가
+		   model.addAttribute("msg", "이미 탈퇴한 회원입니다");
+		   return "fail_back";
+	   }
 	    
 	    
 	    if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())) {//로그인 실패시
-	    
 	    	model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지않습니다");
 	    	return "fail_back";
 	    	
 	    } else { // 로그인 성공시
+	    	Cookie cookie = new Cookie("cookieId", dbMember.getMember_id()); // 쿠키에 아이디 저장
 	    	if(rememberId == null) { // 아이디 저장을 체크했을 경우
 	    		cookie.setMaxAge(0); // 쿠키의 유효기간을 0으로 체크
 	    	} else {
