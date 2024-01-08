@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>할인정보</title>
+<title>iTicket 할인정보</title>
 <style type="text/css">
 .table-container {
   display: flex;
