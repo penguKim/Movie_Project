@@ -643,7 +643,7 @@
 		}
 		if($("#play_start_time").val()==""){
 			alert("시간선택 필수!")
-// 			return false;
+			return false;
 		}
 	}
 

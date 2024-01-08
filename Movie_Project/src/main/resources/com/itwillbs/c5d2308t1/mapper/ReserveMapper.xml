@@ -7,6 +7,7 @@
 	<select id="selectMovietitle" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT movie_title 
 		FROM movies
+		WHERE movie_status != 2
 	</select>
 	
 	<select id="selectTheaterName" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
@@ -38,7 +39,7 @@
 	<!--  movie_select ajax2 -->
 	<select id="selectMTB" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT *
-		FROM MPRT
+		FROM MPRT 
 		WHERE
 		<choose>
 			<when test="movie_title != null and theater_name != null">
@@ -62,7 +63,8 @@
 			<when test="play_date != null">
 				play_date = #{play_date}
 			</when>
-		</choose>		
+		</choose>
+		AND movie_status != 2		
 	</select>
 	
 	<select id="selectPlayEndTime" resultType="String">
