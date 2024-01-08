@@ -222,6 +222,10 @@ a {
 	text-align: right;
 }
 
+#serch_submit, #admin_writer {
+	display: inline-block;
+}
+
 /* 글쓰기 영역에 적용 */
 #select, #theater_id, #room_id, #play_date, 
 	#modifyTheater, #modifyRoom, #modifyDate {

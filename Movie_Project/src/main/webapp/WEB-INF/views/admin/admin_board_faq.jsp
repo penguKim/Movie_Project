@@ -70,12 +70,14 @@
 			<div id="admin_main">
 				<div id="admin_search">
 					<%-- 검색 기능을 위한 폼 생성 --%>
-					<form>
+					<form id="serch_submit">
 						<input type="text" name="searchValue" placeholder="유형, 제목으로 검색">
 						<input type="submit" value="검색">
 					</form>
+					<div id="admin_writer">
+						<a href="adminFaqWriteForm"><input type="button" value="글쓰기"></a>
+					</div>				
 				</div>
-				
 				<table border="1">
 					<thead>
 						<tr>
@@ -107,9 +109,6 @@
 						</c:choose>
 					</tbody>
 				</table>
-				<div id="admin_writer">
-					<a href="adminFaqWriteForm"><input type="button" value="글쓰기"></a>
-				</div>
 				<div class="pagination">
 					<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>
 					<%-- 다만, 페이지 번호가 1일 경우 비활성화 --%>		

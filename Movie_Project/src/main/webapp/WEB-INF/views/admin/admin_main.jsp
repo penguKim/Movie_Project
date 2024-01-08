@@ -24,9 +24,9 @@
 			dataType: "json",
 			success: function(result) {
 				
-				for(let i = 0; i < result.revenues.length-1; i++) {
-				    let date = result.revenues[i].date;
-				    let revenue = result.revenues[i].revenue;
+				for(let i = 0; i < result.length-1; i++) {
+				    let date = result[i].date;
+				    let revenue = result[i].revenue;
 					
 				    xValues.push(date);
 				    yValues.push(revenue);
@@ -53,13 +53,6 @@
 						title: {
 							display: true,
 							fontSize: 16
-// 						},
-// 						scales : {
-// 							yAxes : [ {
-// 								ticks : {
-// 									beginAtZero : true, // 0부터 시작하게 합니다.
-// 								}
-// 							} ]
 						}
 					},
 				});
@@ -87,9 +80,9 @@
 			dataType: "json",
 			success: function(result) {
 				
-				for(let i = 0; i < result.counts.length-1; i++) {
-				    let date = result.counts[i].date;
-				    let count = result.counts[i].count;
+				for(let i = 0; i < result.length-1; i++) {
+				    let date = result[i].date;
+				    let count = result[i].count;
 				
 				    xValues.push(date);
 				    yValues.push(count);
@@ -145,10 +138,14 @@
 		$.ajax({
 			type: "GET",
 			url: "productCount",
+			dataType: "json",
 			success: function(result) {
 				for(let i = 0; i < result.length; i++) {
-					xValues.push(result[i].product_name);
-					yValues.push(result[i].quantity);
+					let product_name = result[i].product_name;
+				    let quantity = result[i].quantity;
+				    
+					xValues.push(product_name);
+					yValues.push(quantity);
 				}
 				
 				new Chart("productCount", {

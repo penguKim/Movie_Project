@@ -19,6 +19,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -86,13 +87,9 @@ public class AdminController {
 		// 일별 가입 회원 불러오기
 		List<HashMap<String, Object>> counts = service.getJoinCount();
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("counts", counts);
-		
-		JSONObject jsonObject = new JSONObject(map);
-//		System.out.println("jsonObject = " + jsonObject);
+		JSONArray jsonArray = new JSONArray(counts);
 
-		return jsonObject.toString();
+		return jsonArray.toString();
 	}
 	
 	// 차트를 만들기 위해 매출정보 불러오기
@@ -103,23 +100,21 @@ public class AdminController {
 		// 일별 매출 불러오기
 		List<HashMap<String, Object>> revenues = service.getRevenue();
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("revenues", revenues);
+		JSONArray jsonArray = new JSONArray(revenues);
 		
-		JSONObject jsonObject = new JSONObject(map);
-//		System.out.println("jsonObject = " + jsonObject);
-		
-		return jsonObject.toString();
+		return jsonArray.toString();
 	}
 	
 	// 차트를 만들기 위해 상품종류/판매량 불러오기
 	@ResponseBody
 	@GetMapping("productCount")
-	public List<Map<String, String>> products() {
+	public String products() {
 		// 상품명과 판매수량을 7일 단위로 조회
 		List<Map<String, String>> products = service.productCount();
 		
-		return products;
+		JSONArray jsonArray = new JSONArray(products);
+		
+		return jsonArray.toString();
 	}
 	
 	// 영화 차트 조회
