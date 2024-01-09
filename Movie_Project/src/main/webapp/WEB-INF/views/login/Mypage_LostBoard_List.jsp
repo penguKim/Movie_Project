@@ -69,7 +69,7 @@
 							<a href="" >&laquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="Mypage_LostBoard_List?pageNum=${pageNum-1}" >&laquo;</a>
+							<a href="Mypage_LostBoardList?pageNum=${pageNum-1}" >&laquo;</a>
 						</c:otherwise>				
 					</c:choose>
 					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
@@ -78,7 +78,7 @@
 								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 							</c:when>
 							<c:otherwise>
-								<a href="Mypage_LostBoard_List?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+								<a href="Mypage_LostBoardList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
@@ -87,7 +87,7 @@
 							<a href="" >&raquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="Mypage_LostBoard_List?pageNum=${pageNum+1}" >&raquo;</a>
+							<a href="Mypage_LostBoardList?pageNum=${pageNum+1}" >&raquo;</a>
 						</c:otherwise>				
 					</c:choose>
 				</div>

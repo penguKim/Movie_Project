@@ -107,7 +107,7 @@ $(document).ready(function(){
 						</c:forEach>
 					</table><br>
 								
-							<c:set var="pageNum" value="1" />
+				<c:set var="pageNum" value="1" />
 				<c:if test="${not empty param.pageNum }">
 					<c:set var="pageNum" value="${param.pageNum }" />
 				</c:if>
@@ -117,7 +117,7 @@ $(document).ready(function(){
 							<a href="" >&laquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="Mypage_ReviewList?pageNum=${pageNum-1}" >&laquo;</a>
+							<a href="MypageReviewList?pageNum=${pageNum-1}" >&laquo;</a>
 						</c:otherwise>				
 					</c:choose>
 					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
@@ -126,7 +126,7 @@ $(document).ready(function(){
 								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 							</c:when>
 							<c:otherwise>
-								<a href="Mypage_ReviewList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+								<a href="MypageReviewList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
@@ -135,7 +135,7 @@ $(document).ready(function(){
 							<a href="" >&raquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="Mypage_ReviewList?pageNum=${pageNum+1}" >&raquo;</a>
+							<a href="MypageReviewList?pageNum=${pageNum+1}" >&raquo;</a>
 						</c:otherwise>				
 					</c:choose>
 					</div>
