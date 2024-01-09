@@ -10,19 +10,10 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+
 <script type="text/javascript">
+
 $(function() {
-	
-	var gender = "${member.member_gender}"; // DB에서 가져온 gender 값
-	if (gender === "M") {
-	  document.getElementById("identityGender1").checked = true; // "남자" 라디오 버튼 선택
-	} else if (gender === "F") {
-	  document.getElementById("identityGender2").checked = true; // "여자" 라디오 버튼 선택
-	}
-	// 남자 여자 수정못하게 고정
-    document.getElementById("identityGender1").disabled = true;
-    document.getElementById("identityGender2").disabled = true;
-	
 	<%-- ==============기존 회원 정보 저장============= --%>
 	let member_name = $("#member_name").val();
 	let member_passwd = $("#member_passwd").val();
@@ -339,7 +330,7 @@ $(function() {
 						<div id="checkNewPasswd0Result"></div>
 						
 					<input type="password" name="newPasswd" id="newPasswd" placeholder="새 비밀번호를 입력하세요">
-						<span id="passwdResult"></span> <br>
+						<span id="passwdResult1"></span> <br>
 						<div id="checkNewPasswdResult"></div>
 				
 					<!-- 새 비밀번호와 같도록 비교 처리 (추가적으로 문장 등장하도록) -->
@@ -356,12 +347,6 @@ $(function() {
 					<!-- 이메일 변경을 위한 인증 버튼 추가 -->
 					<!-- 이메일 변경은 인증은 API 작업, 회원가입 시 작업과 동일 할 예정 -->
 					<input type="text" name="email" size="8" id="email" placeholder="${member.member_email }" readonly><br>
-					<div id="gender">
-					    <input type="radio" id="identityGender1" name="member_gender" value="M" class="blind" >
-					    <label for="identityGender1">남자</label>
-					    <input type="radio" id="identityGender2" name="member_gender" value="F" class="blind" >
-					    <label for="identityGender2">여자</label>
-					</div>
 					<div id="login_button">
 						<input type="submit" value="회원탈퇴" formaction="memberDie" id="memberDie">
 						<input type="submit" value="정보수정" formaction="Editmember" id="update">
