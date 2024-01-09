@@ -775,7 +775,7 @@
 	    <if test="!searchKeyword.equals('')">
 	        WHERE event_title LIKE '%${searchKeyword}%'
 	    </if>
-		ORDER BY event_id DESC
+		ORDER BY event_close_date DESC
 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 
@@ -826,6 +826,8 @@
 			<if test="event_image != null and !event_image.equals('')">
 				, event_image = #{event_image}
 			</if>
+			, event_release_date = #{event_release_date}
+			, event_close_date = #{event_close_date}
 		WHERE
 			event_id = #{event_id}
 	</update>

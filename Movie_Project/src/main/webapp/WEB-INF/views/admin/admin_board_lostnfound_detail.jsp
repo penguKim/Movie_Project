@@ -29,7 +29,7 @@
 			<hr>		
 			<div id="admin_sub">
 				<form action="LostNFoundMoveToModify?pageNum=${param.pageNum }" method="post">
-					<table border="1">
+					<table border="1" id="shortTable">
 						<tr>
 							<th width="150">번호</th>
 							<td>${lostnfound.cs_id }</td>
@@ -50,8 +50,8 @@
 							<th>문의 작성자</th>
 							<td>${lostnfound.member_id }</td>
 						</tr>
-						<tr>
-							<th height="300">문의 내용</th>
+						<tr id="shortTableContent">
+							<th>문의 내용</th>
 							<td>${lostnfound.cs_content }</td>
 						</tr>
 						<tr>
@@ -72,8 +72,8 @@
 								</c:choose>
 							</td>
 						</tr>
-						<tr>
-							<th height="300">답변 내용</th>
+						<tr id="shortTableContent">
+							<th>답변 내용</th>
 							<td>
 								<c:choose>
 									<c:when test="${empty lostnfound.cs_reply }">답변 처리가 필요한 문의입니다.</c:when>

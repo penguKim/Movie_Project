@@ -15,19 +15,26 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	$(function() {
-		$("#sortMovie").on("change", function() {
-			 $("#status_submit").submit();
+	// 데이터 조회해 상영 일시를 판별해 음영처리
+	$(function(){
+		// 현재 시간을 밀리초로 가져오기
+		let currentTime = new Date().getTime();
+		
+		// 각 tr 태그 반복해 이벤트 종료 시간을 지정
+		$("tr").each(function() {
+			let closeDate = $(this).find(".close_date").text(); // 종료시간
+			
+			if(closeDate != "") { // 종료시간이 있는 tr일 경우
+				let endTime = new Date(closeDate).getTime(); // 종료시간을 밀리초로 변환
+				// 두 날짜의 차이를 일로 변환
+				differenceTime = Math.round((currentTime - endTime) / 1000 / 60 / 60 / 24);
+				if (differenceTime > 0) { // 시간 비교해 현재 이전인 경우 
+					$(this).css("background-color", "lightgray"); // 배경색 지정해 음영처리
+				}
+			}
 		});
 		
-		$("#search_submit").on("submit", function() {
-		    var sortMovie = $("#sortMovie").val();
-		    console.log(sortMovie);
-		    $(this).find("input[name='sortMovie']").val(sortMovie);
-		});
-	
 	});
-	
 </script>
 </head>
 <body>
@@ -43,20 +50,20 @@
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
 		<section id="content">
-		<h1 id="h01">영화관리</h1>
+		<h1 id="h01">이벤트관리</h1>
 		<hr>
 			<div id="admin_main">
-				<div id="movie_update">
-					<input type="button" value="이벤트 등록" onclick = "location.href='adminEventRgst'">
+				<div id="event_update">
+					<input type="button" value="이벤트 등록" onclick = "location.href='adminMovieEventRgst'">
 				</div>
-				<div id="movie_Search">
+				<div id="event_Search">
 					<%-- 검색 기능을 위한 폼 생성 --%>
-					<form action="adminEvent" id="search_submit">
-						<input type="text" name="searchKeyword" placeholder="영화코드/제목으로 입력" value="${param.searchKeyword }">
+					<form action="adminMovieEvent" id="search_submit">
+						<input type="text" name="searchKeyword" placeholder="제목으로 입력" value="${param.searchKeyword }">
 						<input type="submit" value="조회">
 					</form>
 				</div>
-				<table id="movieList">
+				<table id="eventList">
 					<tr>
 						<th width="100">이벤트 번호</th>
 						<th>이벤트 제목</th>
@@ -64,13 +71,13 @@
 						<th>종료 기간</th>
 						<th width="100">수정/삭제</th>
 					</tr>
-					<c:forEach var="event" items="${eventList }">
+					<c:forEach var="event" items="${eventList }" varStatus="status">
 						<tr>
 							<td>${event.event_id }</td>
-							<td id="movieTitle">${event.event_title }</td>
+							<td id="eventTitle">${event.event_title }</td>
 							<td>${event.event_release_date }</td>
-							<td>${event.event_close_date }</td>
-							<td><input type="button" value="MORE" onclick = "location.href='adminEventMod?event_id=${event.event_id }&pageNum=${pageNum }'"></td>
+							<td class="close_date">${event.event_close_date }</td>
+							<td><input type="button" value="MORE" onclick = "location.href='adminMovieEventMod?event_id=${event.event_id }&pageNum=${pageNum }'"></td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -80,7 +87,7 @@
 							<a href="" >&laquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="adminMovie?searchKeyword=${param.searchKeyword }&sortMovie=${param.sortMovie }&pageNum=${pageNum-1}" >&laquo;</a>
+							<a href="adminMovieEvent?searchKeyword=${param.searchKeyword }&pageNum=${pageNum-1}" >&laquo;</a>
 						</c:otherwise>				
 					</c:choose>
 					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
@@ -89,7 +96,7 @@
 								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 							</c:when>
 							<c:otherwise>
-								<a href="adminMovie?searchKeyword=${param.searchKeyword }&sortMovie=${param.sortMovie }&pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+								<a href="adminMovieEvent?searchKeyword=${param.searchKeyword }&pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
@@ -98,7 +105,7 @@
 							<a href="" >&raquo;</a>					
 						</c:when>
 						<c:otherwise>
-							<a href="adminMovie?searchKeyword=${param.searchKeyword }&sortMovie=${param.sortMovie }&pageNum=${pageNum+1}" >&raquo;</a>
+							<a href="adminMovieEvent?searchKeyword=${param.searchKeyword }&pageNum=${pageNum+1}" >&raquo;</a>
 						</c:otherwise>				
 					</c:choose>
 				</div>

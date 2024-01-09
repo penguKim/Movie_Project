@@ -18,50 +18,92 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
 	$(function() {
-		// ============= api 조회에 쓸 변수 목록 =============
-		let key = "811a25b246549ad749b278bba8257502"; // kobis 발급 키
-		var today = new Date(); // 오늘 날짜
-		today.setDate(today.getDate() - 1); // 어제 날짜로 변환
-		// 어제 날짜의 객체 생성
-		let yesterday = {
-			year: today.getFullYear(),
-			month: ('0' + (today.getMonth() + 1)).slice(-2),
-			day: ('0' + today.getDate()).slice(-2)
+		let now = new Date(); // 오늘 날짜
+		let today = {
+			year: now.getFullYear(),
+			month: ('0' + (now.getMonth() + 1)).slice(-2),
+			day: ('0' + now.getDate()).slice(-2)
 		};
 		// yyyy-MM-dd 형식으로 어제날짜 변환
-		let yesterdayFmt = yesterday.year + "-" + yesterday.month + "-" + yesterday.day;
-		// 조회할 날짜의 기본값으로 어제 날짜를 선택
-		$("#dateSelect").val(yesterdayFmt);
-		// 일일 박스오피스는 오늘 날짜는 조회가 안되므로 어제 날짜까지 조회하게한다.
-		$("#dateSelect").attr("max", yesterdayFmt);
-		// ======== 개봉일과 상영상태를 비교하는 변수 목록 ========
-		let nowTime = new Date().getTime(); // 계산의 기준이 될 날짜를 밀리초 단위로 리턴
-		let movieReleaseTime = ''; // 계산의 대상이 될 날짜를 밀리초 단위로 리턴
-		let differenceTime = ''; // 기준 날짜와 대상 날짜의 차이
-		// ===== submit 수행 시 값의 판별에 사용할 변수 목록 =====
-		let isDuplicateMovie = false;
+		let todayFmt = today.year + "-" + today.month + "-" + today.day;
 		// ===============================================
 		
-			
-			
-// 		$("form").on("submit", function() {
-			
-// 		});
-			
-			
-			
-		$("#eventTitle").on("blur", function() {
-			let value = $(this).val().split($(this).val().indexOf("]"));
-			console.log(value);
-		});	
-			
-			
-			
-			
-			
-			
+		// 현재 날짜 이전으로는 이벤트 등록을 못한다.
+		$("#event_release_date").attr("min", todayFmt);
+		
+		// 자동 선택 이후 개봉일을 변경할 경우 종영일의 최소값을 변경한다.
+		$("#event_release_date").on("change", function() {
+			$("#event_close_date").attr("min", $("#event_release_date").val());
+		});
+
+		// 모달 닫기 버튼 클릭 이벤트
+		$(".close").on("click", function() {
+			$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
+		  $("#myModal").hide(); <%-- div 영역 숨김 --%>
+		});
+
+		// 모달 외부 영역 클릭 시 모달 닫기
+		$(window).on("click", function(event) {
+			if ($(event.target).is("#myModal")) { <%-- 클릭한 곳이 모달창 바깥 영역일 경우 --%>
+				$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
+				$("#myModal").hide(); <%-- div 영역 숨김 --%>
+			}
+		});
+		
+		// 파일 이미지로만 제한
+		$(function() {
+			$(".file").on("change", function() {
+				let fileVal = $(this).val();
+				if (fileVal != "") {
+					let ext = fileVal.split('.').pop().toLowerCase(); // 확장자 분리
+					
+					// 허용되는 확장자 리스트
+					let allowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+					
+					// 허용되지 않는 확장자일 경우 경고 메시지 출력 후 등록 취소
+					if (!allowedExtensions.includes(ext)) {
+						alert("jpg, gif, jpeg, png 파일만 업로드 할 수 있습니다.");
+						$(this).val(""); // 파일 입력 필드 초기화
+						return false;
+					}
+				}
+			});
+		});
+		
+		// 수정 시 수행할 동작
+		$("#movieMod").on("click", function() {
+			if($("input[name=eventFile1]").get(0).files.length === 0) {
+				alert("이벤트 썸네일을 등록하세요");
+				$("input[name=eventFile1]").focus();
+				return false;
+			} else if($("input[name=eventFile2]").get(0).files.length === 0) {
+				alert("이벤트 본문 이미지를 등록하세요");
+				$("input[name=eventFile2]").focus();
+				return false;
+			} else if($("#eventTitle").val() == "") {
+				alert("이벤트 제목을 입력하세요");
+				$("#event_title").focus();
+				return false;
+			} else if($("#event_release_date").val() == "") {
+				alert("이벤트 시작 기간을 입력하세요");
+				$("#event_release_date").focus();
+				return false;
+			} else if($("#event_close_date").val() == "") {
+				alert("이벤트 종료 기간을 입력하세요");
+				$("#event_close_date").focus();
+				return false;
+			}
+			return confirm("이벤트를 수정하시겠습니까?");
+		});
+		
+		// 삭제시 수행할 동작
+		$("#movieDlt").on("click", function() {
+			return confirm("이벤트를 삭제하시겠습니까?");
+		});
+		
 	}); // $(document).ready() 끝
 	
+	// 파일 삭제 함수
 	function deleteFile(id, file, index) {
 		if(confirm('삭제하시겠습니까?')) {
 			$.ajax({
@@ -75,7 +117,7 @@
 					console.log("파일 삭제 요청 결과 : " + result + ", " + typeof(result));
 					// 삭제 성공/실패 여부 판별(result 값 문자열 : "true"/"false" 판별)
 					if(result == 'true') { // 삭제 성공 시
-						$("#fileItemArea" + index).html("<input type='file' name='eventFile" + index + "'>");
+						$("#fileItemArea" + index).html("<input type='file' class='file' name='eventFile" + index + "'>");
 					} else if(result == 'false') {
 						console.log("파일 삭제 실패!");	
 					}
@@ -84,9 +126,14 @@
 		}
 	}
 	
-	
-	
-	
+	// 이미지 클릭 시 모달창 띄우기
+	function modalShow(file) {
+		$("#modal-subject").html(
+				'<img alt="" src="${pageContext.request.contextPath }/resources/upload/' 
+				+ file + '">'
+		);
+		$("#myModal").show();
+	}
 </script>
 
 
@@ -103,8 +150,8 @@
 		<h1 id="h01">영화등록</h1>
 		<hr>
 			<div id="admin_main">
-				<form action="" method="post" id="movieRegist" enctype="multipart/form-data">
-					<table id="movieTable">
+				<form action="" method="post" id="eventRegist" enctype="multipart/form-data">
+					<table id="eventTable">
 						<tr>
 							<th>썸네일</th>
 							<td>
@@ -112,15 +159,17 @@
 									<c:choose>
 										<c:when test="${not empty event.event_thumnail  }">
 										<c:set var="original_file_name" value="${fn:substringAfter(event.event_thumnail , '_') }"/>
-											<img alt="" src="${pageContext.request.contextPath }/resources/upload/${event.event_thumnail }" height="300px">
+											<img class="event_img" alt="" src="${pageContext.request.contextPath }/resources/upload/${event.event_thumnail }" height="200px" onclick="modalShow('${event.event_thumnail}')">
 											<br>${original_file_name }
 											<a href="${pageContext.request.contextPath}/resources/upload/${event.event_thumnail  }" download="${original_file_name }">
 												<input type="button" value="다운로드">
 											</a>
-											<a href="javascript:deleteFile(${event.event_id}, '${event.event_thumnail }', 1)"><i class="material-icons" style="font-size:36px">delete_forever</i></a>
+											<a href="javascript:deleteFile(${event.event_id}, '${event.event_thumnail }', 1)">
+												<img src="${pageContext.request.contextPath }/resources/img/선택불가.png" class="img_btnDelete" width="20" height="20">
+											</a>
 										</c:when>
 										<c:otherwise>
-											<input type="file" name="eventFile1">
+											<input type="file" class="file" name="eventFile1" accept=".gif, .jpg, .png">
 										</c:otherwise>
 									</c:choose>
 								</div>
@@ -133,15 +182,17 @@
 									<c:choose>
 										<c:when test="${not empty event.event_image  }">
 										<c:set var="original_file_name" value="${fn:substringAfter(event.event_image , '_') }"/>
-											<img alt="" src="${pageContext.request.contextPath }/resources/upload/${event.event_image }" height="300px">
+											<img class="event_img" alt="" src="${pageContext.request.contextPath }/resources/upload/${event.event_image }" height="300px" onclick="modalShow('${event.event_image}')">
 											<br>${original_file_name }
 											<a href="${pageContext.request.contextPath}/resources/upload/${event.event_image  }" download="${original_file_name }">
 												<input type="button" value="다운로드">
 											</a>
-											<a href="javascript:deleteFile(${event.event_id}, '${event.event_image }', 2)"><i class="material-icons" style="font-size:36px">delete_forever</i></a>
+											<a href="javascript:deleteFile(${event.event_id}, '${event.event_image }', 2)">
+												<img src="${pageContext.request.contextPath }/resources/img/선택불가.png" class="img_btnDelete" width="20" height="20">
+											</a>
 										</c:when>
 										<c:otherwise>
-											<input type="file" name="eventFile2">
+											<input type="file" class="file" name="eventFile2  accept=".gif, .jpg, .png">
 										</c:otherwise>
 									</c:choose>
 								</div>
@@ -153,11 +204,11 @@
 						</tr>            
 						<tr>
 							<th>시작기간</th>
-							<td><input type="date" name="event_release_date" id="event_release_date" value="${event.event_release_date }" class="shortInput"></td>
+							<td><input type="date" name="event_release_date" id="event_release_date" value="${event.event_release_date }"></td>
 						</tr>
 						<tr>
 							<th>종료기간</th>
-							<td><input type="date" name="event_close_date" id="event_close_date" value="${event.event_close_date }" class="shortInput"></td>
+							<td><input type="date" name="event_close_date" id="event_close_date" value="${event.event_close_date }"></td>
 						</tr>
 					</table>
 					<input type="submit" value="수정" id="movieMod" formaction="eventMod">
@@ -166,6 +217,14 @@
 					<input type="button" value="창닫기" onclick="history.back();">
 				</form>
 			</div>
+		<!-- 모달 배경 -->
+		<div id="myModal" class="modal">
+			<!-- 모달 컨텐츠 -->
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div id="modal-subject"></div>
+			</div>
+		</div>
 		</section>
 	</div>
 </body>

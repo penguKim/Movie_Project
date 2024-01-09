@@ -11,6 +11,7 @@
 <a href="adminMovie">영화관리</a>
 <a href="adminMovieSchedule">상영일정관리</a>
 <a href="adminMovieBooking">영화예매관리</a>
+<a href="adminMovieEvent">영화이벤트관리</a>
 
 <div class="admin_nav_title">STORE</div>
 <a href="adminProduct">스토어상품관리</a>

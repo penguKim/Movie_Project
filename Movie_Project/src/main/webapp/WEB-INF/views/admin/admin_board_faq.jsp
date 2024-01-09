@@ -143,7 +143,7 @@
 					<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
 					<c:choose>
 						<c:when test="${pageNum eq pageInfo.endPage}">
-							<a href="" >&raquo;</a>					
+							<a href="">&raquo;</a>					
 						</c:when>
 						<c:otherwise>
 							<a href="adminFaq?pageNum=${pageNum+1}" >&raquo;</a>

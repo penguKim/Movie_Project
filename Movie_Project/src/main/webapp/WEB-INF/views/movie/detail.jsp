@@ -294,18 +294,20 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 					</div>
 					<div class="detail_reserve_clear">
 						<button id="likeBtn" class="detail_likeBtn likeBtn" data-id="${movie_id }" data-title="${movie_title }" onclick="likeBtnClick(this)"><i class="fa fa-heart-o"></i>찜하기</button>
-						<a href="movie_select?movie_title=${movie_title}">
+						<a href="movieSelect?movie_title=${movie_title}">
 							<input type="button" value="예매하기"></a>
 					</div>
 				</div>
 				<hr>
 				<ul class="click_link">
 					<li><a href="#movie_story"><input type="button" value="줄거리"></a></li>	
-					<c:if test="${not empty movie_trailer }">
+					<c:if test="${not empty movie_trailer }"> <%-- 트레일러가 없는 경우 --%>
 						<li><a href="#movie_trailer"><input type="button" value="트레일러"></a></li>	
 					</c:if>
 					<li><a href="#movie_cut"><input type="button" value="스틸컷"></a></li>	
-					<li><a href="#review"><input type="button" value="리뷰"></a></li>	
+					<c:if test="${movie_status eq 1 }"> <%-- 현재상영작인 경우 --%>
+						<li><a href="#review"><input type="button" value="리뷰"></a></li>	
+					</c:if>
 				</ul>
 			    <div class="movie_story" id="movie_story">
 		    	<hr>

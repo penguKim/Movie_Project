@@ -23,6 +23,6 @@
 	<select id="selectEventList" resultType="event">
 		SELECT *
 		FROM events
-		ORDER BY event_release_date DESC
+		ORDER BY event_close_date DESC
 	</select>
 </mapper>

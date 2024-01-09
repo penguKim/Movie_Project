@@ -47,8 +47,13 @@ public class MainController {
 	@ResponseBody
 	@GetMapping("eventList")
 	public String eventList() {
-		
+		// 이벤트 목록 조회
 		List<EventsVO> eventList = service.getEventList();
+		
+		
+		if(eventList.size() > 4) { // 이벤트가 4개를 초과할 경우
+			eventList = eventList.subList(0, 4); // 0 ~ 3번 인덱스까지만 저장한다.
+		}
 		
 		JSONArray jsonArray = new JSONArray(eventList);
 		

@@ -858,7 +858,7 @@ public class AdminController {
 	}
 	// ******************** 이벤트 등록 관리 페이지 ************************************
 	// 관리자페이지 이벤트 관리 페이지로 이동
-	@GetMapping("adminEvent")
+	@GetMapping("adminMovieEvent")
 	public String adminEvent(@RequestParam(defaultValue = "") String searchKeyword, 
 							 @RequestParam(defaultValue = "allMovie") String sortMovie,
 						     @RequestParam(defaultValue = "1") int pageNum, 
@@ -888,7 +888,7 @@ public class AdminController {
 	}
 	
 	// 관리자페이지 이벤트 등록 페이지로 이동
-	@GetMapping("adminEventRgst")
+	@GetMapping("adminMovieEventRgst")
 	public String adminEventRgst(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -965,7 +965,7 @@ public class AdminController {
 				e.printStackTrace();
 			}
 			
-			return "redirect:/adminEvent";
+			return "redirect:/adminMovieEvent";
 			
 		} else {			
 			model.addAttribute("msg", "이벤트 등록 실패!");
@@ -1006,7 +1006,7 @@ public class AdminController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return "redirect:/adminEvent?pageNum=" + pageNum;
+			return "redirect:/adminMovieEvent?pageNum=" + pageNum;
 		} else {
 			model.addAttribute("msg", "이벤트 삭제 실패!");
 			return "fail_back";
@@ -1045,7 +1045,7 @@ public class AdminController {
 	
 	
 	// 이벤트 수정 게시판으로 이동
-	@GetMapping("adminEventMod")
+	@GetMapping("adminMovieEventMod")
 	public String adminEventMod(EventsVO event, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
@@ -1136,7 +1136,7 @@ public class AdminController {
 				e.printStackTrace();
 			}
 			
-			return "redirect:/adminEvent?pageNum=" + pageNum;
+			return "redirect:/adminMovieEvent?pageNum=" + pageNum;
 			
 		} else {			
 			model.addAttribute("msg", "이벤트 등록 실패!");

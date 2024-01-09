@@ -139,7 +139,7 @@
 							"<div class='event myBtn" + i + "' data-content='" 
 								+ result[i].event_image + "' onclick='eventModal(" + i + ")'>"	
 								+ "<div class='event-image'>"
-									+ "<img src='" + result[i].event_thumnail + "'>"
+									+ "<img src='${pageContext.request.contextPath }/resources/upload/" + result[i].event_thumnail + "'>"
 									+ "<div class='event-info'>"
 										+ "<p class='event-title'>" + result[i].event_title + "</p>"
 										+ "<p class='event-date'>" + result[i].event_release_date 
@@ -183,7 +183,7 @@
 	function eventModal(index) {
 		$("body").addClass("not_scroll"); <%-- body 영역 스크롤바 삭제 --%>
 		<%-- ajax에서 data 속성으로 추가한 상세이미치 불러오기 --%>
-		$(".modal-content img").attr("src", $(".myBtn" + index).data("content"));
+		$(".modal-content img").attr("src", "${pageContext.request.contextPath }/resources/upload/" + $(".myBtn" + index).data("content"));
 		$("#myModal").show();
 	}
 	
