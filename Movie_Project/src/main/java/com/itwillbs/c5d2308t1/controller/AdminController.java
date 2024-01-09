@@ -652,7 +652,7 @@ public class AdminController {
 			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
-		PageDTO page = new PageDTO(pageNum, 5);
+		PageDTO page = new PageDTO(pageNum, 15);
 		int listCount = storeService.getProductListCount(searchKeyword);
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		List<StoreVO> storeList = storeService.getStoreList(searchKeyword, page);

@@ -118,7 +118,7 @@ function deleteFile(product_id, product_img) {
 							<td rowspan="5" colspan="2" id="imgArea">
 								<c:choose>
 									<c:when test="${not empty product.product_img }">
-										<img src="${pageContext.request.contextPath }/resources/upload/${product.product_img }" alt="상품이미지" id="">
+										<img src="${pageContext.request.contextPath }/resources/upload/${product.product_img }" alt="상품이미지" width="310" height="250">
 									</c:when>
 									<c:otherwise>
 										이미지가 없습니다

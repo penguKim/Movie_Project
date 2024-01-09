@@ -277,7 +277,6 @@ function checkAll2() {
 						</section>
 					</div>	
 				</div>
-				
 				<div class="store_pay_info">
 					<div class="store_pay_info_check">
 						<input type="checkbox" onclick="checkAll()">주문정보/결제 대행 서비스 약관 모두 동의

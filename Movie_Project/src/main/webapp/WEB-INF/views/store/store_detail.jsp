@@ -160,6 +160,7 @@
 				</div>
 			</div>
 		</section>
+		<br><br>
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>
