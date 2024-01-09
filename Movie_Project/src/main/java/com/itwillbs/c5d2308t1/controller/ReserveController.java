@@ -81,7 +81,7 @@ public class ReserveController {
 		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
 		play_end_time = reserve.getEndTime(reserveVO);
 		reserveVO.setPlay_end_time(play_end_time);
-		System.out.println("test : " + reserveVO);
+		System.out.println("SeatList test : " + SeatList);
 		model.addAttribute("SeatList",SeatList);
 		model.addAttribute("reserveVO",reserveVO);
 		return "reserve/seat_select";

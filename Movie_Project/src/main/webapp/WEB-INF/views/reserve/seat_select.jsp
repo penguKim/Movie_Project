@@ -182,7 +182,9 @@
 	   			changeDate = $(this).text();
 	   		})
 	   		// 아래메뉴영역에 선택된 좌석 표시
-	        $("#selected_seats").text(changeDate+ " 선택됨");
+	   		if(changeDate != null){
+		        $("#selected_seats").text(changeDate+ " 선택됨");
+	   		}
 	        // 선택된 좌석 값을 숨겨진 input 요소에 할당
 	        $("#hidden_select_seat").val(changeDate);
 	   		$("div.seat.2, div.seat.3, div.seat.6, div.seat.11, div.seat.14, div.seat.15, .btnMovie").removeClass('selected');
@@ -295,10 +297,15 @@
 		       alert("좌석선택 필수!")
 			   return false;
 			}
-		   
-		   if(NumberOfSeatsCurrentlySelected != NumberOfSeatsToChoose){
+		   let resultNumberOfSeatsToChoose = 0;
+		   if(selectNumArr != null){
+			  	for(let i=0; i<selectNumArr.length; i++){
+					resultNumberOfSeatsToChoose += selectNumArr[i];
+				}
+		   }
+		   if(NumberOfSeatsCurrentlySelected != resultNumberOfSeatsToChoose){
 			   alert("인원수와 좌석수가 일치하지 않습니다!")
-// 			   alert("골라야하는갯수 : " +NumberOfSeatsToChoose+ " 고른수 : " + NumberOfSeatsCurrentlySelected);
+// 			   alert("골라야하는갯수 : " +resultNumberOfSeatsToChoose+ " 고른수 : " + NumberOfSeatsCurrentlySelected);
 			   return false;
 			}
 		});
@@ -327,6 +334,7 @@
 		
 		<section id="content"><%--CSS 요청으로 감싼 태그--%>
 <!-- ================================================================== -->
+	<!-- 날짜 표시 형식 설정 -->
 	<c:set var="inputDate" value="${reserveVO.play_date}" />
 	
 	<c:set var="dateParts" value="${fn:split(inputDate, '-')}"/>
@@ -343,6 +351,10 @@
 	
 	<c:set var="outputDate" value="${year}년 ${monthString}월 ${day}일" />
 	
+	<!-- 예매된 좌석을 하나의 변수에 저장하는 반복문 -->
+	<c:forEach var="SeatList" items="${SeatList}">
+		<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
+	</c:forEach>
 <!-- ================================================================== -->
 
 			<h1 id="h01">좌석선택</h1>
@@ -379,7 +391,7 @@
 								</div>
 							</td>
 							<th colspan="3" class="header_box_Runtime">
-								${reserveVO.theater_name } ${reserveVO.room_name} 남은좌석 ${176-fn:length(SeatList)}/176<br>
+								${reserveVO.theater_name } ${reserveVO.room_name} 남은좌석 <c:choose><c:when test="${empty seat_name}">176</c:when><c:otherwise>${176-fn:length(fn:split(seat_name,','))}</c:otherwise> </c:choose>/176<br>
 							 	<b>${outputDate} ${fn:substring(reserveVO.play_start_time, 0, 5)} ~ ${fn:substring(reserveVO.play_end_time, 0, 5)}</b>
 							 </th>
 						</tr>
@@ -412,10 +424,6 @@
 				</div>
 				<!-- 모달 창 -->
 
-				<c:forEach var="SeatList" items="${SeatList}">
-				<!-- 예매된 좌석을 하나의 변수에 저장하는 반복문 -->
-					<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
-				</c:forEach>
 				<div id="seat_num" class="opacity">
 					<c:set var="x" value="${fn:split('A,B,C,D,E,F,G,H,I,J,K', ',')}" /><%--행을결정지을 변수 x 선언--%>
 				   
