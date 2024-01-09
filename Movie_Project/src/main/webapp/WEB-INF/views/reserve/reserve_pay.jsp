@@ -96,7 +96,7 @@
 			pay_method: "card",
 			merchant_uid: randomCode,   // 주문번호
 			name: "예매상품 : ${map.movie}",   // 결제 대상 제품명
-			amount: 10,         //totalPrice,  // 숫자 타입
+			amount: totalPrice,         //totalPrice,  // 숫자 타입
 			buyer_email: "${members.member_email}", // 결제 email MemberVO
 			buyer_name: "${members.member_name}",  // 주문자 명 MemberVO 
 			buyer_tel: "${members.member_phone}" // 연락처 MemberVO

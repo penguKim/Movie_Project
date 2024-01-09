@@ -27,6 +27,8 @@
 		SELECT seat_name
 		FROM resView 
 		WHERE play_date = #{play_date}
+		AND room_name = #{room_name}
+		AND theater_name = #{theater_name}
 		AND play_start_time = #{play_start_time}
 		AND seat_status = 1
 	</select>

@@ -77,6 +77,7 @@ public class ReserveController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
+		
 		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
 		play_end_time = reserve.getEndTime(reserveVO);
 		reserveVO.setPlay_end_time(play_end_time);
