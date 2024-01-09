@@ -328,25 +328,6 @@ public class AdminController {
 		return "admin/admin_movie_schedule";
 	}
 	
-	// 무한스크롤을 위한 ajax 요청 처리
-//	@ResponseBody
-//	@GetMapping("adminMovieScheduleList")
-//	public List<Map<String, Object>> adminMovieScheduleList(@RequestParam(defaultValue = "1") int pageNum) {
-//		
-//		// 페이지 번호와 글의 개수를 파라미터로 전달
-//		PageDTO page = new PageDTO(pageNum, 30);
-//		// 전체 게시글 갯수 조회
-//		int listCount = service.getMovieScheduleListCount();
-//		
-//		
-//		List<Map<String, Object>> playList = service.getMainScheduleInfo();
-//		System.out.println("리스트가 갖고있는 것 : " + playList);
-//
-//		return playList;
-//		
-//	}
-	
-	
 	//상영 일정 메인 페이지의 상영 일정 조회
 	@ResponseBody
 	@GetMapping("ScheduleSearch")
@@ -374,14 +355,51 @@ public class AdminController {
 			return "forward";
 		}
 		
-		List<HashMap<String, Object>> playRegistList = service.getPlayRegistList();
-		
-		System.out.println("반영이 됐는가4 : " + playRegistList);
-		
-		model.addAttribute("playRegistList", playRegistList);
+//		List<HashMap<String, Object>> playRegistList = service.getPlayRegistList();
+//		
+//		System.out.println("반영이 됐는가4 : " + playRegistList);
+//		
+//		model.addAttribute("playRegistList", playRegistList);
 		
 		return "admin/admin_movie_schedule_modify";
 	}
+	
+	// 무한스크롤을 위한 ajax 요청 처리
+	@ResponseBody
+	@GetMapping("adminMovieScheduleList")
+	public String adminMovieScheduleList(
+			@RequestParam(defaultValue = "1") int pageNum) {
+		
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 30);
+		
+		// 페이징 처리를 위한 계산 작업
+		
+		// 전체 게시글 갯수 조회
+		int listCount = service.getMovieScheduleListCount();
+		
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+
+		// 한 페이지에 표시할 상영 일정 목록 조회
+		List<HashMap<String, Object>> playRegistList = service.getPlayRegistList(page);
+		
+		System.out.println("반영이 됐는가4 : " + playRegistList);
+
+		// 게시물 목록 조회 결과를 Map 객체에 추가
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("playRegistList", playRegistList);
+		
+		// 페이징 처리 결과 중 마지막 페이지 번호(maxPage)도 Map 객체에 추가(키 : "maxPage")
+		map.put("maxPage", pageInfo.getMaxPage());
+		
+		// 대량의 데이터를 JSON 객체로 변환하기
+		JSONObject jsonObject = new JSONObject(map);
+		// 생성된 JSON 객체를 문자열로 리턴
+		return jsonObject.toString();
+		
+	}	
+	
 	
 	// ajax 이용하여 선택된 지점에 따른 상영관 불러오기
 	@ResponseBody
@@ -407,20 +425,6 @@ public class AdminController {
 		HashMap<String, Object> movieInfo = service.getMovieInfo(movie_id);
 		return movieInfo;
 	}
-	
-	
-	// ajax 이용하여 상영시간 정보 불러오기
-//	@ResponseBody
-//	@GetMapping("getPlayTimeInfo")
-//	public List<HashMap<String, Object>> playTimeInfo(PlayVO play) {
-//		System.out.println("상영관 = " + play.getRoom_id());
-//		System.out.println("일자 = " + play.getPlay_date());
-//		
-//		List<HashMap<String, Object>> playTimeInfo = service.playTimeInfo(play);
-//		System.out.println(playTimeInfo);
-//		
-//		return playTimeInfo;
-//	}
 	
 	// ajax 이용하여 상영시간 정보 불러오기
 	@ResponseBody
@@ -540,7 +544,7 @@ public class AdminController {
 	// 상영 일정 수정 버튼 클릭 시 기존 상영일정 정보 조회 작업
 	@ResponseBody
 	@PostMapping("previousScheduleInfo")
-	public Map<String, Object> previousScheduleInfo(@RequestParam String previousTrId) {
+	public String previousScheduleInfo(@RequestParam String previousTrId) {
 		System.out.println("파라미터로 받아온 previousTrId : " + previousTrId);
 		
 		Map<String, Object> map = service.getpreviousScheduleInfo(previousTrId);
@@ -555,7 +559,9 @@ public class AdminController {
 		
 		System.out.println("셀렉트한 기존 상영일정 데이터 : " + map);
 		
-		return map;
+		JSONObject jsonObject = new JSONObject(map);
+		
+		return jsonObject.toString();
 	}
 	
 	// ===========================================================================================

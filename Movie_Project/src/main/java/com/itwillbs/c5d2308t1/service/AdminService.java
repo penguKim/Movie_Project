@@ -200,11 +200,6 @@ public class AdminService {
 	}
 	
 	
-	// 무한스크롤을 위한 전체 게시글 갯수 조회
-	public int getMovieScheduleListCount() {
-		return mapper.selectMovieScheduleListCount();
-	}
-	
 	
 	// 상영 일정 메인 페이지 상영일정 조회 작업 요청 
 	public List<Map<String, Object>> getScheduleInfo(Map<String, String> map) {
@@ -212,9 +207,14 @@ public class AdminService {
 	}
 
 	// 2) 상영 일정 관리 페이지
+	// 무한스크롤을 위한 전체 게시글 갯수 조회
+	public int getMovieScheduleListCount() {
+		return mapper.selectMovieScheduleListCount();
+	}
+	
 	// 상영 일정 관리 페이지로 이동 시 등록된 상영 일정 조회 작업 요청
-	public List<HashMap<String, Object>> getPlayRegistList() {
-		return mapper.selectPlayListAll();
+	public List<HashMap<String, Object>> getPlayRegistList(PageDTO page) {
+		return mapper.selectPlayListAll(page);
 	}
 
 	// 지점명에 따른 상영관 조회 작업 요청

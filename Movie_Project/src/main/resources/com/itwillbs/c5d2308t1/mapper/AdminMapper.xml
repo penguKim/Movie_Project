@@ -508,11 +508,6 @@
 		ORDER BY t.theater_id ASC, r.room_id ASC, p.play_start_time ASC, m.movie_title ASC
 	</select>
 	
-<!-- 무한스크롤을 위한 전체 게시글 갯수 조회 -->
-<!-- 	<select id="selectMovieScheduleListCount" resultType="int"> -->
-<!-- 		SELECT COUNT(*) -->
-		
-<!-- 	</select>	 -->
 	
 <!-- 상영스케쥴 메인페이지 상영일정 조회 -->	
 	<select id="selectScheduleInfo" resultType="hashmap">
@@ -529,6 +524,17 @@
 	</select>
 
 <!-- 2) 상영스케쥴 관리 페이지 -->
+<!-- 무한스크롤을 위한 전체 게시글 갯수 조회 -->
+	<select id="selectMovieScheduleListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM plays JOIN movies
+		ON plays.movie_id = movies.movie_id 
+		JOIN rooms
+		ON plays.room_id = rooms.room_id
+		JOIN theaters
+		ON rooms.theater_id = theaters.theater_id
+	</select>	
+
 	<!-- 기존 상영 일정 조회 -->
 	<select id="selectPlayListAll" resultType="hashmap">
 		SELECT *
@@ -539,6 +545,7 @@
 		JOIN theaters
 		ON rooms.theater_id = theaters.theater_id
 		ORDER BY play_date DESC, play_start_time DESC, theaters.theater_id DESC, rooms.room_id ASC
+		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
 	<!-- 선택한 지점명에 따른 상영관 조회 ajax -->
