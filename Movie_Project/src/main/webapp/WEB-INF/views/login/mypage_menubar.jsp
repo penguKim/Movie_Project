@@ -9,7 +9,7 @@
 	</button>
 	<div class="dropdown-container">
 		<a href="Mypage_Reserv_boardList">예매내역</a>
-		<a href="Mypage_Product_boardList">상품구매내역</a>
+		<a href="MypageProductboardList">상품구매내역</a>
 	</div>
 	<button class="dropdown-btn">나의게시글 
 		<i class="fa fa-caret-down"></i>

@@ -262,7 +262,7 @@ function validateCheckbox() {
 			<h1 id="h01">장바구니</h1>
 			<!-- 체크박스와 버튼 -->
 			<hr>
-			<form action="storePay2" method="post" >
+			<form action="storePay">
 					<input type="hidden" name="type" value="cart">
 					<section id="content">
 						<!-- 상단 진행도 상태창 -->

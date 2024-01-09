@@ -47,7 +47,7 @@ function openPopup(payment_name){
 			<div id="mypage_nav"> <%-- 사이드 메뉴바 --%>
 				<jsp:include page="mypage_menubar.jsp"></jsp:include>
 			</div>
-			<form action="" name="checkform">
+			<form action="MypageProductListDtail" method="POST" name="checkform">
 				<div id="buy_list">
 					<h2>상품 구매내역</h2>
 					<table id="my_table1">
@@ -80,11 +80,11 @@ function openPopup(payment_name){
 								<td>
 								<c:choose>
 									<c:when test="${myStore.payment_status eq 1}">
-									<form action="MypageProductListDtail" method="POST" id="product_X" name="checkform">
+									
 			<%-- 									<input type="button" id="stupidButton" onclick="storeX(${myStore.payment_id})" value="구매취소"> --%>
 										<input type="button" id="stupidButton" value="상세정보" onclick="openPopup('${myStore.payment_name}')">
 										<input type="hidden" name="payment_name" value="${myStore.payment_name }">
-									</form>	
+									
 									</c:when>
 									<c:otherwise>
 										<input type="button" id="resCancleBtn" value="취소완료" onclick="openPopup('${myStore.payment_name}')">
@@ -109,7 +109,7 @@ function openPopup(payment_name){
 								<a href="" >&laquo;</a>					
 							</c:when>
 							<c:otherwise>
-								<a href="Mypage_Product_boardList?pageNum=${pageNum-1}" >&laquo;</a>
+								<a href="MypageProductboardList?pageNum=${pageNum-1}" >&laquo;</a>
 							</c:otherwise>				
 						</c:choose>
 						<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
@@ -122,7 +122,7 @@ function openPopup(payment_name){
 									<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 								</c:when>
 								<c:otherwise>
-									<a href="Mypage_Product_boardList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+									<a href="MypageProductboardList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -133,12 +133,12 @@ function openPopup(payment_name){
 								<a href="" >&raquo;</a>					
 							</c:when>
 							<c:otherwise>
-								<a href="Mypage_Product_boardList?pageNum=${pageNum+1}" >&raquo;</a>
+								<a href="MypageProductboardList?pageNum=${pageNum+1}" >&raquo;</a>
 							</c:otherwise>				
 						</c:choose>
 					</div>
 				</div>
-			</form>
+			</form>	
 		</section>
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>

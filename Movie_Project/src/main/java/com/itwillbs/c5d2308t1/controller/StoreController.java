@@ -177,53 +177,18 @@ public class StoreController {
 		return model;
 	}
 	
-	
 	@GetMapping("storePay")
-	public String storePay(HttpSession session, Model model, StoreVO store, MemberVO member) {
-		String sId = (String)session.getAttribute("sId");
-		if(session.getAttribute("sId") == null) {
-			model.addAttribute("msg","로그인이 필요합니다. 로그인 하시겠습니까?");
-			// targetURL 속성명으로 로그인 폼 페이지 서블릿 주소 저장
-			model.addAttribute("targetURL", "memberLogin");
-			return "forward2";
-		}
-		member.setMember_id(sId);
-		// Member name 과 phone 을 조회하기 위한 select 구문
-		MemberVO members = service.selectMemberInfo(member);
-		// 로그인 되어있는 phone 번호를 변수에 저장
-		String phone = members.getMember_phone();
-		// 휴대폰번호 가운데 "****" 처리
-		members.setMember_phone(phone.split("-")[0] + "-****-" + phone.split("-")[2]);
-		// Member 객체에 조회한 name 과 phone 을 저장
-		model.addAttribute("members", members);
-		
-		// 하나의 문자열로 들어올경우 split 처리해서 배열로 나눠서 저장
-		System.out.println(store.getProduct_id());
-		System.out.println(store);
-		
-		
-		List<StoreVO> storeList = service.selectStore(store.getProduct_id());
-		List<CartVO> cartList = service.selectCart2(member);
-		model.addAttribute("cartList", cartList);
-		model.addAttribute("storeList", storeList);
-		System.out.println("내 장바구니 카운트" + cartList);
-		System.out.println("내 상품 정보" + storeList);
-		
-		
-		
-		return "store/store_pay";
-	}
-	
-	
-	@PostMapping("storePay2")
-//	public String storePay2(HttpSession session, Model model,@RequestParam List<String> product_id, MemberVO member) {
-	public String storePay2(HttpSession session, Model model,@RequestParam("product_id") String[] selectedProductIds, MemberVO member) {
+	public String storePay(HttpSession session, Model model,@RequestParam("product_id") String[] selectedProductIds, MemberVO member,
+			@RequestParam int product_count) {
 		String sId = (String)session.getAttribute("sId");
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg","로그인이 필요합니다. 로그인 하시겠습니까?");
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward2";
 		}
+		System.out.println("출력은 되는 것이ㅑㄴ!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
+		
 		// ****************************************************************
 		member.setMember_id(sId); 
 		MemberVO members = service.selectMemberInfo(member);
@@ -243,18 +208,5 @@ public class StoreController {
 		
 		return "store/store_pay";
 	}
-	
-	// 결제 완료 후 장바구니 LIST 삭제
-	@GetMapping("CartListDel")
-	public String cartListDel() {
-		
-		// 장바구니에서 넘어와서 결제했는지 
-		// 단일 결제 했는지 판별을 어떻게 하지??
-		// 이게 안되면 결국 나눌수 밖에 없는데 시간이없다 어쩐담
-		
-		return "store/payment_success";
-	}
-	
-	
 	
 }

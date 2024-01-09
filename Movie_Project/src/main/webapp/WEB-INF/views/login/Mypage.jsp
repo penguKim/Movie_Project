@@ -45,18 +45,29 @@
 							<th>영화극장 정보</th>
 							<th>상태</th>
 						</tr>
-						<c:forEach var="res" items="${resMap}">
-						<tr>
-							<td>${res.payment_id}</td>
-							<td>${res.movie_title}</td>
-							<td>${res.theater_name}${res.room_name} / ${res.seat_name}</td>
-							<c:choose>
-								<c:when test="${payment_status eq 0}"><td>취소완료</td></c:when>
-								<c:otherwise><td>결제완료</td></c:otherwise>
-							</c:choose>
-						</tr>
+						<c:choose>
+							<c:when test="${not empty resMap}">
+								<c:forEach var="res" items="${resMap}">
+									<tr>
+										<td>${res.payment_id}</td>
+										<td>${res.movie_title}</td>
+										<td>${res.theater_name}${res.room_name} / ${res.seat_name}</td>
+										<c:choose>
+											<c:when test="${payment_status eq 0}"><td>취소완료</td></c:when>
+											<c:otherwise><td>결제완료</td></c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr >
+									<td colspan="4" height="70">
+										<b class="recentHis">최근 예매 내역이 없습니다</b>
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
 						
-						</c:forEach>
 					</table><br>
 				</div>
 				
@@ -69,31 +80,43 @@
 							<th>구매일</th>
 							<th>상태</th>
 						</tr>
-						<c:forEach var="product" items="${productList}">
-							<tr>
-								<td>${product.payment_name}</td>
-								<c:set var="productNames" value="${fn:split(product.product_name, ',')}" />
-								<td>
-									<c:choose>
-									    <c:when test="${fn:length(productNames) eq 1}">
-									        <p>${product.product_name}</p>
-									    </c:when>
-									    <c:otherwise>
-									        <p>${productNames[0]} 외 ${fn:length(productNames) - 1}개</p>
-									    </c:otherwise>
-									</c:choose>
-								</td>
-								<td>${fn:substring(product.payment_datetime, 0, 10)}</td>
-								<c:choose>
-									<c:when test="${payment_status eq 0}">
-										<td>취소완료</td>
-									</c:when>
-									<c:otherwise>
-										<td>결제완료</td>
-									</c:otherwise>
-								</c:choose>
-							</tr>
-						</c:forEach>
+						
+							<c:choose>
+								<c:when test="${not empty productList}">
+									<c:forEach var="product" items="${productList}">
+										<tr>
+											<td>${product.payment_name}</td>
+											<c:set var="productNames" value="${fn:split(product.product_name, ',')}" />
+											<td>
+												<c:choose>
+												    <c:when test="${fn:length(productNames) eq 1}">
+												        <p>${product.product_name}</p>
+												    </c:when>
+												    <c:otherwise>
+												        <p>${productNames[0]} 외 ${fn:length(productNames) - 1}개</p>
+												    </c:otherwise>
+												</c:choose>
+											</td>
+											<td>${fn:substring(product.payment_datetime, 0, 10)}</td>
+											<c:choose>
+												<c:when test="${payment_status eq 0}">
+													<td>취소완료</td>
+												</c:when>
+												<c:otherwise>
+													<td>결제완료</td>
+												</c:otherwise>
+											</c:choose>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="4" height="70" >
+											최근 구매 내역이 없습니다
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 					</table><br>
 				</div>
 			</div>

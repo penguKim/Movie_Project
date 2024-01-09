@@ -37,10 +37,10 @@
 				</div>
 			<hr>
 			<div class="menu" >
-					<nav class="theater1">
-				<c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
-					<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
-				</c:forEach>
+				<nav class="theater1">
+					<c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
+						<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
+					</c:forEach>
 				</nav>
 			</div>
 			<hr>
@@ -108,33 +108,23 @@
 						<div id="map">
 							<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7f2cbaab42a6ec66232f961c71c7350f"></script>
 							<script>
-							
-							
-							
-							
 								var container = document.getElementById('map');
 								var options = {
 									center: new kakao.maps.LatLng(35.149236094733254, 129.0635624238869),
 									level: 3
 								};
 								var map = new kakao.maps.Map(container, options);
-						
 								// 마커가 표시될 위치입니다 
 								var markerPosition  = new kakao.maps.LatLng(35.149278694688036, 129.06357447166218); 
-					
 								// 마커를 생성합니다
 								var marker = new kakao.maps.Marker({
 								    position: markerPosition
 								});
-					
 								// 마커가 지도 위에 표시되도록 설정합니다
 								marker.setMap(map);
-							
 							</script>
 		
 							<script>
-							
-							
 							var selectedId;
 // 								이미지 지도로 변경 및 마커스 찍기
 							 function changeImage(imageSrc, lat, lng) {
@@ -154,8 +144,6 @@
 							  });
 							  marker.setMap(map);
 							}
-								
-								
 							 var locations = [
 								  {
 								    id: "서면삼정타워",

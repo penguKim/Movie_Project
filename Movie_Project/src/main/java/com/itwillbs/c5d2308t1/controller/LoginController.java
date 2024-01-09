@@ -602,7 +602,7 @@ public class LoginController {
 	
 	// ======================= 마이페이지 상품 구매 내역===============================================
 	// 마이페이지 상품 구매 내역
-	@GetMapping("Mypage_Product_boardList")
+	@GetMapping("MypageProductboardList")
 	public String mypage_Product_boardList(HttpSession session,RefundVO refund, Model model
 			, @RequestParam(defaultValue = "1")  int pageNum) { // 상품내역 게시판
 		// 세션 아이디 저장
