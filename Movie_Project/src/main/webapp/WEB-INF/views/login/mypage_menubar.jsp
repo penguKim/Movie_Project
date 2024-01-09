@@ -16,7 +16,7 @@
 	</button>
 	<div class="dropdown-container">
 		<a href="MypageOneOnOneList">1:1문의</a>
-		<a href="MypageLostBoard_List">분실물문의</a>
+		<a href="MypageLostBoardList">분실물문의</a>
 		<a href="MypageReviewList">나의리뷰</a>
 	</div>
 	<button class="dropdown-btn">회원정보 

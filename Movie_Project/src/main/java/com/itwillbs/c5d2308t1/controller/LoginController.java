@@ -521,7 +521,7 @@ public class LoginController {
 	
 	
 	// 분실물 문의 게시판으로 이동
-	@GetMapping("MypageLostBoard_List")
+	@GetMapping("MypageLostBoardList")
 	public String LostBoard(@RequestParam(defaultValue = "1") int pageNum,Model model, HttpSession session, CsVO myCs) { 
 		
 		String sId = (String)session.getAttribute("sId");
