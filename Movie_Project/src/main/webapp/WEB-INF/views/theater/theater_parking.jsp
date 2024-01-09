@@ -11,7 +11,33 @@
 <link href="${pageContext.request.contextPath}/resources/css/theater.css" rel="stylesheet" type="text/css">
 <head>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<script>
+$(function() {
+	  $(document).ready(function() {
+	    var urlParams = new URLSearchParams(window.location.search);
+	    var theaterName = urlParams.get('theater_name');
 
+	    // 버튼들을 선택합니다
+	    var theaterButtons = $("input[name='theaterNames']");
+
+	    // 버튼 클릭 이벤트 핸들러를 등록합니다
+	    theaterButtons.on("click", function() {
+	      // 이전에 선택된 버튼의 배경색을 초기화합니다
+	      theaterButtons.css("background-color", "");
+
+	      // 클릭한 버튼의 배경색을 보라색으로 변경합니다
+	      $(this).css("background-color", "purple");
+	    });
+
+	    // 파라미터로 넘어온 버튼을 찾아서 해당 버튼을 클릭한 것처럼 처리합니다
+	    theaterButtons.each(function() {
+	      if ($(this).val() === theaterName) {
+	        $(this).trigger("click");
+	      }
+	    });
+	  });
+	});
+</script>
 </head>
 <body>
  	<div id="wrapper">
@@ -37,7 +63,7 @@
 			</div>
 			<hr>
 			<div id="theater_event">
-				<a href="http://localhost:8080/c5d2308t1/detail?movie_id=20203702">
+				<a href="http://localhost:8081/c5d2308t1/detail?movie_id=20203702">
 				<img src="${pageContext.request.contextPath}/resources/img/이벤트.jpg" alt="cgv" id="image">
 				</a>
 			</div>

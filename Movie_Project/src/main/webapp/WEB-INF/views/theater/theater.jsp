@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
-<title>극장정보</title>
+<title>iTicket 극장정보</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/theater.css" rel="stylesheet" type="text/css">
@@ -14,10 +14,62 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	
 <script type="text/javascript">
+
+
+// $(function() {
+// 	  // 클릭 이벤트 처리
+// 	  $("#carOk").on("click", function() {
+// 	    $.ajax({
+// 	      type: "GET",
+// 	      url: "theater_parking", // JSP 파일의 경로로 변경합니다.
+// 	      dataType: "text",
+// 	      success: function(data) {
+//     	    var parsedData = $(data).find("#sec01").html();
+//     	    $("#sec07").html(parsedData);
+// 	      },
+// 	      error: function() {
+// 	        alert("데이터를 불러올 수 없습니다.");
+// 	      }
+// 	    });
+// 	  });
+// });
+
+
+
+
+// $(function() {
+//   $("#priceOk").on("click", function() {
+//     $.ajax({
+//       type: "GET",
+//       url: "theater", // JSP 파일의 경로로 변경합니다.
+//       dataType: "text",
+//       success: function(data) {
+//           var parsedData = $(data).find("#sec07").html();
+//           $("#sec07").html(parsedData);
+// //         $("#sec07").html(data); // 실제로 데이터를 삽입할 대상 요소의 ID로 변경합니다.
+//       },
+//       error: function() {
+//         alert("데이터를 불러올 수 없습니다.");
+//       }
+//     });
+//   });
+// });
+
+// $(function() { // a태그 아무기능 없이 하는법
+// 	  $("#carOk").on("click", function(e) {
+// 	    e.preventDefault();
+// 	  });
+// 	});
+	
+// $(function() { // a태그 아무기능 없이 하는법
+// 	  $("#priceOk").on("click", function(e) {
+// 	    e.preventDefault();
+// 	  });
+// 	});
 	
 	
-	
-	</script>
+</script>
+
 </head>
 <body>
  	<div id="wrapper">
@@ -39,23 +91,22 @@
 			<div class="menu" >
 				<nav class="theater1">
 					<c:forEach var="theaterName" items="${theaterNames}" varStatus="status">
-						<input type="button" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
+						<input type="button" name="theaterNames" class="${theaterName.theater_name}" id="${theaterName.theater_name}" value="${theaterName.theater_name}">
 					</c:forEach>
 				</nav>
 			</div>
 			<hr>
+			
 			<div id="theater_event">
-				<a href="http://localhost:8080/c5d2308t1/detail?movie_id=20203702">
+				<a href="http://localhost:8081/c5d2308t1/detail?movie_id=20203702">
 				<img src="${pageContext.request.contextPath}/resources/img/이벤트.jpg" alt="cgv" id="image">
 				</a>
 			</div>
 			
 			<ul class="tab-menu" id="menu">
 		        <li class="on"><a href="movieSelect?theater_name=${theaterName.theater_name}" title="현재 선택됨">예매하기</a></li>
-		        <li class="last" onclick=""><a href="theater_parking">위치/주차안내</a></li>
+		        <li class="last" onclick=""><a href="theater_parking?theater_name=${theaterName.theater_name}" id="carOk">위치/주차안내</a></li>
 		    </ul>
-		    
-		    
 		    
 		    
 		<section id="sec07">
@@ -108,23 +159,30 @@
 						<div id="map">
 							<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7f2cbaab42a6ec66232f961c71c7350f"></script>
 							<script>
+							
 								var container = document.getElementById('map');
 								var options = {
 									center: new kakao.maps.LatLng(35.149236094733254, 129.0635624238869),
 									level: 3
 								};
 								var map = new kakao.maps.Map(container, options);
+						
 								// 마커가 표시될 위치입니다 
 								var markerPosition  = new kakao.maps.LatLng(35.149278694688036, 129.06357447166218); 
+					
 								// 마커를 생성합니다
 								var marker = new kakao.maps.Marker({
 								    position: markerPosition
 								});
+					
 								// 마커가 지도 위에 표시되도록 설정합니다
 								marker.setMap(map);
+							
 							</script>
 		
 							<script>
+							
+							
 							var selectedId;
 // 								이미지 지도로 변경 및 마커스 찍기
 							 function changeImage(imageSrc, lat, lng) {
@@ -144,6 +202,8 @@
 							  });
 							  marker.setMap(map);
 							}
+								
+							
 							 var locations = [
 								  {
 								    id: "서면삼정타워",
@@ -207,46 +267,62 @@
 								  }
 								];
 							 
-							 locations.forEach(function(location) {
-								  var container = document.getElementById(location.id);
-								  if (container) { 
-								    container.onclick = function() {
-								      changeImage(location.imageSrc, location.lat, location.lng);
-								      selectedId = location.id; // 클릭한 위치의 ID를 변수에 저장합니다.
-								      console.log("Selected ID: " + selectedId); // 선택된 ID를 콘솔에 출력합니다.
-								    };
-								  }
-								});
-							    
-							    var buttons = document.querySelectorAll('input[type="button"]');
-							    buttons.forEach(function(button) {
-							      button.addEventListener('click', function(event) {
-							        // 선택된 버튼의 아이디 값을 가져와서 변수에 저장
-							        selectedId = event.target.id;
-							        console.log("Selected ID: " + selectedId); // 선택된 아이디 값을 콘솔에 출력
-							      });
-							    });
-
-								document.querySelector('.on a').addEventListener('click', function(event) {
-									  event.preventDefault();
-									  var url = event.target.href;
-									  if (selectedId) {
-									    url += selectedId;
-									    console.log("Redirecting to: " + url); // 이동할 URL을 콘솔에 출력합니다.
-									  }
-									  window.location.href = url;
-									});
-								
+							 var selectedContainer = null;
 							 
-// 								locations.forEach(function(location) {
-// 								  var container = document.getElementById(location.id);
-// 								  if (container) { // 컨테이너 ID가 존재하는 경우에만 클릭 이벤트를 할당합니다.
-// 								    container.onclick = function() {
-// 								      changeImage(location.imageSrc, location.lat, location.lng);
-// // 								      changeNotice(location.id);
-// 								    };
-// 								  }
-// 								});
+							 locations.forEach(function(location) {
+							   var container = document.getElementById(location.id);
+							   if (container) { 
+							     container.onclick = function() {
+							       changeImage(location.imageSrc, location.lat, location.lng);
+							       selectedId = location.id; // 클릭한 위치의 ID를 변수에 저장합니다
+							       var theaterElements = document.getElementsByName("theaterNames");
+							       for (var i = 0; i < theaterElements.length; i++) {
+							         var value = theaterElements[i].value;
+							       }
+							       
+							       if (selectedContainer) {
+							         selectedContainer.style.backgroundColor = ''; // 체크된 버튼의 배경색을 원래의 배경색으로 변경합니다
+							       }
+							       
+							       // 선택한 버튼의 배경색을 변경합니다
+							       container.style.backgroundColor = 'purple';
+							       
+							       // 선택한 버튼을 selectedContainer 변수에 저장합니다
+							       selectedContainer = container;
+							       
+							       changeImageIfNeeded();
+							     };
+							   }
+							 });
+
+
+
+							 var buttons = document.querySelectorAll('input[type="button"]');
+							 buttons.forEach(function(button) {
+							   button.addEventListener('click', function(event) {
+							     // 선택된 버튼의 아이디 값을 가져와서 변수에 저장
+							     selectedId = event.target.id;
+							   });
+							 });
+
+							 document.querySelector('.on a').addEventListener('click', function(event) {
+							   event.preventDefault();
+							   var url = event.target.href;
+							   if (selectedId) {
+							     url += selectedId;
+							   }
+							   window.location.href = url;
+							 });
+							 
+							 document.querySelector('.last a').addEventListener('click', function(event) {
+							   event.preventDefault();
+							   var url = event.target.href;
+							   if (selectedId) {
+							     url += selectedId;
+							   }
+							   window.location.href = url;
+							 });
+
 							</script>
 						</div>
 					</div>
