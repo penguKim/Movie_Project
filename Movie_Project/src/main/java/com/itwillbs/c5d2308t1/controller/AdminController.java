@@ -37,6 +37,7 @@ import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.service.ReserveService;
 import com.itwillbs.c5d2308t1.service.StoreService;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.EventsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageCount;
@@ -855,6 +856,295 @@ public class AdminController {
 			return "fail_back";
 		}
 	}
+	// ******************** 이벤트 등록 관리 페이지 ************************************
+	// 관리자페이지 이벤트 관리 페이지로 이동
+	@GetMapping("adminEvent")
+	public String adminEvent(@RequestParam(defaultValue = "") String searchKeyword, 
+							 @RequestParam(defaultValue = "allMovie") String sortMovie,
+						     @RequestParam(defaultValue = "1") int pageNum, 
+						     MemberVO member, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
+		
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 15);
+		// 전체 게시글 갯수 조회
+		int listCount = service.getEventListCount(searchKeyword);
+		System.out.println(listCount);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		// 한 페이지에 불러올 이벤트 목록 조회
+		List<EventsVO> eventList = service.getEventList(searchKeyword, page);
+		
+		model.addAttribute("eventList", eventList);
+		model.addAttribute("pageInfo", pageInfo);
+		
+		
+		return "admin/admin_event";
+	}
+	
+	// 관리자페이지 이벤트 등록 페이지로 이동
+	@GetMapping("adminEventRgst")
+	public String adminEventRgst(HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
+		return "admin/admin_event_regist";
+	}
+	
+	@PostMapping("eventRgst")
+	public String eventRgst(EventsVO event, HttpSession session, Model model) {
+
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
+		
+		String uploadDir = "/resources/upload"; // 가상 디렉토리
+		String saveDir = session.getServletContext().getRealPath(uploadDir); // 실제 디렉토리
+		String subDir = "";
+//		
+		// 날짜별로 서브디렉토리 생성하기
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		subDir = now.format(dtf);
+		
+		saveDir += File.separator + subDir;
+		
+		try {
+			Path path = Paths.get(saveDir); // 업로드 경로
+			Files.createDirectories(path); // Path 객체
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile thumnailFile = event.getEventFile1();
+		MultipartFile imageFile = event.getEventFile2();
+		
+		// 파일명 중복을 방지하기 위해 난수 생성하기
+		event.setEvent_thumnail("");
+		event.setEvent_image("");
+		String thumnailFileName = UUID.randomUUID().toString() + "_" + thumnailFile.getOriginalFilename();
+		String imageFileName = UUID.randomUUID().toString() + "_" + imageFile.getOriginalFilename();
+		
+		if(!thumnailFile.getOriginalFilename().equals("")) {
+			event.setEvent_thumnail(subDir + "/" + thumnailFileName);
+		}
+		if(!imageFile.getOriginalFilename().equals("")) {
+			event.setEvent_image(subDir + "/" + imageFileName);
+		}
+		
+		System.out.println("업로드 썸네일 확인 : " + event.getEvent_thumnail());
+		System.out.println("업로드 이미지 확인 : " + event.getEvent_image());
+		
+		int insertCount = service.registEvent(event);
+		
+		if(insertCount > 0) {
+			try {
+				
+				if(!thumnailFile.getOriginalFilename().equals("")) {
+					thumnailFile.transferTo(new File(saveDir, thumnailFileName));
+				}
+				
+				if(!imageFile.getOriginalFilename().equals("")) {
+					imageFile.transferTo(new File(saveDir, imageFileName));
+				}
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return "redirect:/adminEvent";
+			
+		} else {			
+			model.addAttribute("msg", "이벤트 등록 실패!");
+			return "fail_back";
+		}
+	}
+	
+	// 이벤트 삭제 처리
+	@PostMapping("eventDlt")
+	public String enveDlt(EventsVO event, @RequestParam(defaultValue = "1") String pageNum,
+							HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
+		
+		event = service.getEvent(event);
+		
+		int deleteCount = service.deleteEvent(event);
+		
+		if(deleteCount > 0) { // DB 에서 게시물(레코드) 삭제 성공 시
+			try {
+				String uploadDir = "/resources/upload"; // 가상의 경로(이클립스 프로젝트 상에 생성한 경로)
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				
+				if(!event.getEvent_thumnail().equals("")) {
+					Path path = Paths.get(saveDir + "/" + event.getEvent_thumnail());
+					Files.deleteIfExists(path);
+				}
+				
+				if(!event.getEvent_image().equals("")) {
+					Path path = Paths.get(saveDir + "/" + event.getEvent_image());
+					Files.deleteIfExists(path);
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/adminEvent?pageNum=" + pageNum;
+		} else {
+			model.addAttribute("msg", "이벤트 삭제 실패!");
+			return "fail_back";
+		}
+	}
+	
+	// 이벤트 파일 삭제 처리
+	@ResponseBody
+	@PostMapping("eventDeleteFile")
+	public String eventDeleteFile(EventsVO event, HttpSession session) {
+		System.out.println("전달받은 파라미터 : " + event);
+		
+		int removeCount = service.removiEventFile(event);
+		
+		try {
+			if(removeCount > 0) {
+				String uploadDir = "/resources/upload";
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				
+				if(!event.getEvent_thumnail().equals("")) {
+					Path path = Paths.get(saveDir + "/" + event.getEvent_thumnail());
+					Files.deleteIfExists(path);
+					System.out.println("파일 삭제 성공!");
+					
+					return "true";
+				}
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return "false";
+	}
+	
+	
+	// 이벤트 수정 게시판으로 이동
+	@GetMapping("adminEventMod")
+	public String adminEventMod(EventsVO event, HttpSession session, Model model) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
+		
+		event = service.getEvent(event);
+		
+		if(event != null) {
+			model.addAttribute("event", event);
+			return "admin/admin_event_modify";
+		} else {
+			model.addAttribute("msg", "없는 이벤트입니다!");
+			return "fail_back";
+		}
+		
+	}
+	
+	@PostMapping("eventMod")
+	public String eventMod(EventsVO event, @RequestParam(defaultValue = "1") String pageNum,
+							HttpSession session, Model model) {
+		
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
+		
+		String uploadDir = "/resources/upload"; 
+		String saveDir = session.getServletContext().getRealPath(uploadDir);
+		
+		String subDir = "";
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		subDir = now.format(dtf);
+		
+		saveDir += File.separator + subDir;
+		
+		try {
+			Path path = Paths.get(saveDir); // 파라미터로 업로드 경로 전달
+			Files.createDirectories(path); // 파라미터로 Path 객체 전달
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile thumnailFile = event.getEventFile1();
+		MultipartFile imageFile = event.getEventFile2();
+		
+		// 파일명 중복을 방지하기 위해 난수 생성하기
+		event.setEvent_thumnail("");
+		event.setEvent_image("");
+		
+		
+		String thumnailFileName = "";
+		String imageFileName = "";
+		
+		if(thumnailFile != null && !thumnailFile.getOriginalFilename().equals("")) {
+			thumnailFileName = UUID.randomUUID().toString() + "_" + thumnailFile.getOriginalFilename();
+			event.setEvent_thumnail(subDir + "/" + thumnailFileName);
+		}
+		if(imageFile != null && !imageFile.getOriginalFilename().equals("")) {
+			imageFileName = UUID.randomUUID().toString() + "_" + imageFile.getOriginalFilename();
+			event.setEvent_image(subDir + "/" + imageFileName);
+		}
+		
+		System.out.println("업로드 썸네일 확인 : " + event.getEvent_thumnail());
+		System.out.println("업로드 이미지 확인 : " + event.getEvent_image());
+		
+		int insertCount = service.modifyEvent(event);
+		
+		if(insertCount > 0) {
+			try {
+				
+				if(!event.getEvent_thumnail().equals("")) {
+					thumnailFile.transferTo(new File(saveDir, thumnailFileName));
+				}
+				
+				if(!event.getEvent_image().equals("")) {
+					imageFile.transferTo(new File(saveDir, imageFileName));
+				}
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return "redirect:/adminEvent?pageNum=" + pageNum;
+			
+		} else {			
+			model.addAttribute("msg", "이벤트 등록 실패!");
+			return "fail_back";
+		}
+	}
+	
+	
 	// ******************** 스토어 결제 관리 페이지 ************************************
 	// 관리자페이지 스토어결제 관리 페이지로 이동
 	@GetMapping("adminPayment")

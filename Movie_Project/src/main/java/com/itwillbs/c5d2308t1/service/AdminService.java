@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.c5d2308t1.mapper.AdminMapper;
 import com.itwillbs.c5d2308t1.vo.CsVO;
+import com.itwillbs.c5d2308t1.vo.EventsVO;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.MoviesVO;
 import com.itwillbs.c5d2308t1.vo.PageDTO;
@@ -339,6 +340,41 @@ public class AdminService {
 	// 결제관리 상세페이지 결제취소 요청 작업
 	public int getPaymentBuyCancel(Map<String, String> map) {
 		return mapper.updatePaymentBuyCancel(map);
+	}
+
+	// 이벤트 등록 작업
+	public int registEvent(EventsVO event) {
+		return mapper.insertEvent(event);
+	}
+
+	// 이벤트 게시판 페이징 처리
+	public int getEventListCount(String searchKeyword) {
+		return mapper.selectEventListCount(searchKeyword);
+	}
+
+	// 이벤트 게시판 목록 조회
+	public List<EventsVO> getEventList(String searchKeyword, PageDTO page) {
+		return mapper.selectEventList(searchKeyword, page);
+	}
+
+	// 이벤트 상세 페이지를 위한 이벤트 조회
+	public EventsVO getEvent(EventsVO event) {
+		return mapper.selectEvent(event);
+	}
+
+	// 이벤트 삭제 작업
+	public int deleteEvent(EventsVO event) {
+		return mapper.deleteEvent(event);
+	}
+
+	// 이벤트 수정 - 파일 삭제
+	public int removiEventFile(EventsVO event) {
+		return mapper.updateEventFile(event);
+	}
+
+	// 이벤트 수정
+	public int modifyEvent(EventsVO event) {
+		return mapper.updateEvent(event);
 	}
 
 
