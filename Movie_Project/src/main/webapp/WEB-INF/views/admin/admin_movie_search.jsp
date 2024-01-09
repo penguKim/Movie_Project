@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>영화 등록</title>
+<title>iTicket 영화 검색 및 등록</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

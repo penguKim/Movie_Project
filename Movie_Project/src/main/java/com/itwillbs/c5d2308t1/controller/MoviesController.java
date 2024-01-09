@@ -104,7 +104,7 @@ public class MoviesController {
 		
 		List<ReviewsVO> reviewSelect = service.getreview(review);
 		System.out.println(reviewSelect);
-		model.addAttribute("movieReview",reviewSelect );
+		model.addAttribute("movieReview",reviewSelect);
 		
 		ModelAndView mav = new ModelAndView("movie/detail", map);
 		return mav;
@@ -310,11 +310,17 @@ public class MoviesController {
 //			System.out.println("시간없다 말좀듣자" + sId);
 			
 			int insertCount = service.registReview(sId, review_content, movie_id);
-			
 			model.addAttribute("reviews", insertCount);
+			if(insertCount > 0) {
+				
+				return "movie/detail"+ movie_id;
+				
+			} else {			
+				model.addAttribute("msg", "리뷰 등록 실패!");
+				return "fail_back";
+			}
 			
 			
-        return "movie/detail"+ movie_id;
     }//reviewPro 끝 
 
 	

@@ -105,20 +105,18 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				datatype: "json",
 				success: function(data) { // 요청 성공
 					
-					$("#review_tr").after( //id="review_tr" 뒤에 데이터들 출력하기
-						"<tr>"	
-						+ "<td>" + member_id + "</td>"	
-						+ "<td>" + review_content + "</td>"	
-						+ "<td>" + formattedDate  + "</td>"	
-						+ "</tr>"	
-					);
-					
+						$("#review_tr").after( //id="review_tr" 뒤에 데이터들 출력하기
+							"<tr>"	
+							+ "<td>" + member_id + "</td>"	
+							+ "<td>" + review_content + "</td>"	
+							+ "<td>" + formattedDate  + "</td>"	
+							+ "</tr>"	
+						);
 					
 					// 리뷰가 5개 이상일 경우 가장 아래에 있는 리뷰 삭제
 		            if ($("#review_no tr").length > 5) {
 		                $("#review_no tr:last-child").remove();
 		            }
-				
 					console.log("성공");
 				},
 				error: function(request, status, error) { // 요청 실패

@@ -117,7 +117,7 @@ public class ReserveController {
 	
 	
 	//마이페이지 예매내역 처리
-	@GetMapping("Mypage_Reserv_boardList")
+	@GetMapping("MypageReservboardList")
 	public String mypage_Reserv_boardList(Map<String, Object> map, Model model, HttpSession session,@RequestParam(defaultValue = "1") int pageNum) { // 예매내역 게시판
 		String sId = (String)session.getAttribute("sId");
 		List<HashMap<String, String>> resList = reserve.getReserveList(sId);

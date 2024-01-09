@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인</title>
+<title>iTicket 로그인</title>
 <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <!-- 네이버 api를 위한 script -->

@@ -8,16 +8,16 @@
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="Mypage_Reserv_boardList">예매내역</a>
+		<a href="MypageReservboardList">예매내역</a>
 		<a href="MypageProductboardList">상품구매내역</a>
 	</div>
 	<button class="dropdown-btn">나의게시글 
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="Mypage_OneOnOneList">1:1문의</a>
-		<a href="Mypage_LostBoard_List">분실물문의</a>
-		<a href="Mypage_ReviewList">나의리뷰</a>
+		<a href="MypageOneOnOneList">1:1문의</a>
+		<a href="MypageLostBoard_List">분실물문의</a>
+		<a href="MypageReviewList">나의리뷰</a>
 	</div>
 	<button class="dropdown-btn">회원정보 
 		<i class="fa fa-caret-down"></i>

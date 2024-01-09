@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 상세 게시판</title>
+<title>iTicket 리뷰 상세 게시판</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

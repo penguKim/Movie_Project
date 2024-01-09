@@ -32,7 +32,7 @@
 				
 			<!-- 바디부분 시작 -->
 			
-			<form action="Mypage_LostBoard_List" method="get" name="checkform">
+			<form action="MypageLostBoardList" method="get" name="checkform">
 				<div id="my_list">
 					<h2>분실물 문의</h2>
 					<table id="MyOneOnOneTable">
@@ -50,7 +50,7 @@
 								<c:otherwise>
 									<c:forEach var="myLostBoardList" items="${myLostBoardList}" varStatus="status">
 										<tr>
-											<td id="myLostBoardList"><a href="Mypage_LostBoardDetail?cs_id=${myLostBoardList.cs_id }">${myLostBoardList.cs_subject }</a></td>
+											<td id="myLostBoardList"><a href="MypageLostBoardDetail?cs_id=${myLostBoardList.cs_id }">${myLostBoardList.cs_subject }</a></td>
 											<td>${myLostBoardList.theater_name }</td>
 											<td>${myLostBoardList.cs_date }</td>
 										</tr>

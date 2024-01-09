@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>iTicket 마이페이지</title>
+<title>iTicket 1:1문의 게시판</title>
 <%-- 글씨체 --%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content">	
-			<h1 id="h01">나의 게시글</h1>
+			<h1 id="h01">1:1 문의 게시판</h1>
 			<hr>
 			
 			<div id="mypage_nav"> <%-- 사이드 메뉴바 --%>
@@ -63,7 +63,7 @@
 									<c:forEach var="ooo" items="${myOneOnOneList }">
 										<tr id="move_menu">
 											<c:set var="cs_subject" value="${ooo.cs_subject }"/>
-											<td id="MyOneOnOneSubject"><a href="Mypage_OneOnOneDetail?cs_id=${ooo.cs_id }">
+											<td id="MyOneOnOneSubject"><a href="MypageOneOnOneDetail?cs_id=${ooo.cs_id }">
 												<c:choose>
 													<c:when test="${fn:length(cs_subject) > 30 }">
 														${fn:substring(cs_subject, 0, 28) }...

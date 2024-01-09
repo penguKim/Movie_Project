@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예매 상세 페이지</title>
+<title>iTicket 예매 상세 페이지</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>

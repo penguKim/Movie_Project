@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 관리</title>
+<title>iTicket 리뷰 관리</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <style type="text/css">
@@ -84,10 +84,10 @@ $(document).ready(function(){
 <!-- 			</div> -->
 			
 			<div id="admin_main">
-				<div id="review_Search">
-					<input type="text" id="searchInput" placeholder="아이디 또는 영화명 입력">
-					<input type="button" id="searchButton" value="조회">
-				</div>
+<!-- 				<div id="review_Search"> -->
+<!-- 					<input type="text" id="searchInput" placeholder="아이디 또는 영화명 입력"> -->
+<!-- 					<input type="button" id="searchButton" value="조회"> -->
+<!-- 				</div> -->
 <!-- 				<form action="reviewDlt" method="get"> -->
 					<table border="1" width="1100">
 						<tr>

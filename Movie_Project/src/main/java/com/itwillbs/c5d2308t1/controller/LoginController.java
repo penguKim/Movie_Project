@@ -327,7 +327,7 @@ public class LoginController {
 		}
 	}
 		
-	@GetMapping("Mypage_ReviewList")//리뷰 페이지로 이동
+	@GetMapping("MypageReviewList")//리뷰 페이지로 이동
 	public String Mypage_ReviewList(@RequestParam(defaultValue = "1") int pageNum ,HttpSession session, Model model, ReviewsVO review) {
 		String sId = (String)session.getAttribute("sId");
 		review.setMember_id(sId); //현재 세션에 저장된 Id를 가져와서 review 객체의 member_id에 설정
@@ -411,7 +411,7 @@ public class LoginController {
 	// ============================================================================	
 	// =====================마이페이지 나의게시글 1대1문의 내역==================
 	// 마이페이지 나의 게시글 1대1문의 내역 조회 게시판으로 이동
-	@GetMapping("Mypage_OneOnOneList")
+	@GetMapping("MypageOneOnOneList")
 	public String mypage_OneOnOneList(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model, MemberVO member) {
 		String sId = (String)session.getAttribute("sId");
 		member.setMember_id(sId);
@@ -450,8 +450,8 @@ public class LoginController {
 
 	
 	// 마이페이지 나의 게시글 1대1문의 상세 조회
-	@GetMapping("Mypage_OneOnOneDetail")
-	public String Mypage_OneOnOneDetail(HttpSession session, Model model, CsVO cs) {
+	@GetMapping("MypageOneOnOneDetail")
+	public String MypageOneOnOneDetail(HttpSession session, Model model, CsVO cs) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -521,7 +521,7 @@ public class LoginController {
 	
 	
 	// 분실물 문의 게시판으로 이동
-	@GetMapping("Mypage_LostBoard_List")
+	@GetMapping("MypageLostBoard_List")
 	public String LostBoard(@RequestParam(defaultValue = "1") int pageNum,Model model, HttpSession session, CsVO myCs) { 
 		
 		String sId = (String)session.getAttribute("sId");
@@ -670,7 +670,7 @@ public class LoginController {
 	}
 	
 	// 마이페이지 분실물 상세 조회
-		@GetMapping("Mypage_LostBoardDetail")
+		@GetMapping("MypageLostBoardDetail")
 		public String LostBoardDetail(HttpSession session,Model model, CsVO cs) {
 			
 			// cs_id가 저장된 cs 객체 전달하여 게시글 가져오기(극장명이 포함되어 HashMap 객체로 저장)
