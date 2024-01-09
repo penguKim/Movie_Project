@@ -35,7 +35,6 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				let movies = data.movieListResult.movieList;
-				$("#movieInfo").empty();
 				$("#selectBox").empty().append("<option selected disabled>영화를 선택해주세요</option>");
 				//영화제목을 검색했을때 감독,상영일이 있으면 반복문 통해서 출력
 				for(let movie of movies) { // movies배열에 값들을 movie변수에 저장
@@ -52,7 +51,7 @@ $(document).ready(function(){
 				}; //for문 끝
 			}, //success 끝
 			error: function(){
-				$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
+				alert("박스오피스 API영화 정보를 가져오는데 실패했습니다");
 			} //error 끝
 		}); //ajax 끝
 	}); // button 끝
@@ -60,12 +59,11 @@ $(document).ready(function(){
 	
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 			
-		$("#selectBox").on("click", function(){
+		$("#selectBox").on("change", function(){
 			let kmdbKey = "C7643LD2JV0X8LAV20YO";
 			let title = $("#selectBox option:selected").text(); // 선택된 영화의 제목을 가져옵니다.
 			let movieCd = $("#selectBox option:selected").data("moviecd");
 			let director = $("#selectBox option:selected").data("director");
-// 			let movieCd = 
 			$.ajax({
 				type: "get",
 				dataType: "json",
@@ -73,7 +71,7 @@ $(document).ready(function(){
 				data:{
 					detail: "Y",
 					movieCd : movieCd,
-					director : director,
+					director : director
 					
 				},
 				success: function(kmdb){
@@ -84,12 +82,15 @@ $(document).ready(function(){
 					$("#movie_id").val(movieCd);
 					// 영화 제목
 					$("#movie_title").val(title);
+					//관람객수
+					$("#movie_audience").val("0");
 					// 제작국가
 				  	let nation = kmdb.Data[0].Result[0].nation;
 					$("#movie_nation").val(nation);
 					// 장르
 				  	let genre = kmdb.Data[0].Result[0].genre;
 					$("#movie_genre").val(genre);
+					
 					// 제작년도
 					let prodYear = kmdb.Data[0].Result[0].prodYear;
 					$("#movie_prdtYear").val(prodYear);
@@ -150,7 +151,7 @@ $(document).ready(function(){
 						
 				}, //success 끝
 				error: function(){
-					$("#movieInfo").html("영화 정보를 가져오는데 실패했습니다");
+					alert("kmdbAPI영화 정보를 가져오는데 실패했습니다");
 				} //error 끝
 			}); //ajax 끝
 	
@@ -175,14 +176,11 @@ $(document).ready(function(){
 		<hr>
 		<div id="admin_main">
 			<div id="adminSearch">
-				<form id="searchForm">
+<!-- 				<form id="searchForm" > -->
 					<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearch" value="검색">
-				</form>
+<!-- 				</form> -->
 		<div>
 			<select name="selectBox" id="selectBox" style="display: none;">
-				<option selected disabled>영화를 선택해주세요</option>
-				<option value="option2">Option 1</option>
-				<option value="option3">Option 2</option>
 			</select>
 		</div>
 		

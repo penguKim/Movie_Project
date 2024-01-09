@@ -41,17 +41,14 @@ public interface MoviesMapper {
 	// 모든 영화 가져오기
 	List<MoviesVO> selectAllMovie();
 	
-	//영화 리뷰
-	int insertReviewBoard(ReviewBoardVO review1);
+//	//영화 리뷰
+//	int insertReviewBoard(ReviewBoardVO review1);
 
 	int insertMovie(MoviesVO movie);
 
 	// 스케쥴러에서 사용하는 일일 관객수 업데이트 메서드
 	int updateMovieAudiAcc(MoviesVO movie);
 	
-	//리뷰 조회
-//	List<ReviewsVO> selectReview(Map<String, String> map);
-
 //	//리뷰 작성
 	int insertReviewBoard(@Param("sId")String sId, @Param("review_content")String review_content, @Param("movie_id")String movie_id);
 

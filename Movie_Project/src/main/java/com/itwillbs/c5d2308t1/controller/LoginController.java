@@ -58,7 +58,7 @@ public class LoginController {
 	@GetMapping("memberLogin") //메인화면에서 로그인 버튼 클릭시 이동
 	public String memberLogin(HttpServletRequest request, HttpSession session, Model model) {
 	    String sId = (String) session.getAttribute("sId");
-	    if (sId != null) {
+	    if (sId != null) { // 세션아이디 있을경우 fail_back
 	        model.addAttribute("msg", "이미 로그인되어 있습니다");
 	        return "fail_back";
 	    }	

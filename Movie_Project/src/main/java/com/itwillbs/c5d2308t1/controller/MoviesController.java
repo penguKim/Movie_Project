@@ -302,15 +302,12 @@ public class MoviesController {
 	
 	
 	//리뷰-----
-	//member_id값이 있고 영화상영일 + 상영종료시간 이후에 리뷰작성이 가능함
-	//내가 본 영화페이지에 리뷰값이 있어야한다
-	// 리뷰 작성후 등록 버튼 클릭시 데이터 출력하기
-
 	@ResponseBody
 	@PostMapping("reviewPro")
-    public String reviewBoard(HttpSession session, Model model, Map<String, String> map, @RequestParam String movie_id, @RequestParam String review_content, HttpServletRequest request) {
+    public String reviewBoard(HttpSession session, Model model, @RequestParam String movie_id, @RequestParam String review_content, HttpServletRequest request) {
 			String sId = (String)session.getAttribute("sId"); //현재 로그인 중인 아이디 sId 저장
 			model.addAttribute("sId",sId);
+//			System.out.println("시간없다 말좀듣자" + sId);
 			
 			int insertCount = service.registReview(sId, review_content, movie_id);
 			
@@ -319,7 +316,6 @@ public class MoviesController {
 			
         return "movie/detail"+ movie_id;
     }//reviewPro 끝 
-
 
 	
 } //MoviesController 끝

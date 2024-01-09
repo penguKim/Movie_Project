@@ -82,41 +82,45 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 
 	var formattedDate = year + "-" + month + "-" + day; //연도,월,일을 formattedDate변수 저장
 	$("#submitReview").click(function(){ //클릭시 실행되는 함수
+// 		alert(member_id);
 	var review_content = $("#review_content").val();
-	console.log(review_content);
+	if(member_id == "null") {
+	    alert("로그인 후 리뷰작성이 가능합니다");
+	    location.href="memberLogin";
+	
+	} else {
 		$.ajax({
-			url: "reviewPro", // 데이터를 가지고 보낼 주소
-			type: "POST",
-			data: {
-					review_content : review_content, 
-					member_id : member_id,
-					movie_id : movie_id
-			},
-			datatype: "json",
-			success: function(data) { // 요청 성공
+				url: "reviewPro", // 데이터를 가지고 보낼 주소
+				type: "POST",
+				data: {
+						review_content : review_content, 
+						member_id : member_id,
+						movie_id : movie_id
+				},
+				datatype: "json",
+				success: function(data) { // 요청 성공
+					
+					$("#review_tr").after( //id="review_tr" 뒤에 데이터들 출력하기
+						"<tr>"	
+						+ "<td>" + member_id + "</td>"	
+						+ "<td>" + review_content + "</td>"	
+						+ "<td>" + formattedDate  + "</td>"	
+						+ "</tr>"	
+					);
+					
+					
+					// 리뷰가 5개 이상일 경우 가장 아래에 있는 리뷰 삭제
+		            if ($("#review_no tr").length > 5) {
+		                $("#review_no tr:last-child").remove();
+		            }
 				
-				
-				
-				$("#review_tr").after( //id="review_no" 뒤에 데이터들 출력하기
-					"<tr>"	
-					+ "<td>" + member_id + "</td>"	
-					+ "<td>" + review_content + "</td>"	
-					+ "<td>" + formattedDate  + "</td>"	
-					+ "</tr>"	
-				);
-				
-				
-				// 리뷰가 5개 이상일 경우 가장 아래에 있는 리뷰 삭제
-	            if ($("#review_no tr").length > 5) {
-	                $("#review_no tr:last-child").remove();
-	            }
-			
-				console.log("성공");
-			},
-			error: function(request, status, error) { // 요청 실패
-				console.log("실패");
-			}
-		});//ajax
+					console.log("성공");
+				},
+				error: function(request, status, error) { // 요청 실패
+					console.log("실패");
+				}
+			});//ajax
+	};
 	}); //click
 });
 </script>
@@ -252,9 +256,6 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 		
 	});
 	
-	java.util.Date now = new java.util.Date();
-	long nowTime = now.getTime();
-	pageContext.setAttribute("nowTime", nowTime);
 </script>
 </head>
 <body>
@@ -334,13 +335,13 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			     <div class="review" id="review">
 			    	<hr>
 				    	<h2>리뷰</h2>
-						<form action="reviewPro" method="post">
+<!-- 						<form action="reviewPro" method="post"> -->
+<%-- 						<c:if test="${not empty sessionScope.sId and (sessionScope.sId eq member.member_id)}"></c:if> --%>
+						    	<input type="text" name="review_content" placeholder="리뷰 입력" id="review_content">
+						    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
+						    	<input type="hidden" name="movie_id" value="${movie_id}">
 						
-						<c:if test="${not empty sessionScope.sId and (sessionScope.sId eq member.member_id) and (reviewr1.play_date > nowTime)}"></c:if>
-					    	<input type="text" name="review_content" placeholder="리뷰 입력" id="review_content">
-					    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
-					    	<input type="hidden" name="movie_id" value="${movie_id}">
-						</form>
+<!-- 						</form> -->
 				    	<br>
 		    			<table id="review_no">
 		    			<tr id="review_tr">

@@ -78,10 +78,6 @@ public class MoviesService {
 		System.out.println("insertMovie");
 		return mapper.insertMovie(movie);
 	}
-	//리뷰 조회
-//	public List<ReviewsVO> getreview(Map<String, String> map) {
-//		return mapper.selectReview(map);
-//	}
 	
 	//리뷰작성
 	public int registReview(String sId, String review_content, String movie_id) {
