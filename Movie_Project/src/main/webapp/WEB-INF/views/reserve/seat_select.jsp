@@ -32,6 +32,9 @@
     	color: #fff;
     	font-size: 12px;
     }
+    .seatSelectPage_Result_M{
+		white-space: nowrap;
+    }
     #seat_select {
     	background-color: #f1f0e5;
    		padding-bottom: 20px;
