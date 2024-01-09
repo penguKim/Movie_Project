@@ -503,6 +503,14 @@ input[type="search"] {
 	height: 200px;
 }
 
+#content_table {
+	text-align: left;
+	margin: 0;
+	white-space: pre-wrap;
+	font-family: "Noto Sans KR";
+}
+
+
 
 /* ======== 1 : 1 문의와 분실물 문의에 적용할 css ======== */
 

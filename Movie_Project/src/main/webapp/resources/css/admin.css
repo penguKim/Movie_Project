@@ -25,9 +25,6 @@ body {
 	width: 100%;
 }
 
-pre { /* pre 태그 기존 폰트와 동일하게 통일 */
-	font-family: "Noto Sans KR";
-}
 
 /* ------------- 관리자페이지 네비바 부분 -------------- */
 navbar { 
@@ -212,6 +209,7 @@ a {
 	margin: 0;
 	white-space: pre-wrap;
 	min-height: 250px;
+	font-family: "Noto Sans KR";
 }
 
 #admin_sub input[type="text"], #admin_sub input[type="password"] {

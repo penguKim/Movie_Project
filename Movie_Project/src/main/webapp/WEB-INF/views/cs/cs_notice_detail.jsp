@@ -47,7 +47,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="4"  class="notice_content">${csNoticeDetail.cs_content}</td>
+						<td colspan="4"  class="notice_content"><pre id="content_table">${csNoticeDetail.cs_content}</pre></td>
 					</tr>
 					<tr>
 						<td>이전  ▲</td>

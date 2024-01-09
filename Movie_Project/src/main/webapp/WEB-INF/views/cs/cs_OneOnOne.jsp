@@ -151,7 +151,7 @@
 					회사는 1:1 문의 내역의 확인, 요청사항 처리 또는 완료 시 원활한 의사소통 경로 확보를 위해 수집하고 있습니다.<br>
 					<br>
 					<b>[필수 수집하는 개인정보의 항목]</b><br>
-					이름, 휴대전화, 이메일, 문의내용<br>
+					아이디, 문의내용<br>
 					<br>
 					<b>[개인정보의 보유기간 및 이용기간]</b><br>
 					문의 접수 ~ 처리 완료 후 3년<br>
@@ -198,7 +198,7 @@
 							<td colspan="3"><textarea name="cs_content"></textarea></td>
 						</tr>
 						<tr>
-							<th>첨부파일</th>
+							<th>첨부이미지</th>
 							<td colspan="3"><input type="file" id="file" name="mFile" accept=".gif, .jpg, .png"></td>
 							<input type="hidden" name="cs_type" value="1대1문의">
 						</tr>

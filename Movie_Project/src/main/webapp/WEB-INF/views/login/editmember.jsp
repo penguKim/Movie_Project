@@ -285,18 +285,36 @@ $(function() {
 			}
 		}
 	}
-		if ($("#memberDie").is(":focus")) {
-			
+		
+		if($("#memberDie").is(":focus")) {
 			return confirm("회원 탈퇴 하시겠습니까?"); 
 		}
-		
 		return confirm("회원 정보를 수정하시겠습니까?"); // submit 동작 수행(생략 가능)
 
 	});
 	
-	
-	
 });
+</script>
+<script>	
+	$(function() {
+		// 네이버 아이디의 경우 비밀번호 변경 비활성화
+		var sId = '<%= session.getAttribute("sId") %>';
+	
+		if(sId.split("@")[1] == "naver.com") {
+			$("#oldPasswd").prop("disabled", true);
+			$("#newPasswd").prop("disabled", true);
+			$("#newPasswd2").prop("disabled", true);
+			
+			$("#notice").text("네이버 회원의 경우 정보 열람만 가능합니다").css("color", "red");
+			
+			$("memberDie").Click(function() {
+				if(confirm("탈퇴하시겠습니까?")) {
+					return true;
+				}
+				return false;
+			});
+		}
+	});
 </script>
 </head>
 <body>
@@ -314,11 +332,12 @@ $(function() {
 				<h2 id="login_top">회원정보입력</h2>
 				
 				<div class="login_center">
+					<div id="notice"></div>
 					<!-- 이름 변경 불가능 아이디 데이터에 있는 이름값 받아서 적용 -->
 					<!-- readonly 에서 disabled 로 변경 -->
-					<input type="text" name="name" id="name" value="${member.member_name }" disabled="disabled"><br>
+					<input type="text" name="name" id="name" value="${member.member_name }" disabled><br>
 					<!-- 아이디 변경 불가능 session 값에서 받아와 입력란에 적용 시킬예정 -->
-					<input type="text" name="id" id="id" value="${sessionScope.sId }" disabled="disabled"><br>
+					<input type="text" name="id" id="id" value="${sessionScope.sId }" disabled><br>
 	<!-- 						<span id="checkIdResult"></span> -->
 					<!-- 기존 비밀번호 입력 창 추가 -->
 	<!-- 				<input type="password" name="passwd" id="passwd" placeholder="기존 비밀번호를 입력하세요"><br> -->
@@ -342,11 +361,11 @@ $(function() {
 					<!-- 생년월일 변경 불가능 아이디 데이터에 있는 생년월일값 받아서 적용 -->
 					<!-- 변경 불가 에서 생년월일로 변경 -->
 					<div id="checkNameResult" class="resultArea"></div>
-					<input type="tel" placeholder="${member.member_phone }" name="member_phone" id="phone" maxlength="13" readonly>
-					<input type="text" name="member_birth" id="member_birth" value="${member.member_birth }" disabled="disabled"><br>
+					<input type="tel" placeholder="${member.member_phone }" name="member_phone" id="phone" maxlength="13" disabled>
+					<input type="text" name="member_birth" id="member_birth" value="${member.member_birth }" disabled><br>
 					<!-- 이메일 변경을 위한 인증 버튼 추가 -->
 					<!-- 이메일 변경은 인증은 API 작업, 회원가입 시 작업과 동일 할 예정 -->
-					<input type="text" name="email" size="8" id="email" placeholder="${member.member_email }" readonly><br>
+					<input type="text" name="email" size="8" id="email" placeholder="${member.member_email }" disabled><br>
 					<div id="login_button">
 						<input type="submit" value="회원탈퇴" formaction="memberDie" id="memberDie">
 						<input type="submit" value="정보수정" formaction="Editmember" id="update">
