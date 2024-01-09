@@ -200,6 +200,7 @@ public class LoginService {
 		return mapper.selectMyReviewList(sId,page);
 	}
 
+
 	
 	
 }

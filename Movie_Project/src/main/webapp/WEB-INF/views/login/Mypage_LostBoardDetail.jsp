@@ -10,7 +10,7 @@
 <style type="text/css">
 
 </style>
-<title>분실물 문의 상세</title>
+<title>iTicket 분실물 문의 상세</title>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <%-- <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css"> --%>
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">

@@ -30,22 +30,34 @@ a {
 	margin: 20px auto;
 } 
 
+#find{
+/* 	background: #433581; */
+color:#433581; 
+}
+
 .theater1>input {
 	background-color:#433581; /* 메뉴바 색깔 변경 */
 	color : white; /* 글자색을 흰색으로 */
 	width: 150px; height: 30px; /* 가로 세로 크기 */ 
 	border-radius:10px 10px 10px 10px ; /* 둥글이? */
 	text-align: center;  /* 글자를 가운데로 */
-	line-height: 30px /* 행간=영역의 높이값
-	수직정렬 가운데 */;
+	line-height: 30px; /* 행간=영역의 높이값 */
 	margin: 5px;
+	/*수직정렬 가운데 */
 }
 
 .theater1>input:hover {
 	cursor: pointer;
 	background-color:#331f62;
 }
- 
+
+	
+.theater1>input:checked {
+ background-color: #FF0000; /* 예시로 선택된 버튼의 배경색을 빨간색으로 설정합니다. */
+  color: #FFFFFF; /* 예시로 선택된 버튼의 텍스트 색상을 흰색으로 설정합니다. */
+}
+
+
 td>a{
 	text-decoration-line: none; /* 공지사항에 a 태그 밑줄 없앰 */
 	color: black;} /* 공지사항 a태그 글자색 변경*/
@@ -103,6 +115,7 @@ ul>li>a{
 .tab-menu li {
     display: inline-block;
     margin-left: -4px;
+    background: #433581;
 }
 
 .tab-menu li a {
@@ -110,12 +123,29 @@ ul>li>a{
     position: relative;
     height: 39px;
     padding: 0 15px;
-    background: #fb4357 url(../images/common/bg/bg_tebmenu-line.gif) 0 12px no-repeat;
+/*     background: #331f62 url(../images/common/bg/bg_tebmenu-line.gif) 0 12px no-repeat; */
+    background: #433581;
     color: #ffffff;
     font-size: 15px;
     font-weight: 500;
     text-align: center;
     line-height: 39px;
+}
+
+.tab-menu li input {
+    display: inline-block;
+    height: 39px;
+    padding: 0 15px;
+/*     background: #331f62 url(../images/common/bg/bg_tebmenu-line.gif) 0 12px no-repeat; */
+    background: #433581;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 39px;
+    cursor: pointer;
+    position: relative;
+    
 }
 
 ol, ul {
@@ -153,34 +183,6 @@ h4 {
 
 
 /* ------------ 주차안내 페이지 ------------------- */
-.tab-menu {
-    clear: both;
-    text-align: center;
-}
-
-.wrap-theater .tab-menu {
-    margin: 30px 0 15px;
-}
-ol, ul {
-    list-style: none;
-}
-
-.tab-menu li a {
-    display: inline-block;
-    position: relative;
-    height: 39px;
-    padding: 0 15px;
-    background: #fb4357 url(../images/common/bg/bg_tebmenu-line.gif) 0 12px no-repeat;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-    line-height: 39px;
-}
-.tab-menu li {
-    display: inline-block;
-    margin-left: -4px;
-}
 
 .ico-bus {
     display: inline-block;
@@ -238,8 +240,8 @@ h4 {
 }
 
 .round.red {
-    border: 2px solid #fb4357;
-    color: #fb4357;
+    border: 2px solid #433581;
+    color: #433581;
 }
 
 .round {
