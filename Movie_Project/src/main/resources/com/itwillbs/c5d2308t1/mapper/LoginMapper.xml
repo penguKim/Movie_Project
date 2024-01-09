@@ -159,7 +159,23 @@
 	    FROM reviews r JOIN movies m
 	    ON r.movie_id = m.movie_id
 	    WHERE member_id = #{member_id}
-	  	order by review_date DESC
+	</select>
+	
+	<!-- 리뷰 페이징 처리를 위한 조회 -->
+	<select id="selectMyReviewList" resultType="hashmap">
+	    SELECT review_id, review_content, review_date, r.movie_id, r.member_id, m.movie_title
+	    FROM reviews r JOIN movies m
+	    ON r.movie_id = m.movie_id
+	    WHERE member_id = #{sId}
+		ORDER BY review_date DESC
+		LIMIT #{page.startRow}, #{page.listLimit}
+	</select>
+	
+	<!-- 리뷰 페이징 처리를위한 총 갯수 조회 -->
+	<select id="getMyReviewCount" resultType="int">
+		SELECT count(*)
+		FROM reviews
+		WHERE member_id = #{sId}
 	</select>
 	
 	<!-- 리뷰 상세 조회 -->

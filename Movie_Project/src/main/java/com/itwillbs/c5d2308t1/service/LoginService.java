@@ -166,6 +166,8 @@ public class LoginService {
 	}
 	
 	// ========================마이페이지 상품 구매내역 ==================
+	
+	// 분실물 페이징 처리를위한 카운트
 	public int getLostBoardCount(String sId) {
 		
 		return mapper.getLostBoardCount(sId);
@@ -186,11 +188,17 @@ public class LoginService {
 		
 		return mapper.deleteMyLost(cs);
 	}
-
 	
+	// 마이페이지 리뷰게시판 페이징 처리를 위한 카운트 조회
+	public int getReviewCount(String sId) {
+		
+		return mapper.getMyReviewCount(sId);
+	}
 
-
-
+	public List<HashMap<String, Object>> selectMyReviewList(String sId, PageDTO page) {
+		
+		return mapper.selectMyReviewList(sId,page);
+	}
 
 	
 	

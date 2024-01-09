@@ -100,14 +100,20 @@ public interface LoginMapper {
 	List<RefundVO> selectMypageProductList(String sId);
 	//=====================================================================================
 
+	// 분실물 게시판 페이징 처리를 위한 카운트
 	int getLostBoardCount(String sId);
-
+	// 분실물 게시판 페이징 처리
 	List<HashMap<String, Object>> selectLostListCount(@Param("sId") String sId, @Param("page") PageDTO page);
 	
 	// 마이페이지 분실물 상세 조회
 	Map<String, Object> selectMyLostDetail(CsVO cs);
 	// 마이페이지 분실물 삭제 처리
 	int deleteMyLost(CsVO cs);
+	
+	// 마이페이지 리뷰 페이징 처리를 위한 카운트
+	int getMyReviewCount(String sId);
+	// 마이페이지 리뷰 페이징 처리
+	List<HashMap<String, Object>> selectMyReviewList(@Param("sId") String sId, @Param("page") PageDTO page);
 
 
 

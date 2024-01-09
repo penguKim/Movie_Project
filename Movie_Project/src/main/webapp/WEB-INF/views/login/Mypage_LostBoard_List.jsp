@@ -35,7 +35,7 @@
 			<form action="Mypage_LostBoard_List" method="get" name="checkform">
 				<div id="my_list">
 					<h2>분실물 문의</h2>
-					<table id="my_table1">
+					<table id="MyOneOnOneTable">
 						<tr>
 							<th>제목</th>
 							<th width="150">지점명</th>

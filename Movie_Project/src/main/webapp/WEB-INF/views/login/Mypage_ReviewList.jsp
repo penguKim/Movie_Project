@@ -81,23 +81,21 @@ $(document).ready(function(){
 			
 				<div id="my_list">
 					<h2>나의 리뷰</h2>
-					<table id="my_table1">
+					<table id="MyOneOnOneTable">
 						<tr>
-							<th>No.</th>
 							<th>제목</th>
 							<th>내용</th>
-							<th>등록일</th>
-							<th>상세정보</th>
+							<th width="150">등록일</th>
+							<th width="100">상세정보</th>
 						</tr>
 						
-						<c:forEach var="reviewBoard" items="${reviewBoard}">
+						<c:forEach var="myReviewList" items="${myReviewList}">
 						<tr>
-							<td>${reviewBoard.review_id}</td>
-							<td>${reviewBoard.movie_title}</td>
-							<td>${reviewBoard.review_content}</td>
-							<td>${reviewBoard.review_date}</td>
+							<td>${myReviewList.movie_title}</td>
+							<td>${myReviewList.review_content}</td>
+							<td>${myReviewList.review_date}</td>
 							<td><form action="reviewDetail" method="get" id="reviewDetail">
-								<input type="hidden" name="review_id" value="${reviewBoard.review_id}">
+								<input type="hidden" name="review_id" value="${myReviewList.review_id}">
 								<input type="submit" value="상세페이지">
 								</form>
 							</td>
@@ -105,10 +103,42 @@ $(document).ready(function(){
 						</c:forEach>
 					</table><br>
 								
+							<c:set var="pageNum" value="1" />
+				<c:if test="${not empty param.pageNum }">
+					<c:set var="pageNum" value="${param.pageNum }" />
+				</c:if>
+				<div class="pagination">
+					<c:choose>
+						<c:when test="${pageNum eq 1}">
+							<a href="" >&laquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="Mypage_ReviewList?pageNum=${pageNum-1}" >&laquo;</a>
+						</c:otherwise>				
+					</c:choose>
+					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						<c:choose>
+							<c:when test="${pageNum eq i}">
+								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+							</c:when>
+							<c:otherwise>
+								<a href="Mypage_ReviewList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${pageNum eq pageInfo.maxPage}">
+							<a href="" >&raquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="Mypage_ReviewList?pageNum=${pageNum+1}" >&raquo;</a>
+						</c:otherwise>				
+					</c:choose>
+					</div>
+					
+								
 				</div>
-							
 		</section>
-	
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>
 		</footer>

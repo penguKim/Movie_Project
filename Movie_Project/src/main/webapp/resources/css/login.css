@@ -92,27 +92,17 @@ th {
 	border-bottom: 2px solid #9d9d9d; /* 제목하단줄 */	
 }
 
-#my_table1 {
+
+#MyOneOnOneTable {
 	table-layout: fixed;
 	width: 800px;
 }
 
-#my_table2 th {
-	background-color: #eeeeee; /* 배경색 넣기 */
+#MyOneOnOneTable a {
+  text-decoration: none;
+  color: black;
 }
 
-#my_table1 th { /* 자주묻는질문, 공지사항 테이블 제목에 */
-	color: #000000;
-	background-color: #f2f2f2; /* 제목 배경색 지정 */
-	padding: 5px 10px; /* 안쪽 여백 지정 */
-}
-
-#my_table1 td { /* 자주묻는질문, 공지사항 테이블 내용에 */
-	padding: 5px 10px; /* 안쪽 여백 지정 */
-	border: none;
-	border-bottom: 1px solid #9d9d9d;
-	text-align: center;
-}
 
 /* -----------------login.jsp css 시작---------------- */
 
@@ -637,14 +627,7 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
 #myLostBoardList{
 	text-align: left !important;
 }
-#my_table1 a {
-  text-decoration: none;
-  color: black;
-}
 
-#my_table1 th {
-	border-bottom: 1px solid #9d9d9d; /* 제목 아래 얇은 실선 */
-}
 
 #admin_sub {
 	display: inline-block;

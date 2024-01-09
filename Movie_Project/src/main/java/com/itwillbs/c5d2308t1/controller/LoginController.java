@@ -338,6 +338,26 @@ public class LoginController {
 		
 		List<ReviewsVO> myReview = service.getReviewList(review);
 		
+		int listCount = service.getReviewCount(sId);
+		
+		PageDTO page = new PageDTO(pageNum, 5);
+		
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		
+		List<HashMap<String, Object>> myReviewList = service.selectMyReviewList(sId, page);
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		for(HashMap<String, Object> map : myReviewList) {
+			// map으로 받아온 cs_date는 datetime 컬럼이기에 LocalDateTime 타입으로 가져온다.
+			LocalDateTime date = (LocalDateTime)map.get("review_date");
+			map.put("review_date", date.format(dtf));
+		}
+		model.addAttribute("myOneOnOneList", myReviewList);
+		model.addAttribute("sId", sId);
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("myReviewList", myReviewList);
+		
+		
 		model.addAttribute("reviewBoard", myReview);
 		return "login/Mypage_ReviewList";		
 	}
@@ -503,7 +523,11 @@ public class LoginController {
 	public String LostBoard(@RequestParam(defaultValue = "1") int pageNum,Model model, HttpSession session, CsVO myCs) { 
 		
 		String sId = (String)session.getAttribute("sId");
-		
+		if (sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다");
+			model.addAttribute("targetURL","memberLogin");
+			return "forward";
+		}		
 		myCs.setMember_id(sId);
 		
 //		List<CsVO> myLost = service.getLostBoardList(myCs);
@@ -526,12 +550,8 @@ public class LoginController {
 		model.addAttribute("myOneOnOneList", myLostBoardList);
 		model.addAttribute("sId", sId);
 		model.addAttribute("pageInfo", pageInfo);
-		
-		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ " + listCount);
-//		model.addAttribute("myLost", myLost);
 		model.addAttribute("myLostBoardList", myLostBoardList);
 		
-		System.out.println("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ + " + myLostBoardList);
 		
 		return "login/Mypage_LostBoard_List";
 	}
