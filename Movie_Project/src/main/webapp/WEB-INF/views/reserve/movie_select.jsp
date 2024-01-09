@@ -749,7 +749,7 @@
 									            $("#selectedVal").click(function(){
 									                $('.btnMovie').removeClass('selected');
 									                $(this).addClass('selected');
-									                $('#Result_M').text($('.btnMovie.selected').val());
+									    		    $('#Result_M').html('<img src='+ $('.btnMovie.selected').data('movie_poster') +' alt="이미지 예시" width="75" height="95">'+ '<span class="endparamMoviename">'+$('.btnMovie.selected').data('movie_title')+'</span>');
 									                param();
 									                M = true;
 								                    M_Ajax();
