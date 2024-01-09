@@ -51,6 +51,14 @@
 					<td>${map.payment_id}</td>
 				</tr>
 				<tr>
+					<th>결제일</th>
+					<td>${fn:replace(map.payment_datetime, 'T', ' ')}</td>
+				</tr>
+				<tr>
+					<th>결제금액</th>
+					<td>${map.payment_total_price}</td>
+				</tr>
+				<tr>
 					<th>영화제목</th>
 					<td>${map.movie_title}</td>
 				</tr>
@@ -59,8 +67,16 @@
 					<td>${map.theater_name}<br>${map.room_name}</td>
 				</tr>
 				<tr>
+					<th>상영일</th>
+					<td>${map.play_date}</td>
+				</tr>
+				<tr>
 					<th>상영시간</th>
 					<td>${fn:substring(map.play_start_time, 0, 5)}</td>
+				</tr>
+				<tr>
+					<th>좌석 번호</th>
+					<td>${map.seat_name}</td>
 				</tr>
 				<tr>
 					<th>상태</th>
@@ -74,10 +90,6 @@
 							</c:otherwise>
 						</c:choose>					
 					</td>
-				</tr>
-				<tr>
-					<th>좌석 번호</th>
-					<td>${map.seat_name}</td>
 				</tr>
 			</table>
 			<br>

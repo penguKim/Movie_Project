@@ -26,6 +26,11 @@
 	.CancleReservation{
 		background-color: #F4E4E4!important;
 	}
+	.deleteline{
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
@@ -66,8 +71,8 @@
 					<table id="my_table1">
 						<tr>
 							<th>No.</th>
-							<th>영화이름</th>
-							<th>구매일</th>
+							<th>예매상품</th>
+							<th>상영일</th>
 							<th>결제금액</th>
 							<th>상태</th>
 							<th>비고</th>
@@ -79,8 +84,8 @@
 							<c:otherwise><tr></c:otherwise>
 						</c:choose>
 							<td>${reslist.payment_id}</td>
-							<td><a href="detail?movie_id=${reslist.movie_id}">${reslist.movie_title}</a></td>
-							<td>${fn:replace(reslist.payment_datetime, 'T', '<br>')}</td>
+							<td><a href="detail?movie_id=${reslist.movie_id}" class="deleteline">${reslist.movie_title}</a></td>
+							<td>${reslist.play_date}</td>
 							<td><fmt:formatNumber value="${reslist.payment_total_price}" pattern="#,##0" />원</td>
 							<td>
 								<c:if test="${reslist.payment_status eq 1}">결제완료</c:if>
