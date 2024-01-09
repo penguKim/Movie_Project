@@ -17,25 +17,49 @@
 <link href="${pageContext.request.contextPath }/resources/css/store.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
-// 약관 동의 체크박스 부분 처리
-function checkAll() {
-  var Checkbox = document.querySelector('.store_pay_info_check input[type="checkbox"]');
-  var Checkboxes = document.querySelectorAll('.store_pay_info_group input[type="checkbox"]');
-  
-  for (var i = 0; i < Checkboxes.length; i++) {
-    Checkboxes[i].checked = Checkbox.checked;
-  }
-}
-// 아래쪽 약관 동의 체크박스 부분 처리
-function checkAll2() {
-	  var Checkbox2 = document.querySelector('.info02 input[type="checkbox"]');
-	  var Checkboxes2 = document.querySelectorAll('.info02 input[type="checkbox"]:not(:first-child)');
-	  
-	  for (var i = 0; i < Checkboxes2.length; i++) {
-	    Checkboxes2[i].checked = Checkbox2.checked;
-	  }
-}
-	
+$(function() {
+    $("#agreeAll").on("change", function() {
+        if ($("#agreeAll").prop("checked")) {
+            $(":checkbox[name=agree]").prop("checked", true);
+            $(":checkbox[name=agree2]").prop("checked", true);
+        } else {
+        	$(":checkbox[name=agree]").prop("checked", false);
+            $(":checkbox[name=agree2]").prop("checked", false);
+        }
+    });
+    
+    $(":checkbox[name=agree]").on("change", function() {
+        var allChecked = true;
+        $(":checkbox[name=agree]").each(function() {
+            if (!$(this).prop("checked")) {
+                allChecked = false;
+                return false;
+            }
+        });
+        $("#agreeAll").prop("checked", allChecked);
+    });
+    
+    $("#agree").on("change", function() {
+        if ($("#agree").prop("checked")) {
+            $(":checkbox[name=agree2]").prop("checked", true);
+        } else {
+            $(":checkbox[name=agree2]").prop("checked", false);
+            $("#agreeAll").prop("checked", false);
+        }
+    });
+
+    $(":checkbox[name=agree2]").on("change", function() {
+        var allChecked = true;
+        $(":checkbox[name=agree2]").each(function() {
+            if (!$(this).prop("checked")) {
+                allChecked = false;
+                return false; // 반복문 종료
+            }
+        });
+        $("#agree").prop("checked", allChecked);
+        $("#agreeAll").prop("checked", allChecked);
+    });
+});
 </script>
 <%-- 결제 API 포트원 SDK 코드 --%>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -96,8 +120,6 @@ function checkAll2() {
 	//*****************************************************
 	function check(pg) {
 		selectedPgValue = pg.value;
-		console.log(selectedPgValue);
-		console.log(selectedPgValue);
 	}
 	
 	
@@ -175,9 +197,6 @@ function checkAll2() {
 	 }  // function requestPay() 끝
 	 
 	 $(function() {
-		 console.log("뒤로가기 방지");
-		 console.log("뒤로가기 방지");
-		 console.log("뒤로가기 방지");
 		<%-- 뒤로가기 방지 --%>
 		if (performance.navigation.type === 2) { <%-- 0 : 처음 로딩/새로고침, 1 : 페이지가 앞/뒤로 이동, 2 : 페이지가 뒤로 이동  --%>
 			alert('비정상적인 접근입니다.\n스토어 페이지로 이동합니다.');
@@ -279,16 +298,16 @@ function checkAll2() {
 				</div>
 				<div class="store_pay_info">
 					<div class="store_pay_info_check">
-						<input type="checkbox" onclick="checkAll()">주문정보/결제 대행 서비스 약관 모두 동의
+						<input type="checkbox" id="agreeAll" >주문정보/결제 대행 서비스 약관 모두 동의
 					</div>
 					<div class="store_pay_info_group">
-						<div class="info01"><input type="checkbox">기프트콘 구매 동의
+						<div class="info01"><input type="checkbox" name="agree">기프트콘 구매 동의
 							<br> <span class="info01_01">&nbsp;&nbsp;&nbsp;기프트콘 발송 및 CS 처리 등을 이해 수신자로부터 영화관에 수신자의 전화번호를 제공하는 것에 대한 적합한 동의를 받습니다.</span>
 						</div>
-						<div class="info02"><input type="checkbox" onclick="checkAll2()">결제 대행 서비스 약관 모두 동의 
-							<br>&nbsp;&nbsp;<input type="checkbox" id="terms1">전자금융거래 이용약관
-							<br>&nbsp;&nbsp;<input type="checkbox" id="terms2">개인정보 수집 이용약관
-							<br>&nbsp;&nbsp;<input type="checkbox" id="terms3">개인정보 제공 및 위탁안내
+						<div class="info02"><input type="checkbox" id="agree" name="agree"> 결제 대행 서비스 약관 모두 동의 
+							<br>&nbsp;&nbsp;<input type="checkbox" id="terms1" name="agree2">전자금융거래 이용약관
+							<br>&nbsp;&nbsp;<input type="checkbox" id="terms2" name="agree2">개인정보 수집 이용약관
+							<br>&nbsp;&nbsp;<input type="checkbox" id="terms3" name="agree2">개인정보 제공 및 위탁안내
 						</div>
 					</div>
 				</div>

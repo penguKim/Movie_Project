@@ -15,9 +15,10 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <style>
-	#resCancleBtn{
-		background-color: gray;
+	.CancleReservation{
+		background-color: #F4E4E4!important;
 	}
+
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
@@ -60,6 +61,10 @@ function openPopup(payment_name){
 						</tr>
 						<c:forEach varStatus="status" var="myStore" items="${myStoreList }" >
 							<tr>
+								<c:choose>
+									<c:when test="${myStore.payment_status eq 0}"><tr class="CancleReservation"></c:when>
+									<c:otherwise><tr></c:otherwise>
+								</c:choose>
 								<td>${myStore.payment_name }</td>
 								<td>
 								<c:set var="productNames" value="${fn:split(myStore.product_name, ',')}" />
@@ -78,19 +83,8 @@ function openPopup(payment_name){
 									<c:if test="${myStore.payment_status eq 0}">취소완료</c:if>
 								</td>
 								<td>
-								<c:choose>
-									<c:when test="${myStore.payment_status eq 1}">
-									
-			<%-- 									<input type="button" id="stupidButton" onclick="storeX(${myStore.payment_id})" value="구매취소"> --%>
-										<input type="button" id="stupidButton" value="상세정보" onclick="openPopup('${myStore.payment_name}')">
-										<input type="hidden" name="payment_name" value="${myStore.payment_name }">
-									
-									</c:when>
-									<c:otherwise>
-										<input type="button" id="resCancleBtn" value="취소완료" onclick="openPopup('${myStore.payment_name}')">
-									</c:otherwise>
-									</c:choose>
-			<!-- 							<td><input type="button" value="구매취소"></td> -->
+									<input type="button" id="stupidButton" value="상세정보" onclick="openPopup('${myStore.payment_name}')">
+									<input type="hidden" name="payment_name" value="${myStore.payment_name }">
 								</td>
 							</tr>
 						</c:forEach> 
@@ -100,10 +94,7 @@ function openPopup(payment_name){
 					<c:if test="${not empty param.pageNum }">
 						<c:set var="pageNum" value="${param.pageNum }" />
 					</c:if>
-					
 					<div class="pagination">
-						<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>
-						<%-- 다만, 페이지 번호가 1일 경우 비활성화 --%>		
 						<c:choose>
 							<c:when test="${pageNum eq 1}">
 								<a href="" >&laquo;</a>					
@@ -112,12 +103,8 @@ function openPopup(payment_name){
 								<a href="MypageProductboardList?pageNum=${pageNum-1}" >&laquo;</a>
 							</c:otherwise>				
 						</c:choose>
-						<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
 						<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-							<%-- 각 페이지마다 하이퍼링크 설정(페이지번호를 pageNum 파라미터로 전달) --%>
-							<%-- 단, 현재 페이지는 하이퍼링크 제거하고 굵게 표시 --%>
 							<c:choose>
-								<%-- 현재 페이지번호와 표시될 페이지번호가 같을 경우 판별 --%>
 								<c:when test="${pageNum eq i}">
 									<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
 								</c:when>
@@ -126,8 +113,6 @@ function openPopup(payment_name){
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<%-- '>>' 버튼 클릭 시 현체 페이지보다 한 페이지 다음 페이지 요청 --%>
-						<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
 						<c:choose>
 							<c:when test="${pageNum eq pageInfo.maxPage}">
 								<a href="" >&raquo;</a>					
