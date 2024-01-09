@@ -83,13 +83,18 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 	var formattedDate = year + "-" + month + "-" + day; //연도,월,일을 formattedDate변수 저장
 	$("#submitReview").click(function(){ //클릭시 실행되는 함수
 // 		alert(member_id);
-	var review_content = $("#review_content").val();
-	if(member_id == "null") {
-	    alert("로그인 후 리뷰작성이 가능합니다");
-	    location.href="memberLogin";
-	
-	} else {
-		$.ajax({
+		var review_content = $("#review_content").val();
+		
+		if(member_id == "null") {
+		    alert("로그인 후 리뷰작성이 가능합니다");
+		    location.href="memberLogin";
+		
+		} else if(review_content === "" || review_content === null){
+			alert("내용을 작성해주세요");
+			return;
+			
+		}else{
+			$.ajax({
 				url: "reviewPro", // 데이터를 가지고 보낼 주소
 				type: "POST",
 				data: {
@@ -120,7 +125,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 					console.log("실패");
 				}
 			});//ajax
-	};
+		}; //else문 끝
 	}); //click
 });
 </script>
