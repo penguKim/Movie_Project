@@ -51,12 +51,12 @@
 				for(let play of result.playRegistList) {
 					
 					
-//					console.log("무한스크롤 ajax 요청으로 불러올 상영코드 : " + play.play_id);
-//					console.log("무한스크롤 ajax 요청으로 불러올 상영코드의 타입 : " + typeof(play.play_id)); // 
-//					console.log("무한스크롤 ajax 요청으로 불러올 시작시간 : " + play.play_start_time);
-//					console.log("무한스크롤 ajax 요청으로 불러올 시작시간의 타입 : " + typeof(play.play_start_time)); // string
-//					console.log("무한스크롤 ajax 요청으로 불러올 상영일자 : " + play.play_date);
-//					console.log("무한스크롤 ajax 요청으로 불러올 상영일자의 타입 : " + typeof(play.play_date)); // string
+					console.log("무한스크롤 ajax 요청으로 불러올 상영코드 : " + play.play_id);
+					console.log("무한스크롤 ajax 요청으로 불러올 상영코드의 타입 : " + typeof(play.play_id)); // 
+					console.log("무한스크롤 ajax 요청으로 불러올 시작시간 : " + play.play_start_time);
+					console.log("무한스크롤 ajax 요청으로 불러올 시작시간의 타입 : " + typeof(play.play_start_time)); // string
+					console.log("무한스크롤 ajax 요청으로 불러올 상영일자 : " + play.play_date);
+					console.log("무한스크롤 ajax 요청으로 불러올 상영일자의 타입 : " + typeof(play.play_date)); // string
 					
 					
 					$("table").eq(1).append(
@@ -518,8 +518,7 @@
 		});
 	});
 	
-	// -----------------------------------------------------
-	// [ 수정 작업 ]
+
 
 	// 이전에 선택한 tr의 id 값 저장할 변수 설정
 	let previousTrId = null;
@@ -564,9 +563,12 @@
 	
 	        // 이전에 선택한 <tr>이 있을 때의 처리
 	        if(previousTrId && previousTrId !== currentTrId) {
-// 				console.log("어떻게 처리하지");
+ 				console.log("어떻게 처리하지");
 	
-				// 이전 tr태그의 내용을 조회폼 형식으로 출력 ajax 시작
+	
+				// 등록하기 이후 조회 처리와 동일 -> 이전 tr태그의 내용을 조회폼 형식으로 출력
+				// 기존 play_id를 넘겨줘서 아래의 데이터들을 받아온다 
+				// => 받아올 데이터 : theater_name, room_name, room_id, movie_title, movie_id, play_date, play_start_time, play_end_time
 				$.ajax({
 					type: "POST",
 					url: "previousScheduleInfo",
@@ -575,7 +577,7 @@
 						"previousTrId": previousTrId
 					},
 					success: function(result) {
-//						console.log(result);
+						console.log(result);
 						console.log("이전 상영코드 : " + result.play_id);
 						console.log("이전 상영관 이름 : " + result.theater_name);
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영코드 : " + result.play_id);
@@ -584,18 +586,19 @@
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 시작시간의 타입 : " + typeof(result.play_start_time));
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영일자 : " + result.play_date);
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영일자의 타입 : " + typeof(result.play_date));
+						
+						
 
-//						console.log(result.play_id); // 406
-//						console.log(String(result.play_id)); // 406
-//						console.log($("#" + result.play_id).length); // 0
+						console.log(result.play_id); // 406
+						console.log(String(result.play_id)); // 406
+						console.log($("#" + result.play_id).length); // 0
 						// => tr 출력은 되는데 아이디 요소 인식을 못함
-						// => number 타입만 id로 지정해서 생긴 문제!
-						//    문자열 결합해 해결함
 						
+// 						$("#" + result.play_id).append(
+// 							'<td colspan="8"></td>'		
+// 						);
 						
-						// 등록하기 이후 조회 처리와 동일 -> 이전 tr태그의 내용을 조회폼 형식으로 출력
-						// 기존 play_id를 넘겨줘서 아래의 데이터들을 받아온다 
-						// => 받아올 데이터 : theater_name, room_name, room_id, movie_title, movie_id, play_date, play_start_time, play_end_time
+//						$("#" + String(result.play_id)).html(
 						$("#tr_" + result.play_id).html(
 							'<td id="theater_name_mod" data-theater-name="' + result.theater_name + '">' + result.theater_name + '</td>'
 							+ '<td id="room_name_mod" data-room_name="' + result.room_name + '">' + result.room_name + '</td>'
@@ -624,48 +627,9 @@
 	        
 	        // -----------------------------------------------------------------------------------
 			
-	        // 이전에 선택한 tr이 없는 경우 실행할 동작 
-	        // 또는 이전에 선택한 tr이 있는 경우 이전 tr태그의 내용을 조회폼 형식으로 변환을 완료한 후 추가할 동작
-
-	        // 해당 <tr>의 각 <td>내의 기존 값들 변수에 저장
-	        // 해당 <tr>의 play_id
-	        let selectedPlayId = $(row).find("#play_id").val();
-	        console.log("selectedPlayId : " + selectedPlayId);
-
-	        // 수정 전 극장명
-	        let originalTheaterName = $(row).find("#theater_name_mod").data("theater-name");
-	        console.log("originalTheaterName : " + originalTheaterName);
+	        // 이전에 선택한 tr이 없는 경우 시작
 	        
-	        // 수정 전 상영관명
-	        let originalRoomName = $(row).find("#room_name_mod").data("room_name"); 
-	        console.log("originalRoomName : " + originalRoomName);
-
-	        // 수정 전 상영관코드
-	        let originalRoomId = $(row).find("#room_id").val();
-	        console.log("originalRoomId : " + originalRoomId);
-
-	        // 수정 전 영화 제목
-	        let originalMovieTitle = $(row).find("#movie_title_mod").data("movie_title"); 
-	        console.log("originalMovieTitle : " + originalMovieTitle);
-
-	        // 수정 전 영화 코드
-	        let originalMovieId = $(row).find("#movie_id").val();
-	        console.log("originalMovieId : " + originalMovieId);
-
-	        // 수정 전 상영일자
-	        let originalPlayDate = $(row).find("#play_date_mod").text();
-	        console.log("originalPlayDate : " + originalPlayDate);
-
-	        // 수정 전 상영 시작 시간
-	        let originalPlayStartTime = $(row).find("#play_start_time_mod").data("play_start_time"); 
-	        console.log("originalPlayStartTime : " + originalPlayStartTime);
-
-	        // 수정 전 상영 종료 시간
-	        let originalPlayEndTime = $(row).find("#play_end_time_mod").text(); 
-	        console.log("originalPlayEndTime : " + originalPlayEndTime);
-	        
-	        
-			
+	
 	        // 수정폼 띄우기
 				
 			// 해당하는 행의 play_id 가져오기
@@ -783,13 +747,27 @@
 					}); // 지점 선택 후 blur 이벤트 처리 끝
 				
 				},
-				//  --------------- 지점 불러오기 ajax success 끝 ----------------
+				// --------------- 지점 불러오기 ajax success 끝 ----------------
 
 
 				error: function(xhr, textStatus, errorThrown) {
 					alert("지점명 로딩 오류입니다.");
 				}
 			}); // 지점 불러오기 ajax 요청(1중) 끝
+			
+			
+						
+			// 지점 불러오지 않고 상영관 클릭 이벤트 처리
+			$("#modifyRoom").on("click", function(){
+				
+					alert("지점을 먼저 선택해 주세요!");
+	//				$("#modifyTheater").trigger("click");
+	//				$("#modifyTheater").toggle();
+					$("#modifyTheater").focus();
+					
+			});
+				
+				
 			
 			
 			// ----------------------------------   
@@ -1089,178 +1067,6 @@
 				}
 			}); // 상영중인 영화 선택 ajax 요청(1중) 끝
 			
-			
-			
-			// ------------------- 순서대로 선택하도록 자바스크립트 처리 ----------------------
-			
-			// 1. 상영관 클릭 시 지점부터 선택하게 하기
-			// 지점 셀렉트박스를 클릭 여부를 저장할 변수 설정하고 기본값 false로 설정
-			let isTheaterClicked = false;
-
-			// 지점 셀렉트박스를 클릭할 경우 
-			$("#modifyTheater").on("click", function() {
-				
-				// 현재 tr을 변수에 지정
-				let thisTr = $(this).closest("tr");
-				
-				// 지점 셀렉트박스를 클릭 여부를 저장한 변수 값을 true로 변경
-				thisTr.data("isTheaterClicked", true);
-			});
-
-			// 상영관 셀렉트박스 클릭 이벤트 처리
-			$("#modifyRoom").on("click", function() {
-				
-				// 현재 tr을 변수에 지정
-				let thisTr = $(this).closest("tr");
-				
-				// 지점 셀렉트박스를 클릭 여부를 저장한 변수 값 덮어쓰기
-				let isTheaterClicked = thisTr.data("isTheaterClicked");
-				
-				// 지점 셀렉트박스 클릭 여부 저장값이 false일 경우
-				if(!isTheaterClicked) {
-					alert("지점을 먼저 선택해 주세요!");
-					thisTr.find("#modifyTheater").focus().click(); // 지점 셀렉트 박스에 click 이벤트를 발생시킴
-					thisTr.data("isTheaterClicked", true); // 지점 셀렉트박스를 클릭 여부를 저장한 변수 값 true로 변경
-					return false;
-				}
-
-			});
-
-			// 다음 tr에서 이벤트가 발생하지않는 오류 발생!
-			// => id 선택자가 modifyRoom인 요소에 대해 이벤트 핸들러를 모든 행에 적용하는 코드 추가
-			$("body").on("click", "#modifyRoom", function() {
-				let thisTr = $(this).closest("tr");
-				let isTheaterClicked = thisTr.data("isTheaterClicked");
-				if (!isTheaterClicked) {
-					alert("지점을 먼저 선택해 주세요!");
-					thisTr.find("#modifyTheater").focus().click();
-					thisTr.data("isTheaterClicked", true);
-					return false;
-					
-				}
-
-			});
-			
-			// 모든 행에 대해 지점 셀렉트박스를 클릭 여부 저장 변수를 초기값으로 재설정
-			$("tr").data("isTheaterClicked", false);
-
-
-			// 2. 날짜 클릭 시 영화부터 선택하게 하기
-			// 영화 셀렉트박스를 클릭 여부를 저장할 변수 설정하고 기본값 false로 설정
-			let isMovieClicked = false;
-
-			// 영화 셀렉트박스를 클릭할 경우 
-			$("#modifyMovie").on("click", function() {
-				
-				// 현재 tr을 변수에 지정
-				let thisTr = $(this).closest("tr");
-				
-				// 영화 셀렉트박스를 클릭 여부를 저장한 변수 값을 true로 변경
-				thisTr.data("isMovieClicked", true);
-			});
-
-			// 날짜 인풋태그 클릭 이벤트 처리
-			$("#modifyDate").on("click", function() {
-				
-				// 현재 tr을 변수에 지정
-				let thisTr = $(this).closest("tr");
-				
-				// 영화 셀렉트박스를 클릭 여부를 저장한 변수 값 덮어쓰기
-				let isMovieClicked = thisTr.data("isMovieClicked");
-				
-				// 영화 셀렉트박스 클릭 여부 저장값이 false일 경우
-				if(!isMovieClicked) {
-					alert("영화를 먼저 선택해 주세요!");
-					thisTr.find("#modifyMovie").focus().click(); // 지점 셀렉트 박스에 click 이벤트를 발생시킴
-					thisTr.data("isMovieClicked", true); // 지점 셀렉트박스를 클릭 여부를 저장한 변수 값 true로 변경
-					return false;
-				}
-				
-//				$("#modifyMovie").on("click", function(){
-//					alert("확인");
-//				});	
-
-			});
-
-			// 다음 tr에서 이벤트가 발생하지않는 오류 발생!
-			// => id 선택자가 modifyDate인 요소에 대해 이벤트 핸들러를 모든 행에 적용하는 코드 추가
-			$("body").on("click", "#modifyDate", function() {
-				let thisTr = $(this).closest("tr");
-				let isMovieClicked = thisTr.data("isMovieClicked");
-				if (!isMovieClicked) {
-					alert("영화를 먼저 선택해 주세요!");
-					thisTr.find("#modifyMovie").focus().click();
-					thisTr.data("isMovieClicked", true);
-					return false;
-					
-				}
-				thisTr.find("#modifyDate").focus().click();
-
-			});
-			
-			// 모든 행에 대해 영화 셀렉트박스를 클릭 여부 저장 변수를 초기값으로 재설정
-			$("tr").data("isMovieClicked", false);
-			
-			
-			// 3. 시작 시간 클릭 시 영화부터 선택하게 하기
-			// 영화 셀렉트박스를 클릭 여부를 저장할 변수 설정하고 기본값 false로 설정
-			isMovieClicked = false;
-
-			// 영화 셀렉트박스를 클릭할 경우 
-			$("#modifyMovie").on("click", function() {
-				
-				// 현재 tr을 변수에 지정
-				let thisTr = $(this).closest("tr");
-				
-				// 영화 셀렉트박스를 클릭 여부를 저장한 변수 값을 true로 변경
-				thisTr.data("isMovieClicked", true);
-			});
-
-			// 시작시간 셀렉트박스 클릭 이벤트 처리
-			$("#modifyStart").on("click", function() {
-				
-				// 현재 tr을 변수에 지정
-				let thisTr = $(this).closest("tr");
-				
-				// 영화 셀렉트박스를 클릭 여부를 저장한 변수 값 덮어쓰기
-				let isMovieClicked = thisTr.data("isMovieClicked");
-				
-				// 영화 셀렉트박스 클릭 여부 저장값이 false일 경우
-				if(!isMovieClicked) {
-					alert("영화를 먼저 선택해 주세요!");
-					thisTr.find("#modifyMovie").focus().click(); // 지점 셀렉트 박스에 click 이벤트를 발생시킴
-					thisTr.data("isMovieClicked", true); // 지점 셀렉트박스를 클릭 여부를 저장한 변수 값 true로 변경
-					return false;
-				}
-				thisTr.find("#modifyStart").focus().click();
-
-			});
-
-			// 다음 tr에서 이벤트가 발생하지않는 오류 발생!
-			// => id 선택자가 modifyDate인 요소에 대해 이벤트 핸들러를 모든 행에 적용하는 코드 추가
-			$("body").on("click", "#modifyStart", function() {
-				let thisTr = $(this).closest("tr");
-				let isMovieClicked = thisTr.data("isMovieClicked");
-				if (!isMovieClicked) {
-					alert("영화를 먼저 선택해 주세요!");
-					thisTr.find("#modifyMovie").focus().click();
-					thisTr.data("isMovieClicked", true);
-					return false;
-					
-				}
-				thisTr.find("#modifyStart").focus().click();
-
-			});
-			
-			// 모든 행에 대해 영화 셀렉트박스를 클릭 여부 저장 변수를 초기값으로 재설정
-			$("tr").data("isMovieClicked", false);
-			
-			
-			
-			
-			
-			
-			
 			// ------------------------------------------------------------------------------------------------------------------------
 		    	
 				// 새로운 버튼 생성하고 기존 버튼 없애기
@@ -1323,7 +1129,7 @@
 					console.log("이전tr로 변경될 id : " + previousTrId);
 				}
 				
-		} // 영화 시작 시간이 현재 일시 이후인 경우 처리 끝
+		} //// 영화 시작 시간이 현재 일시 이후인 경우 처리 끝
 				
 				
 	
