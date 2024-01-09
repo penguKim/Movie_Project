@@ -29,7 +29,7 @@ public class PaymentController {
 	@ResponseBody
 	@PostMapping("PaymentEndpoint")
 	public String paymentEndpoint(@RequestBody Map<String, Object> map) {
-		System.out.println("000000000000000000000000000000000000000" + map);
+		System.out.println("00000000	0000000000000000000000000000000" + map);
 		service.registPayment(map);
 		return new JSONObject(map).toString();
 	}

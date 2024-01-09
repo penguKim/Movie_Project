@@ -98,20 +98,6 @@ public class StoreService {
 	public List<CartVO> resultCartList(String sId) {
 		return mapper.resultCartList(sId);
 	}
-	
-//	public List<StoreVO> selectStore(StoreVO store) {
-//		return mapper.selectStore(store);
-//	}
-
-
-	public List<CartVO> selectCart2(MemberVO member) {
-		return mapper.selectCart2(member);
-	}
-
-
-	public CartVO selectCart1(String product_count) {
-		return mapper.selectCart1(product_count);
-	}
 
 	public MemberVO selectMemberInfo(MemberVO member) {
 		return mapper.selectMemberInfo(member);
@@ -137,15 +123,10 @@ public class StoreService {
 		return mapper.cartDelete(sId, product_id);
 	}
 
-	// 장바구니에서 결제하기로 테스트
-	public List<StoreVO> selectCart3(String arrPro, String sId) {
-		return mapper.selectCart3(arrPro, sId);
+	public List<StoreVO> selectCartIf(String product_id, String sId) {
+		return mapper.selectCart4(product_id, sId);
 	}
 
-	public List<StoreVO> selectCart4(String productId, String sId) {
-		
-		return mapper.selectCart4(productId, sId);
-	}
 
 
 	

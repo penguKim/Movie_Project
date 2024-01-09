@@ -55,13 +55,7 @@
 </style>
 
 <script>
-$(function() {
-	<%-- 뒤로가기 방지 --%>
-	if (performance.navigation.type === 2) { <%-- 0 : 처음 로딩/새로고침, 1 : 페이지가 앞/뒤로 이동, 2 : 페이지가 뒤로 이동  --%>
-		alert('비정상적인 접근입니다.\n스토어 페이지로 이동합니다.');
-		location.href = 'store'; //다른 페이지로 이동
-	}
-}
+
 </script>
 </head>
 <body>

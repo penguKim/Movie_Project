@@ -159,36 +159,29 @@ $(function() {
 
 // 체크박스 선택 시 가격 추가
 function addPrice(i) {
-  // 체크박스 요소 가져오기
   var checkbox = document.getElementById("cartCheckbox" + i);
-  // 상품 가격 가져오기
-//   var price = parseInt(document.getElementById("totalPrice" + i).innerText);
-  
   var price = document.getElementById("totalPrice" + i).innerText;
-  price = parseInt(price.replace(",", ""));
-  // 전체 가격 가져오기
-//   var totalPrice = parseInt(document.getElementById("All_total_price").innerText);
+  
+  price = parseInt(price.replaceAll(",", ""));
+  
   var totalPrice = document.getElementById("All_total_price2").innerText;
-  totalPrice = totalPrice.replace(/,/g, "").replace("원", "");
+  totalPrice = totalPrice.replaceAll(/,/g, "").replace("원", "");
   totalPrice = parseInt(totalPrice);
+  
   console.log(totalPrice);
-  // 체크박스의 선택 여부에 따라 가격 추가 또는 제거
+  
   if (checkbox.checked) {
-    totalPrice += price; // 가격 추가
+    totalPrice += price;
   } else {
-    totalPrice -= price; // 가격 제거
+    totalPrice -= price;
   }
 
-  // 전체 가격이 음수일 경우 0으로 설정
   if (totalPrice < 0) {
     totalPrice = 0;
   }
 
-  // 변경된 전체 가격을 화면에 업데이트
-  totalPrice =  totalPrice.toLocaleString();
-  document.getElementById("All_total_price2").innerText = totalPrice + "원";
-//   document.getElementById("All_total_price1").innerText = totalPrice.toLocaleString() + "원";
-  document.getElementById("All_total_price1").innerText = totalPrice + "원";
+  document.getElementById("All_total_price2").innerText = totalPrice.toLocaleString() + "원";
+  document.getElementById("All_total_price1").innerText = totalPrice.toLocaleString() + "원";
 }
 
 
@@ -293,10 +286,8 @@ function validateCheckbox() {
 										<c:forEach var="i" begin="0" end="${fn:length(cartList)-1}" varStatus="status">
 											<c:set var="All_total_price" value="${All_total_price + cartList[i].cart_total_price }"/>
 											<fmt:formatNumber var="formatted_price" value="${All_total_price}" pattern="###,###,###"/>
-<%-- 											<input type="checkbox" id="product_id${i}" name="product_id" value="${storeList[i].product_id}"> --%>
 											<tr>
 											<td><input type="checkbox" name="cartCheckbox" id="cartCheckbox${i}" checked onclick="addPrice(${i})"></td>
-<%-- 												<td><input type="checkbox" name="cartCheckbox${i}" id="cartCheckbox${i}" value="${storeList[i].product_id }" checked></td> --%>
 												<td>
 													<img src="${pageContext.request.contextPath}/resources/upload/${storeList[i].product_img}">
 												</td>

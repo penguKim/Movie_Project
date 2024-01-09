@@ -140,13 +140,6 @@
 		WHERE c.member_id = #{sId};
 	</select>
 	
-<!-- 	단일 결제를 위한 SELECT 조회 -->
-	<select id="selectStore" resultType="store">
-		SELECT *
-		FROM products
-		WHERE product_id = #{product_id}
-	</select>
-	
 	<!-- 장바구니 페이지 수량 변경 시 수량 UPDATE -->
 	<update id="updateQuan">
 		UPDATE carts
@@ -191,36 +184,13 @@
 		AND product_id = #{product_id}
 	</delete>
 	
-	<!-- 총 금액 계산용 -->
-	<select id="selectCart2" resultType="cart">
-		SELECT product_count, cart_id, cart_total_price
-		FROM carts
-		WHERE member_id = #{member_id}
-	</select>
-	
-	<select id="selectCart3" resultType="store">
-		SELECT p.product_id, product_name, product_img, product_txt, product_price, product_count 
-		FROM products p JOIN carts c 
-		ON p.product_id = c.product_id 
-		WHERE member_id = #{sId} 
-		AND c.product_id = #{arrPro}
-	</select>
-	
 	<select id="selectCart4" resultType="store">
 		SELECT p.product_id, product_name, product_img, product_txt, product_price, product_count 
 		FROM products p JOIN carts c 
 		ON p.product_id = c.product_id 
 		WHERE member_id = #{sId} 
-		AND c.product_id = #{productId}
+		AND c.product_id = #{product_id}
 	</select>
-	
-	<select id="selectCart1" resultType="cart">
-		SELECT product_count
-		FROM carts
-		WHERE product_count = #{product_count}
-	</select>
-	
-
 	
 </mapper>
 

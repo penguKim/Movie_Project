@@ -179,16 +179,13 @@ public class StoreController {
 	
 	@GetMapping("storePay")
 	public String storePay(HttpSession session, Model model,@RequestParam("product_id") String[] selectedProductIds, MemberVO member,
-			@RequestParam int product_count) {
+			@RequestParam int product_count, String type) {
 		String sId = (String)session.getAttribute("sId");
 		if(session.getAttribute("sId") == null) {
 			model.addAttribute("msg","로그인이 필요합니다. 로그인 하시겠습니까?");
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward2";
 		}
-		System.out.println("출력은 되는 것이ㅑㄴ!!!!!!!!!!!!!!!!!!!!!!!!!");
-		
-		
 		// ****************************************************************
 		member.setMember_id(sId); 
 		MemberVO members = service.selectMemberInfo(member);
@@ -196,10 +193,19 @@ public class StoreController {
 		// 휴대폰번호 가운데 "****" 처리
 		members.setMember_phone(phone.split("-")[0] + "-****-" + phone.split("-")[2]);
 		model.addAttribute("members", members);
+		
 		//******************************************************************
 		List<StoreVO> storeList = new ArrayList<StoreVO>();
-		for (String productId : selectedProductIds) {
-			List<StoreVO> arrProductId = service.selectCart4(productId, sId);
+		List<StoreVO> arrProductId = new ArrayList<StoreVO>();
+		for (String product_id : selectedProductIds) {
+			System.out.println("타입은 뭘까" + type);
+			if(type == null) {
+				arrProductId = service.selectStore(product_id);
+//				System.out.println("단일일경우111111111111111111111111" + arrProductId);
+			} else {
+//				System.out.println("카트일경우22222222222222222222222" + arrProductId);
+				arrProductId = service.selectCartIf(product_id, sId);
+			}
 			storeList.addAll(arrProductId);
 		}
 		model.addAttribute("storeList", storeList);

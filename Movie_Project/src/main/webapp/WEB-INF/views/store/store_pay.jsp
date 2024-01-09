@@ -35,9 +35,15 @@ function checkAll2() {
 	    Checkboxes2[i].checked = Checkbox2.checked;
 	  }
 }
-
-
-
+$(function() {
+	<%-- 뒤로가기 방지 --%>
+	window.addEventListener('pageshow', function(event) { <%-- 페이지가 로드되거나 새로고침 발생 이벤트 --%>
+		if (event.persisted) { <%-- 뒤로가기나 앞으로가기로 이동했을 시 true 리턴 --%>
+		    alert("잘못된 접근입니다!");
+			location.href("store"); <%-- 페이지 새로고침 --%>
+		}
+	});
+}
 	
 </script>
 <%-- 결제 API 포트원 SDK 코드 --%>
@@ -96,6 +102,7 @@ $(function() {
 		    var quantity = parseInt($(".product_count").eq(index).val());
 		    product_total_price += (price * quantity);
 		});
+	console.log("현재 총금액" + product_total_price);
 	// 	alert("총금액 !!!: " + quantity);
 	});	
 	// 결제 수단 변수
@@ -221,7 +228,7 @@ $(function() {
 							<input type="hidden" name="type" class="type" value="${param.type}">
 							
 							<c:set var="store_total_price" value="${store_total_price + (store.product_price * paramValues.product_count[status.index])}"></c:set>
-							<c:set var="store_pay_price" value="${store.product_price * param.product_count}"></c:set>
+							<c:set var="store_pay_price" value="${store.product_price * param.product_count}"/>
 							<tr class="store_table_box02">
 								<td><img src="${pageContext.request.contextPath}/resources/upload/${store.product_img }"></td>
 								<td>

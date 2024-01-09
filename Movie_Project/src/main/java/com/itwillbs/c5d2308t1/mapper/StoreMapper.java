@@ -85,8 +85,9 @@ public interface StoreMapper {
 
 	// 장바구니에서 결제하기로 테스트
 	List<StoreVO> selectCart3(@Param("arrPro") String arrPro, @Param("sId") String sId);
-
-	List<StoreVO> selectCart4(@Param("productId")String productId,@Param("sId") String sId);
+	
+	// 장바구니에서 결제하기로 레스고
+	List<StoreVO> selectCart4(@Param("product_id")String product_id,@Param("sId") String sId);
 
 	
 
