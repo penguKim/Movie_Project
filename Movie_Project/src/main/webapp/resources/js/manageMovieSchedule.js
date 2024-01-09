@@ -60,7 +60,7 @@
 					
 					
 					$("table").eq(1).append(
-							'<tr id=' + play.play_id +'">'
+							'<tr id="tr_' + play.play_id +'">'
 							+ '<td id="theater_name_mod" data-theater-name="' + play.theater_name + '">' + play.theater_name + '</td>'
 							+ '<td id="room_name_mod" data-room_name="' + play.room_name + '">' + play.room_name + '</td>'
 							+ '<input type="hidden" value="' + play.room_id + '" id="room_id">'
@@ -491,7 +491,7 @@
 	});
 		
 	$(function() {	
-		// 등록하기
+		// 등록 버튼 서브밋 처리
 		$("#registForm").submit(function() {
 			if($("#theater_id").val() == '') {
 				alert("지점을 선택해주세요");
@@ -513,7 +513,7 @@
 				alert("상영시작시간을 선택해주세요");
 				$("#play_start_time").focus();
 				return false;
-			} 
+			}
 			
 		});
 	});
@@ -563,7 +563,7 @@
 	
 	        // 이전에 선택한 <tr>이 있을 때의 처리
 	        if(previousTrId && previousTrId !== currentTrId) {
-// 				console.log("어떻게 처리하지");
+ 				console.log("어떻게 처리하지");
 	
 	
 				// 등록하기 이후 조회 처리와 동일 -> 이전 tr태그의 내용을 조회폼 형식으로 출력
@@ -581,22 +581,25 @@
 						console.log("이전 상영코드 : " + result.play_id);
 						console.log("이전 상영관 이름 : " + result.theater_name);
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영코드 : " + result.play_id);
-						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영코드의 타입 : " + typeof(result.play_id));
+						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영코드의 타입 : " + typeof(result.play_id)); // number
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 시작시간 : " + result.play_start_time);
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 시작시간의 타입 : " + typeof(result.play_start_time));
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영일자 : " + result.play_date);
 						console.log("다음 수정버튼 클릭 시 조회폼으로 불러올 상영일자의 타입 : " + typeof(result.play_date));
 						
 						
-// 						$("#" + result.play_id).append(
-// 						'<td colspan="8"></td>'		
-// 						);
 
-//						console.log($("#" + result.play_id).length); // 0
-						// => tr의 아이디 값을 인식 못함.. 요소 인식을 못함
+						console.log(result.play_id); // 406
+						console.log(String(result.play_id)); // 406
+						console.log($("#" + result.play_id).length); // 0
+						// => tr 출력은 되는데 아이디 요소 인식을 못함
 						
+// 						$("#" + result.play_id).append(
+// 							'<td colspan="8"></td>'		
+// 						);
 						
-						$("#" + result.play_id).html(
+//						$("#" + String(result.play_id)).html(
+						$("#tr_" + result.play_id).html(
 							'<td id="theater_name_mod" data-theater-name="' + result.theater_name + '">' + result.theater_name + '</td>'
 							+ '<td id="room_name_mod" data-room_name="' + result.room_name + '">' + result.room_name + '</td>'
 							+ '<input type="hidden" value="' + result.room_id + '" id="room_id">'
@@ -1056,7 +1059,7 @@
 			                },
 			                error: function(xhr, textStatus, errorThrown) {
 // 			                    alert("ajax 요청 실패! 항목을 처음부터 순서대로 다시 선택해 수정해보세요!" + xhr + ", " + textStatus);
-		        				alert("상영 일정 수정에 실패했습니다! 항목을 처음부터 순서대로 선택해 다시 수정해보세요!");
+		        				alert("중복되는 상영 일정이 존재합니다! 다시 시도해보세요!");
 			                    location.reload();
 			                    // ajax 요청 실패 시 화면 전환 없이 다시 선택해도 수정 가능한지 확인하기
 			                    // => 일단 불가능해서 현재는 reload() 처리

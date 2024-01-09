@@ -452,6 +452,16 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	background-color: #C4C4C4;
 	color: #000000;
 }
+
+/* 관리자 페이지 게시판 중 높이가 낮은 표에 적용  */
+#shortTable {
+	margin-top: 20px;
+	height: 500px;
+}
+
+#shortTableContent {
+	height: 180px;
+}  
 /* =============== 영화 조회, 등록, 수정,검색 페이지 정보 표시 =================== */
 /* 영화 목록조회 게시판의 제목 */
 #movieList #movieTitle {
