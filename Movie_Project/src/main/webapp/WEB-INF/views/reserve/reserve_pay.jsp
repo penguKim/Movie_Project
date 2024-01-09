@@ -26,6 +26,12 @@
 	console.log(randomCode);
 	var totalPrice = 0;
 	$(function(){
+		<%-- 뒤로가기 방지 --%>
+		if (performance.navigation.type === 2) { <%-- 0 : 처음 로딩/새로고침, 1 : 페이지가 앞/뒤로 이동, 2 : 페이지가 뒤로 이동  --%>
+			alert('비정상적인 접근입니다.\n메인페이지로 이동합니다.');
+			location.href = './'; //다른 페이지로 이동
+		}	
+		
 		var typeCount = "${map.typeCount}";
 		var types = typeCount.split(",");
 		for(var i = 0; i < types.length; i++) {
