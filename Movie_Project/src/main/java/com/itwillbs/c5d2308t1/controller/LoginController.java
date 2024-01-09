@@ -535,11 +535,50 @@ public class LoginController {
 		
 		return "login/Mypage_LostBoard_List";
 	}
-	
-	@GetMapping("Mypage_LostBoad")
-	public String mypage_LostBoad() { // 분실물 문의 상세게시판으로 이동
-		return "login/Mypage_LostBoad";
+	// 마이페이지 분실물 삭제
+	@GetMapping("myLostDelete")
+	public String myLostDelete(HttpSession session, Model model, CsVO cs) {
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다!");
+			model.addAttribute("targetURL", "memberLogin");
+			return "forward";
+		}
+		
+		// 해당 게시물 정보 조회
+		Map<String, Object> myLost = service.getMyLostDetail(cs);
+		
+		if(!sId.equals(myLost.get("member_id"))) {
+			model.addAttribute("msg", "삭제권한이 없습니다!");
+			return "fail_back";
+		}
+		
+		cs.setMember_id(myLost.get("member_id").toString());
+
+		// LoginService - removeMyOneOnOne() 메서드 호출해 해당 글 상세 내용 조회
+		// 파라미터 : CsVO 객체(cs) 		리턴타입 : int (deleteCount) 
+		int deleteCount = service.removeMyLost(cs);
+		if(deleteCount > 0) {
+			// 서버에서 파일 삭제 작업
+			try {
+				String uploadDir = "/resources/upload";
+				String saveDir = session.getServletContext().getRealPath(uploadDir);
+				String fileName = myLost.get("cs_file").toString();
+				
+				if(!fileName.equals("")) {
+					Path path = Paths.get(saveDir + "/" + fileName);
+					Files.deleteIfExists(path);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/Mypage_LostBoard_List";
+		} else {
+			model.addAttribute("msg", "1대1문의 글 삭제에 실패했습니다!");
+			return "fail_back";
+		}
 	}
+	
 	
 	// ======================= 마이페이지 상품 구매 내역===============================================
 	// 마이페이지 상품 구매 내역

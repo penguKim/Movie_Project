@@ -137,6 +137,22 @@
 			LIMIT #{page.startRow}, #{page.listLimit}
 		</select>
 		
+			<!-- 분실물 문의 글 상세 조회 -->
+	<select id="selectMyLostDetail" resultType="hashmap">
+		SELECT *
+		FROM cs
+		LEFT OUTER JOIN theaters
+		ON theaters.theater_id = cs.theater_id
+		WHERE cs_type = '분실물문의'
+		AND cs_id = #{cs_id}
+	</select>	
+		
+	<!-- 분실물 삭제 처리 -->
+	<delete id="deleteMyLost">
+		DELETE FROM cs
+		WHERE cs_id = #{cs_id} and member_id = #{member_id}
+	</delete>
+		
 	<!-- 리뷰 조회 -->
 	<select id="selectMyreview" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">
 	    SELECT review_id, review_content, review_date, r.movie_id, r.member_id, m.movie_title

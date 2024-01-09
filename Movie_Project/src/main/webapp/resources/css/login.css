@@ -645,3 +645,10 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
 #my_table1 th {
 	border-bottom: 1px solid #9d9d9d; /* 제목 아래 얇은 실선 */
 }
+
+#admin_sub {
+	display: inline-block;
+	position: relative;
+	margin: auto;
+/* 	left: 6em; */
+}

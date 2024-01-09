@@ -176,6 +176,16 @@ public class LoginService {
 		
 		return mapper.selectLostListCount(sId,page);
 	}
+	// 마이페이지 분실물 삭제 처리
+	public Map<String, Object> getMyLostDetail(CsVO cs) {
+		
+		return mapper.selectMyLostDetail(cs);
+	}
+
+	public int removeMyLost(CsVO cs) {
+		
+		return mapper.deleteMyLost(cs);
+	}
 
 	
 

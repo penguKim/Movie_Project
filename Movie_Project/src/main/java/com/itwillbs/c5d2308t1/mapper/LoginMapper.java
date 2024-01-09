@@ -103,6 +103,11 @@ public interface LoginMapper {
 	int getLostBoardCount(String sId);
 
 	List<HashMap<String, Object>> selectLostListCount(@Param("sId") String sId, @Param("page") PageDTO page);
+	
+	// 마이페이지 분실물 상세 조회
+	Map<String, Object> selectMyLostDetail(CsVO cs);
+	// 마이페이지 분실물 삭제 처리
+	int deleteMyLost(CsVO cs);
 
 
 

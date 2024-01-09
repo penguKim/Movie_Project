@@ -8,12 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
-#admin_sub {
-	display: inline-block;
-	position: relative;
-	margin: auto;
-/* 	left: 6em; */
-}
 
 </style>
 <title>분실물 문의 상세</title>
@@ -22,15 +16,16 @@
 <link href="${pageContext.request.contextPath }/resources/css/login.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	$(function() { 
-		$("#modify").on("click", function() {
-			if(confirm("답변을 수정하시겠습니까?")) {
-				return true;
-			} else {
-				return false;
-			}
-		});		
+$(function() {
+	$("#myLostDelete").on("click", function() {
+		if(confirm("문의 글을 삭제하시겠습니까?")) {
+			return true;
+		} else {
+			return false;
+		}
 	});
+	
+});
 </script>
 </head>
 <body>
@@ -48,8 +43,8 @@
 				<jsp:include page="mypage_menubar.jsp"></jsp:include>
 			</div>
 			<div id="admin_sub" align="center">
-				<form action="" method="post">
-					<table border="1" id="MyOneOnOneTable">
+				<form action="myLostDelete">
+					<table id="MyOneOnOneTable">
 						<tr>
 							<th width="150">번호</th>
 							<td>${myLostDetail.cs_id}</td>
@@ -113,7 +108,8 @@
 					<div id="admin_writer"> 
 						<input type="hidden" name="cs_id" value="${myLostDetail.cs_id }">	
 						<input type="hidden" name="pageNum" value="${param.pageNum }">	
-<!-- 						<input type="submit" value="답변 삭제" formaction=""> -->
+<!-- 						<input type="submit" value="답변 삭제" formaction=""> --><br>
+						<input type="submit" value="삭제하기" id="myLostDelete">
 						<input type="button" value="돌아가기" onclick="history.back();">
 					</div>
 				</form>
