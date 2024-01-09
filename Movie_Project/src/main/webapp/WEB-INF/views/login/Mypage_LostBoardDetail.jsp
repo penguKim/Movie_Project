@@ -49,9 +49,9 @@
 			</div>
 			<div id="admin_sub" align="center">
 				<form action="" method="post">
-					<table border="1" id="my_table2">
+					<table border="1" id="MyOneOnOneTable">
 						<tr>
-							<th>번호</th>
+							<th width="150">번호</th>
 							<td>${myLostDetail.cs_id}</td>
 						</tr>
 						<tr>
@@ -75,15 +75,20 @@
 							<td>${myLostDetail.cs_content }</td>
 						</tr>
 						<tr>
-							<th>첨부파일</th>
+							<th>첨부 사진</th>
 							<td>
-								<div class = "file">
-									<c:if test="${not empty myLostDetail.cs_file}">
-										<c:set var="original_file_name" value="${fn:substringAfter(myLostDetail.cs_file, '_')}"/>
-										${original_file_name}
-										<a href="${pageContext.request.contextPath }/resources/upload/${myLostDetail.cs_file}" download="${original_file_name}"><input type="button" value="다운로드"></a>
-									</c:if>
-								</div>
+								<c:choose>
+									<c:when test="${not empty myLostDetail.cs_file}">
+										<div class = "file">
+											<c:set var="original_file_name" value="${fn:substringAfter(myLostDetail.cs_file, '_')}"/>
+											${original_file_name}
+											<a href="${pageContext.request.contextPath }/resources/upload/${myLostDetail.cs_file}" download="${original_file_name}"><input type="button" value="다운로드"></a>
+										</div>
+									</c:when>
+									<c:otherwise>
+										없음
+									</c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 						<tr>
