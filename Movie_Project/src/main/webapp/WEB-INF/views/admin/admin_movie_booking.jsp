@@ -13,9 +13,8 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	function popUp(payment_id) {
-		window.open("adminMovieBookingMod?payment_id="+payment_id, "_blank", "width=579, height=500, left=550, top=100"); 
-		return false;
+	function resDetail(payment_id) {
+		location.href="adminMovieBookingMod?payment_id="+payment_id;
 	}
 </script>
 </head>
@@ -73,7 +72,7 @@
 									<c:if test="${resList.payment_status eq 0}">결제취소</c:if>
 									<c:if test="${resList.payment_status eq 1}">결제완료</c:if>
 								</td>
-								<td><input type="button" value="상세보기" onclick = "popUp(${resList.payment_id})"></td>
+								<td><input type="button" value="상세보기" onclick = "resDetail(${resList.payment_id})"></td>
 								</tr>
 							</c:if>
 						</c:forEach>

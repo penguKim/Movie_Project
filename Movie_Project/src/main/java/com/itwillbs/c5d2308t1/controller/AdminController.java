@@ -572,9 +572,14 @@ public class AdminController {
 			     						@RequestParam(defaultValue = "1") int pageNum,
 			     						HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
-		
+		System.out.println(sId);
+		if(sId == null || !sId.equals("admin")) {
+			model.addAttribute("msg","잘못된 접근입니다.");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
 		// 페이지 번호와 글의 개수를 파라미터로 전달
-		PageDTO page = new PageDTO(pageNum, 30);
+		PageDTO page = new PageDTO(pageNum, 15);
 		// 전체 게시글 갯수 조회
 		int listCount = service.getReserveListCount(searchKeyword);
 		System.out.println(listCount);
@@ -586,16 +591,24 @@ public class AdminController {
 		
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("resList", resList);
-			return "admin/admin_movie_booking";
+		
+		return "admin/admin_movie_booking";
 		}
+		
+		
 		@GetMapping("cancleBooking")
 		public String cancleBooking(@RequestParam(defaultValue = "") String searchKeyword, 
 													@RequestParam(defaultValue = "1") int pageNum,
 													HttpSession session, Model model) {
 			String sId = (String)session.getAttribute("sId");
+			if(sId == null || !sId.equals("admin")) {
+				model.addAttribute("msg","잘못된 접근입니다.");
+				model.addAttribute("targetURL", "./");
+				return "forward";
+			}
 			
 			// 페이지 번호와 글의 개수를 파라미터로 전달
-			PageDTO page = new PageDTO(pageNum, 30);
+			PageDTO page = new PageDTO(pageNum, 15);
 			// 전체 게시글 갯수 조회
 			int listCount = service.getCancleReserveListCount(searchKeyword);
 			System.out.println(listCount);
@@ -612,17 +625,18 @@ public class AdminController {
 
 		// 관리자페이지 영화 예매 정보 상세 조회 및 수정/삭제 페이지로 이동
 		@GetMapping("adminMovieBookingMod")
-		public String adminMovieBookingMod(@RequestParam String payment_id, Map<String, String> map, Model model) {
+		public String adminMovieBookingMod(@RequestParam String payment_id, Map<String, String> map, Model model,HttpSession session) {
+			String sId = (String)session.getAttribute("sId");
+			if(sId == null || !sId.equals("admin")) {
+				model.addAttribute("msg","잘못된 접근입니다.");
+				model.addAttribute("targetURL", "./");
+				return "forward";
+			}
+			
 			map = reserve.getresInfoDetail(payment_id);
 			model.addAttribute("resList", map);
 			return "admin/admin_movie_booking_modify";
 		}
-		
-		@PostMapping("movieBooking") // 영화 예매 팝업(수정/삭제) : admin_movie_booking_modify.jsp
-		public String movieBooking() {
-			return "";
-		}
-		
 	// ===========================================================================================
 	// ********************************* 관리자 페이지 스토어 상품 관리 페이지***********************
 	// 관리자페이지 스토어 상품 관리 페이지로 이동

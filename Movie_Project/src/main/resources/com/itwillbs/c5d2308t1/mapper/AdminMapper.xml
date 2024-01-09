@@ -647,8 +647,9 @@
 	<select id="selectReserveListCount" resultType="int">
 		SELECT COUNT(*)
 		FROM resView
+		WHERE payment_status = 1
 		<if test="!searchKeyword.equals('')">
-			WHERE
+			AND
 				member_id LIKE '%${searchKeyword}%'
 		</if>
 	</select>
@@ -657,8 +658,9 @@
 	<select id="selectReserveList" resultType="map">
 		SELECT *
 		FROM resView
+		WHERE payment_status = 1
 		<if test="!searchKeyword.equals('')">
-			WHERE
+			AND
 				member_id LIKE '%${searchKeyword}%'
 		</if>
 		ORDER BY payment_datetime DESC
