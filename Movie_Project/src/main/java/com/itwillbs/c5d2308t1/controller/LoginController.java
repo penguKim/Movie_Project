@@ -91,10 +91,8 @@ public class LoginController {
 		String sId = (String)session.getAttribute("sId");
 		// 마이페이지 최근 예매 내역 
 		List<Map<String, String>> resMap = reserve.getMypage(sId);
-		System.out.println(resMap);
 		// 마이페이지 최근 상품 구매 내역
 		List<RefundVO> productList = service.getMypageProductList(sId);
-		System.out.println(productList);
 		
 		model.addAttribute("productList", productList);
 		model.addAttribute("resMap",resMap);
@@ -201,19 +199,21 @@ public class LoginController {
 	    // 기존 비밀번호 저장
 	    // oldPasswd와 기존 패스워드 비교하여 일치할 경우에만 정보 수정 또는 회원 탈퇴 기능 실행
 	    // 새 비밀번호가 있을 경우 암호화 처리
-	    BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
-	    if (newPasswd != null && !newPasswd.equals("")) {
-	        newPasswd = passwoedEncoder.encode(newPasswd);
-	    }
+	    
+//	    BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
+//	    if (newPasswd != null && !newPasswd.equals("")) {
+//	        newPasswd = passwoedEncoder.encode(newPasswd);
+//	    }
 	    
 	    // 기존 비밀번호 확인하기
 	    member.setMember_id(sId);
 	    member.setMember_passwd(dbmember.getMember_passwd());
 	    
-	    System.out.println("내가 현재 가진 비밀번호: " + dbmember.getMember_passwd());
-	    System.out.println("내가 입력한 비밀번호: " + oldPasswd);
 	    
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	    
+//	    BCryptPasswordEncoder passwordEncoder2 = new BCryptPasswordEncoder();
+	    
 	    if (oldPasswd == null || oldPasswd.equals("")) {
 	        model.addAttribute("msg", "기존 비밀번호를 입력하세요.");
 	        return "fail_back";
@@ -224,23 +224,39 @@ public class LoginController {
 	        return "fail_back";
 	    }
 	    
-	    int checkMember = service.checkMember(sId, newPasswd);
+	 // 기존 비밀번호와 DB에 저장된 비밀번호가 다를 경우 실패 처리
+	    if (!passwordEncoder.matches(oldPasswd, dbmember.getMember_passwd())) {
+	        model.addAttribute("msg", "기존 비밀번호가 올바르지 않습니다.");
+	        return "fail_back";
+	    }
 
+	    // 새로운 비밀번호와 기존 비밀번호가 동일할 경우 실패 처리
+	    if (oldPasswd.equals(newPasswd)) {
+	        model.addAttribute("msg", "기존 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.");
+	        return "fail_back";
+	    }
+	    
 	    if (oldPasswd != null && passwordEncoder.matches(oldPasswd, dbmember.getMember_passwd())) {
-	        if (checkMember > 0) {
-	            model.addAttribute("msg", "수정이 완료되었습니다.");
-	            model.addAttribute("targetURL", "Mypage");
-	            return "forward";
-	        } else {
-	            model.addAttribute("msg", "수정에 실패했습니다.");
-	            return "fail_back";
-	        }
-	    } else {
+	    BCryptPasswordEncoder passwoedEncoder = new BCryptPasswordEncoder();
+	    if (newPasswd != null && !newPasswd.equals("")) {
+	    	newPasswd = passwoedEncoder.encode(newPasswd);
+	    }
+	    	
+            int checkMember = service.checkMember(sId, newPasswd);
+            
+	            if (checkMember > 0) {
+	                model.addAttribute("msg", "수정이 완료되었습니다.");
+	                model.addAttribute("targetURL", "Mypage");
+	                return "forward";
+	            } else {
+	                model.addAttribute("msg", "수정에 실패했습니다.");
+	                return "fail_back";
+	            }
+	            } else {
 	        model.addAttribute("msg", "기존 비밀번호가 틀렸습니다.");
 	        return "fail_back";
 	    }
 	}
-
 		
 	// 회원 탈퇴를 위한 회원조회
 	@GetMapping("memberDie")
@@ -285,8 +301,8 @@ public class LoginController {
 			System.out.println("현재 나의 비밀번호 :" + member.getMember_passwd());
 			System.out.println("내가 입력받은 비밀번호 :" +  oldPasswd);
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			int dbmember = service.statusMember(member); 
 			if (oldPasswd != null && passwordEncoder.matches(oldPasswd, dbmemberPs.getMember_passwd())) {
+				int dbmember = service.statusMember(member); 
 				if (dbmember > 0) {
 					model.addAttribute("msg", "회원탈퇴가 완료되었습니다.");
 					model.addAttribute("targetURL", "main");
@@ -622,13 +638,11 @@ public class LoginController {
 			model.addAttribute("targetURL", "memberLogin");
 			return "forward";
 		}
-		System.out.println("받아오는 데이터" + refund);
 		
 		refund = service.getMyStoreDetail(refund); 
 		
 		model.addAttribute("refund", refund);
 		
-		System.out.println("상품 상세 내역 : " + refund);
 		
 		return "login/Mypage_product_detail";
 	}
