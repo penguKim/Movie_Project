@@ -18,39 +18,85 @@
 	$(function() {
 		<%-- ==============기존 회원 정보 저장============= --%>
 		let member_name = $("#member_name").val();
+		let member_id = $("#member_id").val();
 		let member_passwd = $("#member_passwd").val();
 		let member_birth = $("#member_birth").val();
 		let member_phone = $("#member_phone").val();
 		let member_email = $("#member_email").val();
 		<%-- ========================================== --%>
-		
+		let isDuplicateId = false; <%-- 아이디 중복 여부를 저장할 변수 선언 --%>
 		let isDuplicateEmail = false; <%-- 이메일 중복 여부를 저장할 변수 선언 --%>
 		let isDuplicatePhone = false; <%-- 휴대폰번호 중복 여부를 저장할 변수 선언 --%>
 		let isSamePasswd = true; <%-- 패스워드 일치 여부를 저장할 변수 선언 --%>
 		let isSafePasswd = true; <%-- 패스워드 안전도를 저장하는 변수 --%>
+		iscorrectId = true;
 		let iscorrectPasswd = true; <%-- 비밀번호가 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		let iscorrectName = true; <%-- 이름이 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		let iscorrectPhone = true; <%-- 휴대폰번호가 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		let iscorrectEmail = true; <%-- 이메일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
 		let iscorrectBirth = true; <%-- 생일이 정규표현식에 적합한지를 저장할 변수 선언 --%>
+		let isSameStatus = true;
 
 		<%-- 이름 확인 --%>
-// 		$("#member_name").on("blur", function() {	
-// 			if(member_name == $("#member_name").val()) { // 기존 이름과 동일할 경우
-// 				$("#checkNameResult").text("기존과 동일한 이름입니다").css("color", "blue");
-// 				iscorrectName = true;
-// 			} else { 
-<%-- 				let regName = /^[가-힣]{2,5}$/; 한글 2~5글자 --%>
-// 				if(!regName.test($("#member_name").val())){
-// 					$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
-// 					iscorrectName = false;
-// 				} else if(regName.test($("#member_name").val())){
-// 					$("#checkNameResult").text("사용 가능한 이름입니다").css("color", "blue");
-// 					iscorrectName = true;
-// 		        }
-// 			}
-			
-// 		});	
+		$("#member_name").on("blur", function() {	
+			if(member_name == $("#member_name").val()) { // 기존 이름과 동일할 경우
+				$("#checkNameResult").text("기존과 동일한 이름입니다").css("color", "blue");
+				iscorrectName = true;
+			} else { 
+				let regName = /^[가-힣]{2,5}$/; <%-- 한글 2~5글자 --%>
+				if(!regName.test($("#member_name").val())){
+					$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
+					iscorrectName = false;
+				} else if(regName.test($("#member_name").val())){
+					$("#checkNameResult").text("사용 가능한 이름입니다").css("color", "blue");
+					iscorrectName = true;
+		        }
+			}
+		});	
+		
+		<%-- 아이디 확인 --%>
+		$("#member_id").blur(function() {
+			if(member_id == $("#member_id").val()) { // 
+				$("#checkIdResult").text("기존과 동일한 아이디입니다").css("color", "blue");
+				iscorrectId = true;
+			} else { 
+				member_id = $("#member_id").val();
+				<%-- 아이디 길이, 문자 종류 확인 --%>
+				let regId = /^[A-Za-z0-9]{5,20}$/; <%-- 5~20자의 영문(대소문자), 숫자 --%>
+				if(!regId.exec(member_id)) {
+					$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
+					iscorrectId = false;
+				} else {
+					<%-- AJAX를 통해 아이디 중복값 확인 --%>
+					$.ajax({
+						url: "checkDup",
+						data: {
+							"member_id" : member_id
+						},
+						dataType: "json",
+						success: function(checkDupId) {
+							if(checkDupId) { // 중복
+	 							$("#checkIdResult").text("이미 사용중인 아이디입니다").css("color", "red");
+	 							iscorrectId = false;
+	 							isDuplicateId = true;
+							} else { // 사용가능
+								$("#checkIdResult").text("사용 가능한 아이디입니다").css("color", "blue");
+								iscorrectId = true;
+	 							isDuplicateId = false;
+							}
+								
+						},
+						error: function(request,status,error) {
+						      // 요청이 실패한 경우 처리할 로직
+						      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
+						}
+					});
+				}
+			}
+		});	
+		
+		
+		
 		
 		<%-- 패스워드 확인 --%>
 		$("#newPasswd").blur(function() {	
@@ -243,6 +289,24 @@
 			}
 		});	
 		
+		<%-- 회원의 상태를 변경할때 확인 --%>
+		let status = "";
+		
+		$("#member_status").on("focus", function() {
+			status = $(this).val();
+			console.log(status);
+		});
+		
+		$("#member_status").on("change", function() {
+			if(confirm("회원상태를 정말 변경하시겠습니까?")) {
+				status = $(this).val();
+				isSameStatus = false;
+			} else {
+				$(this).val(status);
+				isSameStatus = true;
+			}
+		});
+		
 		<%-- submit 동작을 수행할 때 값을 올바르게 입력했는지 확인 --%>
 		$("form").on("submit", function() {
 			if(!isSafePasswd) { <%-- 비밀번호가 안전하지 않을 때 --%>
@@ -255,6 +319,14 @@
 // 				$("#checkNameResult").text("2~5글자의 한글만 사용 가능합니다").css("color", "red");
 // 				$("#member_name").focus();
 // 				return false; // submit 동작 취소
+			} else if(isDuplicateId) {  <%-- 아이디 미입력 시 --%>
+				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
+				$("#member_id").focus();
+				return false; // submit 동작 취소
+			} else if(!iscorrectId) {  <%-- 아이디 미입력 시 --%>
+				$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
+				$("#member_id").focus();
+				return false; // submit 동작 취소
 			} else if(!iscorrectPhone) {  <%-- 휴대폰번호 미입력 시 --%>
 				$("#checkPhoneResult").text("휴대폰번호를 확인해주세요").css("color", "red");
 				$("#member_phone").focus();
@@ -282,7 +354,13 @@
 					return confirm("회원 정보를 수정하시겠습니까?");
 				}
 			}	
-			return confirm("회원 정보를 수정하시겠습니까?"); // submit 동작 수행(생략 가능)
+			
+			if(isSameStatus) {
+				return confirm("회원 정보를 수정하시겠습니까?"); // submit 동작 수행(생략 가능)
+			} else {
+				return confirm("회원상태와 정보를 수정하시겠습니까?"); // submit 동작 수행(생략 가능)
+			}
+			
 	
 		});
 		
@@ -304,61 +382,62 @@
 		<section id="content">
 			<h1 id="h01">${member.member_name }의 회원정보</h1>
 			<hr>		
-			<div id="admin_sub">
+			<div id="member_modify">
 				<form action="memberModOrDlt" method="post">
 					<table border="1" id="modify_table" class="member_modify_table">
 						<tr>
 							<th>이름</th>	
 							<td>
-								<input type="text" name="member_name" value="${member.member_name }" id="member_name" readonly>
+								<input type="text" name="member_name" value="${member.member_name }" id="member_name" class="shortInput">
 								<div id="checkNameResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>계정</th>
 							<td>
-								<input type="text" name="member_id" value="${member.member_id }" id="mamber_id" readonly>
+								<input type="text" name="member_id" value="${member.member_id }" id="member_id" class="shortInput">
+								<div id="checkIdResult" class="resultArea"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>새 비밀번호</th>
 							<td>
-								<input type="password" name="newPasswd" id="newPasswd" placeholder="8~16글자(변경시 입력)">
+								<input type="password" name="newPasswd" id="newPasswd" placeholder="8~16글자(변경시 입력)" class="shortInput">
 								<div id="checkNewPasswdResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>새 비밀번호확인</th>
 							<td>
-								<input type="password" name="newPasswd2" id="newPasswd2" placeholder="(변경시 입력)">
+								<input type="password" name="newPasswd2" id="newPasswd2" placeholder="(변경시 입력)" class="shortInput">
 								<div id="checkNewPasswd2Result"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>생년월일</th>
 							<td>
-								<input type="text" id="member_birth" name="member_birth" value="${member.member_birth }" placeholder="생년월일" maxlength="10">
+								<input type="text" id="member_birth" name="member_birth" value="${member.member_birth }" placeholder="생년월일" maxlength="10" class="shortInput">
 								<div id="checkBirthResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>휴대폰번호</th>
 							<td>
-								<input type="text" id="member_phone" name="member_phone" value="${member.member_phone }" placeholder="휴대폰번호"  maxlength="13">
+								<input type="text" id="member_phone" name="member_phone" value="${member.member_phone }" placeholder="휴대폰번호"  maxlength="13" class="shortInput">
 								<div id="checkPhoneResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>이메일</th>
 							<td>
-								<input type="text" name="member_email" value="${member.member_email }" id="member_email" <c:if test="${member.member_id ne 'admin' }">readonly</c:if>>
+								<input type="text" name="member_email" value="${member.member_email }" id="member_email" class="shortInput">
 								<div id="checkEmailResult"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>성별</th>
 							<td>
-								<select>
+								<select name="member_gender">
 									<c:choose>
 										<c:when test="${member.member_gender eq 'M' }">
 											<option value="M" selected>남성</option>
@@ -373,7 +452,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th>활동상태</th>
+							<th>회원상태</th>
 							<td>
 								<c:choose>
 									<c:when test="${member.member_id eq 'admin' }">

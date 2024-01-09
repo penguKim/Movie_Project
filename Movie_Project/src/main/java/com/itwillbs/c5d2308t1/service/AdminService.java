@@ -83,16 +83,6 @@ public class AdminService {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// ================ 회원 관리 게시판 ================
 	// 회원 관리 게시판 페이징 처리를 위한 게시물 개수 조회 작업 요청
 	public int getMemberListCount(String searchType, String searchKeyword) {
@@ -112,9 +102,6 @@ public class AdminService {
 	public int memberModOrDlt(MemberVO member, String newPasswd) {
 		return mapper.updatememberModOrDlt(member, newPasswd);
 	}
-	
-	
-	
 	
 	// ============ 자주묻는질문관리, 공지사항관리 게시판 =================
 	
@@ -341,7 +328,8 @@ public class AdminService {
 	public int getPaymentBuyCancel(Map<String, String> map) {
 		return mapper.updatePaymentBuyCancel(map);
 	}
-
+	
+	// ================== 이벤트 관리 게시판 ==================================
 	// 이벤트 등록 작업
 	public int registEvent(EventsVO event) {
 		return mapper.insertEvent(event);
@@ -376,13 +364,6 @@ public class AdminService {
 	public int modifyEvent(EventsVO event) {
 		return mapper.updateEvent(event);
 	}
-
-
-
-
-
-
-
 
 }
 

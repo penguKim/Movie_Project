@@ -138,7 +138,7 @@ public class AdminController {
 	// 관리자페이지 영화 정보 관리 페이지로 이동
 	@GetMapping("adminMovie")
 	public String adminMovie(@RequestParam(defaultValue = "") String searchKeyword, 
-							 @RequestParam(defaultValue = "allMovie") String sortMovie,
+							 @RequestParam(defaultValue = "release") String sortMovie,
 						     @RequestParam(defaultValue = "1") int pageNum, 
 						     MemberVO member, HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
@@ -147,9 +147,6 @@ public class AdminController {
 			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
-		
-		System.out.println("선택한 영화 검색어 >>>>>>>>>>>>>>>>>> " + searchKeyword);
-		System.out.println("선택한 영화 타입 >>>>>>>>>>>>>>>>>> " + sortMovie);
 		
 		// 페이지 번호와 글의 개수를 파라미터로 전달
 		PageDTO page = new PageDTO(pageNum, 15);
@@ -163,6 +160,7 @@ public class AdminController {
 		
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("sortMovie", sortMovie);
 		return "admin/admin_movie";
 	}
 	
@@ -215,7 +213,6 @@ public class AdminController {
 		return "true";
 	}	
 	
-
 	// DB에 등록된 영화 중복 판별 작업
 	@ResponseBody
 	@GetMapping("movieDupl")
@@ -1231,7 +1228,6 @@ public class AdminController {
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		// 한 페이지에 표시할 회원 목록 조회
 		List<MemberVO> memberList = service.getMemberList(searchType, searchKeyword, page);
-		
 		// 게시물 목록 조회 결과를 Map 객체에 추가
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("memberList", memberList);
@@ -1240,6 +1236,7 @@ public class AdminController {
 		
 		// 대량의 데이터를 JSON 객체로 변환하기
 		JSONObject jsonObject = new JSONObject(map);
+		System.out.println(jsonObject);
 		// 생성된 JSON 객체를 문자열로 리턴
 		return jsonObject.toString();
 	}

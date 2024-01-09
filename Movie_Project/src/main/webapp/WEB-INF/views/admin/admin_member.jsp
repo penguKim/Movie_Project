@@ -58,6 +58,7 @@
 					$("table").append(function() {
 						var html = '<tr>'
 						  + '<td>' + member.member_name + '</td>'
+						  + '<td>' + member.member_age + '세</td>'
 						  + '<td>' + member.member_id + '</td>'
 						  + '<td>' + member.member_email + '</td>'
 						  + '<td class="member_status">';
@@ -81,6 +82,7 @@
 						return html;
 					});
 				}
+				
 				// 끝페이지 번호(maxPage) 값을 변수에 저장
 				maxPage = data.maxPage;
 			},
@@ -109,6 +111,7 @@
 			<h1 id="h01">회원정보관리</h1>
 			<hr>
 			<div id="admin_main">
+<!-- 				<div id="memberArea"> -->
 					<div id="member_Search">
 						<%-- 검색 기능을 위한 폼 생성 --%>
 						<form action="adminMember">
@@ -120,15 +123,17 @@
 							<input type="submit" value="검색">
 						</form>
 					</div>
-				<table border="1" width="1000">
-					<tr>
-						<th width="120">이름</th>
-						<th width="120">아이디</th>
-						<th>이메일</th>
-						<th width="100">회원상태</th>
-						<th width="100">계정종류 및 변경</th>
-					</tr>
-				</table>
+					<table border="1">
+						<tr>
+							<th width="120">이름</th>
+							<th id="age" width="50">나이</th>
+							<th width="120">아이디</th>
+							<th>이메일</th>
+							<th width="100">회원상태</th>
+							<th width="100">계정종류 및 변경</th>
+						</tr>
+					</table>
+<!-- 				</div> -->
 			</div>
 		</section>
 	</div>

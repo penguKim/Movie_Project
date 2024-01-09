@@ -192,7 +192,6 @@ public interface AdminMapper {
 	List<Map<String, String>> selectProducts();
 	
 	
-	// =========================== 상품 결제 관리 게시판 ===========================
 	// 결제 관리 게시물 리스트 카운트
 	int selectPaymentListCount(@Param("searchType") String searchType,@Param("searchKeyword") String searchKeyword);
 	
@@ -206,6 +205,7 @@ public interface AdminMapper {
 	int updatePaymentBuyCancel(Map<String, String> map);
 
 	
+	// =========================== 이벤트 관리 게시판 ===========================
 	// 이벤트 등록 작업
 	int insertEvent(EventsVO event);
 

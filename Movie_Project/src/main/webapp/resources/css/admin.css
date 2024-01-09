@@ -429,16 +429,53 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 /* #modify_table { */
 /* 	width: 600px; */
 /* } */
-#modify_table th {
-	width: 150px;
+
+#member_modify {
+	width: 800px; /* 너비 800지정 */
+	margin: 10px auto;	
+	min-height: 600px;
+}
+
+/* a { */
+/* 	color: #000; */
+/* 	text-decoration: none; */
+/* } */
+
+/* #admin_main th, #admin_main td { */
+/* 	height: 40px; */
+/* } */
+
+/* #admin_main a:not(.pagination a) { */
+/* 	text-decoration: none; */
+/* 	color:#666; */
+/* } */
+
+#member_modify #modify_table {
+	width: 100%;
 }
 
 
 /* 폼의 div 영역 폰트와 높이 조절 */
-#modify_table div {
+#member_modify #modify_table div {
 	font-size: 14px;
 	height: 15px;
 }
+
+#modify_table th {
+	width: 150px;
+	height: 60px;
+}
+
+#member_modify td {
+	height: 60px;
+}
+
+#member_modify input[type="text"], #member_modify input[type="password"] {
+	border: none;
+}
+
+
+
 /* =============== 분실물 페이지 =================== */
 #lostNfound #response {
 	background-color: #C4C4C4;

@@ -48,6 +48,8 @@ public class MemberVO {
 	private int theater_id;
 	private String member_gender;
 	
+	// 나이 계산을 위한 새로운 변수
+	private String member_age;
 }
 
 

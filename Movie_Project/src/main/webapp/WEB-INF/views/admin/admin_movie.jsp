@@ -54,10 +54,10 @@
 				<div id="status_select">
 					<form action="adminMovie" id="status_submit">
 						<select name="sortMovie" id="sortMovie">
-							<option value="allMovie" <c:if test="${param.sortMovie eq 'allMovie' }">selected</c:if>>모든 영화</option>
-							<option value="release" <c:if test="${param.sortMovie eq 'release' }">selected</c:if>>상영작</option>
-							<option value="comming" <c:if test="${param.sortMovie eq 'comming' }">selected</c:if>>상영예정작</option>
-							<option value="ending" <c:if test="${param.sortMovie eq 'ending' }">selected</c:if>>종영작</option>
+							<option value="allMovie" <c:if test="${sortMovie eq 'allMovie' }">selected</c:if>>모든 영화</option>
+							<option value="release" <c:if test="${sortMovie eq 'release' }">selected</c:if>>상영작</option>
+							<option value="comming" <c:if test="${sortMovie eq 'comming' }">selected</c:if>>상영예정작</option>
+							<option value="ending" <c:if test="${sortMovie eq 'ending' }">selected</c:if>>종영작</option>
 						</select>
 					</form>
 				</div>
