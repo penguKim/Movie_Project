@@ -99,23 +99,23 @@
 				
 				switch (count) {
 					case 4: 
-						$("#checkPasswdResult").text("안전").css("color", "green");
+						$("#checkPasswdResult").text("안전! 사용할 수 있습니다").css("color", "green");
 						isSafePasswd = true;
 						iscorrectPasswd = true;
 						break;
 					case 3: 
-						$("#checkPasswdResult").text("보통").css("color", "blue");
+						$("#checkPasswdResult").text("보통! 사용할 수 있습니다").css("color", "blue");
 						isSafePasswd = true;
 						iscorrectPasswd = true;
 						break;
 					case 2: 
-						$("#checkPasswdResult").text("주의").css("color", "orange");
+						$("#checkPasswdResult").text("주의! 사용할 수 없습니다").css("color", "orange");
 						isSafePasswd = false;
 						iscorrectPasswd = false;
 						break;
 					case 1: 
 					case 0: 
-						$("#checkPasswdResult").text("위험").css("color", "red");
+						$("#checkPasswdResult").text("위험! 사용할 수 없습니다").css("color", "red");
 						isSafePasswd = false;
 						iscorrectPasswd = false;
 						break;
@@ -217,13 +217,87 @@
 		
 		<%-- 생년월일 확인 --%>
 		let regBirth = /^(19[0-9][0-9]|20[0-2][0-9]).(0[0-9]|1[0-2]).(0[1-9]|[1-2][0-9]|3[0-1])$/; <%-- 1920년~2029년까지/01월~12월까지/01일~31일까지의 8자리 숫자 --%>
-		$("#birth").on("blur", function() {				
+		$("#birth").on("blur", function() {		
+			let inputBirth = $("#birth").val();
+			console.log(inputBirth);
 			if(!regBirth.test($("#birth").val())) {
 				$("#checkBirthResult").text("생년월일을 확인해주세요").css("color", "red");
 				iscorrectBirth = false;
-			} else if(regBirth.test($("#birth").val())) {
-				$("#checkBirthResult").text("사용 가능한 생년월일입니다").css("color", "blue");
-				iscorrectBirth = true;
+			} else if(regBirth.test($("#birth").val())) { // 정규표현식을 통과했을 때 세부적인 확인 필요
+				// 입력한 생일을 연도, 월, 일로 나눔
+				inputBirth.split(".");
+				let year = inputBirth.split(".")[0];
+				let month = inputBirth.split(".")[1];
+				let day = inputBirth.split(".")[2];
+				
+				// 입력한 월을 받아 1, 3, 5, 7, 8, 10, 12월의 경우 1~31일
+				// 4, 6, 9, 11월의 경우 1~30일
+				// 2월의 경우에는 1~28일이고 윤년인 29일까지 입력 가능하도록 판별
+				switch(parseInt(month)) {
+				case 1 : case 3 : case 5 : case 7 : case 8 : case 10 : case 12 :
+					
+					if(!(parseInt(day) >= 1 && parseInt(day) <= 31)) {
+						iscorrectBirth = false;
+						console.log("1~31일 아님");
+					} else {
+						iscorrectBirth = true;
+					}
+					break;
+				case 4 : case 6 : case 9 : case 11 :
+					if(!(parseInt(day) >= 1 && parseInt(day) <= 30)) {
+						console.log("1~30일 아님");
+						iscorrectBirth = false;
+					} else {
+						iscorrectBirth = true;
+					}
+					break;
+				case 2 :
+					// 윤년의 경우 : 4로 나눠지는 해는 윤년이지만
+					//				 그 중 100으로 나눠지는 해는 윤년이 아님
+					//				 그러나 400으로 나눠지는 해는 윤년이다!
+					if((parseInt(year) % 4 == 0 && parseInt(year) % 100 != 0) || parseInt(year) % 400 == 0) {
+						if(!(parseInt(day) >= 1 && parseInt(day) <= 29)) {
+							iscorrectBirth = false;
+						} else {
+							iscorrectBirth = true;
+						}
+					} else {
+						if(!(parseInt(day) >= 1 && parseInt(day) <= 28)) {
+							iscorrectBirth = false;
+						} else {
+							iscorrectBirth = true;
+						}
+					}
+					break;
+					default : iscorrectBirth = false;
+				}
+				
+				// 현재 날짜 이전인지 판단하기 위해 현재 날짜 변수에 저장
+				// 현재 날짜 객체 생성
+				var today = new Date();
+				// 연도 가져오기
+				var curYear = today.getFullYear();
+				// 월 가져오기 (0부터 시작하므로 1을 더해줌)
+				var curMonth = today.getMonth() + 1;
+				// 일 가져오기
+				var curDay = today.getDate();
+				
+				if(curYear == year && curMonth < month) { // 연도가 같을 때 현재 월보다 이후의 월은 입력못함
+					iscorrectBirth = false;
+				} else if(curYear == year && curMonth == month && curDay < day) { // 연도와 월이 같을 때 현재 일보다 이후 일은 입력 못함 
+					iscorrectBirth = false;
+				} else if(curYear < year) { // 현재 연도보다 이후의 연도는 선택하지 못함
+					iscorrectBirth = false;
+				}
+				
+				if(!iscorrectBirth) {
+					$("#checkBirthResult").text("생년월일을 확인해주세요").css("color", "red");
+				} else {
+					$("#checkBirthResult").text("사용 가능한 생년월일입니다").css("color", "blue");
+					iscorrectBirth = true;
+				}
+				
+				
 	        }
 		});	
 		

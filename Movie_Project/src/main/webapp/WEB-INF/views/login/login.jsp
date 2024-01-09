@@ -1,3 +1,4 @@
+<%@page import="org.springframework.web.context.request.SessionScope"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,22 +11,22 @@
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <!-- 네이버 api를 위한 script -->
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
-<!-- 카카오 api를 위한 script -->
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
-  integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
-<script>
-	$(function() {
-  		Kakao.init('9ba6bc87f99afa1257d1e89fba2d1805'); // 사용하려는 앱의 JavaScript 키 입력
-  		Kakao.isInitialized();
-	});
-</script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 
 <script>
-	function loginWithKakao() {
-		Kakao.Auth.authorize({
-			redirectUri: 'http://localhost:8081/c5d2308t1/kakaocallback',
+
+	$(function() {
+		$("#kakao_id_login").click(function() {
+			alert("서비스 준비중입니다");
 		});
-	}
+	});
+	
+	$(function() {
+		$("#google_id_login").click(function() {
+			alert("서비스 준비중입니다");
+		});
+	});
+	
 </script>
 
 </head>
@@ -76,15 +77,17 @@
 					<hr>
 					<!-- 간편로그인 기능 API 참고  -->
 					<section id="api">
-						<h3>소셜계정으로 로그인하기</h3>
+						<h3>소셜계정으로 인증하기</h3>
 						<!-- 카카오 로그인 버튼 노출 영역 -->
-						<div id="kakao_id_login" style="text-align:center"><a id="kakao-login-btn" href="javascript:loginWithKakao()">
+						<div id="kakao_id_login" style="text-align:center">
 						  <img src="${pageContext.request.contextPath}/resources/img/kakao.png" width="60px"/>
-						</a></div>
+						</div>
 						<div id="naver_id_login" style="text-align:center"><a href="${url}"><img src="${pageContext.request.contextPath}/resources/img/naver.png" width="60px"/></a></div>
 						<!-- 구글 로그인 화면으로 이동 시키는 URL -->
 						<!-- 구글 로그인 화면에서 ID, PW를 올바르게 입력하면 oauth2callback 메소드 실행 요청-->
-						<div id="google_id_login" style="text-align:center"><a href="${google_url}"><img src="${pageContext.request.contextPath}/resources/img/google.png" width="60px"/></a></div>
+						<div id="google_id_login" style="text-align:center">
+							<img src="${pageContext.request.contextPath}/resources/img/google.png" width="60px"/>
+						</div>
 					</section>
 					<hr>
 				</div>

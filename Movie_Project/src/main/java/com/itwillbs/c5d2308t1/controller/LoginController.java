@@ -54,12 +54,7 @@ public class LoginController {
         this.NaverLoginVO = NaverLoginVO;
     }
 	
-	/* GoogleLogin */
-	@Autowired
-	private GoogleConnectionFactory googleConnectionFactory;
-	@Autowired
-	private OAuth2Parameters googleOAuth2Parameters;
-	
+
 	@GetMapping("memberLogin") //메인화면에서 로그인 버튼 클릭시 이동
 	public String memberLogin(HttpServletRequest request, HttpSession session, Model model) {
 	    String sId = (String) session.getAttribute("sId");
@@ -80,15 +75,6 @@ public class LoginController {
         
         //네이버 
         model.addAttribute("url", naverAuthUrl);
-        
-        /* 구글code 발행 */
-		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
-		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-
-		System.out.println("구글:" + url);
-
-		model.addAttribute("google_url", url);
-		
 		
 		// 이전 페이지가 null이 아닐 경우 서블릿 주소만 잘라내서 세션에 저장한다.
 		if(prevPage != null) {

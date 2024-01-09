@@ -123,7 +123,7 @@ th {
 #menubar { /* 메뉴바 전체에 */
 	text-align: center; /* 가운데정렬 */
 	width: 160px; /* 넓이지정 */
-	height: 350px; /* 높이지정 */
+	height: 355px; /* 높이지정 */
  	border-radius: 3px; /* 모서리 둥글게 */
  	background-color: #ffffff; /* 배경색 */
 	border: 2px solid #9d9d9d; /* 테두리 */
@@ -175,12 +175,12 @@ th {
 	color: #000;
 }
 
-#main_shortcuts { /* 바로가기 영역 */
+.main_shortcuts { /* 바로가기 영역 */
 	margin: 10px 0; /* 상하단 여백 */
 	text-align: center; /* 가운데정렬 */
 }
 
-#main_shortcuts>a { /* 바로가기 a태그 */
+.main_shortcuts>a { /* 바로가기 a태그 */
 	display: inline-block; /* 나란히 배치하기 위해 변경 */
 	margin: 10px; /* 바깥여백주기 */
 	border: 2px solid #9d9d9d;
@@ -189,29 +189,31 @@ th {
 	text-decoration: none;
 	width: 220px;
 	height: 120px;
-	padding: 20px 20px;
+	padding: 26px 20px;
 	box-sizing: border-box;
-}
-
-#main_shortcuts>a:hover {
-	background-color: #eeeeee;
-}
-
-#main_shortcuts img {
-	width: 70px;
-	height: 70px;
 	vertical-align: middle;
 }
 
-#main_shortcuts span {
+.main_shortcuts>a:hover {
+	background-color: #eeeeee;
+}
+
+.main_shortcuts img {
+	width: 60px;
+	height: 60px;
+	vertical-align: middle;
+}
+
+.main_shortcuts span {
 	width: 100px;
 	display: inline-block;
 	vertical-align: middle;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 16px;
+	margin: 5px;
 }
 
-#main_shortcuts b {
+.main_shortcuts b {
 	text-align: left;
 	font-size: 25px;
 	font-weight: bold;
@@ -407,6 +409,11 @@ input[type="search"] {
 /* Add a grey background color on mouse-over */
 .pagination a:hover:not(.active) {background-color: #ddd;}
 
+#cs_call {
+	text-align: center; /* 알림 중앙정렬 */
+/* 	position: relative; */
+/* 	bottom: 100px; */
+}
 
 
 /* ======== FAQ 질문 리스트에 적용할 css ============ */

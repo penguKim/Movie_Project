@@ -15,23 +15,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <!-- 네이버 api를 위한 script -->
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
-<!-- 카카오 api를 위한 script -->
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
-  integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
-<script>
-	$(function() {
-  		Kakao.init('9ba6bc87f99afa1257d1e89fba2d1805'); // 사용하려는 앱의 JavaScript 키 입력
-  		Kakao.isInitialized();
-	});
-</script>
 
-<script>
-	function loginWithKakao() {
-		Kakao.Auth.authorize({
-			redirectUri: 'http://localhost:8081/c5d2308t1/kakaocallback',
-		});
-	}
-</script>
 <script>
 	$(function() {
 		<%-- 뒤로가기 방지 --%>
@@ -54,10 +38,14 @@
 			var member_email = $("#email").val();
 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			
-			if(!regEmail.exec(member_email)){
-				$("#checkEmailResult").text("이메일 주소를 확인해주세요").css("color", "red");
+			if(member_email == "") {
+				$("#checkResult").text("이메일 주소를 입력해주세요").css("color", "red");
+				iscorrectEmail = false;
+			} else if(!regEmail.exec(member_email)){
+				$("#checkResult").text("이메일 주소가 올바른지 확인해주세요").css("color", "red");
 				iscorrectEmail = false;
 			} else {
+				iscorrectEmail = true;
 				<%-- AJAX를 통해 이메일 중복값 확인 --%>
 				$.ajax({
 					url: "checkDup",
@@ -70,7 +58,6 @@
  							$("#checkResult").text("이미 사용중인 이메일입니다").css("color", "red");
 						} else { // 사용가능
 							$("#checkResult").text("사용 가능한 이메일입니다").css("color", "blue");
-						
 							// 모달창 띄우기
 							$("#modal-subject").html("<h3>입력하신 이메일로<br>인증코드를 발송했습니다.</h3>"
 							+ "<input type='button' value='확인' onclick='$(\"#myModal\").hide();'>"
@@ -80,8 +67,8 @@
 							// 인증여부를 저장하는 변수 값을 true로 변경
 							isChecked = true;
 							
-							$("#sendMail").val("인증번호재발송");
-							
+							$("#sendMail").attr("disabled", "true");
+							$("#sendMail").css("background-color", "gray");
 							
 							// 인증번호 발송 요청
 							$.ajax({
@@ -98,6 +85,7 @@
 								      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
 								}
 							});
+							
 						
 						}
 							
@@ -115,12 +103,12 @@
 		  $("#myModal").hide(); <%-- div 영역 숨김 --%>
 		});
 
-		// 모달 외부 영역 클릭 시 모달 닫기
-		$(window).on("click", function(event) {
-			if ($(event.target).is("#myModal")) { <%-- 클릭한 곳이 모달창 바깥 영역일 경우 --%>
-				$("#myModal").hide(); <%-- div 영역 숨김 --%>
-			}
-		});
+// 		// 모달 외부 영역 클릭 시 모달 닫기
+// 		$(window).on("click", function(event) {
+<%-- 			if ($(event.target).is("#myModal")) { 클릭한 곳이 모달창 바깥 영역일 경우 --%>
+<%-- 				$("#myModal").hide(); div 영역 숨김 --%>
+// 			}
+// 		});
 
 		// 인증번호발송을 누르지 않으면 submit 동작 취소
 		$("form").on("submit", function() {
@@ -156,6 +144,21 @@
 		
 	});
 </script>
+<script>
+
+	$(function() {
+		$("#kakao_id_login").click(function() {
+			alert("서비스 준비중입니다");
+		});
+	});
+	
+	$(function() {
+		$("#google_id_login").click(function() {
+			alert("서비스 준비중입니다");
+		});
+	});
+
+</script>
 
 </head>
 <body>
@@ -182,13 +185,15 @@
 				<section id="api">
 					<h3>소셜계정으로 인증하기</h3>
 					<!-- 카카오 로그인 버튼 노출 영역 -->
-					<div id="kakao_id_login" style="text-align:center"><a id="kakao-login-btn" href="javascript:loginWithKakao()">
+					<div id="kakao_id_login" style="text-align:center">
 					  <img src="${pageContext.request.contextPath}/resources/img/kakao.png" width="60px"/>
-					</a></div>
+					</div>
 					<div id="naver_id_login" style="text-align:center"><a href="${url}"><img src="${pageContext.request.contextPath}/resources/img/naver.png" width="60px"/></a></div>
 					<!-- 구글 로그인 화면으로 이동 시키는 URL -->
 					<!-- 구글 로그인 화면에서 ID, PW를 올바르게 입력하면 oauth2callback 메소드 실행 요청-->
-					<div id="google_id_login" style="text-align:center"><a href="${google_url}"><img src="${pageContext.request.contextPath}/resources/img/google.png" width="60px"/></a></div>
+					<div id="google_id_login" style="text-align:center">
+						<img src="${pageContext.request.contextPath}/resources/img/google.png" width="60px"/>
+					</div>
 				</section>
 				
 				<hr>
