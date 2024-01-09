@@ -24,30 +24,38 @@
 </script>	
 <script>
 	$(function() {
-		
-		$("#agreeAll").on("change", function() {
-			
-			if($("#agreeAll").prop("checked")) {
-				$(":checkbox").prop("checked", true);
-			} else {
-				$(":checkbox").prop("checked", false);
-			}
-		});
-		
-		$("form").on("submit", function() {
-			if(!$("input:checkbox[name=agree]").eq(0).prop("checked") ) {
-				alert("서비스 이용 약관에 동의를 해주세요.");
-				return false;
-			}
-		
-			if(!$("input:checkbox[name=agree]").eq(1).prop("checked") ) {
-				alert("개인정보 수입 및 이용 약관에 동의를 해주세요.");
-				return false;
-			}
-			return true;
-		});
-		
-		
+	    $("#agreeAll").on("change", function() {
+	        if ($("#agreeAll").prop("checked")) {
+	            $(":checkbox").prop("checked", true);
+	        } else {
+	            $(":checkbox").prop("checked", false);
+	        }
+	    });
+	
+	    $(":checkbox[name=agree]").on("change", function() {
+	        var allChecked = true;
+	        $(":checkbox[name=agree]").each(function() {
+	            if (!$(this).prop("checked")) {
+	                allChecked = false;
+	                return false; // 반복문 종료
+	            }
+	        });
+	
+	        $("#agreeAll").prop("checked", allChecked);
+	    });
+	
+	    $("form").on("submit", function() {
+	        if (!$("input:checkbox[name=agree]").eq(0).prop("checked")) {
+	            alert("서비스 이용 약관에 동의를 해주세요.");
+	            return false;
+	        }
+	
+	        if (!$("input:checkbox[name=agree]").eq(1).prop("checked")) {
+	            alert("개인정보 수집 및 이용 약관에 동의를 해주세요.");
+	            return false;
+	        }
+	        return true;
+	    });
 	});
 </script>
 </head>

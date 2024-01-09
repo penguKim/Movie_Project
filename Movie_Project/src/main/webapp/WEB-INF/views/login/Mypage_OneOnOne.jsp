@@ -115,9 +115,11 @@
 							</c:choose>
 						</tr>
 					</table><br>
-					<input type="submit" value="문의 삭제" id="oneOnOneDelete"><br><br>
-					<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">
-
+					<div id="myPageBottomArea">
+						<input type="submit" value="문의 삭제" id="oneOnOneDelete">&nbsp;&nbsp;
+						<input type="button" value="돌아가기" onclick="history.back()"><br><br>
+						<input type="hidden" name="cs_id" value="${oneOnOne.cs_id }">
+					</div>
 				</div>
 							
 			</form>

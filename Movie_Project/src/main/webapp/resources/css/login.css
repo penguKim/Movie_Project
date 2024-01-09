@@ -357,7 +357,7 @@ h1{
 /* ------------------- 마이페이지 ----------------------------- */
 /* 페이지번호 */
 .pagination {
-	padding: 0px 0 0 250px;
+	padding: 0px 0 0 320px;
 	text-align: center;
 }
 
@@ -634,4 +634,9 @@ select, input[type="datetime-local"] { /* 셀렉트박스와 날짜선택창에 
 	position: relative;
 	margin: auto;
 /* 	left: 6em; */
+}
+
+#myPageBottomArea{
+	text-align: center;
+	padding-left: 90px;
 }

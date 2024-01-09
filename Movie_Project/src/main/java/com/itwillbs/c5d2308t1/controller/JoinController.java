@@ -34,6 +34,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.itwillbs.c5d2308t1.service.JoinService;
+import com.itwillbs.c5d2308t1.service.LoginService;
 import com.itwillbs.c5d2308t1.vo.CommonData;
 import com.itwillbs.c5d2308t1.vo.MemberVO;
 import com.itwillbs.c5d2308t1.vo.NaverLoginVO;
@@ -45,6 +46,9 @@ public class JoinController {
 	@Autowired
 	private JoinService service;
 	
+	@Autowired
+	private LoginService login;
+	
 	 /* NaverLoginVO */
     private NaverLoginVO NaverLoginVO;
     private String apiResult = null;
@@ -54,11 +58,6 @@ public class JoinController {
         this.NaverLoginVO = NaverLoginVO;
     }
     
-    /* GoogleLogin */
-	@Autowired
-	private GoogleConnectionFactory googleConnectionFactory;
-	@Autowired
-	private OAuth2Parameters googleOAuth2Parameters;
 
 	// 회원가입(인증) 페이지로 이동
 	@GetMapping("memberJoin")
@@ -76,16 +75,6 @@ public class JoinController {
         
         //네이버 
         model.addAttribute("url", naverAuthUrl);
-        
-        
-        /* 구글code 발행 */
-		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
-		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-
-		System.out.println("구글:" + url);
-
-		model.addAttribute("google_url", url);
-        
 		
 		return "join/join_certification";
 	}
@@ -136,6 +125,13 @@ public class JoinController {
             		return "fail_back";
             	}	
             } else { // 이미 가입한 아이디
+            	 MemberVO dbMember = login.getMember(member);
+            	
+            	if(dbMember.getMember_status() == 2) { //탈퇴한 회원은 로그인 불가
+          		   model.addAttribute("msg", "이미 탈퇴한 회원입니다");
+          		   return "fail_back";
+          	   	}
+            	
             	session.setAttribute("sId", member.getMember_id());
             	return "main";            	
             }
@@ -145,54 +141,6 @@ public class JoinController {
         }
 		return "";
     }
-	
-	// 구글 Callback호출 메소드
-	@RequestMapping(value = "/oauth2callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String googleCallback(Model model, @RequestParam String code) throws IOException {
-		System.out.println("여기는 googleCallback");
-
-		return "join/googleSuccess";
-	}
-
-	// 카카오 api
-//	@ResponseBody
-	@GetMapping("kakaocallback")
-		public String kakao_callback(HttpServletRequest request, HttpServletResponse response,
-			HttpSession session, Model model) throws Exception {
-		
-		UrlPathHelper urlPathHelper = new UrlPathHelper();
-		String originalURL = urlPathHelper.getOriginatingRequestUri(request);
-		Map<String, String[]> paramMap = request.getParameterMap();
-		Iterator keyData = paramMap.keySet().iterator();
-		CommonData dto = new CommonData();
-		
-		while (keyData.hasNext()) {
-			String key = ((String)keyData.next());
-			String[] value = paramMap.get(key);
-			dto.put(key, value[0].toString());
-		}
-		
-		// 토큰을 받을 주소 요청
-		String url = "https://kauth.kakao.com/oauth/token";
-		RestTemplate restTemplate = new RestTemplate();
-		
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("client_id", "f165f9545708875e8004b990573d1f65");
-		map.add("redirect_uri", "http://localhost:8081/c5d2308t1/kakaocallback");
-		map.add("grant_type", "authorization_code");
-		map.add("code", dto.get("code"));
-        
-		HttpEntity<LinkedMultiValueMap<String, String>> request2 = 
-				new HttpEntity<LinkedMultiValueMap<String, String>>(map, headers);
-		CommonData response2 = restTemplate.postForObject(url, request2, CommonData.class);
-		map.clear();
-		model.addAttribute("access_token", response2.get("access_token"));
-		System.out.println("카카오 토큰 = " + response2.get("access_token"));
-		return "join/kakaocallback";
-	}
 	
 	
 	// 이메일 인증

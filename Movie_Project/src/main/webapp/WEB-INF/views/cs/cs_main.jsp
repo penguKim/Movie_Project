@@ -31,7 +31,7 @@
 			</div>
 			
 			<section id="cs_main_div">	
-				<div id="main_shortcuts"><%-- 바로가기 --%>
+				<div class="main_shortcuts"><%-- 바로가기 --%>
 					<b>고객센터 바로가기</b><br>
 					<a href="csOneOnOneForm">
 						<img src="${pageContext.request.contextPath}/resources/img/1to1.png" alt="1:1 이미지">
@@ -47,11 +47,11 @@
 					</a>
 				</div>
 				<hr>
-				<div id="main_shortcuts"><%-- 바로가기 --%>
+				<div class="main_shortcuts"><%-- 바로가기 --%>
 					<b>자주 찾는 서비스</b><br>
 					<a href="idFind">
 						<img src="${pageContext.request.contextPath}/resources/img/id-card.png" alt="1:1 이미지">
-						<span>아이디/<br>비밀번호<br>찾기</span>
+						<span>아이디/<br>비밀번호 찾기</span>
 					</a>
 					<a href="Mypage_Reserv_boardList">
 						<img src="${pageContext.request.contextPath}/resources/img/ticket.png" alt="분실물 이미지">
@@ -101,9 +101,15 @@
 						</ol>
 					</div>
 				</section>
+				<div id="cs_call">
+					<hr>
+					iTicket 고객센터 ☎1544-0000 |
+					상담가능 시간 : 월 ~ 금 10:00~12:00 |
+					* 이 외 시간은 자동 응답 안내 가능 
+					<hr>
+				</div>
 			</section>	
 		</section>
-		
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>	
 		</footer>

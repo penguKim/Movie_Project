@@ -30,7 +30,7 @@
 			<hr>		
 			<div id="admin_sub">
 				<form action="OneonOneMoveToModify?pageNum=${param.pageNum }" method="post">
-					<table border="1">
+					<table border="1" id="shortTable">
 						<tr>
 							<th width="150">번호</th>
 							<td>${oneOnOne.cs_type_list_num}</td>
@@ -62,7 +62,7 @@
 							<th>문의 작성자</th>
 							<td>${oneOnOne.member_id }</td>
 						</tr>
-						<tr>
+						<tr id="shortTableContent">
 							<th>문의 내용</th>
 							<td>${oneOnOne.cs_content }</td>
 						</tr>
@@ -84,8 +84,8 @@
 								</c:choose>
 							</td>
 						</tr>
-						<tr>
-							<th height="300">답변 내용</th>
+						<tr id="shortTableContent">
+							<th>답변 내용</th>
 							<td>
 								<c:choose>
 									<c:when test="${empty oneOnOne.cs_reply }">답변 처리가 필요한 문의입니다.</c:when>
