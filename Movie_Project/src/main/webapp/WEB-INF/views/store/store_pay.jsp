@@ -35,24 +35,11 @@ function checkAll2() {
 	    Checkboxes2[i].checked = Checkbox2.checked;
 	  }
 }
-$(function() {
-	<%-- 뒤로가기 방지 --%>
-	window.addEventListener('pageshow', function(event) { <%-- 페이지가 로드되거나 새로고침 발생 이벤트 --%>
-		if (event.persisted) { <%-- 뒤로가기나 앞으로가기로 이동했을 시 true 리턴 --%>
-		    alert("잘못된 접근입니다!");
-			location.href("store"); <%-- 페이지 새로고침 --%>
-		}
-	});
-}
 	
 </script>
 <%-- 결제 API 포트원 SDK 코드 --%>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script>
-$(function() {
-	
-});
-
 	<%-- 주문번호 생성을 위한 작업 --%>
 	var count = 0;
 	function generateMerchantUid() {
@@ -102,7 +89,6 @@ $(function() {
 		    var quantity = parseInt($(".product_count").eq(index).val());
 		    product_total_price += (price * quantity);
 		});
-	console.log("현재 총금액" + product_total_price);
 	// 	alert("총금액 !!!: " + quantity);
 	});	
 	// 결제 수단 변수
@@ -187,7 +173,17 @@ $(function() {
 		    }
 	    }); // AJAX 끝
 	 }  // function requestPay() 끝
-
+	 
+	 $(function() {
+		 console.log("뒤로가기 방지");
+		 console.log("뒤로가기 방지");
+		 console.log("뒤로가기 방지");
+		<%-- 뒤로가기 방지 --%>
+		if (performance.navigation.type === 2) { <%-- 0 : 처음 로딩/새로고침, 1 : 페이지가 앞/뒤로 이동, 2 : 페이지가 뒤로 이동  --%>
+			alert('비정상적인 접근입니다.\n스토어 페이지로 이동합니다.');
+			location.href = 'store'; //다른 페이지로 이동
+		}	
+	});
 </script>
 </head>
 <body>
