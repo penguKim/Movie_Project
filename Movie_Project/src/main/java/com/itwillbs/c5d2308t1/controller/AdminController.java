@@ -47,6 +47,7 @@ import com.itwillbs.c5d2308t1.vo.PlayVO;
 import com.itwillbs.c5d2308t1.vo.RefundVO;
 import com.itwillbs.c5d2308t1.vo.ReviewsVO;
 import com.itwillbs.c5d2308t1.vo.StoreVO;
+import com.mysql.cj.xdevapi.JsonArray;
 
 @Controller
 public class AdminController {
@@ -332,7 +333,7 @@ public class AdminController {
 	//상영 일정 메인 페이지의 상영 일정 조회
 	@ResponseBody
 	@GetMapping("ScheduleSearch")
-	public List<Map<String, Object>> ScheduleSearch(
+	public String ScheduleSearch(
 			@RequestParam Map<String, String> map) {
 //		System.out.println("파라미터로 받아온 theater_id : " + map.get("theater_id"));
 //		System.out.println("파라미터로 받아온 play_date : " + map.get("play_date"));
@@ -341,7 +342,9 @@ public class AdminController {
 		List<Map<String, Object>> playList = service.getScheduleInfo(map);
 		System.out.println(playList);
 		
-		return playList;
+		JSONArray jsonArray = new JSONArray(playList);
+		
+		return jsonArray.toString();
 	}
 
 

@@ -22,6 +22,11 @@
 <script type="text/javascript">
 	// 데이터 조회해 상영 일시를 판별해 음영처리
 	$(function(){
+		shadify();
+		
+	});
+	
+	function shadify() {
 		// 현재 시간 가져오기
 		let currentTime = new Date();
 		
@@ -57,9 +62,7 @@
 			
 			
 		});
-		
-	});
-	
+	}
 
 	// 지점명 불러오기
 	$(function() {
@@ -105,6 +108,7 @@
 						type: "get",
 						url: "ScheduleSearch",
 						data: $("form").serialize(),
+						dataType: "json",
 						success: function(result) {
 							console.log(result);
 							$("#scheduleTable>tbody").empty();
@@ -114,10 +118,13 @@
 									$("#scheduleTable>tbody").append(
 											"<tr><td>" + schedule.theater_name + "</td><td>" 
 											+ schedule.room_name + "</td><td>" 
-											+ schedule.movie_title + "</td><td>" 
-											+ schedule.play_start_time + " ~ " + schedule.play_end_time + "</td></tr>"
+											+ schedule.movie_title + "</td><td id='play_time'>" 
+											+ schedule.play_start_time + " ~ " + schedule.play_end_time + "</td>"
+											+ "<input type='hidden' id='play_date' value='" + schedule.play_date + "'>"
+											+ "</tr>"
 											);
 								}
+								shadify();
 							} else {
 								$("#scheduleTable>tbody").append("<tr><td colspan='4'>" + "상영일정이 존재하지 않습니다." + "</td></tr>");
 							}
