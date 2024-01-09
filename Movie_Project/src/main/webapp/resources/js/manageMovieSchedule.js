@@ -1090,7 +1090,6 @@
 			}); // 상영중인 영화 선택 ajax 요청(1중) 끝
 			
 			
-			
 			// ------------------- 순서대로 선택하도록 자바스크립트 처리 ----------------------
 			
 			// 1. 상영관 클릭 시 지점부터 선택하게 하기
@@ -1276,7 +1275,19 @@
 					var start = $("#modifyStart").val();
 					var end = $("#modifyEnd").val();
 					
-					console.log(play_id + ", " + room + ", " + movie + ", " + date + ", " + start + ", " + end)
+					console.log("수정 전 : " + selectedPlayId + ", " + originalRoomId + ", " + originalMovieId + ", " + originalPlayDate + ", " + originalPlayStartTime + ", " + originalPlayEndTime)
+					console.log("수정 후 : " + play_id + ", " + room + ", " + movie + ", " + date + ", " + start + ", " + end)
+					
+					if(selectedPlayId == play_id 
+						&& originalRoomId == room 
+						&& originalMovieId == movie 
+						&& originalPlayDate == date 
+						&& originalPlayStartTime == start 
+						&& originalPlayEndTime == end) {
+						alert("변경 사항이 하나도 없는 경우 수정할 수 없습니다!");
+						return;
+					}
+					
 					
 					// 상영일정 수정 ajax 요청 시작(1중) 시작
 		            $.ajax({
