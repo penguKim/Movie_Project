@@ -75,12 +75,13 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 	var member_id = "<%= session.getAttribute("sId") %>"; 
 	var movie_id = ${param.movie_id}; //영화 선택시 주소에 movie_id ="111"값을 movie_id에 저장 
 	
-	var currentDate = new Date(); //현재날짜와 시간을 currentDate 변수 저장
+	var currentDate = new Date(); // 현재 날짜와 시간을 currentDate 변수에 저장
 	var year = currentDate.getFullYear();  // 현재 연도 추출
-	var month = currentDate.getMonth() + 1; // 현재 월 추출
-	var day = currentDate.getDate() // 현재 일 추출
+	var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 현재 월 추출하고 2자리로 만들기
+	var day = currentDate.getDate().toString().padStart(2, '0'); // 현재 일 추출하고 2자리로 만들기
 
-	var formattedDate = year + "-" + month + "-" + day; //연도,월,일을 formattedDate변수 저장
+	var formattedDate = year + "-" + month + "-" + day; // 연도, 월, 일을 formattedDate 변수에 저장
+
 	$("#submitReview").click(function(){ //클릭시 실행되는 함수
 // 		alert(member_id);
 		var review_content = $("#review_content").val();
