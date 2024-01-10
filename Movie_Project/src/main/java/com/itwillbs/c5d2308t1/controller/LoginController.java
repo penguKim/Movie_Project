@@ -281,7 +281,7 @@ public class LoginController {
 			
 			if (dbmember > 0) {
 				model.addAttribute("msg", "회원탈퇴가 완료되었습니다.");
-				model.addAttribute("targetURL", "main");
+				model.addAttribute("targetURL", "./");
 				session.invalidate();
 				return "forward";
 			} else {
@@ -305,7 +305,7 @@ public class LoginController {
 				int dbmember = service.statusMember(member); 
 				if (dbmember > 0) {
 					model.addAttribute("msg", "회원탈퇴가 완료되었습니다.");
-					model.addAttribute("targetURL", "main");
+					model.addAttribute("targetURL", "./");
 					session.invalidate();
 					return "forward";
 				} else {

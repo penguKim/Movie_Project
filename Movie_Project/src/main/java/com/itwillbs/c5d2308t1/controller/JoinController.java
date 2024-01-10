@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -105,27 +106,29 @@ public class JoinController {
             String birth = (String) responseObj.get("birthyear") + "-" + responseObj.get("birthday");
             String gender = (String) responseObj.get("gender");
 
-            member.setMember_id(email);
+            member.setMember_id(email); // 구분을 위해 이메일 아이디 사용
             member.setMember_name(name);
             member.setMember_email(email);
             member.setMember_phone(phone);
             member.setMember_birth(birth.replace("-", "."));
             member.setMember_gender(gender);
             
-            Integer memberCount = service.getMember(member);
+            Integer memberCount = service.getMember(member); // 가입한 적이 있는지 찾아보기
+            
             if(memberCount == null || memberCount == 0) { // 새로 가입한 아이디
+            	
+            	
             	int insertCount = service.registMember(member);
             	
             	if(insertCount > 0) { // 등록 성공
-            		/* 네이버 로그인 성공 페이지 View 호출 */
             		session.setAttribute("sId", member.getMember_id());
-            		return "main";
+            		return "redirect:/";
             	} else {
             		model.addAttribute("msg", "네이버 회원가입 실패!");
             		return "fail_back";
             	}	
             } else { // 이미 가입한 아이디
-            	 MemberVO dbMember = login.getMember(member);
+            	MemberVO dbMember = login.getMember(member);
             	
             	if(dbMember.getMember_status() == 2) { //탈퇴한 회원은 로그인 불가
           		   model.addAttribute("msg", "이미 탈퇴한 회원입니다");
@@ -133,7 +136,7 @@ public class JoinController {
           	   	}
             	
             	session.setAttribute("sId", member.getMember_id());
-            	return "main";            	
+            	return "redirect:/";            	
             }
         
         } catch (ParseException e) {
@@ -203,11 +206,6 @@ public class JoinController {
 			return "true";
 		}
 	}
-	
-	// 메인 페이지로 이동
-	@GetMapping("main")
-	public String main() {
-		return "main";
-	}
+
 		
 }
