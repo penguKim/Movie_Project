@@ -86,14 +86,16 @@
 
 	
 	<!-- 마이페이지에서 예매내역조회 -->
-	<select id="selectReserveList" resultType="map">
+	<select id="selectMyReserveList" resultType="map">
 		SELECT *
 		FROM resView
-		<choose>
-			<when test="sId.equals('admin')"></when>
-			<otherwise>WHERE member_id = #{sId}</otherwise>
-		</choose>
+		WHERE member_id = #{sId}
+		<if test="!searchKeyword.equals('')">
+			AND
+				movie_title LIKE '%${searchKeyword}%'
+		</if>
 		ORDER BY payment_id DESC;
+		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 	
 	<!-- 마이페이지에서 예매상세정보 조회 -->
@@ -212,7 +214,16 @@
 		ORDER BY payment_id DESC
 		LIMIT 2
 	</select>
-	
+	<!-- 마이페이지 예매내역 페이징 처리를 위한 게시물 개수 조회 작업 -->
+	<select id="selectMyReserveListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM resView
+		WHERE member_id = #{member_id}
+		<if test="!searchKeyword.equals('')">
+			AND
+				movie_title LIKE '%${searchKeyword}%'
+		</if>
+	</select>
 </mapper>
 
 

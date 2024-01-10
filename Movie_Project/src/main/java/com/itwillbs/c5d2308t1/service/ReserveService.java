@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.c5d2308t1.mapper.ReserveMapper;
+import com.itwillbs.c5d2308t1.vo.PageDTO;
 import com.itwillbs.c5d2308t1.vo.ReserveVO;
 
 @Service
@@ -37,14 +38,6 @@ public class ReserveService {
 	}
 	public String getEndTime(ReserveVO reserveVO) {
 		return mapper.selectPlayEndTime(reserveVO);
-	}
-	// 마이페이지에서 예매내역 조회
-	public List<HashMap<String, String>> getReserveList(String sId) {
-		return mapper.selectReserveList(sId);
-	}
-	// 마이페이지에서 예매 취소 업데이트
-	public int getresCancle(String payment_id) {
-		return mapper.updateResCancle(payment_id);
 	}
 	// 좌석 예매 취소 처리 업데이트
 	public int getSeatCancle(String seat_id) {
@@ -82,6 +75,20 @@ public class ReserveService {
 	//마이페이지 홈 정보 최신 2개 조회
 	public List<Map<String, String>> getMypage(String sId) {
 		return mapper.selectMypageInfo(sId);
+	}
+	
+	//마이페이지 예매내역을 위한 페이징 처리
+	public int getMyReserveListCount(String searchKeyword, String sId) {
+		// TODO Auto-generated method stub
+		return mapper.selectMyReserveListCount(searchKeyword,sId);
+	}
+	// 마이페이지에서 예매내역 조회
+	public List<HashMap<String, String>> getMyReserveList(String sId, PageDTO page, String searchKeyword) {
+		return mapper.selectMyReserveList(sId,page,searchKeyword);
+	}
+	// 마이페이지에서 예매 취소 업데이트
+	public int getresCancle(String payment_id) {
+		return mapper.updateResCancle(payment_id);
 	}
 
 }

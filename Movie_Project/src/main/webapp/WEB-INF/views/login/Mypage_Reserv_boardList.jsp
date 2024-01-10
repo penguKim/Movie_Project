@@ -74,6 +74,14 @@
 					<h2>영화 예매내역</h2>
 					<table id="my_table1">
 						<tr>
+							<form action="MypageReservboardList">
+							<td colspan="6" style="text-align: right;">
+								<input type="text" name="searchKeyword" placeholder="영화제목를 입력하세요">
+								<input type="submit" value="검색">
+							</td>
+							</form>
+						</tr>
+						<tr>
 							<th>No.</th>
 							<th>예매상품</th>
 							<th>상영일</th>

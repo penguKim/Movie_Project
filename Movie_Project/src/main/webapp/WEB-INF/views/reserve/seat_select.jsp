@@ -260,19 +260,31 @@
    
    
    $(function(){
-		//====================모달===================
-	   var modalContainer = $('.modal-container');
-	  var modalClose = $('.modal-close');
-	  var modalButton = $('.modal-button');
-	
-	  modalClose.click(closeModal);
-	  modalButton.click(closeModal);
-	
-	  function closeModal() {
-	    modalContainer.hide();
-	  }
-		//====================모달===================	   
 	   
+	   //==========예매완료된 좌석 판별============
+	   var SeatArr = ${SeatArr};
+	   var seatNames = SeatArr.map(SeatArr => SeatArr.seat_name.split(','));
+	   var flattenedSeatNames = seatNames.flat();
+		
+	   $(".seat").each(function() {
+		   var seatValue = $(this).attr("value");
+		   if ($.inArray(seatValue, flattenedSeatNames) !== -1) {
+			   $(this).addClass("reserved");
+		   }
+	   });
+	   //===========================================
+	   //====================모달===================
+	   var modalContainer = $('.modal-container');
+	   var modalClose = $('.modal-close');
+	   var modalButton = $('.modal-button');
+	   
+	   modalClose.click(closeModal);
+	   modalButton.click(closeModal);
+	   
+	   function closeModal() {
+		   modalContainer.hide();
+	   }
+	   //====================모달===================	   
 	   $(".subBtn").click(function(){
 		   if(selectPeopleArr==""){
 			   alert("인원선택 필수!")
@@ -336,10 +348,6 @@
 	
 	<c:set var="outputDate" value="${year}년 ${monthString}월 ${day}일" />
 	
-	<!-- 예매된 좌석을 하나의 변수에 저장하는 반복문 -->
-	<c:forEach var="SeatList" items="${SeatList}">
-		<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
-	</c:forEach>
 <!-- ================================================================== -->
 
 			<h1 id="h01">좌석선택</h1>
@@ -417,54 +425,7 @@
 				    	<div class="center">
 					 	<c:forEach var="j" begin="1" end="16">
 					    	<c:set var="seat_type" value="${x[i]}${j}" />
-					    	<c:set var="index" value="${fn:indexOf(seat_name, seat_type)}"/>
-					    	<c:choose>
-					    		 <%--예매된 좌석이 있을경우를 처리하는 when--%>
-					    		<c:when test="${index != -1}">
-					    			<c:choose>
-					    				<%-- 'A1' 좌석일 경우 A10좌석과 판별할때 오류가 발생하므로 해결하기 위한 판별문 when --%>
-										<c:when test="${j == 1}">
-											<%-- JSTL 1.1버전 이후에는 <c:break/> 기능을 지원하나 현재 버전에선 미 지원이므로
-											     return 처럼 사용할 변수 stopIteration 선언 --%>
-											<c:set var="stopIteration" value="false" />
-											<%-- 'A1'좌석의 예매여부를 확인하기 위해 예매된 좌석을 배열로 변수에 저장 --%>
-											<c:set var="seatArr" value="${fn:split(seat_name,',')}" /> 
-											<c:forEach var="sa" begin="0" end="${fn:length(seatArr)-1}" varStatus="status">
-												<c:choose>
-												<%-- 만약 '?1'좌석이 예매되었을 경우 --%>
-												<c:when test="${seatArr[sa] eq seat_type}">
-													<div class="reserved seat" value="${seat_type}">${seat_type}</div>
-												</c:when>
-												<%-- 만약 'A1'좌석이 예매되지 않았을 경우 --%>
-												<c:otherwise>
-													<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
-												</c:otherwise>
-												</c:choose>
-												
-												
-<%-- 												만약 'A1'좌석이 예매되었을 경우 --%>
-<%-- 												<c:if test="${seatArr[sa] eq seat_type && !stopIteration}"> --%>
-<%-- 													<div class="reserved seat" value="${seat_type}">${seat_type}</div> --%>
-<%-- 													<c:set var="stopIteration" value="true" /> --%>
-<%-- 												</c:if> --%>
-<%-- 												만약 'A1'좌석이 예매되지 않았을 경우 --%>
-<%-- 												<c:if test="${seatArr[sa] ne seat_type && !stopIteration}"> --%>
-<%-- 						    						<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div> --%>
-<%-- 						    						<c:set var="stopIteration" value="true" /> --%>
-<%-- 												</c:if> --%>
-											</c:forEach>
-										</c:when>					    		
-										<c:otherwise>
-											<%-- 'A1'좌석이 아닌 다른 좌석이 예매되어 있을 경우 예매 reserved처리  --%>
-							    			<div class="reserved seat" value="${seat_type}">${seat_type}</div>
-										</c:otherwise>    		
-					    			</c:choose>
-					    		</c:when>
-					    		<c:otherwise>
-								<%-- <c:if test='${isAlone eq true and (j eq 2 or j eq 3 or j eq 6 or j eq 11 or j eq 14 or j eq 15)}'>alone</c:if> --%>
-					    			<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
-					    		</c:otherwise>
-					    	</c:choose>
+			    			<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
 						</c:forEach><%-- 열반복 종료 --%>
 						</div>
 					</c:forEach><%-- 행반복 종료 --%>
@@ -475,13 +436,6 @@
 					</table>
 				</div>
 			</article>
-			
-			<h1>seat_name : ${seat_name}</h1>
-			<h1>seatArr : ${seatArr}</h1>
-			<c:forEach var="i" begin="0" end="${fn:length(seatArr)-1}">
- 				<c:if test="${seatArr[i] eq 'K1'}"> 케이일</c:if>
- 				${seatArr[i]} 
- 			</c:forEach> 
 		</section><%--CSS 요청으로 감싼 태그--%>
 		
 		<article id="select_info">				

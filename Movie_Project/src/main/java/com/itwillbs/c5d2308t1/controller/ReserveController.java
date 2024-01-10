@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,7 +85,9 @@ public class ReserveController {
 		play_end_time = reserve.getEndTime(reserveVO);
 		reserveVO.setPlay_end_time(play_end_time);
 		System.out.println("SeatList test : " + SeatList);
-		model.addAttribute("SeatList",SeatList);
+		JSONArray SeatArr = new JSONArray(SeatList);
+		System.out.println("jsonarr test : " + SeatArr);
+		model.addAttribute("SeatArr",SeatArr);
 		model.addAttribute("reserveVO",reserveVO);
 		return "reserve/seat_select";
 	}
@@ -93,7 +96,7 @@ public class ReserveController {
 	@PostMapping("reservePay")
 	public String reservationComplete(@RequestParam Map<String, String> map, Model model, HttpSession session){
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null) {
 			model.addAttribute("msg","잘못된 접근입니다.");
 			model.addAttribute("targetURL", "./");
 			return "forward";
@@ -111,7 +114,7 @@ public class ReserveController {
 	@GetMapping("completePay")
 	public String competePayment(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null) {
 			model.addAttribute("msg","잘못된 접근입니다.");
 			model.addAttribute("targetURL", "./");
 			return "forward";
@@ -129,39 +132,38 @@ public class ReserveController {
 	
 	
 	//마이페이지 예매내역 처리
-//	@GetMapping("MypageReservboardList")
-//	public String mypage_Reserv_boardList(Map<String, Object> map
-//			, Model model
-//			, HttpSession session
-//			,@RequestParam(defaultValue = "") String searchKeyword
-//			,@RequestParam(defaultValue = "1") int pageNum) 
-//			{ // 예매내역 게시판
-//		String sId = (String)session.getAttribute("sId");
-//		if(sId == null || !sId.equals("admin")) {
-//			model.addAttribute("msg","잘못된 접근입니다.");
-//			model.addAttribute("targetURL", "./");
-//			return "forward";
-//		}
-//		// 페이지 번호와 글의 개수를 파라미터로 전달
-//		PageDTO page = new PageDTO(pageNum, 15);
-//		// 전체 게시글 갯수 조회
-//		int listCount = reserve.getReserveListCount(searchKeyword);
-//		System.out.println(listCount);
-//		// 페이징 처리
-//		PageCount pageInfo = new PageCount(page, listCount, 5);
-//		// 한 페이지에 불러올 영화 목록 조회
-//		List<HashMap<String, String>> resList = reserve.getReserveList(sId);
-//		model.addAttribute("resList", resList);
-//		model.addAttribute("pageInfo", pageInfo);
-//
-//		return "login/Mypage_Reserv_boardList";
-//	}
+	@GetMapping("MypageReservboardList")
+	public String mypage_Reserv_boardList(Map<String, Object> map
+										, Model model
+										, HttpSession session
+										,@RequestParam(defaultValue = "") String searchKeyword
+										,@RequestParam(defaultValue = "1") int pageNum) { 
+		String sId = (String)session.getAttribute("sId");
+		if(sId == null) {
+			model.addAttribute("msg","잘못된 접근입니다.");
+			model.addAttribute("targetURL", "./");
+			return "forward";
+		}
+		// 페이지 번호와 글의 개수를 파라미터로 전달
+		PageDTO page = new PageDTO(pageNum, 15);
+		// 전체 게시글 갯수 조회
+		int listCount = reserve.getMyReserveListCount(searchKeyword,sId);
+		System.out.println(listCount);
+		// 페이징 처리
+		PageCount pageInfo = new PageCount(page, listCount, 5);
+		// 한 페이지에 불러올 영화 목록 조회
+		List<HashMap<String, String>> resList = reserve.getMyReserveList(searchKeyword, page, sId);
+		model.addAttribute("resList", resList);
+		model.addAttribute("pageInfo", pageInfo);
+
+		return "login/Mypage_Reserv_boardList";
+	}
 	
 	//마이페이지 상세내역조회
 	@GetMapping("resInfoDetailPro")
 	public String resInfoDetailPro(@RequestParam String payment_id, Map<String, String> map, Model model,HttpSession session) {
 		String sId = (String)session.getAttribute("sId");
-		if(sId == null || !sId.equals("admin")) {
+		if(sId == null) {
 			model.addAttribute("msg","잘못된 접근입니다.");
 			model.addAttribute("targetURL", "./");
 			return "forward";
