@@ -42,7 +42,7 @@
 							<th width="100">등록일</th>
 						</tr>
 							<c:choose>
-								<c:when test="${empty myOneOnOneList }">
+								<c:when test="${empty myLostBoardList }">
 									<tr>
 										<td colspan="3">분실물문의 내역이 존재하지 않습니다.</td>
 									</tr>								
@@ -59,39 +59,39 @@
 							</c:choose>
 					</table><br>
 					
-			<c:set var="pageNum" value="1" />
-				<c:if test="${not empty param.pageNum }">
-					<c:set var="pageNum" value="${param.pageNum }" />
-				</c:if>
-				<div class="pagination">
-					<c:choose>
-						<c:when test="${pageNum eq 1}">
-							<a href="" >&laquo;</a>					
-						</c:when>
-						<c:otherwise>
-							<a href="Mypage_LostBoardList?pageNum=${pageNum-1}" >&laquo;</a>
-						</c:otherwise>				
-					</c:choose>
-					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-						<c:choose>
-							<c:when test="${pageNum eq i}">
-								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
-							</c:when>
-							<c:otherwise>
-								<a href="Mypage_LostBoardList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-					<c:choose>
-						<c:when test="${pageNum eq pageInfo.maxPage}">
-							<a href="" >&raquo;</a>					
-						</c:when>
-						<c:otherwise>
-							<a href="Mypage_LostBoardList?pageNum=${pageNum+1}" >&raquo;</a>
-						</c:otherwise>				
-					</c:choose>
-				</div>
-				</div>
+					<c:set var="pageNum" value="1" />
+						<c:if test="${not empty param.pageNum }">
+							<c:set var="pageNum" value="${param.pageNum }" />
+								</c:if>
+							<div class="pagination">
+								<c:choose>
+									<c:when test="${pageNum eq 1}">
+										<a href="" >&laquo;</a>					
+									</c:when>
+									<c:otherwise>
+										<a href="MypageLostBoardList?pageNum=${pageNum-1}" >&laquo;</a>
+									</c:otherwise>				
+								</c:choose>
+								<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+									<c:choose>
+										<c:when test="${pageNum eq i}">
+											<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+										</c:when>
+										<c:otherwise>
+											<a href="MypageLostBoardList?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<c:choose>
+									<c:when test="${pageNum eq pageInfo.maxPage}">
+										<a href="" >&raquo;</a>					
+									</c:when>
+									<c:otherwise>
+										<a href="MypageLostBoardList?pageNum=${pageNum+1}" >&raquo;</a>
+									</c:otherwise>				
+								</c:choose>
+							</div>
+					</div>
 			</form>
 		</section>
 	

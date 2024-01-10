@@ -303,7 +303,7 @@ public class CsController {
 			if(cs.getCs_type().equals("1대1문의")) {
 				return "redirect:/Mypage_OneOnOneList";				
 			} else if(cs.getCs_type().equals("분실물문의")) {
-				return "redirect:/Mypage_LostBoard_List";	
+				return "redirect:/MypageLostBoardList";	
 			} else {
 				return "redirect:/Mypage";
 			}
