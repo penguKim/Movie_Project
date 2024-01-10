@@ -208,6 +208,7 @@
 		FROM ordersView
 		GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status, payment_card_name
 		HAVING member_id = #{sId}
+		ORDER BY payment_datetime DESC
 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 	
@@ -236,10 +237,7 @@
         FROM ordersView
         GROUP BY payment_name, member_name, member_id, payment_datetime, payment_status
         HAVING payment_name LIKE 'ORD%'
-        <choose>
-			<when test="sId.equals('admin')"></when>
-			<otherwise>AND member_id = #{sId}</otherwise>
-		</choose>
+		AND member_id = #{sId}
         ORDER BY payment_datetime DESC
         LIMIT 2
 	</select>
