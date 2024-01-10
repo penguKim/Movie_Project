@@ -2061,6 +2061,8 @@ public class AdminController {
 		
 		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + adminReview);
 		return "admin/admin_review";
+		
+		
 	}
 
 	@GetMapping("reviewDlt")//리뷰 상세 페이지로 이동
