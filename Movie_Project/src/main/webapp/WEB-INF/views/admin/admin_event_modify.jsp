@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>iTicket 최신 영화 등록</title>
+<title>iTicket 이벤트 수정</title>
 <%-- 글씨체 --%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,7 +105,7 @@
 	
 	// 파일 삭제 함수
 	function deleteFile(id, file, index) {
-		if(confirm('삭제하시겠습니까?')) {
+		if(confirm('파일을 삭제하시겠습니까?')) {
 			$.ajax({
 				type: "POST",
 				url: "eventDeleteFile",

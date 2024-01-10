@@ -97,7 +97,7 @@
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
 		<section id="content">
-		<h1 id="h01">영화등록</h1>
+		<h1 id="h01">이벤트 등록</h1>
 		<hr>
 			<div id="admin_main">
 				<form action="eventRgst" method="post" id="movieRegist" enctype="multipart/form-data">
