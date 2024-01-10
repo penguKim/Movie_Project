@@ -12,7 +12,6 @@
 <head>
 <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-	
 <script type="text/javascript">
 
 
@@ -157,7 +156,7 @@
 				<div id="theater_map">
 					<h3>[ 오시는 길 ]</h3>
 						<div id="map">
-							<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7f2cbaab42a6ec66232f961c71c7350f"></script>
+							<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a75e8ce5f3bdcb17d52cf91eac1f473"></script>
 							<script>
 							
 								var container = document.getElementById('map');
