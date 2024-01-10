@@ -6,7 +6,7 @@
 
 
 <div class="sidenav">
-<a href="adminMain" id="side_logo"><img src="${pageContext.request.contextPath}/resources/img/logo.png" height="70" width="180"></a>
+<a href="adminMain" id="side_logo"><img src="${pageContext.request.contextPath}/resources/img/logo_admin.png" height="70" width="180"></a>
 <div class="admin_nav_title">MOVIE</div>
 <a href="adminMovie">영화관리</a>
 <a href="adminMovieSchedule">상영일정관리</a>

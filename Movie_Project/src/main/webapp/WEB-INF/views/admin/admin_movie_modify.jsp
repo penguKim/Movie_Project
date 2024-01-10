@@ -250,7 +250,7 @@
 					</table>
 					<input type="submit" value="수정" id="movieMod" formaction="movieMod">
 					<input type="submit" value="삭제" id="movieDlt" formaction="adminMovieDlt">
-					<input type="button" value="창닫기" onclick="history.back();">
+					<input type="button" value="돌아가기" onclick="history.back();">
 				</form>
 			</div>
 		</section>
