@@ -385,6 +385,8 @@ input[type="search"] {
 	width: 630px;
 	padding: 5px;
 	white-space: pre-wrap;
+	font-size: 15px;
+	font-family: "Noto Sans KR";
 }
 
 /* Pagination links */
@@ -449,7 +451,7 @@ input[type="search"] {
 }
 
 .panel {
-  padding: 10px 10px 10px 140px;
+  padding: 10px 10px 10px 130px;
   display: none;
   background-color: white;
   border-bottom: 1px solid #c0c0c0;

@@ -18,8 +18,8 @@
 	// 일별 매출 차트
 	$(function() {
 		
-		const xValues = [];
-		const yValues = [];
+		const dateArr = [];
+		const revenueArr = [];
 
 		// ajax를 이용하여 db에서 일별매출을 불러옴
 		$.ajax({
@@ -32,23 +32,22 @@
 				    let date = result[i].date;
 				    let revenue = result[i].revenue;
 					
-				    xValues.push(date);
-				    yValues.push(revenue);
+				    dateArr.push(date);
+				    revenueArr.push(revenue);
 				    
 				}
-// 				    console.log("xValues = " + xValues + ", yValues = " + yValues);
 
 				new Chart("revenue", {
 					type: "line",
 					data: {
-						labels: xValues, // 날짜
+						labels: dateArr, // 날짜
 						datasets: [
 							{
 								fill: false,
 								lineTension: 0,
 							    backgroundColor: "rgba(0,0,255,1.0)",
 							    borderColor: "rgba(0,0,255,0.1)",
-								data: yValues, // 매출
+								data: revenueArr, // 매출
 							},
 						],
 					},
@@ -69,8 +68,8 @@
 
 		
 		// 일일 가입자수 차트
-		const xValues = [];
-		const yValues = [];
+		const dateArr2 = [];
+		const countArr = [];
 
 		// ajax를 이용하여 db에서 일일가입자수를 불러옴
 		$.ajax({
@@ -83,20 +82,20 @@
 				    let date = result[i].date;
 				    let count = result[i].count;
 				
-				    xValues.push(date);
-				    yValues.push(count);
+				    dateArr2.push(date);
+				    countArr.push(count);
 				}
 
 				new Chart("joinCount", {
 					type: "line",
 					data: {
-						labels: xValues, //날짜
+						labels: dateArr2, //날짜
 						datasets: [
 							{
 								fill: false,
 								pointRadius: 1,
 								borderColor: "#39DB54",
-								data: yValues, //회원수
+								data: countArr, //회원수
 							},
 						],
 					},
@@ -124,9 +123,9 @@
 		});
 
 		// 인기 상품 차트
-		const xValues = [];
-		const yValues = [];
-		const barColors = ["#FF4633", "#39DB54","#009CF7","#F99E27","#FC4E7C"];
+		const productArr = [];
+		const quantityArr = [];
+		const barColors2 = ["#FF4633", "#39DB54","#009CF7","#F99E27","#FC4E7C"];
 		
 		// ajax를 이용하여 db에서 상품종류/판매수량 불러오기
 		$.ajax({
@@ -138,17 +137,17 @@
 					let product_name = result[i].product_name;
 				    let quantity = result[i].quantity;
 				    
-					xValues.push(product_name);
-					yValues.push(quantity);
+				    productArr.push(product_name);
+				    quantityArr.push(quantity);
 				}
 				
 				new Chart("productCount", {
 					type: "bar",
 					data: {
-						labels: xValues, //상품명
+						labels: productArr, //상품명
 						datasets: [{
-							backgroundColor: barColors,
-							data: yValues //구매 횟수
+							backgroundColor: barColors2,
+							data: quantityArr //구매 횟수
 						}]
 					},
 					options: {
