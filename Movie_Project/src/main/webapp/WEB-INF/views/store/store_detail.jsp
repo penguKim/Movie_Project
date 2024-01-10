@@ -66,7 +66,6 @@
 	
 	function redirectToStorePay() {
 	    var productCount = document.getElementById("product_count").value; // 수량 입력 필드의 값 가져오기
-// 	    var productID = "${product_id}"; // 상품 ID 가져오기
 	    var productID = "${param.product_id}"; // 상품 ID 가져오기
 	    
 	    var url = "storePay?product_id=" + productID + "&product_count=" + productCount; // URL 생성
@@ -139,7 +138,7 @@
 						<div id="btn_buy">
 						<%-- 장바구니 이미지로 교체할지 말지 부기능으로 --%>
 						<%-- 구매 버튼 submit으로 교체 예정 --%>
-		                <a  href="#none" onclick="move_cart(2, 'P002')"><button type="button">장바구니</button></a>
+<!-- 		                <a  href="#none" onclick="move_cart(2, 'P002')"><button type="button">장바구니</button></a> -->
 		                <button type="button" onclick="redirectToStorePay()">구매</button>
 		               	</div>
 					</div>	

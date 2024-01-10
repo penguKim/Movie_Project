@@ -28,7 +28,8 @@
 			    	if(isResCancle){
 				    	$("#payment_status_result").html("결제취소");
 				    	$("#resCanBtn").remove();
-				    	window.opener.location.reload();
+				    	<%-- 현재 창을 열어준 부모창을 리로드 하는 명령어 --%>
+				    	window.opener.location.reload(); 
 			    	}else{
 			    		alert("결제취소 실패!");
 			    	}
@@ -39,6 +40,8 @@
 			});//ajax끝
 		}//confirm true 끝
 	}
+
+	
 </script>
 </head>
 <body>
@@ -102,7 +105,7 @@
 					</c:when>
 					<c:otherwise>	
 						<input type="submit" value="결제취소" id="resCanBtn" onclick="btnCcl('${payment.payment_name }')">
-						<input type="button" value="뒤로가기" onclick="history.back()">
+						<input type="button" value="뒤로가기" onclick="location.href='adminPayment'">
 					</c:otherwise>
 				</c:choose>
 				</div>

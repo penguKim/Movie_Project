@@ -17,10 +17,10 @@
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+	
 	//무한스크롤 기능에 활용될 페이지번호 변수 선언(초기값 1)
 	let pageNum = "1";
 	let maxPage = "";
-	
 	$(function() {
 		
 		load_list();
