@@ -53,7 +53,7 @@ $(function() {
         $(":checkbox[name=agree2]").each(function() {
             if (!$(this).prop("checked")) {
                 allChecked = false;
-                return false; // 반복문 종료
+                return false;
             }
         });
         $("#agree").prop("checked", allChecked);

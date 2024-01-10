@@ -31,7 +31,7 @@
 			let documentHeight = $(document).height(); // 문서 높이
 			// 2. 스크롤 바 위치값  + 창 높이 + X 값이 문서 전체 높이 이상일 경우
 			//    다음 페이지 게시물 목록 로딩하여 화면에 추가
-			if(scrollTop + windowHeight + 1 >= documentHeight) {
+			if(scrollTop + windowHeight + 30 >= documentHeight) {
 				pageNum++;
 				if(maxPage != "" && pageNum <= maxPage) {
 					load_list();

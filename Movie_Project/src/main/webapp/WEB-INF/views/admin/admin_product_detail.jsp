@@ -21,6 +21,7 @@
 </script>
 <script>
 $(function() {
+	var regex = /^[0-9]+$/;
 	
 	// submit 시 수행할 동작
 	$("form").on("submit", function() {
@@ -36,8 +37,12 @@ $(function() {
 			alert("상품가격을 입력하세요!");
 			$("#product_price").focus();
 			return false;
-		} else if($("#imgFile").val() == '') {
-			alert("상품이미지를 입력하세요!");
+		} else if (!regex.test($("#product_price").val())) {
+			alert("상품가격은 숫자만 입력이 가능합니다");
+			$("#product_price").focus();
+			return false;
+		 } else if($("#imgFile").val() == '') {
+			alert("상품이미지를 넣어주세요!");
 			$("#imgFile").focus();
 			return false;
 		}
@@ -77,7 +82,7 @@ function deleteFile(product_id, product_img) {
 					// => 표시할 태그 요소 : <input type="file" name="file1" />
 					//    => name 속성값도 index 값을 활용하여 각 파일마다 다른 name 값 사용
 					$("#imgArea").html("이미지가 없습니다");
-					$("#imgFileArea").html('<input type="file" name="imgFile" id="imgFile" class="shortInput">');
+					$("#imgFileArea").html('<input type="file" name="imgFile" id="imgFile" class="shortInput" accept=".gif, .jpg, .png">');
 				} else if(result == "false") {
 					console.log("파일 삭제 실패!");
 				}
@@ -85,8 +90,6 @@ function deleteFile(product_id, product_img) {
 		});
 	}
 }
-
-
 </script>
 <style type="text/css">
 	input[type=text] {
@@ -155,7 +158,7 @@ function deleteFile(product_id, product_img) {
 											</a>
 										</c:when>
 										<c:otherwise>
-											<input type="file" name="imgFile" id="imgFile" class="shortInput">
+											<input type="file" name="imgFile" id="imgFile" class="shortInput" accept=".gif, .jpg, .png">
 										</c:otherwise>
 									</c:choose>
 								</div>

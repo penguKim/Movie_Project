@@ -12,7 +12,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <%-- 외부 CSS 파일 연결하기 --%>
-<link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
@@ -28,7 +27,7 @@ $(function() {
 			success: function(result) {
 				// 중복 결과를 "true", "false" 문자열로 반환
 				if(result == 'true') {
-					alert("이미 등록된 상품입니다!");
+					alert("이미 등록된 상품번호입니다!");
 					isDuplicateProudct = true;
 					$("#product_id").focus();
 				} else {
@@ -41,10 +40,16 @@ $(function() {
 		});
 	});
 	
+	
 	// submit 시 수행할 동작
 	$("form").on("submit", function() {
-		if(isDuplicateProudct) { // 등록된 영화인지 판별
-			alert("이미 등록된 상품입니다!");
+		
+		var price = $("#product_price").val();
+		var regex = /^[0-9]+$/;
+
+		
+		if(isDuplicateProudct) { // 등록된 상품 아이디인지 판별
+			alert("이미 등록된 상품번호입니다!");
 			return false;
 		} else if($("#product_id").val() == '') {
 			alert("상품코드를 입력하세요!");
@@ -58,11 +63,15 @@ $(function() {
 			alert("상품설명을 입력하세요!");
 			$("#product_txt").focus();
 			return false;
-		} else if($("#product_price").val() == '') {
+		} else if(price == '') {
 			alert("상품가격을 입력하세요!");
 			$("#product_price").focus();
 			return false;
-		} else if($("#imgFile").val() == '') {
+		} else if (!regex.test(price)) {
+			alert("상품가격은 숫자만 입력이 가능합니다");
+			$("#product_price").focus();
+			return false;
+		 } else if($("#imgFile").val() == '') {
 			alert("상품이미지를 입력하세요!");
 			$("#imgFile").focus();
 			return false;
@@ -106,7 +115,7 @@ $(function() {
 							</tr>
 							<tr>
 								<th>이미지 파일 첨부</th>
-								<td ><input type="file" name="imgFile" id="imgFile" class="shortInput"></td>
+								<td ><input type="file" name="imgFile" id="imgFile" class="shortInput" accept=".gif, .jpg, .png"></td>
 							</tr>
 						</table>
 					<input type="submit" value="등록" id="regist">

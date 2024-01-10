@@ -1164,7 +1164,7 @@ public class AdminController {
 	public String adminPaymentList(@RequestParam(defaultValue = "") String searchType,
 			  @RequestParam(defaultValue = "") String searchKeyword, 
 			  @RequestParam(defaultValue = "1") int pageNum) {
-		PageDTO page = new PageDTO(pageNum, 15);
+		PageDTO page = new PageDTO(pageNum, 20);
 		int listCount = service.getPaymentListCount(searchType, searchKeyword);
 		PageCount pageInfo = new PageCount(page, listCount, 3);
 		List<RefundVO> paymentList = service.getPaymentList(searchType, searchKeyword, page);
