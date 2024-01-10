@@ -398,7 +398,7 @@ public class LoginController {
 		
 		if(deleteCount > 0) {
 			//삭제 성공
-			return "redirect:/Mypage_ReviewList";
+			return "redirect:/MypageReviewList";
 		}else {
 			//삭제 실패
 			model.addAttribute("msg","리뷰글 삭제 실패");

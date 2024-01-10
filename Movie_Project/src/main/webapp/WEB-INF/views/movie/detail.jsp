@@ -65,12 +65,6 @@
 		});
 	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
 	
-//문제점 : 1. 등록버튼을 눌렀을때 insert가 되서 db에 저장과 동시에 값들이 뷰페이지에 출력이됨
-//			  새로고침을 했을때 insert된 값들이 사라짐. 기존에 등록이 되어있는 데이터만 출력이됨
-
-//		   2. 영화 판별을 해서 리뷰내용을 출력시켜야함. 현재는 로그인된 사람이면 그사람이 쓴 모든영화리뷰가 다 출력이됨
-//			  ex)노량은 노량의 리뷰만 출력이 되게해야함
-//		   3. 
 $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행됨
 	var member_id = "<%= session.getAttribute("sId") %>"; 
 	var movie_id = ${param.movie_id}; //영화 선택시 주소에 movie_id ="111"값을 movie_id에 저장 
@@ -341,7 +335,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			     <div class="review" id="review">
 			    	<hr>
 				    	<h2>리뷰</h2>
-						    	<input type="text" name="review_content" placeholder="리뷰 입력" id="review_content">
+						    	<input type="text" name="review_content" maxlength="25" placeholder="리뷰 입력" id="review_content">
 						    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
 						    	<input type="hidden" name="movie_id" value="${movie_id}">
 						
@@ -363,7 +357,8 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 		  		  </div>
     			</c:if>
 			</section>
-		</section>	
+		</section>
+		<div id="footerMG"></div>	
 		<footer>
 			<jsp:include page="../inc/bottom.jsp"></jsp:include>	
 		</footer>

@@ -17,6 +17,7 @@
 <%-- <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script> --%>
 <script type="text/javascript">
 
+
 $(document).ready(function(){
 	// ======== 개봉일과 상영상태를 비교하는 변수 목록 ========
 	let nowTime = new Date().getTime(); // 계산의 기준이 될 날짜를 밀리초 단위로 리턴
@@ -29,8 +30,11 @@ $(document).ready(function(){
 		let title = $("#movieTitle").val();
 		let key = "e9ac77cb0a9e1fa7c1fe08d1ee002e3b";
 
+		if(title == "") {
+			alert("영화명을 입력해주세요");
+			return;
+		}
 		
-
 		$.ajax({
 			type: "GET",
 			url: "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json",
@@ -44,11 +48,6 @@ $(document).ready(function(){
 				//영화제목을 검색했을때 감독,상영일이 있으면 반복문 통해서 출력
 				for(let movie of movies) { // movies배열에 값들을 movie변수에 저장
 					if(movie.openDt !== "" && movie.directors.length > 0) {//개봉일값이 ""가 아니고 감독명 길이가 0보다 클때
-// 						console.log(movie.directors[0].peopleNm);
-// 						console.log(movie.movieCd);
-// 					$("#movie_id").val(movie.movieCd);
-// 					$("#movie_director").val(movie.directors[0].peopleNm);
-// 					$("#movie_audience").val('0');
                         $("#selectBox").append('<option data-moviecd="' + movie.movieCd + '"data-director="' + movie.directors[0].peopleNm +'">' + movie.movieNm + '</option>');// selectBox에 영화 제목 넣기
 					}
 				
@@ -161,12 +160,12 @@ $(document).ready(function(){
 	
 		}); //onChange 끝
 	
-// 		$("form").on("submit", function() {
-// 			if($("#movie_title").val() == "") { 
-// 				alert("영화 정보가 없습니다");
-				
-// 			}
-// 		});	
+		$("form").on("submit", function() {
+			if($("#movie_title").val() == "") { 
+				alert("영화 정보가 없습니다");
+				return false;
+			}
+		});	
 	}); //ready 끝
 
 </script>
