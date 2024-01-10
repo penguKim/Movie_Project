@@ -388,7 +388,7 @@
 /* 줄거리 */
 .movie_story {
 	width: 600px;
-	height: 400px;
+	height: auto;
 	text-align: center;
 	margin: 20px auto;
 	padding: 10px;
@@ -411,7 +411,7 @@
 /* 스틸컷 */
 .movie_cut {
 	width: 800px;
-	height: 210px;
+	height: auto;
 	text-align: center;
 	margin: 20px auto;
 	padding: 10px;

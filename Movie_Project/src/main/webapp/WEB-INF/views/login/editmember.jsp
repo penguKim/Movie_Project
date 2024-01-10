@@ -313,6 +313,7 @@ $(function() {
 			
 			$("memberDie").Click(function() {
 				if(confirm("탈퇴하시겠습니까?")) {
+					
 					return true;
 				}
 				return false;

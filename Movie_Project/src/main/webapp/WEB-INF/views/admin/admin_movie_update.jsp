@@ -218,12 +218,6 @@
 			}
 		});
 		
-// 		$("#dailyBox").on("click", function() {
-// 			if($("#dailyBox option:selected").val() == "dateValue") { // 날짜를 고르지 않았을 경우
-// 				alert("조회할 날짜를 선택하세요!");
-// 			} 
-// 		});
-		
 		// 영화를 선택했을 경우 DB에서 중복 판별 작업을 수행한다.
 		$("#dailyBox").on("change", function() {
 			$.ajax({
@@ -241,9 +235,9 @@
 						$("#dailyBox").eq(0).prop("selected", true);
 						$("#regist").hide();
 						
-						
 					} else {
 						isDuplicateMovie = false;
+						$("#regist").show();
 					}
 				}
 			});

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>iTicket 영화 관리</title>
+<title>iTicket 이벤트 관리</title>
 <%-- 글씨체 --%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,7 +50,7 @@
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
 		<section id="content">
-		<h1 id="h01">이벤트관리</h1>
+		<h1 id="h01">이벤트 관리</h1>
 		<hr>
 			<div id="admin_main">
 				<div id="event_update">
