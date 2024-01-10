@@ -91,7 +91,7 @@
 			<div class="paybtn">
 			<a href="movieSelect"><input type="button" value="추가 예매하기 "></a>
 			<a href="./" ><input type="button" value="  홈으로  "></a>
-			<a href="Mypage_Reserv_boardList"><input type="button" value="예매내역조회 "></a>
+			<a href="MypageReservboardList"><input type="button" value="예매내역조회 "></a>
 			</div>
 			</div>
 			</section>

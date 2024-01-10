@@ -226,6 +226,11 @@ public interface AdminMapper {
 
 	// 이벤트 수정
 	int updateEvent(EventsVO event);
+	
+	// 리뷰 페이징 처리를 위한 총 게시물 개수
+	int selectReviewCount(ReviewsVO review);
+
+	List<ReviewsVO> selectAdminReviewList(@Param("page")PageDTO page, @Param("review")ReviewsVO review);
 
 
 

@@ -76,7 +76,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
 <script>
    let selectNumArr;//선택된 인원수 배열
-   let Count2;
+   let Count;
    let Count3;
    let Count4;
    let isAlone = false; // 1명인지 판별하는 변수
@@ -115,37 +115,22 @@
 	    });
 	    console.log("selectNumArr : " + selectNumArr);
 	   
-	    Count2=0;
-	    Count3=0;
-	    Count4=0;
+	    Count=0;
 	    let sumCountNum = selectNumArr.length
-	    if(sumCountNum == 2){
+	    if(sumCountNum != 0){
 		    for(let i = 0; i<sumCountNum; i++){
-		    	Count2 += selectNumArr[i];
+		    	Count += selectNumArr[i];
 		    }
-		    
-	    }else if(sumCountNum == 3){
-	    	 for(let i = 0; i<sumCountNum; i++){
-		    	Count3 += selectNumArr[i];
-		    }
-		    
-	    }else if(sumCountNum == 4){
-	    	 for(let i = 0; i<sumCountNum; i++){
-			    	Count4 += selectNumArr[i];
-		    }
-		    }
-	
-    	if(Count2>8||Count3>8||Count4>8){
-    		alert("8명초과 예매 불가입니다!")
-	    	$(".SelectPeople").removeClass("SelectPeople");
-	    	$(".Result_NumOfPeople_Param").text("");
-	    	Count2=0;
-	    	Count3=0;
-	    	Count4=0;
-	    	selectNumArr = [];
-    	}
-    	
-    	
+	    }
+		if(Count>8){
+			alert("최대 8명 선택이 가능합니다!");
+		    // 클릭된 요소가 속한 행을 찾음
+		    var row = $(num).closest('tr');
+		    // 해당 행의 모든 .NumOfPeo 요소를 찾음
+		    var elements = row.find('.NumOfPeo');
+		    // 모든 .NumOfPeo 요소에서 'SelectPeople' 클래스를 제거
+		    elements.removeClass('SelectPeople');
+		}
     	
     	//==================인원이 1명인지 판별하기 위한 판별 식===================
     	var aloneCount = 0; 

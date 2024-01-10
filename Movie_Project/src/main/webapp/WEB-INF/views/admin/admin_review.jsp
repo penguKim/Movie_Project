@@ -102,22 +102,54 @@ $(document).ready(function(){
 							<th>작성일</th>
 							<th>리뷰 상세정보</th>
 						</tr>
-						<c:forEach var="adminReview" items="${adminReview}">
+						<c:forEach var="adminReviewList" items="${adminReviewList}">
 							<tr>
-								<td>${adminReview.review_id}</td>
-								<td>${adminReview.movie_title}</td>
-								<td>${adminReview.review_content}</td>
-								<td>${adminReview.member_id}</td>
-								<td>${adminReview.review_date}</td>
+								<td>${adminReviewList.review_id}</td>
+								<td>${adminReviewList.movie_title}</td>
+								<td>${adminReviewList.review_content}</td>
+								<td>${adminReviewList.member_id}</td>
+								<td>${adminReviewList.review_date}</td>
 <!-- 								<td><input type="submit" id="reviewDlt" value="상세정보"></td> -->
 								<td><form action="reviewDlt" method="get" id="reviewDlt">
-									<input type="hidden" name="review_id" value="${adminReview.review_id}">
+									<input type="hidden" name="review_id" value="${adminReviewList.review_id}">
 									<input type="submit" id="adminDlt" value="상세정보">
 									</form>
 								</td>
 							</tr>
 						</c:forEach>
-					</table>
+						</table>
+					<c:set var="pageNum" value="1" />
+				<c:if test="${not empty param.pageNum }">
+					<c:set var="pageNum" value="${param.pageNum }" />
+				</c:if>
+				<div class="pagination">
+					<c:choose>
+						<c:when test="${pageNum eq 1}">
+							<a href="" >&laquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="adminReview?pageNum=${pageNum-1}" >&laquo;</a>
+						</c:otherwise>				
+					</c:choose>
+					<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						<c:choose>
+							<c:when test="${pageNum eq i}">
+								<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+							</c:when>
+							<c:otherwise>
+								<a href="adminReview?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${pageNum eq pageInfo.maxPage}">
+							<a href="" >&raquo;</a>					
+						</c:when>
+						<c:otherwise>
+							<a href="adminReview?pageNum=${pageNum+1}" >&raquo;</a>
+						</c:otherwise>				
+					</c:choose>
+				</div>
 <!-- 				</form> -->
 			</div>
 		</section>

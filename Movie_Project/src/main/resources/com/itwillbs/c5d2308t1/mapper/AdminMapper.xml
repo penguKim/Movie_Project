@@ -642,7 +642,21 @@
 		ON r.movie_id = m.movie_id
 		WHERE review_id = #{review_id}
 	</select>
-
+	
+	<!-- 리뷰 게시물 총 갯수를 조회 -->
+	<select id="selectReviewCount">
+		SELECT COUNT(*)
+		FROM reviews
+	</select>
+	
+	<!-- 리뷰 게시물  -->
+	<select id="selectAdminReviewList" resultType="com.itwillbs.c5d2308t1.vo.ReviewsVO">
+		SELECT review_id , m.movie_title, r.review_rating, r.member_id, r.review_content , review_date
+		FROM reviews r JOIN movies m
+		ON r.movie_id = m.movie_id 
+		ORDER BY review_date DESC
+		LIMIT #{page.startRow}, #{page.listLimit}
+	</select>
 	
 	
 <!-- ============================관리자 예매내역 조회 시작=============================== -->	

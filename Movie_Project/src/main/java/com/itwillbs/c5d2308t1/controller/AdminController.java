@@ -2047,7 +2047,7 @@ public class AdminController {
 	// ********************* 영화리뷰 관리 페이지 *************
 	// 관리자페이지 영화 리뷰 관리 페이지로 이동
 	@GetMapping("adminReview")
-	public String adminReview(HttpSession session, Model model, ReviewsVO review) {
+	public String adminReview(@RequestParam(defaultValue = "1") int pageNum, HttpSession session, Model model, ReviewsVO review) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null || !sId.equals("admin")) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
@@ -2055,11 +2055,25 @@ public class AdminController {
 			return "forward";
 		}
 		
-		List<ReviewsVO> adminReview = service.getReviewLiset(review);
+//		List<ReviewsVO> adminReview = service.getReviewLiset(review);
 		
-		model.addAttribute("adminReview",adminReview);
+		// 전체 게시글 조회를 위한 count
+		PageDTO page = new PageDTO(pageNum, 15);
 		
-		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + adminReview);
+		int listCount = service.getReviewCount(review);
+		
+		PageCount pageInfo = new PageCount(page, listCount, 3);
+		
+		List<ReviewsVO> adminReviewList = service.getAdminReviewList(page, review);
+		
+		System.out.println("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ" + adminReviewList);
+		
+		
+//		model.addAttribute("adminReview",adminReview);
+		model.addAttribute("adminReviewList",adminReviewList);
+		model.addAttribute("pageInfo", pageInfo);
+		
+		
 		return "admin/admin_review";
 		
 		

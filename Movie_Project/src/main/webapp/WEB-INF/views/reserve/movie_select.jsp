@@ -688,7 +688,7 @@
 		});
 	});// document.ready END
 	function subBtn(){
-		var sId = '<%= session.getAttribute("sId") %>';  	
+		let sId = '<%= session.getAttribute("sId") %>';   	
 		if(sId == null){
 			if(confirm("로그인이 필요한서비스입니다. 로그인하시겠습니까?")){
 				location.href = "memberLogin";

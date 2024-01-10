@@ -365,6 +365,15 @@ public class AdminService {
 		return mapper.updateEvent(event);
 	}
 
+	public int getReviewCount(ReviewsVO review) {
+		
+		return mapper.selectReviewCount(review);
+	}
+
+	public List<ReviewsVO> getAdminReviewList(PageDTO page, ReviewsVO review) {
+		
+		return mapper.selectAdminReviewList(page,review);
+	}
 }
 
 
