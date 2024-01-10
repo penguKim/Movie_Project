@@ -184,7 +184,7 @@
 		우대 5000
 		*/
 		
-	    
+	    let ad = '${ddd}';
 
 	}// 인원수 선택 함수 끝
 	
@@ -430,19 +430,28 @@
 											<%-- 'A1'좌석의 예매여부를 확인하기 위해 예매된 좌석을 배열로 변수에 저장 --%>
 											<c:set var="seatArr" value="${fn:split(seat_name,',')}" /> 
 											<c:forEach var="sa" begin="0" end="${fn:length(seatArr)-1}" varStatus="status">
-												<%-- 만약 'A1'좌석이 예매되지 않았을 경우 --%>
-												<c:if test="${seatArr[sa] ne 'A1' && !stopIteration}">
-												
-						    						<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
-						    					
-						    					
-						    						<c:set var="stopIteration" value="true" />
-												</c:if>
-												<%-- 만약 'A1'좌석이 예매되었을 경우 --%>
-												<c:if test="${seatArr[sa] eq 'A1' && !stopIteration}">
+												<c:choose>
+												<%-- 만약 '?1'좌석이 예매되었을 경우 --%>
+												<c:when test="${seatArr[sa] eq seat_type}">
 													<div class="reserved seat" value="${seat_type}">${seat_type}</div>
-													<c:set var="stopIteration" value="true" />
-												</c:if>
+												</c:when>
+												<%-- 만약 'A1'좌석이 예매되지 않았을 경우 --%>
+												<c:otherwise>
+													<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div>
+												</c:otherwise>
+												</c:choose>
+												
+												
+<%-- 												만약 'A1'좌석이 예매되었을 경우 --%>
+<%-- 												<c:if test="${seatArr[sa] eq seat_type && !stopIteration}"> --%>
+<%-- 													<div class="reserved seat" value="${seat_type}">${seat_type}</div> --%>
+<%-- 													<c:set var="stopIteration" value="true" /> --%>
+<%-- 												</c:if> --%>
+<%-- 												만약 'A1'좌석이 예매되지 않았을 경우 --%>
+<%-- 												<c:if test="${seatArr[sa] ne seat_type && !stopIteration}"> --%>
+<%-- 						    						<div class="seat ${j}" onclick="toggleSeat(this)" value="${seat_type}">${seat_type}</div> --%>
+<%-- 						    						<c:set var="stopIteration" value="true" /> --%>
+<%-- 												</c:if> --%>
 											</c:forEach>
 										</c:when>					    		
 										<c:otherwise>
@@ -466,6 +475,13 @@
 					</table>
 				</div>
 			</article>
+			
+			<h1>seat_name : ${seat_name}</h1>
+			<h1>seatArr : ${seatArr}</h1>
+			<c:forEach var="i" begin="0" end="${fn:length(seatArr)-1}">
+ 				<c:if test="${seatArr[i] eq 'K1'}"> 케이일</c:if>
+ 				${seatArr[i]} 
+ 			</c:forEach> 
 		</section><%--CSS 요청으로 감싼 태그--%>
 		
 		<article id="select_info">				

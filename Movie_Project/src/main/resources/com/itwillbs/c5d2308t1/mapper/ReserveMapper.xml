@@ -7,7 +7,7 @@
 	<select id="selectMovietitle" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
 		SELECT movie_title,movie_rating,movie_poster
 		FROM movies
-		WHERE movie_status != 2
+		WHERE movie_status = 1
 	</select>
 	
 	<select id="selectTheaterName" resultType="com.itwillbs.c5d2308t1.vo.ReserveVO">
