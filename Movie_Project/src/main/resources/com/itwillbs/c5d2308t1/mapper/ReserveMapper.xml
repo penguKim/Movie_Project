@@ -128,8 +128,6 @@
 			  AND play_start_time = #{play_start_time}
 			  AND room_name = #{room_name}
 			  AND theater_name = #{theater_name})
-			,#{payment_total_price}
-		
 		)
 	</insert>
 	
@@ -168,7 +166,6 @@
 								)
 			)
 			,#{sId}
-			,#{payment_total_price}
 			,(SELECT seat_id
 			 FROM seats
 			 WHERE seat_name = #{seat_name}
