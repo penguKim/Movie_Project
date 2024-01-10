@@ -93,14 +93,14 @@ $(document).ready(function(){
 <!-- 					<input type="button" id="searchButton" value="조회"> -->
 <!-- 				</div> -->
 <!-- 				<form action="reviewDlt" method="get"> -->
-					<table border="1" width="1100">
+					<table border="1">
 						<tr>
-							<th>No</th>
-							<th>영화명</th>
-							<th>내용</th>
-							<th>아이디</th>
-							<th>작성일</th>
-							<th>리뷰 상세정보</th>
+							<th width="60">번호</th>
+							<th width="250">영화명</th>
+							<th width="450">내용</th>
+							<th width="100">아이디</th>
+							<th width="100">작성일</th>
+							<th width="100">리뷰 상세정보</th>
 						</tr>
 						<c:forEach var="adminReviewList" items="${adminReviewList}">
 							<tr>

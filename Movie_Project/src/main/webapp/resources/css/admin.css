@@ -746,3 +746,10 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 #adminMovieSearch{
 	margin-left : 5px;
 }
+
+#reviewDlt{
+display: inline-block; 
+position: relative; 
+margin: auto;
+height: 10px;
+}
