@@ -509,7 +509,7 @@ public class LoginController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return "redirect:/Mypage_OneOnOneList";
+			return "redirect:/MypageOneOnOneList";
 		} else {
 			model.addAttribute("msg", "1대1문의 글 삭제에 실패했습니다!");
 			return "fail_back";
