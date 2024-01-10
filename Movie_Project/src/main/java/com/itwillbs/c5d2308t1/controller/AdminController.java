@@ -22,9 +22,12 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -497,6 +500,12 @@ public class AdminController {
         }
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<String> handleException(Exception ex) {
+		// 예외 처리 로직 작성
+		// 클라이언트에게 적절한 응답 반환 가능
+		return new ResponseEntity<>("중복되는 상영 일정이 존재합니다! 다시 시도해보세요!", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	// 상영일정 삭제하기
 //	@PostMapping("deletePlay")
 //	public String deletePlay(HttpSession session, Model model, @RequestParam int play_id) {

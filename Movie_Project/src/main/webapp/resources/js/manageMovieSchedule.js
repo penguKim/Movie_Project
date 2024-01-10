@@ -1308,14 +1308,21 @@
 		                	console.log("db업데이트 성공 여부 : " + result);
 							location.reload();
 		                },
-		                error: function(xhr, textStatus, errorThrown) {
+		                error: function(error) {
 		                    // alert("ajax 요청 실패! 항목을 처음부터 순서대로 다시 선택해 수정해보세요!" + xhr + ", " + textStatus);
-	        				alert("중복되는 상영 일정이 존재합니다! 다시 시도해보세요!");
-		                    location.reload();
+//	        				alert("중복되는 상영 일정이 존재합니다! 다시 시도해보세요!");
+							// 에러 발생 시 실행되는 콜백 함수
+						    let errorMessage = "중복되는 상영 일정이 존재합니다! 다시 시도해보세요!";
+						    
+						    if (error.responseJSON && error.responseJSON.message) {
+						        errorMessage = error.responseJSON.message;
+						    }
+						    
+						    alert(errorMessage);
+						    location.reload();
 		                    // ajax 요청 실패 시 화면 전환 없이 다시 선택해도 수정 가능한지 확인하기
 		                    // => 일단 불가능해서 현재는 reload() 처리
-		                    
-		                }
+						}
 		            }); // 상영일정 수정 ajax 요청 시작(1중) 끝
 					
 					
