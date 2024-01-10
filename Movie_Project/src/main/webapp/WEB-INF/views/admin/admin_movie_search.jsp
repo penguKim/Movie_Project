@@ -29,6 +29,11 @@ $(document).ready(function(){
 // 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수 (submit 함수쓸때 기본동작 = 페이지 다시 불러오기 안함)
 		let title = $("#movieTitle").val();
 		let key = "e9ac77cb0a9e1fa7c1fe08d1ee002e3b";
+		
+		if(title == "") {
+			alert("영화명을 입력해주세요");
+			return;
+		}
 			
 		$.ajax({
 			type: "GET",
@@ -182,11 +187,12 @@ $(document).ready(function(){
 			<div id="adminSearch">
 <!-- 				<form id="searchForm" > -->
 					<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearch" value="검색">
+					
+					<select name="selectBox" id="selectBox" style="display: none;"></select>
 <!-- 				</form> -->
-		<div>
-			<select name="selectBox" id="selectBox" style="display: none;">
-			</select>
-		</div>
+<!-- 		<div> -->
+<!-- 			<select name="selectBox" id="selectBox" style="display: none;"></select> -->
+<!-- 		</div> -->
 		
 			</div>
 			<form action="movieRgst" method="post" id="movieRegist">
