@@ -23,10 +23,9 @@
 		var today = new Date(now_utc-timeOff).toISOString().substring(0, 16);
 		
 		$("#lost_datetime").attr("max", today);
-	});
-	
-	// 지점명 불러오기
-	$(function() {
+
+
+		// 지점명 불러오기
 		$.ajax({
 			type: "GET",
 			url: "getTheater",
@@ -40,10 +39,8 @@
 			}
 			
 		});
-	});
-	
-	
-	$(function() {
+
+
 		// id 선택자 없는 경우 name 속성 지정하여 설정함. id 선택자 추가 가능(css 꼬일까봐 안했습니다) 
 		$("form").submit(function() {
 			if(confirm("문의를 등록하시겠습니까?")) {
@@ -80,10 +77,9 @@
 				return false;
 			}	
 		});
-	});
-	
-	// 파일 이미지로만 제한
-	$(function() {
+
+
+		// 파일 이미지로만 제한
 		$("#file").on("change", function() {
 			let fileVal = $(this).val();
 			if (fileVal != "") {
@@ -100,9 +96,8 @@
 				}
 			}
 		});
-	});
-	
-	$(function() {
+
+
 		$("#cancel").on("click", function() {
 			if(confirm("문의 작성을 취소하시겠습니까?")) {
 				location.href="csMain";

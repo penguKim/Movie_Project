@@ -20,10 +20,7 @@
 			alert('비정상적인 접근입니다.\n메인페이지로 이동합니다.');
 			location.href = './'; //다른 페이지로 이동
 		}
-	});
-</script>	
-<script>
-	$(function() {
+		
 	    $("#agreeAll").on("change", function() {
 	        if ($("#agreeAll").prop("checked")) {
 	            $(":checkbox").prop("checked", true);

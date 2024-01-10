@@ -53,11 +53,11 @@
 						<img src="${pageContext.request.contextPath}/resources/img/id-card.png" alt="1:1 이미지">
 						<span>아이디/<br>비밀번호 찾기</span>
 					</a>
-					<a href="Mypage_Reserv_boardList">
+					<a href="MypageReservboardList">
 						<img src="${pageContext.request.contextPath}/resources/img/ticket.png" alt="분실물 이미지">
 						<span>예매/취소<br>내역 확인</span>
 					</a>
-					<a href="Mypage_OneOnOneList">
+					<a href="MypageOneOnOneList">
 						<img src="${pageContext.request.contextPath}/resources/img/list.png" alt="FAQ 이미지">
 						<span>나의 문의<br>내역 확인</span>
 					</a>

@@ -37,10 +37,7 @@
 				return false;
 			}	
 		});
-	});
-
-
-	$(function() {
+		
 		$("#cancel").on("click", function() {
 			if(confirm("작성을 취소하시겠습니까?")) {
 				location.href="adminFaq";

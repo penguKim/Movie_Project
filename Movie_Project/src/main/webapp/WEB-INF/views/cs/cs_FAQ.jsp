@@ -40,96 +40,6 @@
 			
 		});
 		
-	});
-
-	<%-- 게시물 목록을 조회하는 함수 --%>
-	function load_list() {
-		let urlParams = new URL(location.href).searchParams;
-		let buttonName = urlParams.get('buttonName');
-		let searchValue = $("#searchValue").val();
-		// 게시물 조회를 요청하는 ajax
-		$.ajax({
-			type: "GET",
-			url: "CsListJson",
-			data: { 
-				"searchValue": searchValue,
-				"pageNum" : pageNum,
-				"buttonName" : buttonName
-			},
-			dataType: "json",
-			success: function(data) {
-// 				console.log(data.faqList);
-
-				$("#faq_button input").removeClass("btn-active").addClass("btn-inactive");
-				$(".faqButton[name='" + buttonName +"']").removeClass("btn-inactive").addClass("btn-active");
-
-				for(let faq of data.faqList) {
-					let result = 
-						'<div class="faq_list">'
-						+	'<button class="accordion">'
-						+		'<div id="topic">[' + faq.cs_type_detail + ']</div><div id="subject">' + faq.cs_subject + '</div>'
-						+		'<input type="hidden" name="cs_type_list_num" value="' + faq.cs_type_list_num + '">'
-						+	'</button>'
-						+	'<div class="panel">'
-						+		'<pre id="faq_content">' + faq.cs_content + '</pre>'
-						+	'</div>'
-						+'</div>'
-					
-					
-					$("#faq_list").append(result);
-						
-					// 끝페이지 번호(maxPage) 값을 변수에 저장
-					maxPage = data.maxPage;
-	
-				}
-				
-				<%-- 자주묻는질문을 클릭했을 때 펼쳐지면서 내용 보여주는 효과를 넣어줌 --%>
-				var acc = document.getElementsByClassName("accordion");
-				var i;
-				
-				for(i = 0; i < acc.length; i++) {
-					acc[i].addEventListener("click", function() {
-						this.classList.toggle("active");
-						var panel = this.nextElementSibling;
-						if (panel.style.display == "block") {
-							panel.style.display = "none";
-						} else {
-							panel.style.display = "block";
-						}
-					});
-				}
-				
-				// 고객센터 메인 페이지에서 선택한 자주묻는질문 바로 보기
-				$(function() {
-					// 파라미터로 cs_type_list_num 값 가져오기
-					let urlParams = new URL(location.href).searchParams;
-					let targetValue = urlParams.get('cs_type_list_num');
-					// 해당 값을 가진 버튼을 찾아 클릭
-					$('.accordion').each(function() {
-						let hiddenInput = $(this).find('input[name="cs_type_list_num"]');
-						if (hiddenInput.length > 0) {
-							let buttonValue = hiddenInput.val();
-						
-							if (buttonValue === targetValue) {
-								$(this).click(); // 버튼을 클릭
-								return false; // 반복문 종료
-							}
-						}
-					});
-				});
-			},
-			error: function(request,status,error) {
-		      // 요청이 실패한 경우 처리할 로직
-		      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
-			}
-		});
-		
-		
-
-		
-	}
-
-	$(function() {
 		<%-- faq 세부항목별 보기 버튼을 눌렀을 때 세부항목별로 모아서 보여주는 기능  --%>
 		$("#faq_button input").click(function() {
 			
@@ -152,6 +62,86 @@
 		});
 		
 	});
+
+	<%-- 게시물 목록을 조회하는 함수 --%>
+	function load_list() {
+		let buttonName = '${param.buttonName}';
+		let searchValue = $("#searchValue").val();
+		// 게시물 조회를 요청하는 ajax
+		$.ajax({
+			type: "GET",
+			url: "CsListJson",
+			data: { 
+				"searchValue": searchValue,
+				"pageNum" : pageNum,
+				"buttonName" : buttonName
+			},
+			dataType: "json",
+			success: function(data) {
+// 				console.log(data.faqList);
+
+				$("#faq_button input").removeClass("btn-active").addClass("btn-inactive");
+				$(".faqButton[name='" + buttonName +"']").removeClass("btn-inactive").addClass("btn-active");
+
+				for(let faq of data.faqList) {
+					let result = 
+						'<div class="faq_list">'
+						+	'<button class="accordion" onclick="changeOpenFaqContentStatus(this)">'
+						+		'<div id="topic">[' + faq.cs_type_detail + ']</div><div id="subject">' + faq.cs_subject + '</div>'
+						+		'<input type="hidden" name="cs_type_list_num" value="' + faq.cs_type_list_num + '">'
+						+	'</button>'
+						+	'<div class="panel">'
+						+		'<pre id="faq_content">' + faq.cs_content + '</pre>'
+						+	'</div>'
+						+'</div>'
+					
+					
+					$("#faq_list").append(result);
+						
+					// 끝페이지 번호(maxPage) 값을 변수에 저장
+					maxPage = data.maxPage;
+	
+				}
+				
+				// 고객센터 메인 페이지에서 선택한 자주묻는질문 바로 보기
+				// 파라미터로 cs_type_list_num 값 가져오기
+				let urlParams = new URL(location.href).searchParams;
+				let targetValue = urlParams.get('cs_type_list_num');
+				// 해당 값을 가진 버튼을 찾아 클릭
+				$('.accordion').each(function() {
+					let hiddenInput = $(this).find('input[name="cs_type_list_num"]');
+					if (hiddenInput.length > 0) {
+						let buttonValue = hiddenInput.val();
+					
+						if (buttonValue === targetValue) {
+							$(this).click(); // 버튼을 클릭
+							return false; // 반복문 종료
+						}
+					}
+				});
+			},
+			error: function(request,status,error) {
+		      // 요청이 실패한 경우 처리할 로직
+		      console.log("AJAX 요청 실패:", error); // 예시: 에러 메시지 출력
+			}
+		});
+		
+		
+
+		
+	}
+
+	<%-- 자주묻는질문을 클릭했을 때 펼쳐지면서 내용 보여주는 효과를 넣어줌 --%>
+	<%-- 생성한 질문 항목(버튼) 태그 내에 click 이벤트를 통해 호출함 --%>
+	function changeOpenFaqContentStatus(target) {
+		target.classList.toggle("active");
+		var panel = target.nextElementSibling;
+		if (panel.style.display == "block") {
+			panel.style.display = "none";
+		} else {
+			panel.style.display = "block";
+		}
+	}
 		
 </script>
 </head>

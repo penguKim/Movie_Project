@@ -20,10 +20,7 @@
 			alert('비정상적인 접근입니다.\n메인페이지로 이동합니다.');
 			location.href = './'; //다른 페이지로 이동
 		}
-	});
-</script>	
-<script>
-	$(function() {	
+		
 		let isDuplicateId = false; <%-- 아이디 중복 여부를 저장할 변수 선언 --%>
 		let isDuplicateEmail = false; <%-- 이메일 중복 여부를 저장할 변수 선언 --%>
 		let isDuplicatePhone = false; <%-- 휴대폰번호 중복 여부를 저장할 변수 선언 --%>

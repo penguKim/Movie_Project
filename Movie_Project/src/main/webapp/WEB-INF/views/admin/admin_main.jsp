@@ -66,14 +66,9 @@
 				console.log("AJAX 요청 실패:", error);
 	    	},
 		});
-	});
-	
-</script>
 
-<script>
-	// 일일 가입자수 차트
-	$(function() {
 		
+		// 일일 가입자수 차트
 		const xValues = [];
 		const yValues = [];
 
@@ -127,13 +122,8 @@
 				console.log("AJAX 요청 실패:", error);
 	    	},
 		});
-	});
-	
-</script>
 
-<script type="text/javascript">
-	// 인기 상품 차트
-	$(function() {
+		// 인기 상품 차트
 		const xValues = [];
 		const yValues = [];
 		const barColors = ["#FF4633", "#39DB54","#009CF7","#F99E27","#FC4E7C"];
@@ -177,12 +167,8 @@
 				console.log("AJAX 요청 실패:", error);
 	    	},
 		});
-});
-</script>
 
-<script type="text/javascript">
-	// 예매 순위 차트
-	$(function() {
+		// 예매 순위 차트
 		var xValues = [];
 		var yValues = [];
 		var barColors = [

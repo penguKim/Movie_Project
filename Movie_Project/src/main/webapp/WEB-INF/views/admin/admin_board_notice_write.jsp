@@ -31,9 +31,7 @@
 				
 			});
 		});
-	});
 	
-	$(function() {
 		$("form").submit(function() {
 			if(confirm("문의를 등록하시겠습니까?")) {
 				if($("#subject").val() == "") { 
@@ -51,9 +49,7 @@
 				return false;
 			}	
 		});
-	});
 	
-	$(function() {
 		$("#cancel").on("click", function() {
 			if(confirm("작성을 취소하시겠습니까?")) {
 				location.href="adminNotice";

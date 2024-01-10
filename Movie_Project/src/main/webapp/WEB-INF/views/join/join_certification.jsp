@@ -24,10 +24,7 @@
 			    location.reload(); <%-- 페이지 새로고침 --%>
 			}
 		});
-	});
-</script>	
-<script>
-	$(function() {
+
 		// 인증여부를 저장할 변수 선언
 		var isChecked = false;
 		var isSuccess = false;
@@ -142,17 +139,10 @@
 			});		
 		};
 		
-	});
-</script>
-<script>
-
-	$(function() {
 		$("#kakao_id_login").click(function() {
 			alert("서비스 준비중입니다");
 		});
-	});
-	
-	$(function() {
+		
 		$("#google_id_login").click(function() {
 			alert("서비스 준비중입니다");
 		});

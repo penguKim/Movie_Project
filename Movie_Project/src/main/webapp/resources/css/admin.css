@@ -89,6 +89,7 @@ navbar {
 
 #top_area_admin {
 	height: 60px;
+	width: 100%;
 	text-align: right;
 	background-color: #242424;
 }
@@ -105,7 +106,7 @@ navbar {
 }
 
 #top_area_admin button {
-	background-color: #c0c0c0;
+/* 	background-color: #c0c0c0; */
 	margin: 0;
 	text-align: center;
 	padding: 5px;
@@ -635,41 +636,6 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	width: 650px; /* 너비 */
 }
 
-
-/* ------------------------------------- */
-.sidenav1 {
-	height: 100%;
-	width: 200px;
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	background-color: #111;
-	overflow-x: hidden;
-	padding-top: 20px;
-}
-
-.sidenav a:not(#side_logo) {
-	padding: 6px 8px 6px 20px;
-	text-decoration: none;
-	font-size: 18px;
-	color: #9b9b9b;
-	display: block;
-	border: none;
-	background: none;
-	width: 100%;
-	text-align: left;
-	cursor: pointer;
-	outline: none;
-}
-
-.sidenav a:hover {
-	color: #f1f1f1;
-	font-weight: bolder;
-}
-
-
-
 /* ========== 이벤트 항목의 모달창 ========== */
 
 /* 짧은 입력창 표시 */
@@ -701,7 +667,6 @@ input[type="button"]:hover, input[type="submit"]:hover {  /* 모든 버튼에 �
 	width: 100%; /* 전체 너비 */
 	height: 100%; /* 전체 높이 */
 	overflow: auto; /* 모달창에 스크롤 추가 */
-/* 		background-color: rgb(0,0,0); /* 백그라운드 색 */ 
 	background-color: rgba(0,0,0,0.4); /* 약간의 투명도 */
 }
 

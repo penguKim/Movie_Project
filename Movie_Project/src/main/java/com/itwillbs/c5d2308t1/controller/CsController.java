@@ -301,7 +301,7 @@ public class CsController {
 			}
 			
 			if(cs.getCs_type().equals("1대1문의")) {
-				return "redirect:/Mypage_OneOnOneList";				
+				return "redirect:/MypageOneOnOneList";				
 			} else if(cs.getCs_type().equals("분실물문의")) {
 				return "redirect:/MypageLostBoardList";	
 			} else {
