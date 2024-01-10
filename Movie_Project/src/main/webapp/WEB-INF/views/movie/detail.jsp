@@ -341,13 +341,10 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			     <div class="review" id="review">
 			    	<hr>
 				    	<h2>리뷰</h2>
-<!-- 						<form action="reviewPro" method="post"> -->
-<%-- 						<c:if test="${not empty sessionScope.sId and (sessionScope.sId eq member.member_id)}"></c:if> --%>
 						    	<input type="text" name="review_content" placeholder="리뷰 입력" id="review_content">
 						    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
 						    	<input type="hidden" name="movie_id" value="${movie_id}">
 						
-<!-- 						</form> -->
 				    	<br>
 		    			<table id="review_no">
 		    			<tr id="review_tr">

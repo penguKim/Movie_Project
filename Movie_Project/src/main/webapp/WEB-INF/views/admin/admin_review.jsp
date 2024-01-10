@@ -24,9 +24,6 @@ $(document).ready(function(){
 	var member_id = "<%= session.getAttribute("sId") %>";
     	
 	$("#submitReview").click(function(){
-//     if(member_id != "null" && currentDateTime > play_data && currentDateTime > play_endTime){
-//			var play_data = reviewr1.play_data; // 영화상영일
-//	        var play_endTime = reviewr1.play_end_time; // 영화끝나는시간
 			var review_content = $("#review_content").val(); // 'review_content'라는 id를 가진 요소의 값을 가져옴
 			var movie_id = ${param.movie_id};
 			var formattedTime = year + '-' + // 현재 연도
@@ -60,13 +57,9 @@ $(document).ready(function(){
 			error: function(request, status, error) { // 요청 실패
 				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
-		});
-// }else{ // 실패시 
-// alert("로그인 후 작성이 가능합니다");
-// location.href = "memberLogin";
-// } //if
+		});//ajax끝
 	}); //click 이벤트 끝
-});
+}); //ready 끝
 </script>
 </head>
 <body>
@@ -151,6 +144,51 @@ $(document).ready(function(){
 					</c:choose>
 				</div>
 <!-- 				</form> -->
+
+
+
+
+					<div class="pagination">
+						<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>
+						<%-- 다만, 페이지 번호가 1일 경우 비활성화 --%>		
+						<c:choose>
+							<c:when test="${pageNum eq 1}">
+								<a href="" >&laquo;</a>					
+							</c:when>
+							<c:otherwise>
+								<a href="adminReview?pageNum=${pageNum-1}" >&laquo;</a>
+							</c:otherwise>				
+						</c:choose>
+						<%-- 현재 페이지가 저장된 pageInfo 객체를 통해 페이지 번호 출력 --%>
+						<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+							<%-- 각 페이지마다 하이퍼링크 설정(페이지번호를 pageNum 파라미터로 전달) --%>
+							<%-- 단, 현재 페이지는 하이퍼링크 제거하고 굵게 표시 --%>
+							<c:choose>
+								<%-- 현재 페이지번호와 표시될 페이지번호가 같을 경우 판별 --%>
+								<c:when test="${pageNum eq i}">
+									<a class="active" href="">${i}</a> <%-- 현재 페이지 번호 --%>
+								</c:when>
+								<c:otherwise>
+									<a href="adminReview?pageNum=${i}">${i}</a> <%-- 다른 페이지 번호 --%>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						
+						<%-- '>>' 버튼 클릭 시 현체 페이지보다 한 페이지 다음 페이지 요청 --%>
+						<%-- 다만, 페이지 번호가 마지막 경우 비활성화 --%>		
+						<c:choose>
+							<c:when test="${pageNum eq pageInfo.maxPage}">
+								<a href="" >&raquo;</a>					
+							</c:when>
+							<c:otherwise>
+								<a href="adminReview?pageNum=${pageNum+1}" >&raquo;</a>
+							</c:otherwise>				
+						</c:choose>
+					</div>
+
+
+
+
 			</div>
 		</section>
 	</div>

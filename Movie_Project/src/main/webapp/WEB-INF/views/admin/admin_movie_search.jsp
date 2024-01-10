@@ -16,25 +16,21 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <%-- <script src="${pageContext.request.contextPath}/resources/js/dailyBoxOffice.js"></script> --%>
 <script type="text/javascript">
-// 여기 페이지에서 해야할것.
-// input text에서 검색해서 버튼클릭했을때 selectBox로 입력받은 검색어에 관한 영화목록들을 조회(ajax)
-// selectBox 목록에서 영화제목을 클릭했을때 상세정보가 inputText에 출력되게 할거임.(ajax)
 
 $(document).ready(function(){
 	// ======== 개봉일과 상영상태를 비교하는 변수 목록 ========
 	let nowTime = new Date().getTime(); // 계산의 기준이 될 날짜를 밀리초 단위로 리턴
 	let movieReleaseTime = ''; // 계산의 대상이 될 날짜를 밀리초 단위로 리턴
 	let differenceTime = ''; // 기준 날짜와 대상 날짜의 차이
+	
+	
 	$("#adminMovieSearch").on("click", function(){
 // 		data.preventDefault(); //기본 이벤트 작동 못하게 하는 함수 (submit 함수쓸때 기본동작 = 페이지 다시 불러오기 안함)
 		let title = $("#movieTitle").val();
 		let key = "e9ac77cb0a9e1fa7c1fe08d1ee002e3b";
+
 		
-		if(title == "") {
-			alert("영화명을 입력해주세요");
-			return;
-		}
-			
+
 		$.ajax({
 			type: "GET",
 			url: "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json",
@@ -99,7 +95,6 @@ $(document).ready(function(){
 					// 장르
 				  	let genre = kmdb.Data[0].Result[0].genre;
 					$("#movie_genre").val(genre);
-					
 					// 제작년도
 					let prodYear = kmdb.Data[0].Result[0].prodYear;
 					$("#movie_prdtYear").val(prodYear);
@@ -164,8 +159,14 @@ $(document).ready(function(){
 				} //error 끝
 			}); //ajax 끝
 	
-		});
+		}); //onChange 끝
 	
+// 		$("form").on("submit", function() {
+// 			if($("#movie_title").val() == "") { 
+// 				alert("영화 정보가 없습니다");
+				
+// 			}
+// 		});	
 	}); //ready 끝
 
 </script>
@@ -185,14 +186,8 @@ $(document).ready(function(){
 		<hr>
 		<div id="admin_main">
 			<div id="adminSearch">
-<!-- 				<form id="searchForm" > -->
 					<input type="text" id="movieTitle" placeholder="제목을 입력하세요"><input type="button" id="adminMovieSearch" value="검색">
-					
 					<select name="selectBox" id="selectBox" style="display: none;"></select>
-<!-- 				</form> -->
-<!-- 		<div> -->
-<!-- 			<select name="selectBox" id="selectBox" style="display: none;"></select> -->
-<!-- 		</div> -->
 		
 			</div>
 			<form action="movieRgst" method="post" id="movieRegist">

@@ -849,4 +849,6 @@
 		WHERE
 			event_id = #{event_id}
 	</update>
+	
+	
 </mapper>

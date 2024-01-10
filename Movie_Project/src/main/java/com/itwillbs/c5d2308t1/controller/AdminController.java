@@ -2089,7 +2089,8 @@ public class AdminController {
 	}
 
 	@GetMapping("reviewDlt")//리뷰 상세 페이지로 이동
-	public String reviewDetail(HttpSession session, Model model, ReviewsVO review) {
+	public String reviewDetail(HttpSession session, Model model, ReviewsVO review, @RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "1") int pageNum) {
 		String sId = (String)session.getAttribute("sId");//현재 로그인 중인 아이디 sId 저장
 		review.setMember_id(sId);
 		
@@ -2102,6 +2103,7 @@ public class AdminController {
 		List<ReviewsVO> adminReviewDlt = service.getReviewDetailList(review); //리뷰 상세조회
 		System.out.println(review);
 		model.addAttribute("adminReviewDlt",adminReviewDlt);
+		
 		
 		return "admin/admin_review_detail";
 		
