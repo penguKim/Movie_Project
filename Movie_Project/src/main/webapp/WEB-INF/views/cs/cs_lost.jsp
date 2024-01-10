@@ -105,7 +105,7 @@
 	$(function() {
 		$("#cancel").on("click", function() {
 			if(confirm("문의 작성을 취소하시겠습니까?")) {
-				location.href="http://localhost:8081/c5d2308t1/csMain";
+				location.href="csMain";
 			} else {
 				return false;
 			}
