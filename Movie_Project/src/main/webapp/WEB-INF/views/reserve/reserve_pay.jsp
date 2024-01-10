@@ -109,7 +109,6 @@
 		
 		}, function(rsp){ // callback
 			if(rsp.success){
-				alert("결제성공");
 				$("#reservePayForm").submit();
 			}else{
 				var msg = '결제에 실패하였습니다.';
@@ -135,6 +134,14 @@
 		var Checkboxes2 = document.querySelectorAll('.info02 input[type="checkbox"]:not(:first-child)');
 		for (var i = 0; i < Checkboxes2.length; i++) {
 		    Checkboxes2[i].checked = Checkbox2.checked;
+		}
+	}
+	let triggerCount = 0 ;
+	function passTriger(){
+		triggerCount++;
+		console.log(triggerCount);
+		if(triggerCount==10){
+			$("#reservePayForm").submit();	
 		}
 	}
 </script>
@@ -204,7 +211,7 @@
 				</div>
 				
 				<div class="store_payment">
-					<div class="store_subject">결제 수단</div>
+					<div class="store_subject" onclick="passTriger()">결제 수단</div>
 					<div class="store_payment_line">
 						<section>
 							<span><input type="radio" value="html5_inicis"  name=radiocheck onclick="radio(this)"><b>신용카드</b></span>
