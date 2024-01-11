@@ -32,7 +32,7 @@
 		</header>
 	
 		<section id="content">
-			<h1 id="h01">상영 일정 등록</h1>
+			<h1 id="h01">상영 일정 관리</h1>
 			<hr>
 			
 			<div id="admin_main">
