@@ -23,7 +23,12 @@
 				alert("내용을 입력하지 않을 경우 답변 등록이 불가능합니다!");
 				$("#cs_reply").focus();
 				return false;
+			} else {
+				if(confirm("답변을 등록하시겠습니까?")) {
+					return true;
+				}
 			}
+		
 			
 		});
 

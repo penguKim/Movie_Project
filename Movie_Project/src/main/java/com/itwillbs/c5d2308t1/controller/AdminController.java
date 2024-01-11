@@ -1721,7 +1721,7 @@ public class AdminController {
 		
 		// AdminService - getOneOnOneListCount() 메서드 호출해 전체 게시글 개수 조회
 		// => 파라미터 : 없음	 리턴타입 : int
-		int listCount = service.getOneOnOneListCount(page, searchType, searchKeyword);
+		int listCount = service.getOneOnOneListCount(searchType, searchKeyword);
 
 		// PageDTO 객체와 게시글 갯수, 페이지 번호 갯수를 파라미터로 전달
 		PageCount pageInfo = new PageCount(page, listCount, 3);

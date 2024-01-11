@@ -499,7 +499,6 @@
 			AND (cs_subject LIKE CONCAT('%', #{searchKeyword}, '%') OR cs_content LIKE CONCAT('%', #{searchKeyword}, '%'))
 		</if>
 		ORDER BY cs_id DESC
- 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 	
 <!-- 	1대1 문의 관리 게시판 상세 조회 -->
