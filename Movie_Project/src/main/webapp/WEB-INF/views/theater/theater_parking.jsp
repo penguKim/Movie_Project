@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
-<title>iTicket 극장정보</title>
+<title>iTicket</title>
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/theater.css" rel="stylesheet" type="text/css">
