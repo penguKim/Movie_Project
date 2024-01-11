@@ -6,6 +6,9 @@
 <html>
 <meta charset="UTF-8">
 <title>iTicket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <%-- 외부 CSS 파일 연결하기 --%>
 <link href="${pageContext.request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/theater.css" rel="stylesheet" type="text/css">
@@ -14,59 +17,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 
-
-// $(function() {
-// 	  // 클릭 이벤트 처리
-// 	  $("#carOk").on("click", function() {
-// 	    $.ajax({
-// 	      type: "GET",
-// 	      url: "theater_parking", // JSP 파일의 경로로 변경합니다.
-// 	      dataType: "text",
-// 	      success: function(data) {
-//     	    var parsedData = $(data).find("#sec01").html();
-//     	    $("#sec07").html(parsedData);
-// 	      },
-// 	      error: function() {
-// 	        alert("데이터를 불러올 수 없습니다.");
-// 	      }
-// 	    });
-// 	  });
-// });
-
-
-
-
-// $(function() {
-//   $("#priceOk").on("click", function() {
-//     $.ajax({
-//       type: "GET",
-//       url: "theater", // JSP 파일의 경로로 변경합니다.
-//       dataType: "text",
-//       success: function(data) {
-//           var parsedData = $(data).find("#sec07").html();
-//           $("#sec07").html(parsedData);
-// //         $("#sec07").html(data); // 실제로 데이터를 삽입할 대상 요소의 ID로 변경합니다.
-//       },
-//       error: function() {
-//         alert("데이터를 불러올 수 없습니다.");
-//       }
-//     });
-//   });
-// });
-
-// $(function() { // a태그 아무기능 없이 하는법
-// 	  $("#carOk").on("click", function(e) {
-// 	    e.preventDefault();
-// 	  });
-// 	});
-	
-// $(function() { // a태그 아무기능 없이 하는법
-// 	  $("#priceOk").on("click", function(e) {
-// 	    e.preventDefault();
-// 	  });
-// 	});
-	
-	
 </script>
 
 </head>

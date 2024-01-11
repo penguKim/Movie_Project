@@ -86,7 +86,6 @@ function quanChange(index) {
 			        data[index].cart_total_price -= priceDifference;
 			      }
 			      alert("수량 " + data[index].product_count + "개로 변경되었습니다!");
-			      alert("총금액 " + data[index].cart_total_price + "원");
 			      $("#totalPrice" + index).text(data[index].cart_total_price.toLocaleString() + "원");
 				
 			      var totalSum = 0; // 총합을 저장할 변수
@@ -95,7 +94,6 @@ function quanChange(index) {
 			        var value = data[i].cart_total_price; // 인덱스에 있는 각 상품의 총금액을 가져옴
 			        totalSum += value; // 총합에 더해줌
 			      }
-			      alert(totalSum);
 			      $(".table_box_red").text(totalSum.toLocaleString()+"원");
 				
 		},
