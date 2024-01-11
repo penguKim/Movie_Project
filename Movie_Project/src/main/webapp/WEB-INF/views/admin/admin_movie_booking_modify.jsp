@@ -103,7 +103,7 @@
 					
 					</table>
 					<div style="text-align: right;">
-					<input type="button" value="뒤로가기" onclick="location.href='adminMovieBooking'">
+					<input type="button" value="뒤로가기" onclick="history.back();'">
 					<c:choose>
 						<c:when test="${resList.payment_status eq 0}"></c:when>
 						<c:otherwise>
