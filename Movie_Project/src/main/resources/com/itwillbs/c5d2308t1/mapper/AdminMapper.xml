@@ -258,7 +258,7 @@
 	</select>
 	<!-- 한 페이지에 표시할 회원 수 조회 -->
 	<select id="selectMemberList" resultType="member">
-		SELECT *, FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25) AS member_age
+		SELECT *, FLOOR(DATEDIFF(CURDATE(), member_birth) / 365) AS member_age
 		FROM members
 		<if test="!searchKeyword.equals('')">
 			WHERE

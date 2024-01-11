@@ -105,6 +105,13 @@
 				});
 			}
 		});
+
+		// 셀렉트박스 클릭 이벤트
+		$("#dailyBox").on("click", function() {
+			if($("#dailyBox option:selected").val() == "dateValue") { // 날짜를 고르지 않았을 경우
+				alert("조회할 날짜를 선택하세요!");
+			}
+		});
 		
 		// 영화 상세정보는 kobis에서 관리하는 영화코드로 검색한다.
 		$("#boxofficeSelect").on("click", function() {

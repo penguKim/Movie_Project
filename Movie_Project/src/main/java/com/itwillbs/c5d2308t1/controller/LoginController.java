@@ -689,7 +689,7 @@ public class LoginController {
 	public String idFind(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId != null) { // 로그인한 경우
-			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("msg", "이미 로그인된 계정입니다");
 			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
@@ -710,7 +710,7 @@ public class LoginController {
 	public String passwdFind(HttpSession session, Model model) {
 		String sId = (String)session.getAttribute("sId");
 		if(sId != null) { // 로그인한 경우
-			model.addAttribute("msg", "잘못된 접근입니다!");
+			model.addAttribute("msg", "이미 로그인된 계정입니다");
 			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
