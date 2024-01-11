@@ -133,7 +133,7 @@
 					<tr>
 						<th>주문번호</th>
 						<th>상품이름</th>
-						<th>회원ID</th>
+						<th width="250">회원ID</th>
 						<th>결제일시</th>
 						<th>결제상태</th>
 						<th>결제내역 상세보기</th>
