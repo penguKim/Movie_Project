@@ -364,6 +364,7 @@
 	line-height: 30px;
 	font-size: 0.8em;
 	text-align: center;
+	pointer-events: none; /* 선택한 영역의 클릭 이벤트 비활성화 */
 }
 
 #screenArea{
