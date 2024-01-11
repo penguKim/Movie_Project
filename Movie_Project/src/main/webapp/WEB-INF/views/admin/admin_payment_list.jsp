@@ -132,7 +132,7 @@
 				<table border="1" width="1000">
 					<tr>
 						<th width="350">주문번호</th>
-						<th>상품이름</th>
+						<th width="200">상품이름</th>
 						<th width="270">회원ID</th>
 						<th>결제일시</th>
 						<th>결제상태</th>
