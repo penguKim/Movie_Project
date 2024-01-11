@@ -69,8 +69,8 @@
 								<td>${resList.play_date}</td>
 								<td>${resList.seat_name}</td>
 								<td>
-									<c:if test="${resList.payment_status eq 0}">결제취소</c:if>
-									<c:if test="${resList.payment_status eq 1}">결제완료</c:if>
+									<c:if test="${resList.payment_status eq 0}"><span id="payment_Cstatus">결제취소</span></c:if>
+									<c:if test="${resList.payment_status eq 1}"><span id="payment_Bstatus">결제완료</span></c:if>
 								</td>
 								<td><input type="button" value="상세보기" onclick = "resDetail(${resList.payment_id})"></td>
 								</tr>

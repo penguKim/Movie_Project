@@ -69,7 +69,7 @@
 				
 			<!-- 바디부분 시작 -->
 			
-			<form onsubmit="openPopup()">
+			<form>
 				<div id="my_list">
 					<h2>영화 예매내역</h2>
 					<table id="my_table1">

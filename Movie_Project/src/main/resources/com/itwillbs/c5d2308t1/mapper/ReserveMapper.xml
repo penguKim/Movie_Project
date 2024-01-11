@@ -94,7 +94,7 @@
 			AND
 				movie_title LIKE '%${searchKeyword}%'
 		</if>
-		ORDER BY payment_id DESC;
+		ORDER BY payment_id DESC
 		LIMIT #{page.startRow}, #{page.listLimit}
 	</select>
 	
@@ -218,7 +218,7 @@
 	<select id="selectMyReserveListCount" resultType="int">
 		SELECT COUNT(*)
 		FROM resView
-		WHERE member_id = #{member_id}
+		WHERE member_id = #{sId}
 		<if test="!searchKeyword.equals('')">
 			AND
 				movie_title LIKE '%${searchKeyword}%'

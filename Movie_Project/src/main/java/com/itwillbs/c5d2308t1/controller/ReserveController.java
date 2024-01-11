@@ -133,11 +133,11 @@ public class ReserveController {
 	
 	//마이페이지 예매내역 처리
 	@GetMapping("MypageReservboardList")
-	public String mypage_Reserv_boardList(Map<String, Object> map
-										, Model model
+	public String mypage_Reserv_boardList(Model model
 										, HttpSession session
 										,@RequestParam(defaultValue = "") String searchKeyword
 										,@RequestParam(defaultValue = "1") int pageNum) { 
+		System.out.println("searchKeyword : " + searchKeyword);
 		String sId = (String)session.getAttribute("sId");
 		if(sId == null) {
 			model.addAttribute("msg","잘못된 접근입니다.");
@@ -152,7 +152,7 @@ public class ReserveController {
 		// 페이징 처리
 		PageCount pageInfo = new PageCount(page, listCount, 5);
 		// 한 페이지에 불러올 영화 목록 조회
-		List<HashMap<String, String>> resList = reserve.getMyReserveList(searchKeyword, page, sId);
+		List<HashMap<String, String>> resList = reserve.getMyReserveList(sId,page,searchKeyword);
 		model.addAttribute("resList", resList);
 		model.addAttribute("pageInfo", pageInfo);
 
