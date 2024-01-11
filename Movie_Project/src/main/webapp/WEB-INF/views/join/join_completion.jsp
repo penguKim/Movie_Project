@@ -48,7 +48,7 @@
 				다양한 혜택을 누리실 수 있습니다. </p>
 				<section id="join_button">
 					<a href="memberLogin"> <input type="button" value="로그인"></a>
-					<a href="main"><input type="button" value="메인페이지"></a>
+					<a href="./"><input type="button" value="메인페이지"></a>
 				</section>
 				<hr>
 			</form>

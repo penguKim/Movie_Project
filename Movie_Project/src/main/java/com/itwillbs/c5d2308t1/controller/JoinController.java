@@ -65,7 +65,7 @@ public class JoinController {
 	public String memberJoin(HttpSession session, Model model) {
 		if(session.getAttribute("sId") != null) {
 			model.addAttribute("msg", "잘못된 접근입니다!");
-			model.addAttribute("targetURL", "main");
+			model.addAttribute("targetURL", "./");
 			return "forward";
 		}
 		
