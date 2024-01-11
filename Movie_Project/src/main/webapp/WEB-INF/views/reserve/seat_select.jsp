@@ -401,7 +401,6 @@
 				  <div class="modal-content">
 				    <div class="modal-header">
 				      <span>관람등급 안내</span>
-				      <span class="modal-close">X</span>
 				    </div>
 				    <c:choose>
 				    	<c:when test="${reserveVO.movie_rating eq 'ALL'}"><script>$(function(){$(".modal-close").click();})</script></c:when>
