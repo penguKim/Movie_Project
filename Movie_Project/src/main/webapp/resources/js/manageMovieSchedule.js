@@ -513,6 +513,14 @@
 				alert("상영시작시간을 선택해주세요");
 				$("#play_start_time").focus();
 				return false;
+			} else {
+				if(confirm("상영 일정을 등록하시겠습니까?")) {
+					return true;
+				} else {
+					alert("등록을 취소하셨습니다!");
+					location.reload();
+					return false;
+				}
 			}
 			
 		});
