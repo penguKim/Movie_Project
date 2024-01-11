@@ -416,7 +416,7 @@
 				      <p>(사진, 캡쳐본 불가)</p>
 				    </div>
 				    <div class="modal-footer">
-				      <button class="modal-button">동의하고 예매하기 ${flattenedSeatNames}</button>
+				      <button class="modal-button">동의하고 예매하기</button>
 				    </div>
 				  </div>
 				</div>
