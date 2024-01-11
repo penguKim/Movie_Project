@@ -53,6 +53,8 @@ $(function() {
 		<div id="content">
 						<h1 id="h01">극장정보</h1>
 			<hr>
+			<input type="hidden" value="${theaterName}">
+					<c:set var="theaterName" value="${theaterName.theater_name}"></c:set>
 			<div id="img_div">
 				<img src="${pageContext.request.contextPath}/resources/img/CGV서면.png" alt="cgv" id="image">
 			</div>
@@ -72,7 +74,7 @@ $(function() {
 			</div>
 			
 			<ul class="tab-menu" id="menu">
-		        <li><a href="theater" >관람료안내</a></li>
+		        <li class="last"><a href="theater?theater_name=${theaterName.theater_name}" >관람료안내</a></li>
 		        <li class="on"><a href="movieSelect?theater_name=${theaterName.theater_name}" title="현재 선택됨">예매하기</a></li>
 		        <li><a href="#sec01">위치/주차안내</a></li>
 <!-- 		        <li><input type="button">위치/주차안내</li> -->
@@ -253,6 +255,15 @@ $(function() {
 		     url += selectedId;
 		   }
 		   window.location.href = url;
+		 });
+		 
+		 document.querySelector('.last a').addEventListener('click', function(event) {
+			   event.preventDefault();
+			   var url = event.target.href;
+			   if (selectedId) {
+			     url += selectedId;
+			   }
+			   window.location.href = url;
 		 });
 			 </script>
 			</div>
