@@ -348,6 +348,11 @@
 	
 	<c:set var="outputDate" value="${year}년 ${monthString}월 ${day}일" />
 	
+	<!-- 예매된 좌석을 하나의 변수에 저장하는 반복문 -->
+	<c:forEach var="SeatList" items="${SeatList}">
+		<c:set var="seat_name" value="${seat_name}${SeatList.seat_name}," />
+	</c:forEach>
+	
 <!-- ================================================================== -->
 
 			<h1 id="h01">좌석선택</h1>
@@ -411,7 +416,7 @@
 				      <p>(사진, 캡쳐본 불가)</p>
 				    </div>
 				    <div class="modal-footer">
-				      <button class="modal-button">동의하고 예매하기</button>
+				      <button class="modal-button">동의하고 예매하기 ${flattenedSeatNames}</button>
 				    </div>
 				  </div>
 				</div>

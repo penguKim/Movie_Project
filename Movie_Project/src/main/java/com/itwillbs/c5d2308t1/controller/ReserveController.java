@@ -83,10 +83,14 @@ public class ReserveController {
 		
 		List<ReserveVO> SeatList = reserve.getSeatList(reserveVO);
 		play_end_time = reserve.getEndTime(reserveVO);
+		
 		reserveVO.setPlay_end_time(play_end_time);
 		System.out.println("SeatList test : " + SeatList);
+		
 		JSONArray SeatArr = new JSONArray(SeatList);
 		System.out.println("jsonarr test : " + SeatArr);
+		
+		model.addAttribute("SeatList",SeatList);
 		model.addAttribute("SeatArr",SeatArr);
 		model.addAttribute("reserveVO",reserveVO);
 		return "reserve/seat_select";
