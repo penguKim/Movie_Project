@@ -83,9 +83,9 @@
 						</tr>
 						<tr>
 							<th>No.</th>
-							<th>예매상품</th>
+							<th>영화제목</th>
 							<th>상영일</th>
-							<th>결제금액</th>
+							<th>영화극장 정보</th>
 							<th>상태</th>
 							<th>비고</th>
 						</tr>
@@ -97,8 +97,10 @@
 						</c:choose>
 							<td>${reslist.payment_id}</td>
 							<td><a href="detail?movie_id=${reslist.movie_id}" class="deleteline">${reslist.movie_title}</a></td>
-							<td>${reslist.play_date}</td>
-							<td><fmt:formatNumber value="${reslist.payment_total_price}" pattern="#,##0" />원</td>
+							<fmt:formatDate var="formattedDate" value="${reslist.play_date}" pattern="MM-dd" />
+							<td>${formattedDate}</td>
+							<td>${reslist.theater_name}/${reslist.room_name}</td>
+<%-- 							<td><fmt:formatNumber value="${reslist.payment_total_price}" pattern="#,##0" />원</td> --%>
 							<td>
 								<c:if test="${reslist.payment_status eq 1}">결제완료</c:if>
 								<c:if test="${reslist.payment_status eq 0}">취소완료</c:if>
