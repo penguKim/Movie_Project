@@ -27,7 +27,7 @@
 /* } */
 
 /* button:hover { 버튼 가까이 갔을때 어둡 */
-    background-color: #c70711;
+/*     background-color: #c70711; */
 /* } */
 
 /* 모달 스타일 */
@@ -321,7 +321,9 @@
 
 /* ================= 좌석선택 css ===================== */
 .alone{
-	background-color: #d5d7d7!important;
+	background-color: transparent!important;
+	background: url(../img/선택불가.png); 
+	background-size: 30px 30px;
 	pointer-events: none; /* 선택한 영역의 클릭 이벤트 비활성화 */
 }
 
@@ -384,11 +386,12 @@
 #DiscountInformation div{
 	color:red;
 	font-size:11px;
-	margin-bottom: 50px;
+	font-weight: bold;
 }
 #DiscountInformation input{
 	font-size: 13px;
 	width: auto;
+	margin-top: 54px;
 }
 
 .seat:nth-of-type(4), .seat:nth-of-type(12) {

@@ -116,16 +116,6 @@ $(function() {
 							<td>우대</td>
 							<td>5,000</td>
 						</tr>
-				
-						<tr>
-							<th rowspan="4">좌석<br></th>
-							<td>right석</td>
-							<td>6,000</td>
-						</tr>
-						<tr>
-							<td>장애인석</td>
-							<td>3,000</td>
-						</tr>
 					</table>
 				</div>				
 				

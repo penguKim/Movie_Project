@@ -103,8 +103,6 @@
 
 	    	
 	    });
-	    $(".Result_NumOfPeople_Param").text(selectPeopleArr.join(","));
-	    $("#hidden_typeCount").val(selectPeopleArr.join(","));
 	    
 	    console.log("selectPeopleArr : " + selectPeopleArr);
 	    
@@ -130,6 +128,9 @@
 		    var elements = row.find('.NumOfPeo');
 		    // 모든 .NumOfPeo 요소에서 'SelectPeople' 클래스를 제거
 		    elements.removeClass('SelectPeople');
+		}else{
+			 $(".Result_NumOfPeople_Param").text(selectPeopleArr.join(","));
+			 $("#hidden_typeCount").val(selectPeopleArr.join(","));
 		}
     	
     	//==================인원이 1명인지 판별하기 위한 판별 식===================
