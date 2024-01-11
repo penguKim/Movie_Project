@@ -158,8 +158,8 @@ public class AdminService {
 	}
 
 	// 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업 요청
-	public int getOneOnOneListCount(String searchType, String searchKeyword) {
-		return mapper.selectOneOnOneListCount(searchType, searchKeyword);
+	public int getOneOnOneListCount(PageDTO page, String searchType, String searchKeyword) {
+		return mapper.selectOneOnOneListCount(page, searchType, searchKeyword);
 	}
 
 //	// 1대1문의 관리 게시판 상세 조회 작업 요청

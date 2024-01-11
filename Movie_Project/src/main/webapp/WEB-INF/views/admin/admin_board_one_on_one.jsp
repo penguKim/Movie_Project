@@ -60,24 +60,33 @@
 						<th width="120">등록일</th>
 						<th width="95">답변상태</th>
 					</tr>
+					<c:choose>
+						<c:when test="${not empty oneOnOneList }">
+							<c:forEach var="oneOnOne" items="${oneOnOneList }">
+								<tr>
+									<td>${oneOnOne.cs_id }</td>
+									<td>${oneOnOne.cs_type_detail }</td>
+									<td class="post_name"><a href="OneOnOneDetail?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }">${oneOnOne.cs_subject }</a></td>
+									<td>${oneOnOne.member_id }</td>
+									<td>${oneOnOne.cs_date }</td>
+									<c:choose>
+										<c:when test="${empty oneOnOne.cs_reply }">
+											<td><a href="OneOnOneMoveToRegister?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변등록" id="btnOneOnOneresponse"></a></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href="OneOnOneDetail?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변완료" id="ok"></a></td>
+										</c:otherwise>
+									</c:choose>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="6">검색 조건에 해당하는 1대1문의 내역이 존재하지 않습니다.</td>
+							</tr>							
+						</c:otherwise>
+					</c:choose>					
 					
-					<c:forEach var="oneOnOne" items="${oneOnOneList }">
-						<tr>
-							<td>${oneOnOne.cs_id }</td>
-							<td>${oneOnOne.cs_type_detail }</td>
-							<td class="post_name"><a href="OneOnOneDetail?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }">${oneOnOne.cs_subject }</a></td>
-							<td>${oneOnOne.member_id }</td>
-							<td>${oneOnOne.cs_date }</td>
-							<c:choose>
-								<c:when test="${empty oneOnOne.cs_reply }">
-									<td><a href="OneOnOneMoveToRegister?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변등록" id="btnOneOnOneresponse"></a></td>
-								</c:when>
-								<c:otherwise>
-									<td><a href="OneOnOneDetail?cs_id=${oneOnOne.cs_id }&pageNum=${pageNum }"><input type="button" value="답변완료" id="ok"></a></td>
-								</c:otherwise>
-							</c:choose>
-						</tr>
-					</c:forEach>
 				</table>
 				<div class="pagination">
 						<%-- '<<' 버튼 클릭 시 현체 페이지보다 한 페이지 앞선 페이지 요청 --%>

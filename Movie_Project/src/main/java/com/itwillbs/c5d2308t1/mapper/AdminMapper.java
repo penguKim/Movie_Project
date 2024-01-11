@@ -104,7 +104,7 @@ public interface AdminMapper {
 	List<CsVO> selectOneOnOneList(@Param("page") PageDTO page, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
 
 	// 1대1문의 페이징 처리를 위한 게시물 개수 조회 작업
-	int selectOneOnOneListCount(@Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
+	int selectOneOnOneListCount(@Param("page") PageDTO page, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
 
 //	// 1대1문의 관리 게시판 상세 조회 작업
 	HashMap<String, Object> selectOneOnOne(CsVO cs);
