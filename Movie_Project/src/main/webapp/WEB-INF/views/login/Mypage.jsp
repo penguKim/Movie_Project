@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,6 +48,7 @@
 						<tr>
 							<th style="width: 80px;">No.</th>
 							<th>영화제목</th>
+							<th>상영일</th>
 							<th>영화극장 정보</th>
 							<th>상태</th>
 						</tr>
@@ -55,6 +58,8 @@
 									<tr>
 										<td>${res.payment_id}</td>
 										<td>${res.movie_title}</td>
+										<fmt:formatDate var="formattedDate" value="${res.play_date}" pattern="MM-dd" />
+										<td>${formattedDate}</td>
 										<td>${res.theater_name}${res.room_name} / ${res.seat_name}</td>
 										<c:choose>
 											<c:when test="${payment_status eq 0}"><td>취소완료</td></c:when>

@@ -48,11 +48,10 @@
 						</tr>
 						<tr>
 							<th>결제번호</th>
-							<th>결제일</th>
-							<th>영화명</th>
 							<th>회원ID</th>
-							<th>위치</th>
+							<th>영화명</th>
 							<th>상영일</th>
+							<th>극장정보</th>
 							<th>좌석</th>
 							<th>상태</th>
 							<th>비고</th>
@@ -61,12 +60,11 @@
 							<c:if test="${resList.payment_status eq 1}">
 								<tr>
 								<td>${resList.payment_id}</td>
-								<fmt:parseDate var="parsedDate" value="${resList.payment_datetime}" pattern="yyyy-MM-dd'T'HH:mm" type="both" />
-								<td><fmt:formatDate value="${parsedDate}" pattern="MM-dd HH:mm"/> </td>
-								<td>${resList.movie_title}</td>
 								<td>${resList.member_id}</td>
-								<td>${resList.theater_name}<br>${resList.room_name}</td>
-								<td>${resList.play_date}</td>
+								<td>${resList.movie_title}</td>
+								<fmt:formatDate var="formattedDate" value="${resList.play_date}" pattern="MM-dd" />
+								<td>${formattedDate}</td>
+								<td>${resList.theater_name}/${resList.room_name}</td>
 								<td>${resList.seat_name}</td>
 								<td>
 									<c:if test="${resList.payment_status eq 0}"><span id="payment_Cstatus">결제취소</span></c:if>

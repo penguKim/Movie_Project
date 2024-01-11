@@ -64,43 +64,31 @@
 					<table>
 						<tr>
 							<th>예매이름</th>
-							<td>${resList.payment_name}</td>
-						</tr>
-						<tr>
 							<th>회원ID</th>
-							<td>${resList.member_id}</td>
-						</tr>
-						<tr>
 							<th>결제금액</th>
-							<td>${resList.payment_total_price}</td>
+							<th>결제일</th>
+							<th>영화제목</th>
 						</tr>
 						<tr>
-							<th>결제일</th>
+							<td>${resList.payment_name}</td>
+							<td>${resList.member_id}</td>
+							<td>${resList.payment_total_price}</td>
 							<fmt:parseDate var="parsedDate" value="${resList.payment_datetime}" pattern="yyyy-MM-dd'T'HH:mm" type="both" />
 							<td><fmt:formatDate value="${parsedDate}" pattern="MM-dd HH:mm"/> </td>
-						</tr>
-						<tr>
-							<th>영화제목</th>
 							<td>${resList.movie_title}</td>
 						</tr>
 						<tr>
 							<th>관람일</th>
-							<td>${resList.play_date}</td>
-						</tr>
-						<tr>
 							<th>지점</th>
-							<td>${resList.theater_name}</td>
-						</tr>
-						<tr>
 							<th>상영관</th>
-							<td>${resList.room_name}</td>
-						</tr>
-						<tr>
 							<th>예매좌석</th>
-							<td>${resList.seat_name}</td>
+							<th>상태</th>
 						</tr>
 						<tr>
-							<th>상태</th>
+							<td>${resList.play_date}</td>
+							<td>${resList.theater_name}</td>
+							<td>${resList.room_name}</td>
+							<td>${resList.seat_name}</td>
 							<td id="payment_status_result">
 								<c:choose>
 									<c:when test="${resList.payment_status eq 0}">
