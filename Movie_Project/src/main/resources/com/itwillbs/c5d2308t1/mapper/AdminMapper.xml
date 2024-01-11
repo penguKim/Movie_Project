@@ -308,6 +308,7 @@
 			AND (cs.cs_subject LIKE '%${searchValue}%'
 			OR cs.cs_type_detail LIKE '%${searchValue}%')
 		</if>
+		ORDER BY cs_date DESC
 		LIMIT #{startRow}, #{listLimit}
 	</select>
 	
@@ -322,7 +323,7 @@
 		</if>
 	</select>	
 	
-	<!-- 자주묻는질문 공지사항 출력 및 페이지번호 출력, 검색 -->	
+	<!-- 공지사항 출력 및 페이지번호 출력, 검색 -->	
 	<select id="selectNoticeList" resultType="hashmap">
 		SELECT * 
 		FROM cs 
