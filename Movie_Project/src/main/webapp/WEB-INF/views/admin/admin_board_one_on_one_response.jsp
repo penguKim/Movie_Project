@@ -72,10 +72,10 @@
 		<section id="content">
 		<c:choose>
 			<c:when test="${empty oneOnOne.cs_reply }">
-				<h1 id="h01">1 : 1 문의 답변 등록 페이지</h1>
+				<h1 id="h01">1대1문의 답변 등록</h1>
 			</c:when>
 			<c:otherwise>
-				<h1 id="h01">1 : 1 문의 답변 수정/삭제 페이지</h1>
+				<h1 id="h01">1대1문의 답변 수정/삭제</h1>
 			</c:otherwise>
 		</c:choose>		
 		

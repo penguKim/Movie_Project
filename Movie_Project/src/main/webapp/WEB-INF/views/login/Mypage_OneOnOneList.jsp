@@ -34,7 +34,7 @@
 		<jsp:include page="../inc/menu_nav.jsp"></jsp:include>
 		
 		<section id="content">	
-			<h1 id="h01">1:1 문의 게시판</h1>
+			<h1 id="h01">1대1문의 게시판</h1>
 			<hr>
 			
 			<div id="mypage_nav"> <%-- 사이드 메뉴바 --%>

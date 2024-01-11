@@ -26,7 +26,7 @@
 			<jsp:include page="../inc/top_admin.jsp"></jsp:include>
 		</header>
 		<section id="content">
-			<h1 id="h01">1 : 1 문의 상세 조회 페이지</h1>
+			<h1 id="h01">1대1문의 상세조회</h1>
 			<hr>		
 			<div id="admin_sub">
 				<form action="OneonOneMoveToModify?pageNum=${param.pageNum }" method="post">

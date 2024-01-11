@@ -32,7 +32,7 @@
 		</header>
 		
 		<section id="content">
-			<h1 id="h01">1 : 1 문의 관리</h1>
+			<h1 id="h01">1대1문의 관리</h1>
 			<hr>
 			<div id="admin_main">
 				<div id="admin_search">

@@ -15,7 +15,7 @@
 		<i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="MypageOneOnOneList">1:1문의</a>
+		<a href="MypageOneOnOneList">1대1문의</a>
 		<a href="MypageLostBoardList">분실물문의</a>
 		<a href="MypageReviewList">나의리뷰</a>
 	</div>
