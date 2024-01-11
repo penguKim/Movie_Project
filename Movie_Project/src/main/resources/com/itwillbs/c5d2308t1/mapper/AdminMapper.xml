@@ -525,6 +525,7 @@
 		ON p.movie_id = m.movie_id
 		WHERE t.theater_id = #{theater_id}
 			AND p.play_date = #{play_date}
+		ORDER BY t.theater_id ASC, r.room_id ASC, p.play_start_time ASC, m.movie_title ASC
 	</select>
 
 <!-- 2) 상영스케쥴 관리 페이지 -->
