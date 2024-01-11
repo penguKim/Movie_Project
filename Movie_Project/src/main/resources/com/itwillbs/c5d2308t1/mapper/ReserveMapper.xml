@@ -144,6 +144,9 @@
 			  WHERE seat_name = #{seat_name}
 			  AND play_date = #{play_date}
 			  AND play_start_time = #{play_start_time}
+			  AND theater_name = #{theater_name}
+			  AND room_name = #{room_name}
+			  AND seat_status = '1'
 			)
 			,now()
 			,'카드이름'

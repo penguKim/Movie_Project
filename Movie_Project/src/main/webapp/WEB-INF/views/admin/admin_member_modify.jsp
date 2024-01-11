@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>iTicket 회원정보 상세</title>
+<title>iTicket</title>
 <%-- 글씨체 --%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,10 +60,10 @@
 				$("#checkIdResult").text("기존과 동일한 아이디입니다").css("color", "blue");
 				iscorrectId = true;
 			} else { 
-				member_id = $("#member_id").val();
 				<%-- 아이디 길이, 문자 종류 확인 --%>
 				let regId = /^[A-Za-z0-9]{5,20}$/; <%-- 5~20자의 영문(대소문자), 숫자 --%>
-				if(!regId.exec(member_id)) {
+				let newId = $("#member_id").val();
+				if(!regId.exec(newId)) {
 					$("#checkIdResult").text("5~20자의 영문 대/소문자, 숫자를 입력해주세요").css("color", "red");
 					iscorrectId = false;
 				} else {
@@ -71,7 +71,7 @@
 					$.ajax({
 						url: "checkDup",
 						data: {
-							"member_id" : member_id
+							"member_id" : newId
 						},
 						dataType: "json",
 						success: function(checkDupId) {
