@@ -215,22 +215,25 @@
 <!-- 							<td>12시</td> -->
 <!-- 						</tr> -->
 <!-- 					</tbody> -->
-
-
-
-
 					<tbody>
+						<c:choose>
+							<c:when test="${not empty playList }">
 					<%-- ******************************************************** --%>
 					<%-- ****************************기존코드**************************** --%>
-						<c:forEach items="${playList }" var="play">
-							<tr id="searchResult">
-								<td>${play.theater_name }</td>
-								<td>${play.room_name }</td>
-								<td>${play.movie_title }</td>
-								<td id="play_time">${play.play_start_time } ~ ${play.play_end_time }</td>
-								<input type="hidden" id="play_date" value="${play.play_date }">
-							</tr>
-						</c:forEach>
+								<c:forEach items="${playList }" var="play">
+									<tr id="searchResult">
+										<td>${play.theater_name }</td>
+										<td>${play.room_name }</td>
+										<td>${play.movie_title }</td>
+										<td id="play_time">${play.play_start_time } ~ ${play.play_end_time }</td>
+										<input type="hidden" id="play_date" value="${play.play_date }">
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr><td colspan="4">상영일정이 존재하지 않습니다.</td></tr>
+							</c:otherwise>
+						</c:choose>
 					<%-- ******************************************************** --%>
 					<%-- ****************************2차 코드**************************** --%>
 <%-- 						<c:forEach items="${playList }" var="play" varStatus="status"> <!-- 반복문 시작 --> --%>
