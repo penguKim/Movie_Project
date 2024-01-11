@@ -287,14 +287,6 @@
 	   }
 	   //====================모달===================	   
 	   $(".subBtn").click(function(){
-		   if(selectPeopleArr==""){
-			   alert("인원선택 필수!")
-			   return false;
-			}
-		   if(NumberOfSeatsCurrentlySelected==null){
-		       alert("좌석선택 필수!")
-			   return false;
-			}
 		   let resultNumberOfSeatsToChoose = 0;
 		   if(selectNumArr != null){
 			  	for(let i=0; i<selectNumArr.length; i++){
@@ -304,6 +296,14 @@
 		   if(NumberOfSeatsCurrentlySelected != resultNumberOfSeatsToChoose){
 			   alert("인원수와 좌석수가 일치하지 않습니다!")
 // 			   alert("골라야하는갯수 : " +resultNumberOfSeatsToChoose+ " 고른수 : " + NumberOfSeatsCurrentlySelected);
+			   return false;
+			}
+		   if(resultNumberOfSeatsToChoose=="" || resultNumberOfSeatsToChoose==0){
+			   alert("인원선택 필수!")
+			   return false;
+			}
+		   if(NumberOfSeatsCurrentlySelected==null){
+		       alert("좌석선택 필수!")
 			   return false;
 			}
 		});
@@ -476,7 +476,7 @@
 					</td>
 					<td id="total_Payment"><h3>결제</h3></td>
 					<td class="button_area">
-						<form action="reservePay" method="post" onsubmit="setSelectedSeatValue()">
+						<form action="reservePay" method="post" >
 						    <input type="hidden" name="movie" value="${reserveVO.movie_title}">		    <%-- 선택된 값을 숨겨진 input 요소에 할당 --%>
 						    <input type="hidden" name="Theater" value="${reserveVO.theater_name}">
 						    <input type="hidden" name="Date" value="${reserveVO.play_date}">
