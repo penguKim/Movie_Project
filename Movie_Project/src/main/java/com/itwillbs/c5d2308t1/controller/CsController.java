@@ -43,8 +43,8 @@ public class CsController {
 	// 고객센터 메인 페이지로 이동
 	// 메인페이지 하단에 자주묻는질문, 공지사항 미리보기 출력
 	@GetMapping("csMain")
-	public String csMain(CsVO cs, Model model) {
-		
+	public String csMain(CsVO cs, Model model) 
+		//ㅎㅇ
 		// CsService - getFaqMainList() 메서드 호출하여 자주 묻는 질문 출력
 		// => 파라미터 : 없음   리턴타입 : List<CsVO>(faqMainList)
 		List<CsVO> faqMainList = service.getFaqMainList();
