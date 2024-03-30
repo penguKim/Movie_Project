@@ -172,6 +172,27 @@ public class MoviesController {
 		return "[]";
 	}
 	
+	@ResponseBody
+	@PostMapping("reviewCheck")
+	public String reviewCheck(@RequestParam Map<String, String> map) {
+		System.out.println("파라미터로 넘겨받은 것 : " + map);
+		
+		List<Map<String, Object>> reserveList = service.getReviewCheckList(map);
+		System.out.println(reserveList);
+		
+		LocalDate today = LocalDate.now();
+		
+//		for(Map<String, Object> reserve : reserveList) {
+//			if(today.isAfter((LocalDate)reserve.get("play_date"))) {
+//				System.out.println((LocalDate)reserve.get("play_date"));
+//			}
+//		}
+		
+		
+		return "";
+	}
+	
+	
 	// =========================================================================================
 	// cgv에서 크롤링하여 현재상영작 페이지에 뿌리기
 //	@GetMapping("release")

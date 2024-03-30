@@ -356,6 +356,7 @@
 /* 숏컷 버튼 */
 .click_link {
 	margin: 40px auto;
+	padding: 0;
 }
 .click_link a {
 	text-decoration: none;
@@ -374,7 +375,8 @@
 	border: none;
 	border-bottom: 3px solid #433581;
 	color: #000000; /* 글자 색상 */
-	padding: 10px 50px; /* 영역의 상하 좌우 크기 */
+	padding: 15px 0; /* 영역의 상하 좌우 크기 */
+	width: 120px;
 	margin-top: 10px;
 	background-color: #ffffff;
 	cursor: pointer; /* 커서 변경 */
@@ -395,6 +397,11 @@
 }
 
 /* 차트 */
+
+.movie_reserv {
+	margin-top: 100px;
+}
+
 .chart {
 	display: inline-block;
 }
@@ -416,6 +423,44 @@
 	margin: 20px auto;
 	padding: 10px;
 }
+
+.modal {
+	display: none; /* 모달창 숨김 */
+	position: fixed; /* 화면 위치 고정 */
+	z-index: 9999; /* 내용 위에 표시 */
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 너비 */
+	height: 100%; /* 전체 높이 */
+	overflow: auto; /* 모달창에 스크롤 추가 */
+/* 		background-color: rgb(0,0,0); /* 백그라운드 색 */ 
+	background-color: rgba(0,0,0,0.4); /* 약간의 투명도 */
+}
+
+/* 모달 컨텐츠 */
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto; /* 페이지 중앙에 위치 */
+	padding: 20px;
+	border: 1px solid #888;
+	border-radius: 20px;
+	width: 50%; /* 대부분의 너비 */
+}
+
+/* 닫기 버튼 */
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
 /* 트레일러 */
 .trailer {
 	position: absolute;

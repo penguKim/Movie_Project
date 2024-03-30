@@ -37,6 +37,19 @@
 			}
 		});
 		
+		// 상영일과 현재 날짜를 비교하여 현재 상영작이나 상영 예정작이 안되는 경우 판별
+		$("#movie_status").on("change", function() {
+			movieReleaseTime = new Date($("#movie_release_date").val()).getTime();
+			differenceTime = Math.round((nowTime - movieReleaseTime) / 1000 / 60 / 60 / 24);
+		    if (differenceTime < 0 && $("#movie_status").val() == "1") {
+		        alert("상영일이 아직 오지 않았습니다.\n\"개봉 예정\"을 선택해주세요.");
+		        $("#comming").prop("selected", true);
+		    } else if (differenceTime > 0 && $("#movie_status").val() == "0") {
+		        alert("이미 개봉한 영화입니다.\n\"개봉\"을 선택해주세요.");
+		        $("#release").prop("selected", true);
+		    }
+		});
+		
 		// 제작년도는 4자리 숫자로 제한한다.
 		$("#movie_prdtYear").on("blur", function() {
 			let movie_prdtYear = $("#movie_prdtYear").val();
@@ -72,11 +85,6 @@
 			} else {
 				$("#checkMovie_runtimeResult").text("");
 			}
-		});
-		
-		// 종영 처리 시 수행할 동작
-		$("#ending").on("click", function() {
-			
 		});
 		
 		// submit 시 수행할 동작

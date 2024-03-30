@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,32 @@
 					alert("현재 상영작 불러오기를 실패했습니다.\n새로고침을 해주세요.");
 			}
 		});
+		
+		// 모달 닫기 버튼 클릭 이벤트
+		$(".close").on("click", function() {
+			$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
+			$("#myModal").hide(); <%-- div 영역 숨김 --%>
+		});
+
+		// 모달 외부 영역 클릭 시 모달 닫기
+		$(window).on("click", function(event) {
+			if ($(event.target).is("#myModal")) { <%-- 클릭한 곳이 모달창 바깥 영역일 경우 --%>
+				$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
+				$("#myModal").hide(); <%-- div 영역 숨김 --%>
+			}
+		});
+		
+		
 	}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
+	
+	// 모달 열기 버튼 클릭 이벤트
+	function imageModal(img) {
+		console.log($(img).attr("src"));
+		$("body").addClass("not_scroll"); <%-- body 영역 스크롤바 삭제 --%>
+		$(".modal-content img").attr("src", $(img).attr("src"));
+		$("#myModal").show();
+	}
+	
 	
 	//찜하기 버튼
 	function likeBtnClick(like) { <%-- 함수를 호출하는 버튼의 인덱스를 파라미터로 사용 --%>
@@ -90,33 +116,44 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			
 		}else{
 			$.ajax({
-				url: "reviewPro", // 데이터를 가지고 보낼 주소
 				type: "POST",
+				url: "reviewCheck",
 				data: {
-						review_content : review_content, 
-						member_id : member_id,
-						movie_id : movie_id
+					review_content : review_content, 
+					member_id : member_id,
+					movie_id : movie_id
 				},
-				datatype: "json",
-				success: function(data) { // 요청 성공
-					
-						$("#review_tr").after( //id="review_tr" 뒤에 데이터들 출력하기
-							"<tr>"	
-							+ "<td>" + member_id + "</td>"	
-							+ "<td>" + review_content + "</td>"	
-							+ "<td>" + formattedDate  + "</td>"	
-							+ "</tr>"	
-						);
-					
-					// 리뷰가 5개 이상일 경우 가장 아래에 있는 리뷰 삭제
-		            if ($("#review_no tr").length > 5) {
-		                $("#review_no tr:last-child").remove();
-		            }
-					console.log("성공");
-				},
-				error: function(request, status, error) { // 요청 실패
-					console.log("실패");
+				success: function(result) {
+										
 				}
+				
+// 				url: "reviewPro", // 데이터를 가지고 보낼 주소
+// 				type: "POST",
+// 				data: {
+// 						review_content : review_content, 
+// 						member_id : member_id,
+// 						movie_id : movie_id
+// 				},
+// 				datatype: "json",
+// 				success: function(data) { // 요청 성공
+					
+// 						$("#review_tr").after( //id="review_tr" 뒤에 데이터들 출력하기
+// 							"<tr>"	
+// 							+ "<td>" + member_id + "</td>"	
+// 							+ "<td>" + review_content + "</td>"	
+// 							+ "<td>" + formattedDate  + "</td>"	
+// 							+ "</tr>"	
+// 						);
+					
+// 					// 리뷰가 5개 이상일 경우 가장 아래에 있는 리뷰 삭제
+// 		            if ($("#review_no tr").length > 5) {
+// 		                $("#review_no tr:last-child").remove();
+// 		            }
+// 					console.log("성공");
+// 				},
+// 				error: function(request, status, error) { // 요청 실패
+// 					console.log("실패");
+// 				}
 			});//ajax
 		}; //else문 끝
 	}); //click
@@ -146,7 +183,7 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				}, 0);
 				let percentData = yValues.map(function(value) {
 				    return Math.floor((value / total) * 100);
-				});
+				}); 
 				
 				new Chart("ageGroupChart", {
 				  type: "bar",
@@ -162,31 +199,35 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				      data: percentData
 				    }]
 				  },
-				options: {
-					legend: {display: false},
-					title: {
-						display: true,
-						text: "연령대별 예매 분포"
-					},
-					scales : {
-						yAxes : [ {
-							ticks : {
-								beginAtZero : true, // 0부터 시작하게 합니다.
-								callback: function(value) {
-								return value + '%';  // y축의 표시 형식을 퍼센트로 변경
+					options: {
+						legend: {display: false},
+						title: {
+							display: true,
+							text: "연령대별 예매 분포"
+						},
+						scales : {
+							yAxes : [ {
+								ticks : {
+					                beginAtZero: true, // 0부터 시작하게 합니다.
+					                min: 0, // 최소 값
+					                max: 100, // 최대 값
+					                stepSize: 25, // 간격
+					                callback: function(value) {
+					                    return value + '%'; // y축의 표시 형식을 퍼센트로 변경
+					                }
 								}
-							}
-						} ]
-					},
-					tooltips: {
-						callbacks: {
-							label: function(tooltipItem, data) {
-								var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-								return value + '%'; // 툴팁에 표시되는 데이터 형식을 퍼센트로 변경
+							} ],
+	
+						},
+						tooltips: {
+							callbacks: {
+								label: function(tooltipItem, data) {
+									var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+									return value + '%'; // 툴팁에 표시되는 데이터 형식을 퍼센트로 변경
+								}
 							}
 						}
 					}
-				}
 				});
 			},
 			error : function() {
@@ -277,11 +318,11 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 						<div class="detail_title">${movie_title }</div>
 						<ul>
 							<li><span>기본 정보 : </span> ${movie_nation } | ${movie_runtime}분 | ${movie_genre }</li>
-							<li><span>개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;봉 : 	</span> ${movie_release_date } </li>
-							<li><span>감&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;독 : </span> ${movie_director }</li>
-							<li><span>배&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;우 : </span> ${movie_actor }</li>
-							<li><span>등&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;급 : </span> ${movie_rating }</li>
-							<li><span>총관객수 : </span> ${movie_audience }명</li>
+							<li><span>개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;봉 : 	</span> ${movie_release_date } </li>
+							<li><span>감&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;독 : </span> ${movie_director }</li>
+							<li><span>배&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;우 : </span> ${movie_actor }</li>
+							<li><span>등&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;급 : </span> ${movie_rating }</li>
+							<li><span>총 관객수 : </span><fmt:formatNumber value="${movie_audience }" groupingUsed="true" /> 명</li>
 						</ul>
 					</div>
 					<div class="detail_reserve_clear">
@@ -292,7 +333,8 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 				</div>
 				<hr>
 				<ul class="click_link">
-					<li><a href="#movie_story"><input type="button" value="줄거리"></a></li>	
+					<li><a href="#movie_story"><input type="button" value="줄거리"></a></li>
+					<li><a href="#movie_reserv"><input type="button" value="예매 현황"></a></li>	
 					<c:if test="${not empty movie_trailer }"> <%-- 트레일러가 없는 경우 --%>
 						<li><a href="#movie_trailer"><input type="button" value="트레일러"></a></li>	
 					</c:if>
@@ -307,9 +349,11 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 		    	<div>
 				    ${movie_plot }
 		    	</div>
-		    	<div>
+		    	<div class="movie_reserv" id="movie_reserv">
+	    		<hr>
+	    		<h2>예매 현황</h2>
 				    <div class="chart">
-					    <canvas id="genderChart" style="width:100%;max-width:290px; height:50%;"></canvas>
+					    <canvas id="genderChart" style="width:100%;max-width:290px; height:100%;"></canvas>
 				    </div>
 				    <div class="chart">
 					    <canvas id="ageGroupChart" style="width:100%;max-width:290px; height:100%;"></canvas>
@@ -326,18 +370,29 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 			    <div class="movie_cut" id="movie_cut">
 			    	<hr>
 			    	<h2>스틸컷</h2>
-						<c:if test="${not empty movie_still1 }"><img src="${movie_still1 }"></c:if>
-						<c:if test="${not empty movie_still2 }"><img src="${movie_still2 }"></c:if>
-						<c:if test="${not empty movie_still3 }"><img src="${movie_still3 }"></c:if>
+					<c:if test="${not empty movie_still1 }"><img class="modalImg" src="${movie_still1 }" onclick="imageModal(this)"></c:if>
+					<c:if test="${not empty movie_still2 }"><img class="modalImg" src="${movie_still2 }" onclick="imageModal(this)"></c:if>
+					<c:if test="${not empty movie_still3 }"><img class="modalImg" src="${movie_still3 }" onclick="imageModal(this)"></c:if>
+					
+					
 			    </div>
+				<!-- 모달 배경 -->
+					<div id="myModal" class="modal">
+						<!-- 모달 컨텐츠 -->
+						<div class="modal-content">
+							<span class="close">&times;</span>
+							<img src="" width="600">
+						</div>
+					</div>
+					
+					
 				<c:if test="${movie_status eq 1}">				    	
 			     <div class="review" id="review">
 			    	<hr>
 				    	<h2>리뷰</h2>
-						    	<input type="text" name="review_content" maxlength="25" placeholder="리뷰 입력" id="review_content">
-						    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
-						    	<input type="hidden" name="movie_id" value="${movie_id}">
-						
+				    	<input type="text" name="review_content" maxlength="25" placeholder="리뷰 입력" id="review_content">
+				    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
+				    	<input type="hidden" name="movie_id" value="${movie_id}">
 				    	<br>
 		    			<table id="review_no">
 		    			<tr id="review_tr">

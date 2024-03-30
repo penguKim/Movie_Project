@@ -114,4 +114,9 @@ public class MoviesService {
 		return mapper.selectGenderGroupList(movie_id);
 	}
 
+	// 리뷰 조건 판별
+	public List<Map<String, Object>> getReviewCheckList(Map<String, String> map) {
+		return mapper.selectReviewCheckList(map);
+	}
+
 }

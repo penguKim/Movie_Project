@@ -69,6 +69,9 @@ public interface MoviesMapper {
 	// 종영작으로 수정하는 작업
 	void updateMovieEndingStatus(Map<String, Object> movie);
 
+	// 리뷰 조건 판별
+	List<Map<String, Object>> selectReviewCheckList(Map<String, String> map);
+
 
 
 }

@@ -169,4 +169,13 @@
     		movie_id = #{movie_id}
     </update>
     
+    <!-- 리뷰조건 판별 -->
+    <select id="selectReviewCheckList" resultType="hashmap">
+    	SELECT *
+		FROM reviewcheck
+		WHERE member_id = #{member_id}
+		AND movie_id = #{movie_id}
+		AND payment_status = '1';
+    </select>
+    
 </mapper>
