@@ -52,8 +52,35 @@
 			}
 		});
 		
-		
 	}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
+	
+	<%-- 리뷰 작성 여부 확인 --%>
+	$(function() {
+		$("#submitReview").on("click", function() {
+// 			alert("테스트");
+			$.ajax({
+				url: "reviewCheck",
+				type: "POST",
+// 				dataType: "json",
+				data: {
+					movie_id: ${param.movie_id}
+				},
+				success: function(result) {
+					if(result == "false") {
+						alert("로그인하세요~~~~~");
+					} else if(result == "notReserve") {
+						alert("영화를 관람하신 회원만 작성가능합니다.");
+					} else if(result == "isBefore") {
+						alert("영화를 보신 후 리뷰가 작성가능합니다.");
+					} else if(result == "true") {
+						alert("리뷰 작성 성공~");
+						
+					}
+				}
+			});
+		});
+	});
+	
 	
 	// 모달 열기 버튼 클릭 이벤트
 	function imageModal(img) {
@@ -91,41 +118,41 @@
 		});
 	} <%-- 찜하기 버튼 클릭 이벤트 종료 --%>
 	
-$(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행됨
-	var member_id = "<%= session.getAttribute("sId") %>"; 
-	var movie_id = ${param.movie_id}; //영화 선택시 주소에 movie_id ="111"값을 movie_id에 저장 
+// $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행됨
+<%-- 	var member_id = "<%= session.getAttribute("sId") %>";  --%>
+// 	var movie_id = ${param.movie_id}; //영화 선택시 주소에 movie_id ="111"값을 movie_id에 저장 
 	
-	var currentDate = new Date(); // 현재 날짜와 시간을 currentDate 변수에 저장
-	var year = currentDate.getFullYear();  // 현재 연도 추출
-	var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 현재 월 추출하고 2자리로 만들기
-	var day = currentDate.getDate().toString().padStart(2, '0'); // 현재 일 추출하고 2자리로 만들기
+// 	var currentDate = new Date(); // 현재 날짜와 시간을 currentDate 변수에 저장
+// 	var year = currentDate.getFullYear();  // 현재 연도 추출
+// 	var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 현재 월 추출하고 2자리로 만들기
+// 	var day = currentDate.getDate().toString().padStart(2, '0'); // 현재 일 추출하고 2자리로 만들기
 
-	var formattedDate = year + "-" + month + "-" + day; // 연도, 월, 일을 formattedDate 변수에 저장
+// 	var formattedDate = year + "-" + month + "-" + day; // 연도, 월, 일을 formattedDate 변수에 저장
 
-	$("#submitReview").click(function(){ //클릭시 실행되는 함수
+// 	$("#submitReview").click(function(){ //클릭시 실행되는 함수
 // 		alert(member_id);
-		var review_content = $("#review_content").val();
+// 		var review_content = $("#review_content").val();
 		
-		if(member_id == "null") {
-		    alert("로그인 후 리뷰작성이 가능합니다");
-		    location.href="memberLogin";
+// 		if(member_id == "null") {
+// 		    alert("로그인 후 리뷰작성이 가능합니다");
+// 		    location.href="memberLogin";
 		
-		} else if(review_content === "" || review_content === null){
-			alert("내용을 작성해주세요");
-			return;
+// 		} else if(review_content === "" || review_content === null){
+// 			alert("내용을 작성해주세요");
+// 			return;
 			
-		}else{
-			$.ajax({
-				type: "POST",
-				url: "reviewCheck",
-				data: {
-					review_content : review_content, 
-					member_id : member_id,
-					movie_id : movie_id
-				},
-				success: function(result) {
+// 		}else{
+// 			$.ajax({
+// 				type: "POST",
+// 				url: "reviewCheck",
+// 				data: {
+// 					review_content : review_content, 
+// 					member_id : member_id,
+// 					movie_id : movie_id
+// 				},
+// 				success: function(result) {
 										
-				}
+// 				}
 				
 // 				url: "reviewPro", // 데이터를 가지고 보낼 주소
 // 				type: "POST",
@@ -154,10 +181,10 @@ $(document).ready(function(){ //이창이 열리면 밑에 코드들이 실행�
 // 				error: function(request, status, error) { // 요청 실패
 // 					console.log("실패");
 // 				}
-			});//ajax
-		}; //else문 끝
-	}); //click
-});
+// 			});//ajax
+// 		}; //else문 끝
+// 	}); //click
+// });
 </script>
 <script type="text/javascript">
 	<%-- 연령대 차트 --%>

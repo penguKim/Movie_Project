@@ -70,7 +70,10 @@ public interface MoviesMapper {
 	void updateMovieEndingStatus(Map<String, Object> movie);
 
 	// 리뷰 조건 판별
-	List<Map<String, Object>> selectReviewCheckList(Map<String, String> map);
+	Map<String, Object> selectReviewCheck(Map<String, String> map);
+
+	// 영화 예매 여부 판별
+//	void selectMovieReserve(Map<String, String> map);
 
 
 

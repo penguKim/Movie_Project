@@ -16,6 +16,7 @@ import java.net.http.HttpResponse;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -174,22 +175,41 @@ public class MoviesController {
 	
 	@ResponseBody
 	@PostMapping("reviewCheck")
-	public String reviewCheck(@RequestParam Map<String, String> map) {
+	public String reviewCheck(@RequestParam Map<String, String> map, HttpSession session) {
 		System.out.println("파라미터로 넘겨받은 것 : " + map);
 		
-		List<Map<String, Object>> reserveList = service.getReviewCheckList(map);
-		System.out.println(reserveList);
+		String sId = (String)session.getAttribute("sId");
 		
-		LocalDate today = LocalDate.now();
+		if(sId == null) { // 로그인을 안한 경우
+			return "false";
+		}
 		
-//		for(Map<String, Object> reserve : reserveList) {
-//			if(today.isAfter((LocalDate)reserve.get("play_date"))) {
-//				System.out.println((LocalDate)reserve.get("play_date"));
-//			}
-//		}
+		map.put("member_id", sId);
 		
+//		boolean isMovieReserve = service.getMovieReserve(map);
 		
-		return "";
+		Map<String, Object> reserve = service.getReviewCheck(map); // 하나의 예매 결과만 가져온다.
+		System.out.println("리뷰가능? : " + reserve);
+		
+		if(reserve == null) { // 예매 내역이 없는 경우
+			return "notReserve";
+		}
+		
+		LocalDate playDate = ((Date) reserve.get("play_date")).toLocalDate();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+		LocalTime playEndTime = LocalTime.parse(reserve.get("play_end_time").toString(), dtf);
+		LocalDateTime playDateTime = LocalDateTime.of(playDate, playEndTime);
+		
+		LocalDateTime today = LocalDateTime.now();
+		System.out.println(playDateTime);
+		System.out.println(today);
+		if(today.isAfter(playDateTime)) {
+			System.out.println("오늘이 상영일보다 이후인 상황");
+			return "true";
+		} else {
+			System.out.println("오늘이 상영일보다 이전인 상황이구연~");
+			return "isBefore";
+		}
 	}
 	
 	

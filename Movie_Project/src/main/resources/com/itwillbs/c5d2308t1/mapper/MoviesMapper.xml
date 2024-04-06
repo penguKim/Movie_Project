@@ -157,7 +157,7 @@
 		FROM resView r JOIN members m
 		ON r.member_id = m.member_id
 		WHERE r.movie_id = ${movie_id}
-		GROUP BY member_gender;
+		GROUP BY member_gender
     </select>
     
     <!-- 종영작으로 수정하는 작업 -->
@@ -169,13 +169,21 @@
     		movie_id = #{movie_id}
     </update>
     
+    <!-- 리뷰 체크 새로 작성 -->
     <!-- 리뷰조건 판별 -->
-    <select id="selectReviewCheckList" resultType="hashmap">
+    <select id="selectReviewCheck" resultType="hashmap">
     	SELECT *
 		FROM reviewcheck
 		WHERE member_id = #{member_id}
 		AND movie_id = #{movie_id}
-		AND payment_status = '1';
+		AND payment_status = '1'
+		ORDER BY play_date ASC, play_end_time ASC
+		LIMIT 1
     </select>
+    
+<!--     <select id="selectMovieReserve"> -->
+<!--     	SELECT * -->
+<!--     	FROM  -->
+<!--     </select> -->
     
 </mapper>

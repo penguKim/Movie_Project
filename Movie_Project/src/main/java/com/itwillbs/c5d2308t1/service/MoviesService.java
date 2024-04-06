@@ -115,8 +115,17 @@ public class MoviesService {
 	}
 
 	// 리뷰 조건 판별
-	public List<Map<String, Object>> getReviewCheckList(Map<String, String> map) {
-		return mapper.selectReviewCheckList(map);
+	public Map<String, Object> getReviewCheck(Map<String, String> map) {
+		return mapper.selectReviewCheck(map);
 	}
+
+//	// 영화 예매 여부 판별
+//	public boolean getMovieReserve(Map<String, String> map) {
+//		boolean isMovieReserve;
+//		
+//		mapper.selectMovieReserve(map);
+//		
+//		return false;
+//	}
 
 }
