@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -178,21 +179,23 @@ public class MoviesController {
 	public String reviewCheck(@RequestParam Map<String, String> map, HttpSession session) {
 		System.out.println("파라미터로 넘겨받은 것 : " + map);
 		
+		JSONObject object = new JSONObject();
+		
 		String sId = (String)session.getAttribute("sId");
 		
 		if(sId == null) { // 로그인을 안한 경우
-			return "false";
+			object.put("result", "false");
+			return object.toString();
 		}
 		
 		map.put("member_id", sId);
-		
-//		boolean isMovieReserve = service.getMovieReserve(map);
 		
 		Map<String, Object> reserve = service.getReviewCheck(map); // 하나의 예매 결과만 가져온다.
 		System.out.println("리뷰가능? : " + reserve);
 		
 		if(reserve == null) { // 예매 내역이 없는 경우
-			return "notReserve";
+			object.put("result", "notReserve");
+			return object.toString();
 		}
 		
 		LocalDate playDate = ((Date) reserve.get("play_date")).toLocalDate();
@@ -203,12 +206,33 @@ public class MoviesController {
 		LocalDateTime today = LocalDateTime.now();
 		System.out.println(playDateTime);
 		System.out.println(today);
-		if(today.isAfter(playDateTime)) {
+		if(today.isAfter(playDateTime)) { // 리뷰 쓰기 가능
 			System.out.println("오늘이 상영일보다 이후인 상황");
-			return "true";
-		} else {
+			// 리뷰를 썼는지 판별
+			Map<String, Object> isReviewWriting = service.getReview(map);
+			
+			if(isReviewWriting != null) { // 영화 리뷰를 작성한 경우
+				object.put("result", "ReviewWritied");
+				return object.toString();
+			} 
+			//db에 저장
+			int insertCount = service.registReview(map);
+			if(insertCount > 0) {
+				// 리뷰 목록 불러오기
+				List<Map<String, Object>> reviewList = service.getReviewList(map);
+				System.out.println("리뷰 목록~~~");
+				System.out.println(reviewList);
+				object.put("result", "true");
+				object.put("reviewList", reviewList);
+				return object.toString();
+			}
+			
+			object.put("result", "error"); // 리뷰 등록 실패한 경우
+			return object.toString();
+		} else { // 영화 상영전으로 리뷰 쓰기 불가
 			System.out.println("오늘이 상영일보다 이전인 상황이구연~");
-			return "isBefore";
+			object.put("result", "isBefore");
+			return object.toString();
 		}
 	}
 	

@@ -72,8 +72,16 @@ public interface MoviesMapper {
 	// 리뷰 조건 판별
 	Map<String, Object> selectReviewCheck(Map<String, String> map);
 
-	// 영화 예매 여부 판별
-//	void selectMovieReserve(Map<String, String> map);
+	// 회원이 시청한 영화의 리뷰 내역 조회
+	Map<String, Object> selectWriteReview(Map<String, String> map);
+
+	// 회원의 리뷰 작성
+	int insertReview(Map<String, String> map);
+
+	// 리뷰 작성 후 리뷰 리스트 조회
+	List<Map<String, Object>> selectReivewList(Map<String, String> map);
+	
+
 
 
 

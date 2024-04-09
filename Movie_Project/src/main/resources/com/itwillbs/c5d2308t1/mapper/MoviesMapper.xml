@@ -119,6 +119,7 @@
         FROM reviews
         WHERE movie_id = #{movie_id}
         ORDER BY review_date DESC
+        LIMIT 5
     </select>
     
     <select id="selectAllMovie" resultType="movies">
@@ -180,10 +181,33 @@
 		ORDER BY play_date ASC, play_end_time ASC
 		LIMIT 1
     </select>
-    
-<!--     <select id="selectMovieReserve"> -->
-<!--     	SELECT * -->
-<!--     	FROM  -->
-<!--     </select> -->
-    
+   <!-- 회원이 시청한 영화의 리뷰 내역 조회 -->
+	<select id="selectWriteReview">
+		SELECT *
+		FROM reviews
+		WHERE movie_id = #{movie_id}
+		AND member_id = #{member_id}
+	</select>   
+	
+	<!-- 회원의 리뷰 작성 -->
+	<insert id="insertReview">
+		INSERT INTO reviews
+		VALUES(
+			NULL
+			,0
+			, #{review_content}
+			, now()
+			, #{member_id}
+			, #{movie_id}
+		)
+	</insert>
+	
+	 <!-- 리뷰 작성후 리뷰 리스트 조회 -->
+	 <select id="selectReivewList">
+		SELECT *
+		FROM reviews
+		WHERE movie_id = #{movie_id}
+		ORDER BY review_date DESC
+		LIMIT 5
+	 </select>
 </mapper>

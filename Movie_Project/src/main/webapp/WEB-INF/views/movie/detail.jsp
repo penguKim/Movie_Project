@@ -61,20 +61,35 @@
 			$.ajax({
 				url: "reviewCheck",
 				type: "POST",
-// 				dataType: "json",
+				dataType: "json",
 				data: {
-					movie_id: ${param.movie_id}
+					movie_id: ${param.movie_id},
+					review_content : $("#review_content").val()
 				},
-				success: function(result) {
-					if(result == "false") {
+				success: function(data) {
+					if(data.result == "false") {
 						alert("로그인하세요~~~~~");
-					} else if(result == "notReserve") {
+					} else if(data.result == "notReserve") {
 						alert("영화를 관람하신 회원만 작성가능합니다.");
-					} else if(result == "isBefore") {
+					} else if(data.result == "isBefore") {
 						alert("영화를 보신 후 리뷰가 작성가능합니다.");
-					} else if(result == "true") {
+					} else if(data.result == "ReviewWritied") {
+						alert("이미 리뷰를 작성하셨습니다.");
+					} else if(data.result == "error") {
+						alert("리뷰 등록에 실패했습니다.");
+					} else if(data.result == "true") {
 						alert("리뷰 작성 성공~");
-						
+						$("#review_no tr:gt(0)").empty(); // 기존 리뷰란 비우기
+						$.each(data.reviewList, function(index, review) {
+							let row = 
+								"<tr>"
+								+ "<td>" + review.member_id + "</td>"
+								+ "<td>" + review.review_content+ "</td>"
+								+ "<td>" + review.review_date.split("T")[0] + "</td>"
+								+ "</tr>";
+							$("#review_no").append(row);
+						});
+						$("#review_content").val("");
 					}
 				}
 			});

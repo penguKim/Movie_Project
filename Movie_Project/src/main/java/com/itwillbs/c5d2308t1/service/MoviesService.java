@@ -119,13 +119,20 @@ public class MoviesService {
 		return mapper.selectReviewCheck(map);
 	}
 
-//	// 영화 예매 여부 판별
-//	public boolean getMovieReserve(Map<String, String> map) {
-//		boolean isMovieReserve;
-//		
-//		mapper.selectMovieReserve(map);
-//		
-//		return false;
-//	}
+	// 리뷰 작성 여부 판별
+	public Map<String, Object> getReview(Map<String, String> map) {
+		return mapper.selectWriteReview(map);
+	}
+
+	// 리뷰 작성
+	public int registReview(Map<String, String> map) {
+		return mapper.insertReview(map);
+	}
+
+	// 리뷰 작성 후 리뷰 리스트 조회
+	public List<Map<String, Object>> getReviewList(Map<String, String> map) {
+		return mapper.selectReivewList(map);
+	}
+
 
 }
