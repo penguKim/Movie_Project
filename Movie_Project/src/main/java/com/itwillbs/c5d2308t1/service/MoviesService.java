@@ -85,7 +85,7 @@ public class MoviesService {
 	}
 
 	//리뷰 조회
-	public List<ReviewsVO> getreview(ReviewsVO review) {
+	public List<ReviewsVO> getReview(ReviewsVO review) {
 		return mapper.selectReview(review);
 	}
 

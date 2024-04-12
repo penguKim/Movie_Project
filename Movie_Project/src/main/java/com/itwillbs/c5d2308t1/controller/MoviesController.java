@@ -104,7 +104,7 @@ public class MoviesController {
 		
 		map = service.getMovieDetail(movie_id);
 		
-		List<ReviewsVO> reviewSelect = service.getreview(review);
+		List<ReviewsVO> reviewSelect = service.getReview(review);
 		System.out.println(reviewSelect);
 		model.addAttribute("movieReview",reviewSelect);
 		
@@ -234,6 +234,20 @@ public class MoviesController {
 			object.put("result", "isBefore");
 			return object.toString();
 		}
+	}
+	
+	@ResponseBody
+	@PostMapping("reviewListPro")
+	public String reviewListPro(ReviewsVO review) {
+		System.out.println("내가 볼 리뷰의 영화는 : " + review.getMovie_id());
+		
+		
+		List<ReviewsVO> reviewList = service.getReview(review);
+		System.out.println(reviewList);
+		
+		JSONArray array = new JSONArray(reviewList);
+		
+		return array.toString();
 	}
 	
 	

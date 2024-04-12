@@ -19,7 +19,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-
 	$(function() {
 		$.ajax({
 			url: "likeShow", <%-- 회원별 찜 정보 가져오기 --%>
@@ -40,24 +39,21 @@
 		
 		// 모달 닫기 버튼 클릭 이벤트
 		$(".close").on("click", function() {
-			$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
-			$("#myModal").hide(); <%-- div 영역 숨김 --%>
+			$(".modal").hide(); <%-- div 영역 숨김 --%>
 		});
 
 		// 모달 외부 영역 클릭 시 모달 닫기
 		$(window).on("click", function(event) {
-			if ($(event.target).is("#myModal")) { <%-- 클릭한 곳이 모달창 바깥 영역일 경우 --%>
-				$("body").removeClass("not_scroll"); <%-- body 영역 스크롤바 추가 --%>
-				$("#myModal").hide(); <%-- div 영역 숨김 --%>
+			if ($(event.target).is(".modal")) { <%-- 클릭한 곳이 모달창 바깥 영역일 경우 --%>
+				$(".modal").hide(); <%-- div 영역 숨김 --%>
 			}
 		});
 		
 	}); <%-- 로그인한 회원의 찜 정보 가져오기 끝 --%>
 	
-	<%-- 리뷰 작성 여부 확인 --%>
 	$(function() {
+		<%-- 리뷰 작성 여부 확인 및 등록 --%>
 		$("#submitReview").on("click", function() {
-// 			alert("테스트");
 			$.ajax({
 				url: "reviewCheck",
 				type: "POST",
@@ -68,18 +64,22 @@
 				},
 				success: function(data) {
 					if(data.result == "false") {
-						alert("로그인하세요~~~~~");
+						if(confirm("로그인이 필요한 서비스입니다.\n로그인하시겠습니까?")) {
+							location.href = "memberLogin";							
+						}
 					} else if(data.result == "notReserve") {
-						alert("영화를 관람하신 회원만 작성가능합니다.");
+						if(confirm("영화를 관람하신 회원만 작성가능합니다.\n예매페이지로 이동하시겠습니까?")) {
+							location.href = "movieSelect?movie_title=" + ${param.movie_id};							
+						}
 					} else if(data.result == "isBefore") {
-						alert("영화를 보신 후 리뷰가 작성가능합니다.");
+						alert("영화 상영 후 리뷰가 작성가능합니다.");
 					} else if(data.result == "ReviewWritied") {
 						alert("이미 리뷰를 작성하셨습니다.");
 					} else if(data.result == "error") {
 						alert("리뷰 등록에 실패했습니다.");
 					} else if(data.result == "true") {
-						alert("리뷰 작성 성공~");
-						$("#review_no tr:gt(0)").empty(); // 기존 리뷰란 비우기
+						alert("리뷰를 등록하였습니다.");
+						$("#review_no tr:gt(0)").remove(); // 기존 리뷰 지우기
 						$.each(data.reviewList, function(index, review) {
 							let row = 
 								"<tr>"
@@ -87,6 +87,7 @@
 								+ "<td>" + review.review_content+ "</td>"
 								+ "<td>" + review.review_date.split("T")[0] + "</td>"
 								+ "</tr>";
+							console.log(row);
 							$("#review_no").append(row);
 						});
 						$("#review_content").val("");
@@ -94,13 +95,59 @@
 				}
 			});
 		});
+		
+		<%-- 리뷰 전체보기 --%>
+		$("#reviewList").on("click", function() {
+			$.ajax({
+				type: "POST",
+				url: "reviewListPro",
+				data: {
+					movie_id: ${param.movie_id}
+				},
+				dataType: "json",
+				success: function(data) {
+// 					console.log(data);
+					$("#review_no tr:gt(0)").remove();
+					$.each(data, function(index, review) {
+						$("#reviewListTable").append(
+							"<tr>"
+							+ "<td>" + review.member_id + "</td>"
+							+ "<td>" + review.review_content+ "</td>"
+							+ "<td>" + review.review_date.split("T")[0] + "</td>"
+							+ "</tr>"
+						);			
+					});
+					
+					$("#reviewModal").show();
+				}
+			});
+			
+		});
+		
+		// 제목 글자수 제한
+	    $("#review_content").on("input", function() {
+	        var text = $(this).val();
+	        
+	        // 텍스트 제한
+	        if(text.length == 0 || text == "") {
+		        $("#contentLenth").text("글자수 (0/100)");
+	        } else {
+		        $("#contentLenth").text("글자수 (" + text.length + "/100)");
+	        }
+	        
+	        // 글자수 제한
+	        if (text.length > 100) {
+	        	// 제한수 넘으면 자르기
+	            $(this).val($(this).val().substring(0, 100));
+	            $("#contentLenth").text("글자수 (100/100)");
+	            alert("100자까지 입력이 가능합니다.");
+	        };
+	    });
 	});
-	
 	
 	// 모달 열기 버튼 클릭 이벤트
 	function imageModal(img) {
 		console.log($(img).attr("src"));
-		$("body").addClass("not_scroll"); <%-- body 영역 스크롤바 삭제 --%>
 		$(".modal-content img").attr("src", $(img).attr("src"));
 		$("#myModal").show();
 	}
@@ -415,42 +462,56 @@
 					<c:if test="${not empty movie_still1 }"><img class="modalImg" src="${movie_still1 }" onclick="imageModal(this)"></c:if>
 					<c:if test="${not empty movie_still2 }"><img class="modalImg" src="${movie_still2 }" onclick="imageModal(this)"></c:if>
 					<c:if test="${not empty movie_still3 }"><img class="modalImg" src="${movie_still3 }" onclick="imageModal(this)"></c:if>
-					
-					
 			    </div>
 				<!-- 모달 배경 -->
-					<div id="myModal" class="modal">
-						<!-- 모달 컨텐츠 -->
-						<div class="modal-content">
-							<span class="close">&times;</span>
-							<img src="" width="600">
-						</div>
+				<div id="myModal" class="modal">
+					<!-- 모달 컨텐츠 -->
+					<div class="modal-content">
+						<span class="close">&times;</span>
+						<img src="" width="600">
 					</div>
-					
-					
+				</div>
 				<c:if test="${movie_status eq 1}">				    	
-			     <div class="review" id="review">
-			    	<hr>
-				    	<h2>리뷰</h2>
-				    	<input type="text" name="review_content" maxlength="25" placeholder="리뷰 입력" id="review_content">
-				    	<input type=button value="등록" id="submitReview"> <!-- 어떤 영화에 상세페이지로 갈것인가 movie_id=20235098-->
-				    	<input type="hidden" name="movie_id" value="${movie_id}">
-				    	<br>
-		    			<table id="review_no">
-		    			<tr id="review_tr">
-			    			<th>아이디</th>
-			    			<th>내용</th>
-			    			<th>작성일</th>
-			    		</tr>
-			    		<c:forEach var="movieReview" items="${movieReview}" begin="0" end="4">
-						   	<tr>
-				    			<td>${movieReview.member_id}</td> <!-- 세션에 저장된 id  -->
-				    			<td>${movieReview.review_content}</td> <!-- insert로 생성된 내용 -->
-				    			<td>${movieReview.review_date}</td> <!-- insert로 생성된 datetime -->
-				    		</tr>
-		    			</c:forEach>
-		    			</table>
-		  		  </div>
+					<div class="review" id="review">
+						<hr>
+						<h2>리뷰</h2>
+						<input type="text" name="review_content" maxlength="100" placeholder="리뷰 입력" id="review_content">
+						<input type=button value="등록" id="submitReview">
+						<div id="contentLenth">글자수 (0/100)</div>
+						<br>
+						<div id="reviewListArea">
+							<input type="button" id="reviewList" value="리뷰 전체보기">
+							<div id="reviewModal" class="modal">
+								<!-- 모달 컨텐츠 -->
+								<div class="modal-content reviewModalArea" style="width: 30%;">
+									<span class="close">&times;</span>
+									<div class="reviewTableArea">
+										<table id="reviewListTable">
+											<tr id="review_tr">
+												<th>아이디</th>
+												<th width="70%">내용</th>
+												<th>작성일</th>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<table id="review_no">
+							<tr id="review_tr">
+								<th>아이디</th>
+								<th width="70%">내용</th>
+								<th>작성일</th>
+							</tr>
+							<c:forEach var="movieReview" items="${movieReview}" begin="0" end="4">
+								<tr>
+									<td>${movieReview.member_id}</td>
+									<td>${movieReview.review_content}</td>
+									<td>${movieReview.review_date}</td>
+								</tr>
+						</c:forEach>
+						</table>
+					</div>
     			</c:if>
 			</section>
 		</section>
